@@ -1,0 +1,4 @@
+[15-Mar-2024 08:54:47 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\AttendanceController::viewattendanabsentreportN() in /home/paetc7w5a94n/public_html/hrms/app/Http/Controllers/AttendanceController.php on line 6005
+[15-Mar-2024 08:54:53 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\AttendanceController::viewattendanabsentreportN() in /home/paetc7w5a94n/public_html/hrms/app/Http/Controllers/AttendanceController.php on line 6005
+[10-Nov-2024 14:56:36 UTC] PHP Fatal error:  Cannot use try without catch or finally in /home/paetc7w5a94n/public_html/hrms-v2/app/Http/Controllers/AdminController.php on line 19668
+[10-Nov-2024 14:58:00 UTC] PHP Fatal error:  Cannot use try without catch or finally in /home/paetc7w5a94n/public_html/hrms-v2/app/Http/Controllers/AdminController.php on line 19668

@@ -1,0 +1,136 @@
+.fixed-card{
+    margin-right: 10px;
+    margin-top: 5px;
+}
+.text-card-size-fixed{
+    font-size: 18px;
+}
+.fixed-12{
+    margin-top: 5px;
+    font-weight: 600;
+
+}
+.dayoff-danger{
+    color: red;
+    font-size: 15px;
+}
+.dayoff-success{
+    color: green;
+    font-size: 15px;
+}
+.star{
+    color: red;
+    font-size: 10px;
+}
+.rota-icon-size-fixed{
+    font-size: 40px !important;
+}
+
+[data-layout-mode=light] .header .header-left .logo{
+    display:inline-block !important;
+}
+[data-layout-mode=light] .mini-sidebar .header-left .logo{
+    display:none !important;
+}
+.card.dash-widget{
+    border-radius: 12px;
+    overflow:hidden;
+}
+.card.dash-widget .card-body {
+    padding: 18px 18px;
+    transition: 0.3s ease-in-out;
+}
+.card.dash-widget .card-body:hover {
+    background-color:#ff902f;
+    color:#fff;
+    transition: 0.3s ease-in-out;
+}
+.card.dash-widget .card-body:hover h3, .card.dash-widget .card-body:hover a span, .card.dash-widget .card-body:hover a i{
+    color:#fff !important;
+}
+.card.dash-widget .card-body:hover .dash-widget-icon{
+    background-color:#fff;
+}
+.card.dash-widget .arrow-icon span{
+        font-size: 13px;
+    padding-right: 10px;
+}
+/*24.11.21 start*/
+.dashboard-card .db-box{
+    display:flex;
+    gap:15px;
+    align-items: center;
+}
+.dashboard-card{
+    border-radius:12px;
+    box-shadow:0 .75rem 1.5rem rgba(18,38,63,.03);
+    overflow: hidden;
+     transition: 0.3s ease-in-out;
+     padding:18px;
+     background-color:#fff;
+}
+.card.border-0{
+    border-radius:12px;
+    background-color: transparent;
+    box-shadow: none;
+}
+.dashboard-card .img-box{
+    padding: 10px;
+    height: 45px;
+    border-radius: 8px;
+    background-color: rgba(255, 155, 68, 0.2);
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ff902f;
+}
+.dashboard-card .img-box i{
+    font-size:20px;
+}
+.dashboard-card .img-box-text .text-card-size-fixed{
+     color: #495057;
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 8px;
+}
+.dashboard-card .img-box-text .fs-12 a{
+    color:#878a99 !important;
+    font-weight:400 !important;
+}
+.dashboard-card .img-box-text .fs-12 a i{
+        margin-top: 0;
+    margin-right: 0;
+    margin-left: 5px;
+    font-size: 15px;
+}
+.dashboard-card:hover{
+    background-color:#ff902f;
+    transition: 0.3s ease-in-out;
+    transform: translateY(-3px);
+}
+.dashboard-card:hover .img-box{
+    border-color:#fff;
+    background-color:#ffebda;
+}
+.dashboard-card:hover .text-card-size-fixed {
+    color:#fff !important;
+}
+.dashboard-card:hover .img-box-text a{
+    color:#fff !important;
+}
+.dashboard-card .abstract{
+        z-index: 0;
+    top: -25px;
+    right: -50px;
+    transform: rotate(180deg);
+}
+.card.dash-widget{
+    transition: 0.3s ease-in-out;
+}
+.card.dash-widget:hover{
+    transition: 0.3s ease-in-out;
+    transform: translateY(-3px);
+}
+/*24.11.21 end*/
+
