@@ -77,10 +77,18 @@ return $output;
                         </div>
                         <div class="row form-group">
                             <div class="col-md-3">
-                            <a href="#">	
-                            <button class="btn btn-primary" type="submit" style="margin-top:10px;">View</button></a>
-                            <a href="#">	
-                            <button class="btn btn-primary" type="reset" style="margin-top:10px;">Reset</button></a>
+                            <a href="#">
+                                <button class="btn btn-primary" type="submit" style="margin-top:10px;">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                            </a>
+
+                            <!-- Reset Button -->
+                            <a href="#">
+                                <button class="btn btn-primary" type="reset" style="margin-top:10px;">
+                                    <i class="fas fa-undo"></i> Reset
+                                </button>
+                            </a>
                             </div>
                         </div>
                     </form>
@@ -107,18 +115,28 @@ return $output;
                   <?php
                      if(isset($result) && $result!=''  ){
                                                                  ?>
+                  <div class="d-flex align-items-center">
                   <form  method="post" action="{{ url('leave/leave-report-employee-wise') }}" enctype="multipart/form-data" >
                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
                      <input  value="<?php echo $employee_code;?>"  name="employee_code" type="hidden" class="form-control input-border-bottom" required="" >
                      <input  value="<?php echo $year_value;?>"  name="year_value" type="hidden" class="form-control input-border-bottom" required="" >	
-                     <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn btn-default" style="margin-top: -30px;background:none !important;float:right;" type="submit"><img  style="width: 35px;" src="{{ asset('img/dnld-pdf.png')}}"></button>	
+                     <!-- <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn btn-default" style="margin-top: -30px;background:none !important;float:right;" type="submit"><img  style="width: 35px;" src="{{ asset('img/dnld-pdf.png')}}"></button>	 -->
+                     <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" 
+                            class="btn btn-download btn-download-pdf me-3" type="submit">
+                            Export to PDF
+                    </button>
                   </form>
                   <form  method="post" action="{{ url('leave/leave-report-employee-wise-excel') }}" enctype="multipart/form-data" >
                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
                      <input  value="<?php echo $employee_code;?>"  name="employee_code" type="hidden" class="form-control input-border-bottom" required="" >
                      <input  value="<?php echo $year_value;?>"  name="year_value" type="hidden" class="form-control input-border-bottom" required="" >	
-                     <buttondata-toggle="tooltip" data-placement="bottom" title="Download Excel" class="btn btn-default" style="margin-top: -30px;background:none !important;float:right;margin-right: 15px;" type="submit"><img  style="width: 35px;" src="{{ asset('img/excel-dnld.png')}}"></button>	
+                     <!-- <buttondata-toggle="tooltip" data-placement="bottom" title="Download Excel" class="btn btn-default" style="margin-top: -30px;background:none !important;float:right;margin-right: 15px;" type="submit"><img  style="width: 35px;" src="{{ asset('img/excel-dnld.png')}}"></button>	 -->
+                     <button data-toggle="tooltip" data-placement="bottom" title="Download Excel" 
+                            class="btn btn-download btn-download-excel" type="submit">
+                            Export to Excel
+                    </button>
                   </form>
+                  </div>
                   <?php
                      }?>
                </div>

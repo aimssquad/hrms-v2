@@ -20,6 +20,7 @@
          </div>
       </div>
    </div>
+   <div class="hr_dashboard_scroll_main">
    <div class="row">
     @foreach ($data as $index => $datas)
         @php
@@ -65,6 +66,7 @@
                 </div>
             </div>
         @endforeach
+   </div>
    </div>
 </div>
 @endsection

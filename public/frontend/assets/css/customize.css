@@ -134,3 +134,174 @@
 }
 /*24.11.21 end*/
 
+/* __________________________________________ Tuhin Update ___________________________________________________ */
+
+.employee-noti-content::-webkit-scrollbar{
+    width: 5px;
+    background-color: transparent;
+}
+
+.employee-noti-content::-webkit-scrollbar-thumb{
+    background-color: #c4c5c959;
+    border-radius: 30px;
+}
+.sidebar_bottom{
+    transition: all 0.3s;
+}
+
+.mini-sidebar:not(.expand-menu) .sidebar_bottom{
+    width: 60px;
+    font-size: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mini-sidebar:not(.expand-menu) .sidebar_bottom p{
+    font-size: 0 !important;
+}
+
+.mini-sidebar.expand-menu .sidebar_bottom{
+    width: 250px;
+}
+
+.sidebar_bottom{
+    height: 54px;
+}
+
+.employee-noti-content{
+    padding-right: 15px;
+}
+
+.mini-sidebar:not(.expand-menu) .header-left{
+    display: none;
+    transition: all 0.3s;
+}
+
+.mini-sidebar.expand-menu .header-left{
+    display: block;
+}
+.hr_dashboard_scroll_main{
+    height: 100vh;
+    overflow-y: scroll;
+    padding-right: 15px;
+}
+
+.hr_dashboard_scroll_main::-webkit-scrollbar{
+    width: 5px;
+}
+.hr_dashboard_scroll_main::-webkit-scrollbar-thumb{
+    background-color: #ff902f84;
+    border-radius: 30px;
+}
+
+/* .hr_dashboard_scroll_main::-webkit-scrollbar-track{
+    background-color: #878a998c;
+    border-radius: 30px;
+} */
+
+body::-webkit-scrollbar{
+    display: none;
+}
+
+.table-responsive{
+    overflow-x: clip;
+}
+
+.dataTables_wrapper .row:nth-child(2){
+    width: 100%;
+    overflow-x: scroll;
+    padding-bottom: 20px;
+    margin-bottom: 20px !important;
+}
+
+.dataTables_wrapper .row:nth-child(2)::-webkit-scrollbar {
+    width: 5px;
+}
+
+.dataTables_wrapper .row:nth-child(2)::-webkit-scrollbar-thumb{
+    background-color: #ff902f84;
+}
+
+.btn-download {
+    background-color: #fff;
+    color: #FF902F;
+    border: 1px solid #FF902F;
+    padding: 9px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    float: right;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Hover effect */
+.btn-download:hover {
+    background-color: #FF902F;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Spacing for Excel button */
+.btn-download-excel {
+    margin-right: 15px;
+}
+
+/* PDF Button Icon */
+.btn-download-pdf::before {
+    content: "\f1c1"; /* Unicode for PDF icon */
+    margin-right: 8px;
+    font-family: 'Font Awesome 5 Free'; 
+}
+
+/* Excel Button Icon */
+.btn-download-excel::before {
+    content: "\f1c9"; /* Unicode for Excel icon */
+    margin-right: 8px;
+    font-family: 'Font Awesome 5 Free'; 
+}
+
+.btn-download-excel{
+    border-color: green;
+    color: green;
+}
+.btn-download-excel:hover{
+    background-color: green;
+    color: #fff;
+}
+
+.header .user-img img{
+    object-fit: contain;
+}
+
+/*  */
+
+.sampleupload {
+    font-size: 14px;
+    color: #FF902F; /* Custom warning color */
+    text-decoration: none;
+}
+
+.sampleupload:hover {
+    text-decoration: underline;
+    color: #E87C1A;
+}
+
+.btn-outline-secondary {
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    border-color: #888;
+    color: #000;
+}
+
+.text-warning {
+    color: #FF902F !important;
+}
+
+.multisteps-form__form .btn:disabled{
+    opacity: 0;
+}

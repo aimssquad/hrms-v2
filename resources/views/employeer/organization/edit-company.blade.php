@@ -6,7 +6,7 @@
 <div class="page-inner">
    <div class="row">
       <div class="col-md-12">
-         <ul class="breadcrumb">
+         <ul class="breadcrumb mb-3">
             <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Dashboard</a></li>
             <li class="breadcrumb-item active">Edit Organisation Profile</li>
@@ -167,9 +167,9 @@
                                     <input id="penlty_other" type="text" class="form-control input-border-bottom" name="penlty_other"  value="@if($Roledata->penlty_other){{  $Roledata->penlty_other }}@endif">
                                  </div>
                               </div>
-                              <div class="col-md-3 form-group">
+                              <div class="col-md-3 flex-grow-1 form-group">
                                  <label for="exampleFormControlFile1" class="col-form-label">Your Logo</label>
-                                 <div class="d-flex flex-row mb-3">
+                                 <div class="d-flex flex-row mb-3 border p-2 rounded">
                                     <div class="">
                                        @if($Roledata->logo!='')
                                        <a href="#">	<img src="{{ asset('storage/app/public/' . $Roledata->logo) }}" height="50px" width="50px"/ alt="Logo"></a>
@@ -229,7 +229,7 @@
                               <div class="col-md-3">
                                  <div class="form-group">
                                     <label for="exampleFormControlFile1" class="col-form-label mb-0 pb-0">Proof Of Id</label>
-                                    <div class="d-flex flex-row mb-3">
+                                    <div class="d-flex flex-row mb-3 border p-2 rounded-1">
                                        <div class="">	@if($Roledata->proof!='')
                                           <a href="{{  asset('storage/app/public/' . $Roledata->proof) }}" target="_blank">	<img src="{{  asset('storage/app/public/' . $Roledata->proof) }}" height="50px" width="50px"/ alt="Details"></a>
                                           @endif
@@ -287,13 +287,13 @@
                               <div class="col-md-4 mb-2">
                                  <div class="form-group">
                                     <label for="exampleFormControlFile1" class="col-form-label mb-0 pb-0">Proof Of Id</label>
-                                    <div class="d-flex flex-row mb-3">
-                                       <div class="border">
+                                    <div class="d-flex flex-row mb-3 border p-2 rounded-1">
+                                       <div class="">
                                           @if($Roledata->key_proof!='')
                                           <a href="{{  asset('storage/app/public/' .$Roledata->key_proof) }}" target="_blank">	<img src="{{  asset('storage/app/public/' .$Roledata->key_proof) }}" height="50px" width="50px"/></a>
                                           @endif
                                        </div>
-                                       <div class="p-2"><input type="file" class="form-control-file" id="exampleFormControlFile1"   name="key_proof" ></div>
+                                       <div class=""><input type="file" class="form-control-file" id="exampleFormControlFile1"   name="key_proof" ></div>
                                     </div>
                                  </div>
                               </div>
@@ -356,10 +356,12 @@
                               <div class="col-md-4 mb-2">
                                  <div class="form-group">
                                     <label for="exampleFormControlFile1" class="col-form-label mb-0 pb-0">Proof Of Id</label>
+                                    <div class="border p-2 rounded-1">
                                     @if($Roledata->level_proof!='')
                                     <a href="{{ asset($Roledata->level_proof) }}" target="_blank">	<img src="{{ asset($Roledata->level_proof) }}" height="50px" width="50px"/></a>
                                     @endif
                                     <input type="file" class="form-control-file" id="exampleFormControlFile1"   name="level_proof" >
+                                    </div>
                                  </div>
                               </div>
                               <div class="col-md-4 mb-2">
@@ -384,43 +386,45 @@
                            <br>
                            <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px;">Level 2 User</h3>
                            <div class="row">
-                              <div class="col-md-4">
+                              <div class="col-md-4 mb-2">
                                  <div class="form-group">
                                     <label for="level_f_name" class="col-form-label">First Name  </label>
                                     <input id="level_f_name" type="text" class="form-control input-border-bottom"   name="level2_f_name"  value="{{ $Roledata->level2_f_name ?? 'NA'}}">
                                  </div>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4 mb-2">
                                  <div class="form-group">
                                     <label for="level_f_lname" class="col-form-label">Last Name  </label>
                                     <input id="level_f_lname" type="text" class="form-control input-border-bottom"  name="level2_f_lname"  value="{{ $Roledata->level2_f_lname ?? 'NA'}}">
                                  </div>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4 mb-2">
                                  <div class="form-group">
                                     <label for="level_designation" class="col-form-label">Designation  </label>
                                     <input id="level_designation" type="text" class="form-control input-border-bottom" name="level2_designation"  value="{{ $Roledata->level2_designation ?? 'NA'}}" required>
                                  </div>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4 mb-2">
                                  <div class="form-group">
                                     <label for="level_phone" class="col-form-label">Phone No  </label>
                                     <input id="level_phone" type="text" class="form-control input-border-bottom"  name="level2_phone"  value="{{ $Roledata->level2_phone ?? 'NA'}}">
                                  </div>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4 mb-2">
                                  <div class="form-group">
                                     <label for="level_email" class="col-form-label">Email  </label>
                                     <input id="level_email" type="text" class="form-control input-border-bottom"  name="level2_email"  value="{{ $Roledata->level2_email ?? 'NA'}}">
                                  </div>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4 mb-2">
                                  <div class="form-group">
                                     <label for="exampleFormControlFile1" class="col-form-label mb-0 pb-0">Proof Of Id</label>
-                                    @if($Roledata->level2_proof!='')
-                                    <a href="{{ asset($Roledata->level2_proof) }}" target="_blank">	<img src="{{ asset($Roledata->level2_proof) }}" height="50px" width="50px"/></a>
-                                    @endif
-                                    <input type="file" class="form-control-file" id="exampleFormControlFile1"   name="level2_proof" >
+                                    <div class="border p-2 rounded-1">
+                                       @if($Roledata->level2_proof!='')
+                                       <a href="{{ asset($Roledata->level2_proof) }}" target="_blank">	<img src="{{ asset($Roledata->level2_proof) }}" height="50px" width="50px"/></a>
+                                       @endif
+                                       <input type="file" class="form-control-file" id="exampleFormControlFile1"   name="level2_proof" >
+                                    </div>
                                  </div>
                               </div>
                               <div class="col-md-8">
@@ -444,38 +448,38 @@
                            
                            <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px;">Organisation Address</h3>
                            <div class="row">
-                              <div class="col-md-3">
+                              <div class="col-md-3 mb-2">
                                  <div class="form-group">
                                     <label for="zip" style="width:100%" class="col-form-label">Post Code  </label>
                                     <input id="zip" type="text" class="form-control input-border-bottom"  name="zip"  onchange="getcode();"  value="@if($Roledata->zip){{  $Roledata->zip }}@endif">
                                     <!--	<span><button style="padding: 3px 10px;float:right;" type="button" class="btn btn-default" ><i class="fas fa-search"></i></button></span>--></label>
                                  </div>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 mb-2">
                                  <div class="form-group">
                                     <label for="address" class="col-form-label">Address Line 1  </label>
                                     <input id="address" type="text" class="form-control input-border-bottom"  name="address"  value="@if($Roledata->address){{  $Roledata->address }}@endif">
                                  </div>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 mb-2">
                                  <div class="form-group">
                                     <label for="address2" class="col-form-label">Address Line 2</label>
                                     <input id="address2" type="text" class="form-control input-border-bottom"  name="address2"  value="@if($Roledata->address2){{  $Roledata->address2 }}@endif">
                                  </div>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 mb-2">
                                  <div class="form-group">
                                     <label for="road" class="col-form-label">Address Line 3  </label>
                                     <input id="road" type="text" class="form-control input-border-bottom"  name="road"  value="@if($Roledata->road){{  $Roledata->road }}@endif">
                                  </div>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 mb-2">
                                  <div class="form-group">
                                     <label for="city" class="col-form-label">City / County</label>
                                     <input id="city" type="text" class="form-control input-border-bottom" name="city"  value="@if($Roledata->city){{  $Roledata->city }}@endif">
                                  </div>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 mb-2">
                                  <div class="form-group">
                                     <label for="country" class="col-form-label">Country </label>
                                     <select class="select" id="country"  name="country" onchange="countryfun(this.value);">
@@ -493,7 +497,7 @@
                               @if ($countwmploor!=0)
                               @foreach($employee_or_rs as $empuprotgans)
                               <div class="row">
-                                 <div class="col-md-3">
+                                 <div class="col-md-3 mb-2">
                                     <div class="form-group ">
                                        @if($truplouii_id==1)
                                        <label for="name<?=$truplouii_id?>" class="col-form-label">Full Name</label>
@@ -502,7 +506,7 @@
                                        >
                                     </div>
                                  </div>
-                                 <div class="col-md-2">
+                                 <div class="col-md-2 mb-2">
                                     <div class="form-group ">
                                        @if($truplouii_id==1)
                                        <label for="department<?=$truplouii_id?>" class="col-form-label">Department</label>
@@ -510,7 +514,7 @@
                                        <input type="text" class="form-control " value="{{ $empuprotgans->department}}"  id="department<?=$truplouii_id?>" name="department[]" 	@if($Roledata->licence=='yes')readonly  @endif >
                                     </div>
                                  </div>
-                                 <div class="col-md-2">
+                                 <div class="col-md-2 mb-2">
                                     <div class="form-group ">
                                        @if($truplouii_id==1)
                                        <label for="job_type<?=$truplouii_id?>" class="col-form-label">Job Type</label>
@@ -525,7 +529,7 @@
                                        </select>
                                     </div>
                                  </div>
-                                 <div class="col-md-2">
+                                 <div class="col-md-2 mb-2">
                                     <div class="form-group">
                                        @if($truplouii_id==1)
                                        <label for="designation<?=$truplouii_id?>" class="col-form-label">Job Title</label>
@@ -533,7 +537,7 @@
                                        <input type="text" class="form-control " value="{{ $empuprotgans->designation}}" id="designation<?=$truplouii_id?>" name="designation[]"  @if($Roledata->licence=='yes')readonly  @endif  >
                                     </div>
                                  </div>
-                                 <div class="col-md-3">
+                                 <div class="col-md-3 mb-2">
                                     <div class="form-group ">
                                        @if($truplouii_id==1)
                                        <label for="immigration<?=$truplouii_id?>" class="col-form-label">Immigration Status
@@ -553,7 +557,7 @@
                                  </div>
                                  @if ($truplouii_id==($countwmploor))
                                  @if($Roledata->licence=='no')
-                                 <div class="col-md-4">
+                                 <div class="col-md-4 mb-2">
                                     <div class="input-group-btn btn-up mt-0">
                                        <button class="btn btn-success" type="button"  onclick="education_fieldhhs(<?=$countwmploor;?>);"> <i class="fas fa-plus"></i> </button>
                                     </div>
@@ -568,19 +572,19 @@
                               @endif
                               @if ($countwmploor==0)
                               <div class="row">
-                                 <div class="col-md-3">
+                                 <div class="col-md-3 mb-2">
                                     <div class="form-group">
                                        <label for="name1" class="col-form-label">Full Name</label>
                                        <input type="text" class="form-control input-border-bottom" id="name1" name="name[]" >
                                     </div>
                                  </div>
-                                 <div class="col-md-2">
+                                 <div class="col-md-2 mb-2">
                                     <div class="form-group">
                                        <label for="department1" class="col-form-label">Department</label>
                                        <input type="text" class="form-control input-border-bottom" id="department1" name="department[]" >
                                     </div>
                                  </div>
-                                 <div class="col-md-2">
+                                 <div class="col-md-2 mb-2">
                                     <div class="form-group">
                                        <label for="job_type1" class="col-form-label">Job Type</label>
                                        <select class="select" id="job_type1"  name="job_type[]" >
@@ -593,13 +597,13 @@
                                        </select>
                                     </div>
                                  </div>
-                                 <div class="col-md-2">
+                                 <div class="col-md-2 mb-2">
                                     <label for="designation1" class="col-form-label">Job Title</label>
                                     <div class="form-group " required>
                                        <input type="text" class="form-control input-border-bottom" id="designation1" name="designation[]" >
                                     </div>
                                  </div>
-                                 <div class="col-md-3">
+                                 <div class="col-md-3 mb-2">
                                     <div class="form-group" >
                                        <label for="immigration1" class="col-form-label">Immigration Status</label>
                                        <select class="select" id="immigration1"  name="immigration[]" >
@@ -1515,7 +1519,7 @@
                                     <input type="text" class="form-control " id=""  value="closed" readonly>
                                  </div>
                               </div>
-                              <div class="col-md-3 " id="sun_status_close" <?php if ($Roledata->sun_status == 'open') {?> style="display:block;" <?php } else {?> style="display:none;" <?php }?>>
+                              <div class="col-md-3 pt-3" id="sun_status_close" <?php if ($Roledata->sun_status == 'open') {?> style="display:block;" <?php } else {?> style="display:none;" <?php }?>>
                                  <div class="form-group">
                                     <select class="select" id="sun_close"  name="sun_close" >
                                        <option value="">&nbsp;</option>
@@ -1577,7 +1581,7 @@
                               @foreach($employee_upload_rs as $empuprs)
                               <div class="row">
                                  <div class="col-md-8">
-                                    <div class="form-group">
+                                    <div class="form-group mb-2">
                                        @if($trupload_id==0)
                                        <label class="col-form-label">Type of Document  </label>
                                        @endif
@@ -1606,7 +1610,7 @@
                                     </div>
                                  </div>
                                  @if($empuprs->type_doc=='Others Document')
-                                 <div class="col-md-4" id="other_doc_{{ $empuprs->id}}">
+                                 <div class="col-md-4 mb-2" id="other_doc_{{ $empuprs->id}}">
                                     <div class="form-group">
                                        @if($trupload_id==0)
                                        <label for="other_doc_input_{{ $empuprs->id}}">Other Doc.Type</label>
@@ -1615,7 +1619,7 @@
                                     </div>
                                  </div>
                                  @endif
-                                 <div class="col-md-4" style="display: none;" id="other_doc_{{ $empuprs->id}}">
+                                 <div class="col-md-4 mb-2" style="display: none;" id="other_doc_{{ $empuprs->id}}">
                                     <div class="form-group ">
                                        @if($trupload_id==0)
                                        <label for="other_doc_input_{{ $empuprs->id}}">Other Doc.Type</label>
@@ -1623,38 +1627,60 @@
                                        <input type="text" class="form-control input-border-bottom" id="other_doc_input_{{ $empuprs->id}}" name="other_doc_{{ $empuprs->id}}" disabled>
                                     </div>
                                  </div>
-                                 <div class="col-md-4">
+                                 <div class="col-md-4 mb-2">
                                     <div class="form-group">
                                        @if($trupload_id==0)
-                                       <label for="other_doc_input_{{ $empuprs->id}}" class="d-block ">Upload Document  </label>
+                                       <!-- <label for="other_doc_input_{{ $empuprs->id}}" class="d-block ">Upload Document  </label> -->
                                        @endif
-                                       @if($empuprs->docu_nat!='')
-                                       <a href="{{ asset('public/'.$empuprs->docu_nat) }}" target="_blank" download  style="text-align: right;
-                                          float: right;
-                                          position: relative;
-                                          top: 23px;
-                                          right: 72px;"/><i class="fas fa-download"></i></a>
+                                       <div class="position-relative">
+                                          <!-- Sample Document Link -->
+                                          <!-- <div class="d-flex align-items-center mb-2">
+                                             <strong class="text-warning me-2">Sample Document</strong>
+                                             @if($empuprs->type_doc=='VAT Certificate (if registered)')
+                                             <a href="{{ asset('public/assets/img/VAT Certificate (if registered).pdf')}}" class="sampleupload text-decoration-none" target="_blank">
+                                                   <i class="fas fa-file-alt text-warning me-1"></i> VAT Certificate
+                                             </a>
+                                             @endif
+                                             @if($empuprs->type_doc=='Employer Liability Insurance Certificate')
+                                             <a href="{{ asset('public/assets/img/Employer Liability Insurance Certificate.pdf')}}" class="sampleupload text-decoration-none" target="_blank">
+                                                   <i class="fas fa-file-alt text-warning me-1"></i> Liability Insurance
+                                             </a>
+                                             @endif
+                                             @if($empuprs->type_doc=='PAYEE And Account Reference Letter From HMRC')
+                                             <a href="{{ asset('public/assets/img/PAYEE And Account Reference Letter From HMRC.pdf')}}" class="sampleupload text-decoration-none" target="_blank">
+                                                   <i class="fas fa-file-alt text-warning me-1"></i> HMRC Reference Letter
+                                             </a>
+                                             @endif
+                                          </div> -->
+
+                                          <!-- File Input -->
+                                          
+                                          <div class="">
+                                             <div class="d-flex align-items-center">
+                                                <label for="docu_nat_{{ $empuprs->id}}" class="me-2 btn btn-outline-secondary rounded-pill">
+                                                      <i class="fas fa-upload"></i>
+                                                </label>
+                                                <input type="file" id="docu_nat_{{ $empuprs->id}}" name="docu_nat_{{ $empuprs->id}}" class="form-control-file d-none" onchange="Filevalidation({{ $empuprs->id}})">
+                                                <span class="ms-2 text-muted">No file chosen</span>
+                                                
+                                                <!-- Download Icon -->
+                                                @if($empuprs->docu_nat!='')
+                                                <a href="{{ asset('public/'.$empuprs->docu_nat) }}" target="_blank" download class="ms-auto text-warning">
+                                                      <i class="fas fa-download"></i>
+                                                </a>
+                                                @endif
+                                             </div>
+                                          </div>
+                                       </div>
+                                       @if($trupload_id==0)
+                                       <span style="font-size: 12px">*Document Size not more than 2 MB</span>
                                        @endif
-                                       @if($empuprs->type_doc=='VAT Certificate (if registered)')
-                                       <a href="{{ asset('public/assets/img/VAT Certificate (if registered).pdf')}}" class="sampleupload" target="_blank">Sample Document</a>
-                                       @endif
-                                       @if($empuprs->type_doc=='Employer Liability Insurance Certificate')
-                                       <a href="{{ asset('public/assets/img/Employer Liability Insurance Certificate.pdf')}}" class="sampleupload" target="_blank">Sample Document</a>
-                                       @endif
-                                       @if($empuprs->type_doc=='PAYEE And Account Reference Letter From HMRC')
-                                       <a href="{{ asset('public/assets/img/PAYEE And Account Reference Letter From HMRC.pdf')}}" class="sampleupload" target="_blank">Sample Document</a>
-                                       @endif
-                                       <br/>
-                                       <input type="file" class="form-control-file" id="docu_nat_{{ $empuprs->id}}" name="docu_nat_{{ $empuprs->id}}"  onchange="Filevalidation({{ $empuprs->id}})">
                                     </div>
-                                    @if($trupload_id==0)
-                                    <span>*Document Size not more than 2 MB</span>
-                                    @endif
                                  </div>
                                  <?php $trupload_id++;?>
                                  @if ($trupload_id==($countpayuppas))
                                  <div class="col-md-2">
-                                    <div class="input-group-btn btn-up mt-3">
+                                    <div class="input-group-btn btn-up mb-2">
                                        <button class="btn btn-success" type="button"  onclick="education_fields();"> <i class="fas fa-plus"></i> </button>
                                     </div>
                                  </div>
@@ -2289,7 +2315,7 @@
         var divtest = document.createElement("div");
         divtest.setAttribute("class", "form-group removeclass"+room);
         var rdiv = 'removeclass'+room;
-        divtest.innerHTML = '<div class="row"><div class="col-md-6"><div class="form-group form-floating-label"><select class="form-control input-border-bottom"  name="type_doc[]" onchange="checkdoctype('+ room +')" id="d_type'+ room +'"><option value="">&nbsp;</option><option value="PAYEE And Account Reference Letter From HMRC" >PAYEE And Account Reference Letter From HMRC</option><option value="Latest RTI from Accountant" >Latest RTI from Accountant</option><option value="Employer Liability Insurance Certificate"  >Employer Liability Insurance Certificate</option><option value="Proof of Business Premises (Tenancy Agreement)"  >Proof of Business Premises (Tenancy Agreement)</option><option value="Copy Of Lease Or Freehold Property"  >Copy Of Lease Or Freehold Property</option><option value="Business Bank statement for 1 Month"    >Business Bank statement for 1 Month</option><option value="Business Bank statement for 2 Month"  >Business Bank statement for 2 Month</option><option value="Business Bank statement for 3 Month" >Business Bank statement for 3 Month</option><option value="SIGNED Annual account (if the business is over 18 months old)"     >SIGNED Annual account (if the business is over 18 months old)</option><option value="VAT Certificate (if registered)"  >VAT Certificate (if registered)</option><option value="Copy of Health and safety star Rating (Applicable for food business only)"  >Copy of Health and safety star Rating (Applicable for food business only)</option><option value="Registered Business License or Certificate"  >Registered Business License or Certificate</option><option value="Franchise Agreement"  >Franchise Agreement</option><option value="Governing Body Registration" >Governing Body Registration</option><option value="Audited Annual Account (if you have)"  >Audited Annual Account (if you have)</option><option value="Regulatory body certificate if applicable to your business such as ACCA, FCA , OFCOM, IATA, ARLA"  >Regulatory body certificate if applicable to your business such as ACCA, FCA , OFCOM, IATA, ARLA</option><option value="Copy Of Health & Safety Star Rating"   >Copy Of Health & Safety Star Rating</option><option value="Others Document" >Others Document</option></select></div></div><div class="col-md-4" id="other_doc'+ room +'" style="display:none"><div class="form-group form-floating-label"><input type="text"  id="newdoc_'+ room +'" class="form-control input-border-bottom"   name="other_doc[]"></div></div><div class="col-md-4"><div class="form-group"><input type="file" class="form-control-file" id="docu_nat_new_'+ room +'" onchange="Filevalidationnew('+ room +')" name="docu_nat[]" ></div></div><div class="col-md-2"><div class="input-group-btn btn-up mt-0"><button class="btn btn-success mb-0" style="margin-right: 15px;" type="button"  onclick="education_fields();"> <i class="fas fa-plus"></i> </button><button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"><i class="fas fa-minus"></i></button></div></div></div>';
+        divtest.innerHTML = '<div class="row"><div class="col-md-6"><div class="form-group form-floating-label"><select class="form-control input-border-bottom"  name="type_doc[]" onchange="checkdoctype('+ room +')" id="d_type'+ room +'"><option value="">&nbsp;</option><option value="PAYEE And Account Reference Letter From HMRC" >PAYEE And Account Reference Letter From HMRC</option><option value="Latest RTI from Accountant" >Latest RTI from Accountant</option><option value="Employer Liability Insurance Certificate"  >Employer Liability Insurance Certificate</option><option value="Proof of Business Premises (Tenancy Agreement)"  >Proof of Business Premises (Tenancy Agreement)</option><option value="Copy Of Lease Or Freehold Property"  >Copy Of Lease Or Freehold Property</option><option value="Business Bank statement for 1 Month"    >Business Bank statement for 1 Month</option><option value="Business Bank statement for 2 Month"  >Business Bank statement for 2 Month</option><option value="Business Bank statement for 3 Month" >Business Bank statement for 3 Month</option><option value="SIGNED Annual account (if the business is over 18 months old)"     >SIGNED Annual account (if the business is over 18 months old)</option><option value="VAT Certificate (if registered)"  >VAT Certificate (if registered)</option><option value="Copy of Health and safety star Rating (Applicable for food business only)"  >Copy of Health and safety star Rating (Applicable for food business only)</option><option value="Registered Business License or Certificate"  >Registered Business License or Certificate</option><option value="Franchise Agreement"  >Franchise Agreement</option><option value="Governing Body Registration" >Governing Body Registration</option><option value="Audited Annual Account (if you have)"  >Audited Annual Account (if you have)</option><option value="Regulatory body certificate if applicable to your business such as ACCA, FCA , OFCOM, IATA, ARLA"  >Regulatory body certificate if applicable to your business such as ACCA, FCA , OFCOM, IATA, ARLA</option><option value="Copy Of Health & Safety Star Rating"   >Copy Of Health & Safety Star Rating</option><option value="Others Document" >Others Document</option></select></div></div><div class="col-md-4" id="other_doc'+ room +'" style="display:none"><div class="form-group form-floating-label"><input type="text"  id="newdoc_'+ room +'" class="form-control input-border-bottom"   name="other_doc[]"></div></div><div class="col-md-4"><div class="form-group border p-2 rounded-1"><input type="file" class="form-control-file" id="docu_nat_new_'+ room +'" onchange="Filevalidationnew('+ room +')" name="docu_nat[]" ></div></div><div class="col-md-2 mb-2"><div class="input-group-btn btn-up mt-0"><button class="btn btn-success mb-0" style="margin-right: 15px;" type="button"  onclick="education_fields();"> <i class="fas fa-plus"></i> </button><button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"><i class="fas fa-minus"></i></button></div></div></div>';
     
         objTo.appendChild(divtest)
     }
@@ -2307,7 +2333,7 @@
         var divtest = document.createElement("div");
         divtest.setAttribute("class", "form-group removcaseclass"+roomkk);
         var rdiv = 'removcaseclass'+roomkk;
-     divtest.innerHTML = '<div class="row"><div class="col-md-3"><div class="form-group form-floating-label"><input type="text" class="form-control input-border-bottom" id="name'+ roomkk +'" name="name[]" ></div></div><div class="col-md-2"><div class="form-group form-floating-label"><input type="text" class="form-control input-border-bottom" id="department'+ roomkk +'" name="department[]"></div></div><div class="col-md-2"><div class="form-group form-floating-label"><select class="form-control input-border-bottom " id="job_type'+ roomkk +'"  name="job_type[]" ><option value="">&nbsp;</option><option value="FULL TIME"   >FULL TIME</option><option value="PART TIME"   >PART TIME</option><option value="CONTRACTUAL"   >CONTRACTUAL</option><option value="SELF EMPLOYED"  >SELF EMPLOYED</option><option value="FREELANCER">FREELANCER</option></select></div></div><div class="col-md-2"><div class="form-group form-floating-label"><input type="text" class="form-control input-border-bottom" id="designation'+ roomkk +'" name="designation[]" ></div></div><div class="col-md-3"><div class="form-group form-floating-label"><select class="form-control input-border-bottom " id="immigration'+ roomkk +'"  name="immigration[]"  ><option value="">&nbsp;</option><option value="British Citizen"  >British Citizen</option><option value="Indefinite Leave to Remain">Indefinite Leave to Remain</option><option value="EU Citizenship" >EU Citizenship</option><option value="Leave to Remain (Student Visa)" >Leave to Remain (Student Visa)</option><option value="Leave to Remain (Spouse Visa)" >Leave to Remain (Spouse Visa)</option><option value="Leave to Remain (Human Right Visa)" >Leave to Remain (Human Right Visa)</option><option value="Other Leave to Remain" >Other Leave to Remain </option></select></div></div><div class="col-md-4"><div class="input-group-btn"><button class="btn btn-success" style="margin-right: 15px;margin-bottom:0;" type="button"  onclick="education_fieldhhs('+ roomkk +');"> <i class="fas fa-plus"></i> </button><button class="btn btn-danger" type="button" onclick="remove_educationgh_fields('+ roomkk +');"><i class="fas fa-minus"></i></button></div></div></div>';
+     divtest.innerHTML = '<div class="row"><div class="col-md-3"><div class="form-group form-floating-label"><input type="text" class="form-control input-border-bottom" id="name'+ roomkk +'" name="name[]" ></div></div><div class="col-md-2"><div class="form-group form-floating-label"><input type="text" class="form-control input-border-bottom" id="department'+ roomkk +'" name="department[]"></div></div><div class="col-md-2"><div class="form-group form-floating-label"><select class="form-control input-border-bottom " id="job_type'+ roomkk +'"  name="job_type[]" ><option value="">&nbsp;</option><option value="FULL TIME"   >FULL TIME</option><option value="PART TIME"   >PART TIME</option><option value="CONTRACTUAL"   >CONTRACTUAL</option><option value="SELF EMPLOYED"  >SELF EMPLOYED</option><option value="FREELANCER">FREELANCER</option></select></div></div><div class="col-md-2"><div class="form-group form-floating-label"><input type="text" class="form-control input-border-bottom" id="designation'+ roomkk +'" name="designation[]" ></div></div><div class="col-md-3"><div class="form-group form-floating-label"><select class="form-control input-border-bottom " id="immigration'+ roomkk +'"  name="immigration[]"  ><option value="">&nbsp;</option><option value="British Citizen"  >British Citizen</option><option value="Indefinite Leave to Remain">Indefinite Leave to Remain</option><option value="EU Citizenship" >EU Citizenship</option><option value="Leave to Remain (Student Visa)" >Leave to Remain (Student Visa)</option><option value="Leave to Remain (Spouse Visa)" >Leave to Remain (Spouse Visa)</option><option value="Leave to Remain (Human Right Visa)" >Leave to Remain (Human Right Visa)</option><option value="Other Leave to Remain" >Other Leave to Remain </option></select></div></div><div class="col-md-4 my-2"><div class="input-group-btn"><button class="btn btn-success" style="margin-right: 15px;margin-bottom:0;" type="button"  onclick="education_fieldhhs('+ roomkk +');"> <i class="fas fa-plus"></i> </button><button class="btn btn-danger" type="button" onclick="remove_educationgh_fields('+ roomkk +');"><i class="fas fa-minus"></i></button></div></div></div>';
     
     
         objTo.appendChild(divtest)
