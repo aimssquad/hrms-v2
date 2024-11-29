@@ -28,6 +28,7 @@
                     {{csrf_field()}}
                     <div class="row form-group">
                         <!-- Billing For Dropdown -->
+                        <input type="text" name="invoice_no" value="{{$bills->invoice_no}}" hidden>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="bill_for" class="form-label">Billing For</label>
@@ -45,21 +46,8 @@
                         <!-- Billing Month Dropdown -->
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="billing_month" class="form-label">Billing Month</label>
-                                <select class="select" id="billing_month" name="billing_month" required>
-                                    <option value="January" {{ old('billing_month', $bills->billing_month) == 'January' ? 'selected' : '' }}>January</option>
-                                    <option value="February" {{ old('billing_month', $bills->billing_month) == 'February' ? 'selected' : '' }}>February</option>
-                                    <option value="March" {{ old('billing_month', $bills->billing_month) == 'March' ? 'selected' : '' }}>March</option>
-                                    <option value="April" {{ old('billing_month', $bills->billing_month) == 'April' ? 'selected' : '' }}>April</option>
-                                    <option value="May" {{ old('billing_month', $bills->billing_month) == 'May' ? 'selected' : '' }}>May</option>
-                                    <option value="June" {{ old('billing_month', $bills->billing_month) == 'June' ? 'selected' : '' }}>June</option>
-                                    <option value="July" {{ old('billing_month', $bills->billing_month) == 'July' ? 'selected' : '' }}>July</option>
-                                    <option value="August" {{ old('billing_month', $bills->billing_month) == 'August' ? 'selected' : '' }}>August</option>
-                                    <option value="September" {{ old('billing_month', $bills->billing_month) == 'September' ? 'selected' : '' }}>September</option>
-                                    <option value="October" {{ old('billing_month', $bills->billing_month) == 'October' ? 'selected' : '' }}>October</option>
-                                    <option value="November" {{ old('billing_month', $bills->billing_month) == 'November' ? 'selected' : '' }}>November</option>
-                                    <option value="December" {{ old('billing_month', $bills->billing_month) == 'December' ? 'selected' : '' }}>December</option>
-                                </select>
+                                <label for="date">Invoice Date</label>
+                                <input type="date" class="form-control" id="date" name="date" value="{{ $bills->date ?? '' }}">
                             </div>
                         </div>
                         
@@ -102,8 +90,14 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="vat" class="form-label">Discounted Amount</label>
+                                <input type="text" step="0.01" class="form-control" id="discount_amount" value="{{$bills->discount_amount}}" name="discount_amount">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="entity_id" >Total Amount</label>
-                                <input type="text" class="form-control" id="total_amount" value="{{$bills->total_amount}}"readonly>
+                                <input type="text" class="form-control" id="total_amount" name="total_amount" value="{{$bills->total_amount}}"readonly>
                             </div>
                         </div>
 
@@ -124,10 +118,10 @@
                                 <input type="text" class="form-control" id="description" name="description" value="{{$bills->description}}">
                             </div>
                         </div>
-                         <div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="description" class="form-label">Remarks</label>
-                                <input type="text" class="form-control" id="remarks" name="remarks" value="{{$bills->remarks}}">
+                                <label for="vat" >Remarks</label>
+                                <textarea class="form-control" id="remarks"  name="remarks">{{ $bills->remarks }}</textarea>
                             </div>
                         </div>
 
@@ -168,7 +162,7 @@
         });
     }
 </script>
-<script type="text/javascript">
+{{-- <script type="text/javascript">
     $(document).ready(function() {
         // Event listener for when VAT or Amount is changed
         $('#vat, #amount').on('input', function() {
@@ -183,5 +177,33 @@
             $('#total_amount').val(totalAmount.toFixed(2)); // Show up to two decimal places
         });
     });
+</script> --}}
+<script type="text/javascript">
+    $(document).ready(function () {
+    // Trigger calculation on input in VAT, Amount, or Discount Amount fields
+    $('#vat, #amount, #discount_amount').on('input', function () {
+        calculateTotalAmount();
+    });
+
+    // Initial calculation on page load (in case values are pre-filled)
+    calculateTotalAmount();
+
+    // Function to calculate the total amount
+    function calculateTotalAmount() {
+        // Get values from the fields
+        var amount = parseFloat($('#amount').val()) || 0; // Default to 0 if empty
+        var vat = parseFloat($('#vat').val()) || 0;      // Default to 0 if empty
+        var discount = parseFloat($('#discount_amount').val()) || 0; // Default to 0 if empty
+
+        // Calculate VAT and apply discount
+        var totalAmount = amount * (1 + vat / 100) - discount;
+
+        // Ensure the total amount doesn't go below 0
+        totalAmount = Math.max(totalAmount, 0);
+
+        // Update the total amount field
+        $('#total_amount').val(totalAmount.toFixed(2)); // Show two decimal places
+    }
+});
 </script>
 @endsection

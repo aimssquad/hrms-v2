@@ -112,6 +112,11 @@ $userType = Session::get('usersu_type');
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{url('superadmin/sub/add-hr-support-file-type-List')}}">
+                                        <span class="sub-item">Hr Sub Support File Types</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{url('superadmin/hr-support-files')}}">
                                         <span class="sub-item">Hr Support Files</span>
                                     </a>
@@ -283,13 +288,13 @@ $userType = Session::get('usersu_type');
                                         <span class="sub-item">Payment Received Search</span>
                                     </a>
                                 </li>
-                                 <li>
-                                    <a href="{{url('superadmin/billing-rule')}}">
+                                <li>
+                                    <a href="{{url('superadmin/show-rule')}}">
                                         <span class="sub-item">Billing Rule</span>
                                     </a>
                                 </li>
-                                 <li>
-                                    <a href="{{url('superadmin/add-billing2')}}">
+                                <li>
+                                    <a href="{{url('superadmin/billing-list')}}">
                                         <span class="sub-item">New Billing</span>
                                     </a>
                                 </li>

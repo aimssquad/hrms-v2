@@ -425,6 +425,19 @@ class SubadminBillController extends Controller
         } 
     }
 
+    public function viewBillList(Request $request){
+        //dd('okk');
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $subadmin = DB::table('sub_admin_registrations')->where('email',$email)->first();
+            $data['bill_list'] = DB::table('subadmin_bills')->where('entity_id',$subadmin->reg)->get();
+            //dd($data['bill_list']);
+            return view('sub-admin.billing.own_bill',$data);
+        } else {
+            redirect('superadmin');
+        }  
+    }
+
 
 
 

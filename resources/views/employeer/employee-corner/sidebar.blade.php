@@ -291,6 +291,7 @@
                                 <li><a href="{{url('org-employee-corner-organisation/user-profile')}}">View Profile</a></li>
                                 <li><a href="{{url('org-employee-corner/holiday')}}">Holiday Calender</a></li>
                                 <li><a href="{{url('org-employee-corner/work-update')}}">Daily Work Update</a></li>
+                                <li><a href="{{url('org-employee-corner/leave-apply')}}">Leave Apply</a></li>
                                 <li><a href="{{url('org-employee-corner/attendance-status')}}">Attendance Status</a></li>
                             </ul>
                         </li>

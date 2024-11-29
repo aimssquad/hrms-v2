@@ -20,7 +20,9 @@
                 <div class="card-body">
                     @include('employeer.layout.message')
                     <div class="col-auto float-end ms-auto">
-                        <a class="btn add-btn" href="{{ asset('public/excel/attendence1.csv')}}" download> Downlode</a>
+                        <a class="btn add-btn" href="{{ asset('public/excel/attendence1.csv')}}" download> Download</a>
+                        <br><br>
+                        <p class="mt-2 mb-0 text-center">Download Sample here</p>
                     </div>
                     
                     <form  method="post" action="{{ url('attendance-management/upload-data') }}" enctype="multipart/form-data" >

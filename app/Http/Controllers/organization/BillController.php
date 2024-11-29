@@ -6,39 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bill;
 use App\Models\BillingRule;
+use App\Models\Subadmin_bill;
 use Session;
 use DB;
 
 class BillController extends Controller
 {
-    // public function store(Request $request)
-    // {
-    //     //dd($request->all());
-    //     // Step 1: Validate incoming form data
-    //     $validatedData = $request->validate([
-    //         'bill_for' => 'required|string',
-    //         'billing_month' => 'required|string',
-    //         'billing_type' => 'required|string',
-    //         'entity_id' => 'required',
-    //         'amount' => 'nullable|numeric',
-    //         'total_employee' => 'nullable|integer',
-    //         'vat' => 'nullable|numeric', // This is the VAT percentage
-    //         'payment_mode' => 'required|string',
-    //         'description' => 'nullable|string',
-    //     ]);
-    //     //dd($validatedData);
-    //     $vatAmount = isset($validatedData['vat'], $validatedData['amount'])
-    //         ? ($validatedData['vat'] / 100) * $validatedData['amount']
-    //         : 0;
-    //     $total =  $vatAmount+$request->input('amount');  
-
-    //     $dataToSave = array_merge($validatedData, [
-    //         'total_amount' => $total, 
-    //     ]);
-    //     $bill = Bill::create($dataToSave);
-    //     Session::flash('message', 'Bill submitted successfully with VAT calculation.');
-    //     return redirect()->back();
-    // }
+    public function billingList(Request $request){
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $billing_list = Subadmin_bill::where('sub_code', '')
+                ->orWhereNull('sub_code')
+                ->get();
+            return view ('admin/billing/new_billing_list',compact('billing_list'));
+        } else {
+            redirect('superadmin');
+        }
+    }
 
     public function store(Request $request)
     {
@@ -47,46 +31,109 @@ class BillController extends Controller
         if(!empty($email)){
             $validatedData = $request->validate([
                 'bill_for' => 'required|string',
-                'billing_month' => 'required|string',
+                'discount_amount' => 'nullable|string',
                 'billing_type' => 'required|string',
                 'entity_id' => 'required',
                 'amount' => 'nullable|numeric',
                 'total_employee' => 'nullable|integer',
                 'vat' => 'nullable|numeric', // This is the VAT percentage
+                'total_amount' => 'nullable|numeric',
                 'payment_mode' => 'required|string',
                 'description' => 'nullable|string',
+                'remarks' => 'nullable|string',
+                'date' => 'nullable|date',
             ]);
-
-            $vatAmount = isset($validatedData['vat'], $validatedData['amount'])
-                ? ($validatedData['vat'] / 100) * $validatedData['amount']
-                : 0;
-            $total = $vatAmount + $request->input('amount');
-            $pt = $request->billing_type == 'sub-admin' ? 'p' : '';
-            $month = date('m');
-            $year = date('Y');
+            $pt = $request->billing_type == 'sub-admin' ? 'P' : '';
+            $monthYear = date('mY', strtotime($request->date));
         
-            // Count the existing invoices for the current month and year
-            $invoiceCount = Bill::whereYear('created_at', $year)
-                ->whereMonth('created_at', $month)
-                ->count();
-            //dd($invoiceCount);
+            $lastInvoice = Subadmin_bill::latest('id')->first();
+
+            if ($lastInvoice) {
+                $nextInvoiceNumber = $lastInvoice->id + 1; // Accessing the 'id' field
+            } else {
+                $nextInvoiceNumber = 1; // If no record exists, start with 1
+            }
             // Generate the next invoice number
-            $nextInvoiceNumber = $invoiceCount + 1;
-            $invoiceNumber = "SWC" . $pt . $month . $year . str_pad($nextInvoiceNumber, 2, '0', STR_PAD_LEFT);
+            $invoiceNumber = "SWC" . $pt . $monthYear . str_pad($nextInvoiceNumber, 2, '0', STR_PAD_LEFT);
         
             // Merge the generated invoice number with other data
-            $dataToSave = array_merge($validatedData, [
-                'total_amount' => $total,
-                'invoice_no' => $invoiceNumber, // Add the invoice number to save
-            ]);
+           
+                $dataToSave = array_merge($validatedData, [
+                    'invoice_no' => $invoiceNumber, // Add the invoice number to save
+                ]);
+           
+            //
             //dd($dataToSave);
             // Save the data
-            $bill = Bill::create($dataToSave);
+            $bill = Subadmin_bill::create($dataToSave);
             Session::flash('message', 'Bill submitted successfully. Invoice Number: ' . $invoiceNumber);
             return redirect('superadmin/billing-list');
         } else {
             redirect('superadmin');
         }
+    }
+
+    public function editBill(Request $request,$id){
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $bills = DB::table('subadmin_bills')->where('id', $id)->first();
+            if (!$bills) {
+                return redirect()->back()->with('error', 'Billing rule not found.');
+            }
+        
+            return view('admin.billing.edit_billing_list', compact('bills'));
+        } else {
+            redirect('superadmin');
+        }
+    }
+
+    public function updateBilling(Request $request, $id)
+    {
+        // Debugging
+        // dd('okk');
+        // dd($request->all());
+
+        // Validation for required fields
+        $validated = $request->validate([
+            'invoice_no' => 'required|string',
+            'bill_for' => 'required|string',
+            'date' => 'required|date', // Validate as a date
+            'billing_type' => 'required|string', // Changed to string
+            'entity_id' => 'required|string', // Changed to string
+            'amount' => 'nullable|numeric', // Amount should be numeric
+            'total_employee' => 'nullable|numeric', 
+            'total_amount' => 'nullable|numeric', // Total employee should be numeric
+            'vat' => 'nullable|numeric', // VAT should be numeric
+            'discount_amount' => 'nullable|numeric', // Discount should be numeric
+            'payment_mode' => 'nullable|string',
+            'description' => 'nullable|string',
+            'remarks' => 'nullable|string',
+        ]);
+        //dd($validated);
+        $bill = Subadmin_bill::findOrFail($id);
+        $bill->invoice_no = $validated['invoice_no'];
+        $bill->bill_for = $validated['bill_for'];
+        $bill->date = $validated['date'];
+        $bill->billing_type = $validated['billing_type'];
+        $bill->entity_id = $validated['entity_id'];
+        $bill->amount = $validated['amount'];
+        $bill->total_employee = $validated['total_employee'] ?? 0; // Default to 0 if null
+        $bill->vat = $validated['vat'];
+        $bill->discount_amount = $validated['discount_amount'];
+        $bill->total_amount = $validated['total_amount']; // Save the calculated total amount
+        $bill->payment_mode = $validated['payment_mode'];
+        $bill->description = $validated['description'];
+        $bill->remarks = $validated['remarks'];
+        $bill->updated_at = now();
+        //dd('After Update:', $bill);
+        // Save the updated bill
+        $bill->save();
+
+        // Flash success message
+        Session::flash('message', 'Bill updated successfully.');
+
+        // Redirect back to the billing list
+        return redirect('superadmin/billing-list');
     }
 
     public function getRule(Request $request){
@@ -147,23 +194,14 @@ class BillController extends Controller
         }
     }
 
-    public function billingList(Request $request){
-        $email = Session::get('empsu_email');
-        if(!empty($email)){
-            $billing_list = Bill::all();
-            //dd('okk');
-            return view ('admin/billing/new_billing_list',compact('billing_list'));
-        } else {
-            redirect('superadmin');
-        }
-    }
+   
 
     public function destroy($id)
     {
         $email = Session::get('empsu_email');
         if(!empty($email)){
             try {
-                DB::table('bills')->where('id', $id)->delete();
+                DB::table('subadmin_bills')->where('id', $id)->delete();
                 Session::flash('message', 'Record deleted successfully.');
                 return redirect()->back();
             } catch (\Exception $e) {
@@ -253,19 +291,7 @@ class BillController extends Controller
         }
     }
 
-    public function editBill(Request $request,$id){
-        $email = Session::get('empsu_email');
-        if(!empty($email)){
-            $bills = DB::table('bills')->where('id', $id)->first();
-            if (!$bills) {
-                return redirect()->back()->with('error', 'Billing rule not found.');
-            }
-        
-            return view('admin.billing.edit_billing_list', compact('bills'));
-        } else {
-            redirect('superadmin');
-        }
-    }
+  
     
 
 }

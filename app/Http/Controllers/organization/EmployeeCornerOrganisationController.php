@@ -283,6 +283,7 @@ class EmployeeCornerOrganisationController extends Controller
 
                 ->where("emid", "=", $users->emid)
                 ->get();
+                //dd($holidays);
             return view($this->_routePrefix . '.holiday-calendar',compact("holidays"));
             // return view(
             //     "employee-corner/holiday-calendar",
@@ -604,6 +605,252 @@ class EmployeeCornerOrganisationController extends Controller
             //dd($data);
             return view($this->_routePrefix . '.daily-status',$data);
             //return view("employee-corner/daily-status", $data);
+        } else {
+            return redirect("/");
+        }
+    }
+
+    public function viewapplyleaveapplication()
+    {
+       //dd('okk');
+        $user_email = Session::get("user_email");
+        $user_type = Session::get("user_type");
+        //dd($user_type);
+        if($user_type=="employer"){
+            if (!empty(Session::get("emp_email"))) {
+                $user_id = Session::get("users_id");
+                $users = UserModel::where("id", "=", $user_id)->first();
+                // dd($users);
+                $employee = Employee::where("emid", "=", $users->employee_id)
+                    ->orwhere("emid", "=", $users->emid)
+                    ->first();      
+                $leave_type_rs = LeaveType::join(
+                    "leave_allocation",
+                    "leave_type.id",
+                    "=",
+                    "leave_allocation.leave_type_id"
+                )
+                ->select(
+                        "leave_type.*",
+                        "leave_allocation.id as lv_alloc_id",
+                        "leave_allocation.month_yr"
+                    )
+                    ->where("leave_type.emid", "=", $users->employee_id)
+                    ->where(
+                        "leave_allocation.emid",
+                        "=",
+                        $users->employee_id
+                    )
+                    ->where("leave_allocation.emid", "=", $users->employee_id)
+
+                    ->where("leave_allocation.leave_in_hand", "!=", 0)
+                    ->get();
+                $holiday_rs = Holiday::where("emid", "=", $users->employee_id)
+                    ->select("from_date", "to_date", "day", "holiday_type")
+                    ->get();
+            // dd($holiday_rs);
+
+                $holidays = [];
+                $holiday_type = [];
+                $holiday_array = [];
+                foreach ($holiday_rs as $holiday) {
+                    if ($holiday->day > "1") {
+                        $from_date = $holiday->from_date;
+                        $to_date = $holiday->to_date;
+
+                        $date1 = date("d-m-Y", strtotime($from_date));
+                        $date2 = date("d-m-Y", strtotime($to_date));
+                        // Use strtotime function
+                        $variable1 = strtotime($date1);
+                        $variable2 = strtotime($date2);
+                        for (
+                            $currentDate = $variable1;
+                            $currentDate <= $variable2;
+                            $currentDate += 86400
+                        ) {
+                            $Store = date("Y-m-d", $currentDate);
+
+                            $holidays[] = $Store;
+                            $holiday_type[] = $holiday->holiday_type;
+                        }
+
+                        // Display the dates in array format
+                    } elseif ($holiday->day == "1") {
+                        $Store = $holiday->from_date;
+                        $holidays[] = $Store;
+                        $holiday_type[] = $holiday->holiday_type;
+                    }
+
+                    $holiday_array = [
+                        "holidays" => $holidays,
+                        "holiday_type" => $holiday_type,
+                    ];
+                }
+
+                // dd($holiday_array);
+                return view(
+                    "employee-corner/apply-leave",
+                    compact("leave_type_rs", "employee", "holiday_array")
+                );
+            } else {
+                return redirect("/");
+            }
+        }else{
+            //dd('noy');
+            if (!empty(Session::get("emp_email"))) {
+                $user_id = Session::get("users_id");
+                $users = UserModel::where("email", "=", $user_email)->first();
+                $employee = Employee::where("emp_code", "=", $users->employee_id)
+                    // ->orwhere("emid", "=", $users->emid)
+                    ->first();
+                   //dd($users->emid);
+           
+                $leave_type_rs = LeaveType::join(
+                    "leave_allocation",
+                    "leave_type.id",
+                    "=",
+                    "leave_allocation.leave_type_id"
+                )
+    
+                    ->select(
+                        "leave_type.*",
+                        "leave_allocation.id as lv_alloc_id",
+                        "leave_allocation.month_yr"
+                    )
+                    ->where("leave_type.emid", "=", $users->emid)
+                    ->where(
+                        "leave_allocation.emid",
+                        "=",
+                        $users->emid
+                    )
+                    ->where("leave_allocation.emid", "=", $users->emid)
+    
+                    ->where("leave_allocation.leave_in_hand", "!=", 0)
+                    ->groupBy('leave_type.id')
+                    ->get();
+                    //  dd($leave_type_rs);
+                $holiday_rs = Holiday::where("emid", "=", $users->employee_id)
+                    ->select("from_date", "to_date", "day", "holiday_type")
+                    ->get();
+                // dd($holiday_rs);
+
+                $holidays = [];
+                $holiday_type = [];
+                $holiday_array = [];
+                foreach ($holiday_rs as $holiday) {
+                    if ($holiday->day > "1") {
+                        $from_date = $holiday->from_date;
+                        $to_date = $holiday->to_date;
+
+                        $date1 = date("d-m-Y", strtotime($from_date));
+                        $date2 = date("d-m-Y", strtotime($to_date));
+                        // dd($date1);
+
+                        // Use strtotime function
+                        $variable1 = strtotime($date1);
+                        $variable2 = strtotime($date2);
+
+                        // Use for loop to store dates into array
+                        // 86400 sec = 24 hrs = 60*60*24 = 1 day
+                        for (
+                            $currentDate = $variable1;
+                            $currentDate <= $variable2;
+                            $currentDate += 86400
+                        ) {
+                            $Store = date("Y-m-d", $currentDate);
+
+                            $holidays[] = $Store;
+                            $holiday_type[] = $holiday->holiday_type;
+                        }
+
+                        // Display the dates in array format
+                    } elseif ($holiday->day == "1") {
+                        $Store = $holiday->from_date;
+                        $holidays[] = $Store;
+                        $holiday_type[] = $holiday->holiday_type;
+                    }
+
+                    $holiday_array = [
+                        "holidays" => $holidays,
+                        "holiday_type" => $holiday_type,
+                    ];
+                }
+
+                //dd($leave_type_rs);
+                // return view(
+                //     "employee-corner/apply-leave",
+                //     compact("leave_type_rs", "employee", "holiday_array")
+                // );
+                return view($this->_routePrefix . '.apply-leave',compact("leave_type_rs", "employee", "holiday_array"));
+            } else {
+                return redirect("/");
+            }
+        }
+    }
+
+
+    public function saveApplyLeaveData(Request $request)
+    {
+        if (!empty(Session::get("emp_email"))) {
+             //dd($request->all());
+            $user_id = Session::get("users_id");
+            $users = UserModel::where("id", "=", $user_id)->first();
+
+            $report_auth = Employee::where("emp_code", "=", $users->employee_id)
+                ->where("emid", "=", $users->emid)
+                ->first();
+
+            if (!empty($report_auth)) {
+                $report_auth_name = $report_auth->reportingauthority;
+            } else {
+                $report_auth_name = "";
+            }
+
+            $diff = abs(
+                strtotime($request->to_date) - strtotime($request->from_date)
+            );
+            $years = floor($diff / (365 * 60 * 60 * 24));
+            $months = floor(
+                ($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24)
+            );
+            $days =
+                floor(
+                    ($diff -
+                        $years * 365 * 60 * 60 * 24 -
+                        $months * 30 * 60 * 60 * 24) /
+                        (60 * 60 * 24)
+                ) + 1;
+
+            $leave_tyepenew = DB::table("leave_type")
+                ->where("id", "=", $request->leave_type)
+                ->first();
+
+            //  $request->leave_inhand;
+            if ($request->leave_inhand >= $request->days) {
+                $data["employee_id"] = $request->employee_id;
+                $data["employee_name"] = $request->employee_name;
+                $data["emp_reporting_auth"] = $report_auth_name;
+                $data["emp_lv_sanc_auth"] = "";
+                $data["date_of_apply"] = date(
+                    "Y-m-d",
+                    strtotime($request->date_of_apply)
+                );
+                $data["leave_type"] = $request->leave_type;
+                $data["half_cl"] = $request->half_cl;
+                $data["from_date"] = $request->from_date;
+                $data["to_date"] = $request->to_date;
+                $data["no_of_leave"] = $request->days;
+                $data["status"] = "NOT APPROVED";
+                $data["emid"] = $users->emid;
+                //dd($data);
+                $leave_apply = DB::table("leave_apply")->insert($data);
+
+                Session::flash("message", "Leave Apply Successfully..!.");
+                return redirect("organization/employerdashboard");
+            } else {
+                Session::flash("Leave_msg", "Sorry, No Leave Available");
+                return redirect("org-employee-corner/leave-apply");
+            }
         } else {
             return redirect("/");
         }

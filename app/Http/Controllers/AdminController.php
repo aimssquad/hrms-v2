@@ -21009,45 +21009,57 @@ class AdminController extends Controller
 
     public function getEntities(Request $request)
     {
+        //dd('okk');
         $billingType = $request->billing_type;
+
         // Fetch active organizations or sub-admins based on billing type
         $entities = DB::table('users')
                         ->where('user_type','=',$billingType)
                         ->where('status', 'active')
-                        ->get(['id','employee_id', 'name']);
+                        ->get(['id','employee_id', 'name']); // Get the ID and name for the dropdown
         //dd($entities);
         return response()->json($entities);
     }
 
-   
-    
-    
     public function getUserDetails(Request $request)
     {
         $billing_month = $request->billingMonth;
         $billingType = $request->billingType;
         $userId = $request->user_id;
+        //dd($userId);
+        //$user = DB::table('users')->where('emid', $userId)->first();
+        //dd($user->employee_id);
         if ($billingType == 'sub-admin') {
+            // Get the subadmin's employee_id to find linked organizations
+            //$subadminId = $user->employee_id;
+            //dd('okk');
             $org_code = Db::table('sub_admin_registrations')->where('reg', $userId)->first();
+            //
+            //dd($org_code->org_code);
+            // Retrieve all active, approved organizations linked to this subadmin
             $organizations = DB::table('registration')
                 ->where('status', 'active')
                 //->where('verify', 'approved')
                 ->where('org_code', $org_code->org_code)
                 ->pluck('reg');  // Get org_codes of these organizations
-                
-            $totalEmployee = DB::table('employee')
+            //dd($organizations);
+                $totalEmployee = DB::table('employee')
                 ->whereIn('emid', $organizations)  // Use the collection directly here
                 ->count();
-                
+            
+            // Output or return the total employee count
+            //dd($subadminId);
+
             // Get the employee charge for this subadmin (optional: customize as needed)
             $amount = DB::table('rule_table')
             ->where('entity_id', $org_code->reg )
             ->where('type','sub-admin')
             ->first();
+            //dd($amount->employee_charge);
             // Check if no record is found and use default entity_id
             if ($amount === null) {
                 $amount = DB::table('rule_table')
-                    ->where('entity_id', 'DEFULT')
+                    ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
                     ->where('type', 'sub-admin')
                     ->first();
             }
@@ -21065,20 +21077,22 @@ class AdminController extends Controller
                 ]);
             }
         } else {
+            //$user = DB::table('users')->where('emid', $userId)->first();
+            // Direct employee count for non sub-admins
             $totalEmployee = DB::table('employee')
                 ->where('emid', $userId)
                 ->count();
-    
+
             $amount = DB::table('rule_table')
                 ->where('entity_id', $userId)
                 ->value('employee_charge');
             if ($amount === null) {
                 $amount = DB::table('rule_table')
-                    ->where('entity_id', 'DEFULT')
+                    ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
                     ->where('type', 'sub-admin')
                     ->value('employee_charge');
             }    
-    
+
             if ($amount !== null) {
                 $totalAmount = $amount * $totalEmployee;
                 return response()->json([

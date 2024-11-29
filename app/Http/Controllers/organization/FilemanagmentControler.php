@@ -38,6 +38,18 @@ class FilemanagmentControler extends Controller
       $organization_id = $dataReg['id'];
       $data['file_devision_count']= fileDivision::where("organization_id",$organization_id)->count();
       $data['file_manager_count'] = fileManager::where('organization_id', $dataReg->reg)->count();
+      //$dataReg=Registration::where('email',$email)->first();
+      if ($dataReg !== null) {
+         $empId=$dataReg->reg;
+   
+            $data['file_details'] = fileManager::where('organization_id', $empId)->get();
+            //return view($this->_routePrefix . '.file-manager-list',$data);
+            //return View("filemanagment/file-manager-list", $data);
+      } else {
+            $data['file_details'] = [];
+            //return view($this->_routePrefix . '.file-manager-list',$data);
+            //return View("filemanagment/file-manager-list", $data);
+      }
       //dd($data);
       return view($this->_routePrefix . '.dashboard',$data);
     }
@@ -187,22 +199,22 @@ class FilemanagmentControler extends Controller
         $user_type=Session::get('user_type');
      
         if($user_type==="employer"){
-           if(!empty($email)){
+            if(!empty($email)){
               $employee_code=Registration::where('email',$email)->first();
-        if ($employee_code !== null) {
-           $empId=$employee_code->reg;
-     
-            $data['file_details'] = fileManager::where('organization_id', $empId)->get();
-            return view($this->_routePrefix . '.file-manager-list',$data);
-            //return View("filemanagment/file-manager-list", $data);
-        } else {
-            $data['file_details'] = [];
-            return view($this->_routePrefix . '.file-manager-list',$data);
-            //return View("filemanagment/file-manager-list", $data);
-        }
-           }else{
-              return redirect("/");
-           }
+               if ($employee_code !== null) {
+                  $empId=$employee_code->reg;
+            
+                     $data['file_details'] = fileManager::where('organization_id', $empId)->get();
+                     return view($this->_routePrefix . '.file-manager-list',$data);
+                     //return View("filemanagment/file-manager-list", $data);
+               } else {
+                     $data['file_details'] = [];
+                     return view($this->_routePrefix . '.file-manager-list',$data);
+                     //return View("filemanagment/file-manager-list", $data);
+               }
+            }else{
+               return redirect("/");
+            }
         }else{
            if(!empty($user_email)){
               $employee_code=UserModel::where('email',$user_email)->first();

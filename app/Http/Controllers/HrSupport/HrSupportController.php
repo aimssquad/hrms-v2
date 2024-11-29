@@ -12,6 +12,7 @@ use Session;
 use Validator;
 use App\Models\HrSupport\HrSupportFileType;
 use App\Models\HrSupport\HrSupportFile;
+use App\Models\HrSupport\SubHrFileType;
 
 class HrSupportController extends Controller
 {
@@ -163,14 +164,37 @@ class HrSupportController extends Controller
             throw new \App\Exceptions\AdminException($e->getMessage());
         }
     }
+    // public function editHrSupportFile($id)
+    // {
+    //     try {
+    //         $email = Session::get('empsu_email');
+    //         if (!empty($email)) {
+    //             $data['user'] = HrSupportFile::with('type')->findOrFail($id);
+    //             $data['type'] = HrSupportFileType::all();
+    //             //dd($data['type']);
+    //             return view('admin/add-hr-file-support',$data);
+    //         } else {
+    //             return redirect('superadmin');
+    //         }
+    //     } catch (Exception $e) {
+    //         throw new \App\Exceptions\AdminException($e->getMessage());
+    //     }
+    // }
     public function editHrSupportFile($id)
     {
         try {
             $email = Session::get('empsu_email');
             if (!empty($email)) {
-                $data['user'] = HrSupportFile::with('type')->findOrFail($id);
+                // Fetch the main record along with type and sub type
+                $data['user'] = HrSupportFile::with(['type', 'subType'])->findOrFail($id);
+
+                // Fetch all types for the dropdown
                 $data['type'] = HrSupportFileType::all();
-                return view('admin/add-hr-file-support',$data);
+
+                // Fetch all sub types based on the selected type
+                $data['subTypes'] = SubHrFileType::where('type_id', $data['user']->type_id)->get();
+
+                return view('admin/add-hr-file-support', $data);
             } else {
                 return redirect('superadmin');
             }
@@ -178,8 +202,10 @@ class HrSupportController extends Controller
             throw new \App\Exceptions\AdminException($e->getMessage());
         }
     }
+
     public function storeOrUpdateHrSupportFile(Request $request)
     {
+        //dd($request->all());
         try {
             $email = Session::get('empsu_email');
             if (!empty($email)) {
@@ -193,6 +219,7 @@ class HrSupportController extends Controller
 
                 // Update or set the attributes
                 $hrSupportFile->type_id = $request->input('type_id');
+                $hrSupportFile->sub_type_id = $request->input('sub_type_id');
                 $hrSupportFile->title = $request->input('title');
                 $hrSupportFile->description = $request->input('description');
                 $hrSupportFile->small_description = $request->input('smalldescription');
@@ -210,7 +237,7 @@ class HrSupportController extends Controller
                     $request->file('doc')->storeAs('public/hrsupport/doc', $docFileName);
                     $hrSupportFile->doc = $docFileName;
                 }
-
+                //dd($hrSupportFile);
                 // Save the record
                 $hrSupportFile->save();
 
@@ -295,6 +322,134 @@ class HrSupportController extends Controller
         }
 
     }
+
+    public function addSubHrSupportFileList(Request $request)
+    {
+        $email = Session::get('empsu_email');
+        if (!empty($email)) {
+            // Eager load the 'type' relationship
+            $data['data'] = SubHrFileType::with('type')->get();
+            
+            return view('admin.sub-type-list', $data);
+        } else {
+            return redirect('superadmin');
+        }
+    }
+
+    public function addSubHrSupportFile(Request $request)
+    {
+        try {
+            $email = Session::get('empsu_email');
+            if (!empty($email)) {
+                $data['type'] = DB::table('hr_support_file_types')->get();
+                return View('admin/add-sub-hr-file-support-type',$data);
+            } else {
+                return redirect('superadmin');
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\AdminException($e->getMessage());
+        }
+
+    }
+
+    public function store(Request $request)
+    {
+        //dd($request->all());
+        // Validate input fields
+        $valoDated = $request->validate([
+            'type_id' => 'required|integer',
+            'sub_name' => 'required|string|max:255',
+            'status' => 'required|boolean',
+        ]);
+        //dd($valoDated);
+        $subHrFileType = new SubHrFileType();
+        $subHrFileType->type_id = $request->type_id;
+        $subHrFileType->sub_name = $request->sub_name;
+        $subHrFileType->status = $request->status;
+        //$subHrFileType->description = $request->description;
+
+        // Save the record
+        if ($subHrFileType->save()) {
+            Session::flash('message', 'Record added successfully.');
+            return redirect('superadmin/sub/add-hr-support-file-type-List');
+        }
+        Session::flash('error', 'Failed to save the record');
+        return redirect('superadmin/sub/add-hr-support-file-type-List');
+    }
+
+    //---------------ajax call----------
+    public function getSubTypes(Request $request)
+    {
+        $typeId = $request->type_id;
+
+        // Fetch subtypes based on the provided type_id
+        $subTypes = SubHrFileType::where('type_id', $typeId)->get(['id', 'sub_name']);
+
+        if ($subTypes->isEmpty()) {
+            return response()->json(['success' => false, 'message' => 'No subtypes found.']);
+        }
+
+        return response()->json(['success' => true, 'subTypes' => $subTypes]);
+    }
+
+    public function editSubHrSupportFileType($id)
+    {
+        try {
+            $email = Session::get('empsu_email');
+            if (!empty($email)) {
+                $user = SubHrFileType::join('hr_support_file_types', 'hr_support_file_types.id', '=', 'sub_hr_filetype.type_id')
+                    ->where('sub_hr_filetype.id', $id)
+                    ->select('sub_hr_filetype.*')
+                    ->first();
+                $type = HrSupportFileType::all();
+                if ($user) {
+                    return view('admin.edit_sub_hr_support_file_type', compact('user', 'type'));
+                } else {
+                    return redirect('superadmin')->with('error', 'User not found');
+                }
+            } else {
+                return redirect('superadmin');
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\AdminException($e->getMessage());
+        }
+    }
+
+    public function updateSubHrSupportFileType(Request $request)
+    {
+        try {
+            $email = Session::get('empsu_email');
+            if (!empty($email)) {
+                // Validate the incoming data
+                $validated = $request->validate([
+                    'type_id' => 'required|exists:hr_support_file_types,id',
+                    'sub_name' => 'required|string|max:255',
+                    'status' => 'required|boolean', 
+                ]);
+
+                // Find the record to update
+                $user = SubHrFileType::findOrFail($request->id);
+
+                // Update the fields
+                $user->type_id = $request->type_id;
+                $user->sub_name = $request->sub_name;
+                $user->status = $request->status;
+
+                // Save the updated record
+                $user->save();
+
+                // Redirect or return a success response
+                return redirect('superadmin/sub/add-hr-support-file-type-List');
+            } else {
+                return redirect('superadmin');
+            }
+        } catch (Exception $e) {
+            // Handle any exceptions or errors
+            return redirect('superadmin')->with('error', $e->getMessage());
+        }
+    }
+
+    
 
 
 }

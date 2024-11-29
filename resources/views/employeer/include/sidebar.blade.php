@@ -145,8 +145,8 @@
                     ['url' => 'org-settings/vw-mode-type', 'label' => 'Mode Of Employee'],
                     ['url' => 'org-settings/vw-religion', 'label' => 'Religion Master'],
                     ['url' => 'org-settings/vw-education', 'label' => 'Education Master'],
-                    ['url' => 'org-settings/vw-department', 'label' => 'Department'],
-                    ['url' => 'org-settings/vw-designation', 'label' => 'Designation'],
+                   // ['url' => 'org-settings/vw-department', 'label' => 'Department'],
+                   // ['url' => 'org-settings/vw-designation', 'label' => 'Designation'],
                     ['url' => 'org-settings/vw-employee-type', 'label' => 'Employment Type'],
                     ['url' => 'org-settings/vw-paygroup', 'label' => 'Pay Group'],
                     ['url' => 'org-settings/vw-annualpay', 'label' => 'Annual Pay'],
@@ -166,14 +166,14 @@
                 ['url' => 'user-access-role/view-users-role', 'label' => 'Access Roles'],
             ]
         ],
-        /*13 => [
+        13 => [
             'title' => 'Billing',
             'icon' => 'las la-donate',
             'items' => [
-                ['url' => '#', 'label' => 'Billing'],
+                ['url' => 'organization/billing-show', 'label' => 'Invoice'],
                 ['url' => '#', 'label' => 'Payment Receipt'],
             ]
-        ], */
+        ], 
         14 => [
             'title' => 'File Manager',
             'icon' => 'las la-file',

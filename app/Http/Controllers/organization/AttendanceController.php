@@ -704,7 +704,6 @@ class AttendanceController extends Controller
 													<td>' . $leave_allocation->duty_hours . '</td>
 													<td><a href="edit-daily/' . base64_encode($leave_allocation->id) . '"><img  style="width: 15px;" src="' . env("BASE_URL") . 'public/assets/img/edit.png"></a></td>
 
-
 						</tr>';
                     $f++;}
             }

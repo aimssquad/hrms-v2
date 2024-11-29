@@ -6,6 +6,9 @@
             <div class="card-header"> <h1>Login Corner Dashboard</h1></div>
             <div class="card-body"></div>
         </div>
+		@if(Session::has('message'))										
+			<div class="alert alert-success" style="text-align:center;">{{ Session::get('message') }}</div>
+		@endif
         <div class="row">
 						<div class="col-xxl-8 col-lg-12 col-md-12">
 							<div class="row">

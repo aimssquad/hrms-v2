@@ -38,6 +38,7 @@ Route::get('/get-entities', 'App\Http\Controllers\AdminController@getEntities')-
 Route::get('/get-user-details','App\Http\Controllers\AdminController@getUserDetails')->name('get.user.details');
 Route::post('superadmin/bills/store', 'App\Http\Controllers\organization\BillController@store')->name('bills.store');
 Route::get('/superadmin/billing/edit/{id}', 'App\Http\Controllers\organization\BillController@editBill')->name('superadmin.billing.edit');
+Route::post('superadmin/bills/update/{id}', 'App\Http\Controllers\organization\BillController@updateBilling')->name('superadmin.billing.update');
 
 Route::get('superadmin/billing-list', 'App\Http\Controllers\organization\BillController@billingList')->name('bills.list');
 Route::get('/billing/delete/{id}', 'App\Http\Controllers\organization\BillController@destroy')->name('billing.delete');
@@ -67,10 +68,14 @@ Route::get('/sub-admin/billing/edit/{id}', 'App\Http\Controllers\organization\Su
 Route::post('sub-admin/bills/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@updateBilling')->name('sub-admin.billing.update');
 Route::get('/sub-admin/billing/delete/{id}', 'App\Http\Controllers\organization\SubadminBillController@destroyBilling')->name('subadmin.billing.delete');
 Route::get('/sub-admin/billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewInvoice')->name('subadmin.billing.invoice');
-Route::get('sub-admin/show-bills', 'App\Http\Controllers\organization\SubadminBillController@showBills')->name('subadmin.show.bills');
-
+//------------Own Bills
+Route::get('/sub-admin/all-bills','App\Http\Controllers\organization\SubadminBillController@viewBillList')->name('subadmin.allbills');
 
 //-------------------------------------End Sub Admin Billing---------------------------------------
+//---------------------------------------Organization  Billing ------------------------------------------
+Route::get('organization/billing-show','App\Http\Controllers\organization\OrganizationBillController@orgBill')->name('organization.bill-show');
+Route::get('/organization/billing/view/{id}', 'App\Http\Controllers\organization\OrganizationBillController@invoice')->name('organization.billing.invoice');
+///--------------------------------------End Organization  Billing --------------------------------------
 
 //---------------------------------------------Login And Registration Slide image Video --------------------------
 
@@ -316,6 +321,8 @@ Route::post('org-employee-corner/task-update', 'App\Http\Controllers\organizatio
 Route::get('org-employee-corner/attendance-status', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewAttandancestatus');
 Route::post('org-employee-corner/attendance-status', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@saveAttandancestatus');
 
+Route::get('org-employee-corner/leave-apply', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewapplyleaveapplication');
+Route::post('org-employee-corner/leave-apply', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@saveApplyLeaveData');
 // ----------------------------------------- End Employee Corner ---------------------------------------------
 
 //-------------------------------------------- Hr Support ---------------------------------------------------
@@ -712,6 +719,14 @@ Route::post('superadmin/add-hr-support-file', 'App\Http\Controllers\HrSupport\Hr
 Route::get('superadmin/edit-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@editHrSupportFile')->name('edit-hr-support-file');
 Route::get('superadmin/delete-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@deleteHrSupportFile')->name('delete-hr-support-file');
 Route::get('superadmin/get-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@getHrSupportFile');
+
+Route::get('superadmin/sub/add-hr-support-file-type-List', 'App\Http\Controllers\HrSupport\HrSupportController@addSubHrSupportFileList');
+Route::get('superadmin/sub/add-hr-support-file-type', 'App\Http\Controllers\HrSupport\HrSupportController@addSubHrSupportFile');
+Route::post('superadmin/sub/add-hr-support-file-type', 'App\Http\Controllers\HrSupport\HrSupportController@store');
+Route::get('superadmin/sub/edit-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@editSubHrSupportFileType');
+Route::post('superadmin/sub/edit-hr-support-file-type', 'App\Http\Controllers\HrSupport\HrSupportController@updateSubHrSupportFileType');
+
+Route::post('/superadmin/get-subtypes', 'App\Http\Controllers\HrSupport\HrSupportController@getSubTypes')->name('getSubTypes');
 
 
 //Hr support for organization

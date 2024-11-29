@@ -32,12 +32,32 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="selectFloatingLabel" class="placeholder">Type</label>
-                                                    <select name="type_id" class="form-control" id="" required>
+                                                    <select name="type_id" class="form-control" id="type_id" required>
                                                         <option value="">Choose..</option>
                                                         @foreach ($type as $types)
                                                             <option value="{{ $types->id }}" @if(isset($user) && $user->type_id == $types->id) selected @endif>{{$types->type}}</option>
                                                         @endforeach
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="selectFloatingLabel" class="placeholder">Sub Type</label>
+                                                    @if(isset($user) && !empty($user->id))
+                                                    <select name="sub_type_id" class="form-control" id="sub_type_id" required>
+                                                        <option value="">Select</option>
+                                                        @foreach($subTypes as $subType)
+                                                            <option value="{{ $subType->id }}" 
+                                                                    @if(isset($user) && $user->sub_type_id == $subType->id) selected @endif>
+                                                                {{ $subType->sub_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @else
+                                                    <select name="sub_type_id" class="form-control" id="sub_type_id" required>
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -107,6 +127,44 @@
     <script>
         CKEDITOR.replace('description');
         CKEDITOR.replace('smalldescription');
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Trigger AJAX call on Type dropdown change
+            $('#type_id').change(function () {
+                let typeId = $(this).val(); // Get selected Type ID
+    
+                // Reset Sub Type dropdown
+                $('#sub_type_id').empty().append('<option value="">Select</option>');
+    
+                if (typeId) {
+                    $.ajax({
+                        url: "{{ route('getSubTypes') }}", // The route for fetching sub types
+                        type: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            type_id: typeId,
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                // Populate Sub Type dropdown with data
+                                $.each(response.subTypes, function (index, subType) {
+                                    $('#sub_type_id').append(
+                                        `<option value="${subType.id}">${subType.sub_name}</option>`
+                                    );
+                                });
+                            } else {
+                                alert(response.message); // Display error message if no subtypes found
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred. Please try again.');
+                        },
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

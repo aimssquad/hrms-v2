@@ -11,16 +11,16 @@
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title"> Invoice List</h3>
+            <h3 class="page-title"> Bill List</h3>
             <ul class="breadcrumb">
                <li class="breadcrumb-item"><a href="{{url('superadmindasboard')}}">Home</a></li>
                {{-- <li class="breadcrumb-item"><a href="#">Billing Dashboard</a></li> --}}
-               <li class="breadcrumb-item active"> Invoice List</li>
+               <li class="breadcrumb-item active"> Billing List</li>
             </ul>
          </div>
-         <div class="col-auto float-end ms-auto">
+         {{-- <div class="col-auto float-end ms-auto">
             <a href="{{ url('sub-admin/add-billing') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add New Billing</a>
-         </div>
+         </div> --}}
       </div>
    </div>
    <!-- /Page Header -->
@@ -83,7 +83,7 @@
                        </tr>
                     </thead>
                     <tbody>
-                      @foreach($billing_list as $billing)
+                      @foreach($bill_list as $billing)
                           {{-- @php
                              DB::table('registration')->where('') 
                           @endphp --}}
@@ -95,7 +95,7 @@
                           
                           {{-- <td>{{$billing->billing_type}}</td> --}}
                           @php
-                            $data = DB::table('registration')->where('reg',$billing->entity_id)->first();
+                            $data = DB::table('sub_admin_registrations')->where('reg',$billing->entity_id)->first();
                           @endphp
                           <!--<td>{{$billing->entity_id}}</td>-->
                           <td>{{$data->com_name ?? 'NA'}}</td>
@@ -114,9 +114,7 @@
                                  </a>
                                  <div class="dropdown-menu dropdown-menu-right">
                                     {{-- @if($billing->payment_status == 1) --}}
-                                       <a class="dropdown-item" href="{{ route('subadmin.billing.edit', $billing->id) }}">
-                                          <i class=" fas fa-pencil m-r-5"></i> Edit
-                                       </a>
+                                     
                                     {{-- @endif    --}}
                                        <a class="dropdown-item" href="{{ route('subadmin.billing.invoice', $billing->id) }}">
                                           <i class=" fas fa-eye m-r-5"></i> View Invoice

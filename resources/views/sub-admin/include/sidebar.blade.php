@@ -33,7 +33,7 @@
                         <!--<li><a href="{{url('superadmin/payment-search')}}">Payment Received Search</a></li>-->
                         <li><a href="{{url('sub-admin/billing-rule-list')}}">Billing Rule</a></li>
                         <li><a href="{{url('sub-admin/billing-list')}}">Create Invoice</a></li>
-                        <li><a href="{{url('sub-admin/show-bills')}}">Show Bills</a></li>
+                        <li><a href="{{url('/sub-admin/all-bills')}}">Show Bills</a></li>
                     </ul>
                 </li>
             </ul>
