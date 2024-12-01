@@ -3,21 +3,21 @@
     $user_type = Session::get("user_type");
     //dd($sidebarItems);
         $modules = [
-           1 => [
-            'title' => 'Organization',
-            'icon' => 'las la-hotel',
-            'route' => 'organization.home', // Set the main module route here
-            'items' => [
-                ['route' => 'organization.profile', 'label' => 'Profile'],
-                ['route' => 'employees.rti', 'label' => 'Employees (RTI)'],
-                ['route' => 'authorizing.officer', 'label' => 'Authorizing Officer'],
-                ['route' => 'key.contact', 'label' => 'Key Contact'],
-                ['route' => 'level1.user', 'label' => 'Level 1 User'],
-                ['route' => 'level2.user', 'label' => 'Level 2 User'],
-                ['url' => 'org-dashboarddetails', 'label' => 'Sponsor Compliances'],
-            ]
-        ],
-        2 => [
+        //    1 => [
+        //     'title' => 'Organization',
+        //     'icon' => 'las la-hotel',
+        //     'route' => 'organization.home', // Set the main module route here
+        //     'items' => [
+        //         ['route' => 'organization.profile', 'label' => 'Profile'],
+        //         ['route' => 'employees.rti', 'label' => 'Employees (RTI)'],
+        //         ['route' => 'authorizing.officer', 'label' => 'Authorizing Officer'],
+        //         ['route' => 'key.contact', 'label' => 'Key Contact'],
+        //         ['route' => 'level1.user', 'label' => 'Level 1 User'],
+        //         ['route' => 'level2.user', 'label' => 'Level 2 User'],
+        //         ['url' => 'org-dashboarddetails', 'label' => 'Sponsor Compliances'],
+        //     ]
+        // ],
+        1 => [
             'title' => 'Recruitment',
             'icon' => 'las la-clone',
             'route' => 'recruitment.dashboard',
@@ -37,7 +37,7 @@
                 ['url' => 'org-recruitment/message-centre', 'label' => 'Message Center'],
             ]
         ],
-        3 => [
+        2 => [
             'title' => 'Employee Administration',
             'icon' => 'la la-users',
             'items' => [
@@ -50,7 +50,7 @@
                 ['url' => 'organization/allShifts', 'label' => 'All Shifts'],
             ]
         ],
-        4 => [
+        3 => [
             'title' => 'Rota',
             'icon' => 'las la-calendar',
             'items' => [
@@ -63,7 +63,7 @@
             ]
         ],
        
-        5 => [
+        4 => [
             'title' => 'Attendance',
             'icon' => 'las la-tachometer-alt',
             'items' => [
@@ -76,7 +76,7 @@
                 ['url' => 'attendance-management/absent-report', 'label' => 'Absentee Record'],
             ]
         ],
-        6 => [
+        5 => [
             'title' => 'Leave Handling',
             'icon' => 'las la-clipboard-list',
             'items' => [
@@ -89,7 +89,7 @@
                 ['url' => 'leave/leave-report-employee', 'label' => 'Record EE Wise'],
             ]
         ],
-        7 => [
+        6 => [
             'title' => 'Leave Authosizer',
             'icon' => 'lab la-confluence',
             'items' => [
@@ -98,7 +98,7 @@
             ]
         ],
 
-        8 => [
+        7 => [
             'title' => 'Holiday Handling',
             'icon' => 'lab la-blackberry',
             'items' => [
@@ -107,7 +107,7 @@
                 ['url' => 'organization/holiday-list', 'label' => 'Record'],
             ]
         ],
-        9 => [
+        8 => [
             'title' => 'Task Control',
             'icon' => 'las la-tasks',
             'items' => [
@@ -116,7 +116,7 @@
                 ['url' => 'org-task-management/create-project', 'label' => 'New Project'],
             ]
         ],
-        10 => [
+        9 => [
             'title' => 'Performance Control',
             'icon' => 'las la-certificate',
             'items' => [
@@ -126,7 +126,7 @@
             ]
         ],
 
-        11 => [
+        10 => [
             'title' => 'Settings',
             'icon' => 'las la-cogs',
             'items' => [
@@ -157,7 +157,7 @@
                 ]],
             ]
         ],
-        12 => [
+        11 => [
             'title' => 'User Permissions',
             'icon' => 'las la-universal-access',
             'items' => [
@@ -166,7 +166,7 @@
                 ['url' => 'user-access-role/view-users-role', 'label' => 'Access Roles'],
             ]
         ],
-        13 => [
+        12 => [
             'title' => 'Billing',
             'icon' => 'las la-donate',
             'items' => [
@@ -174,7 +174,7 @@
                 ['url' => '#', 'label' => 'Payment Receipt'],
             ]
         ], 
-        14 => [
+        13 => [
             'title' => 'File Manager',
             'icon' => 'las la-file',
             'items' => [
@@ -183,7 +183,7 @@
                 ['url' => 'file-management/fileManagmentList', 'label' => 'Manager'],
             ]
         ],
-        15 => [
+        14 => [
             'title' => 'Hr Support',
             'icon' => 'las la-american-sign-language-interpreting',
             'items' => [
@@ -191,16 +191,16 @@
             ]
         ],
 
-        /*16 => [
+        15 => [
             'title' => 'Organogram Chart',
             'icon' => 'la la-user',
             'items' => [
                 ['url' => '#', 'label' => 'Level'],
                 ['url' => '#', 'label' => 'Organisation Hierarchy'],
             ]
-        ],*/
+        ],
 
-        17 => [
+        16 => [
             'title' => 'Change Of Circumstances',
             'icon' => 'la la-user',
             'items' => [
@@ -209,14 +209,14 @@
                 ['url' => 'org-dashboard/change-of-circumstances', 'label' => 'COC- Report'],
             ]
         ],
-        18 => [
+        17 => [
             'title' => 'Employee Hub',
             'icon' => 'las la-clone',
             'items' => [
                 ['url' => 'org-user-check-employee', 'label' => 'Login Corner'],
             ]
         ],
-        19 => [
+        18 => [
             'title' => 'Visitor Register',
             'icon' => 'las la-book',
             'items' => [
@@ -247,6 +247,33 @@ function isActiveModule($moduleItems) {
         
           <ul class="sidebar-vertical">
                 @if($user_type == "employer")
+                    <li class="submenu">
+                        <a href="#" ><i class="la la-building"></i> <span> Organization</span> <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li class="{{ Request::is('organization/profile') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('organization/profile') }}">Profile</a>
+                            </li>
+                            <li class="{{ Request::is('employees-according-to-rti') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('employees-according-to-rti') }}">Employees (RTI)</a>
+                            </li>
+                            <li class="{{ Request::is('authorizing-officer') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('authorizing-officer') }}">Authorizing Officer</a>
+                            </li>
+                            <li class="{{ Request::is('key-contact') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('key-contact') }}">Key Contact</a>
+                            </li>
+                            <li class="{{ Request::is('level-1-user') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('level-1-user') }}">Level 1 User</a>
+                            </li>
+                            <li class="{{ Request::is('level-2-user') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('level-2-user') }}">Level 2 User</a>
+                            </li>
+                            <li class="{{ Request::is('org-dashboarddetails') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('org-dashboarddetails') }}">Sponsor Compliances</a>
+                            </li>
+                        </ul>
+                    </li>
+                
                     @foreach($sidebarItems as $array_role)
                         @php
                             $module_id = $array_role['module_name'];

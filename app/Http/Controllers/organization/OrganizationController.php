@@ -103,12 +103,18 @@ class OrganizationController extends Controller
         $email = Session::get("emp_email");
         if (!empty(Session::get('emp_email'))) {
             
-            $user_type = Session::get("user_type");
-            $data["Roledata"] = DB::table("registration")
-            ->where("status", "=", "active")
-            ->where("email", "=", $email)
-            ->first(); 
-            return view($this->_routePrefix . '.quick-links',$data);
+               // Fetch employee data
+                $employee = DB::table('registration')->where('email', $email)->first();
+
+                // Fetch modules assigned to the employee
+                $array_role = DB::table('othorized_organization_module')
+                    ->where('employee_id', $employee->reg)
+                    ->pluck('module_name')
+                    ->toArray();
+                //dd($employee);
+                return view($this->_routePrefix . '.quick-links', compact('array_role', 'employee'));
+
+            //return view($this->_routePrefix . '.quick-links',$data);
         }else{
             return redirect('/');
         }

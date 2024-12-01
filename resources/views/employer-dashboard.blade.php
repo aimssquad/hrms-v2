@@ -115,6 +115,7 @@
                    ->first();
 
                //   dd($Roledataemil);
+               //dd($arrrole);
                ?>
             <?php if (in_array("8", $arrrole)) { ?>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
@@ -475,7 +476,7 @@
 
 
                @else
-               @if(Session::get('user_type')=='employer')<?php
+               @if(Session::get('user_type')=='employer') <?php 
             ?>
                <div class="col-lg-2 col-xl-2 col-md-3 col-sm-6 col-12 pl0 pr0">
                   <a href="{{url('companydashboard')}}">
