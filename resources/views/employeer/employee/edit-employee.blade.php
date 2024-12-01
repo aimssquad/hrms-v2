@@ -76,20 +76,20 @@
                                 <div class="multisteps-form__panel rounded bg-white js-active" data-animation="scaleIn">
                                     <h3 class="multisteps-form__title" style="color: #1269db;border-bottom: 1px solid #ddd;padding-bottom: 11px;">Personal  Details</h3>
                                     <div class="multisteps-form__content">
-                                    <div class="row">
-                                        <div class="col-md-4">
+                                    <div class="row g-2 mt-3">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group ">
                                                 <label for="inputFloatingLabel" class="col-form-label">Employee Code<span style="color:red;">*</span></label>
                                                 <input id="inputFloatingLabel" type="text" class="form-control " required="" value="<?php if (!empty($employee_code)) {echo $employee_code;}if (request()->get('q') != '') {echo $employee_rs[0]->emp_code;}?>" name="emp_code"  readonly="1">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabel1" class="col-form-label">First Name<span style="color:red;">*</span></label>
                                                 <input id="inputFloatingLabel1" type="text" class="form-control input-border-bottom" required="" name="emp_fname"   value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_fname;}?>"  >
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabel2" class="col-form-label">Middle Name</label>
                                                 <input id="inputFloatingLabel2" type="text" class="form-control input-border-bottom" name="emp_mid_name" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_mname;}?>">
@@ -97,7 +97,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabel3" class="col-form-label">Last Name<span style="color:red;">*</span></label>
                                                 <input id="inputFloatingLabel3" type="text" class="form-control input-border-bottom" name="emp_lname"  required="" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_lname;}?>">
@@ -109,7 +109,7 @@
                                             <label for="inputFloatingLabelfon" class="col-form-label">Father's Name </label>
                                             </div>
                                             </div>-->
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="selectFloatingLabel" class="col-form-label">Gender</label>
                                                 <select class="select"  name="emp_gender">
@@ -119,7 +119,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabelni" class="col-form-label">NI No.</label>
                                                 <input id="inputFloatingLabelni" type="text" class="form-control input-border-bottom" name="ni_no" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->ni_no;}?>">
@@ -139,13 +139,13 @@
                                             <label for="inputFloatingLabel5" class="col-form-label">Spouse  Name</label>
                                             </div>
                                             </div>-->
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabeldob" class="col-form-label">Date of Birth </label>
                                                 <input id="inputFloatingLabeldob" type="date" class="form-control input-border-bottom" name="emp_dob" value="<?php if (request()->get('q') != '') {if ($employee_rs[0]->emp_dob != '1970-01-01' && $employee_rs[0]->emp_dob != '' && $employee_rs[0]->emp_code != 'E11') {echo $employee_rs[0]->emp_dob;} else if ($employee_rs[0]->emp_code == 'E11') {echo $employee_rs[0]->emp_dob;}}?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="selectFloatingLabel1" class="col-form-label">Marital Status</label>
                                                 <select class="select" id="selectFloatingLabel1" name="marital_status">
@@ -158,7 +158,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="selectFloatingLabel3" class="col-form-label">Select Nationality</label>
                                                 <select class="select"  name="nationality">
@@ -171,28 +171,29 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabelfon" class="col-form-label">Email <span style="color:red;">*</span></label>
                                                 <input id="inputFloatingLabelfon" type="email" class="form-control input-border-bottom" required="" name="emp_ps_email" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_ps_email;}?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabelphone" class="col-form-label">Contact Number <span style="color:red;">*</span></label>
                                                 <input id="inputFloatingLabelphone" type="tel" class="form-control input-border-bottom" required="" name="emp_ps_phone" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->emp_ps_phone;}?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabelphonealter" class="col-form-label">Alternative Number</label>
                                                 <input id="inputFloatingLabelphonealter" type="tel" class="form-control input-border-bottom" name="em_contact" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->em_contact;}?>">
                                             </div>
                                         </div>
+                                        </div>
                                     </div>
                                     <h3 style="margin-top:20px;color: #1269db;border-bottom: 1px solid #ddd;padding-bottom: 11px;">Service Details</h3>
-                                    <div class="row ">
-                                        <div class="col-md-4">
+                                    <div class="row mt-3">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="selectFloatingLabel3" class="col-form-label">Department </label>
                                                 <select class="select" id="selectFloatingLabel3" name="emp_department"  onchange="chngdepartment(this.value);">
@@ -203,7 +204,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="selectFloatingLabel4" class="col-form-label">Designation </label>
                                                 <select class="select" id="selectFloatingLabel4"  name="emp_designation">
@@ -216,7 +217,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabel4" class="col-form-label">Date of Joining </label>
                                                 <input id="inputFloatingLabel4" type="date" max="<?=date('Y-m-d')?>" class="form-control input-border-bottom"  name="emp_doj" value="<?php if (request()->get('q') != '') {if ($employee_rs[0]->emp_doj != '1970-01-01') {if ($employee_rs[0]->emp_doj != '') {echo $employee_rs[0]->emp_doj;}}}?>">
@@ -224,7 +225,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="selectFloatingLabel5" class="col-form-label">Employment Type </label>
                                                 <select class="select" id="selectFloatingLabel5"   name="emp_status">
@@ -235,13 +236,13 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabel6" class="col-form-label">Date of Confirmation</label>
                                                 <input id="inputFloatingLabel6" type="date" class="form-control input-border-bottom"  name="date_confirm" value="<?php if (request()->get('q') != '') {if ($employee_rs[0]->date_confirm != '1970-01-01') {if ($employee_rs[0]->date_confirm != '') {echo $employee_rs[0]->date_confirm;}}}?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabel7" class="col-form-label">Contract Start Date</label>
                                                 <input id="inputFloatingLabel7" type="date" class="form-control input-border-bottom" name="start_date" value="<?php if (request()->get('q') != '') {if ($employee_rs[0]->start_date != '1970-01-01') {if ($employee_rs[0]->start_date != '') {echo $employee_rs[0]->start_date;}}}?>">
@@ -249,7 +250,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 flex-grow-1 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabel8" class="col-form-label">Contract End Date (If Applicable)</label>
                                                 <input id="inputFloatingLabel8" type="date" class="form-control input-border-bottom" name="end_date" value="<?php if (request()->get('q') != '') {if ($employee_rs[0]->end_date != '1970-01-01') {if ($employee_rs[0]->end_date != '') {echo $employee_rs[0]->end_date;}}}?>">
@@ -261,7 +262,7 @@
                                             <label for="inputFloatingLabel9" class="col-form-label">FTE</label>
                                             </div>
                                             </div>-->
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 flex-grow-1 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabel10" class="col-form-label">Job Location</label>
                                                 <input id="inputFloatingLabel10" type="text" class="form-control input-border-bottom" name="job_loc" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->job_loc;}?>">
@@ -269,18 +270,20 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4 form-group">
+                                        <div class="col-md-4 form-group mb-2">
                                             <label>Profile Picture</label>
-                                            <?php if (request()->get('q') != '') {?>
-                                            <?php if ($employee_rs[0]->emp_image != '') {?>
-                                            <img src="{{ asset( $employee_rs[0]->emp_image ) }}" height="50px" width="50px"/>
-                                            <?php
-                                                }
-                                                }?>
-                                            <input type="file" name="emp_image" id="emp_image" onchange="Filevalidationproimge()"><br>
+                                            <div class="border rounded-1 p-2">
+                                                <?php if (request()->get('q') != '') {?>
+                                                <?php if ($employee_rs[0]->emp_image != '') {?>
+                                                <img src="{{ asset( $employee_rs[0]->emp_image ) }}" height="50px" width="50px"/>
+                                                <?php
+                                                    }
+                                                    }?>
+                                                <input type="file" name="emp_image" id="emp_image" onchange="Filevalidationproimge()"><br>
+                                            </div>
                                             <small> Please select  image which size up to 2mb</small>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="selectFloatingLabelra" class="col-form-label">Reporting Authority</label>
                                                 <select class="select" id="selectFloatingLabelra" name="emp_reporting_auth" >
@@ -291,7 +294,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="form-">
                                                 <label for="selectFloatingLabells" class="col-form-label">Leave Sanction Authority</label>
                                                 <select class="select" id="selectFloatingLabells"  name="emp_lv_sanc_auth" >
@@ -401,19 +404,19 @@
                                           @foreach($employee_job_rs as $emplojob)
                                           <div class="itemslotedu" id="<?php echo $tredu_id; ?>">
                                              <div class="row" >
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 mb-2">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabel-jobt" class="col-form-label">Job Title</label>
                                                       <input id="inputFloatingLabel-jobt" type="text" class="form-control input-border-bottom"  name="job_name[]" value="{{ $emplojob->job_name}}">
                                                    </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 mb-2">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
                                                       <input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]" value="@if($emplojob->job_start_date !=null && $emplojob->job_start_date !='1970-01-01' && $emplojob->job_start_date !='0000-00-00'){{ $emplojob->job_start_date}}@endif">
                                                    </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 mb-2">
                                                    <div class="form-group">
                                                       <label for="inputFloatingLabel-jobe" class="col-form-label">End Date</label>
                                                       <input id="inputFloatingLabel-jobe" type="date" class="form-control input-border-bottom" name="job_end_date[]" value="@if($emplojob->job_end_date !=null && $emplojob->job_end_date !='1970-01-01' && $emplojob->job_end_date !='0000-00-00'){{ $emplojob->job_end_date}}@endif">
