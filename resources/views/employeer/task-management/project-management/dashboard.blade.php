@@ -47,7 +47,7 @@ use App\Models\User; ?>
                                                 visibility
                                             </span> 1</div> -->
                                         </div>
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-12 mt-3">
                                             <div>
                                                 <label>Task <span class="text-danger">*</span></label>
                                                 <!-- <select class="form-select  mt-2 mb-4" aria-label="Default select example">
@@ -101,66 +101,73 @@ use App\Models\User; ?>
                                             </div>
                                             <hr class="mt-4 mb-4">
         
-                                            <label>Status <span class="material-symbols-outlined float-start me-1">
-                                                    schedule
-                                                </span></label>
-                                            <div id="demo2" class="mt-1">
-                                                <div class="wrapper2">
-                                                    <div class="content2">
-                                                        <ul>
-                                                            @foreach($labels as $l)
-                                                            <a href="javascript:void(0);" onclick="setLebels('{{$l->title}}','create')">
-                                                                <li><span class="bg-secondary text-white p-1 ps-2 pe-2"><?php
-        
-        
-        
-                                                                                                                        echo $l->title; ?></span></li>
-                                                            </a>
-                                                            @endforeach
-                                                            <!-- <a href="#">
-                                                                <li><span class="bg-secondary text-white p-1 ps-2 pe-2">To Do</span>
-                                                                </li>
-                                                            </a>
-                                                            <a href="#">
-                                                                <li><span class="bg-info text-white p-1 ps-2 pe-2">Ready to test</span>
-                                                                </li>
-                                                            </a>
-                                                            <a href="#">
-                                                                <li><span class="bg-info text-white p-1 ps-2 pe-2">In Progress</span>
-                                                                </li>
-                                                            </a>
-                                                            <a href="#">
-                                                                <li>Resolved</li>
-                                                            </a> -->
-                                                        </ul>
+                                            <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Status <span class="material-symbols-outlined float-start me-1">
+                                                        schedule
+                                                    </span></label>
+                                                <div id="demo2" class="mt-1">
+                                                    <div class="wrapper2">
+                                                        <div class="content2">
+                                                            <ul>
+                                                                @foreach($labels as $l)
+                                                                <a href="javascript:void(0);" onclick="setLebels('{{$l->title}}','create')">
+                                                                    <li><span class="bg-secondary text-white p-1 ps-2 pe-2"><?php
+            
+            
+            
+                                                                                                                            echo $l->title; ?></span></li>
+                                                                </a>
+                                                                @endforeach
+                                                                <!-- <a href="#">
+                                                                    <li><span class="bg-secondary text-white p-1 ps-2 pe-2">To Do</span>
+                                                                    </li>
+                                                                </a>
+                                                                <a href="#">
+                                                                    <li><span class="bg-info text-white p-1 ps-2 pe-2">Ready to test</span>
+                                                                    </li>
+                                                                </a>
+                                                                <a href="#">
+                                                                    <li><span class="bg-info text-white p-1 ps-2 pe-2">In Progress</span>
+                                                                    </li>
+                                                                </a>
+                                                                <a href="#">
+                                                                    <li>Resolved</li>
+                                                                </a> -->
+                                                            </ul>
+                                                        </div>
+                                                        <div class="parent bg-success text-white" id="task_create_status_display"><?php echo count($labels) > 0 ? $labels[0]->title : ''; ?></div>
+                                                        <input type="hidden" id="task_create_status" name="status" value="{{count($labels)>0? $labels[0]->title:''}}" />
+                                                        <input type="hidden" id="task_id" name="task_id" />
                                                     </div>
-                                                    <div class="parent bg-success text-white" id="task_create_status_display"><?php echo count($labels) > 0 ? $labels[0]->title : ''; ?></div>
-                                                    <input type="hidden" id="task_create_status" name="status" value="{{count($labels)>0? $labels[0]->title:''}}" />
-                                                    <input type="hidden" id="task_id" name="task_id" />
+            
                                                 </div>
-        
+                                                <p class="mt-1 mb-3">This is the issue's initial status upon creation</p>
                                             </div>
-                                            <p class="mt-1 mb-3">This is the issue's initial status upon creation</p>
         
-        
-                                            <label>Summary <span class="text-danger">*</span></label>
-                                            <textarea type="text" placeholder="" class="form-control form-control-sm mt-1" name="task_desc" id="task_desc"></textarea>
-                                            <input type="hidden" name="project_id" value="{{decrypt(request()->route('id'))}}" />
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <div class="d-flex">
-                                                <div class="p-2 flex-grow-1">
-                                                    <!-- <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                        Create another issue
-                                                    </label>
-                                                </div> -->
+                                            <div class="col-md-6">
+                                                <label>Summary <span class="text-danger">*</span></label>
+                                                <textarea type="text" placeholder="" class="form-control form-control-sm mt-1" name="task_desc" id="task_desc"></textarea>
+                                                <input type="hidden" name="project_id" value="{{decrypt(request()->route('id'))}}" />
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <div class="d-flex">
+                                                    <div class="p-2 flex-grow-1">
+                                                        <!-- <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            Create another issue
+                                                        </label>
+                                                    </div> -->
+                                                    </div>
+                                                    <div class="mt-4 d-flex">
+                                                        <div class="p-2">
+                                                            <button type="button" class="btn btn-info danger" data-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                        <div class="p-2"> <button type="submit" class="btn btn-primary">Create</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="p-2">
-                                                    <button type="button" class="btn btn-info danger" data-dismiss="modal">Cancel</button>
-                                                </div>
-                                                <div class="p-2"> <button type="submit" class="btn btn-primary">Create</button>
-                                                </div>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
@@ -429,11 +436,17 @@ use App\Models\User; ?>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card custom-card">
-                                <div class="card-header">
-                                    <h4 class="card-title"><i class="fas fa-briefcase"></i> Task List
-                                        <span> <a data-placement="bottom" data-toggle="modal" data-target=".create_task_modal" data-original-title="Add New Task"><img style="width: 25px;" src="{{asset('img/plus1.png')}}"></a></span>
+                                <div class="">
+                                    <div class="card-header w-100 justify-content-between">
+                                        <h4 class="card-title"><i class="fas fa-briefcase"></i> Task List
                                     </h4>
-        
+                                    <span>
+                                        <a class="custom-task-button" data-placement="bottom" data-toggle="modal" data-target=".create_task_modal" data-original-title="Add New Task">
+                                            <i class="fas fa-plus"></i>
+                                            <span class="button-text">Add Task</span>
+                                        </a>
+                                    </span>
+                                </div>
                                 </div>
                                 {{-- <div class="card-header">
                                     @include('taskmanagement.include.messages')

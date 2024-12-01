@@ -278,13 +278,13 @@
                                     <input id="key_phone" type="text" class="form-control input-border-bottom" required="" name="key_phone"  value="{{ $Roledata->key_phone}}">
                                  </div>
                               </div>
-                              <div class="col-md-4 mb-2">
+                              <div class="col-md-6 mb-2">
                                  <div class="form-group">
                                     <label for="key_email" class="col-form-label">Email  <span class="star">(*)</label>
                                     <input id="key_email" type="text" class="form-control input-border-bottom" required="" name="key_email"  value="{{ $Roledata->key_email}}">
                                  </div>
                               </div>
-                              <div class="col-md-4 mb-2">
+                              <div class="col-md-6 mb-2">
                                  <div class="form-group">
                                     <label for="exampleFormControlFile1" class="col-form-label mb-0 pb-0">Proof Of Id</label>
                                     <div class="d-flex flex-row mb-3 border p-2 rounded-1">
@@ -297,7 +297,7 @@
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-md-4 mb-2">
+                              <div class="col-md-6 flex-grow-1 mb-2">
                                  <div class="form-group">
                                     <label for="key_bank_status" class="col-form-label">Do you have a history of Criminal conviction/ Bankruptcy/ Disqualification?    <span class="star">(*)</label>
                                     <select class="select" id="key_bank_status" required="" name="key_bank_status" onchange="key_bank_epmloyee(this.value);">
@@ -364,10 +364,10 @@
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-md-4 mb-2">
+                              <div class="col-md-4 flex-grow-1 mb-2">
                                  <div class="form-group">
-                                    <label for="level_bank_status" class="col-form-label">Do you have a history of Criminal conviction<br>/Bankruptcy/Disqualification?    <span class="star">(*)</label>
-                                    <select class="select" id="level_bank_status" required="" name="level_bank_status" onchange="level_bank_epmloyee(this.value);">
+                                    <label for="level_bank_status" class="col-form-label">Do you have a history of Criminal conviction/Bankruptcy/Disqualification?    <span class="star">(*)</label>
+                                    <select class="select form-control" id="level_bank_status" required="" name="level_bank_status" onchange="level_bank_epmloyee(this.value);">
                                        >
                                        <option value="">&nbsp;</option>
                                        <option value="Yes" <?php if ($Roledata->level_bank_status == 'Yes') {echo 'selected';}?>>Yes</option>
@@ -427,7 +427,7 @@
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-md-8">
+                              <div class="col-md-8 flex-grow-1">
                                  <div class="form-group">
                                     <label for="level_bank_status" class="col-form-label">Do you have a history of Criminal conviction/ Bankruptcy/ Disqualification?</label>
                                     <select class="select" id="level_bank_status"  name="level2_bank_status" onchange="level2_bank_epmloyee(this.value);">
@@ -473,13 +473,13 @@
                                     <input id="road" type="text" class="form-control input-border-bottom"  name="road"  value="@if($Roledata->road){{  $Roledata->road }}@endif">
                                  </div>
                               </div>
-                              <div class="col-md-3 mb-2">
+                              <div class="col-md-3 flex-grow-1 mb-2">
                                  <div class="form-group">
                                     <label for="city" class="col-form-label">City / County</label>
                                     <input id="city" type="text" class="form-control input-border-bottom" name="city"  value="@if($Roledata->city){{  $Roledata->city }}@endif">
                                  </div>
                               </div>
-                              <div class="col-md-3 mb-2">
+                              <div class="col-md-3 flex-grow-1 mb-2">
                                  <div class="form-group">
                                     <label for="country" class="col-form-label">Country </label>
                                     <select class="select" id="country"  name="country" onchange="countryfun(this.value);">
@@ -1580,11 +1580,15 @@
                               @if ($countpayuppas!=0)
                               @foreach($employee_upload_rs as $empuprs)
                               <div class="row">
+                                 <div class="col-12">
+                                    @if($trupload_id==0)
+                                    <label class="col-form-label">Type of Document  </label>
+                                    @endif
+                                 </div>
+                              </div>
+                              <div class="row">
                                  <div class="col-md-8">
                                     <div class="form-group mb-2">
-                                       @if($trupload_id==0)
-                                       <label class="col-form-label">Type of Document  </label>
-                                       @endif
                                        <select class="form-control input-border-bottom" id="doc_type_{{ $empuprs->id}}" required="" name="type_doc_{{ $empuprs->id}}" onchange="checktype('{{ $empuprs->id }}');">
                                           <option value="">&nbsp;</option>
                                           <option value="PAYEE And Account Reference Letter From HMRC"  <?php if ($empuprs->type_doc == 'PAYEE And Account Reference Letter From HMRC') {echo 'selected';}?>>PAYEE And Account Reference Letter From HMRC</option>
@@ -1660,21 +1664,34 @@
                                                 <label for="docu_nat_{{ $empuprs->id}}" class="me-2 btn btn-outline-secondary rounded-pill">
                                                       <i class="fas fa-upload"></i>
                                                 </label>
-                                                <input type="file" id="docu_nat_{{ $empuprs->id}}" name="docu_nat_{{ $empuprs->id}}" class="form-control-file d-none" onchange="Filevalidation({{ $empuprs->id}})">
-                                                <span class="ms-2 text-muted">No file chosen</span>
-                                                
+                                                <input 
+                                                   type="file" 
+                                                   id="docu_nat_{{ $empuprs->id}}" 
+                                                   name="docu_nat_{{ $empuprs->id}}" 
+                                                   class="form-control-file d-none" 
+                                                   onchange="Filevalidation(this, {{ $empuprs->id}})"
+                                                >
+                                                <div class="d-flex flex-column">
+                                                   <span class="file-name ms-2 text-muted" id="file-name-{{ $empuprs->id }}">No file chosen</span>
+                                                   <span 
+                                                      class="size-warning text-danger d-none" 
+                                                      id="size-warning-{{ $empuprs->id }}" 
+                                                      style="font-size: 12px"
+                                                   >
+                                                      *Document Size not more than 2 MB
+                                                   </span>
+                                                </div>
+
                                                 <!-- Download Icon -->
                                                 @if($empuprs->docu_nat!='')
-                                                <a href="{{ asset('public/'.$empuprs->docu_nat) }}" target="_blank" download class="ms-auto text-warning">
+                                                <a href="{{ asset('public/'.$empuprs->docu_nat) }}" target="_blank" download class="ms-auto text-warning download-btn-icon">
                                                       <i class="fas fa-download"></i>
                                                 </a>
                                                 @endif
                                              </div>
                                           </div>
                                        </div>
-                                       @if($trupload_id==0)
-                                       <span style="font-size: 12px">*Document Size not more than 2 MB</span>
-                                       @endif
+                                       
                                     </div>
                                  </div>
                                  <?php $trupload_id++;?>
@@ -2315,7 +2332,7 @@
         var divtest = document.createElement("div");
         divtest.setAttribute("class", "form-group removeclass"+room);
         var rdiv = 'removeclass'+room;
-        divtest.innerHTML = '<div class="row"><div class="col-md-6"><div class="form-group form-floating-label"><select class="form-control input-border-bottom"  name="type_doc[]" onchange="checkdoctype('+ room +')" id="d_type'+ room +'"><option value="">&nbsp;</option><option value="PAYEE And Account Reference Letter From HMRC" >PAYEE And Account Reference Letter From HMRC</option><option value="Latest RTI from Accountant" >Latest RTI from Accountant</option><option value="Employer Liability Insurance Certificate"  >Employer Liability Insurance Certificate</option><option value="Proof of Business Premises (Tenancy Agreement)"  >Proof of Business Premises (Tenancy Agreement)</option><option value="Copy Of Lease Or Freehold Property"  >Copy Of Lease Or Freehold Property</option><option value="Business Bank statement for 1 Month"    >Business Bank statement for 1 Month</option><option value="Business Bank statement for 2 Month"  >Business Bank statement for 2 Month</option><option value="Business Bank statement for 3 Month" >Business Bank statement for 3 Month</option><option value="SIGNED Annual account (if the business is over 18 months old)"     >SIGNED Annual account (if the business is over 18 months old)</option><option value="VAT Certificate (if registered)"  >VAT Certificate (if registered)</option><option value="Copy of Health and safety star Rating (Applicable for food business only)"  >Copy of Health and safety star Rating (Applicable for food business only)</option><option value="Registered Business License or Certificate"  >Registered Business License or Certificate</option><option value="Franchise Agreement"  >Franchise Agreement</option><option value="Governing Body Registration" >Governing Body Registration</option><option value="Audited Annual Account (if you have)"  >Audited Annual Account (if you have)</option><option value="Regulatory body certificate if applicable to your business such as ACCA, FCA , OFCOM, IATA, ARLA"  >Regulatory body certificate if applicable to your business such as ACCA, FCA , OFCOM, IATA, ARLA</option><option value="Copy Of Health & Safety Star Rating"   >Copy Of Health & Safety Star Rating</option><option value="Others Document" >Others Document</option></select></div></div><div class="col-md-4" id="other_doc'+ room +'" style="display:none"><div class="form-group form-floating-label"><input type="text"  id="newdoc_'+ room +'" class="form-control input-border-bottom"   name="other_doc[]"></div></div><div class="col-md-4"><div class="form-group border p-2 rounded-1"><input type="file" class="form-control-file" id="docu_nat_new_'+ room +'" onchange="Filevalidationnew('+ room +')" name="docu_nat[]" ></div></div><div class="col-md-2 mb-2"><div class="input-group-btn btn-up mt-0"><button class="btn btn-success mb-0" style="margin-right: 15px;" type="button"  onclick="education_fields();"> <i class="fas fa-plus"></i> </button><button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"><i class="fas fa-minus"></i></button></div></div></div>';
+        divtest.innerHTML = '<div class="row"><div class="col-md-6"><div class="form-group form-floating-label"><select class="form-control input-border-bottom"  name="type_doc[]" onchange="checkdoctype('+ room +')" id="d_type'+ room +'"><option value="">&nbsp;</option><option value="PAYEE And Account Reference Letter From HMRC" >PAYEE And Account Reference Letter From HMRC</option><option value="Latest RTI from Accountant" >Latest RTI from Accountant</option><option value="Employer Liability Insurance Certificate"  >Employer Liability Insurance Certificate</option><option value="Proof of Business Premises (Tenancy Agreement)"  >Proof of Business Premises (Tenancy Agreement)</option><option value="Copy Of Lease Or Freehold Property"  >Copy Of Lease Or Freehold Property</option><option value="Business Bank statement for 1 Month"    >Business Bank statement for 1 Month</option><option value="Business Bank statement for 2 Month"  >Business Bank statement for 2 Month</option><option value="Business Bank statement for 3 Month" >Business Bank statement for 3 Month</option><option value="SIGNED Annual account (if the business is over 18 months old)"     >SIGNED Annual account (if the business is over 18 months old)</option><option value="VAT Certificate (if registered)"  >VAT Certificate (if registered)</option><option value="Copy of Health and safety star Rating (Applicable for food business only)"  >Copy of Health and safety star Rating (Applicable for food business only)</option><option value="Registered Business License or Certificate"  >Registered Business License or Certificate</option><option value="Franchise Agreement"  >Franchise Agreement</option><option value="Governing Body Registration" >Governing Body Registration</option><option value="Audited Annual Account (if you have)"  >Audited Annual Account (if you have)</option><option value="Regulatory body certificate if applicable to your business such as ACCA, FCA , OFCOM, IATA, ARLA"  >Regulatory body certificate if applicable to your business such as ACCA, FCA , OFCOM, IATA, ARLA</option><option value="Copy Of Health & Safety Star Rating"   >Copy Of Health & Safety Star Rating</option><option value="Others Document" >Others Document</option></select></div></div><div class="col-md-4 mb-2" id="other_doc'+ room +'" style="display:none"><div class="form-group form-floating-label"><input type="text"  id="newdoc_'+ room +'" class="form-control input-border-bottom"   name="other_doc[]"></div></div><div class="col-md-4 mb-2"><div class="form-group border p-2 rounded-1"><input type="file" class="form-control-file" id="docu_nat_new_'+ room +'" onchange="Filevalidationnew('+ room +')" name="docu_nat[]" ></div></div><div class="col-md-2 mb-2"><div class="input-group-btn btn-up mt-0"><button class="btn btn-success mb-0" style="margin-right: 15px;" type="button"  onclick="education_fields();"> <i class="fas fa-plus"></i> </button><button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"><i class="fas fa-minus"></i></button></div></div></div>';
     
         objTo.appendChild(divtest)
     }
@@ -2794,6 +2811,26 @@
         }
         return true;
     
+    }
+
+
+
+   //  File input __
+    function Filevalidation(input, id) {
+        const fileNameSpan = document.getElementById(`file-name-${id}`);
+        const sizeWarningSpan = document.getElementById(`size-warning-${id}`);
+        
+        if (input.files && input.files[0]) {
+            // Update the file name
+            fileNameSpan.textContent = input.files[0].name;
+
+            // Check file size (size is in bytes, 2 MB = 2 * 1024 * 1024)
+            if (input.files[0].size > 2 * 1024 * 1024) {
+                sizeWarningSpan.classList.remove('d-none'); // Show warning
+            } else {
+                sizeWarningSpan.classList.add('d-none'); // Hide warning
+            }
+        }
     }
     
  </script>
