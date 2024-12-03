@@ -37,26 +37,31 @@ $user_type = Session::get("user_type");
                                  --}}
                                  @if($module['module_name'] == 1)
                                  <div class="col-xl-4 col-md-6 col-sm-12">
+                                 <a href="{{ url('organization/employerdashboard') }}" class="text-primary fw-semibold">
                                     <div class="card border-0">
-                                       <div class="alert alert-primary border border-primary mb-0 p-3">
-                                          <div class="d-flex align-items-start">
-                                             <div class="text-primary w-100">
-                                                <i class="fas fa-building rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">
-                                                   <a href="{{ url('organization/employerdashboard') }}">Organization</a>
-                                                </div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                   <div class="fs-12"></div>
-                                                   <div class="fs-12">
-                                                      <a href="{{url('organization/employerdashboard')}}" class="text-primary fw-semibold">
-                                                      <i class="fa fa-arrow-circle-right fixed-card"></i> View all
-                                                      </a>
+                                       <div class="home_mainpage_super_admin_box position-relative">
+                                             <div class="d-flex align-items-start">
+                                                <div class="text-primary w-100">
+                                                   <div class="d-flex align-items-center gap-3">
+                                                      <div class="main_icon">
+                                                         <i class="fas fa-building rota-icon-size-fixed"></i>
+                                                      </div>
+                                                      <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">
+                                                            Organization
+                                                      </div>
+                                                   </div>
+                                                   <div class="viewall_btn">
+                                                      <!-- <div class="fs-12"></div> -->
+                                                      <div class="">
+                                                         <i class="fa fa-arrow-circle-right fixed-card"></i> View all
+                                                      </div>
                                                    </div>
                                                 </div>
                                              </div>
-                                          </div>
                                        </div>
                                     </div>
+                                 </a>
+
                                  </div>
                                  @else
                                  <div class="col-xl-4 col-md-6 col-sm-12">

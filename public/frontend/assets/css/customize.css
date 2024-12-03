@@ -491,3 +491,69 @@ body::-webkit-scrollbar {
     /* box-shadow: 0 8px 20px #7c7c7c75; */
     border: 1px solid #e1e1e1;
 }
+
+.home_mainpage_super_admin_box{
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 20px;
+    padding: 16px;
+    min-height: 138px;
+    max-height: 138px;
+    transition: all 0.3s;
+    overflow: hidden;
+}
+.home_mainpage_super_admin_box:hover{
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px #92929257;
+}
+
+.home_mainpage_super_admin_box .main_icon i{
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: #ff902f42;
+    font-size: 28px !important;
+}
+.home_mainpage_super_admin_box .text-card-size-fixed{
+    font-size: 22px;
+    transition: 0.3s;
+}
+.home_mainpage_super_admin_box .viewall_btn{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.home_mainpage_super_admin_box::after{
+    content: '';
+    position: absolute;
+    width: 62%;
+    height: 100%;
+    background-image: url('data:image/svg+xml,<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120"><style> .s0 { opacity: .05; fill: var(--vz-success) } </style><path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path></svg>');
+    top: 0;
+    right: 0;
+    background-size: 100%;
+    transform: rotate(-180deg);
+    background-repeat: no-repeat;
+}
+
+.home_mainpage_super_admin_box:hover{
+    background-color: #eb8930;
+}
+
+.home_mainpage_super_admin_box:hover .text-card-size-fixed{
+    color: #fff;
+}
+
+.home_mainpage_super_admin_box:hover .main_icon i{
+    background-color: #fff;
+}
+
+.home_mainpage_super_admin_box:hover .viewall_btn{
+    color: #fff;
+}
