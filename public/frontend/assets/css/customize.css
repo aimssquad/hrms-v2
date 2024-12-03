@@ -537,13 +537,13 @@ body::-webkit-scrollbar {
     background-image: url('data:image/svg+xml,<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120"><style> .s0 { opacity: .05; fill: var(--vz-success) } </style><path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path></svg>');
     top: 0;
     right: 0;
-    background-size: 100%;
+    background-size: 100% 100%;
     transform: rotate(-180deg);
     background-repeat: no-repeat;
 }
 
 .home_mainpage_super_admin_box:hover{
-    background-color: #eb8930;
+    background-color: #ff902f;
 }
 
 .home_mainpage_super_admin_box:hover .text-card-size-fixed{
@@ -556,4 +556,15 @@ body::-webkit-scrollbar {
 
 .home_mainpage_super_admin_box:hover .viewall_btn{
     color: #fff;
+}
+
+.personal-info li .title{
+    width: 43% !important;
+}
+.add-btn{
+    transition: all 0.3s;
+}
+.add-btn:hover{
+    transform: scale(1.06);
+    box-shadow: 0 6px 17px #bebebe;
 }

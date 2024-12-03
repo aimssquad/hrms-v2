@@ -25,14 +25,16 @@
                                     @if(empty($employee->emp_image))
                                     <a href="#"><img src="{{asset('assets/img/user.png')}}" alt="User Image"></a>
                                     @endif
-                                    <a href="#"><img src="{{ asset($employee->emp_image) }}" alt="nnn"></a>
+                                    <a href="#"><img src="{{ asset('storage/app/public/'.$employee->emp_image) }}" alt="nnn"></a>
                                 </div>
                             </div>
                             <div class="profile-basic">
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="profile-info-left">
-                                            <h3 class="user-name m-t-0 mb-0">{{$employee->emp_fname." ".$employee->emp_mname." ".$employee->emp_lname}}</h3>
+                                            <h3 class="user-name m-t-0 mb-0">
+                                                {{$employee->emp_fname . " " . $employee->emp_mname . " " . $employee->emp_lname}}
+                                            </h3>
                                         </div>
                                     </div>
                                     <div class="col-md-7">
@@ -55,7 +57,7 @@
                                             </li>
                                             <li>
                                                 <div class="title">Birthday:</div>
-                                                <div class="text"><?php echo date("d/m/Y",strtotime($employee->emp_dob)); ?></div>
+                                                <div class="text">{{ date('d/m/Y', strtotime($employee->emp_dob)) }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Father Name:</div>
@@ -64,7 +66,14 @@
                                         </ul>
                                     </div>
                                 </div>
+                            
+                                {{-- <!-- Buttons Section -->
+                                <div class="mt-4 d-flex justify-content-start">
+                                    <a href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}" class="btn btn-primary me-2">Edit</a>
+                                    <a href="{{ url('employee-add/employee-report/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}" class="btn btn-secondary">Download PDF</a>
+                                </div> --}}
                             </div>
+                            
                         </div>
                     </div>
                 </div>

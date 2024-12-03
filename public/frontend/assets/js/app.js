@@ -23,32 +23,46 @@ $(document).ready(function() {
 	
 	// Sidebar
 	
-	var Sidemenu = function() {
+	var Sidemenu = function () {
 		this.$menuItem = $('#sidebar-menu a');
 	};
+	
 	function init() {
 		var $this = Sidemenu;
-		$('#sidebar-menu a').on('click', function(e) {
-			if($(this).parent().hasClass('submenu')) {
+	
+		$('#sidebar-menu a').on('click', function (e) {
+			if ($(this).parent().hasClass('submenu')) {
 				e.preventDefault();
 			}
-			if(!$(this).hasClass('subdrop')) {
+	
+			if (!$(this).hasClass('subdrop')) {
+
 				$('ul', $(this).parents('ul:first')).hide(350);
 				$('a', $(this).parents('ul:first')).removeClass('subdrop');
+	
 				$(this).next('ul').show(350);
 				$(this).addClass('subdrop');
-			} else if($(this).hasClass('subdrop')) {
+	
+				var container = $('.sidebar-inner'); 
+				var menuOffset = $(this).offset().top - container.offset().top; 
+				container.animate({ scrollTop: container.scrollTop() + menuOffset }, '350'); 
+			} else if ($(this).hasClass('subdrop')) {
+
 				$(this).removeClass('subdrop');
 				$(this).next('ul').hide(350);
 			}
 		});
-		$('#sidebar-menu ul li.submenu a.active').parents('li:last').children('a:first').addClass('active').trigger('click');
-
-		
+	
+		$('#sidebar-menu ul li.submenu a.active')
+			.parents('li:last')
+			.children('a:first')
+			.addClass('active')
+			.trigger('click');
 	}
 	
 	// Sidebar Initiate
 	init();
+	
 
 	$(document).on('click', '.select-people-checkbox', function() {
 		$(this).toggleClass('checkbox-checked');

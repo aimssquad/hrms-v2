@@ -323,6 +323,8 @@ Route::post('org-employee-corner/attendance-status', 'App\Http\Controllers\organ
 
 Route::get('org-employee-corner/leave-apply', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewapplyleaveapplication');
 Route::post('org-employee-corner/leave-apply', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@saveApplyLeaveData');
+
+// Route::get('org-employee-corner/addemployee', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewAddEmployee');
 // ----------------------------------------- End Employee Corner ---------------------------------------------
 
 //-------------------------------------------- Hr Support ---------------------------------------------------
