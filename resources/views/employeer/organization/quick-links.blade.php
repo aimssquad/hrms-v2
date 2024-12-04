@@ -19,12 +19,31 @@
                <div class="row">
 
                   <div class="col-xl-4 col-md-6 col-sm-12 mb-4">
-                     <div class="card bg-success text-white border-0">
-                        <div class="card-body text-center">
-                           <h5 class="card-title">Organization</h5>
-                              <a href="{{ url('organization/employerdashboard') }}" class="btn btn-light btn-sm">View <span class="	fas fa-arrow-circle-right"></span></a>
+                  <a href="{{ url('organization/employerdashboard') }}" class="text-primary fw-semibold">
+                     <div class="card border-0 mb-0">
+                        <div class="home_mainpage_super_admin_box position-relative">
+                           <div class="d-flex align-items-start">
+                              <div class="text-primary w-100">
+                                 <div class="d-flex align-items-center gap-3">
+                                    <div class="main_icon">
+                                       <i class="fas fa-building rota-icon-size-fixed"></i>
+                                    </div>
+                                    <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">
+                                       Organization
+                                    </div>
+                                 </div>
+                                 <div class="viewall_btn">
+                                    <!-- <div class="fs-12"></div> -->
+                                    <div class="">
+                                       <i class="fa fa-arrow-circle-right fixed-card"></i> View all
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                         </div>
                      </div>
+                  </a>
+
                   </div>
 
                   @php
@@ -91,18 +110,34 @@
 
                      <!-- Module Card -->
                      <div class="col-xl-4 col-md-6 col-sm-12 mb-4">
-                        <div class="card {{ $hasAccess ? 'bg-success text-white' : 'bg-warning text-dark' }} border-0">
-                           <div class="card-body text-center">
-                              {{-- <h5 class="card-title">Module {{ $moduleId }}</h5> --}}
-                              <h5 class="card-title">{{ $moduleName }}</h5>
-                              {{-- <p>Status: <strong>{{ $hasAccess ? 'Accessible' : 'Not Accessible' }}</strong></p> --}}
-                              @if($hasAccess)
-                                 <a href="{{ url($moduleUrl) }}" class="btn btn-light btn-sm">View <span class="	fas fa-arrow-circle-right"></span></a>
-                              @else
-                                 <button class="btn btn-dark btn-sm" disabled>Upgrade Now</button>
-                              @endif
+                     <a href="{{ $hasAccess ? url($moduleUrl) : '#' }}" class="text-primary fw-semibold {{ !$hasAccess ?      'disabled-link' : '' }}">
+                        <div class="card {{ $hasAccess ? 'text-white' : 'bg-warning text-dark' }} border-0 mb-0">
+                           <div class="home_mainpage_super_admin_box position-relative">
+                              <div class="d-flex align-items-start">
+                                 <div class="text-primary w-100">
+                                    <div class="d-flex align-items-center gap-3">
+                                       <div class="main_icon">
+                                          <i class="fas fa-building rota-icon-size-fixed"></i>
+                                       </div>
+                                       <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">
+                                          <h5 class="text-card-size-fixed">{{ $moduleName }}</h5>
+                                       </div>
+                                    </div>
+                                    <div class="viewall_btn">
+                                       @if($hasAccess)
+                                          <div>
+                                             <i class="fa fa-arrow-circle-right fixed-card"></i> View
+                                          </div>
+                                       @else
+                                          <button class="btn btn-dark btn-sm" disabled>Upgrade Now</button>
+                                       @endif
+                                    </div>
+                                 </div>
+                              </div>
+                              
                            </div>
                         </div>
+                     </a>
                      </div>
                   @endforeach
                </div>
