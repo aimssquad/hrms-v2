@@ -116,7 +116,7 @@
                                     {{-- @if($billing->payment_status == 1) --}}
                                      
                                     {{-- @endif    --}}
-                                       <a class="dropdown-item" href="{{ route('subadmin.billing.invoice', $billing->id) }}">
+                                       <a class="dropdown-item" href="{{ route('subadmin.own_billing.invoice', $billing->id) }}">
                                           <i class=" fas fa-eye m-r-5"></i> View Invoice
                                        </a>
                                        <a class="dropdown-item" href="{{ route('subadmin.billing.delete', $billing->id) }}">

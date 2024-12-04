@@ -16,10 +16,10 @@
                      <!--form panels-->
                      <div class="row">
                         <div class="col-12 col-lg-12 m-auto">
-                           <form name="basicform" id="basicform" method="post" action="{{ url('add-right-works-by-date') }}" >
+                           <form name="basicform" id="basicform" method="post" action="{{ url('org-add-right-works-by-date') }}" >
                               <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
                               <div id="sf1" class="frm">
-                                 <fieldset>
+                                 {{-- <fieldset> --}}
                                     <!-- <legend>Your Details</legend> -->
                                     <div class="row form-group">
                                        <div class="col-md-6">
@@ -46,7 +46,7 @@
                                           <button class="btn btn-primary open1" type="submit">Next <span class="fa fa-arrow-right"></span></button> 
                                        </div>
                                     </div>
-                                 </fieldset>
+                                 {{-- </fieldset> --}}
                               </div>
                            </form>
                         </div>

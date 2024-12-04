@@ -200,18 +200,23 @@ class SubadminBillController extends Controller
             ->where('emid', $entityId)
             //->where('org_code',$code->org_code)
             ->count();
-
+            //dd($code->org_code);
             $amount = DB::table('rule_table')
                 ->where('entity_id', $entityId)
                 ->where('org_code',$code->org_code)
                 ->value('employee_charge');
+                //dd($amount);
             if ($amount === null) {
+                //dd($code->org_code);
                 $amount = DB::table('rule_table')
                     ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
-                    ->where('type', 'employee')
+                    ->where('type', 'employer')
+                    ->where('org_code',$code->org_code)
                     ->value('employee_charge');
             }    
-
+            //
+            //
+            //dd($amount);
             if ($amount !== null) {
                 $totalAmount = $amount * $totalEmployee;
                 return response()->json([
@@ -402,7 +407,7 @@ class SubadminBillController extends Controller
             $data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
             $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
             $data['com_dtl'] = DB::table('sub_admin_registrations')->where('org_code',$data['bill']->org_code)->first();
-            //dd($data['bill']);
+            //dd('subadmin bills');
             return view('sub-admin.billing.invoice',$data);
         } else {
             redirect('superadmin');
@@ -436,6 +441,20 @@ class SubadminBillController extends Controller
         } else {
             redirect('superadmin');
         }  
+    }
+
+    public function viewOwnInvoice(Request $request,$id){
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
+            //$data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
+            //dd($data['bill']->sub_code);
+            $data['com_dtl'] = DB::table('sub_admin_registrations')->where('reg',$data['bill']->entity_id)->first();
+            //dd('subadmin bills');
+            return view('sub-admin.billing.own_invoice',$data);
+        } else {
+            redirect('superadmin');
+        } 
     }
 
 

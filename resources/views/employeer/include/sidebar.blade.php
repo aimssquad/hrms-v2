@@ -18,6 +18,13 @@
         //     ]
         // ],
         1 => [
+            'title' => 'Sponsor Compliances',
+            'icon' => 'las la-donate',
+            'items' => [
+                ['url' => 'org-dashboarddetails', 'label' => 'Sponsor Compliances'],
+            ]
+        ],
+        2 => [
             'title' => 'Recruitment',
             'icon' => 'las la-clone',
             'route' => 'recruitment.dashboard',
@@ -37,7 +44,7 @@
                 ['url' => 'org-recruitment/message-centre', 'label' => 'Message Center'],
             ]
         ],
-        2 => [
+        3 => [
             'title' => 'Employee Administration',
             'icon' => 'la la-users',
             'items' => [
@@ -50,7 +57,7 @@
                 ['url' => 'organization/allShifts', 'label' => 'All Shifts'],
             ]
         ],
-        3 => [
+        4 => [
             'title' => 'Rota',
             'icon' => 'las la-calendar',
             'items' => [
@@ -63,7 +70,7 @@
             ]
         ],
        
-        4 => [
+        5 => [
             'title' => 'Attendance',
             'icon' => 'las la-tachometer-alt',
             'items' => [
@@ -76,7 +83,7 @@
                 ['url' => 'attendance-management/absent-report', 'label' => 'Absentee Record'],
             ]
         ],
-        5 => [
+        6 => [
             'title' => 'Leave Handling',
             'icon' => 'las la-clipboard-list',
             'items' => [
@@ -89,7 +96,7 @@
                 ['url' => 'leave/leave-report-employee', 'label' => 'Record EE Wise'],
             ]
         ],
-        6 => [
+        7 => [
             'title' => 'Leave Authosizer',
             'icon' => 'lab la-confluence',
             'items' => [
@@ -98,7 +105,7 @@
             ]
         ],
 
-        7 => [
+        8 => [
             'title' => 'Holiday Handling',
             'icon' => 'lab la-blackberry',
             'items' => [
@@ -107,7 +114,7 @@
                 ['url' => 'organization/holiday-list', 'label' => 'Record'],
             ]
         ],
-        8 => [
+        9 => [
             'title' => 'Task Control',
             'icon' => 'las la-tasks',
             'items' => [
@@ -116,7 +123,7 @@
                 ['url' => 'org-task-management/create-project', 'label' => 'New Project'],
             ]
         ],
-        9 => [
+        10 => [
             'title' => 'Performance Control',
             'icon' => 'las la-certificate',
             'items' => [
@@ -126,7 +133,7 @@
             ]
         ],
 
-        10 => [
+        11 => [
             'title' => 'Settings',
             'icon' => 'las la-cogs',
             'items' => [
@@ -157,7 +164,7 @@
                 ]],
             ]
         ],
-        11 => [
+        12 => [
             'title' => 'User Permissions',
             'icon' => 'las la-universal-access',
             'items' => [
@@ -166,7 +173,7 @@
                 ['url' => 'user-access-role/view-users-role', 'label' => 'Access Roles'],
             ]
         ],
-        12 => [
+        13 => [
             'title' => 'Billing',
             'icon' => 'las la-donate',
             'items' => [
@@ -174,7 +181,7 @@
                 ['url' => '#', 'label' => 'Payment Receipt'],
             ]
         ], 
-        13 => [
+        14 => [
             'title' => 'File Manager',
             'icon' => 'las la-file',
             'items' => [
@@ -183,7 +190,7 @@
                 ['url' => 'file-management/fileManagmentList', 'label' => 'Manager'],
             ]
         ],
-        14 => [
+        15 => [
             'title' => 'Hr Support',
             'icon' => 'las la-american-sign-language-interpreting',
             'items' => [
@@ -191,7 +198,7 @@
             ]
         ],
 
-        15 => [
+        16 => [
             'title' => 'Organogram Chart',
             'icon' => 'la la-user',
             'items' => [
@@ -200,7 +207,7 @@
             ]
         ],
 
-        16 => [
+        17 => [
             'title' => 'Change Of Circumstances',
             'icon' => 'la la-user',
             'items' => [
@@ -209,14 +216,14 @@
                 ['url' => 'org-dashboard/change-of-circumstances', 'label' => 'COC- Report'],
             ]
         ],
-        17 => [
+        18 => [
             'title' => 'Employee Hub',
             'icon' => 'las la-clone',
             'items' => [
                 ['url' => 'org-user-check-employee', 'label' => 'Login Corner'],
             ]
         ],
-        18 => [
+        19 => [
             'title' => 'Visitor Register',
             'icon' => 'las la-book',
             'items' => [
@@ -268,9 +275,9 @@ function isActiveModule($moduleItems) {
                             <li class="{{ Request::is('level-2-user') ? 'noti-dot' : '' }}">
                                 <a href="{{ url('level-2-user') }}">Level 2 User</a>
                             </li>
-                            <li class="{{ Request::is('org-dashboarddetails') ? 'noti-dot' : '' }}">
+                            {{-- <li class="{{ Request::is('org-dashboarddetails') ? 'noti-dot' : '' }}">
                                 <a href="{{ url('org-dashboarddetails') }}">Sponsor Compliances</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
                 

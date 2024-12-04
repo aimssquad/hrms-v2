@@ -70,6 +70,7 @@ Route::get('/sub-admin/billing/delete/{id}', 'App\Http\Controllers\organization\
 Route::get('/sub-admin/billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewInvoice')->name('subadmin.billing.invoice');
 //------------Own Bills
 Route::get('/sub-admin/all-bills','App\Http\Controllers\organization\SubadminBillController@viewBillList')->name('subadmin.allbills');
+Route::get('/sub-admin/own_billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewOwnInvoice')->name('subadmin.own_billing.invoice');
 
 //-------------------------------------End Sub Admin Billing---------------------------------------
 //---------------------------------------Organization  Billing ------------------------------------------
@@ -498,6 +499,7 @@ Route::get('org-dashboard-employees', 'App\Http\Controllers\organization\Dashboa
 Route::get('org-dashboard-migrant-employees', 'App\Http\Controllers\organization\DashboardController@getEmployeesmigrant');
 Route::get('org-dashboard-right-works', 'App\Http\Controllers\organization\DashboardController@getEmployeesright');
 Route::get('org-add-right-works-by-datecheck', 'App\Http\Controllers\organization\DashboardController@addEmployeesrightByDate');
+Route::post('org-add-right-works-by-date', 'App\Http\Controllers\organization\DashboardController@saveEmployeesrightByDate');
 Route::get('org-dashboard/key-contact', 'App\Http\Controllers\organization\DashboardController@getCompaniesofficerkey');
 Route::get('org-dashboard/sponsor-management-dossier', 'App\Http\Controllers\organization\DashboardController@getEmployeesdossier');
 Route::get('org-dashboard/message-center', 'App\Http\Controllers\organization\DashboardController@viewmsgcen');
@@ -510,6 +512,9 @@ Route::get('org-dashboard/contract-agreement', 'App\Http\Controllers\organizatio
 Route::post('org-dashboard/contract-agreement', 'App\Http\Controllers\organization\DashboardController@saveemployeeagreement');
 Route::get('org-dashboard/org-contract-agreement-edit/{agreement_id}', 'App\Http\Controllers\organization\DashboardController@viewemployeeagreementdit');
 Route::get('org-dashboard/org-contract-word/{agreement_id}', 'App\Http\Controllers\organization\DashboardController@msword');
+Route::post('org-add-right-works', 'App\Http\Controllers\organization\DashboardController@saveEmployeesright');
+Route::get('org-dashboard/edit-work-view/{send_id}', 'App\Http\Controllers\organization\DashboardController@viewsendcandidatedetailsworkedit');
+Route::post('org-edit-right-works', 'App\Http\Controllers\organization\DashboardController@saveEmployeesrightedit');
 
 //-----------------------------------------End Sponsor Compliance --------------------------------------------------------
 

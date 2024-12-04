@@ -31,7 +31,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Holiday List
+                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Invoice List
                     </h4>
                     <div class="row">
                        <div class="col-auto">

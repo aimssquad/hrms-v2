@@ -28,9 +28,15 @@ class OrganizationBillController extends Controller
         $email = Session::get('empsu_email');
         if(!empty($email)){
             $data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
-            $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
-            $data['com_dtl'] = DB::table('sub_admin_registrations')->where('org_code',$data['bill']->org_code)->first();
             //dd($data['bill']);
+            
+                $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
+           
+                $data['com_dtl'] = DB::table('sub_admin_registrations')->where('org_code',$data['bill']->org_code)->first();
+            
+            
+            
+            //dd('ok');
             return view('employeer.bills.invoice',$data);
         } else {
             redirect('superadmin');
