@@ -73,9 +73,10 @@ return $output;
                           <input type="hidden" name="filename" id="filename">
                           {{-- put the value - that is your file name --}}
                           <input type="hidden" id="filenameInput" value="Job-posting">
-                          <button type="submit" class="btn btn-success btn-sm">
-                              <i class="fas fa-file-excel"></i> Export to Excel
-                          </button>
+                          <button data-toggle="tooltip" data-placement="bottom" title="Download Excel" 
+                            class="btn btn-download btn-download-excel me-0" type="submit">
+                            Export to Excel
+                    </button>
                       </form>
                   </div>
                   <div class="col-auto">
@@ -84,9 +85,10 @@ return $output;
                         <input type="hidden" name="data" id="pdfData">
                         <input type="hidden" name="headings" id="pdfHeadings">
                         <input type="hidden" name="filename" id="pdfFilename">
-                        <button type="submit" class="btn btn-info btn-sm">
-                            <i class="fas fa-file-pdf"></i> Export to PDF
-                        </button>
+                        <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" 
+                            class="btn btn-download btn-download-pdf" type="submit">
+                            Export to PDF
+                    </button>
                     </form>
                   </div>
               </div>

@@ -119,13 +119,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     @if($user_type == 'employee')
-                                                        @foreach($sidebarItems as $value)
-                                                            @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
+                                                        {{-- @foreach($sidebarItems as $value) --}}
+                                                            {{-- @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49) --}}
                                                                 <a class="dropdown-item" href="{{url('org-employee-corner/work-edit/'.$candidate->id)}}">
                                                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                                 </a>
-                                                            @endif
-                                                        @endforeach
+                                                            {{-- @endif --}}
+                                                        {{-- @endforeach --}}
                                                     @elseif($user_type == 'employer')
                                                         <a class="dropdown-item" href="{{url('org-employee-corner/work-edit/'.$candidate->id)}}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit

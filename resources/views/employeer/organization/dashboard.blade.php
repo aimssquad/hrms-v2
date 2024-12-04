@@ -64,67 +64,67 @@
             <!--</div>-->
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="card dash-widget">
-                    <div class="card-body">
-                        <div class="dash-widget-info">
-                            <span>Total Departments</span>
-                            <h3>{{$department_count ?? 0 }}</h3>
+                    <a href="{{url('org-settings/vw-department')}}">
+                        <div class="card-body">
+                            <div class="dash-widget-info">
+                                <span>Total Departments</span>
+                                <h3>{{$department_count ?? 0 }}</h3>
+                            </div>
+                            <span class="dash-widget-icon"><i class="fa-solid fa-cubes"></i></span>
+                            <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
+                                <span>View</span><i class="fa-solid fa-arrow-right"></i>
+                            </div>
                         </div>
-                        <span class="dash-widget-icon"><i class="fa-solid fa-cubes"></i></span>
-                        <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
-                            <a href="{{url('org-settings/vw-department')}}">
-                                <span style=" color: #fd9330;">View</span><i class="fa-solid fa-arrow-right" style=" color: #fd9330;"></i>
-                            </a>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="card dash-widget">
-                    <div class="card-body">
-                        <div class="dash-widget-info">
-                            <span>Migrants Employees</span>
-                            <h3>{{$migrant_emp_count ?? 0}}</h3>
+                    <a href="{{url('org-dashboard-migrant-employees')}}">
+                        <div class="card-body">
+                            <div class="dash-widget-info">
+                                <span>Migrants Employees</span>
+                                <h3>{{$migrant_emp_count ?? 0}}</h3>
+                            </div>
+                            <span class="dash-widget-icon"><i class="fa-solid fa-dollar-sign"></i></span>
+                            <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
+                                <span>View</span><i class="fa-solid fa-arrow-right"></i>
+                            </div>
                         </div>
-                        <span class="dash-widget-icon"><i class="fa-solid fa-dollar-sign"></i></span>
-                        <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
-                            <a href="{{url('org-dashboard-migrant-employees')}}">
-                                <span style=" color: #fd9330;">View</span><i class="fa-solid fa-arrow-right" style=" color: #fd9330;"></i>
-                            </a>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="card dash-widget">
-                    <div class="card-body">
-                        <div class="dash-widget-info">
-                            <span>Toatl Job Types</span>
-                            <h3>{{$job_type_count ?? 0 }}</h3>
+                    <a href="{{url('recruitment/job_list')}}">
+                        <div class="card-body">
+                            <div class="dash-widget-info">
+                                <span>Total Job Types</span>
+                                <h3>{{$job_type_count ?? 0 }}</h3>
+                            </div>
+                            <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
+                            <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
+                                <span>View</span><i class="fa-solid fa-arrow-right"></i>
+                            </div>
                         </div>
-                        <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
-                        <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
-                            <a href="{{url('recruitment/job_list')}}">
-                                <span style=" color: #fd9330;">View</span><i class="fa-solid fa-arrow-right" style=" color: #fd9330;"></i>
-                            </a>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             
               <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="card dash-widget">
-                    <div class="card-body">
-                        <div class="dash-widget-info">
-                            <span>Billing</span>
-                            <h3>750</h3>
+                    <a href="{{url('billing/list')}}">
+                        <div class="card-body">
+                            <div class="dash-widget-info">
+                                <span>Billing</span>
+                                <h3>750</h3>
+                            </div>
+                            <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
+                            <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
+                                <span>View</span><i class="fa-solid fa-arrow-right"></i>
+                            </div>
                         </div>
-                        <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
-                        <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
-                            <a href="{{url('billing/list')}}">
-                                <span style=" color: #fd9330;">View</span><i class="fa-solid fa-arrow-right" style=" color: #fd9330;"></i>
-                            </a>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

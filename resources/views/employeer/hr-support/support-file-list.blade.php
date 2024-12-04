@@ -63,7 +63,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                <input type="hidden" name="filename" id="filename">
                                {{-- put the value - that is your file name --}}
                                <input type="hidden" id="filenameInput" value="Hr-Support-File-List">
-                               <button type="submit" class="btn btn-success btn-sm">
+                               <button type="submit" class="btn-download-excel btn-download">
                                    <i class="fas fa-file-excel"></i> Export to Excel
                                </button>
                            </form>
@@ -74,7 +74,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                              <input type="hidden" name="data" id="pdfData">
                              <input type="hidden" name="headings" id="pdfHeadings">
                              <input type="hidden" name="filename" id="pdfFilename">
-                             <button type="submit" class="btn btn-info btn-sm">
+                             <button type="submit" class="btn-download-pdf btn-download">
                                  <i class="fas fa-file-pdf"></i> Export to PDF
                              </button>
                          </form>
