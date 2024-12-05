@@ -7,11 +7,11 @@
         ->where('email', '=', $email)
         ->first();
     //dd($company_details); 
-    /*if (!$company_details) {
+    if (!$company_details) {
         Session::flush();
         header('Location: ' . url('/'));
         exit(); 
-    }*/
+    }
 @endphp
 <!-- Header -->
 <div class="header">

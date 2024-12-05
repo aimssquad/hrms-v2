@@ -177,6 +177,7 @@
             'title' => 'Billing',
             'icon' => 'las la-donate',
             'items' => [
+                ['url' => 'organization/billing/dashboard', 'label' => 'Dashboard'],
                 ['url' => 'organization/billing-show', 'label' => 'Invoice'],
                 ['url' => '#', 'label' => 'Payment Receipt'],
             ]

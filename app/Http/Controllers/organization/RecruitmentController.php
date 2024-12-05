@@ -251,7 +251,7 @@ class RecruitmentController extends Controller
 
                 ->where('email', '=', $email)
                 ->first();
-
+                //dd($Roledata->reg);
             $data['company_job_rs'] = DB::Table('company_job')
                 ->join('company_job_list', 'company_job.soc', '=', 'company_job_list.soc')
 

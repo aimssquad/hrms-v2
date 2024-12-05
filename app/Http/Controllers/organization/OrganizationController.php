@@ -825,6 +825,7 @@ class OrganizationController extends Controller
 
                 Session::flash('message', 'Organisation Information Successfully saved.');
                 return redirect('organization/profile');
+                
             } else {
                 return redirect('/');
             }

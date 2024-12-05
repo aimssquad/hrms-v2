@@ -20,9 +20,7 @@
         </div>
     </div>
     <!-- /Page Header -->
-    @if(Session::has('message'))										
-        <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
-    @endif
+    @include('employeer.layout.message')
     <div class="card mb-0">
         <div class="card-body">
             <div class="row">
