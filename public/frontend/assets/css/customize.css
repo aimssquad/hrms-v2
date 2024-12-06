@@ -568,3 +568,16 @@ body::-webkit-scrollbar {
     transform: scale(1.06);
     box-shadow: 0 6px 17px #bebebe;
 }
+.editProfile_tab .edit_profile i{
+    font-size: 14px;
+    margin-left: 6px;
+}
+
+.editProfile_tab .edit_profile{
+    color: #878a99;
+    font-weight: 400;
+}
+
+.editProfile_tab:hover .edit_profile{
+    color: #fff;
+}

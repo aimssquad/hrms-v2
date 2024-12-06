@@ -3522,7 +3522,7 @@ Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
     $result = '
 				  <div class="itemslotedu" id="' . $row . '">
 				  <div class="row " >
-				  <div class="col-md-4">
+				  <div class="col-md-4 mb-2">
 
 		<div class="form-group">
 	<label for="inputFloatingLabel-jobt" class="col-form-label">Job Title</label>
@@ -3530,14 +3530,14 @@ Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
 
 	</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-4 mb-2">
 
 		<div class="form-group">
 	    <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
 		<input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]">
 	</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-4 mb-2">
 
 		<div class="form-group">
 		    <label for="inputFloatingLabel-jobe" class="col-form-label">End Date </label>
@@ -3548,7 +3548,7 @@ Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
 		</div>
 
 		          <div class="row">
-				  <div class="col-md-4">
+				  <div class="col-md-4 mb-2">
 <div class="form-group">
    <label for="selectFloatingLabelexp" class="col-form-label">Year of Experience</label>
 <select class="form-control input-border-bottom" id="selectFloatingLabelexp"  name="exp[]">
@@ -3563,7 +3563,7 @@ Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
 </select>
 
 </div>
-</div><div class="col-md-6">
+</div><div class="col-md-6 mb-2">
 
 				  <div class="form-group">
 <label for="inputFloatingLabel-jobs" class="col-form-label">Job Description</label>
