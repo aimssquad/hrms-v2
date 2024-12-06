@@ -3523,31 +3523,29 @@ Route::get('settings/get-add-row-mic/{row}', function ($row) {
     echo $result;
 });
 
-Route::get('settings/get-add-row-item-edu/{row}','App\Http\Controllers\organization\EmployeeController@jobDtl');
+Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
 
-// Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
+    $row = $row + 1;
 
-//     $row = $row + 1;
-
-//     $result = '
-// 				  <div class="itemslotedu" id="' . $row . '">
-// 				  <div class="row " >
-// 				  <div class="col-md-4">
+    $result = '
+				  <div class="itemslotedu" id="' . $row . '">
+				  <div class="row " >
+				  <div class="col-md-4 mb-2">
 
 // 		<div class="form-group">
 // 	<label for="inputFloatingLabel-jobt" class="col-form-label">Job Title</label>
 // 		<input id="inputFloatingLabel-jobt" type="text" class="form-control input-border-bottom"  name="job_name[]">
 
-// 	</div>
-// 	</div>
-// 	<div class="col-md-4">
+	</div>
+	</div>
+	<div class="col-md-4 mb-2">
 
-// 		<div class="form-group">
-// 	    <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
-// 		<input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]">
-// 	</div>
-// 	</div>
-// 	<div class="col-md-4">
+		<div class="form-group">
+	    <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
+		<input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]">
+	</div>
+	</div>
+	<div class="col-md-4 mb-2">
 
 // 		<div class="form-group">
 // 		    <label for="inputFloatingLabel-jobe" class="col-form-label">End Date </label>
@@ -3557,23 +3555,23 @@ Route::get('settings/get-add-row-item-edu/{row}','App\Http\Controllers\organizat
 // 	</div>
 // 		</div>
 
-// 		          <div class="row">
-// 				  <div class="col-md-4">
-// <div class="form-group">
-//    <label for="selectFloatingLabelexp" class="col-form-label">Year of Experience</label>
-// <select class="form-control input-border-bottom" id="selectFloatingLabelexp"  name="exp[]">
-// <option value="">&nbsp;</option>';
-//     for ($i = 0; $i <= 10; $i++) {
-//         $result .= '
-// <option value="' . $i . '">' . $i . '</option>';
+		          <div class="row">
+				  <div class="col-md-4 mb-2">
+<div class="form-group">
+   <label for="selectFloatingLabelexp" class="col-form-label">Year of Experience</label>
+<select class="form-control input-border-bottom" id="selectFloatingLabelexp"  name="exp[]">
+<option value="">&nbsp;</option>';
+    for ($i = 0; $i <= 10; $i++) {
+        $result .= '
+<option value="' . $i . '">' . $i . '</option>';
 
-//     }
+    }
 
 //     $result .= '
 // </select>
 
 // </div>
-// </div><div class="col-md-6">
+// </div><div class="col-md-6 mb-2">
 
 // 				  <div class="form-group">
 // <label for="inputFloatingLabel-jobs" class="col-form-label">Job Description</label>
