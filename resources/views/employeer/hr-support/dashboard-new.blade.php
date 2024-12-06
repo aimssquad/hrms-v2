@@ -61,7 +61,8 @@
                                                                                         <div id="collapseFile{{ $file->id }}" class="accordion-collapse collapse" aria-labelledby="headingFile{{ $file->id }}" data-bs-parent="#accordionFiles{{ $subtype->id }}">
                                                                                             <div class="accordion-body d-flex justify-content-between align-items-center">
                                                                                                 <div>
-                                                                                                    <strong>{{ $file->small_description }}</strong> - {{ $file->description }}
+                                                                                                    <strong>{!! $file->small_description ?? '' !!}</strong> - {!! $file->description ?? '' !!}
+
                                                                                                 </div>
                                                                                                 <div>
                                                                                                     <!-- View Icon -->

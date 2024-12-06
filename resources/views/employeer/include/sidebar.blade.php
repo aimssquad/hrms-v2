@@ -194,7 +194,7 @@
             'title' => 'Hr Support',
             'icon' => 'las la-american-sign-language-interpreting',
             'items' => [
-                ['url' => 'hr-support/dashboard', 'label' => 'Dashboard'],
+                ['url' => 'hr-support/dashboard-new', 'label' => 'Dashboard'],
             ]
         ],
 
