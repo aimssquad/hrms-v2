@@ -8,28 +8,7 @@ $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 @endphp
 @section('content')
-@php
-	function my_simple_crypt( $string, $action = 'encrypt' ) {
-		// you may change these values to your own
-		$secret_key = 'bopt_saltlake_kolkata_secret_key';
-		$secret_iv = 'bopt_saltlake_kolkata_secret_iv';
-	
-		$output = false;
-		$encrypt_method = "AES-256-CBC";
-		$key = hash( 'sha256', $secret_key );
-		$iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
-	
-		if( $action == 'encrypt' ) {
-			$output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
-		}
-		else if( $action == 'decrypt' ){
-			$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
-		}
-	
-		return $output;
-	}
 
-@endphp
 
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -45,11 +24,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                        </a>
                     </li>
                     <li class="breadcrumb-item">
-                       <a href="{{ route('hr-support.dashboard') }}">Hr Support</a>
+                       <a href="{{ route('hr-support.dashboard-new') }}">Hr Support</a>
                     </li>
-                    <li class="breadcrumb-item">
+                    {{-- <li class="breadcrumb-item">
                        <a href="{{ isset($data->type->id) ? route('supportfile.show', ['id' => $data->type->id]) : '#' }}">{{$data->type->type}}</a>
-                    </li>
+                    </li> --}}
                     <li class="breadcrumb-item active">
                        <a href="#">{{$data->title}}</a>
                     </li>

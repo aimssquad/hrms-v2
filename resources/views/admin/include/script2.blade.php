@@ -27,7 +27,7 @@
                 console.log("Clicked ID: " + id);
                 // AJAX request to fetch HR Support File Type data by ID
                 $.ajax({
-                    url: '/hrms/superadmin/get-hr-support-file-type/' + id,
+                    url: '/hrms-v2/superadmin/get-hr-support-file-type/' + id,
                     type: 'GET',
                     success: function(response) {
                         console.log("AJAX response: ", response);

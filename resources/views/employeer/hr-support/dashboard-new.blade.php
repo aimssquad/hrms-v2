@@ -26,7 +26,7 @@
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-header justify-content-between">
-                                    <div class="card-title">Hr Support</div>
+                                    <div class="card-title">Hr Support Files</div>
                                 </div>
                                 <div class="card-body">
                                   
@@ -66,17 +66,20 @@
                                                                                                 </div>
                                                                                                 <div>
                                                                                                     <!-- View Icon -->
-                                                                                                    <a href="{{ isset($file->id) ? route('support-file.details', ['id' => $file->id]) : '#' }}" class="btn btn-link p-0" title="View">
+                                                                                                    <a href="{{ isset($file->id) ? route('support-file.details', ['id' => $file->id]) : '#' }}" class="btn btn-small btn-primary" title="View">
                                                                                                         <i class="fa fa-eye" data-bs-toggle="tooltip" title="View "></i>
                                                                                                     </a>
                                                                                                     <!-- Download Icon -->
-                                                                                                    <a href="{{ $file->pdf }}" class="btn btn-link p-0 ms-2" title="Download">
-                                                                                                        <i class="fa fa-arrow-circle-down" data-bs-toggle="tooltip" title="Download DOC" download></i>
+
+                                                                                                    <a href=" {{ asset('storage/app/public/hrsupport/pdf/' . $file->pdf) }}" class="btn btn-small btn-primary"  title="Download" target="_blank">
+                                                                                                        <i class="fa fa-sticky-note" data-bs-toggle="tooltip" title="View pdf" ></i>
                                                                                                     </a>
 
-                                                                                                    <a href="{{ $file->doc }}" class="btn btn-link p-0 ms-2" title="Download">
-                                                                                                        <i class="fa fa-arrow-circle-down" data-bs-toggle="tooltip" title="Download pdf" download></i>
+                                                                                                    <a href="{{ asset('storage/app/public/hrsupport/doc/' . $file->doc) }}" class="btn btn-small btn-primary"  title="Download" download>
+                                                                                                        <i class="fa fa-arrow-circle-down" data-bs-toggle="tooltip" title="Download DOC" ></i>
                                                                                                     </a>
+
+                                                                                                  
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
