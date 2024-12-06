@@ -74,8 +74,10 @@ Route::get('/sub-admin/own_billing/view/{id}', 'App\Http\Controllers\organizatio
 
 //-------------------------------------End Sub Admin Billing---------------------------------------
 //---------------------------------------Organization  Billing ------------------------------------------
+Route::get('organization/billing/dashboard','App\Http\Controllers\organization\OrganizationBillController@orgDashboard')->name('organization.bill-dashboard');
 Route::get('organization/billing-show','App\Http\Controllers\organization\OrganizationBillController@orgBill')->name('organization.bill-show');
 Route::get('/organization/billing/view/{id}', 'App\Http\Controllers\organization\OrganizationBillController@invoice')->name('organization.billing.invoice');
+Route::get('/organization/billing/edit/{id}', 'App\Http\Controllers\organization\OrganizationBillController@editInvoice')->name('organization.billing.edit');
 ///--------------------------------------End Organization  Billing --------------------------------------
 
 //---------------------------------------------Login And Registration Slide image Video --------------------------
@@ -3521,74 +3523,76 @@ Route::get('settings/get-add-row-mic/{row}', function ($row) {
     echo $result;
 });
 
-Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
+Route::get('settings/get-add-row-item-edu/{row}','App\Http\Controllers\organization\EmployeeController@jobDtl');
 
-    $row = $row + 1;
+// Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
 
-    $result = '
-				  <div class="itemslotedu" id="' . $row . '">
-				  <div class="row " >
-				  <div class="col-md-4">
+//     $row = $row + 1;
 
-		<div class="form-group">
-	<label for="inputFloatingLabel-jobt" class="col-form-label">Job Title</label>
-		<input id="inputFloatingLabel-jobt" type="text" class="form-control input-border-bottom"  name="job_name[]">
+//     $result = '
+// 				  <div class="itemslotedu" id="' . $row . '">
+// 				  <div class="row " >
+// 				  <div class="col-md-4">
 
-	</div>
-	</div>
-	<div class="col-md-4">
+// 		<div class="form-group">
+// 	<label for="inputFloatingLabel-jobt" class="col-form-label">Job Title</label>
+// 		<input id="inputFloatingLabel-jobt" type="text" class="form-control input-border-bottom"  name="job_name[]">
 
-		<div class="form-group">
-	    <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
-		<input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]">
-	</div>
-	</div>
-	<div class="col-md-4">
+// 	</div>
+// 	</div>
+// 	<div class="col-md-4">
 
-		<div class="form-group">
-		    <label for="inputFloatingLabel-jobe" class="col-form-label">End Date </label>
-		<input id="inputFloatingLabel-jobe" type="date" class="form-control input-border-bottom" name="job_end_date[]">
+// 		<div class="form-group">
+// 	    <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
+// 		<input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]">
+// 	</div>
+// 	</div>
+// 	<div class="col-md-4">
 
-	</div>
-	</div>
-		</div>
+// 		<div class="form-group">
+// 		    <label for="inputFloatingLabel-jobe" class="col-form-label">End Date </label>
+// 		<input id="inputFloatingLabel-jobe" type="date" class="form-control input-border-bottom" name="job_end_date[]">
 
-		          <div class="row">
-				  <div class="col-md-4">
-<div class="form-group">
-   <label for="selectFloatingLabelexp" class="col-form-label">Year of Experience</label>
-<select class="form-control input-border-bottom" id="selectFloatingLabelexp"  name="exp[]">
-<option value="">&nbsp;</option>';
-    for ($i = 0; $i <= 10; $i++) {
-        $result .= '
-<option value="' . $i . '">' . $i . '</option>';
+// 	</div>
+// 	</div>
+// 		</div>
 
-    }
+// 		          <div class="row">
+// 				  <div class="col-md-4">
+// <div class="form-group">
+//    <label for="selectFloatingLabelexp" class="col-form-label">Year of Experience</label>
+// <select class="form-control input-border-bottom" id="selectFloatingLabelexp"  name="exp[]">
+// <option value="">&nbsp;</option>';
+//     for ($i = 0; $i <= 10; $i++) {
+//         $result .= '
+// <option value="' . $i . '">' . $i . '</option>';
 
-    $result .= '
-</select>
+//     }
 
-</div>
-</div><div class="col-md-6">
+//     $result .= '
+// </select>
 
-				  <div class="form-group">
-<label for="inputFloatingLabel-jobs" class="col-form-label">Job Description</label>
-	<textarea id="inputFloatingLabel-jobs"  rows="5" class="form-control"  style="height:135px !important;resize:none;"  name="des[]"> </textarea>
+// </div>
+// </div><div class="col-md-6">
 
-</div>
-</div>
+// 				  <div class="form-group">
+// <label for="inputFloatingLabel-jobs" class="col-form-label">Job Description</label>
+// 	<textarea id="inputFloatingLabel-jobs"  rows="5" class="form-control"  style="height:135px !important;resize:none;"  name="des[]"> </textarea>
+
+// </div>
+// </div>
 
 
 
 
-<div class="col-md-2" style="margin-top:27px;">
-<button class="btn-success" type="button"  id="addedu' . $row . '" onClick="addnewrowedu(' . $row . ')" data-id="' . $row . '"><i class="fas fa-plus"></i> </button>
- <button class="btn-danger deleteButtonedu" type="button" id="deledu' . $row . '"  onClick="delRowedu(' . $row . ')"> <i class="fas fa-minus"></i> </button>
-</div>
-</div>
-	</div></br>';
-    echo $result;
-});
+// <div class="col-md-2" style="margin-top:27px;">
+// <button class="btn-success" type="button"  id="addedu' . $row . '" onClick="addnewrowedu(' . $row . ')" data-id="' . $row . '"><i class="fas fa-plus"></i> </button>
+//  <button class="btn-danger deleteButtonedu" type="button" id="deledu' . $row . '"  onClick="delRowedu(' . $row . ')"> <i class="fas fa-minus"></i> </button>
+// </div>
+// </div>
+// 	</div></br>';
+//     echo $result;
+// });
 
 Route::get('settings/get-add-row-item-train/{row}', function ($row) {
 

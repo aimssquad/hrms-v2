@@ -49,6 +49,27 @@
                   @php
                      // Define all available modules
                      $allModules = range(1, 19);
+                     $module_icon = [
+                        1 => 'las la-donate',
+                        2 => 'las la-clone',
+                        3 => 'la la-users',
+                        4 => 'las la-calendar',
+                        5 => 'las la-tachometer-alt',
+                        6 => 'las la-clipboard-list ',
+                        7 => 'lab la-confluence',
+                        8 => 'lab la-blackberry',
+                        9 => 'las la-tasks ',
+                        10 => 'las la-certificate',
+                        11 => 'las la-cogs',
+                        12 => 'las la-universal-access',
+                        13 => 'las la-pound-sign',
+                        14 => 'las la-file ',
+                        15 => 'las la-american-sign-language-interpreting',
+                        16 => 'las la-chart-bar',
+                        17 => 'las la-sync',
+                        18 => 'las la-user-tie',
+                        19 => 'las la-cash-register',
+                     ];
                      $moduleNames = [
                         1 => 'Sponsor Compliances',
                         2 => 'Recruitment',
@@ -84,7 +105,7 @@
                         10 => 'org-performances/dashboard',
                         11 => 'organization/settings-dashboard',
                         12 => 'user-access-role/dashboard',
-                        13 => 'organization/billing-show',
+                        13 => 'organization/billing/dashboard',
                         14 => 'file-management/dashboard',
                         15 => 'hr-support/dashboard',
                         16 => '#',
@@ -105,6 +126,7 @@
                         $moduleName = $moduleNames[$moduleId] ?? 'Unknown Module';
                          // Get the URL name or default to 'Unknown Url'
                          $moduleUrl = $module_url[$moduleId] ?? '#';
+                         $moduleIcon = $module_icon[$moduleId] ?? 'las la-expand-arrows-alt';
                         //dd($hasAccess);
                      @endphp
 
@@ -117,7 +139,7 @@
                                  <div class="text-primary w-100">
                                     <div class="d-flex align-items-center gap-3">
                                        <div class="main_icon">
-                                          <i class="fas fa-building rota-icon-size-fixed"></i>
+                                          <i class="{{$moduleIcon}} rota-icon-size-fixed"></i>
                                        </div>
                                        <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">
                                           <h5 class="text-card-size-fixed">{{ $moduleName }}</h5>
