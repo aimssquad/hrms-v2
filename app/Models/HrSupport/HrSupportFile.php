@@ -30,4 +30,16 @@ class HrSupportFile extends Model
     {
         return $this->belongsTo(SubHrFileType::class, 'sub_type_id'); // Ensure 'sub_type_id' is the correct foreign key
     }
+
+    // Many-to-One relationship with HrSupportFileType
+    public function hrSupportFileType()
+    {
+        return $this->belongsTo(HrSupportFileType::class, 'type_id');
+    }
+  
+    // Many-to-One relationship with SubHrFileType
+    public function subHrFileType()
+    {
+        return $this->belongsTo(SubHrFileType::class, 'sub_type_id');
+    }
 }

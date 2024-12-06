@@ -25,6 +25,7 @@
                                     <tr>
                                        <th>Sl.No.</th>
                                        <th>Type</th>
+                                       <th>Sub Type</th>
                                        <th>Title</th>
                                        <th>Type &nbsp &nbsp|&nbsp &nbspShort Description&nbsp &nbsp|&nbsp &nbsp Long Description</th>
                                        <th>Status</th>
@@ -37,6 +38,7 @@
                                         <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $datas->type->type }}</td>
+                                        <td>{{ $datas->subType->sub_name }}</td>
                                         <td>{{ $datas->title}}</td>
                                         <td>
                                             <a data-toggle="tooltip" data-placement="bottom" title="Type Description" class="view-support-file" data-id="{{ $datas->type->id }}">
@@ -134,7 +136,7 @@
 
                 // AJAX request to fetch HR Support File Type data by ID
                 $.ajax({
-                    url: '/hrms/superadmin/get-hr-support-file-type/' + id,
+                    url: '/hrms-v2/superadmin/get-hr-support-file-type/' + id,
                     type: 'GET',
                     success: function (response) {
                         // Update modal content with fetched data
@@ -154,7 +156,7 @@
 
                 // AJAX request to fetch HR Support File Type data by ID
                 $.ajax({
-                    url: '/hrms/superadmin/get-hr-support-file/' + id,
+                    url: '/hrms-v2/superadmin/get-hr-support-file/' + id,
                     type: 'GET',
                     success: function (response) {
                         // Update modal content with fetched data
@@ -171,7 +173,7 @@
 
                 // AJAX request to fetch HR Support File Type data by ID
                 $.ajax({
-                    url: '/hrms/superadmin/get-hr-support-file/' + id,
+                    url: '/hrms-v2/superadmin/get-hr-support-file/' + id,
                     type: 'GET',
                     success: function (response) {
                         // Update modal content with fetched data

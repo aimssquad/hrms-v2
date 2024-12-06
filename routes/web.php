@@ -330,6 +330,7 @@ Route::post('org-employee-corner/leave-apply', 'App\Http\Controllers\organizatio
 
 //-------------------------------------------- Hr Support ---------------------------------------------------
 Route::get('hr-support/dashboard', 'App\Http\Controllers\organization\HrSupportController@viewdashboard')->name('hr-support.dashboard');
+Route::get('hr-support/dashboard-new', 'App\Http\Controllers\organization\HrSupportController@viewdashboardnew')->name('hr-support.dashboard-new');
 Route::get('hr-support/support-file/{id}', 'App\Http\Controllers\organization\HrSupportController@supportFile')->name('support-file.show');
 Route::get('hr-support/support-file-details/{id}', 'App\Http\Controllers\organization\HrSupportController@supportFileDetails')->name('support-file.details');
 
