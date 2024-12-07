@@ -155,249 +155,255 @@
             <div class="col-lg-8 col-md-12 col-12">
             <div class="row">
             <div class="col-xl-4 col-md-6 col-sm-12">
-                <div class="card border-0">
-                    <div class="alert mb-0 dashboard-card">
-                        <div class="position-absolute abstract" style="z-index: 0;">
-                                                    <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
-                                                        <style>
-                                                            .s0 {
-                                                                opacity: .05;
-                                                                fill: var(--vz-success)
-                                                            }
-                                                        </style>
-                                                        <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
-                                                    </svg>
-                                                </div>
-                        <div class="d-flex align-items-start">
-                            <div class="text-primary w-100 db-box">
-                                <div class="img-box">
-                                <i class="fa fa-user-edit "></i>
-                                </div>
-                                <div class="img-box-text">
-                                <div class="fw-semibold d-flex text-card-size-fixed">Profile</div>
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                    <div class="fs-12">
-                                        <a href="{{ url('organization/profile') }}" class="text-primary fw-semibold">
-                                            Edit <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i>
-                                        </a>
+                <a href="{{ url('organization/profile') }}" class="text-primary fw-semibold editProfile_tab">
+                    <div class="card border-0">
+                        <div class="alert mb-0 dashboard-card">
+                            <div class="position-absolute abstract" style="z-index: 0;">
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
+                                    <style>
+                                        .s0 {
+                                            opacity: .05;
+                                            fill: var(--vz-success)
+                                        }
+                                    </style>
+                                    <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
+                                </svg>
+                            </div>
+                            <div class="d-flex align-items-start">
+                                <div class="text-primary w-100 db-box">
+                                    <div class="img-box">
+                                        <i class="fa fa-user-edit "></i>
                                     </div>
-                                </div>
+                                    <div class="img-box-text">
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Profile</div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
+                                            <div class="fs-12 edit_profile">
+                                                Edit <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-xl-4 col-md-6 col-sm-12">
-                <div class="card border-0">
-                    <div class="alert mb-0 dashboard-card">
-                        <div class="position-absolute abstract" style="z-index: 0;">
-                                                    <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
-                                                        <style>
-                                                            .s0 {
-                                                                opacity: .05;
-                                                                fill: var(--vz-success)
-                                                            }
-                                                        </style>
-                                                        <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
-                                                    </svg>
-                                                </div>
-                        <div class="d-flex align-items-start">
-                            <div class="text-primary w-100 db-box">
-                                <div class="img-box">
-                                <i class="fa fa-users "></i>
-                                </div>
-                                <div class="img-box-text">
-                                <div class="fw-semibold d-flex text-card-size-fixed">Employees (RTI)</div>
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                    <div class="fs-12">
-                                        <a href="{{ url('employees-according-to-rti') }}" class="text-primary fw-semibold">
-                                            View all <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> 
-                                        </a>
+                <a href="{{ url('employees-according-to-rti') }}" class="text-primary fw-semibold editProfile_tab">
+                    <div class="card border-0">
+                        <div class="alert mb-0 dashboard-card">
+                            <div class="position-absolute abstract" style="z-index: 0;">
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
+                                    <style>
+                                        .s0 {
+                                            opacity: .05;
+                                            fill: var(--vz-success);
+                                        }
+                                    </style>
+                                    <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
+                                </svg>
+                            </div>
+                            <div class="d-flex align-items-start">
+                                <div class="text-primary w-100 db-box">
+                                    <div class="img-box">
+                                        <i class="fa fa-users"></i>
                                     </div>
-                                </div>
+                                    <div class="img-box-text">
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Employees (RTI)</div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
+                                            <div class="fs-12 edit_profile">
+                                                <span>View all</span>
+                                                <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-xl-4 col-md-6 col-sm-12">
-                <div class="card border-0">
-                    <div class="alert mb-0 dashboard-card">
-                        <div class="position-absolute abstract" style="z-index: 0;">
-                                                    <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
-                                                        <style>
-                                                            .s0 {
-                                                                opacity: .05;
-                                                                fill: var(--vz-success)
-                                                            }
-                                                        </style>
-                                                        <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
-                                                    </svg>
-                                                </div>
-                        <div class="d-flex align-items-start">
-                            <div class="text-primary w-100 db-box">
-                                <div class="img-box">
-                                <i class="fa fa-user-tie "></i>
-                                </div>
-                                <div class="img-box-text">
-                                <div class="fw-semibold d-flex text-card-size-fixed">Authorizing Officer </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                    <div class="fs-12">
-                                        <a href="{{ url('authorizing-officer') }}" class="text-primary fw-semibold">
-                                            View all <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> 
-                                        </a>
+                <a href="{{ url('authorizing-officer') }}" class="text-primary fw-semibold editProfile_tab">
+                    <div class="card border-0">
+                        <div class="alert mb-0 dashboard-card">
+                            <div class="position-absolute abstract" style="z-index: 0;">
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
+                                    <style>
+                                        .s0 {
+                                            opacity: .05;
+                                            fill: var(--vz-success);
+                                        }
+                                    </style>
+                                    <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
+                                </svg>
+                            </div>
+                            <div class="d-flex align-items-start">
+                                <div class="text-primary w-100 db-box">
+                                    <div class="img-box">
+                                        <i class="fa fa-user-tie"></i>
                                     </div>
-                                </div>
+                                    <div class="img-box-text">
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Authorizing Officer</div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
+                                            <div class="fs-12 edit_profile">
+                                                <span>View all</span>
+                                                <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-xl-4 col-md-6 col-sm-12">
-                <div class="card border-0">
-                    <div class="alert mb-0 dashboard-card">
-                        <div class="position-absolute abstract" style="z-index: 0;">
-                                                    <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
-                                                        <style>
-                                                            .s0 {
-                                                                opacity: .05;
-                                                                fill: var(--vz-success)
-                                                            }
-                                                        </style>
-                                                        <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
-                                                    </svg>
-                                                </div>
-                        <div class="d-flex align-items-start">
-                            <div class="text-primary w-100 db-box">
-                                <div class="img-box">
-                                <i class="fa fa-id-badge "></i>
-                                </div>
-                                <div class="img-box-text">
-                                <div class="fw-semibold d-flex text-card-size-fixed">Key Contect</div>
-                                <div class="d-flex  align-items-center">
-                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                    <div class="fs-12">
-                                        <a href="{{ url('key-contact') }}" class="text-primary fw-semibold">
-                                             View all <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i>
-                                        </a>
+                <a href="{{ url('key-contact') }}" class="text-primary fw-semibold editProfile_tab">
+                    <div class="card border-0">
+                        <div class="alert mb-0 dashboard-card">
+                            <div class="position-absolute abstract" style="z-index: 0;">
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
+                                    <style>
+                                        .s0 {
+                                            opacity: .05;
+                                            fill: var(--vz-success);
+                                        }
+                                    </style>
+                                    <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
+                                </svg>
+                            </div>
+                            <div class="d-flex align-items-start">
+                                <div class="text-primary w-100 db-box">
+                                    <div class="img-box">
+                                        <i class="fa fa-id-badge"></i>
                                     </div>
-                                </div>
+                                    <div class="img-box-text">
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Key Contact</div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
+                                            <div class="fs-12 edit_profile">
+                                                <span>View all</span>
+                                                <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-xl-4 col-md-6 col-sm-12">
-                <div class="card border-0">
-                    <div class="alert mb-0 dashboard-card">
-                        <div class="position-absolute abstract" style="z-index: 0;">
-                                                    <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
-                                                        <style>
-                                                            .s0 {
-                                                                opacity: .05;
-                                                                fill: var(--vz-success)
-                                                            }
-                                                        </style>
-                                                        <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
-                                                    </svg>
-                                                </div>
-                        <div class="d-flex align-items-start">
-                            <div class="text-primary w-100 db-box">
-                                <div class="img-box">
-                                <i class="fa fa-user-shield "></i>
-                                </div>
-                                <div class="img-box-text">
-                                <div class="fw-semibold d-flex text-card-size-fixed">Level 1 User</div>
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                    <div class="fs-12">
-                                        <a href="{{ url('level-1-user') }}" class="text-primary fw-semibold">
-                                            View all <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> 
-                                        </a>
+                <a href="{{ url('level-1-user') }}" class="text-primary fw-semibold editProfile_tab">
+                    <div class="card border-0">
+                        <div class="alert mb-0 dashboard-card">
+                            <div class="position-absolute abstract" style="z-index: 0;">
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
+                                    <style>
+                                        .s0 {
+                                            opacity: .05;
+                                            fill: var(--vz-success);
+                                        }
+                                    </style>
+                                    <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
+                                </svg>
+                            </div>
+                            <div class="d-flex align-items-start">
+                                <div class="text-primary w-100 db-box">
+                                    <div class="img-box">
+                                        <i class="fa fa-user-shield"></i>
                                     </div>
+                                    <div class="img-box-text">
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Level 1 User</div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
+                                            <div class="fs-12 edit_profile">
+                                                <span>View all</span>
+                                                <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-xl-4 col-md-6 col-sm-12">
-                <div class="card border-0">
-                    <div class="alert mb-0 dashboard-card">
-                        <div class="position-absolute abstract" style="z-index: 0;">
-                                                    <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
-                                                        <style>
-                                                            .s0 {
-                                                                opacity: .05;
-                                                                fill: var(--vz-success)
-                                                            }
-                                                        </style>
-                                                        <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
-                                                    </svg>
-                                                </div>
-                        <div class="d-flex align-items-start">
-                            <div class="text-primary w-100 db-box">
-                                <div class="img-box">
-                                <i class="fa fa-user-cog "></i>
-                                </div>
-                                <div class="img-box-text">
-                                <div class="fw-semibold d-flex text-card-size-fixed">Level 2 User</div>
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                    <div class="fs-12">
-                                        <a href="{{ url('level-2-user') }}" class="text-primary fw-semibold">
-                                            View all <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> 
-                                        </a>
+                <a href="{{ url('level-2-user') }}" class="text-primary fw-semibold editProfile_tab">
+                    <div class="card border-0">
+                        <div class="alert mb-0 dashboard-card">
+                            <div class="position-absolute abstract" style="z-index: 0;">
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
+                                    <style>
+                                        .s0 {
+                                            opacity: .05;
+                                            fill: var(--vz-success);
+                                        }
+                                    </style>
+                                    <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
+                                </svg>
+                            </div>
+                            <div class="d-flex align-items-start">
+                                <div class="text-primary w-100 db-box">
+                                    <div class="img-box">
+                                        <i class="fa fa-user-cog"></i>
                                     </div>
-                                </div>
+                                    <div class="img-box-text">
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Level 2 User</div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
+                                            <div class="fs-12 edit_profile">
+                                                <span>View all</span>
+                                                <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-xl-4 col-md-6 col-sm-12">
-                <div class="card border-0">
-                    <div class="alert mb-0 dashboard-card">
-                        <div class="position-absolute abstract" style="z-index: 0;">
-                                                    <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
-                                                        <style>
-                                                            .s0 {
-                                                                opacity: .05;
-                                                                fill: var(--vz-success)
-                                                            }
-                                                        </style>
-                                                        <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
-                                                    </svg>
-                                                </div>
-                        <div class="d-flex align-items-start">
-                            <div class="text-primary w-100 db-box">
-                                <div class="img-box">
-                                <i class="fa fa-check-circle "></i>
-                                </div>
-                                <div class="img-box-text">
-                                <div class="fw-semibold d-flex text-card-size-fixed">Sponsor Compliance</div>
-                                <div class="d-flex  align-items-center">
-                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                    <div class="fs-12">
-                                        <a href="{{ url('org-dashboarddetails') }}" class="text-primary fw-semibold">
-                                            View all <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> 
-                                        </a>
+                <a href="{{ url('org-dashboarddetails') }}" class="text-primary fw-semibold editProfile_tab">
+                    <div class="card border-0">
+                        <div class="alert mb-0 dashboard-card">
+                            <div class="position-absolute abstract" style="z-index: 0;">
+                                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
+                                    <style>
+                                        .s0 {
+                                            opacity: .05;
+                                            fill: var(--vz-success);
+                                        }
+                                    </style>
+                                    <path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path>
+                                </svg>
+                            </div>
+                            <div class="d-flex align-items-start">
+                                <div class="text-primary w-100 db-box">
+                                    <div class="img-box">
+                                        <i class="fa fa-check-circle"></i>
                                     </div>
-                                </div>
+                                    <div class="img-box-text">
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Sponsor Compliance</div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
+                                            <div class="fs-12 edit_profile">
+                                                <span>View all</span>
+                                                <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
                 <div class="col-12">
                     @if(!$employee_birth->isEmpty())
