@@ -47,7 +47,9 @@
                <a href="{{url('org-company-profile/edit-company')}}?c_id={{base64_encode($Roledata->id)}}" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-building modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Organisation Profile</h4>
                      </div>
                      <div class="modern-card-body">
@@ -70,7 +72,9 @@
                <a href="{{url('org-dashboard-employees')}}" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-sitemap modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">All Employee List</h4>
                      </div>
                      <div class="modern-card-body">
@@ -93,7 +97,9 @@
                <a href="{{ url('org-dashboard-migrant-employees') }}" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-blind modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Migrant Employee List</h4>
                      </div>
                      <div class="modern-card-body">
@@ -110,7 +116,9 @@
                <a href="{{ url('org-dashboard-right-works') }}" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-user-secret modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Right to Work checks</h4>
                      </div>
                      <div class="modern-card-body">
@@ -130,7 +138,9 @@
                class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-building modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Recruitment Process</h4>
                      </div>
                      <div class="modern-card-body">
@@ -150,7 +160,9 @@
                class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-building modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Leave Management</h4>
                      </div>
                      <div class="modern-card-body">
@@ -167,7 +179,9 @@
                <a href="#" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-building modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Payroll</h4>
                      </div>
                      <div class="modern-card-body">
@@ -184,7 +198,9 @@
                <a href="{{ url('org-dashboard/key-contact') }}" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-building modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Key Contact</h4>
                      </div>
                      <div class="modern-card-body">
@@ -201,7 +217,9 @@
                <a href="{{ url('org-dashboard/sponsor-management-dossier') }}" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-building modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Sponsor Management Dossier</h4>
                      </div>
                      <div class="modern-card-body">
@@ -218,7 +236,9 @@
                <a href="{{ url('org-dashboard-migrant-employees') }}" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-building modern-icon"></i>
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Monitoring & Reporting</h4>
                      </div>
                      <div class="modern-card-body">
@@ -236,7 +256,9 @@
                <a href="{{ url('org-dashboard/message-center') }}" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
-                           <i class="fa fa-building modern-icon"></i>
+                           <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
                            <h4 class="modern-card-title">Message Centre</h4>
                      </div>
                      <div class="modern-card-body">

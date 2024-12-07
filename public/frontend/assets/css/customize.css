@@ -445,7 +445,7 @@ body::-webkit-scrollbar {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.custom-task-button i{
+.custom-task-button i {
     background-color: #fff;
     width: 20px;
     height: 20px;
@@ -470,7 +470,8 @@ body::-webkit-scrollbar {
     transform: scale(1.05);
     color: #fff;
 }
-.custom-task-button:hover i{
+
+.custom-task-button:hover i {
     color: #E87C1A;
 }
 
@@ -479,7 +480,7 @@ body::-webkit-scrollbar {
     transform: scale(0.95);
 }
 
-.close.close_popup{
+.close.close_popup {
     width: 30px;
     height: 30px;
     border-radius: 100%;
@@ -492,7 +493,7 @@ body::-webkit-scrollbar {
     border: 1px solid #e1e1e1;
 }
 
-.home_mainpage_super_admin_box{
+.home_mainpage_super_admin_box {
     background-color: #fff;
     border: 1px solid #e1e1e1;
     border-radius: 20px;
@@ -502,12 +503,29 @@ body::-webkit-scrollbar {
     transition: all 0.3s;
     overflow: hidden;
 }
-.home_mainpage_super_admin_box:hover{
+
+.home_mainpage_super_admin_box:hover {
     transform: scale(1.03);
     box-shadow: 0 10px 20px #92929257;
 }
 
-.home_mainpage_super_admin_box .main_icon i{
+.home_mainpage_super_admin_box .main_icon{
+    width: 50px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background: transparent;
+    transition: all 0.3s;
+}
+
+.home_mainpage_super_admin_box:hover .main_icon{
+    background: linear-gradient(var(--gradient-angle),#1E90FF, hwb(210 0% 45%), #4caf50);
+    animation: rotate 2.5s linear infinite;
+}
+
+.home_mainpage_super_admin_box .main_icon i {
     width: 48px;
     height: 48px;
     display: inline-flex;
@@ -517,11 +535,13 @@ body::-webkit-scrollbar {
     background-color: #ff902f42;
     font-size: 28px !important;
 }
-.home_mainpage_super_admin_box .text-card-size-fixed{
+
+.home_mainpage_super_admin_box .text-card-size-fixed {
     font-size: 22px;
     transition: 0.3s;
 }
-.home_mainpage_super_admin_box .viewall_btn{
+
+.home_mainpage_super_admin_box .viewall_btn {
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -529,7 +549,7 @@ body::-webkit-scrollbar {
     transition: 0.3s;
 }
 
-.home_mainpage_super_admin_box::after{
+.home_mainpage_super_admin_box::after {
     content: '';
     position: absolute;
     width: 62%;
@@ -542,47 +562,50 @@ body::-webkit-scrollbar {
     background-repeat: no-repeat;
 }
 
-.home_mainpage_super_admin_box:hover{
+.home_mainpage_super_admin_box:hover {
     background-color: #ff902f;
 }
 
-.home_mainpage_super_admin_box:hover .text-card-size-fixed{
+.home_mainpage_super_admin_box:hover .text-card-size-fixed {
     color: #fff;
 }
 
-.home_mainpage_super_admin_box:hover .main_icon i{
+.home_mainpage_super_admin_box:hover .main_icon i {
     background-color: #fff;
 }
 
-.home_mainpage_super_admin_box:hover .viewall_btn{
+.home_mainpage_super_admin_box:hover .viewall_btn {
     color: #fff;
 }
 
-.personal-info li .title{
+.personal-info li .title {
     width: 43% !important;
 }
-.add-btn{
+
+.add-btn {
     transition: all 0.3s;
 }
-.add-btn:hover{
+
+.add-btn:hover {
     transform: scale(1.06);
     box-shadow: 0 6px 17px #bebebe;
 }
-.editProfile_tab .edit_profile i{
+
+.editProfile_tab .edit_profile i {
     font-size: 14px;
     margin-left: 6px;
 }
 
-.editProfile_tab .edit_profile{
+.editProfile_tab .edit_profile {
     color: #878a99;
     font-weight: 400;
 }
 
-.editProfile_tab:hover .edit_profile{
+.editProfile_tab:hover .edit_profile {
     color: #fff;
 }
 
-.card.custom-card{
+.card.custom-card {
     margin-top: 15px;
 }
 
@@ -608,14 +631,15 @@ body::-webkit-scrollbar {
 .modern-card:hover {
     transform: scale(1.06);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #f5a45d, #f76a4d); /* Hover gradient */
+    background: linear-gradient(135deg, #f5a45d, #f76a4d);
+    /* Hover gradient */
 }
 
-.modern-card:hover .modern-card-title{
+.modern-card:hover .modern-card-title {
     color: #fff;
 }
 
-.modern-card:hover .employee-count{
+.modern-card:hover .employee-count {
     background-color: #fff;
     color: #f5a45d;
 }
@@ -630,7 +654,6 @@ body::-webkit-scrollbar {
 .modern-icon {
     font-size: 28px;
     color: #f76a4d;
-    margin-right: 16px;
     width: 45px;
     height: 45px;
     border-radius: 100%;
@@ -639,6 +662,38 @@ body::-webkit-scrollbar {
     justify-content: center;
     background-color: #fff;
 }
+
+.modern_icon_wrapper {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    margin-right: 16px;
+    border-radius: 100%;
+}
+
+@keyframes rotate {
+    0% {
+        --gradient-angle: 0deg;
+    }
+    100% {
+        --gradient-angle: 360deg;
+    }
+}
+
+@property --gradient-angle {
+    syntax: "<angle>";
+    initial-value: 90deg;
+    inherits: false;
+}
+
+.modern-card:hover .modern_icon_wrapper{
+    background: linear-gradient(var(--gradient-angle),#1E90FF, hwb(210 0% 45%));
+    animation: rotate 2.5s linear infinite;
+}
+
 
 .modern-card-title {
     font-size: 20px;
