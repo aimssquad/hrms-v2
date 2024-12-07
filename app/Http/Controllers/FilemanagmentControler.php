@@ -386,6 +386,7 @@ public function dashboard(Request $request){
       // dd($data['data']);
       $filename=$data['data']->folder_name;
       $data['file_image']=filesUpload::where("folder_name",$filename)->get();
+      // dd($data['file_image']);
       return view('filemanagment/file-view',$data);
    }else{
     return redirect("/");

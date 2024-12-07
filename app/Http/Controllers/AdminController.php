@@ -21089,7 +21089,7 @@ class AdminController extends Controller
             if ($amount === null) {
                 $amount = DB::table('rule_table')
                     ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
-                    ->where('type', 'sub-admin')
+                    ->where('type', 'employer')
                     ->value('employee_charge');
             }    
 

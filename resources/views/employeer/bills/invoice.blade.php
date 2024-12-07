@@ -3,6 +3,7 @@
 
 @section('title', 'Invoice List')
 @php 
+//dd($bill->total_amount);
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 @endphp
@@ -47,15 +48,28 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         </div>
                         <div class="col-sm-6 m-b-20">
                             <div class="invoice-details">
-                                <h3 class="text-uppercase">{{ strtoupper($com_dtl->com_name) }}</h3>
-                                <ul class="list-unstyled">
-                                    <li><span>{{strtoupper($com_dtl->address2)}}</span></li>
-                                    <li>{{strtoupper($com_dtl->city)}} {{strtoupper($com_dtl->road)}} {{strtoupper($com_dtl->zip)}}</li>
-                                    {{-- <li>Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> --}} 
-                                    <li>Mobile: <span>{{strtoupper($com_dtl->p_no)}}</span></li>
-                                    <li>Email: <span>{{strtoupper($com_dtl->email)}}</span></li>
-                                    <li>Website: <span>April 25, 2019</span></li>
-                                </ul>
+                                @if($bill->org_code == null)
+                                    <h3 class="text-uppercase">Skilled Workers Cloud Ltd</h3>
+                                    <ul class="list-unstyled">
+                                        <li><span>Unit A, 103, Braintree Street London E2 0FT</span></li>
+                                        <li>{{strtoupper($com_dtl->city)}} {{strtoupper($com_dtl->road)}} {{strtoupper($com_dtl->zip)}}</li>
+                                        {{-- <li>Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> --}} 
+                                        <li>Mobile: <span>07467284718</span></li>
+                                        <li>Email: <span>info@skilledworkerscloud.co.uk</span></li>
+                                        <li>Website: <span>http://www.skilledworkerscloud.co.uk/</span></li>
+                                    </ul>
+                                @else 
+                                    <h3 class="text-uppercase">{{ strtoupper($com_dtl->com_name) }}</h3>
+                                    <ul class="list-unstyled">
+                                        <li><span>{{strtoupper($com_dtl->address2)}} </span></li>
+                                        <li>{{strtoupper($com_dtl->city)}} {{strtoupper($com_dtl->road)}} {{strtoupper($com_dtl->zip)}}</li>
+                                        {{-- <li>Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> --}} 
+                                        <li>Mobile: <span>{{strtoupper($com_dtl->p_no)}}</span></li>
+                                        <li>Email: <span>{{strtoupper($com_dtl->email)}}</span></li>
+                                        <li>Website: <span>April 25, 2019</span></li>
+                                    </ul>
+                                @endif
+                                
                             </div>
                         </div>
                     </div>
@@ -92,7 +106,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                     <th >Quantity</th>
                                     <th>Unit Price Excluding VAT</th>
                                     <th>Unit Price</th>
-                                    <th>VAT</th>
+                                    <th>VAT (%)</th>
                                     <th class="text-end">TOTAL</th>
                                 </tr>
                             </thead>
@@ -100,11 +114,21 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                 <tr>
                                     <td>1</td>
                                     <td class="d-none d-sm-table-cell">{{$bill->description}}</td>
-                                    <td>2</td>
+                                    <td>{{$bill->total_employee}}</td>
                                     <td>{{$bill->amount}}</td>
                                     <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td>
-                                    <td>{{$bill->vat}}</td>
-                                    <td class="text-end">{{$bill->total_amount}}</td>
+                                    <td>{{ !empty($bill->vat) ? $bill->vat : 'NA' }}</td>
+                                    <td class="text-end">
+                                        @if($bill->vat !== null) 
+                                        {{-- {{$bill->total_amount}} --}}
+                                            @php
+                                                $total = $bill->amount*$bill->vat/100;
+                                                echo $total+$bill->amount;
+                                            @endphp
+                                        @else 
+                                            {{$bill->amount}}
+                                        @endif
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -131,15 +155,21 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                         <table class="table mb-0">
                                             <tbody>
                                                 <tr>
+                                                    <th>Discount:</th>
+                                                    <td></td>
+                                                    <td class="text-end text-primary"><h5>{{ !empty($bill->discount_amount) ? $bill->discount_amount : 'NA' }}</h5></td>
+                                                </tr>
+                                                <tr>
                                                     <th>Subtotal:</th>
                                                     <td></td>
-                                                    <td class="text-end">{{$bill->amount}}</td>
+                                                    <td class="text-end">
+                                                        @if($bill->total_amount==0)
+                                                            {{$bill->amount}}
+                                                        @else
+                                                            {{$bill->total_amount}}
+                                                        @endif
+                                                    </td>
                                                 </tr>
-                                                {{-- <tr>
-                                                    <th>Tax: <span class="text-regular">({{$bill->vat}} %)</span></th>
-                                                    <td>{{$bill->vat}}</td>
-                                                    <td class="text-end">@php $vat = $bill->total_amount-$bill->amount; echo $vat; @endphp</td>
-                                                </tr> --}}
                                                 <tr>
                                                     <th>Total Paid:</th>
                                                     <td></td>

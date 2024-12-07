@@ -1325,15 +1325,11 @@ class SettingController extends Controller
                 //$data=request()->except(['_token']);
 
                 if (empty($request->id)) {
-
                     DB::table('employee_type')->insert(
                         ['employee_type_name' => $employee_type_name, 'employee_type_status' => 'Active', 'emid' => $Roledata->reg]
                     );
-
                     Session::flash('message', 'Employee Type Information Successfully saved.');
-
                     return redirect('org-settings/vw-employee-type');
-
                 } else {
                     DB::table('employee_type')
                         ->where('id', $request->id)

@@ -4528,6 +4528,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
     public function saveEmployeesright(Request $request)
     {
+        //dd($request->all());
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')

@@ -3,23 +3,24 @@
    $userType = Session::get('usersu_type');
    $user_name = Session::get('empsu_name');
    $user_id = Session::get('users_id');
+   $email = Session::get('empsu_email');
    //$subadmin_dtl = DB::table('sub_admin_registrations')->where('')
-   //dd($user_id);
+   //dd($email);
 @endphp
 <!-- Header -->
 <div class="header">
 
     <!-- Logo -->
     <div class="header-left">
-        <a href="admin-dashboard.html" class="logo">
-            {{-- <img src="{{asset('assets/img/logo.svg')}}" alt="Logo"> --}}
+        <a href="#" class="logo">
+            <img src="{{asset('assets/img/logo.svg')}}" alt="Logo">
         </a>
-        <a href="admin-dashboard.html" class="logo collapse-logo">
-            {{-- <img src="{{asset('assets/img/collapse-logo.svg')}}" alt="Logo"> --}}
+        {{-- <a href="admin-dashboard.html" class="logo collapse-logo">
+            <img src="{{asset('assets/img/collapse-logo.svg')}}" alt="Logo">
         </a>
         <a href="admin-dashboard.html" class="logo2">
-            {{-- <img src="{{asset('assets/img/logo2.png')}}" width="40" height="40" alt="Logo"> --}}
-        </a>
+            <img src="{{asset('assets/img/logo2.png')}}" width="40" height="40" alt="Logo">
+        </a> --}}
     </div>
     <!-- /Logo -->
 
@@ -48,7 +49,7 @@
                 <a href="javascript:void(0);" class="responsive-search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                </a>
-                <form action="search.html">
+                <form action="#">
                     <input class="form-control" type="text" placeholder="Search here">
                     <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>

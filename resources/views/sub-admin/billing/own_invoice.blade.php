@@ -1,5 +1,6 @@
 @extends('sub-admin.include.app')
 @section('title', 'Invoice')
+
 @section('content')
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -41,14 +42,14 @@
                         </div>
                         <div class="col-sm-6 m-b-20">
                             <div class="invoice-details">
-                                <h3 class="text-uppercase">{{ strtoupper($com_dtl->com_name) }}</h3>
+                                <h3 class="text-uppercase">Skilled Workers Cloud Ltd</h3>
                                 <ul class="list-unstyled">
-                                    <li><span>{{strtoupper($com_dtl->address2)}}</span></li>
-                                    <li>{{strtoupper($com_dtl->city)}} {{strtoupper($com_dtl->road)}} {{strtoupper($com_dtl->zip)}}</li>
+                                    <li><span>Unit A, 103, Braintree Street London E2 0FT</span></li>
+                                    {{-- <li>{{strtoupper($com_dtl->city)}} {{strtoupper($com_dtl->road)}} {{strtoupper($com_dtl->zip)}}</li> --}}
                                     {{-- <li>Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> --}} 
-                                    <li>Mobile: <span>{{strtoupper($com_dtl->p_no)}}</span></li>
-                                    <li>Email: <span>{{strtoupper($com_dtl->email)}}</span></li>
-                                    <li>Website: <span>April 25, 2019</span></li>
+                                    <li>Mobile: <span>07467284718</span></li>
+                                    <li>Email: <span>info@skilledworkerscloud.co.uk</span></li>
+                                    <li>Website: <span>http://www.skilledworkerscloud.co.uk/</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -58,16 +59,16 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-lg-7 col-xl-8 m-b-20">
-                            <h5>Bill To: {{ !empty($org_dtl->com_name) ? strtoupper($org_dtl->com_name) : 'NA' }}</h5>
+                            <h5>Bill To: {{ !empty($com_dtl->com_name) ? strtoupper($com_dtl->com_name) : 'NA' }}</h5>
                             <br>
                             <ul class="list-unstyled">
-                                <li><h5><strong>{{ strtoupper($org_dtl->com_name) }}</strong></h5></li>
-                                <li><span>{{ strtoupper($org_dtl->f_name) }} {{ strtoupper($org_dtl->l_name) }}</span></li>
-                                <li>{{strtoupper($org_dtl->address)}}</li>
-                                <li>{{strtoupper($org_dtl->city)}}</li>
-                                <li>{{strtoupper($org_dtl->road)}} {{strtoupper($org_dtl->zip)}}</li>
-                                <li>{{strtoupper($org_dtl->p_no)}}</li>
-                                <li><a href="#">{{$org_dtl->email}}</a></li>
+                                <li><h5><strong>{{ strtoupper($com_dtl->com_name) }}</strong></h5></li>
+                                <li><span>{{ strtoupper($com_dtl->f_name) }} {{ strtoupper($com_dtl->l_name) }}</span></li>
+                                <li>{{strtoupper($com_dtl->address)}}</li>
+                                <li>{{strtoupper($com_dtl->city)}}</li>
+                                <li>{{strtoupper($com_dtl->road)}} {{strtoupper($com_dtl->zip)}}</li>
+                                <li>{{strtoupper($com_dtl->p_no)}}</li>
+                                <li><a href="#">{{$com_dtl->email}}</a></li>
                             </ul>
                         </div>
                         <div class="col-sm-6 col-lg-5 col-xl-4 m-b-20">
@@ -94,11 +95,18 @@
                                 <tr>
                                     <td>1</td>
                                     <td class="d-none d-sm-table-cell">{{$bill->description}}</td>
-                                    <td>2</td>
+                                    <td>{{$bill->total_employee}}</td>
                                     <td>{{$bill->amount}}</td>
                                     <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td>
                                     <td>{{$bill->vat}}</td>
-                                    <td class="text-end">{{$bill->total_amount}}</td>
+                                    <td class="text-end">
+                                        @if($bill->vat == null)
+                                            {{$bill->amount}}
+                                        @else
+                                            {{$bill->total_amount}}
+                                        @endif
+                                        
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -125,9 +133,22 @@
                                         <table class="table mb-0">
                                             <tbody>
                                                 <tr>
+                                                    <th>Discount:</th>
+                                                    <td></td>
+                                                    <td class="text-end">
+                                                        {{ $bill->discount_amount ? $bill->discount_amount : 'NA' }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <th>Subtotal:</th>
                                                     <td></td>
-                                                    <td class="text-end">{{$bill->amount}}</td>
+                                                    <td class="text-end">
+                                                        @if($bill->vat == null && $bill->discount_amount ==null)
+                                                        {{$bill->amount}}
+                                                        @else
+                                                        {{$bill->total_amount}}
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                                 {{-- <tr>
                                                     <th>Tax: <span class="text-regular">({{$bill->vat}} %)</span></th>

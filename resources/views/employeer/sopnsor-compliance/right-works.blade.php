@@ -6,22 +6,25 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 @endphp
 @section('content')
 @php
-function my_simple_crypt( $string, $action = 'encrypt' ) {
-// you may change these values to your own
-$secret_key = 'bopt_saltlake_kolkata_secret_key';
-$secret_iv = 'bopt_saltlake_kolkata_secret_iv';
-$output = false;
-$encrypt_method = "AES-256-CBC";
-$key = hash( 'sha256', $secret_key );
-$iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
-if( $action == 'encrypt' ) {
-$output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
-}
-else if( $action == 'decrypt' ){
-$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
-}
-return $output;
-}
+    function my_simple_crypt( $string, $action = 'encrypt' ) {
+        // you may change these values to your own
+        $secret_key = 'bopt_saltlake_kolkata_secret_key';
+        $secret_iv = 'bopt_saltlake_kolkata_secret_iv';
+    
+        $output = false;
+        $encrypt_method = "AES-256-CBC";
+        $key = hash( 'sha256', $secret_key );
+        $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+    
+        if( $action == 'encrypt' ) {
+            $output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
+        }
+        else if( $action == 'decrypt' ){
+            $output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
+        }
+    
+        return $output;
+    }
 @endphp
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -93,7 +96,7 @@ return $output;
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped custom-table" id="basic-datatables">
+                    <table id="basic-datatables" class="display table table-striped table-hover">
                        <thead>
                           <tr>
                             <th>Employee ID</th>
@@ -107,44 +110,23 @@ return $output;
                        </thead>
                        <tbody>
                         @foreach($employee_rs as $employee)
-                            <?php
-                                $employefgf=DB::table('employee')->where('emid', '=', $Roledata->reg )->where('emp_code', '=', $employee->employee_id )->first();
-                                //dd($employee_rs);
-                            ?>
-                            <tr>
-                                <td>{{ $employee->employee_id}}</td>
-                                <td>{{ $employefgf->emp_fname }} {{ $employefgf->emp_mname }} {{ $employefgf->emp_lname }}</td>
-                                <td>   {{ date('d/m/Y',strtotime($employee->date)) }} </td>
-                                <td>{{ $employee->type }}</td>
-                                <td class="text-end">
-                                <div class="dropdown dropdown-action">
-                                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                       
-                                        <a class="dropdown-item" href="{{ url('dashboard/work-view/'.base64_encode($employee->id)) }}">
-                                        <i class="fa-solid fa-pencil m-r-5"></i> View
-                                        </a>
-                                        
-                                        <a class="dropdown-item" href="{{ url('dashboard/work-view/'.base64_encode($employee->id)) }}">
-                                        <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                        </a>
-                                       
-                                        {{-- @if($user_type == 'employee')
-                                        @foreach($sidebarItems as $value)
-                                        @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-                                        <a class="dropdown-item" href='{{url("user-accessrole/view-users-role/$role->id")}}' onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
-                                        @endif
-                                        @endforeach
-                                        @elseif($user_type == 'employer')
-                                        <a class="dropdown-item" href='{{url("user-accessrole/view-users-role/$role->id")}}' onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
-                                        @endif --}}
-                                    </div>
-                                </div>
-                                </td>
-                            </tr>
-                          @endforeach
+                        <?php
+                           $employefgf=DB::table('employee')->where('emid', '=', $Roledata->reg )->where('emp_code', '=', $employee->employee_id )->first();
+                           //dd($employee_rs);
+                           ?>
+                        <tr>
+                           <td>{{ $employee->employee_id}}</td>
+                           <td>{{ $employefgf->emp_fname }} {{ $employefgf->emp_mname }} {{ $employefgf->emp_lname }}</td>
+                           <td>   {{ date('d/m/Y',strtotime($employee->date)) }} </td>
+                           <td>{{ $employee->type }}</td>
+                           <!-- <td> -->
+                           <td class="icon"> <a data-toggle="tooltip" data-placement="bottom" title="View" href="{{ url('dashboard/work-view/'.base64_encode($employee->id)) }}" target="_blank" ><img  style="width: 14px;" src="{{ asset('assets/img/view.png')}}"></a></td>
+                           <td class="icon"> <a data-toggle="tooltip" data-placement="bottom" title="Download" href="{{ url('dashboard/work-view-download/'.base64_encode($employee->id)) }}" target="_blank" ><img  style="width: 14px;" src="{{ asset('assets/img/download.png')}}"></a></td>
+                           <td class="icon"> <a data-toggle="tooltip" data-placement="bottom" title="Edit" href="{{ url('org-dashboard/edit-work-view/'.base64_encode($employee->id)) }}" ><img  style="width: 15px;" src="{{ asset('assets/img/edit.png')}}"></a>
+                           </td>
+                           <!-- </td> -->
+                        </tr>
+                        @endforeach  
                        </tbody>
                     </table>
                  </div>

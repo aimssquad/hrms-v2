@@ -663,25 +663,25 @@
                                     </div>
                                     <h3 class="multisteps-form__title mt-5" style="color: #1269db;border-bottom: 1px solid #ddd;padding-bottom: 11px;">Certified Membership</h3>
                                     <div class="row mt-4">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabelicl" class="col-form-label">Title of Certified License</label>
                                                 <input id="inputFloatingLabelicl" type="text" class="form-control input-border-bottom" name="titleof_license" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->titleof_license;}?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabeliln" class="col-form-label">License Number</label>
                                                 <input id="inputFloatingLabeliln" type="text" class="form-control input-border-bottom" name="cf_license_number" value="<?php if (request()->get('q') != '') {echo $employee_rs[0]->cf_license_number;}?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabelisd" class="col-form-label">Start Date</label>
                                                 <input id="inputFloatingLabelisd" type="date" class="form-control input-border-bottom" name="cf_start_date" value="<?php if (request()->get('q') != '') {if ($employee_rs[0]->cf_start_date != '1970-01-01') {if ($employee_rs[0]->cf_start_date != '') {echo $employee_rs[0]->cf_start_date;}}}?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 mb-2">
                                             <div class="form-group">
                                                 <label for="inputFloatingLabelied" class="col-form-label">End Date</label>
                                                 <input id="inputFloatingLabelied" type="date" class="form-control input-border-bottom" name="cf_end_date" value="<?php if (request()->get('q') != '') {if ($employee_rs[0]->cf_end_date != '1970-01-01') {if ($employee_rs[0]->cf_end_date != '') {echo $employee_rs[0]->cf_end_date;}}}?>">

@@ -42,281 +42,212 @@
       ?>
    <div class="dash-inr">
       <div class="container">
-         <div class="row">
+         <div class="row g-4">
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background:#f5a45d;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Organisation Profile</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="text-fixed-white">
-                           <div class="fs-15 fw-semibold">
-                              @if($Roledata->updated_at!='' )
-                              <h5 style="font-size:14px"class="text-fixed-white">Complete</h5>
+               <a href="{{url('org-company-profile/edit-company')}}?c_id={{base64_encode($Roledata->id)}}" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-building modern-icon"></i>
+                           <h4 class="modern-card-title">Organisation Profile</h4>
+                     </div>
+                     <div class="modern-card-body">
+                           <div class="modern-status">
+                              @if($Roledata->updated_at != '')
+                              <span class="status-badge complete">Complete</span>
                               @else
-                              <h5 style="font-size:14px;"class="text-fixed-white">Incomplete</h5>
+                              <span class="status-badge incomplete">Incomplete</span>
                               @endif
                            </div>
-                        </div>
-                        <div class="ms-auto">
-                           <a href="{{url('org-company-profile/edit-company')}}?c_id={{base64_encode($Roledata->id)}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background:#FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-sitemap"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">All Employee List</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                           <div class="fs-15 fw-semibold">
-                              <h5 >{{ count($employee_active)}}</h5>
+                           <div class="modern-arrow">
+                              <span class="employee-count">9</span>
+                              <i class="fa fa-arrow-right"></i>
                            </div>
-                        </div>
-                        <div class="ms-auto">
-                           <?php 
-                              if( $usetype=='employee'){
-                                 if(in_array('1', $arrrole)){
-                              ?>
-                           <a href="{{url('org-dashboard-employees')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php }else{ ?> <a href="#" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php }
-                              }else{ ?> <a href="{{url('org-dashboard-employees')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php	} ?>	
-                        </div>
                      </div>
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: linear-gradient(135deg, #fc0202, #00ff40);">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-blind"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Migrant Employee List</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                           <div class="fs-15 fw-semibold">
-                              <h5>{{ count($employee_migarnt)}}</h5>
-                           </div>
+               <a href="{{url('org-dashboard-employees')}}" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-sitemap modern-icon"></i>
+                           <h4 class="modern-card-title">All Employee List</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status">
+                           <!-- @if($Roledata->updated_at != '')
+                           <span class="status-badge complete">Complete</span>
+                           @else
+                           <span class="status-badge incomplete">Incomplete</span>
+                           @endif -->
                         </div>
-                        <div class="ms-auto">
-                           <?php 
-                              if( $usetype=='employee'){
-                              if(in_array('1', $arrrole))
-                              {
-                              
-                              ?>
-                           <a href="{{url('org-dashboard-migrant-employees')}}"  class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }else{
-                                  ?>  <a href="#" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }
-                                                                  }else{
-                                                                  ?> <a href="{{url('org-dashboard-migrant-employees')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php	
-                              }     
-                              ?>					
+                        <div class="modern-arrow">
+                           <span class="employee-count">{{ count($employee_active) }}</span>
+                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-user-secret"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Right to Work checks</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <a href="{{url('org-dashboard-right-works')}}" class="text-fixed-white">	<i class="fa fa-arrow-right"></i></a>
+               <a href="{{ url('org-dashboard-migrant-employees') }}" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-blind modern-icon"></i>
+                           <h4 class="modern-card-title">Migrant Employee List</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">{{ count($employee_migarnt) }}</span>
+                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Recruitment Process </h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <?php 
-                              if( $usetype=='employee'){
-                              if(in_array('2', $arrrole))
-                              {
-                              
-                              ?>
-                           <a href="{{url('recruitment/dashboard')}}" target="_blank" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }else{
-                              	?>  <a href="#" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }
-                              									}else{
-                              									?> <a href="{{url('recruitment/dashboard')}}" target="_blank" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php	
-                              }
-                              
-                              ?>	
+               <a href="{{ url('org-dashboard-right-works') }}" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-user-secret modern-icon"></i>
+                           <h4 class="modern-card-title">Right to Work checks</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">{{ count($employee_migarnt) }}</span>
+                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Leave Management</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <?php 
-                              if( $usetype=='employee'){
-                              if(in_array('3', $arrrole))
-                              {
-                              
-                              ?>
-                           <a href="{{url('leavedashboard')}}" target="_blank" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }else{
-                                  ?>  <a href="#" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }
-                                                                  }else{
-                                                                  ?> <a href="{{url('leave/dashboard')}}" target="_blank" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php	
-                              }
-                              
-                              ?>	
+               <a 
+               href="{{ $usetype == 'employee' && in_array('2', $arrrole) ? url('recruitment/dashboard') : '#' }}" 
+               target="{{ $usetype == 'employee' && in_array('2', $arrrole) ? '_blank' : '_self' }}" 
+               class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-building modern-icon"></i>
+                           <h4 class="modern-card-title">Recruitment Process</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">0</span>
+                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Payroll</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <a href="#" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
+               <a 
+               href="{{ $usetype == 'employee' && in_array('3', $arrrole) ? url('leavedashboard') : ($usetype != 'employee' ? url('leave/dashboard') : '#') }}" 
+               target="{{ $usetype == 'employee' && in_array('3', $arrrole) || $usetype != 'employee' ? '_blank' : '_self' }}" 
+               class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-building modern-icon"></i>
+                           <h4 class="modern-card-title">Leave Management</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">0</span>
+                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background:#FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Key Contact</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <a href="{{url('org-dashboard/key-contact')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
+               <a href="#" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-building modern-icon"></i>
+                           <h4 class="modern-card-title">Payroll</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">0</span>
+                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Sponsor Management Dossier</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <a href="{{url('org-dashboard/sponsor-management-dossier')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
+               <a href="{{ url('org-dashboard/key-contact') }}" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-building modern-icon"></i>
+                           <h4 class="modern-card-title">Key Contact</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">0</span>
+                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
                   </div>
-               </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Monitoring & Reporting</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <?php 
-                              if( $usetype=='employee'){
-                              if(in_array('1', $arrrole))
-                              {
-                              
-                              ?>
-                           <a href="{{url('org-dashboard-migrant-employees')}}" >
-                           <?php
-                              }else{
-                                  ?>  <a href="#" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }
-                                                                  }else{
-                                                                  ?> <a href="{{url('org-dashboard-migrant-employees')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php	
-                              }
-                              
-                              ?>	
+               <a href="{{ url('org-dashboard/sponsor-management-dossier') }}" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-building modern-icon"></i>
+                           <h4 class="modern-card-title">Sponsor Management Dossier</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">0</span>
+                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
                   </div>
-                </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Message Centre</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <a href="{{url('org-dashboard/message-center')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
+               <a href="{{ url('org-dashboard-migrant-employees') }}" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-building modern-icon"></i>
+                           <h4 class="modern-card-title">Monitoring & Reporting</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">0</span>
+                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
                   </div>
-               </div>
+               </a>
+
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6">
+               <a href="{{ url('org-dashboard/message-center') }}" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                           <i class="fa fa-building modern-icon"></i>
+                           <h4 class="modern-card-title">Message Centre</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">0</span>
+                           <i class="fa fa-arrow-right"></i>
+                        </div>
+                     </div>
+                  </div>
+               </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
                <div class="card" style="background: #FF902F;">

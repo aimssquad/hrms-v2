@@ -70,11 +70,14 @@ Route::get('/sub-admin/billing/delete/{id}', 'App\Http\Controllers\organization\
 Route::get('/sub-admin/billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewInvoice')->name('subadmin.billing.invoice');
 //------------Own Bills
 Route::get('/sub-admin/all-bills','App\Http\Controllers\organization\SubadminBillController@viewBillList')->name('subadmin.allbills');
+Route::get('/sub-admin/own_billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewOwnInvoice')->name('subadmin.own_billing.invoice');
 
 //-------------------------------------End Sub Admin Billing---------------------------------------
 //---------------------------------------Organization  Billing ------------------------------------------
+Route::get('organization/billing/dashboard','App\Http\Controllers\organization\OrganizationBillController@orgDashboard')->name('organization.bill-dashboard');
 Route::get('organization/billing-show','App\Http\Controllers\organization\OrganizationBillController@orgBill')->name('organization.bill-show');
 Route::get('/organization/billing/view/{id}', 'App\Http\Controllers\organization\OrganizationBillController@invoice')->name('organization.billing.invoice');
+Route::get('/organization/billing/edit/{id}', 'App\Http\Controllers\organization\OrganizationBillController@editInvoice')->name('organization.billing.edit');
 ///--------------------------------------End Organization  Billing --------------------------------------
 
 //---------------------------------------------Login And Registration Slide image Video --------------------------
@@ -329,6 +332,7 @@ Route::post('org-employee-corner/leave-apply', 'App\Http\Controllers\organizatio
 
 //-------------------------------------------- Hr Support ---------------------------------------------------
 Route::get('hr-support/dashboard', 'App\Http\Controllers\organization\HrSupportController@viewdashboard')->name('hr-support.dashboard');
+Route::get('hr-support/dashboard-new', 'App\Http\Controllers\organization\HrSupportController@viewdashboardnew')->name('hr-support.dashboard-new');
 Route::get('hr-support/support-file/{id}', 'App\Http\Controllers\organization\HrSupportController@supportFile')->name('support-file.show');
 Route::get('hr-support/support-file-details/{id}', 'App\Http\Controllers\organization\HrSupportController@supportFileDetails')->name('support-file.details');
 
@@ -498,6 +502,7 @@ Route::get('org-dashboard-employees', 'App\Http\Controllers\organization\Dashboa
 Route::get('org-dashboard-migrant-employees', 'App\Http\Controllers\organization\DashboardController@getEmployeesmigrant');
 Route::get('org-dashboard-right-works', 'App\Http\Controllers\organization\DashboardController@getEmployeesright');
 Route::get('org-add-right-works-by-datecheck', 'App\Http\Controllers\organization\DashboardController@addEmployeesrightByDate');
+Route::post('org-add-right-works-by-date', 'App\Http\Controllers\organization\DashboardController@saveEmployeesrightByDate');
 Route::get('org-dashboard/key-contact', 'App\Http\Controllers\organization\DashboardController@getCompaniesofficerkey');
 Route::get('org-dashboard/sponsor-management-dossier', 'App\Http\Controllers\organization\DashboardController@getEmployeesdossier');
 Route::get('org-dashboard/message-center', 'App\Http\Controllers\organization\DashboardController@viewmsgcen');
@@ -510,6 +515,9 @@ Route::get('org-dashboard/contract-agreement', 'App\Http\Controllers\organizatio
 Route::post('org-dashboard/contract-agreement', 'App\Http\Controllers\organization\DashboardController@saveemployeeagreement');
 Route::get('org-dashboard/org-contract-agreement-edit/{agreement_id}', 'App\Http\Controllers\organization\DashboardController@viewemployeeagreementdit');
 Route::get('org-dashboard/org-contract-word/{agreement_id}', 'App\Http\Controllers\organization\DashboardController@msword');
+Route::post('org-add-right-works', 'App\Http\Controllers\organization\DashboardController@saveEmployeesright');
+Route::get('org-dashboard/edit-work-view/{send_id}', 'App\Http\Controllers\organization\DashboardController@viewsendcandidatedetailsworkedit');
+Route::post('org-edit-right-works', 'App\Http\Controllers\organization\DashboardController@saveEmployeesrightedit');
 
 //-----------------------------------------End Sponsor Compliance --------------------------------------------------------
 
@@ -3515,74 +3523,76 @@ Route::get('settings/get-add-row-mic/{row}', function ($row) {
     echo $result;
 });
 
-Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
+Route::get('settings/get-add-row-item-edu/{row}','App\Http\Controllers\organization\EmployeeController@jobDtl');
 
-    $row = $row + 1;
+// Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
 
-    $result = '
-				  <div class="itemslotedu" id="' . $row . '">
-				  <div class="row " >
-				  <div class="col-md-4 mb-2">
+//     $row = $row + 1;
 
-		<div class="form-group">
-	<label for="inputFloatingLabel-jobt" class="col-form-label">Job Title</label>
-		<input id="inputFloatingLabel-jobt" type="text" class="form-control input-border-bottom"  name="job_name[]">
+//     $result = '
+// 				  <div class="itemslotedu" id="' . $row . '">
+// 				  <div class="row " >
+// 				  <div class="col-md-4">
 
-	</div>
-	</div>
-	<div class="col-md-4 mb-2">
+// 		<div class="form-group">
+// 	<label for="inputFloatingLabel-jobt" class="col-form-label">Job Title</label>
+// 		<input id="inputFloatingLabel-jobt" type="text" class="form-control input-border-bottom"  name="job_name[]">
 
-		<div class="form-group">
-	    <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
-		<input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]">
-	</div>
-	</div>
-	<div class="col-md-4 mb-2">
+// 	</div>
+// 	</div>
+// 	<div class="col-md-4">
 
-		<div class="form-group">
-		    <label for="inputFloatingLabel-jobe" class="col-form-label">End Date </label>
-		<input id="inputFloatingLabel-jobe" type="date" class="form-control input-border-bottom" name="job_end_date[]">
+// 		<div class="form-group">
+// 	    <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
+// 		<input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]">
+// 	</div>
+// 	</div>
+// 	<div class="col-md-4">
 
-	</div>
-	</div>
-		</div>
+// 		<div class="form-group">
+// 		    <label for="inputFloatingLabel-jobe" class="col-form-label">End Date </label>
+// 		<input id="inputFloatingLabel-jobe" type="date" class="form-control input-border-bottom" name="job_end_date[]">
 
-		          <div class="row">
-				  <div class="col-md-4 mb-2">
-<div class="form-group">
-   <label for="selectFloatingLabelexp" class="col-form-label">Year of Experience</label>
-<select class="form-control input-border-bottom" id="selectFloatingLabelexp"  name="exp[]">
-<option value="">&nbsp;</option>';
-    for ($i = 0; $i <= 10; $i++) {
-        $result .= '
-<option value="' . $i . '">' . $i . '</option>';
+// 	</div>
+// 	</div>
+// 		</div>
 
-    }
+// 		          <div class="row">
+// 				  <div class="col-md-4">
+// <div class="form-group">
+//    <label for="selectFloatingLabelexp" class="col-form-label">Year of Experience</label>
+// <select class="form-control input-border-bottom" id="selectFloatingLabelexp"  name="exp[]">
+// <option value="">&nbsp;</option>';
+//     for ($i = 0; $i <= 10; $i++) {
+//         $result .= '
+// <option value="' . $i . '">' . $i . '</option>';
 
-    $result .= '
-</select>
+//     }
 
-</div>
-</div><div class="col-md-6 mb-2">
+//     $result .= '
+// </select>
 
-				  <div class="form-group">
-<label for="inputFloatingLabel-jobs" class="col-form-label">Job Description</label>
-	<textarea id="inputFloatingLabel-jobs"  rows="5" class="form-control"  style="height:135px !important;resize:none;"  name="des[]"> </textarea>
+// </div>
+// </div><div class="col-md-6">
 
-</div>
-</div>
+// 				  <div class="form-group">
+// <label for="inputFloatingLabel-jobs" class="col-form-label">Job Description</label>
+// 	<textarea id="inputFloatingLabel-jobs"  rows="5" class="form-control"  style="height:135px !important;resize:none;"  name="des[]"> </textarea>
+
+// </div>
+// </div>
 
 
 
 
-<div class="col-md-2" style="margin-top:27px;">
-<button class="btn-success" type="button"  id="addedu' . $row . '" onClick="addnewrowedu(' . $row . ')" data-id="' . $row . '"><i class="fas fa-plus"></i> </button>
- <button class="btn-danger deleteButtonedu" type="button" id="deledu' . $row . '"  onClick="delRowedu(' . $row . ')"> <i class="fas fa-minus"></i> </button>
-</div>
-</div>
-	</div></br>';
-    echo $result;
-});
+// <div class="col-md-2" style="margin-top:27px;">
+// <button class="btn-success" type="button"  id="addedu' . $row . '" onClick="addnewrowedu(' . $row . ')" data-id="' . $row . '"><i class="fas fa-plus"></i> </button>
+//  <button class="btn-danger deleteButtonedu" type="button" id="deledu' . $row . '"  onClick="delRowedu(' . $row . ')"> <i class="fas fa-minus"></i> </button>
+// </div>
+// </div>
+// 	</div></br>';
+//     echo $result;
+// });
 
 Route::get('settings/get-add-row-item-train/{row}', function ($row) {
 

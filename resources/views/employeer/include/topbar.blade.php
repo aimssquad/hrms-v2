@@ -7,11 +7,11 @@
         ->where('email', '=', $email)
         ->first();
     //dd($company_details); 
-    /*if (!$company_details) {
+    if (!$company_details) {
         Session::flush();
         header('Location: ' . url('/'));
         exit(); 
-    }*/
+    }
 @endphp
 <!-- Header -->
 <div class="header">
@@ -30,7 +30,7 @@
     <div class="header-left">
         <a href="{{ url('organization/employerdashboard') }}" class="logo" style="display: block; width: 100%; height: 100%;">
             @if(!empty($company_details->logo))
-            <img src="{{asset('storage/' . $company_details->logo)}}" alt="Company Logo" style="width: auto; height: 40px; object-fit: contain;">
+            <img src="{{asset('storage/app/public/' . $company_details->logo)}}" alt="Company Logo" style="width: auto; height: 40px; object-fit: contain;">
 
             <!-- <img src="{{asset('storage/app/public/' . $company_details->logo)}}" alt="Company Logo" style="width: 100%; height: 100%; object-fit: cover;"> -->
             @endif

@@ -48,49 +48,70 @@
 
                   @php
                      // Define all available modules
-                     $allModules = range(1, 18);
+                     $allModules = range(1, 19);
+                     $module_icon = [
+                        1 => 'las la-donate',
+                        2 => 'las la-clone',
+                        3 => 'la la-users',
+                        4 => 'las la-calendar',
+                        5 => 'las la-tachometer-alt',
+                        6 => 'las la-clipboard-list ',
+                        7 => 'lab la-confluence',
+                        8 => 'lab la-blackberry',
+                        9 => 'las la-tasks ',
+                        10 => 'las la-certificate',
+                        11 => 'las la-cogs',
+                        12 => 'las la-universal-access',
+                        13 => 'las la-pound-sign',
+                        14 => 'las la-file ',
+                        15 => 'las la-american-sign-language-interpreting',
+                        16 => 'las la-chart-bar',
+                        17 => 'las la-sync',
+                        18 => 'las la-user-tie',
+                        19 => 'las la-cash-register',
+                     ];
                      $moduleNames = [
-                        // 1 => 'Organization',
-                        1 => 'Recruitment',
-                        2 => 'Employee Administration',
-                        3 => 'Rota',
-                        4 => 'Attendance',
-                        5 => 'Leave Handling',
-                        6 => 'Leave Authosizer',
-                        7 => 'Holiday Handling',
-                        8 => 'Task Control',
-                        9 => 'Performance Control',
-                        10 => 'Settings',
-                        11 => 'User Permissions',
-                        12 => 'Billing',
-                        13 => 'File Manager',
-                        14 => 'Hr Support',
-                        15 => 'Organogram Chart',
-                        16 => 'Change Of Circumstances',
-                        17 => 'Employee Hub',
-                        18 => 'Visitor Register',
+                        1 => 'Sponsor Compliances',
+                        2 => 'Recruitment',
+                        3 => 'Employee Administration',
+                        4 => 'Rota',
+                        5 => 'Attendance',
+                        6 => 'Leave Handling',
+                        7 => 'Leave Authosizer',
+                        8 => 'Holiday Handling',
+                        9 => 'Task Control',
+                        10 => 'Performance Control',
+                        11 => 'Settings',
+                        12 => 'User Permissions',
+                        13 => 'Billing',
+                        14 => 'File Manager',
+                        15 => 'Hr Support',
+                        16 => 'Organogram Chart',
+                        17 => 'Change Of Circumstances',
+                        18 => 'Employee Hub',
+                        19 => 'Visitor Register',
                      ];
 
                      $module_url = [
-                        // 1 => 'organization/employerdashboard',
-                        1 => 'recruitment/dashboard',
-                        2 => 'organization/employee/employerdashboard',
-                        3 => 'rota-org/dashboard',
-                        4 => 'attendance-management/dashboard',
-                        5 => 'leave/dashboard',
-                        6 => 'leaveapprover/leave-dashboard',
-                        7 => 'orgaization/holiday-dashboard',
-                        8 => 'org-task-management/dashboard',
-                        9 => 'org-performances/dashboard',
-                        10 => 'organization/settings-dashboard',
-                        11 => 'user-access-role/dashboard',
-                        12 => 'organization/billing-show',
-                        13 => 'file-management/dashboard',
-                        14 => 'hr-support/dashboard',
-                        15 => '#',
-                        16 => 'organization/circumstances',
-                        17 => 'org-user-check-employee',
-                        18 => 'rota-org/visitor-dashboard',
+                        1 => 'org-dashboarddetails',
+                        2 => 'recruitment/dashboard',
+                        3 => 'organization/employee/employerdashboard',
+                        4 => 'rota-org/dashboard',
+                        5 => 'attendance-management/dashboard',
+                        6 => 'leave/dashboard',
+                        7 => 'leaveapprover/leave-dashboard',
+                        8 => 'orgaization/holiday-dashboard',
+                        9 => 'org-task-management/dashboard',
+                        10 => 'org-performances/dashboard',
+                        11 => 'organization/settings-dashboard',
+                        12 => 'user-access-role/dashboard',
+                        13 => 'organization/billing/dashboard',
+                        14 => 'file-management/dashboard',
+                        15 => 'hr-support/dashboard',
+                        16 => '#',
+                        17 => 'organization/circumstances',
+                        18 => 'org-user-check-employee',
+                        19 => 'rota-org/visitor-dashboard',
                      ];
 
                      // Convert employee modules to integers for comparison
@@ -105,6 +126,7 @@
                         $moduleName = $moduleNames[$moduleId] ?? 'Unknown Module';
                          // Get the URL name or default to 'Unknown Url'
                          $moduleUrl = $module_url[$moduleId] ?? '#';
+                         $moduleIcon = $module_icon[$moduleId] ?? 'las la-expand-arrows-alt';
                         //dd($hasAccess);
                      @endphp
 
@@ -117,7 +139,7 @@
                                  <div class="text-primary w-100">
                                     <div class="d-flex align-items-center gap-3">
                                        <div class="main_icon">
-                                          <i class="fas fa-building rota-icon-size-fixed"></i>
+                                          <i class="{{$moduleIcon}} rota-icon-size-fixed"></i>
                                        </div>
                                        <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">
                                           <h5 class="text-card-size-fixed">{{ $moduleName }}</h5>

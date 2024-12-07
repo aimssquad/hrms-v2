@@ -15,6 +15,10 @@ use App\Models\HrSupport\HrSupportFile;
 
 class HrSupportController extends Controller
 {
+
+    protected $_module;
+    protected $_routePrefix;
+    protected $_model;
     public function __construct()
     {
         $this->_module      = 'Organization';
@@ -31,6 +35,25 @@ class HrSupportController extends Controller
                 ->first();
             $data['data'] = HrSupportFileType::all();
             return view($this->_routePrefix . '.dashboard',$data);
+            //return View('hrsupport/dashboard', $data);
+        } else {
+            return redirect('/');
+        }
+
+    }
+
+    public function viewdashboardnew(Request $request){
+        $email = Session::get('emp_email');
+        if (!empty($email)) {
+
+            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+                ->where('email', '=', $email)
+                ->first();
+                $data = HrSupportFileType::with(['subHrFileTypes.hrSupportFiles'])->get();
+
+                // Debugging the data
+               // dd($data);
+            return view($this->_routePrefix . '.dashboard-new',compact('data'));
             //return View('hrsupport/dashboard', $data);
         } else {
             return redirect('/');

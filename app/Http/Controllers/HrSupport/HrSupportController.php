@@ -142,7 +142,9 @@ class HrSupportController extends Controller
         try {
             $email = Session::get('empsu_email');
             if (!empty($email)) {
-                $data['data'] = HrSupportFile::with('type')->get();
+                //$data['data'] = HrSupportFile::with('type')->get();
+                $data['data'] = HrSupportFile::with(['type', 'subType'])->get();
+                // dd($data);
                 return View('admin/hr-support-file', $data);
             } else {
                 return redirect('superadmin');

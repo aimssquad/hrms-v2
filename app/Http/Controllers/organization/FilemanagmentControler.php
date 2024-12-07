@@ -424,9 +424,9 @@ class FilemanagmentControler extends Controller
             $data['data']= DB::table('folder_managers')->find($id);
              //dd($data['data']);
             $filename=$data['data']->folder_name;
-            dd($filename);
+            //dd($filename);
             $data['file_image']=filesUpload::where("folder_name",$filename)->get();
-            dd($data);
+            //dd($data);
             return view($this->_routePrefix . '.file-view',$data);
             //return view('filemanagment/file-view',$data);
          }else{

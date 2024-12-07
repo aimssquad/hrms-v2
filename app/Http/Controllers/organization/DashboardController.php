@@ -4056,5 +4056,339 @@ class DashboardController extends Controller
 
     }
 
+    public function saveEmployeesrightByDate(Request $request)
+    {
+        if (!empty(Session::get('emp_email'))) {
+
+            $email = Session::get('emp_email');
+            $Roledata = DB::table('registration')->where('status', '=', 'active')
+
+                ->where('email', '=', $email)
+                ->first();
+
+            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+
+                ->where('email', '=', $email)
+                ->first();
+
+            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
+            if ($request->date != '') {
+                $data['vis_due'] = date('Y-m-d', strtotime($request->date));
+            } else {
+                $data['vis_due'] = '';
+            }
+
+            if ($request->start_date != '') {
+                $data['start_date'] = date('Y-m-d', strtotime($request->start_date));
+            } else {
+                $data['start_date'] = '';
+            }
+            $data['employee_id'] = $request->employee_id;
+            if ($data['vis_due'] >= '2021-07-01') {
+                //dd('ll');
+                return view('employeer/sopnsor-compliance/add-right-works', $data);
+                //return view('dashboard/add-right-works', $data);
+
+            } else {
+                return view('employeer/sopnsor-compliance/add-right-works-new', $data);
+                //return view('dashboard/add-right-works-new', $data);
+            }
+
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function saveEmployeesright(Request $request)
+    {
+        //dd($request->all());
+        if (!empty(Session::get('emp_email'))) {
+            $email = Session::get('emp_email');
+            $Roledata = DB::table('registration')->where('status', '=', 'active')
+
+                ->where('email', '=', $email)
+                ->first();
+            $date['Roledata'] = DB::table('registration')
+                ->where('status', '=', 'active')
+                ->where('email', '=', $email)
+                ->first();
+            if ($request->date != '') {
+                $vis_due = date('Y-m-d', strtotime($request->date));
+            } else {
+                $vis_due = '';
+            }
+            if (isset($_POST['type']) && $_POST['type'] != '') {
+                $type = implode(',', $_POST['type']);
+            } else {
+                $type = '';
+            }
+
+            if (isset($_POST['mediumgg']) && $_POST['mediumgg'] != '') {
+                $medium = implode(',', $_POST['mediumgg']);
+            } else {
+                $medium = '';
+            }
+            if ($request->start_date != '') {
+                $start_date = date('Y-m-d', strtotime($request->start_date));
+            } else {
+                $start_date = '';
+            }
+            if (isset($_POST['list_ap']) && $_POST['list_ap'] != '') {
+                $list_ap = implode(',', $_POST['list_ap']);
+            } else {
+                $list_ap = '';
+            }
+
+            if (isset($_POST['list_bp']) && $_POST['list_bp'] != '') {
+                $list_bp = implode(',', $_POST['list_bp']);
+            } else {
+                $list_bp = '';
+            }
+            if (isset($_POST['list_bpc']) && $_POST['list_bpc'] != '') {
+                $list_bpc = implode(',', $_POST['list_bpc']);
+            } else {
+                $list_bpc = '';
+            }
+            if (isset($_POST['passports']) && $_POST['passports'] != '') {
+                $passports = implode(',', $_POST['passports']);
+            } else {
+                $passports = '';
+            }
+            if (isset($_POST['type_of_excuse']) && $_POST['type_of_excuse'] != '') {
+                $type_of_excuse = implode(',', $_POST['type_of_excuse']);
+            } else {
+                $type_of_excuse = '';
+            }
+            if ($request->list_euss_follow != '') {
+                $list_euss_follow = date('Y-m-d', strtotime($request->list_euss_follow));
+            } else {
+                $list_euss_follow = '';
+            }
+
+            $pay = array(
+                'type_of_excuse' => $type_of_excuse,
+                'employee_id' => $request->employee_id,
+                'emid' => $Roledata->reg,
+                'name' => $request->name,
+                'list_euss_follow' => $list_euss_follow,
+                'list_eusss' => $request->list_eusss,
+                'list_euss_follow' => $request->list_euss_follow,
+                'date' => $vis_due,
+
+                'medium' => $medium,
+                'type' => $type,
+                'evidence' => $request->evidence,
+
+                'start_date' => $start_date,
+                'start_time' => $request->start_time,
+                'list_ap' => $list_ap,
+                'list_bp' => $list_bp,
+                'list_bpc' => $list_bpc,
+                'photographs' => $request->photographs,
+                'dates' => $request->dates,
+                'expiry' => $request->expiry,
+                'checked' => $request->checked,
+                'satisfied' => $request->satisfied,
+                'reasons' => $request->reasons,
+                'passports' => $passports,
+                'list_right' => $request->list_right,
+                'list_right_follow' => $request->list_right_follow,
+                'list_right_date' => $request->list_right_date,
+                'list_rightb' => $request->list_rightb,
+                'list_rightb_follow' => $request->list_rightb_follow,
+                'list_rightb_date' => $request->list_rightb_date,
+                'list_rightti' => $request->list_rightti,
+                'list_rightti_follow' => $request->list_rightti_follow,
+                'list_rightti_date' => $request->list_rightti_date,
+                'list_rightbs' => $request->list_rightbs,
+                'list_rightbs_follow' => $request->list_rightbs_follow,
+                'list_rightbs_date' => $request->list_rightbs_date,
+                'scan_f' => $request->scan_f,
+                'scan_s' => $request->scan_s,
+                'scan_r' => $request->scan_r,
+                'result' => $request->result,
+                'remarks' => $request->remarks,
+                'checker' => $request->checker,
+                'contact' => $request->contact,
+                'emp_id' => $request->emp_id,
+                'designation' => $request->designation,
+                'email' => $request->email,
+                'scan_f_img' => $request->scan_f_img,
+                'scan_s_img' => $request->scan_s_img,
+                'scan_r_img' => $request->scan_r_img,
+                'cr_date' => date('Y-m-d'),
+                'up_date' => date('Y-m-d'),
+            );
+            DB::table('right_works')->insert($pay);
+            Session::flash('message', 'Right to Work checks Added Successfully');
+            return redirect('org-dashboard-right-works');
+            //return redirect('dashboard-right-works');
+
+        } else {
+            return redirect('/');
+        }
+
+    }
+
+    public function viewsendcandidatedetailsworkedit($send_id)
+    {
+        //dd('okk');
+        if (!empty(Session::get('emp_email'))) {
+
+            $email = Session::get('emp_email');
+            $Roledata = DB::table('registration')->where('status', '=', 'active')
+
+                ->where('email', '=', $email)
+                ->first();
+
+            $date['Roledata'] = DB::table('registration')
+                ->where('status', '=', 'active')
+                ->where('email', '=', $email)
+                ->first();
+            $data['work_rs'] = DB::table('right_works')->where('id', '=', base64_decode($send_id))->first();
+            $data['employeeh'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->where('emp_code', '=', $data['work_rs']->employee_id)->first();
+
+            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
+
+            if ($data['work_rs']->date >= '2021-07-01') {
+                return view('employeer/sopnsor-compliance/edit-work', $data);
+
+            } else {
+                return view('employeer/sopnsor-compliance/edit-work-new', $data);
+            }
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function saveEmployeesrightedit(Request $request)
+    {
+        //dd('ok');
+        if (!empty(Session::get('emp_email'))) {
+            $email = Session::get('emp_email');
+            $Roledata = DB::table('registration')->where('status', '=', 'active')
+
+                ->where('email', '=', $email)
+                ->first();
+            $date['Roledata'] = DB::table('registration')
+                ->where('status', '=', 'active')
+                ->where('email', '=', $email)
+                ->first();
+            if ($request->date != '') {
+                $vis_due = date('Y-m-d', strtotime($request->date));
+            } else {
+                $vis_due = '';
+            }
+            if (isset($_POST['type']) && $_POST['type'] != '') {
+                $type = implode(',', $_POST['type']);
+            } else {
+                $type = '';
+            }
+
+            if (isset($_POST['medium']) && $_POST['medium'] != '') {
+                $medium = implode(',', $_POST['medium']);
+            } else {
+                $medium = '';
+            }
+            if ($request->start_date != '') {
+                $start_date = date('Y-m-d', strtotime($request->start_date));
+            } else {
+                $start_date = '';
+            }
+            if (isset($_POST['list_ap']) && $_POST['list_ap'] != '') {
+                $list_ap = implode(',', $_POST['list_ap']);
+            } else {
+                $list_ap = '';
+            }
+
+            if (isset($_POST['list_bp']) && $_POST['list_bp'] != '') {
+                $list_bp = implode(',', $_POST['list_bp']);
+            } else {
+                $list_bp = '';
+            }
+            if (isset($_POST['list_bpc']) && $_POST['list_bpc'] != '') {
+                $list_bpc = implode(',', $_POST['list_bpc']);
+            } else {
+                $list_bpc = '';
+            }
+            if (isset($_POST['passports']) && $_POST['passports'] != '') {
+                $passports = implode(',', $_POST['passports']);
+            } else {
+                $passports = '';
+            }
+
+            if (isset($_POST['type_of_excuse']) && $_POST['type_of_excuse'] != '') {
+                $type_of_excuse = implode(',', $_POST['type_of_excuse']);
+            } else {
+                $type_of_excuse = '';
+            }
+            if ($request->list_euss_follow != '') {
+                $list_euss_follow = date('Y-m-d', strtotime($request->list_euss_follow));
+            } else {
+                $list_euss_follow = '';
+            }
+
+            $pay = array(
+
+                'type_of_excuse' => $type_of_excuse,
+                'date' => $vis_due,
+
+                'medium' => $medium,
+                'type' => $type,
+                'evidence' => $request->evidence,
+                'list_euss_follow' => $list_euss_follow,
+                'list_eusss' => $request->list_eusss,
+                'list_euss_follow' => $request->list_euss_follow,
+                'start_date' => $start_date,
+                'start_time' => $request->start_time,
+                'list_ap' => $list_ap,
+                'list_bp' => $list_bp,
+                'list_bpc' => $list_bpc,
+                'photographs' => $request->photographs,
+                'dates' => $request->dates,
+                'expiry' => $request->expiry,
+                'checked' => $request->checked,
+                'satisfied' => $request->satisfied,
+                'reasons' => $request->reasons,
+                'passports' => $passports,
+                'list_right' => $request->list_right,
+                'list_right_follow' => $request->list_right_follow,
+                'list_right_date' => $request->list_right_date,
+                'list_rightb' => $request->list_rightb,
+                'list_rightb_follow' => $request->list_rightb_follow,
+                'list_rightb_date' => $request->list_rightb_date,
+                'list_rightti' => $request->list_rightti,
+                'list_rightti_follow' => $request->list_rightti_follow,
+                'list_rightti_date' => $request->list_rightti_date,
+                'list_rightbs' => $request->list_rightbs,
+                'list_rightbs_follow' => $request->list_rightbs_follow,
+                'list_rightbs_date' => $request->list_rightbs_date,
+                'scan_f' => $request->scan_f,
+                'scan_s' => $request->scan_s,
+                'scan_r' => $request->scan_r,
+                'result' => $request->result,
+                'remarks' => $request->remarks,
+                'checker' => $request->checker,
+                'contact' => $request->contact,
+                'emp_id' => $request->emp_id,
+                'designation' => $request->designation,
+                'email' => $request->email,
+                'scan_f_img' => $request->scan_f_img,
+                'scan_s_img' => $request->scan_s_img,
+                'scan_r_img' => $request->scan_r_img,
+
+                'up_date' => date('Y-m-d'),
+            );
+            DB::table('right_works')->where('id', $request->newid)->update($pay);
+            Session::flash('message', 'Right to Work checks Edited Successfully');
+            return redirect('org-dashboard-right-works');
+            //return redirect('dashboard-right-works');
+
+        } else {
+            return redirect('/');
+        }
+
+    }
+
 
 } //End Class 

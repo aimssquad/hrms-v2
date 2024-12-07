@@ -42,7 +42,7 @@
             <div class="card custom-card">
                 <div class="card-header">
                     <h4 class="card-title"><i class="far fa-folder" aria-hidden="true"
-                            style="color:#10277f;"></i>&nbsp;Add Folder<span>
+                            style="color:#f80606;"></i>&nbsp;Add Folder<span>
                     </h4>
                 </div>
                 <div class="card-body">
