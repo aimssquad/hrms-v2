@@ -775,8 +775,9 @@ class LandingController extends Controller
         Session::forget("admin_userpp_email");
         Session::forget("admin_userpp_member");
         Session::forget("admin_userp_user_type");
+        Session::flush();
         Session::flash("message", "You are successfully Logout.");
-        return redirect("/");
+        return redirect("/superadmin");
     }
 
     public function DoLoginuser(Request $request)

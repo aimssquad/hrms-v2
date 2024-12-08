@@ -6,9 +6,10 @@
                     <span>Main</span>
                 </li>
                 <li class="submenu">
-                    <a href="#"><i class="la la-dashcube"></i> <span> Sub Admin Dashboard</span> <span class="menu-arrow"></span></a>
+                    <a href="#"><i class="la la-dashcube"></i> <span> Partner Details</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{{url('superadmindasboard')}}">Sub Admin Dashboard</a></li>
+                        <li><a href="{{url('superadmindasboard')}}">Dashboard</a></li>
+                        <li><a href="{{url('subadmin/profile')}}">Profile</a></li>
                     </ul>
                 </li>
                 <li class="submenu">

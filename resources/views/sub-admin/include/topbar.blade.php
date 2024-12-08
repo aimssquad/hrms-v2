@@ -4,7 +4,15 @@
    $user_name = Session::get('empsu_name');
    $user_id = Session::get('users_id');
    $email = Session::get('empsu_email');
-   //$subadmin_dtl = DB::table('sub_admin_registrations')->where('')
+
+    //dd($userType);
+   $subadmin_dtl = DB::table('sub_admin_registrations')->where('email',$email)->first();
+   //dd($subadmin_dtl);
+   if (!$subadmin_dtl) {
+        Session::flush();
+        header('Location: ' . url('/superadmin'));
+        exit(); 
+    }
    //dd($email);
 @endphp
 <!-- Header -->
@@ -12,15 +20,11 @@
 
     <!-- Logo -->
     <div class="header-left">
-        <a href="#" class="logo">
-            <img src="{{asset('assets/img/logo.svg')}}" alt="Logo">
-        </a>
-        {{-- <a href="admin-dashboard.html" class="logo collapse-logo">
-            <img src="{{asset('assets/img/collapse-logo.svg')}}" alt="Logo">
-        </a>
-        <a href="admin-dashboard.html" class="logo2">
-            <img src="{{asset('assets/img/logo2.png')}}" width="40" height="40" alt="Logo">
-        </a> --}}
+        @if(!empty($subadmin_dtl->logo))
+            <img src="{{asset('storage/app/public/' . $subadmin_dtl->logo)}}" alt="Partner Logo" style="width: auto; height: 40px; object-fit: contain;">
+        @else
+            <img src="{{asset('assets/img/user.png')}}" alt="Company Logo" style="width: auto; height: 60px; object-fit: contain;"> 
+        @endif
     </div>
     <!-- /Logo -->
 
@@ -34,7 +38,7 @@
 
     <!-- Header Title -->
     <div class="page-title-box">
-        <h3>Skilled Workers Clouds</h3>
+        {{-- <h3>Skilled Workers Clouds</h3> --}}
     </div>
     <!-- /Header Title -->
 
@@ -273,7 +277,17 @@
 
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                
+                <span class="user-img">
+                    @if(!empty($subadmin_dtl->logo))
+                        <img src="{{asset('storage/app/public/' . $subadmin_dtl->logo)}}" 
+                            alt="User Image" 
+                            style="width: 40px; height: 30px;">
+                        <span class="status online"></span>
+                    @else
+                        <img src="{{asset('assets/img/user.png')}}" alt="User Image" style="width: 40px; height: 30px;">
+                        <span class="status online"></span>
+                    @endif
+                </span>
                 <span>{{ strtoupper($user_name) }}</span>
             </a>
             @if($userType !='sub-admin')

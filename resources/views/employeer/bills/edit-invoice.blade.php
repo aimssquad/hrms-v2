@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Invoice List')
+@section('title', 'Payment Details')
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -15,11 +15,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Invoice List</h3>
+				<h3 class="page-title">Payment Details</h3>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="#">Billing Dashboard</a></li>
-					<li class="breadcrumb-item active">Invoice List</li>
+					<li class="breadcrumb-item active">Payment Details</li>
 				</ul>
 			</div>
 		</div>
@@ -33,80 +33,31 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                   <h3>Payment</h3>
               </div>
               <div class="card-body">
-                  <form action="{{ url('sub-admin/bills/update/' . $bills->id) }}" method="post" enctype="multipart/form-data">
-                      {{csrf_field()}}
+                  <form action="{{ url('organization/payment/update/' . $bills->id) }}" method="post" enctype="multipart/form-data">
+                      @csrf
                       <div class="row form-group">
                           <!-- Billing For Dropdown -->
-                          <input type="text" name="invoice_no" value="{{$bills->invoice_no}}" hidden>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label for="bill_for" class="form-label">Billing For</label>
-                                  <select class="select" id="bill_for" name="bill_for" required>
-                                      <option value="">&nbsp;</option>
-                                      <option value="invoice for license applied" {{ old('bill_for', $bills->bill_for) == 'invoice for license applied' ? 'selected' : '' }}>Invoice for license applied</option>
-                                      <option value="invoice for license granted" {{ old('bill_for', $bills->bill_for) == 'invoice for license granted' ? 'selected' : '' }}>Invoice for license granted</option>
-                                      <option value="first invoice recruitment service" {{ old('bill_for', $bills->bill_for) == 'first invoice recruitment service' ? 'selected' : '' }}>First invoice for recruitment service</option>
-                                      <option value="second invoice visa service" {{ old('bill_for', $bills->bill_for) == 'second invoice visa service' ? 'selected' : '' }}>Second invoice for visa service</option>
-                                      <option value="other" {{ old('bill_for', $bills->bill_for) == 'other' ? 'selected' : '' }}>Other</option>
-                                  </select>
-                              </div>
-                          </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="invoice_no" class="form-label">Invoice No</label>
+                                <input type="text" class="form-control" id="invoice_no" name="invoice_no" value="{{$bills->invoice_no}}" readonly>
+                            </div>
+                        </div>
+                          
+                    
                           
                           <!-- Billing Month Dropdown -->
                           <div class="col-md-4">
                               <div class="form-group">
-                                  <label for="date">Invoice Date</label>
-                                  <input type="date" class="form-control" id="date" name="date" value="{{ $bills->date ?? '' }}">
-                              </div>
-                          </div>
-                          
-                         
-                        
-  
-                          <!-- Hidden Billing Type -->
-                          <input type="text" name="billing_type" value="employer" class="form-control" hidden>
-                          
-                          <!-- Entity ID (Readonly) -->
-                          <div class="col-md-4" id="entity_dropdown">
-                              <div class="form-group">
-                                  <label for="entity_id" class="form-label">Organisation</label>
-                                  <input type="text" class="form-control" name="entity_id" value="{{$bills->entity_id}}" readonly>
-                              </div>
-                          </div>
-                          
-                          <!-- Amount (Readonly) -->
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label for="amount" class="form-label">Amount</label>
-                                  <input type="text" class="form-control" id="amount" name="amount" value="{{$bills->amount}}" readonly>
-                              </div>
-                          </div>
-                          
-                          <!-- Total Employees (Readonly) -->
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label for="total_employee" class="form-label">Total Employee</label>
-                                  <input type="text" class="form-control" id="total_employee" name="total_employee" value="{{$bills->total_employee}}" readonly>
-                              </div>
-                          </div>
-                          
-                          <!-- VAT -->
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label for="vat" class="form-label">VAT</label>
-                                  <input type="text" class="form-control" id="vat" name="vat" value="{{$bills->vat}}">
+                                  <label for="date" class="form-label">Invoice Date</label>
+                                  <input type="date" class="form-control" id="date" name="date" value="{{ $bills->date ?? '' }}" readonly>
                               </div>
                           </div>
                           <div class="col-md-4">
                               <div class="form-group">
-                                  <label for="vat" class="form-label">Discounted Amount</label>
-                                  <input type="text" step="0.01" class="form-control" id="discount_amount" value="{{$bills->discount_amount}}" name="discount_amount">
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label for="entity_id" >Total Amount</label>
-                                  <input type="text" class="form-control" id="total_amount" name="total_amount" value="{{$bills->total_amount}}"readonly>
+                                  <label for="entity_id" class="form-label">Total Amount</label>
+                                  <input type="text" class="form-control" id="total_amount" name="total_amount" value="@if($bills->vat == null || $bills->discount_amount == null) {{$bills->amount}} @else {{$bills->total_amount}} @endif"readonly>
                               </div>
                           </div>
   
@@ -121,19 +72,19 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                           </div>
   
                           <!-- Description -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="payment_dtl" class="form-label">Payment Details</label>
+                                <input type="text" class="form-control" id="payment_dtl" name="payment_dtl" required>
+                            </div>
+                        </div>
+                          
                           <div class="col-md-4">
                               <div class="form-group">
-                                  <label for="description" class="form-label">Description</label>
-                                  <input type="text" class="form-control" id="description" name="description" value="{{$bills->description}}">
+                                  <label for="payment_description" class="form-label">Payment Description</label>
+                                  <input type="text" class="form-control" id="payment_description" name="payment_description" required>
                               </div>
                           </div>
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <label for="vat" >Remarks</label>
-                                  <textarea class="form-control" id="remarks"  name="remarks">{{ $bills->remarks }}</textarea>
-                              </div>
-                          </div>
-  
                       </div>
                       <br>
                       <div class="row">
