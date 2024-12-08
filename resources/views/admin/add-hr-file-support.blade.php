@@ -70,13 +70,13 @@
                                             <div class="col-md-9">
                                                 <div class="form-group">
                                                     <label for="description" class="placeholder">Short Description</label>
-                                                    <textarea id="description" name="description" class="form-control input-border-bottom" required>{{ isset($user) ? $user->small_description : '' }}</textarea>
+                                                    <textarea id="description" name="description" class="form-control input-border-bottom" required >{{ isset($user) ? $user->small_description : '' }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-9">
                                                 <div class="form-group">
                                                     <label for="description" class="placeholder">Long Description</label>
-                                                    <textarea id="description" name="smalldescription" rows="30" class="form-control input-border-bottom" required>{{ isset($user) ? $user->description : '' }}</textarea>
+                                                    <textarea id="description" name="smalldescription" rows="30" class="form-control input-border-bottom" required >{{ isset($user) ? $user->description : '' }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
