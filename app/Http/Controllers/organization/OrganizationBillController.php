@@ -49,7 +49,7 @@ class OrganizationBillController extends Controller
             
             
             
-            //dd('ok');
+            //dd($data['com_dtl']);
             return view('employeer.bills.invoice',$data);
         } else {
             redirect('superadmin');
@@ -68,6 +68,35 @@ class OrganizationBillController extends Controller
             }
         
             return view('employeer/bills/edit-invoice', compact('bills'));
+        } else {
+            redirect('superadmin');
+        }
+    }
+
+    public function paymentUpdate (Request $request,$id){
+       // dd($request->all());
+        $email = Session::get('emp_email');
+        if(!empty($email)){
+            $validated_data = $request->validate([
+
+                // 'billing_month' => 'required|string',
+                'total_amount' => 'required|numeric',
+                'payment_mode' => 'required|string',
+                'payment_dtl' => 'required|string',
+                'payment_description' => 'nullable|string',
+            ]);
+            //dd($validated_data);
+            $bill = Subadmin_bill::findOrFail($id);
+            $bill->total_amount = $request->total_amount;  // Store the total amount (amount + VAT)
+            $bill->payment_mode = $request->payment_mode;
+            $bill->payment_dtl = $request->payment_dtl;
+            $bill->payment_description = $request->payment_description;
+            $bill->status = 2;
+            $bill->save();
+            Session::flash('message', 'Payment status updated successfully .');
+    
+            // Redirect back with success message
+            return redirect('organization/billing-show');
         } else {
             redirect('superadmin');
         }

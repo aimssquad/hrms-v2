@@ -78,7 +78,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                   <th>Total Amount</th>
                                   <th>Payment Mode</th>
                                   <th>Description</th>
-                                  {{-- <th>Remarks</th> --}}
+                                  <th>Payment Status</th>
                                   <th>Action</th>
                                </tr>
                             </thead>
@@ -88,25 +88,25 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                      DB::table('registration')->where('') 
                                   @endphp --}}
                                <tr>
-                                  <td>{{$loop->iteration}}</td>
-                                  
-                                  <td>{{$billing->invoice_no}}</td>
-                                  <td>{{$billing->bill_for}}</td>
-                                  
-                                  {{-- <td>{{$billing->billing_type}}</td> --}}
-                                  @php
-                                    $data = DB::table('registration')->where('reg',$billing->entity_id)->first();
-                                  @endphp
-                                  <!--<td>{{$billing->entity_id}}</td>-->
-                                  <td>{{$data->com_name ?? 'NA'}}</td>
-                                  <td>{{$billing->amount ?? 'NA'}}</td>
-                                  <td>{{$billing->total_employee ?? 'NA'}}</td>
-                                  <td>{{$billing->vat ?? 'NA'}}</td>
-                                  <td>{{$billing->discount_amount ?? 'NA'}}</td>
-                                  <td>{{$billing->total_amount ?? 'NA'}}</td>
-                                  <td>{{$billing->payment_mode ?? 'NA'}}</td>
-                                  <td>{{$billing->description ?? 'NA'}}</td>
-                                  {{-- <td>{{$billing->remarks ?? 'NA'}}</td> --}}
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$billing->invoice_no}}</td>
+                                    <td>{{$billing->bill_for}}</td>
+                                    @php
+                                        $data = DB::table('registration')->where('reg',$billing->entity_id)->first();
+                                    @endphp
+                                    <td>{{$data->com_name ?? 'NA'}}</td>
+                                    <td>{{$billing->amount ?? 'NA'}}</td>
+                                    <td>{{$billing->total_employee ?? 'NA'}}</td>
+                                    <td>{{$billing->vat ?? 'NA'}}</td>
+                                    <td>{{$billing->discount_amount ?? 'NA'}}</td>
+                                    <td>{{$billing->total_amount ?? 'NA'}}</td>
+                                    <td>{{$billing->payment_mode ?? 'NA'}}</td>
+                                    <td>{{$billing->description ?? 'NA'}}</td>
+                                    <td>
+                                        
+                                        @if($billing->status == 1) <span class="badge bg-inverse-warning">Due</span> @elseif($billing->status == 2) <span class="badge bg-inverse-info">Pending</span> @else <span class="badge bg-inverse-success">Paid</span> @endif
+                                    {{-- {{$billing->remarks ?? 'NA'}} --}}
+                                    </td>
                                    <td class="text-end">
                                       <div class="dropdown dropdown-action">
                                          <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

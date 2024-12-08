@@ -38,7 +38,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6 m-b-20">
-                            <img src="{{ asset('storage/' . $org_dtl->logo) }}" class="inv-logo" alt="Logo">
+                            @if($bill->org_code == null)
+                                <img src="{{ asset('storage/' . $org_dtl->logo) }}" class="inv-logo"  alt="Logo" 
+                                style="width: 470px; height: 50px;">
+                            @else
+                                <img src="{{ asset('storage/' . $com_dtl->logo) }}" class="inv-logo"  alt="User Image" 
+                                style="width: 70px; height: 50px;">
+                            @endif
                             <ul class="list-unstyled">
                                 {{-- <li>{{ strtoupper($com_dtl->com_name) }}</li>
                                 <li>{{strtoupper($com_dtl->address2)}}</li> --}}

@@ -52,33 +52,13 @@ Route::get('/billing-rule/edit/{id}', 'App\Http\Controllers\organization\BillCon
 Route::post('/billing-rule/update/{id}', 'App\Http\Controllers\organization\BillController@update')->name('billing-rule.update');
 Route::get('/billing-rule/delete/{id}', 'App\Http\Controllers\organization\BillController@destroyBillingRule')->name('billing-rule.delete');
 //------------------------------- Billing End----------------------------------
-//-------------------------------------Sub Admin Billing---------------------------------------
-Route::get('sub-admin/billing/dashboard','App\Http\Controllers\organization\SubadminBillController@dashboard')->name('subadmin.billing.dashboard');
 
-Route::get('sub-admin/billing-rule-list','App\Http\Controllers\organization\SubadminBillController@showRuleList')->name('subadmin.rulelist');
-Route::get('sub-admin/billing-rule','App\Http\Controllers\organization\SubadminBillController@showRule')->name('subadmin.rule');
-Route::post('sub-admin/billing-rule', 'App\Http\Controllers\organization\SubadminBillController@ruleStore')->name('subadmin.rulesave');
-Route::get('/sub-admin/billing-rule/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@edit')->name('subadmin.billing-rule.edit');
-Route::post('/sub-admin/billing-rule/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@update')->name('subadmin.billing-rule.update');
-
-Route::get('sub-admin/billing-list', 'App\Http\Controllers\organization\SubadminBillController@billingList')->name('subadmin.bills.list');
-Route::get('superadmin/get-entity-details', 'App\Http\Controllers\organization\SubadminBillController@getEntityDetails');
-Route::get('sub-admin/add-billing', 'App\Http\Controllers\organization\SubadminBillController@addbillng')->name('subadmin.addbilling');
-Route::post('sub-admin/bills/store', 'App\Http\Controllers\organization\SubadminBillController@store')->name('subadmin-bills.store');
-Route::get('/sub-admin/billing/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@editBill')->name('subadmin.billing.edit');
-Route::post('sub-admin/bills/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@updateBilling')->name('sub-admin.billing.update');
-Route::get('/sub-admin/billing/delete/{id}', 'App\Http\Controllers\organization\SubadminBillController@destroyBilling')->name('subadmin.billing.delete');
-Route::get('/sub-admin/billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewInvoice')->name('subadmin.billing.invoice');
-//------------Own Bills
-Route::get('/sub-admin/all-bills','App\Http\Controllers\organization\SubadminBillController@viewBillList')->name('subadmin.allbills');
-Route::get('/sub-admin/own_billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewOwnInvoice')->name('subadmin.own_billing.invoice');
-
-//-------------------------------------End Sub Admin Billing---------------------------------------
 //---------------------------------------Organization  Billing ------------------------------------------
 Route::get('organization/billing/dashboard','App\Http\Controllers\organization\OrganizationBillController@orgDashboard')->name('organization.bill-dashboard');
 Route::get('organization/billing-show','App\Http\Controllers\organization\OrganizationBillController@orgBill')->name('organization.bill-show');
 Route::get('/organization/billing/view/{id}', 'App\Http\Controllers\organization\OrganizationBillController@invoice')->name('organization.billing.invoice');
 Route::get('/organization/billing/edit/{id}', 'App\Http\Controllers\organization\OrganizationBillController@editInvoice')->name('organization.billing.edit');
+Route::post('/organization/payment/update/{id}', 'App\Http\Controllers\organization\OrganizationBillController@paymentUpdate');
 ///--------------------------------------End Organization  Billing --------------------------------------
 
 //---------------------------------------------Login And Registration Slide image Video --------------------------
@@ -5832,11 +5812,35 @@ Route::get('subadmin/verify', 'App\Http\Controllers\AdminController@VerfySubadmi
 Route::get('subadmin/edit-subchild-company/{comp_id}', 'App\Http\Controllers\AdminController@viewSubChildCompany');
 Route::post('subadmin/editsub-child-company', 'App\Http\Controllers\AdminController@saveSubChildCompany');
 Route::get('subadmin/view-sub-organization/{comp_id}', 'App\Http\Controllers\AdminController@viewSubOrganization');
-
+Route::get('subadmin/profile', 'App\Http\Controllers\SubadminController@profile');
+Route::get('subadmin/edit/profile/{id}', 'App\Http\Controllers\SubadminController@editProfile');
+Route::post('subadmin/update/profile', 'App\Http\Controllers\SubadminController@updateSubadminProfile');
 //-------------------------Superadmin --------------------
 Route::get('subadmin/edit-sub-company/{comp_id}', 'App\Http\Controllers\AdminController@viewSubAddCompany');
 Route::post('subadmin/editsubcompany', 'App\Http\Controllers\AdminController@saveSubCompany');
 //--------------------------
+//-------------------------------------Sub Admin Billing---------------------------------------
+Route::get('sub-admin/billing/dashboard','App\Http\Controllers\organization\SubadminBillController@dashboard')->name('subadmin.billing.dashboard');
+
+Route::get('sub-admin/billing-rule-list','App\Http\Controllers\organization\SubadminBillController@showRuleList')->name('subadmin.rulelist');
+Route::get('sub-admin/billing-rule','App\Http\Controllers\organization\SubadminBillController@showRule')->name('subadmin.rule');
+Route::post('sub-admin/billing-rule', 'App\Http\Controllers\organization\SubadminBillController@ruleStore')->name('subadmin.rulesave');
+Route::get('/sub-admin/billing-rule/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@edit')->name('subadmin.billing-rule.edit');
+Route::post('/sub-admin/billing-rule/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@update')->name('subadmin.billing-rule.update');
+
+Route::get('sub-admin/billing-list', 'App\Http\Controllers\organization\SubadminBillController@billingList')->name('subadmin.bills.list');
+Route::get('superadmin/get-entity-details', 'App\Http\Controllers\organization\SubadminBillController@getEntityDetails');
+Route::get('sub-admin/add-billing', 'App\Http\Controllers\organization\SubadminBillController@addbillng')->name('subadmin.addbilling');
+Route::post('sub-admin/bills/store', 'App\Http\Controllers\organization\SubadminBillController@store')->name('subadmin-bills.store');
+Route::get('/sub-admin/billing/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@editBill')->name('subadmin.billing.edit');
+Route::post('sub-admin/bills/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@updateBilling')->name('sub-admin.billing.update');
+Route::get('/sub-admin/billing/delete/{id}', 'App\Http\Controllers\organization\SubadminBillController@destroyBilling')->name('subadmin.billing.delete');
+Route::get('/sub-admin/billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewInvoice')->name('subadmin.billing.invoice');
+//------------Own Bills
+Route::get('/sub-admin/all-bills','App\Http\Controllers\organization\SubadminBillController@viewBillList')->name('subadmin.allbills');
+Route::get('/sub-admin/own_billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewOwnInvoice')->name('subadmin.own_billing.invoice');
+
+//-------------------------------------End Sub Admin Billing---------------------------------------
 
 
 // Ajax Route ------------------------------------------------------------
