@@ -32,132 +32,137 @@
                     <div class="card-body">
                        
 
-                        <div class="row">
+                        <div class="row g-4">
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Category</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$leave_type_count ?? 0}}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('leave/leave-type-listing') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('leave/leave-type-listing') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Category</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                                <span class="employee-count">{{ $leave_type_count ?? 0 }}</span>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Policy</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$late_rule_count ?? 0}}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('leave/leave-rule-listing') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('leave/leave-rule-listing') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Policy</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count">{{ $late_rule_count ?? 0 }}</span>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Allocation</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$leave_allocation_count ?? 0 }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('leave/leave-allocation-listing') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('leave/leave-allocation-listing') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Allocation</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count">{{ $leave_allocation_count ?? 0 }}</span>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Leave Accrued</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$leave_balance_count ?? 0 }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('leave/leave-balance') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('leave/leave-balance') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Leave Accrued</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count">{{ $leave_balance_count ?? 0 }}</span>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Leave Record</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('leave/leave-report') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('leave/leave-report') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Leave Record</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count opacity-0"></span>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                             
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Record EE Wise</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('leave/leave-report-employee') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('leave/leave-report-employee') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Record EE Wise</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count opacity-0"></span>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                            
