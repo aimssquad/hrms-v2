@@ -82,6 +82,15 @@ $userType = Session::get('usersu_type');
 
                     </li>
 
+                    <li class="nav-item">
+                        <a href="{{url('/superadmin/notices')}}">
+                            <i class="fas fa-th-note"></i>
+                            <p>Notices</p>
+
+                        </a>
+
+                    </li>
+
                     <!--<li class="nav-item">-->
                     <!--    <a href="{{url('superadmin/list-country')}}">-->
                     <!--        <i class="fas fa-th-list"></i>-->

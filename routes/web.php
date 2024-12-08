@@ -14,6 +14,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\organization\OrganizationController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Notice\NoticeController;
 
 
 /*
@@ -337,6 +338,10 @@ Route::get('hr-support/support-file/{id}', 'App\Http\Controllers\organization\Hr
 Route::get('hr-support/support-file-details/{id}', 'App\Http\Controllers\organization\HrSupportController@supportFileDetails')->name('support-file.details');
 
 //-------------------------------------------- End Hr Support -----------------------------------------------
+
+//-------------------------------------------- Notices --------------------------------
+
+
 
 //--------------------------------------------- User Access -----------------------------------------------
 Route::get('user-access-role/dashboard', 'App\Http\Controllers\organization\UseraceesController@dashboard')->name('user-access/dashboard');
@@ -746,6 +751,20 @@ Route::get('hrsupport/support-file-details/{id}', 'App\Http\Controllers\HrSuppor
 
 
 //******* Hr File Supprot End *********//
+
+
+//******* Routes with  notices start *********//
+Route::prefix('superadmin/notices')->group(function () {
+    Route::get('/', [NoticeController::class, 'index'])->name('notices.index'); // List all notices
+    Route::get('/create', [NoticeController::class, 'create'])->name('notices.create'); // Show form to create notice
+    Route::post('/', [NoticeController::class, 'store'])->name('notices.store'); // Store a new notice
+    Route::get('/{id}', [NoticeController::class, 'show'])->name('notices.show'); // Show a specific notice
+    Route::get('/{id}/edit', [NoticeController::class, 'edit'])->name('notices.edit'); // Show form to edit a notice
+    Route::put('/{id}', [NoticeController::class, 'update'])->name('notices.update'); // Update a specific notice
+    Route::delete('/{id}', [NoticeController::class, 'destroy'])->name('notices.destroy'); // Delete a specific notice
+});
+
+
 
 
 //******* Routes with  attendance start *********//
