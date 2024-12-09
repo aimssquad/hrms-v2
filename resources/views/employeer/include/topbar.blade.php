@@ -2,16 +2,16 @@
     $user_type = Session::get("user_type");
     $email = Session::get('emp_email');
     $users_id = Session::get("users_id");
-    //dd($user_type);
+    //dd($email);
     $company_details = DB::table('registration')
         ->where('email', '=', $email)
         ->first();
-    //dd($company_details); 
-    if (!$company_details) {
-        Session::flush();
-        header('Location: ' . url('/'));
-        exit(); 
-    }
+    
+    // if (!$company_details) {
+    //     Session::flush();
+    //     header('Location: ' . url('/'));
+    //     exit(); 
+    // }
 @endphp
 <!-- Header -->
 <div class="header">

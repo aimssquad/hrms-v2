@@ -1,9 +1,7 @@
 @extends('employeer.include.app')
 @section('title', 'Add Folder')
 @section('css')
-
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-
 <style>
    .card-body a {
    display: inline-block;
@@ -48,29 +46,29 @@
    }
    .file_btn {
    right: 0;
-       position: absolute;
-    top: -13px;
+   position: absolute;
+   top: -13px;
    }
    .file_uploading a{
    color: #000;
-    background: #eee;
-    display: inline-block !important;
-    line-height: 12px;
-    width: 20px;
+   background: #eee;
+   display: inline-block !important;
+   line-height: 12px;
+   width: 20px;
    }
    .file_uploading a:hover{
    color:#000;
    }
-  .file_uploading p {
-    line-height: 10px;
-    /* margin-top: 18px; */
-    height: 22px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    padding-top: 12px;
+   .file_uploading p {
+   line-height: 10px;
+   /* margin-top: 18px; */
+   height: 22px;
+   overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   line-clamp: 2;
+   -webkit-box-orient: vertical;
+   padding-top: 12px;
    }
 </style>
 @endsection
@@ -81,193 +79,177 @@
          <div class="row">
             <div class="col-md-12">
                <div class="card custom-card">
-                  
                </div>
             </div>
          </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between mb-2">
-                            <div class="mt-1"><i class="fa fa-cog" aria-hidden="true" style="color:#10277f;"></i> Files</div>
-                            <div>
-                                <button type="button" class="btn btn-primary mx-1" title="Import Files"  data-toggle="modal" data-target="#exampleModal1">
-                                Add File
-                              </button>
-                            </div>
-                        </div>
+         <div class="row">
+            <div class="col-md-12">
+               <div class="card">
+                  <div class="card-header">
+                     <div class="d-flex justify-content-between mb-2">
+                        <div class="mt-1"><i class="fa fa-cog" aria-hidden="true" style="color:#10277f;"></i> Files</div>
                         <div>
-                            <ul class="m-0 p-0 file_uploading">
-                                @foreach($file_image as $item)
-                         <?php
-                           $filename = 'FileManagment/'.$item->fileName.'/'.$item->uploadFile;
-                            $fileInfo = pathinfo($filename);
-                            $extension = $fileInfo['extension']; // $extension will be 'jpg'
-                          ?> 
-                         @if ($extension=="pdf")
-                                
-                                <li class="position-relative shadow-sm p-2 mb-3">
-                                     <div class="file_btn position-absolute">
-                                         <a class="drop_downmain" style="    position: absolute; right: 0;" href="javascript:void(0)">
-                                         <div>
-                                             <span class="material-symbols-outlined show">
-                                            more_vert
-                                            </span>
-                                            <span class="material-symbols-outlined hide">
-                                            close
-                                            </span>
-                                         </div>
-                                         </a>
-                                         
-                                        <div class="drop_down" style-="    background: #fff; font-size: 13px;"
-                                            <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
-                                            <span class="material-symbols-outlined">edit</span> Edit
-                                        </a>
-                                        <a class="d-block" href="{{url('fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
-                                            <span class="material-symbols-outlined text-danger">delete</span> Delete
-                                        </a>
-                                        </div>
-                                        </div>
-                                        
-                                    <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->uploadFile)}}" download>
-                                        <div class="file_icon">
-                                            <img src="{{asset('filemanagment/pdf.png')}}">
-                                        </div>
-                                        <p class="text-center mb-0"><?php echo $item->file_rename ?> </p>
-                                    </a>
-                                </li>
-                                
-                              @elseif ($extension=="txt")
-                              <li class="position-relative shadow-sm p-2 mb-3">
-                                     <div class="file_btn position-absolute">
-                                        <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
-                                            <span class="material-symbols-outlined">edit</span>
-                                        </a>
-                                        <a class="d-block" href="{{url('fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
-                                            <span class="material-symbols-outlined text-danger">delete</span>
-                                        </a>
-                                        </div>
-                                        
-                                    <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->uploadFile)}}" download>
-                                        <div class="file_icon">
-                                            <img src="{{asset('filemanagment/txt.png')}}">
-                                        </div>
-                                        <p class="text-center mb-0"><?php echo $item->file_rename ?> </p>
-                                    </a>
-                                </li>
-                                  @elseif($extension=="docx")
-                                  <li class="position-relative shadow-sm p-2 mb-3">
-                                     <div class="file_btn position-absolute">
-                                        <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
-                                            <span class="material-symbols-outlined">edit</span>
-                                        </a>
-                                        <a class="d-block" href="{{url('fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
-                                            <span class="material-symbols-outlined text-danger">delete</span>
-                                        </a>
-                                        </div>
-                                        
-                                    <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->uploadFile)}}" download>
-                                        <div class="file_icon">
-                                           <img src="{{asset('filemanagment/doc.png')}}">
-                                        </div>
-                                        <p class="text-center mb-0"><?php echo $item->file_rename ?> </p>
-                                    </a>
-                                </li>
-                                  @else
-                                   <li class="position-relative shadow-sm p-2 mb-3">
-                                     <div class="file_btn position-absolute">
-                                        <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
-                                            <span class="material-symbols-outlined">edit</span>
-                                        </a>
-                                        <a class="d-block" href="{{url('fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
-                                            <span class="material-symbols-outlined text-danger">delete</span>
-                                        </a>
-                                        </div>
-                                        
-                                    <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->uploadFile)}}" download>
-                                        <div class="file_icon">
-                                            <img src="{{asset('filemanagment/ot.png')}}">
-                                        </div>
-                                        <p class="text-center mb-0"><?php echo $item->file_rename ?> </p>
-                                    </a>
-                                </li>
-                                  @endif
-                         @endforeach
-                         
-                         
-                            </ul>
+                           <button type="button" class="btn btn-primary mx-1" title="Import Files"  data-toggle="modal" data-target="#exampleModal1">
+                           Add File
+                           </button>
                         </div>
-                    </div>
-                    
-                    </div>
-                </div>
-                </div>
+                     </div>
+                     <div>
+                        <ul class="m-0 p-0 file_uploading">
+                           @foreach($file_image as $item)
+                           <?php
+                              $filename = 'FileManagment/'.$item->fileName.'/'.$item->uploadFile;
+                               $fileInfo = pathinfo($filename);
+                               $extension = $fileInfo['extension']; // $extension will be 'jpg'
+                              ?> 
+                           @if ($extension=="pdf")
+                           <li class="position-relative shadow-sm p-2 mb-3">
+                              <div class="file_btn position-absolute">
+                                 <a class="drop_downmain" style="    position: absolute; right: 0;" href="javascript:void(0)">
+                                    <div>
+                                       <span class="material-symbols-outlined show">
+                                       more_vert
+                                       </span>
+                                       <span class="material-symbols-outlined hide">
+                                       close
+                                       </span>
+                                    </div>
+                                 </a>
+                                 <div class="drop_down" style-="    background: #fff; font-size: 13px;"
+                                 <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
+                                 <span class="material-symbols-outlined">edit</span> Edit
+                                 </a>
+                                 <a class="d-block" href="{{url('org-fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
+                                 <span class="material-symbols-outlined text-danger">delete</span> Delete
+                                 </a>
+                              </div>
+                     </div>
+                     <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->folder_name.'/'.$item->uploadFile)}}" download>
+                     <div class="file_icon">
+                     <img src="{{asset('filemanagment/pdf.png')}}" style="width: 100px; height: auto;">
+                     </div>
+                     <p class="text-center mb-0"><?php echo $item->file_rename ?> </p>
+                     </a>
+                     </li>
+                     @elseif ($extension=="txt")
+                     <li class="position-relative shadow-sm p-2 mb-3">
+                     <div class="file_btn position-absolute">
+                     <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
+                     <span class="material-symbols-outlined">edit</span>
+                     </a>
+                     <a class="d-block" href="{{url('org-fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
+                     <span class="material-symbols-outlined text-danger">delete</span>
+                     </a>
+                     </div>
+                     <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->folder_name.'/'.$item->uploadFile)}}" download>
+                     <div class="file_icon">
+                     <img src="{{asset('filemanagment/txt.png')}}" style="width: 100px; height: auto;">
+                     </div>
+                     <p class="text-center mb-0"><?php echo $item->file_rename ?> </p>
+                     </a>
+                     </li>
+                     @elseif($extension=="docx")
+                     <li class="position-relative shadow-sm p-2 mb-3">
+                     <div class="file_btn position-absolute">
+                     <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
+                     <span class="material-symbols-outlined">edit</span>
+                     </a>
+                     <a class="d-block" href="{{url('org-fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
+                     <span class="material-symbols-outlined text-danger">delete</span>
+                     </a>
+                     </div>
+                     <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->folder_name.'/'.$item->uploadFile)}}" download>
+                     <div class="file_icon">
+                     <img src="{{asset('filemanagment/doc.png')}}" style="width: 100px; height: auto;">
+                     </div>
+                     <p class="text-center mb-0"><?php echo $item->file_rename ?> </p>
+                     </a>
+                     </li>
+                     @else
+                     <li class="position-relative shadow-sm p-2 mb-3">
+                     <div class="file_btn position-absolute">
+                     <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
+                     <span class="material-symbols-outlined">edit</span>
+                     </a>
+                     <a class="d-block" href="{{url('org-fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
+                     <span class="material-symbols-outlined text-danger">delete</span>
+                     </a>
+                     </div>
+                     <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->folder_name.'/'.$item->uploadFile)}}" download>
+                     <div class="file_icon">
+                     <img src="{{asset('filemanagment/ot.png')}}" >
+                     </div>
+                     <p class="text-center mb-0"><?php echo $item->file_rename ?> </p>
+                     </a>
+                     </li>
+                     @endif
+                     @endforeach
+                     </ul>
+                  </div>
+               </div>
             </div>
-
+         </div>
       </div>
    </div>
-
-
-   <!-- Modal -->
-   <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <form style='padding: 0px;' action="{{url('fileManagment/saveUpload')}}" method="post" enctype="multipart/form-data">
-          @csrf
-
-          <div class="modal-content">
+</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <form style='padding: 0px;' action="{{url('org-fileManagment/saveUpload')}}" method="post" enctype="multipart/form-data">
+         @csrf
+         <div class="modal-content">
             <div class="modal-body">
-                {{-- <div id="validationMessage" style="border: 1px solid red; color:red"></div> --}}
+               {{-- 
+               <div id="validationMessage" style="border: 1px solid red; color:red"></div>
+               --}}
                <input type="hidden" name="empId" value="{{$data->emp_id}}">
-                <input type="hidden" name="fileName" value="{{$data->file_name}}">
-                <input type="hidden" name="folderName" value="{{$data->folder_name}}">
-                <input type="hidden" name="orgId" value="{{$data->org_id}}">
-                <input type="hidden" name="file_id" value="{{$data->file_id}}">
-                <input type="hidden" name="file_add" value="{{ request()->route('id') }}">
-                <div class="form-group">
+               <input type="hidden" name="fileName" value="{{$data->file_name}}">
+               <input type="hidden" name="folderName" value="{{$data->folder_name}}">
+               <input type="hidden" name="orgId" value="{{$data->org_id}}">
+               <input type="hidden" name="file_id" value="{{$data->file_id}}">
+               <input type="hidden" name="file_add" value="{{ request()->route('id') }}">
+               <div class="form-group">
                   <label for="excel_file">File Name</label>
                   <input type="text" name="file_rename[]" class="form-control" style='height: 40px;' id="fileInput" required>
                   <label for="excel_file">Upload Files</label>
                   <input type="file" name="uploadFile[]" class="form-control" style='height: 40px;' id="fileInput" multiple required>
-                </div>
-
+               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px;" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" id="validateButton" style="color: #fff;background-color: #0884af;border-color: #0884af;padding: 0px 8px;height: 32px;" onclick="hello()">submit</button>
+               <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px; background-color: #fd0303;border-color: #fc0202;" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary" id="validateButton" style="color: #fff;padding: 0px 8px;height: 32px;" onclick="hello()">submit</button>
             </div>
-            {{-- <div id="validationMessage"></div> --}}
-          </div>
+            {{-- 
+            <div id="validationMessage"></div>
+            --}}
+         </div>
       </form>
-    </div>
-  </div>
-  <!-- END -->
-
-   <!-- Modal -->
-   <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <form style='padding: 0px;' action="{{url('fileManagment/updateUpload')}}" method="post" enctype="multipart/form-data">
-          @csrf
-
-          <div class="modal-content">
+   </div>
+</div>
+<!-- END -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <form style='padding: 0px;' action="{{url('org-fileManagment/updateUpload')}}" method="post" enctype="multipart/form-data">
+         @csrf
+         <div class="modal-content">
             <div class="modal-body">
-                <input type="hidden" id="file_id" name="fileupload_id">
-                <input type="hidden" name="org_id" value="{{ request()->route('id') }}">
-                <div class="form-group">
+               <input type="hidden" id="file_id" name="fileupload_id">
+               <input type="hidden" name="org_id" value="{{ request()->route('id') }}">
+               <div class="form-group">
                   <label for="excel_file">File Name</label>
                   <input type="text" name="file_rename" class="form-control"  style='height: 40px;' id="filerenameid" required>
-                </div>
-
+               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px;" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" id="validateButton" style="color: #fff;background-color: #0884af;border-color: #0884af;padding: 0px 8px;height: 32px;" onclick="hello()">Update</button>
+               <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px; background-color: #fc0303;border-color: #af0e08;" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary" id="validateButton" style="color: #fff;padding: 0px 8px;height: 32px;" onclick="hello()">Update</button>
             </div>
-          </div>
+         </div>
       </form>
-    </div>
-  </div>
+   </div>
+</div>
 @endsection
 @section('script')
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
