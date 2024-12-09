@@ -203,6 +203,7 @@
             'title' => 'Organogram Chart',
             'icon' => 'la la-user',
             'items' => [
+                ['url' => '#', 'label' => 'Dashboard'],
                 ['url' => '#', 'label' => 'Level'],
                 ['url' => '#', 'label' => 'Organisation Hierarchy'],
             ]

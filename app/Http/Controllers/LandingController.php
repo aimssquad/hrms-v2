@@ -287,7 +287,7 @@ class LandingController extends Controller
                         });
                     } else{
                         $toemail = $request->email;
-                        Mail::send("mailor", $data, function ($message) use ($toemail) {
+                        Mail::send("register-email", $data, function ($message) use ($toemail) {
                             $message
                                 ->to($toemail, env('MAIL_FROM_NAME'))
                                 ->subject(
@@ -405,7 +405,7 @@ class LandingController extends Controller
                         "web"  => env('BASE_URL'),
                     ];
                     $toemail = $request->email;
-                    Mail::send("mailor", $data, function ($message) use ($toemail) {
+                    Mail::send("register-email", $data, function ($message) use ($toemail) {
                         $message
                             ->to($toemail, env('MAIL_FROM_NAME'))
                             ->subject(

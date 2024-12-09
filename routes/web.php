@@ -28,9 +28,9 @@ use App\Http\Controllers\Notice\NoticeController;
 |
  */
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+Route::get('register-email', function () {
+    return view('register-email');
+});
 
 // new route
 //------------------------------- Billing 
