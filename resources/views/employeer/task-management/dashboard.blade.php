@@ -23,46 +23,44 @@
         <!-- /Page Header -->
         <div class="card">
             <div class="card-body">
-                <div class="row">
+                <div class="row mb-4">
                     <div class="col-xl-6 col-md-6 col-sm-12">
-                        <div class="card border-0">
-                            <div class="alert alert-primary border border-primary mb-0 p-3">
-                                <div class="d-flex align-items-start">
-                                    <div class="text-primary w-100">
-                                        <i class="la la-list rota-icon-size-fixed"></i>
-                                        <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Project Directory</div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                            <div class="fs-12">
-                                                <a href="{{ url('org-task-management/projects') }}" class="text-primary fw-semibold">
-                                                    <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                </a>
-                                            </div>
-                                        </div>
+                    <a href="{{ url('org-task-management/projects') }}" class="modern-card-link">
+                            <div class="modern-card border-0">
+                                <div class="modern-card-header">
+                                    <div class="modern_icon_wrapper">
+                                        <i class="la la-list modern-icon"></i>
+                                    </div>
+                                    <h4 class="modern-card-title">Project Directory</h4>
+                                </div>
+                                <div class="modern-card-body">
+                                    <div class="modern-status"></div>
+                                    <div class="modern-arrow">
+                                        <span class="employee-count opacity-0">0</span>
+                                        <i class="fa fa-arrow-circle-right"></i>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12">
-                        <div class="card border-0">
-                            <div class="alert alert-primary border border-primary mb-0 p-3">
-                                <div class="d-flex align-items-start">
-                                    <div class="text-primary w-100">
-                                        <i class="la la-plus rota-icon-size-fixed"></i>
-                                        <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">New Project</div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                            <div class="fs-12">
-                                                <a href="{{ url('org-task-management/create-project') }}" class="text-primary fw-semibold">
-                                                    <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                </a>
-                                            </div>
-                                        </div>
+                        <a href="{{ url('org-task-management/create-project') }}" class="modern-card-link">
+                            <div class="modern-card border-0">
+                                <div class="modern-card-header">
+                                    <div class="modern_icon_wrapper">
+                                        <i class="la la-plus modern-icon"></i>
+                                    </div>
+                                    <h4 class="modern-card-title">New Project</h4>
+                                </div>
+                                <div class="modern-card-body">
+                                    <div class="modern-status"></div>
+                                    <div class="modern-arrow">
+                                        <span class="employee-count opacity-0">0</span>
+                                        <i class="fa fa-arrow-circle-right"></i>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>            
                 <div class="row">

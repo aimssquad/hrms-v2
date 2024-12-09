@@ -272,19 +272,22 @@
                </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Staff Report</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <form  method="post" action="{{ url('org-document/staff-report-excel') }}" enctype="multipart/form-data" >
+               <div class="modern-card-link">
+                  <div class="modern-card position-relative" style="height: 136px;">
+                     <div class="modern-card-header">
+                           <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
+                           <h4 class="modern-card-title">Staff Report</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow d-flex align-items-center w-100">
+                           <form method="post" action="{{ url('org-document/staff-report-excel') }}" enctype="multipart/form-data" class="w-100">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                              <button class="text-fixed-white" style="background: none !important; border:0px;" type="submit"><i class="fa fa-arrow-right"></i></button>	
+                              <button class="text-fixed-white w-100 text-end position-absolute top-0 start-0 h-100" style="background: none !important; border: 0px;" type="submit">
+                                 <i class="fa fa-arrow-right position-absolute" style="bottom: 20px; right: 20px"></i>
+                              </button>
                            </form>
                         </div>
                      </div>
@@ -292,106 +295,127 @@
                </div>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Absent Report</h4>
+               <div class="modern-card">
+                  <div class="modern-card-header text-fixed-white">
+                     <div class="modern_icon_wrapper">
+                        <i class="fa fa-building modern-icon"></i>
+                     </div>
+                     <h4 class="modern-card-title">Absent Report</h4>
                   </div>
-                  <div class="card-body">
+                  <div class="modern-card-body">
                      <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <?php 
-                              if( $usetype=='employee'){
-                              if(in_array('54', $arrrole))
-                              {
-                              
+                           <div></div>
+                           <div class="ms-auto">
+                              <?php 
+                              if ($usetype == 'employee') {
+                                 if (in_array('54', $arrrole)) {
                               ?>
-                           <a href="{{url('org-dashboard/absent-report')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }else{
-                                  ?>  <a href="#" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }
-                                                                  }else{
-                                                                  ?> <a href="{{url('org-dashboard/absent-report')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php	
+                                 <a href="{{ url('org-dashboard/absent-report') }}" class="modern-card-link">
+                                       <i class="fa fa-arrow-right"></i>
+                                 </a>
+                              <?php
+                                 } else {
+                              ?>
+                                 <a href="#" class="modern-card-link">
+                                       <i class="fa fa-arrow-right"></i>
+                                 </a>
+                              <?php
+                                 }
+                              } else {
+                              ?>
+                                 <a href="{{ url('org-dashboard/absent-report') }}" class="modern-card-link">
+                                       <i class="fa fa-arrow-right"></i>
+                                 </a>
+                              <?php	
                               } 
-                              ?>					
-                        </div>
+                              ?>
+                           </div>
                      </div>
                   </div>
                </div>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Change Of Circumstances</h4>
+               <div class="modern-card">
+                  <div class="modern-card-header text-fixed-white">
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
+                     <h4 class="modern-card-title">Change Of Circumstances</h4>
                   </div>
-                  <div class="card-body">
+                  <div class="modern-card-body">
                      <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <?php 
-                              if( $usetype=='employee'){
-                              if(in_array('76', $arrrole))
-                              {
-                              
+                           <div></div>
+                           <div class="ms-auto">
+                              <?php 
+                              if ($usetype == 'employee') {
+                                 if (in_array('76', $arrrole)) {
                               ?>
-                           <a href="{{url('org-dashboard/change-of-circumstances')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }else{
-                                  ?>  <a href="#"class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }
-                                                                  }else{
-                                                                  ?> <a href="{{url('org-dashboard/change-of-circumstances')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php	
-                              }     
-                              ?>								
-                        </div>
+                                 <a href="{{ url('org-dashboard/change-of-circumstances') }}" class="modern-card-link">
+                                       <i class="fa fa-arrow-right"></i>
+                                 </a>
+                              <?php
+                                 } else {
+                              ?>
+                                 <a href="#" class="modern-card-link">
+                                       <i class="fa fa-arrow-right"></i>
+                                 </a>
+                              <?php
+                                 }
+                              } else {
+                              ?>
+                                 <a href="{{ url('org-dashboard/change-of-circumstances') }}" class="modern-card-link ">
+                                       <i class="fa fa-arrow-right"></i>
+                                 </a>
+                              <?php	
+                              } 
+                              ?>
+                           </div>
                      </div>
                   </div>
                </div>
+
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <div class="card" style="background: #FF902F;">
-                  <div class="card-header text-fixed-white">
-                     <i class="fa fa-building"></i>
-                     <h4 style="font-size:14px;" class="text-fixed-white">Contract Agreement</h4>
+               <div class="modern-card">
+                  <div class="modern-card-header text-fixed-white">
+                  <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
+                     <h4 class="modern-card-title">Contract Agreement</h4>
                   </div>
-                  <div class="card-body">
+                  <div class="modern-card-body">
                      <div class="d-flex align-items-center w-100">
-                        <div class="">
-                        </div>
-                        <div class="ms-auto">
-                           <?php 
-                              if( $usetype=='employee'){
-                              if(in_array('78', $arrrole))
-                              {
-                              
+                           <div></div>
+                           <div class="ms-auto">
+                              <?php 
+                              if ($usetype == 'employee') {
+                                 if (in_array('78', $arrrole)) {
                               ?>
-                           <a href="{{url('org-dashboard/contract-agreement')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }else{
-                                  ?>  <a href="#" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php
-                              }
-                                                                  }else{
-                                                                  ?> <a href="{{url('org-dashboard/contract-agreement')}}" class="text-fixed-white"><i class="fa fa-arrow-right"></i></a>
-                           <?php	
-                              }
-                              
-                              ?>									
-                        </div>
+                                 <a href="{{ url('org-dashboard/contract-agreement') }}" class="modern-card-link">
+                                       <i class="fa fa-arrow-right"></i>
+                                 </a>
+                              <?php
+                                 } else {
+                              ?>
+                                 <a href="#" class="modern-card-link">
+                                       <i class="fa fa-arrow-right"></i>
+                                 </a>
+                              <?php
+                                 }
+                              } else {
+                              ?>
+                                 <a href="{{ url('org-dashboard/contract-agreement') }}" class="modern-card-link">
+                                       <i class="fa fa-arrow-right"></i>
+                                 </a>
+                              <?php	
+                              } 
+                              ?>
+                           </div>
                      </div>
                   </div>
                </div>
             </div>
-            <div class="col-lg-12 col-md-12">
+            <div class="col-lg-12 col-md-12 mt-5">
                <!--<div class="visa-head">-->
                <!--   <h3 style="color:#FF902F;">Visa Notification</h3>-->
                <!--</div>-->

@@ -494,7 +494,7 @@ body::-webkit-scrollbar {
 }
 
 .home_mainpage_super_admin_box {
-    background-color: #fff;
+    background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
     border: 1px solid #e1e1e1;
     border-radius: 20px;
     padding: 16px;
@@ -507,6 +507,7 @@ body::-webkit-scrollbar {
 .home_mainpage_super_admin_box:hover {
     transform: scale(1.03);
     box-shadow: 0 10px 20px #92929257;
+    background: linear-gradient(135deg, #f5a45d, #f76a4d);
 }
 
 .home_mainpage_super_admin_box .main_icon{
@@ -532,7 +533,7 @@ body::-webkit-scrollbar {
     justify-content: center;
     align-items: center;
     border-radius: 100%;
-    background-color: #ff902f42;
+    background-color: #fff;
     font-size: 28px !important;
 }
 
@@ -549,7 +550,7 @@ body::-webkit-scrollbar {
     transition: 0.3s;
 }
 
-.home_mainpage_super_admin_box::after {
+/* .home_mainpage_super_admin_box::after {
     content: '';
     position: absolute;
     width: 62%;
@@ -560,7 +561,7 @@ body::-webkit-scrollbar {
     background-size: 100% 100%;
     transform: rotate(-180deg);
     background-repeat: no-repeat;
-}
+} */
 
 .home_mainpage_super_admin_box:hover {
     background-color: #ff902f;
@@ -621,6 +622,7 @@ body::-webkit-scrollbar {
 /* Modern card styling with gradient background */
 .modern-card {
     background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+    border: 1px solid #e1e1e1;
     border-radius: 16px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
