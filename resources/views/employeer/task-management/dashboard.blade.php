@@ -72,7 +72,7 @@
                         ?> -->
                 <div class="col-sm-4">
                     <div class="mt-2">
-                        <h6 class="bg-primary m-0 p-2 text-white"><a style="color:#f7f7cb;" href={{url('/org-task-management/'.encrypt($p->id).'/tasks')}}>{{ucfirst($p->title)}}</a></h6>
+                        <h6 class="bg-primary m-0 p-2 text-white"><a class="for_hover_white" href={{url('/org-task-management/'.encrypt($p->id).'/tasks')}}>{{ucfirst($p->title)}} <i class="fa-solid fa-arrow-right"></i></a></h6>
                         <table class="table table-hover border m-0 p-0">
                             <tr>
                                 <th>Owner:</th>

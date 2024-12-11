@@ -494,7 +494,7 @@ body::-webkit-scrollbar {
 }
 
 .home_mainpage_super_admin_box {
-    background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+    background: #fff;
     border: 1px solid #e1e1e1;
     border-radius: 20px;
     padding: 16px;
@@ -502,7 +502,10 @@ body::-webkit-scrollbar {
     max-height: 138px;
     transition: all 0.3s;
     overflow: hidden;
+    position: relative;
 }
+
+
 
 .home_mainpage_super_admin_box:hover {
     transform: scale(1.03);
@@ -550,7 +553,7 @@ body::-webkit-scrollbar {
     transition: 0.3s;
 }
 
-/* .home_mainpage_super_admin_box::after {
+.home_mainpage_super_admin_box::after {
     content: '';
     position: absolute;
     width: 62%;
@@ -561,7 +564,7 @@ body::-webkit-scrollbar {
     background-size: 100% 100%;
     transform: rotate(-180deg);
     background-repeat: no-repeat;
-} */
+}
 
 .home_mainpage_super_admin_box:hover {
     background-color: #ff902f;
@@ -621,13 +624,27 @@ body::-webkit-scrollbar {
 
 /* Modern card styling with gradient background */
 .modern-card {
-    background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+    background: #ffff;
     border: 1px solid #e1e1e1;
     border-radius: 16px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    position: relative;
+}
+
+.modern-card::after{
+    content: '';
+    position: absolute;
+    width: 62%;
+    height: 100%;
+    background-image: url('data:image/svg+xml,<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120"><style> .s0 { opacity: .05; fill: var(--vz-success) } </style><path id="Shape 8" class="s0" d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"></path></svg>');
+    top: 0;
+    right: 0;
+    background-size: 100% 100%;
+    transform: rotate(-180deg);
+    background-repeat: no-repeat;
 }
 
 .modern-card:hover {
@@ -749,6 +766,10 @@ body::-webkit-scrollbar {
     color: #fff;
 }
 
+.modern-card:hover .user-name{
+    color: #fff;
+}
+
 /* Modern circular number badge */
 .employee-count {
     width: 32px;
@@ -761,4 +782,79 @@ body::-webkit-scrollbar {
     justify-content: center;
     font-size: 16px;
     font-weight: 600;
+}
+
+.file_uploading a:not(.drop_downmain){
+    width: 61px;
+}
+
+.file_uploading a{
+    background: transparent !important;
+    top: 22px;
+    z-index: 3;
+}
+
+.file_uploading p{
+    background-color: transparent;
+    margin-top: 10px;
+}
+
+.file_uploading li{
+    border: 1px solid #e1e1e1;
+    padding-top: 22px !important;
+    border-radius: 6px;
+}
+
+.file_uploading .drop_down.action{
+    width: 68px;
+    right: 0;
+    top: 13px;
+    position: absolute;
+    padding-top: 28px;
+
+}
+
+.add_folder_main_wrapper{
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.file_name{
+    margin-top: 10px;
+    line-height: 1;
+}
+
+.for_hover_white{
+    color: #fff;
+    transition: 0.3s;
+    opacity: 0.8;
+}
+
+.for_hover_white:hover{
+    opacity: 1;
+    color: #fff;
+}
+
+.profile-widget.modern-card .modern-icon{
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.profile-widget.modern-card .modern_icon_wrapper{
+    width: 41px;
+    height: 41px;
+}
+
+.profile-widget.modern-card .modern-icon{
+    width: 38px;
+    height: 38px;
+}
+
+.profile-widget.modern-card{
+    min-height: 158px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
