@@ -858,3 +858,64 @@ body::-webkit-scrollbar {
     align-items: center;
     justify-content: center;
 }
+
+/* URL Container and Box Styling */
+.url-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: transparent;
+    /* padding: 10px; */
+    border-radius: 8px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    position: relative;
+}
+
+.url-box {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #6c757d;
+    font-size: 14px;
+    border: 1px solid #e1e1e1;
+    margin-top: 15px;
+    position: relative;
+}
+
+.url-box i {
+    margin-right: 8px;
+    color: #6c757d;
+}
+
+.copy-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* width: 150px; */
+    position: absolute;
+    right: 7px;
+    top: 7px;
+}
+.copy-btn i{
+    color: #fff;
+}
+
+.copy-btn:hover {
+    background-color: #003d80;
+}
+
+/* Hidden input for copying the URL */
+#tempInput {
+    position: absolute;
+    left: -9999px;
+}
