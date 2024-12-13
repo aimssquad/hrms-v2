@@ -46,11 +46,13 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    @foreach($file_image as $item)
+                   <div class="add_folder_main_wrapper">
+                   @foreach($file_image as $item)
                     <a href="{{url('org-fileManagment/file-add/'.$item->id)}}" class="mb-2"><img src="{{asset('filemanagment/folder.png')}}" style="width:50px; border-radius:10px">
-                    <p><?php echo $item->folder_name ?> </p>
+                    <p class="file_name"><?php echo $item->folder_name ?> </p>
                        </a>
                     @endforeach
+                   </div>
                 </div>
             </div>
         </div>
