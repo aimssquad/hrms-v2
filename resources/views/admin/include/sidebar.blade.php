@@ -67,7 +67,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a href="{{url('superadmin/view-search-dasboard')}}">
-                            <i class="fas fa-th-list"></i>
+                            <i class="fas fa-chart-line"></i>
                             <p>Employee Tracker</p>
 
                         </a>
@@ -75,7 +75,7 @@ $userType = Session::get('usersu_type');
                     </li>
                     <li class="nav-item">
                         <a href="{{url('superadmin/view-file-manager')}}">
-                            <i class="fas fa-th-list"></i>
+                            <i class="fas fa-folder-open"></i>
                             <p>File Managers</p>
 
                         </a>
@@ -84,7 +84,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a href="{{url('/superadmin/notices')}}">
-                            <i class="fas fa-th-note"></i>
+                            <i class="fas fa-bullhorn"></i>
                             <p>Notices</p>
 
                         </a>
@@ -100,7 +100,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a href="{{url('superadmin/view-search-application')}}">
-                            <i class="fas fa-th-list"></i>
+                            <i class="fas fa-tasks"></i>
                             <p>Application Status</p>
 
                         </a>
@@ -109,7 +109,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#HrSupport">
-                            <i class="fas fa-th-list"></i>
+                            <i class="fas fa-file-alt"></i>
                             <p>HR Support System </p>
                             <span class="caret"></span>
                         </a>
@@ -137,7 +137,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#sidebarLayouts">
-                            <i class="fas fa-th-list"></i>
+                            <i class="fas fa-building"></i>
                             <p>Organisation </p>
                             <span class="caret"></span>
                         </a>
@@ -192,7 +192,7 @@ $userType = Session::get('usersu_type');
                     </li>
                      <li class="nav-item">
                         <a data-toggle="collapse" href="#sidebarLayoutsubadmin">
-                            <i class="fas fa-th-list"></i>
+                            <i class="fas fa-users-cog"></i>
                             <p>Sub Admin </p>
                             <span class="caret"></span>
                         </a>
