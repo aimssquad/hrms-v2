@@ -42,4 +42,19 @@ class HrSupportFile extends Model
     {
         return $this->belongsTo(SubHrFileType::class, 'sub_type_id');
     }
+
+    public function hrsupportDoc()
+    {
+        return $this->hasMany(\App\Models\HrSupportDtlDoc::class, 'support_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($hrSupportFile) {
+            // Ensure related `HrSupportDtlDoc` records are deleted
+            $hrSupportFile->HrSupportDtlDoc()->delete();
+        });
+    }
 }

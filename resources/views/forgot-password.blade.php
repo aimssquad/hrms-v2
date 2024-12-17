@@ -9,7 +9,7 @@
         <title>Forgot Password - HRMS admin template</title>
 		
 		<!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
 		
 		<!-- Bootstrap CSS -->
         <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">

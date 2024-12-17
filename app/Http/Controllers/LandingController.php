@@ -291,7 +291,7 @@ class LandingController extends Controller
                             $message
                                 ->to($toemail, env('MAIL_FROM_NAME'))
                                 ->subject(
-                                    "Welcome to SkilledWorkedCloud Cloud HR Management System"
+                                    "Welcome to SWC HRMS. Your Organization Registration is Successful!"
                                 );
                             $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                         });
@@ -409,7 +409,7 @@ class LandingController extends Controller
                         $message
                             ->to($toemail, env('MAIL_FROM_NAME'))
                             ->subject(
-                                "Welcome to SkilledWorkedCloud Cloud HR Management System"
+                                "Welcome to SWC HRMS. Your Partner Organization Registration is Successful!"
                             );
                         $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                     });

@@ -159,6 +159,11 @@ $userType = Session::get('usersu_type');
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{url('superadmin/view-sidebar-role')}}">
+                                        <span class="sub-item">Side Bar Permission</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{url('superadmin/license-not-applied')}}">
                                         <span class="sub-item">License Not Applied</span>
                                     </a>
@@ -242,6 +247,33 @@ $userType = Session::get('usersu_type');
                             </ul>
                             
 
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#dossier">
+                            <i class="fas fa-th-list"></i>
+                            <p>Dossier</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="dossier">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="{{url('superadmin/sponsor-dossier-list')}}">
+                                        <span class="sub-item">Sponsor Management Dossier</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('superadmin/dossiers2')}}">
+                                        <span class="sub-item">Dossier Lavel2</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('superadmin/dossiers3')}}">
+                                        <span class="sub-item">Dossier Lavel3</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </li>
 
@@ -335,11 +367,11 @@ $userType = Session::get('usersu_type');
                                         <span class="sub-item">Admin Role Management</span>
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{url('superadmin/view-sidebar-role')}}">
                                         <span class="sub-item">Side Bar Permission</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
 
 
@@ -1390,6 +1422,7 @@ $userType = Session::get('usersu_type');
                                         <span class="sub-item">Verified Organisation</span>
                                     </a>
                                 </li>
+                                
                                 <li>
                                     <a href="{{url('superadmin/license-not-applied')}}">
                                         <span class="sub-item">License Not Applied</span>
