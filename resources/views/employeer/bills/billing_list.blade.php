@@ -78,6 +78,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                   <th>Total Amount</th>
                                   <th>Payment Mode</th>
                                   <th>Description</th>
+                                  <th>Payment Id</th>
+                                  <th>Payment Document</th>
                                   <th>Payment Status</th>
                                   <th>Action</th>
                                </tr>
@@ -102,6 +104,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                     <td>{{$billing->total_amount ?? 'NA'}}</td>
                                     <td>{{$billing->payment_mode ?? 'NA'}}</td>
                                     <td>{{$billing->description ?? 'NA'}}</td>
+                                    <td>{{$billing->payment_dtl ?? 'NA'}}</td>
+                                    <td>
+                                        @if ($billing->payment_document)
+                                            <a href="{{ asset('storage/' . $billing->payment_document) }}" target="blank"><img src="{{ asset('storage/' . $billing->payment_document) }}" alt="Payment Document" style="width: 100px; height: auto;"></a>
+                                        @else
+                                            NA
+                                        @endif
+                                    </td>
                                     <td>
                                         
                                         @if($billing->status == 1) <span class="badge bg-inverse-warning">Due</span> @elseif($billing->status == 2) <span class="badge bg-inverse-info">Pending</span> @else <span class="badge bg-inverse-success">Paid</span> @endif

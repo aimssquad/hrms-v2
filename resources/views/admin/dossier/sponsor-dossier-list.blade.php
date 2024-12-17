@@ -107,7 +107,7 @@
                        <div class="col-md-12">
                           <div class="card custom-card">
                              <div class="card-header">
-                                <h4 class="card-title"><i class="far fa-newspaper"></i>New Billing<span><a href="{{ url('superadmin/add-billing2') }}" data-toggle="tooltip" data-placement="bottom" title="Generate Bill" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
+                                <h4 class="card-title"><i class="far fa-newspaper"></i>Sponsor Dossier<span><a href="{{ url('superadmin/sponsor-dossier-add') }}" data-toggle="tooltip" data-placement="bottom" title="Generate Bill" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
                                 @if(Session::has('message'))
                                 <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
                                 @endif
@@ -118,64 +118,45 @@
                                       <thead>
                                          <tr>
                                             <th>Sl.No.</th>
-                                            <th>Invoice.No.</th>
-                                            <th>Billg For</th>
-                                            <th>Billing Month</th>
-                                            <th>Billing Type</th>
-                                            <th>Entity Id</th>
-                                            <th>Amount</th>
-                                            <th>Total Employee</th>
-                                            <th>Vat</th>
-                                            <th>Total Amount</th>
-                                            <th>Payment Mode</th>
-                                            <th>Payment Id</th>
-                                            <th>Payment Document</th>
-                                            <th>Description</th>
+                                            <th>Dossier Title</th>
+                                            <th>Dossier Link</th>
+                                            <th>Dossier Type</th>
+                                            <th>Dossier File</th>
                                             <th>Action</th>
                                          </tr>
                                       </thead>
                                       <tbody>
-                                        @foreach($billing_list as $billing)
-                                            {{-- @php
-                                               DB::table('registration')->where('') 
-                                            @endphp --}}
                                          <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>{{$billing->invoice_no}}</td>
-                                            <td>{{$billing->bill_for}}</td>
-                                            <td>{{ \Carbon\Carbon::parse($billing->date)->format('d-m-Y') }}</td>
-                                            <td>{{$billing->billing_type}}</td>
-                                            <td>{{$billing->entity_id}}</td>
-                                            <td>{{$billing->amount}}</td>
-                                            <td>{{$billing->total_employee}}</td>
-                                            <td>{{$billing->vat}}</td>
-                                            <td>{{$billing->total_amount}}</td>
-                                            <td>{{$billing->payment_mode}}</td>
-                                            <td>{{$billing->payment_dtl ?? 'NA'}}</td>
+                                            @foreach ($dossiers as $dossier)
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $dossier->title }}</td>
+                                            <td>{{ $dossier->link }}</td>
+                                            <td>{{$dossier->status }}</td>
                                             <td>
-                                                @if ($billing->payment_document)
-                                                    <a href="{{ asset('storage/' . $billing->payment_document) }}" target="blank"><img src="{{ asset('storage/' . $billing->payment_document) }}" alt="Payment Document" style="width: 100px; height: auto;"></a>
-                                                @else
-                                                    NA
-                                                @endif
+                                                <a href="{{ asset('storage/' . $dossier->dossier_file) }}" target="_blank">View File</a>
                                             </td>
-                                            <td>{{$billing->description}}</td>
                                             <td class="drp">
                                                <div class="dropdown">
                                                   <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                   Action
                                                   </button>
                                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                     <a class="dropdown-item" href="{{ route('superadmin.billing.edit', $billing->id) }}"><i class="far fa-edit"></i>&nbsp; Edit</a>
-                                                     @if($billing->payment_status == 0)
-                                                     <a class="dropdown-item text-danger" href="{{ route('billing.delete', $billing->id) }}" onclick="return confirm('Are you sure you want to delete this record?');">
+                                                    <a class="dropdown-item" href="{{ route('dossiers.edit', $dossier->id) }}">
+                                                        <i class="far fa-edit"></i>&nbsp; Edit
+                                                    </a>
+                                                    {{-- <form action="{{ route('dossiers.destroy', $dossier->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                                                    </form> --}}
+                                                    {{-- <a class="dropdown-item text-danger" 
+                                                    href="{{ route('dossiers.destroy', $dossier->id) }}" 
+                                                    onclick="event.preventDefault(); deleteDossier({{ $dossier->id }});">
+                                                        <i class="fas fa-trash"></i>&nbsp; Delete
+                                                    </a> --}}
+                                                     <a class="dropdown-item text-danger" href="{{ route('dossiers.destroy', $dossier->id) }}" onclick="return confirm('Are you sure you want to delete this record?');">
                                                         <i class="fas fa-trash"></i>&nbsp; Delete
                                                     </a>
-                                                     @endif
-                                                     <a class="dropdown-item" href="{{ route('admin.billing.invoice', $billing->id) }}" ><i class="fas fa-eye"></i>&nbsp; View Invoice</a> 
-                                                     <a class="dropdown-item" target="_blank" href="#" ><i class="fas fa-eye"></i>&nbsp; Download Invoice</a>
-                                                     <a class="dropdown-item" href="#"><i class="fas fa-paper-plane"></i>&nbsp; Send Email</a>
-                                                     <a class="dropdown-item" href=""><i class="fa fa-comments"></i>&nbsp; Remarks</a>
                                                   </div>
                                                </div>
                                             </td>
@@ -212,6 +193,33 @@
     <!-- Atlantis DEMO methods, don't include it in your project! -->
     <script src="{{ asset('assets/js/setting-demo2.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{-- <script>
+        function deleteDossier(id) {
+            if (confirm('Are you sure you want to delete this record?')) {
+                fetch(`/superadmin/dossiers/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Dossier deleted successfully!');
+                        // Optionally reload the page or remove the deleted row
+                        location.reload(); // Reload the page
+                    } else {
+                        alert('Failed to delete dossier. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            }
+        }
+
+    </script> --}}
   
 
 </body>

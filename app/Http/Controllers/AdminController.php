@@ -5681,9 +5681,9 @@ class AdminController extends Controller
                 );
 
                 DB::table('users')->where('employee_id', $request->reg)->update($datau);
-
+                //dd($request->reg);
                 $exits = DB::table('users')->where('employee_id', $request->reg)->first();
-
+                //dd($exits);
                 if ($request->status == 'inactive') {
 
                     $datau = array(

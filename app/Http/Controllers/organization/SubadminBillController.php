@@ -8,6 +8,7 @@ use App\Models\Bill;
 use App\Models\Subadmin_bill;
 use App\Models\BillingRule;
 use Session;
+use PDF;
 use DB;
 use Mail;
 
@@ -395,7 +396,7 @@ class SubadminBillController extends Controller
             $bill = Subadmin_bill::findOrFail($id);
             $bill->delete();
             Session::flash('message', 'Bill deleted successfully.');
-            return redirect('sub-admin/billing-list');
+            return redirect('sub-admin/all-bills');
         } else {
             redirect('superadmin');
         }
@@ -456,6 +457,67 @@ class SubadminBillController extends Controller
             redirect('superadmin');
         } 
     }
+
+    public function subadminOwnBillEdit(Request $request,$id){
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            //dd('okk');
+            $data['bills'] = DB::table('subadmin_bills')->where('id',$id)->first();
+            return view('sub-admin.billing.own_bill_edit',$data);
+        } else {
+            redirect('superadmin');
+        }
+    }
+
+    public function subadminOwnBillUpdate (Request $request, $id)
+    {
+        //dd('okk');
+        $request->validate([
+            'payment_dtl' => 'required|string|max:255',
+            'payment_document' => 'required|file|mimes:pdf,jpg,png,jpeg|max:2048', // Adjust mime types as needed
+        ]);
+        
+        $bill = Subadmin_bill::findOrFail($id);
+        // Handle file upload
+        if ($request->hasFile('payment_document')) {
+            $file = $request->file('payment_document');
+            $filePath = $file->store('subadmin_payments', 'public'); // this is my file path where save document "storage/app/public/org_payments/demo.png"
+            // Update the file path in the database
+            $bill->payment_document = $filePath;
+        }
+
+        // Update other fields
+        $bill->payment_dtl = $request->payment_dtl;
+        $bill->save();
+        //dd('okk');
+        Session::flash('message', 'Payment status updated successfully .');
+        return redirect('sub-admin/all-bills');
+    }
+
+    public function downloadSubInvoice(Request $request, $id)
+    {
+        ini_set('max_execution_time', '300'); // Increase max execution time to 5 minutes
+        ini_set('memory_limit', '512M');  
+        $email = Session::get('empsu_email');
+        if (!empty($email)) {
+            // Retrieve data for the bill and company details
+            $bill = DB::table('subadmin_bills')->where('id', $id)->first();
+            $com_dtl = DB::table('sub_admin_registrations')->where('reg', $bill->entity_id)->first();
+    
+            if (!$bill) {
+                return back()->with('error', 'Invoice not found.');
+            }
+    
+            // Pass the data to the Blade view for PDF generation
+            $pdf = PDF::loadView('sub-admin.billing.sub-own-pdf', compact('bill', 'com_dtl'));
+    
+            // Return the generated PDF as a download
+            return $pdf->download('invoice_' . $bill->invoice_no . '.pdf');
+        } else {
+            return redirect('superadmin')->with('error', 'Unauthorized access.');
+        }
+    }
+    
 
 
 

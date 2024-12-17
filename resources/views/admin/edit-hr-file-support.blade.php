@@ -23,7 +23,7 @@
                                     @include('layout/message')
                                 </div>
                                 <div class="card-body">
-                                    <form action="{{ url('superadmin/add-hr-support-file') }}" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url('superadmin/update-hr-support-file/' . $user->id) }}" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         @if(isset($user) && !empty($user->id))
                                         <input type="hidden" name="id" value="{{ $user->id }}">
@@ -71,7 +71,7 @@
                                                 <div class="form-group">
                                                     <label for="description" class="placeholder">Short Description</label>
                                                     <textarea id="description" name="description" class="form-control input-border-bottom" required >{{ isset($user) ? $user->small_description : '' }}</textarea>
-                                                </div> 
+                                                </div>
                                             </div>
                                             <div class="col-md-9">
                                                 <div class="form-group">
@@ -80,36 +80,63 @@
                                                 </div>
                                             </div>
                                            
-                                        <div id="file-container">
-                                            <div class="row file-section">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
+                                        {{-- <div id="file-container">
+                                            @foreach($user->hrsupportDoc as $doc)
+                                                <div class="row file-section">
+                                                    <div class="col-md-4">
                                                         <label>File Name</label>
-                                                        <input type="text" class="form-control" name="file_names[]" required>
+                                                        <input type="text" name="file_names[]" class="form-control" value="{{ $doc->name }}" required>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Document Description</label>
-                                                        <input type="text" class="form-control" name="document_desc[]" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
+                                                    <div class="col-md-4">
                                                         <label>Upload Pdf</label>
-                                                        <input type="file" class="form-control" name="pdf_files[]" accept=".pdf" required>
+                                                        <input type="file" name="pdf_files[]" class="form-control" accept=".pdf">
+                                                        <small>Current: <a href="{{ asset('storage/' . $doc->pdf) }}" target="_blank">{{ $doc->pdf }}</a></small>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
+                                                    <div class="col-md-4">
                                                         <label>Upload Doc</label>
-                                                        <input type="file" class="form-control" name="doc_files[]" accept=".doc,.docx">
+                                                        <input type="file" name="doc_files[]" class="form-control" accept=".doc,.docx">
+                                                        <small>Current: <a href="{{ asset('storage/' . $doc->doc) }}" target="_blank">{{ $doc->doc }}</a></small>
                                                     </div>
+                                                    <button type="button" class="btn btn-danger remove-file-section">Remove</button>
                                                 </div>
-                                                <div class="col-md-12 text-right">
-                                                    <button type="button" class="btn btn-success btn-sm add-file-section " style="margin-bottom:0px; margin-right:5px;"><i class="fa fa-plus"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm remove-file-section"><i class="fa fa-trash"></i></button>
+                                            @endforeach
+                                            <button type="button" class="btn btn-success btn-sm add-file-section " style="margin-bottom:0px; margin-right:5px;"><i class="fa fa-plus"></i></button>
+                                        </div> --}}
+                                        <div id="file-container">
+                                            <!-- Existing file sections -->
+                                            @foreach($user->hrsupportDoc as $doc)
+                                                <div class="row file-section">
+                                                    <div class="col-md-4">
+                                                        <label>File Name</label>
+                                                        <input type="text" name="file_names[]" class="form-control" value="{{ $doc->name }}" required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Document Description</label>
+                                                            <input type="text" class="form-control" name="document_desc[]" value="{{ $doc->document_description }}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label>Upload Pdf</label>
+                                                        <input type="file" name="pdf_files[]" class="form-control" value="{{$doc->pdf}}" accept=".pdf">
+                                                        <small>Current: <a href="{{ asset('storage/' . $doc->pdf) }}" target="_blank">{{ $doc->pdf }}</a></small>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label>Upload Doc</label>
+                                                        <input type="file" name="doc_files[]" class="form-control" value="{{$doc->doc}}" accept=".doc,.docx">
+                                                        <small>Current: <a href="{{ asset('storage/' . $doc->doc) }}"  target="_blank">{{ $doc->doc }}</a></small>
+                                                    </div>
+                                                    <button type="button" class="btn btn-danger remove-file-section" style="margin-top:10px;">Remove</button>
                                                 </div>
+                                            @endforeach
+                                        </div>
+                                        
+                                        <!-- Add File Section Button -->
+                                        <div class="row form-group">
+                                            <div class="col-md-12 text-right">
+                                                <button type="button" class="btn btn-success btn-sm add-file-section">
+                                                    <i class="fa fa-plus"></i> Add File Section
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="row form-group">
@@ -173,27 +200,38 @@
         });
     </script>
     <script>
-                         $(document).ready(function () {
-                // Add new file upload section
-                $(document).on('click', '.add-file-section', function () {
-                    const newSection = $(this)
-                        .closest('.file-section') // Find the closest file-section div
-                        .clone(true) // Clone the entire section
-                        .find('input')
-                        .val('') // Clear input values
-                        .end();
-                    $('#file-container').append(newSection); // Append the cloned section
-                });
+       $(document).ready(function () {
+    // Add new file section
+    $(document).on('click', '.add-file-section', function () {
+        const newSection = `
+            <div class="row file-section">
+                <div class="col-md-4">
+                    <label>File Name</label>
+                    <input type="text" name="file_names[]" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label>Upload Pdf</label>
+                    <input type="file" name="pdf_files[]" class="form-control" accept=".pdf">
+                </div>
+                <div class="col-md-4">
+                    <label>Upload Doc</label>
+                    <input type="file" name="doc_files[]" class="form-control" accept=".doc,.docx">
+                </div>
+                <button type="button" class="btn btn-danger remove-file-section" style="margin-top:10px;">Remove</button>
+            </div>`;
+        $('#file-container').append(newSection); // Add the new section to the container
+    });
 
-                // Remove a file upload section
-                $(document).on('click', '.remove-file-section', function () {
-                    if ($('.file-section').length > 1) {
-                        $(this).closest('.file-section').remove(); // Remove the specific section
-                    } else {
-                        alert('At least one file section must remain.');
-                    }
-                });
-            });
+    // Remove file section
+    $(document).on('click', '.remove-file-section', function () {
+        if ($('.file-section').length > 1) {
+            $(this).closest('.file-section').remove(); // Remove the specific file section
+        } else {
+            alert('At least one file section must remain.');
+        }
+    });
+});
+
 
     </script>
 </body>

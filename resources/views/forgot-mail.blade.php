@@ -24,39 +24,25 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Dear <b>{{ strtoupper($f_name) }} {{ strtoupper($l_name) }},</b></p>
+                            <p style="font-size: 16px; color: #333;">Dear <b>{{ strtoupper($name) }}</b></p>
                             <p style="font-size: 16px; color: #333;">
-                                Welcome to Skilled Workers Cloud HRMS ! Thank you for registering with us. 
-                                We are thrilled to have you onboard and are excited to support your HR and sponsorship compliance needs and to run your business operation smoothly! 
+                                Welcome to Skilled Workers Cloud HRMS !
                             </p>
 
                             <p style="font-size: 16px; color: #333;">
-                                As the next step, you need to complete your organization profile. 
-                                This ensures a seamless process for utilizing our HRMS features and compliance services.
+                               Your password here Bellow
                             </p>
 
                             <div style="text-align: center; margin: 20px 0;">
-                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/register"
+                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/"
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
-                                    Complete Your Organization Profile</a>
+                                    Your Login  Url</a>
                             </div>
 
                             <p style="font-size: 16px; color: #333;">Your login details:</p>
                             <p style="font-size: 16px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
-                            <p style="font-size: 16px; color: #333;"><strong>Password:</strong> {{ $pass}}</p>
-
-                            <p style="font-size: 16px; color: #333;">Helpful tips to complete your organization profile:
-                            </p>
-                            <ol style="font-size: 16px; color: #333;">
-                                <li>Navigate to the ‘Organization Profile’ tab to begin.</li>
-                                <li>Go to ‘Profile Status’ and fill in necessary details.</li>
-                                <li>Basic business details: trading name, company registration number, business address, trading hours, and trading period.</li>
-                                <li>Information about your authorizing officer (e.g., director or key employee). This person will liaise with the Home Office regarding your sponsor license application</li>
-                                <li>Basic details of all employees for the hierarchy chart, a mandatory Home Office requirement.</li>
-                                <li>Upload required documents under the ‘Documents’ section. Use the ‘Add’ button for additional uploads. </li>
-                                <li>Make sure every field is filled out completely to ensure full compliances.</li>
-                            </ol>
+                            <p style="font-size: 16px; color: #333;"><strong>Your Password is:</strong> {{ $pass}}</p>
                         </td>
                     </tr>
 

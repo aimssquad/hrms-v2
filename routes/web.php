@@ -714,6 +714,7 @@ Route::post('superadmin/add-hr-support-file', 'App\Http\Controllers\HrSupport\Hr
 Route::get('superadmin/edit-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@editHrSupportFile')->name('edit-hr-support-file');
 Route::get('superadmin/delete-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@deleteHrSupportFile')->name('delete-hr-support-file');
 Route::get('superadmin/get-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@getHrSupportFile');
+Route::post('superadmin/update-hr-support-file/{id}','App\Http\Controllers\HrSupport\HrSupportController@updateHrSupportFile');
 
 Route::get('superadmin/sub/add-hr-support-file-type-List', 'App\Http\Controllers\HrSupport\HrSupportController@addSubHrSupportFileList');
 Route::get('superadmin/sub/add-hr-support-file-type', 'App\Http\Controllers\HrSupport\HrSupportController@addSubHrSupportFile');
@@ -5838,10 +5839,36 @@ Route::get('/sub-admin/billing/delete/{id}', 'App\Http\Controllers\organization\
 Route::get('/sub-admin/billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewInvoice')->name('subadmin.billing.invoice');
 //------------Own Bills
 Route::get('/sub-admin/all-bills','App\Http\Controllers\organization\SubadminBillController@viewBillList')->name('subadmin.allbills');
+Route::get('subadmin.billing.own_bill_edit/{id}','App\Http\Controllers\organization\SubadminBillController@subadminOwnBillEdit')->name('subadmin.billing.own_bill_edit');
+Route::post('/subadmin/payment/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@subadminOwnBillUpdate');
 Route::get('/sub-admin/own_billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewOwnInvoice')->name('subadmin.own_billing.invoice');
+
+
+Route::get('/subadmin-own-invoice/download/{id}', 'App\Http\Controllers\organization\SubadminBillController@downloadSubInvoice')->name('invoice.download');
 
 //-------------------------------------End Sub Admin Billing---------------------------------------
 
 
 // Ajax Route ------------------------------------------------------------
 Route::get('pis/getEmployeedailyattandeaneshightByIdnewr/{empid}','App\Http\Controllers\AjaxController@getEmpCode');
+
+// Superadmin Dossier
+Route::get('superadmin/sponsor-dossier-list','App\Http\Controllers\DossierController@sponsorDossierList')->name('superadmin.sponsor-dossier-list');
+Route::get('superadmin/sponsor-dossier-add','App\Http\Controllers\DossierController@sponsorDossierAdd')->name('superadmin.sponsor-dossier-add');
+Route::post('superadmin/dossiers', 'App\Http\Controllers\DossierController@store')->name('dossiers.store');
+Route::get('superadmin/dossiers/{id}/edit', 'App\Http\Controllers\DossierController@edit')->name('dossiers.edit');
+Route::put('superadmin/dossiers/{id}', 'App\Http\Controllers\DossierController@update')->name('dossiers.update');
+Route::get('superadmin/dossiers/{id}', 'App\Http\Controllers\DossierController@destroy')->name('dossiers.destroy');
+
+Route::get('superadmin/dossiers2', 'App\Http\Controllers\DossierController@index')->name('dossiers2.index');
+Route::get('superadmin/sponsor-dossier-lavel2','App\Http\Controllers\DossierController@dossir2')->name('dossier2');
+Route::post('superadmin/dossiers2', 'App\Http\Controllers\DossierController@dossier2Save')->name('dossiers2.store');
+Route::get('superadmin/dossiers2/{id}/edit', 'App\Http\Controllers\DossierController@editDossier2')->name('dossier.edit-dossier2');
+Route::put('superadmin/dossiers2/{id}', 'App\Http\Controllers\DossierController@updateDossier2')->name('dossiers2.update');
+
+Route::get('superadmin/dossiers3', 'App\Http\Controllers\DossierController@dossier3List')->name('dossiers3.list');
+Route::get('superadmin/dossiers3view', 'App\Http\Controllers\DossierController@dossier3view')->name('dossiers3.view');
+Route::get('superadmin/get-dossier2-by-dossier', 'App\Http\Controllers\DossierController@getDossier2ByDossier')->name('get.dossier2.by.dossier');
+Route::post('superadmin/dossiers3save', 'App\Http\Controllers\DossierController@dossier3Save')->name('dossiers3.save');
+
+

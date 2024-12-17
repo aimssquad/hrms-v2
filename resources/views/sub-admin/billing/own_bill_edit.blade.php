@@ -1,5 +1,5 @@
 
-@extends('employeer.include.app')
+@extends('sub-admin.include.app')
 
 @section('title', 'Payment Details')
 @php 
@@ -33,7 +33,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                   <h3>Payment</h3>
               </div>
               <div class="card-body">
-                  <form action="{{ url('organization/payment/update/' . $bills->id) }}" method="post" enctype="multipart/form-data">
+                  <form action="{{ url('subadmin/payment/update/' . $bills->id) }}" method="post" enctype="multipart/form-data">
                       @csrf
                       <div class="row form-group">
                           <!-- Billing For Dropdown -->

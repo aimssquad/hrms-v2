@@ -15,8 +15,8 @@ class BillController extends Controller
     public function billingList(Request $request){
         $email = Session::get('empsu_email');
         if(!empty($email)){
-            $billing_list = Subadmin_bill::where('sub_code', '')
-                ->orWhereNull('sub_code')
+            $billing_list = Subadmin_bill::where('org_code', '')
+                ->orWhereNull('org_code')
                 ->get();
             return view ('admin/billing/new_billing_list',compact('billing_list'));
         } else {
