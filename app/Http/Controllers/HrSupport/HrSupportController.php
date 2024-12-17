@@ -727,41 +727,91 @@ class HrSupportController extends Controller
     //     return redirect('superadmin/hr-support-files');
     // }
     
-    public function updateHrSupportFile(Request $request, $id) {
+    // public function updateHrSupportFile(Request $request, $id) {
+    //     try {
+    //         dd($request->all());
+    //         // Find the HrSupportFile record
+    //         $user = HrSupportFile::findOrFail($id);
+    
+    //         // Update the HrSupportFile data
+    //         $user->type_id = $request->type_id;
+    //         $user->sub_type_id = $request->sub_type_id;
+    //         $user->title = $request->title;
+    //         $user->small_description = $request->description;
+    //         $user->description = $request->smalldescription;
+    //         $user->save();
+    
+    //         // Delete all existing records in HrSupportDtlDoc for this HrSupportFile
+    //         HrSupportDtlDoc::where('support_id', $id)->delete();
+    
+    //         // Handle new file uploads
+    //         if ($request->has('file_names')) {
+    //             foreach ($request->file_names as $index => $fileName) {
+    //                 $pdfFile = $request->file('pdf_files')[$index] ?? null;
+    //                 $docFile = $request->file('doc_files')[$index] ?? null;
+    
+    //                 // Add new records
+    //                 HrSupportDtlDoc::create([
+    //                     'support_id' => $user->id,
+    //                     'name' => $fileName,
+    //                     'document_description' => $request->document_desc[$index],
+    //                     'pdf' => $pdfFile ? $pdfFile->store('pdfs') : null,
+    //                     'doc' => $docFile ? $docFile->store('docs') : null,
+    //                 ]);
+    //             }
+    //         }
+    
+    //         // Flash success message and redirect
+    //         Session::flash('message', 'Updated Successfully.');
+    //         return redirect('superadmin/hr-support-files');
+    //     } catch (\Exception $e) {
+    //         // Log error and return back with an error message
+    //         \Log::error('Error updating HR support file: ' . $e->getMessage());
+    //         Session::flash('error', 'Something went wrong. Please try again.');
+    //         return redirect('superadmin/hr-support-files');
+    //     }
+    // }
+
+    public function updateHrSupportFile(Request $request, $id)
+    {
+        //dd($request->all());
         try {
-            dd($request->all());
             // Find the HrSupportFile record
             $user = HrSupportFile::findOrFail($id);
-    
+
             // Update the HrSupportFile data
             $user->type_id = $request->type_id;
             $user->sub_type_id = $request->sub_type_id;
             $user->title = $request->title;
-            $user->small_description = $request->description;
-            $user->description = $request->smalldescription;
+            $user->small_description = $request->smalldescription;
+            $user->description = $request->description;
             $user->save();
-    
-            // Delete all existing records in HrSupportDtlDoc for this HrSupportFile
-            HrSupportDtlDoc::where('support_id', $id)->delete();
-    
-            // Handle new file uploads
+
+            // Handle file updates in HrSupportDtlDoc
             if ($request->has('file_names')) {
                 foreach ($request->file_names as $index => $fileName) {
-                    $pdfFile = $request->file('pdf_files')[$index] ?? null;
-                    $docFile = $request->file('doc_files')[$index] ?? null;
-    
-                    // Add new records
-                    HrSupportDtlDoc::create([
+                    // Get the existing record or create a new one
+                    $doc = HrSupportDtlDoc::firstOrNew([
                         'support_id' => $user->id,
                         'name' => $fileName,
-                        'document_description' => $request->document_desc[$index],
-                        'pdf' => $pdfFile ? $pdfFile->store('pdfs') : null,
-                        'doc' => $docFile ? $docFile->store('docs') : null,
                     ]);
+
+                    // Update fields
+                    $doc->document_description = $request->document_desc[$index];
+
+                    // Check and update files if new ones are uploaded
+                    if (isset($request->file('pdf_files')[$index])) {
+                        $doc->pdf = $request->file('pdf_files')[$index]->store('pdfs', 'public');
+                    }
+                    if (isset($request->file('doc_files')[$index])) {
+                        $doc->doc = $request->file('doc_files')[$index]->store('docs', 'public');
+                    }
+
+                    // Save the record
+                    $doc->save();
                 }
             }
-    
-            // Flash success message and redirect
+
             Session::flash('message', 'Updated Successfully.');
             return redirect('superadmin/hr-support-files');
         } catch (\Exception $e) {
@@ -771,6 +821,7 @@ class HrSupportController extends Controller
             return redirect('superadmin/hr-support-files');
         }
     }
+
     
 
 
