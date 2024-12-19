@@ -94,52 +94,105 @@
                               <h4 class="card-title"><i class="far fa-newspaper"></i>Dossier Lavel3 Edit</h4>
                            </div>
                            <div class="card-body">
-                              <form action="{{ url('superadmin/dossiers3save') }}" method="post" enctype="multipart/form-data">
-                                 @csrf
-                                 <div class="row">
+                            <form action="{{ url('superadmin/dossiers3update', $dossier3->id) }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT') <!-- Use PUT method for updates -->
+                                <div class="row">
                                     <div class="col-md-4">
-                                        <div class="form-group ">
-                                           <label for="selectFloatingLabel3" class="placeholder">Sponsor Management Dossier</label>		
-                                           <select class="form-control input-border-bottom" id="dossier_id" name="dossier_id" required>
-                                            <option value="">Select</option>
-                                            @foreach($dossiers as $dossier)
-                                            <option value="{{$dossier->id}}">{{$dossier->title}}</option>
+                                        <div class="form-group">
+                                            <label for="dossier_id" class="placeholder">Sponsor Management Dossier</label>		
+                                            <select class="form-control input-border-bottom" id="dossier_id" name="dossier_id" required>
+                                                <option value="">Select</option>
+                                                @foreach($dossiers as $dossier)
+                                                    <option value="{{ $dossier->id }}" {{ $dossier3->dossier_id == $dossier->id ? 'selected' : '' }}>
+                                                        {{ $dossier->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="dossier_id2" class="placeholder">Dossier Level 2</label>		
+                                            <select class="form-control input-border-bottom" id="dossier_id2" name="dossier_id2" required>
+                                                <option value="">Select</option>
+                                                @foreach($dossier2s as $dossier2)
+                                                    <option value="{{ $dossier2->id }}" {{ $dossier3->dossier2_id == $dossier2->id ? 'selected' : '' }}>
+                                                        {{ $dossier2->title2}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="title" class="placeholder">Dossier3 Title</label>		
+                                            <input type="text" id="title" name="title3" class="form-control" required value="{{ $dossier3->title3 }}">
+                                        </div>
+                                    </div>
+                                    <div id="duplicate_row_container">
+                                        @if($dossier3->files && $dossier3->files->isNotEmpty())
+                                            @foreach($dossier3->files as $file)
+                                                <div id="duplicate_row" class="row mb-3">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="file_name" class="placeholder">Dossier File Name</label>	
+                                                            <textarea id="file_name" name="file_name[]" class="form-control input-border-bottom" required>{{ $file->file_name }}</textarea>	
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="description" class="placeholder">Dossier Description & Link</label>	
+                                                            <textarea id="description" name="description[]" class="form-control input-border-bottom" required>{{ $file->description }}</textarea>	
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="dossier_file3" class="placeholder">Dossier3 File</label>
+                                                            <input id="dossier_file3" type="file" class="form-control" name="file[]">
+                                                            @if($file->file)
+                                                                <a href="{{ asset('storage/' . $file->file) }}" target="_blank" class="btn btn-link">View Current File</a>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 text-right mt-2">
+                                                        <button type="button" class="btn btn-primary add-row">Add</button>
+                                                        <button type="button" class="btn btn-danger remove-row">Delete</button>
+                                                    </div>
+                                                </div>
                                             @endforeach
-                                        </select>
-                                        </div>
+                                        @else
+                                            <div id="duplicate_row" class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="file_name" class="placeholder">Dossier File Name</label>	
+                                                        <textarea id="file_name" name="file_name[]" class="form-control input-border-bottom" required></textarea>	
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="description" class="placeholder">Dossier Description & Link</label>	
+                                                        <textarea id="description" name="description[]" class="form-control input-border-bottom" required></textarea>	
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="dossier_file3" class="placeholder">Dossier3 File</label>
+                                                        <input id="dossier_file3" type="file" class="form-control" name="file[]">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-right mt-2">
+                                                    <button type="button" class="btn btn-primary add-row">Add</button>
+                                                    <button type="button" class="btn btn-danger remove-row">Delete</button>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group ">
-                                           <label for="selectFloatingLabel3" class="placeholder">Dossier Lavel2</label>		
-                                           <select class="form-control input-border-bottom" id="dossier_id2" name="dossier_id2" required>
-                                            <option value="">Select</option>
-                                        </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                       <div class="form-group ">
-                                          <label for="selectFloatingLabel3" class="placeholder">Dossier3 Title</label>		
-                                          <input type="text" id="title" name="title3"  class="form-control "  required  value="">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                       <div class="form-group ">
-                                          <label for="selectFloatingLabel3" class="placeholder">Dossier3 Link</label>		
-                                          <input type="text" id="link" name="link3"  class="form-control "  required value="">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group ">
-                                            <label for="selectFloatingimage" class="placeholder">Dossier3 File  </label>
-                                            <input id="dossier_file3" type="file" class="form-control "  name="dossier_file3"   onchange="Filevalidationproimge()" >
-                                            {{-- <small id="file_msg"> Please select  image which size up to 2mb</small> --}}
-                                        </div>
-                                    </div>
-                                    
-                              
-                                    <div class="col-md-2"><button type="submit" class="btn btn-default">Submit</button></div>
-                                 
-                              </form>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <button type="submit" class="btn btn-default">Update</button>
+                                </div>
+                            </form>
                            </div>
                         </div>
                      </div>
@@ -220,6 +273,25 @@
                     // If no dossier_id is selected, clear the second dropdown
                     $('#dossier_id2').empty();
                     $('#dossier_id2').append('<option value="">Select</option>');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Add new row
+            $(document).on("click", ".add-row", function () {
+                let newRow = $("#duplicate_row").first().clone(); // Clone the first row
+                newRow.find("textarea, input").val(""); // Clear input fields
+                $("#duplicate_row_container").append(newRow); // Append the new row to the container
+            });
+    
+            // Remove row
+            $(document).on("click", ".remove-row", function () {
+                if ($("#duplicate_row_container .row").length > 1) {
+                    $(this).closest("#duplicate_row").remove(); // Remove the specific row
+                } else {
+                    alert("At least one row must remain!");
                 }
             });
         });

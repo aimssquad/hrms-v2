@@ -94,52 +94,66 @@
                               <h4 class="card-title"><i class="far fa-newspaper"></i>Dossier Lavel3 Add</h4>
                            </div>
                            <div class="card-body">
-                              <form action="{{ url('superadmin/dossiers3save') }}" method="post" enctype="multipart/form-data">
-                                 @csrf
-                                 <div class="row">
+                            <form action="{{ url('superadmin/dossiers3save') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <div class="row">
                                     <div class="col-md-4">
-                                        <div class="form-group ">
-                                           <label for="selectFloatingLabel3" class="placeholder">Sponsor Management Dossier</label>		
-                                           <select class="form-control input-border-bottom" id="dossier_id" name="dossier_id" required>
-                                            <option value="">Select</option>
-                                            @foreach($dossiers as $dossier)
-                                            <option value="{{$dossier->id}}">{{$dossier->title}}</option>
-                                            @endforeach
-                                        </select>
+                                        <div class="form-group">
+                                            <label for="selectFloatingLabel3" class="placeholder">Sponsor Management Dossier</label>		
+                                            <select class="form-control input-border-bottom" id="dossier_id" name="dossier_id" required>
+                                                <option value="">Select</option>
+                                                @foreach($dossiers as $dossier)
+                                                    <option value="{{$dossier->id}}">{{$dossier->title}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group ">
-                                           <label for="selectFloatingLabel3" class="placeholder">Dossier Lavel2</label>		
-                                           <select class="form-control input-border-bottom" id="dossier_id2" name="dossier_id2" required>
-                                            <option value="">Select</option>
-                                        </select>
+                                        <div class="form-group">
+                                            <label for="selectFloatingLabel3" class="placeholder">Dossier Level 2</label>		
+                                            <select class="form-control input-border-bottom" id="dossier_id2" name="dossier_id2" required>
+                                                <option value="">Select</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                       <div class="form-group ">
-                                          <label for="selectFloatingLabel3" class="placeholder">Dossier3 Title</label>		
-                                          <input type="text" id="title" name="title3"  class="form-control "  required  value="">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                       <div class="form-group ">
-                                          <label for="selectFloatingLabel3" class="placeholder">Dossier3 Link</label>		
-                                          <input type="text" id="link" name="link3"  class="form-control "  required value="">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group ">
-                                            <label for="selectFloatingimage" class="placeholder">Dossier3 File  </label>
-                                            <input id="dossier_file3" type="file" class="form-control "  name="dossier_file3"   onchange="Filevalidationproimge()" >
-                                            {{-- <small id="file_msg"> Please select  image which size up to 2mb</small> --}}
+                                        <div class="form-group">
+                                            <label for="selectFloatingLabel3" class="placeholder">Dossier3 Title</label>		
+                                            <input type="text" id="title" name="title3" class="form-control" required value="">
                                         </div>
                                     </div>
-                                    
-                              
-                                    <div class="col-md-2"><button type="submit" class="btn btn-default">Submit</button></div>
-                                 
-                              </form>
+                                    <div id="duplicate_row_container">
+                                        <div id="duplicate_row" class="row mb-3">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="selectFloatingLabel3" class="placeholder">Dossier File Name</label>	
+                                                    <textarea id="description" name="file_name[]" class="form-control input-border-bottom" required></textarea>	
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="selectFloatingLabel3" class="placeholder">Dossier Description & Link</label>	
+                                                    <textarea id="description" name="description[]" class="form-control input-border-bottom" required></textarea>	
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="selectFloatingimage" class="placeholder">Dossier3 File</label>
+                                                    <input id="dossier_file3" type="file" class="form-control" name="file[]" onchange="Filevalidationproimge()">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-right mt-2">
+                                                <button type="button" class="btn btn-primary add-row">Add</button>
+                                                <button type="button" class="btn btn-danger remove-row">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </div>
+                            </form>
                            </div>
                         </div>
                      </div>
@@ -165,6 +179,12 @@
       <!-- Atlantis DEMO methods, don't include it in your project! -->
       <script src="{{ asset('assets/js/setting-demo2.js')}}"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <!--   Core JS Files   -->
+    @include('admin.include.script')
+    <script>
+        CKEDITOR.replace('description');
+        CKEDITOR.replace('smalldescription');
+    </script>
       <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -220,6 +240,25 @@
                     // If no dossier_id is selected, clear the second dropdown
                     $('#dossier_id2').empty();
                     $('#dossier_id2').append('<option value="">Select</option>');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Add new row
+            $(document).on("click", ".add-row", function () {
+                let newRow = $("#duplicate_row").first().clone(); // Clone the first row
+                newRow.find("textarea, input").val(""); // Clear input fields
+                $("#duplicate_row_container").append(newRow); // Append the new row to the container
+            });
+    
+            // Remove row
+            $(document).on("click", ".remove-row", function () {
+                if ($("#duplicate_row_container .row").length > 1) {
+                    $(this).closest("#duplicate_row").remove(); // Remove the specific row
+                } else {
+                    alert("At least one row must remain!");
                 }
             });
         });

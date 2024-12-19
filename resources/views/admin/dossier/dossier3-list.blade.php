@@ -147,7 +147,7 @@
                                                            Action
                                                            </button>
                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                             <a class="dropdown-item" href="{{ route('dossier.edit-dossier2', $dossier3->id) }}">
+                                                             <a class="dropdown-item" href="{{ route('dossier.edit-dossier3', $dossier3->id) }}">
                                                                  <i class="far fa-edit"></i>&nbsp; Edit
                                                              </a>
                                                               {{-- <a class="dropdown-item text-danger" href="{{ route('dossiers.destroy', $dossier3->id) }}" onclick="return confirm('Are you sure you want to delete this record?');">

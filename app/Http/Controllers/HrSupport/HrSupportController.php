@@ -268,18 +268,10 @@ class HrSupportController extends Controller
             $email = Session::get('empsu_email');
             if (!empty($email)) {
                 DB::beginTransaction();
-
                 $hrSupportFile = HrSupportFile::findOrFail($id);
-
-                // Delete related records explicitly
                 HrSupportDtlDoc::where('support_id', $hrSupportFile->id)->delete();
-
-                HrSupportFile::where('id',$id)->delete();
-                // Delete the parent record
-                //$hrSupportFile->delete();
-
+                $data = HrSupportFile::where('id',$id)->delete();
                 DB::commit();
-
                 Session::flash('message', 'HR Support File deleted successfully.');
                 return redirect()->back();
             } else {
@@ -776,10 +768,9 @@ class HrSupportController extends Controller
     {
         //dd($request->all());
         try {
-            // Find the HrSupportFile record
+
             $user = HrSupportFile::findOrFail($id);
 
-            // Update the HrSupportFile data
             $user->type_id = $request->type_id;
             $user->sub_type_id = $request->sub_type_id;
             $user->title = $request->title;
@@ -787,35 +778,27 @@ class HrSupportController extends Controller
             $user->description = $request->description;
             $user->save();
 
-            // Handle file updates in HrSupportDtlDoc
             if ($request->has('file_names')) {
                 foreach ($request->file_names as $index => $fileName) {
-                    // Get the existing record or create a new one
                     $doc = HrSupportDtlDoc::firstOrNew([
                         'support_id' => $user->id,
                         'name' => $fileName,
                     ]);
 
-                    // Update fields
                     $doc->document_description = $request->document_desc[$index];
-
-                    // Check and update files if new ones are uploaded
                     if (isset($request->file('pdf_files')[$index])) {
                         $doc->pdf = $request->file('pdf_files')[$index]->store('pdfs', 'public');
                     }
                     if (isset($request->file('doc_files')[$index])) {
                         $doc->doc = $request->file('doc_files')[$index]->store('docs', 'public');
                     }
-
-                    // Save the record
                     $doc->save();
                 }
             }
-
             Session::flash('message', 'Updated Successfully.');
             return redirect('superadmin/hr-support-files');
         } catch (\Exception $e) {
-            // Log error and return back with an error message
+
             \Log::error('Error updating HR support file: ' . $e->getMessage());
             Session::flash('error', 'Something went wrong. Please try again.');
             return redirect('superadmin/hr-support-files');

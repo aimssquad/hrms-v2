@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Dossier;
 use App\Models\Dossier2;
 use App\Models\Dossier3;
+use App\Models\DossierFile;
 use Session;
 use Validator;
 
@@ -198,53 +199,172 @@ class DossierController extends Controller
     public function getDossier2ByDossier(Request $request)
     {
         $dossierId = $request->get('dossier_id');
-
-        // Fetch Dossier2 records where the dossier_id matches the selected Dossier
         $dossiers2 = Dossier2::where('dossier_id', $dossierId)->get();
-
-        // Return the Dossier2 records as a JSON response
         return response()->json(['dossiers2' => $dossiers2]);
     }   
+
+  
+
+   
+    public function editDossier3($id)
+    {
+        $dossier3 = \App\Models\Dossier3::with('files')->findOrFail($id);
+        $dossiers = \App\Models\Dossier::all();
+        $dossier2s = \App\Models\Dossier2::all();
+        //dd($dossier2s);
+        return view('admin/dossier/edit-dossier3', compact('dossier3', 'dossiers', 'dossier2s'));
+    }
 
     public function dossier3Save(Request $request)
     {
         //dd($request->all());
-        $validatedData = $request->validate([
-            'dossier_id'   => 'required|exists:dossier,id',   // Ensure dossier_id exists in the 'dossier' table
-            'dossier_id2'  => 'required|exists:dossier2,id',  // Ensure dossier_id2 exists in the 'dossier2' table
-            'title3'       => 'required|string|max:255',      // Validate title2
-            'link3'        => 'required|url',                  // Validate link2 (URL format)
-            'dossier_file3'=> 'nullable|file|mimes:pdf,jpeg,png,jpg,gif|max:3072', // Max 3MB file size
+        $data = $request->validate([
+            'dossier_id' => 'required|integer|exists:dossier,id', // Ensure dossier_id exists in the dossiers table
+            'dossier_id2' => 'required|string',
+            'title3' => 'required|string|max:255',
+            'file_name' => 'nullable|array', // Validate `file_name` as an array
+            'file_name.*' => 'nullable|string|max:255', // Validate each `file_name` item
+            'description' => 'nullable|array', // Validate `description` as an array
+            'description.*' => 'nullable|string', // Validate each `description` item
+            'file' => 'nullable|array', // Validate `file` as an array
+            'file.*' => 'nullable|file|max:2048', // Validate each file with a max size of 2MB
         ]);
-        //dd($validatedData);
-        // Handle file upload if it exists
-        $filePath = null;
-        if ($request->hasFile('dossier_file3')) {
-            // Store the uploaded file in the 'dossiers2' folder in storage
-            $filePath = $request->file('dossier_file3')->store('dossiers3', 'public');
+        //dd($data);
+        // Save data in the `dossier3` table
+        $dossier3 = new Dossier3();
+        $dossier3->dossier_id = $request->dossier_id; // Foreign key for the dossier3 table
+        $dossier3->dossier2_id = $request->dossier_id2;
+        $dossier3->title3 = $request->title3;
+        $dossier3->save();
+
+        // Save dynamic rows in the `dossier_file` table
+        if ($request->has('file_name')) {
+            foreach ($request->file_name as $index => $fileName) {
+                $dossierFile = new DossierFile();
+                $dossierFile->dossier_id = $dossier3->id; // Link the files to the newly created dossier3 record
+                $dossierFile->file_name = $fileName;
+                $dossierFile->description = $request->description[$index] ?? null;
+
+                // Handle file upload
+                if ($request->hasFile("file.$index")) {
+                    $file = $request->file("file.$index");
+                    $filePath = $file->store('uploads/dossier_files', 'public'); // Save to storage/app/public/uploads/dossier_files
+                    $dossierFile->file = $filePath;
+                }
+
+                $dossierFile->save();
+            }
         }
 
-        // Save the data to the Dossier2 table
-        Dossier3::create([
-            'dossier_id'   => $validatedData['dossier_id'],
-            'dossier2_id'  => $validatedData['dossier_id2'],
-            'title3'       => $validatedData['title3'],
-            'link3'        => $validatedData['link3'],
-            'dossier_file3'=> $filePath, // Store the file path if a file is uploaded
-        ]);
-
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Dossier2 added successfully!');
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Dossier saved successfully!');
     }
 
-    public function editDossir3($id)
+    // public function updateDossier3(Request $request, $id)
+    // {
+    //     //dd($request->all());
+    //     // Validate incoming request data
+    //     $data = $request->validate([
+    //         'dossier_id' => 'required|integer',
+    //         'dossier_id2' => 'required|integer',
+    //         'title3' => 'required|string',
+    //         'file_name.*' => 'nullable|string',
+    //         'description.*' => 'nullable|string',
+    //         'file.*' => 'nullable|file|max:2048', // 2MB file size limit
+    //     ]);
+
+    //     // Find the Dossier3 record
+    //     $dossier3 = \App\Models\Dossier3::findOrFail($id);
+
+    //     // Update main Dossier3 fields
+    //     $dossier3->dossier_id = $data['dossier_id'];
+    //     $dossier3->dossier2_id = $data['dossier_id2'];
+    //     $dossier3->title3 = $data['title3'];
+    //     $dossier3->save();
+
+    //     // Handle dossier files
+    //     if ($request->has('file_name')) {
+    //         foreach ($data['file_name'] as $index => $fileName) {
+    //             $fileId = $request->file_id[$index] ?? null; // Assume there's a hidden input for file_id
+    //             $fileRecord = \App\Models\DossierFile::find($fileId);
+
+    //             if ($fileRecord) {
+    //                 // Update existing file record
+    //                 $fileRecord->file_name = $fileName;
+    //                 $fileRecord->description = $data['description'][$index] ?? '';
+
+    //                 // Handle file upload if a new file is provided
+    //                 if ($request->hasFile("file.$index")) {
+    //                     $uploadedFile = $request->file("file.$index");
+    //                     $filePath = $uploadedFile->store('dossier_files', 'public');
+    //                     $fileRecord->file = $filePath;
+    //                 }
+
+    //                 $fileRecord->save();
+    //             } else {
+    //                 // Create a new file record if the file_id is not found
+    //                 $newFilePath = $request->file('file')[$index]->store('dossier_files', 'public') ?? null;
+
+    //                 \App\Models\DossierFile::create([
+    //                     'dossier3_id' => $dossier3->id,
+    //                     'file_name' => $fileName,
+    //                     'description' => $data['description'][$index] ?? '',
+    //                     'file' => $newFilePath,
+    //                 ]);
+    //             }
+    //         }
+    //     }
+
+    //     return redirect()->back()->with('success', 'Dossier3 updated successfully.');
+    // }
+
+    public function updateDossier3(Request $request, $id)
     {
-        $dossier3 = \App\Models\Dossier3::findOrFail($id);
-        $dossiers = \App\Models\Dossier::all();
-        $dossier2s = \App\Models\Dossier2::all();
-        
-        return view('admin/dossier/edit-dossir', compact('dossier3', 'dossiers', 'dossier2s'));
+        //dd($request->all());
+        try {
+            // Find the Dossier3 record
+            $dossier3 = \App\Models\Dossier3::findOrFail($id);
+
+            // Update main Dossier3 fields
+            $dossier3->dossier_id = $request->dossier_id;
+            $dossier3->dossier2_id = $request->dossier_id2;
+            $dossier3->title3 = $request->title3;
+            $dossier3->save();
+
+            // Handle dossier files
+            if ($request->has('file_name')) {
+                //dd($dossier3->id);
+                foreach ($request->file_name as $index => $fileName) {
+                    $fileRecord = \App\Models\DossierFile::firstOrNew([
+                        'dossier_id' => $dossier3->id,
+                        'file_name' => $fileName,
+                    ]);
+                    //dd($fileRecord);
+                    // Update file description
+                    $fileRecord->description = $request->description[$index] ?? '';
+
+                    // Handle file upload if provided
+                    if (isset($request->file('file')[$index])) {
+                        $fileRecord->file = $request->file('file')[$index]->store('uploads/dossier_files', 'public');
+                    }
+
+                    $fileRecord->save();
+                }
+            }
+
+            // Success message and redirect
+            Session::flash('message', 'Dossier3 updated successfully.');
+            return redirect()->back();
+
+        } catch (\Exception $e) {
+            // Log error and show failure message
+            \Log::error('Error updating Dossier3: ' . $e->getMessage());
+            Session::flash('error', 'Something went wrong. Please try again.');
+            return redirect()->back();
+        }
     }
+
+
     
 
 

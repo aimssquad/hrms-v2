@@ -24,4 +24,8 @@ class Dossier3 extends Model
     {
         return $this->belongsTo(Dossier2::class);
     }
+    public function files()
+    {
+        return $this->hasMany(DossierFile::class, 'dossier_id'); // Adjust 'dossier3_id' if your foreign key differs
+    }
 }
