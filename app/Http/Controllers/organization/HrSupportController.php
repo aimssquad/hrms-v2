@@ -93,10 +93,11 @@ class HrSupportController extends Controller
                 ->first();
                 $typeId =  $data['data']->type_id;
                 $data['relatedFiles'] = HrSupportFile::with('type')
-                                      ->where('type_id', $typeId)
-                                      ->where('id', '!=', $id)
-                                      ->get();
-                 //dd($data['data']);
+                    ->where('type_id', $typeId)
+                    ->where('id', '!=', $id)
+                    ->distinct('sub_type_id') // Ensures unique sub_type_id
+                    ->get();
+                // dd($data['relatedFiles']);
                 return view($this->_routePrefix . '.support-file-details',$data);   
                 //return View('hrsupport/support-file-details', $data);
         } else {
