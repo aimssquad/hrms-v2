@@ -51,7 +51,6 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     <div class="row">
                         <div class="col-md-8">
                             {!! $data->small_description !!}
-                            <br>
                             {!! $data->description !!}
 
                             <h3>Download Template</h3>
