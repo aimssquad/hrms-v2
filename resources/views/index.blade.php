@@ -183,13 +183,13 @@
                                     <span class="fa-solid fa-eye-slash" id="toggle-password"></span>
                                  </div>
                               </div>
-                              <div class="position-relative">
+                              {{-- <div class="position-relative">
                                 <input class="checkmark" type="checkbox" id="termsAgreement">
                                 <div id="terms" style="color:red;"></div>
                                 <label class="form-check-label" for="termsAgreement">
                                     I confirm that I have read the Privacy Policy and I agree to the website Terms of Use and License Agreement
                                 </label>
-                             </div>
+                             </div> --}}
                               <div class="row align-items-center mt-2">
                                  <div class="col">
                                     <label class="col-form-label"></label>
@@ -253,15 +253,6 @@
         });
     });
 </script>
-{{-- <script>
-    document.querySelector('form').addEventListener('submit', function(event) {
-        const termsAgreement = document.getElementById('termsAgreement');
-        if (!termsAgreement.checked) {
-            alert('You must agree to the Privacy Policy and Terms of Use before submitting.');
-            event.preventDefault(); // Prevent form submission
-        }
-    });
-</script> --}}
 <script>
     document.querySelector('form').addEventListener('submit', function(event) {
         const termsAgreement = document.getElementById('termsAgreement');

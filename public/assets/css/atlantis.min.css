@@ -6258,6 +6258,19 @@ label.error {
     border-radius: 50%;
         margin-bottom: 10px;
 }
+.btn-success-new {
+    background: #31ce36 !important;
+    border-color: #31ce36 !important;
+    height: 35px;
+     margin-bottom: 10px;
+     color:white !important;
+}
+.btn-success-new1 {
+    background: #31ce36 !important;
+    border-color: #31ce36 !important;
+    height: 35px;
+    color: white !important;
+}
 .btn-success:disabled,
 .btn-success:focus,
 .btn-success:hover {
@@ -6287,6 +6300,19 @@ label.error {
     height: 30px;
     padding: 0;
     border-radius: 50%;
+}
+.btn-danger-new {
+    background: #f25961 !important;
+    border-color: #f25961 !important;
+    height: 35px;
+    /* margin-top: 30px !important; */
+    color:white !important;
+}
+.btn-danger-new1 {
+    background: #f25961 !important;
+    border-color: #f25961 !important;
+    height: 35px;
+    color:white !important;
 }
 .btn-danger:disabled,
 .btn-danger:focus,

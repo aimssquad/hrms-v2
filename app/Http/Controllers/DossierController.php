@@ -35,11 +35,13 @@ class DossierController extends Controller
     // Add a new dossier
     public function store(Request $request)
     {
-        $request->validate([
+        //dd($request->all());
+        $data = $request->validate([
             'title' => 'required|string|max:255',
             'link' => 'required|url',
-            'dossier_file' => 'required|file|mimes:pdf,jpeg,png,jpg,gif|max:3072', // 3MB max
+            'dossier_file' => 'required|file|mimes:pdf,jpeg,png,jpg,gif,docx',
         ]);
+        //dd($data);
         $filePath = $request->file('dossier_file')->store('superadmin-dossier', 'public');
         Dossier::create([
             'title' => $request->title,
@@ -65,7 +67,7 @@ class DossierController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'link' => 'required|url',
-            'dossier_file' => 'nullable|file|mimes:pdf,jpeg,png,jpg,gif|max:3072', // Allow optional file upload
+            'dossier_file' => 'nullable|file|mimes:pdf,jpeg,png,jpg,gif,docx|max:3072', // Allow optional file upload
         ]);
         $dossier = Dossier::findOrFail($id);
         $data = $request->only(['title', 'link']);
@@ -119,7 +121,7 @@ class DossierController extends Controller
             'dossier_id'   => 'required|exists:dossier,id', // Check if dossier_id exists in the dossier table
             'title2'       => 'required|string|max:255',
             'link2'        => 'required|url',
-            'dossier_file2'=> 'nullable|file|mimes:pdf,jpeg,png,jpg,gif|max:3072', // Max 3 MB
+            'dossier_file2'=> 'nullable|file|mimes:pdf,jpeg,png,jpg,gif,docx|max:3072', // Max 3 MB
         ]);
     
         // Handle file upload
@@ -155,7 +157,7 @@ class DossierController extends Controller
             'dossier_id'   => 'required|exists:dossier,id',
             'title2'       => 'required|string|max:255',
             'link2'        => 'required|url',
-            'dossier_file2'=> 'nullable|file|mimes:pdf,jpeg,png,jpg,gif|max:3072',
+            'dossier_file2'=> 'nullable|file|mimes:pdf,jpeg,png,jpg,gif,docx|max:3072',
         ]);
 
         $data = $request->only(['dossier_id', 'title2', 'link2']);
@@ -219,18 +221,17 @@ class DossierController extends Controller
     {
         //dd($request->all());
         $data = $request->validate([
-            'dossier_id' => 'required|integer|exists:dossier,id', // Ensure dossier_id exists in the dossiers table
+            'dossier_id' => 'required|integer|exists:dossier,id', 
             'dossier_id2' => 'required|string',
             'title3' => 'required|string|max:255',
-            'file_name' => 'nullable|array', // Validate `file_name` as an array
-            'file_name.*' => 'nullable|string|max:255', // Validate each `file_name` item
-            'description' => 'nullable|array', // Validate `description` as an array
-            'description.*' => 'nullable|string', // Validate each `description` item
-            'file' => 'nullable|array', // Validate `file` as an array
-            'file.*' => 'nullable|file|max:2048', // Validate each file with a max size of 2MB
+            'file_name' => 'nullable|array', 
+            'file_name.*' => 'nullable|string|max:255', 
+            'description' => 'nullable|array', 
+            'description.*' => 'nullable|string', 
+            'file' => 'nullable|array', 
+            'file.*' => 'nullable|file|max:2048', 
         ]);
-        //dd($data);
-        // Save data in the `dossier3` table
+
         $dossier3 = new Dossier3();
         $dossier3->dossier_id = $request->dossier_id; // Foreign key for the dossier3 table
         $dossier3->dossier2_id = $request->dossier_id2;
@@ -255,68 +256,10 @@ class DossierController extends Controller
                 $dossierFile->save();
             }
         }
-
-        // Redirect with success message
-        return redirect()->back()->with('success', 'Dossier saved successfully!');
+        Session::flash('message', 'Dossier3 add successfully.');
+        return redirect('superadmin/dossiers3');
     }
 
-    // public function updateDossier3(Request $request, $id)
-    // {
-    //     //dd($request->all());
-    //     // Validate incoming request data
-    //     $data = $request->validate([
-    //         'dossier_id' => 'required|integer',
-    //         'dossier_id2' => 'required|integer',
-    //         'title3' => 'required|string',
-    //         'file_name.*' => 'nullable|string',
-    //         'description.*' => 'nullable|string',
-    //         'file.*' => 'nullable|file|max:2048', // 2MB file size limit
-    //     ]);
-
-    //     // Find the Dossier3 record
-    //     $dossier3 = \App\Models\Dossier3::findOrFail($id);
-
-    //     // Update main Dossier3 fields
-    //     $dossier3->dossier_id = $data['dossier_id'];
-    //     $dossier3->dossier2_id = $data['dossier_id2'];
-    //     $dossier3->title3 = $data['title3'];
-    //     $dossier3->save();
-
-    //     // Handle dossier files
-    //     if ($request->has('file_name')) {
-    //         foreach ($data['file_name'] as $index => $fileName) {
-    //             $fileId = $request->file_id[$index] ?? null; // Assume there's a hidden input for file_id
-    //             $fileRecord = \App\Models\DossierFile::find($fileId);
-
-    //             if ($fileRecord) {
-    //                 // Update existing file record
-    //                 $fileRecord->file_name = $fileName;
-    //                 $fileRecord->description = $data['description'][$index] ?? '';
-
-    //                 // Handle file upload if a new file is provided
-    //                 if ($request->hasFile("file.$index")) {
-    //                     $uploadedFile = $request->file("file.$index");
-    //                     $filePath = $uploadedFile->store('dossier_files', 'public');
-    //                     $fileRecord->file = $filePath;
-    //                 }
-
-    //                 $fileRecord->save();
-    //             } else {
-    //                 // Create a new file record if the file_id is not found
-    //                 $newFilePath = $request->file('file')[$index]->store('dossier_files', 'public') ?? null;
-
-    //                 \App\Models\DossierFile::create([
-    //                     'dossier3_id' => $dossier3->id,
-    //                     'file_name' => $fileName,
-    //                     'description' => $data['description'][$index] ?? '',
-    //                     'file' => $newFilePath,
-    //                 ]);
-    //             }
-    //         }
-    //     }
-
-    //     return redirect()->back()->with('success', 'Dossier3 updated successfully.');
-    // }
 
     public function updateDossier3(Request $request, $id)
     {
@@ -354,13 +297,13 @@ class DossierController extends Controller
 
             // Success message and redirect
             Session::flash('message', 'Dossier3 updated successfully.');
-            return redirect()->back();
+            return redirect('superadmin/dossiers3');
 
         } catch (\Exception $e) {
             // Log error and show failure message
             \Log::error('Error updating Dossier3: ' . $e->getMessage());
             Session::flash('error', 'Something went wrong. Please try again.');
-            return redirect()->back();
+            return redirect('superadmin/dossiers3');
         }
     }
 

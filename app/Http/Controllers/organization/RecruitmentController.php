@@ -1187,7 +1187,9 @@ class RecruitmentController extends Controller
             $job_d = DB::table('company_job')->where('id', '=', $job->job_id)->first();
 
             $data = array('name' => $job->name, 'pos' => $job->job_title, 'job_code' => $job_d->job_code, 'Roledata' => $Roledata, 'job' => $job_d);
-
+            //dd($data);
+            return view('job-applied-email',compact('data'));
+            dd('okk');
             $toemail = $job->email;
 
             Mail::send('mailjob', $data, function ($message) use ($toemail) {
@@ -2133,13 +2135,14 @@ class RecruitmentController extends Controller
                 'date' => date('Y-m-d', strtotime($job_history->date)), 'from_time' => $job->from_time, 'to_time' => $job->to_time,
                 'place' => $job->place, 'panel' => $job->panel, 'Roledata' => $Roledata, 'job_d' => $job_d);
 
-            // dd($Roledata);
+            // return view('interview-email',$dataup);  
+            //  dd($dataup);
             if (isset($job->email) && $job->email != '' && $job->email != null) {
 
                 $toemail = $job->email;
                 //$toemail = 'm.subhasish@gmail.com';
 
-                Mail::send('mailjobapplyinterview', $dataup, function ($message) use ($toemail) {
+                Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
                     $message->to($toemail, 'Workpermitcloud')->subject
                         ('Interview Confirmation');
 
@@ -2152,7 +2155,7 @@ class RecruitmentController extends Controller
                 $toemail = $Roledata->authemail;
                 //$toemail = 'm.subhasish@gmail.com';
 
-                Mail::send('mailjobapplyinterview', $dataup, function ($message) use ($toemail) {
+                Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
                     $message->to($toemail, 'Workpermitcloud')->subject
                         ('Interview Confirmation');
 

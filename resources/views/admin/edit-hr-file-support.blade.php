@@ -126,7 +126,7 @@
                                                         <input type="file" name="doc_files[]" class="form-control" value="{{$doc->doc}}" accept=".doc,.docx">
                                                         <small>Current: <a href="{{ asset('storage/' . $doc->doc) }}"  target="_blank">{{ $doc->doc }}</a></small>
                                                     </div>
-                                                    <button type="button" class="btn btn-danger remove-file-section" style="margin-top:10px;">Remove</button>
+                                                    <button type="button" class="btn btn-danger-new remove-file-section" style="margin-top:10px;">Remove</button>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -134,14 +134,14 @@
                                         <!-- Add File Section Button -->
                                         <div class="row form-group">
                                             <div class="col-md-12 text-right">
-                                                <button type="button" class="btn btn-success btn-sm add-file-section">
+                                                <button type="button" class="btn btn-success-new btn-sm add-file-section">
                                                     <i class="fa fa-plus"></i> Add File Section
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-12">
-                                                <button type="submit" class="btn btn-default">Submit</button>
+                                                <button type="submit" class="btn btn-default ml-3">Submit</button>
                                             </div>
                                         </div>
                                     

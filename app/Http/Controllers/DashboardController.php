@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use DB;
 use Illuminate\Http\Request;
 use Mail;
@@ -4186,8 +4184,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'Roledata' => $Roledata, 'offer' => $job);
-
-            return View('dashboard/firstmail', $data);
+            return View('dashboard/visa-90days-reminder', $data);
+            //return View('dashboard/firstmail', $data);visa-90days-reminder
 
         } else {
             return redirect('/');
@@ -4208,8 +4206,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'Roledata' => $Roledata, 'offer' => $job);
-
-            return View('dashboard/secondmail', $data);
+            return View('dashboard/visa-60days-reminder', $data);
+            //return View('dashboard/secondmail', $data);
 
         } else {
             return redirect('/');
@@ -4230,8 +4228,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'Roledata' => $Roledata, 'offer' => $job);
-
-            return View('dashboard/thirdmail', $data);
+            return View('dashboard/visa-30days-reminder', $data);
+            //return View('dashboard/thirdmail', $data);
 
         } else {
             return redirect('/');
@@ -4254,8 +4252,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
 
             $toemail = $job->emp_ps_email;
-
-            Mail::send('mailsendfirt', $data, function ($message) use ($toemail) {
+            //return view('reminder-email-90days', $data);
+            Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Visa 90-day Reminder');
 
@@ -4264,7 +4262,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('mailsendfirt', $data, function ($message) use ($toemail) {
+            Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Visa 90-day Reminder');
 
@@ -4294,8 +4292,9 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
-
-            Mail::send('mailsendsecond', $data, function ($message) use ($toemail) {
+            // return view('reminder-email-60days', $data);
+            // dd('okk');
+            Mail::send('reminder-email-60days', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Visa 60-day Reminder');
 
@@ -4304,7 +4303,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('mailsendsecond', $data, function ($message) use ($toemail) {
+            Mail::send('reminder-email-60days', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Visa 60-day Reminder');
 
@@ -4334,14 +4333,14 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
 
-            Mail::send('mailsendthird', $data, function ($message) use ($toemail) {
+            Mail::send('reminder-email-30days', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Visa 30-day Reminder');
 
                 $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
             });
             $toemail = $Roledata->authemail;
-            Mail::send('mailsendthird', $data, function ($message) use ($toemail) {
+            Mail::send('reminder-email-30days', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Visa 30-day Reminder');
 
@@ -4358,6 +4357,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
     }
     public function viewsendcandidatedetailssendnew($send_id)
     {
+        dd('ok');
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
@@ -5088,8 +5088,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'Roledata' => $Roledata, 'offer' => $job);
-
-            return View('dashboard/passportfirstmail', $data);
+            return View('dashboard/passport-90days-reminder-view', $data);
+            //return View('dashboard/passportfirstmail', $data);
 
         } else {
             return redirect('/');
@@ -5110,8 +5110,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'Roledata' => $Roledata, 'offer' => $job);
-
-            return View('dashboard/passportsecondmail', $data);
+            return View('dashboard/passport-60days-reminder-view', $data);
+            //return View('dashboard/passportsecondmail', $data);
 
         } else {
             return redirect('/');
@@ -5132,8 +5132,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'Roledata' => $Roledata, 'offer' => $job);
-
-            return View('dashboard/passportthirdmail', $data);
+            return View('dashboard/passport-30days-reminder-view', $data);
+            //return View('dashboard/passportthirdmail', $data);
 
         } else {
             return redirect('/');
@@ -5143,6 +5143,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
     public function viewpassportsendcandidatedetails($send_id)
     {
+        //dd('okk');
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
@@ -5156,8 +5157,9 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
 
             $toemail = $job->emp_ps_email;
-
-            Mail::send('passmailsendfirt', $data, function ($message) use ($toemail) {
+            // return view('passport-90days-reminder',$data);
+            // dd('okk');
+            Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Passport 90-day Reminder');
 
@@ -5166,7 +5168,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('passmailsendfirt', $data, function ($message) use ($toemail) {
+            Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Passport 90-day Reminder');
 
@@ -5196,7 +5198,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
-
+            return view('passport-60days-reminder',$data);
+            dd('okk');
             Mail::send('passmailsendsecond', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Passport 60-day Reminder');
@@ -5235,7 +5238,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
-
+            return view('passport-30days-reminder',$data);
+            dd('okk');
             Mail::send('passmailsendthird', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary Passport 30-day Reminder');
@@ -5481,8 +5485,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'Roledata' => $Roledata, 'offer' => $job);
-
-            return View('dashboard/eussfirstmail', $data);
+            return View('dashboard/euss-90days-reminder-view', $data);
+            //return View('dashboard/eussfirstmail', $data); 
 
         } else {
             return redirect('/');
@@ -5503,8 +5507,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'Roledata' => $Roledata, 'offer' => $job);
-
-            return View('dashboard/eusssecondmail', $data);
+            return View('dashboard/euss-60days-reminder-view', $data);
+            //return View('dashboard/eusssecondmail', $data);
 
         } else {
             return redirect('/');
@@ -5525,8 +5529,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'Roledata' => $Roledata, 'offer' => $job);
-
-            return View('dashboard/eussthirdmail', $data);
+            return View('dashboard/euss-30days-reminder-view', $data);
+            //return View('dashboard/eussthirdmail', $data);
 
         } else {
             return redirect('/');
@@ -5549,8 +5553,10 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
 
             $toemail = $job->emp_ps_email;
-
-            Mail::send('eussmailsendfirt', $data, function ($message) use ($toemail) {
+            // euss-90days-reminder
+            return view('euss-90days-reminder', $data);
+            dd('okk');
+            Mail::send('euss-90days-reminder', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 90-day Reminder');
 
@@ -5559,7 +5565,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('eussmailsendfirt', $data, function ($message) use ($toemail) {
+            Mail::send('euss-90days-reminder', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 90-day Reminder');
 
@@ -5577,6 +5583,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
     public function vieweusssendcandidatedetailssecond($send_id)
     {
+
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
@@ -5589,7 +5596,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
-
+            return view('euss-60days-reminder', $data);
+            dd('okk');
             Mail::send('eussmailsendsecond', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 60-day Reminder');
@@ -5617,6 +5625,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
     public function vieweusssendcandidatedetailsthird($send_id)
     {
+        
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
@@ -5630,7 +5639,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
             //$toemail = 'm.subhasish@gmail.com';
-
+            return view('euss-30days-reminder', $data);
+            dd('okk');
             Mail::send('eussmailsendthird', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 30-day Reminder');

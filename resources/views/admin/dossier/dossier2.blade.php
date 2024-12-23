@@ -91,7 +91,7 @@
                      <div class="col-md-12">
                         <div class="card custom-card">
                            <div class="card-header">
-                              <h4 class="card-title"><i class="far fa-newspaper"></i>Dossier Lavel2 Add<span><a href="{{ url('superadmin/billing-rule') }}" data-toggle="tooltip" data-placement="bottom" title="Generate Bill" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
+                              <h4 class="card-title"><i class="far fa-newspaper"></i>Dossier Lavel2 Add</h4>
                            </div>
                            <div class="card-body">
                               <form action="{{ url('superadmin/dossiers2') }}" method="post" enctype="multipart/form-data">
@@ -127,10 +127,13 @@
                                             {{-- <small id="file_msg"> Please select  image which size up to 2mb</small> --}}
                                         </div>
                                     </div>
-                                    
-                              
-                                    <div class="col-md-2"><button type="submit" class="btn btn-default">Submit</button></div>
-                                 
+                                 </div>  
+                                       <div class="col-md-2">
+                                          <div class="form-group ">
+                                          <button type="submit" class="btn btn-default">Submit</button>
+                                          </div>
+                                       </div>
+                                      
                               </form>
                            </div>
                         </div>

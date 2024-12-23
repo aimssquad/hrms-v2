@@ -91,7 +91,7 @@
                      <div class="col-md-12">
                         <div class="card custom-card">
                            <div class="card-header">
-                              <h4 class="card-title"><i class="far fa-newspaper"></i>Sponsor Dossier Add<span><a href="{{ url('superadmin/billing-rule') }}" data-toggle="tooltip" data-placement="bottom" title="Generate Bill" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
+                              <h4 class="card-title"><i class="far fa-newspaper"></i>Sponsor Dossier Add</h4>
                            </div>
                            <div class="card-body">
                               <form action="{{ url('superadmin/dossiers') }}" method="post" enctype="multipart/form-data">
@@ -148,7 +148,7 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script>
+      {{-- <script>
         $(document).ready(function () {
             $("#dossierForm").on("submit", function (e) {
                 const fileInput = $("#dossier_file")[0];
@@ -165,6 +165,6 @@
                 }
             });
         });
-        </script>
+        </script> --}}
    </body>
 </html>

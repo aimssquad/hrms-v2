@@ -5627,6 +5627,7 @@ class AdminController extends Controller
 
     public function saveCompany(Request $request)
     {
+        
         try {
             $email = Session::get('empsu_email');
             $userType = Session::get('usersu_type');
@@ -5646,9 +5647,11 @@ class AdminController extends Controller
 
                     DB::table('registration')->where('reg', $request->reg)->update($data);
                 }
+                // dd($request->all());
                 if ($request->status == 'active' && $request->verify == 'approved' && $request->licence == 'yes') {
                     //dd($request->all());
                     $data = array('f_name' => $request->f_name, 'l_name' => $request->l_name, 'com_name' => $request->com_name, 'p_no' => $request->p_no, 'email' => $request->email, 'pass' => $request->pass);
+                    //dd($data);
                     $toemail = $request->email;
                     Mail::send('mailorupli', $data, function ($message) use ($toemail) {
                         $message->to($toemail, 'skilledworkerscloud')->subject
@@ -5664,14 +5667,14 @@ class AdminController extends Controller
                     );
                     DB::table('registration')->where('reg', $request->reg)->update($data);
                 } else {
-
+                    
                     $data = array(
                         'status' => $request->status,
                         'verify' => $request->verify,
                         'licence' => $request->licence,
                         'license_type' => $request->license_type,
                     );
-
+                    //dd($data);
                     DB::table('registration')->where('reg', $request->reg)->update($data);
                 }
 

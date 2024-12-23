@@ -156,8 +156,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 text-right mt-2">
-                                                        <button type="button" class="btn btn-primary add-row">Add</button>
-                                                        <button type="button" class="btn btn-danger remove-row">Delete</button>
+                                                        <button type="button" class="btn btn-success-new1 add-row">Add</button>
+                                                        <button type="button" class="btn btn-danger-new1 remove-row">Delete</button>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -182,8 +182,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 text-right mt-2">
-                                                    <button type="button" class="btn btn-primary add-row">Add</button>
-                                                    <button type="button" class="btn btn-danger remove-row">Delete</button>
+                                                    <button type="button" class="btn btn-success-new1 add-row">Add</button>
+                                                    <button type="button" class="btn btn-danger-new1 remove-row">Delete</button>
                                                 </div>
                                             </div>
                                         @endif

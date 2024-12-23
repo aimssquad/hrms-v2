@@ -107,14 +107,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 text-right">
-                                                    <button type="button" class="btn btn-success btn-sm add-file-section " style="margin-bottom:0px; margin-right:5px;"><i class="fa fa-plus"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm remove-file-section"><i class="fa fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-success-new btn-sm add-file-section " style="margin-bottom:0px; margin-right:5px;"><i class="fa fa-plus"></i></button>
+                                                    <button type="button" class="btn btn-danger-new btn-sm remove-file-section"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-12">
-                                                <button type="submit" class="btn btn-default">Submit</button>
+                                                <button type="submit" class="btn btn-default ml-3">Submit</button>
                                             </div>
                                         </div>
                                     
