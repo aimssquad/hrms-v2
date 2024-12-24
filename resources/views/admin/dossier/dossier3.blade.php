@@ -217,7 +217,7 @@
                 if (dossierId) {
                     // Send an AJAX request to fetch Dossier2 entries
                     $.ajax({
-                        url: '/superadmin/get-dossier2-by-dossier',  // Define the URL of the route
+                        url: "{{ url('superadmin/get-dossier2-by-dossier') }}", // Define the URL of the route
                         type: 'GET',
                         data: {
                             dossier_id: dossierId  // Pass the selected dossier_id as data
