@@ -126,7 +126,7 @@
                                                         <input type="file" name="doc_files[]" class="form-control" value="{{$doc->doc}}" accept=".doc,.docx">
                                                         <small>Current: <a href="{{ asset('storage/' . $doc->doc) }}"  target="_blank">{{ $doc->doc }}</a></small>
                                                     </div>
-                                                    <button type="button" class="btn btn-danger-new remove-file-section" style="margin-top:10px;">Remove</button>
+                                                    <button type="button" class="btn btn-danger-new remove-file-section" id="{{ $doc->id }}" style="margin-top:10px;">Remove</button>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -221,7 +221,7 @@
                     <label>Upload Doc</label>
                     <input type="file" name="doc_files[]" class="form-control" accept=".doc,.docx">
                 </div>
-                <button type="button" class="btn btn-danger remove-file-section" style="margin-top:10px;">Remove</button>
+                <button type="button" class="btn btn-danger-new remove-file-section" style="margin-top:10px;">Remove</button>
             </div>`;
         $('#file-container').append(newSection); // Add the new section to the container
     });
@@ -236,6 +236,39 @@
     });
 });
 
+
+    </script>
+    <script>
+            $(document).on('click', '.remove-file-section', function() {
+            // Get the button ID (document ID)
+            var docId = $(this).attr('id');
+            //alert(docId);
+            // Confirm deletion
+            if (confirm('Are you sure you want to remove this file?')) {
+                // Send an AJAX request to delete the document
+                $.ajax({
+                    url: "{{ url('/delete-dynamic-hrfile-row')}}", // Replace with your Laravel route URL
+                    type: 'POST',
+                    data: {
+                        id: docId,
+                        _token: '{{ csrf_token() }}' // CSRF token for security
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Remove the row dynamically
+                            $('#' + docId).closest('.file-section').remove();
+                            alert('File removed successfully.');
+                        } else {
+                            alert('Failed to remove the file. Please try again.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            }
+        });
 
     </script>
 </body>

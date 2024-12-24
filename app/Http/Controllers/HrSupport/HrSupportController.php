@@ -14,6 +14,7 @@ use App\Models\HrSupport\HrSupportFileType;
 use App\Models\HrSupport\HrSupportFile;
 use App\Models\HrSupport\SubHrFileType; 
 use App\Models\HrSupportDtlDoc;
+use Illuminate\Support\Facades\Storage;
 
 class HrSupportController extends Controller
 {
@@ -494,7 +495,29 @@ class HrSupportController extends Controller
         }
     }
 
-    
+
+
+    public function deleteDynamicHrFile(Request $request)
+    {
+        $docId = $request->id;
+        try {
+            $document = HrSupportDtlDoc::findOrFail($docId);
+            // Delete the PDF file if it exists
+            if ($document->pdf && Storage::disk('public')->exists($document->pdf)) {
+                Storage::disk('public')->delete($document->pdf);
+            }
+            // Delete the DOC file if it exists
+            if ($document->doc && Storage::disk('public')->exists($document->doc)) {
+                Storage::disk('public')->delete($document->doc);
+            }
+            // Delete the record from the database
+            $document->delete();
+            return response()->json(['success' => true, 'message' => 'Document and associated files deleted successfully.']);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to delete the document.']);
+        }
+    }
+
 
 
     

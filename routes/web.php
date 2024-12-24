@@ -716,6 +716,8 @@ Route::get('superadmin/edit-hr-support-file/{id}', 'App\Http\Controllers\HrSuppo
 Route::get('superadmin/delete-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@deleteHrSupportFile')->name('delete-hr-support-file');
 Route::get('superadmin/get-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@getHrSupportFile');
 Route::post('superadmin/update-hr-support-file/{id}','App\Http\Controllers\HrSupport\HrSupportController@updateHrSupportFile');
+Route::post('/delete-dynamic-hrfile-row', 'App\Http\Controllers\HrSupport\HrSupportController@deleteDynamicHrFile')->name('delete.hrfile-document');
+
 
 Route::get('superadmin/sub/add-hr-support-file-type-List', 'App\Http\Controllers\HrSupport\HrSupportController@addSubHrSupportFileList');
 Route::get('superadmin/sub/add-hr-support-file-type', 'App\Http\Controllers\HrSupport\HrSupportController@addSubHrSupportFile');
