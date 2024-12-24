@@ -15,4 +15,9 @@ class DossierFile extends Model
         'description',
         'file',
     ];
+
+    public function dossierFile()
+    {
+        return $this->belongsTo(Dossier3::class, 'dossier_id');
+    }
 }

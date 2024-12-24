@@ -768,6 +768,12 @@ class LandingController extends Controller
     }
     public function Logout(Request $request)
     {
+        $user_type = Session::get("usersu_type");
+        if ($user_type == "sub-admin") {
+            Session::flush();
+            Session::flash("message", "You are successfully Logout.");
+            return redirect("/superadmin");
+        }
         Session::forget("users_id");
         Session::forget("user_type");
         Session::forget("emp_pass");
@@ -777,7 +783,7 @@ class LandingController extends Controller
         Session::forget("admin_userp_user_type");
         Session::flush();
         Session::flash("message", "You are successfully Logout.");
-        return redirect("/superadmin");
+        return redirect("/");
     }
 
     public function DoLoginuser(Request $request)

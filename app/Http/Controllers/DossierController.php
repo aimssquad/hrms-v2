@@ -200,9 +200,15 @@ class DossierController extends Controller
 
     public function getDossier2ByDossier(Request $request)
     {
-        $dossierId = $request->get('dossier_id');
-        $dossiers2 = Dossier2::where('dossier_id', $dossierId)->get();
-        return response()->json(['dossiers2' => $dossiers2]);
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $dossierId = $request->get('dossier_id');
+            $dossiers2 = Dossier2::where('dossier_id', $dossierId)->get();
+            return response()->json(['dossiers2' => $dossiers2]);
+        } else {
+            redirect('superadmin');
+        } 
+        
     }   
 
   
@@ -210,11 +216,16 @@ class DossierController extends Controller
    
     public function editDossier3($id)
     {
-        $dossier3 = \App\Models\Dossier3::with('files')->findOrFail($id);
-        $dossiers = \App\Models\Dossier::all();
-        $dossier2s = \App\Models\Dossier2::all();
-        //dd($dossier2s);
-        return view('admin/dossier/edit-dossier3', compact('dossier3', 'dossiers', 'dossier2s'));
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $dossier3 = \App\Models\Dossier3::with('files')->findOrFail($id);
+            $dossiers = \App\Models\Dossier::all();
+            $dossier2s = \App\Models\Dossier2::all();
+            return view('admin/dossier/edit-dossier3', compact('dossier3', 'dossiers', 'dossier2s'));
+        } else {
+            redirect('superadmin');
+        } 
+       
     }
 
     public function dossier3Save(Request $request)
@@ -276,37 +287,34 @@ class DossierController extends Controller
 
             // Handle dossier files
             if ($request->has('file_name')) {
-                //dd($dossier3->id);
                 foreach ($request->file_name as $index => $fileName) {
                     $fileRecord = \App\Models\DossierFile::firstOrNew([
                         'dossier_id' => $dossier3->id,
                         'file_name' => $fileName,
                     ]);
-                    //dd($fileRecord);
-                    // Update file description
                     $fileRecord->description = $request->description[$index] ?? '';
-
                     // Handle file upload if provided
                     if (isset($request->file('file')[$index])) {
                         $fileRecord->file = $request->file('file')[$index]->store('uploads/dossier_files', 'public');
                     }
-
                     $fileRecord->save();
                 }
             }
-
-            // Success message and redirect
             Session::flash('message', 'Dossier3 updated successfully.');
             return redirect('superadmin/dossiers3');
 
         } catch (\Exception $e) {
-            // Log error and show failure message
             \Log::error('Error updating Dossier3: ' . $e->getMessage());
             Session::flash('error', 'Something went wrong. Please try again.');
             return redirect('superadmin/dossiers3');
         }
     }
 
+    public function getEmployeesdossier(Request $request)
+    {
+        $data['dossier3Records'] = \App\Models\Dossier3::with(['dossier', 'dossier2', 'files'])->get();
+        return view('employeer.sopnsor-compliance.dossier-new', $data);
+    }
 
     
 

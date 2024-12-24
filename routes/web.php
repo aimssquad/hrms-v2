@@ -490,6 +490,7 @@ Route::get('org-add-right-works-by-datecheck', 'App\Http\Controllers\organizatio
 Route::post('org-add-right-works-by-date', 'App\Http\Controllers\organization\DashboardController@saveEmployeesrightByDate');
 Route::get('org-dashboard/key-contact', 'App\Http\Controllers\organization\DashboardController@getCompaniesofficerkey');
 Route::get('org-dashboard/sponsor-management-dossier', 'App\Http\Controllers\organization\DashboardController@getEmployeesdossier');
+Route::get('org-dashboard/sponsor-management-dossier-new', 'App\Http\Controllers\DossierController@getEmployeesdossier');
 Route::get('org-dashboard/message-center', 'App\Http\Controllers\organization\DashboardController@viewmsgcen');
 Route::post('org-document/staff-report-excel', 'App\Http\Controllers\organization\DashboardController@reportEmployeesexcelstaff');
 Route::get('org-dashboard/absent-report', 'App\Http\Controllers\organization\DashboardController@viewattendanabsent');

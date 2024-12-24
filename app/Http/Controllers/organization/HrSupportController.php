@@ -45,21 +45,24 @@ class HrSupportController extends Controller
     public function viewdashboardnew(Request $request){
         $email = Session::get('emp_email');
         if (!empty($email)) {
-
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+    
+            $data['Roledata'] = DB::table('registration')
+                ->where('status', '=', 'active')
                 ->where('email', '=', $email)
                 ->first();
-                $data = HrSupportFileType::with(['subHrFileTypes.hrSupportFiles'])->get();
+    
+            $data['HrSupportFileTypes'] = HrSupportFileType::with([
+                'subHrFileTypes.hrSupportFiles.hrsupportDoc'
+            ])->get();
 
-                // Debugging the data
-               // dd($data);
-            return view($this->_routePrefix . '.dashboard-new',compact('data'));
-            //return View('hrsupport/dashboard', $data);
+           // dd($data);
+    
+            return view($this->_routePrefix . '.dashboard-new', compact('data'));
         } else {
             return redirect('/');
         }
-
     }
+    
 
     public function supportFile($id){
         $email = Session::get('emp_email');
@@ -85,13 +88,16 @@ class HrSupportController extends Controller
             $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
                 ->where('email', '=', $email)
                 ->first();
-                $data['data'] = HrSupportFile::with('type')->where('id', $id)->first();
+                $data['data'] = HrSupportFile::with(['type', 'hrsupportDoc']) // Added 'hrsupportDoc'
+                ->where('id', $id)
+                ->first();
                 $typeId =  $data['data']->type_id;
                 $data['relatedFiles'] = HrSupportFile::with('type')
-                                      ->where('type_id', $typeId)
-                                      ->where('id', '!=', $id)
-                                      ->get();
-                 //dd($data['relatedFiles']);
+                    ->where('type_id', $typeId)
+                    ->where('id', '!=', $id)
+                    ->distinct('sub_type_id') // Ensures unique sub_type_id
+                    ->get();
+                // dd($data['relatedFiles']);
                 return view($this->_routePrefix . '.support-file-details',$data);   
                 //return View('hrsupport/support-file-details', $data);
         } else {

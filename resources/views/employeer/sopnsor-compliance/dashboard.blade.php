@@ -214,7 +214,7 @@
                </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6">
-               <a href="{{ url('org-dashboard/sponsor-management-dossier') }}" class="modern-card-link">
+               <a href="{{ url('org-dashboard/sponsor-management-dossier-new') }}" class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
                      <div class="modern_icon_wrapper">

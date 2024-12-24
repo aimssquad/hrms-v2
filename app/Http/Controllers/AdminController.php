@@ -1360,7 +1360,7 @@ class AdminController extends Controller
                     $data['total_amount'] = DB::table('subadmin_bills')->where('org_code',$data['org_code']->org_code)->sum('total_amount');
                     $data['pending_amount'] = DB::table('subadmin_bills')->where('org_code',$data['org_code']->org_code)->where('payment_status',0)->sum('total_amount'); 
                     $data['receving_amount'] = DB::table('subadmin_bills')->where('org_code',$data['org_code']->org_code)->where('payment_status',1)->sum('total_amount');
-
+                    //dd($data);
                     return view('sub-admin.dashboard', $data);
                 }
                 return View('admin/dashboard', $data);
