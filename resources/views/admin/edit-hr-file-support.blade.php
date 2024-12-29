@@ -108,6 +108,7 @@
                                                 <div class="row file-section">
                                                     <div class="col-md-6">
                                                         <label>File Name</label>
+                                                        <input type="hidden" name="doc_ids[]" value="{{ $doc->id }}">
                                                         <input type="text" name="file_names[]" class="form-control" value="{{ $doc->name }}" required>
                                                     </div>
                                                     <div class="col-md-6">

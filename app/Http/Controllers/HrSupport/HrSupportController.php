@@ -454,13 +454,53 @@ class HrSupportController extends Controller
     }
 
 
+    // public function updateHrSupportFile(Request $request, $id)
+    // {
+    //     //dd($request->all());
+    //     try {
+
+    //         $user = HrSupportFile::findOrFail($id);
+
+    //         $user->type_id = $request->type_id;
+    //         $user->sub_type_id = $request->sub_type_id;
+    //         $user->title = $request->title;
+    //         $user->small_description = $request->smalldescription;
+    //         $user->description = $request->description;
+    //         $user->save();
+
+    //         if ($request->has('file_names')) {
+    //             foreach ($request->file_names as $index => $fileName) {
+    //                 $doc = HrSupportDtlDoc::firstOrNew([
+    //                     'support_id' => $user->id,
+    //                     'name' => $fileName,
+    //                 ]);
+
+    //                 $doc->document_description = $request->document_desc[$index];
+    //                 if (isset($request->file('pdf_files')[$index])) {
+    //                     $doc->pdf = $request->file('pdf_files')[$index]->store('pdfs', 'public');
+    //                 }
+    //                 if (isset($request->file('doc_files')[$index])) {
+    //                     $doc->doc = $request->file('doc_files')[$index]->store('docs', 'public');
+    //                 }
+    //                 $doc->save();
+    //             }
+    //         }
+    //         Session::flash('message', 'Updated Successfully.');
+    //         return redirect('superadmin/hr-support-files');
+    //     } catch (\Exception $e) {
+
+    //         \Log::error('Error updating HR support file: ' . $e->getMessage());
+    //         Session::flash('error', 'Something went wrong. Please try again.');
+    //         return redirect('superadmin/hr-support-files');
+    //     }
+    // }
+
     public function updateHrSupportFile(Request $request, $id)
     {
-        //dd($request->all());
         try {
-
             $user = HrSupportFile::findOrFail($id);
 
+            // Update main file attributes
             $user->type_id = $request->type_id;
             $user->sub_type_id = $request->sub_type_id;
             $user->title = $request->title;
@@ -470,30 +510,41 @@ class HrSupportController extends Controller
 
             if ($request->has('file_names')) {
                 foreach ($request->file_names as $index => $fileName) {
-                    $doc = HrSupportDtlDoc::firstOrNew([
-                        'support_id' => $user->id,
-                        'name' => $fileName,
-                    ]);
+                    // Fetch the existing document by its ID, if provided
+                    $docId = $request->doc_ids[$index] ?? null;
+                    $doc = $docId ? HrSupportDtlDoc::find($docId) : new HrSupportDtlDoc();
 
+                    // If no document is found, create a new one
+                    if (!$doc) {
+                        $doc = new HrSupportDtlDoc();
+                        $doc->support_id = $user->id;
+                    }
+
+                    // Update fields
+                    $doc->name = $fileName;
                     $doc->document_description = $request->document_desc[$index];
+
+                    // Handle file uploads
                     if (isset($request->file('pdf_files')[$index])) {
                         $doc->pdf = $request->file('pdf_files')[$index]->store('pdfs', 'public');
                     }
                     if (isset($request->file('doc_files')[$index])) {
                         $doc->doc = $request->file('doc_files')[$index]->store('docs', 'public');
                     }
+
                     $doc->save();
                 }
             }
+
             Session::flash('message', 'Updated Successfully.');
             return redirect('superadmin/hr-support-files');
         } catch (\Exception $e) {
-
             \Log::error('Error updating HR support file: ' . $e->getMessage());
             Session::flash('error', 'Something went wrong. Please try again.');
             return redirect('superadmin/hr-support-files');
         }
     }
+
 
 
 
