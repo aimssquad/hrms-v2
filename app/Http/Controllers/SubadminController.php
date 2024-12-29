@@ -32,8 +32,8 @@ class SubadminController extends Controller
     {
         //dd('ok');
         try {
-            $email = Session::get('emp_email');
-            //dd(Session()->all());
+            $email = Session::get('empsu_email');
+            // dd($email);
             if (!empty($email)) {
                 $data['Roledata'] = DB::table('sub_admin_registrations')
                     ->where('status', '=', 'active')
@@ -70,10 +70,10 @@ class SubadminController extends Controller
         //dd('okk');
         //dd($request->all());
         try {
-            if (!empty(Session::get('emp_email'))) {
+            if (!empty(Session::get('empsu_email'))) {
 
                 //dd($request->all());
-                $email = Session::get('emp_email');
+                $email = Session::get('empsu_email');
 
                 $existingCompanyInfo = DB::table('sub_admin_registrations')->where('status', '=', 'active')->where('email', $email)->first();
                 //dd($existingCompanyInfo->licence);
@@ -259,6 +259,62 @@ class SubadminController extends Controller
         }
 
     }
+
+    public function allOrganizationEmployee(Request $request)
+    {
+        $email = Session::get('empsu_email');
+        if (!empty($email)) {
+            //$email = Session::get('empsu_email');
+            if($request->emid !='' && $request->verify_status != ''){
+                Session::flashInput($request->input());
+                $subAdmin = DB::table('sub_admin_registrations')
+                ->where('email', '=', $email)
+                ->where('status', '=', 'active')
+                ->first(); 
+                //dd($subAdmin->org_code);
+                $data['totalActiveOrganizations'] = DB::table('registration')
+                ->where('org_code', $subAdmin->org_code)
+                ->where('status', 'active')
+                ->where('verify', 'approved')
+                ->get();
+                $data['employeeList'] = DB::table('employee')
+                ->where('emid', $request->emid)
+                ->where('verify_status', $request->verify_status)
+                ->get();
+                return view('sub-admin.organization.employee-list',$data);
+                //dd("$request->emid,$request->verify_status");
+            } else {
+                
+                    $subAdmin = DB::table('sub_admin_registrations')
+                        ->where('email', '=', $email)
+                        ->where('status', '=', 'active')
+                        ->first();
+                    if ($subAdmin) {
+                        $data['totalActiveOrganizations'] = DB::table('registration')
+                            ->where('org_code', $subAdmin->org_code)
+                            ->where('status', 'active')
+                            ->where('verify', 'approved')
+                            ->get();
+        
+                        $regValues = $data['totalActiveOrganizations']->pluck('reg')->toArray();
+        
+                        // Get all employees linked to the active organizations
+                        $data['employeeList'] = DB::table('employee')
+                            ->whereIn('emid', $regValues)
+                            //->where('verify_status', 'approved')
+                            ->get();
+                            //dd($data);
+                        return view('sub-admin.organization.employee-list',$data);
+                    } else {
+                        return redirect('subadmin')->with('error', 'Invalid sub-admin details');
+                    }
+            }
+        } else {
+            return redirect('subadmin');
+        }
+       
+    }
+
 
 
 

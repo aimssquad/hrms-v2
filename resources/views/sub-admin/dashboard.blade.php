@@ -110,6 +110,82 @@
                     </a>
                 </div>
             </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card dash-widget overflow-visible">
+                    <a href="{{url('superadmin/verify')}}">
+                        <div class="card-body modern-card">
+                            <div class="dash-widget-info">
+                                <span>Total Active Organization</span>
+                                <h3>{{ $total_active_organization->count() }}</h3>
+                            </div>
+                            <div class="modern_icon_wrapper">
+                                <i class="la la-check-circle modern-icon" style="color: green;"></i>
+                            </div>
+                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                <span style="font-size: 13px;">View</span>
+                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card dash-widget overflow-visible">
+                    <a href="{{url('superadmin/notverify')}}">
+                        <div class="card-body modern-card">
+                            <div class="dash-widget-info">
+                                <span>Total Inactive Organization</span>
+                                <h3>{{ $total_inactive_organization->count() }}</h3>
+                            </div>
+                            <div class="modern_icon_wrapper">
+                                <i class="fa-solid fa-circle-xmark modern-icon" style="color: rgb(253, 3, 3);"></i>
+                            </div>
+                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                <span style="font-size: 13px;">View</span>
+                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card dash-widget overflow-visible">
+                    <a href="{{url('superadmin/notverify')}}">
+                        <div class="card-body modern-card">
+                            <div class="dash-widget-info">
+                                <span>Total Active Employees</span>
+                                <h3>{{ $total_employee_count }}</h3>
+                            </div>
+                            <div class="modern_icon_wrapper">
+                                <i class="fa-solid fa-users modern-icon" style="color: rgb(1, 131, 18);"></i>
+                            </div>
+                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                <span style="font-size: 13px;">View</span>
+                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card dash-widget overflow-visible">
+                    <a href="{{url('superadmin/notverify')}}">
+                        <div class="card-body modern-card">
+                            <div class="dash-widget-info">
+                                <span>Total Inactive Employees</span>
+                                <h3>{{ $total_inactive_employee_count }}</h3>
+                            </div>
+                            <div class="modern_icon_wrapper">
+                                <i class="fa-solid fa-users modern-icon" style="color: rgb(252, 4, 4);"></i>
+                            </div>
+                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                <span style="font-size: 13px;">View</span>
+                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
 
 

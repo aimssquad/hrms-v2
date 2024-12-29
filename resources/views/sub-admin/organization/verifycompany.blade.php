@@ -100,6 +100,7 @@
                                 <th>Time Lapsed (Days)</th>
                                 <th>Updated On</th>
                                 <th>Payment Status</th>
+                                <th>Verification</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -160,6 +161,15 @@ $pass = DB::Table('users')
 									
 									@endif
 									</td>
+                                <td>
+                                    @if($company->verify=='approved')
+                                    <span class="btn btn-white btn-sm badge-success">VERIFIED</span>
+                                    
+                                    @else
+                                    <span class="btn btn-white btn-sm badge-danger">NOT VERIFIED</span>
+                                 
+                                    @endif
+                                </td>    
                                 <td class="text-end">
                                         <div class="dropdown dropdown-action">
                                             <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

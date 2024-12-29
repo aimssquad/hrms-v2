@@ -5875,4 +5875,7 @@ Route::get('superadmin/get-dossier2-by-dossier', 'App\Http\Controllers\DossierCo
 Route::post('superadmin/dossiers3save', 'App\Http\Controllers\DossierController@dossier3Save')->name('dossiers3.save');
 Route::get('superadmin/dossiers3/{id}/edit', 'App\Http\Controllers\DossierController@editDossier3')->name('dossier.edit-dossier3');
 Route::put('superadmin/dossiers3update/{id}', 'App\Http\Controllers\DossierController@updateDossier3')->name('dossier.update-dossier3');
+Route::get('subadmin', 'App\Http\Controllers\AdminController@subadminindex');
+Route::post('subadmin-login','App\Http\Controllers\AdminController@subadminLogin');
+Route::get('subadmin/organization-employee', 'App\Http\Controllers\SubadminController@allOrganizationEmployee');
 

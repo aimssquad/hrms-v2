@@ -64,7 +64,7 @@
                            <th>Login User ID</th>
                            <th>Password</th>
                            <th>Phone No.</th>
-                           <th>Status</th>
+                           {{-- <th>Status</th> --}}
                            <th>Verification</th>
                            <th>License Applied</th>
                            <th>Type</th>
@@ -85,12 +85,19 @@
                            <td>{{ $company->email }}</td>
                            <td>{{ $company->pass }}</td>
                            <td>{{$company->country_code}} {{ $company->p_no }}</td>
-                           <td>{{ strtoupper($company->status) }}</td>
+                           {{-- <td>{{ strtoupper($company->status) }}</td> --}}
                            <td>
+                              {{-- <div class="dropdown action-label">
+                                 <span class="btn btn-white btn-sm {{ $company->status == 'active' ? 'badge-success' : 'badge-danger' }}">
+                                     {{ strtoupper($company->status) }}
+                                 </span>
+                             </div> --}}
                               @if($company->verify=='approved')
-                              VERIFIED
+                              <span class="btn btn-white btn-sm badge-success">VERIFIED</span>
+                              
                               @else
-                              NOT VERIFIED
+                              <span class="btn btn-white btn-sm badge-danger">NOT VERIFIED</span>
+                           
                               @endif
                            </td>
                            <td>
@@ -108,7 +115,7 @@
                                  <i class="material-icons">more_vert</i>
                                  </a>
                                  <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="{{url('subadmin/edit-subchild-company/'.$company->id)}}">
+                                    <a class="dropdown-item" href="{{url('subadmin/edit-subchild-company/'.$company->reg)}}">
                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                     </a>
                                  </div>

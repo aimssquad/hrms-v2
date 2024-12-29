@@ -125,7 +125,7 @@
                                                 <i class="material-icons">more_vert</i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{url('subadmin/edit-subchild-company/'.$company->id)}}">
+                                                    <a class="dropdown-item" href="{{url('subadmin/edit-subchild-company/'.$company->reg)}}">
                                                         <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                     </a>
                                             </div>

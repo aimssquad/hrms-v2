@@ -772,7 +772,7 @@ class LandingController extends Controller
         if ($user_type == "sub-admin") {
             Session::flush();
             Session::flash("message", "You are successfully Logout.");
-            return redirect("/superadmin");
+            return redirect("/subadmin");
         }
         Session::forget("users_id");
         Session::forget("user_type");

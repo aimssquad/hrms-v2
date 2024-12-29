@@ -165,7 +165,7 @@ class SubadminBillController extends Controller
                     }
                 }
                 $code = DB::table('sub_admin_registrations')->where('email',$email)->first();
-                $data['organization'] = DB::table('registration')->where('org_code',$code->org_code)->get();
+                $data['organization'] = DB::table('registration')->where('org_code',$code->org_code)->where('verify','approved')->get();
                 //dd($data);
 
                 return view('sub-admin/billing/add_new_billing',$data);
