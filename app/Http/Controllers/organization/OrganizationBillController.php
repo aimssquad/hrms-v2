@@ -107,7 +107,7 @@ class OrganizationBillController extends Controller
         
         $request->validate([
             'payment_dtl' => 'required|string|max:255',
-            'payment_document' => 'required|file|mimes:pdf,jpg,png,jpeg|max:2048', // Adjust mime types as needed
+            'payment_document' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:2048', // Adjust mime types as needed
         ]);
         
         $bill = Subadmin_bill::findOrFail($id);
@@ -120,6 +120,7 @@ class OrganizationBillController extends Controller
         }
 
         // Update other fields
+        $bill->status = 2;
         $bill->payment_dtl = $request->payment_dtl;
         $bill->save();
         //dd('okk');

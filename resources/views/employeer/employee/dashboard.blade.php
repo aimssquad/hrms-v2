@@ -34,130 +34,105 @@
 
                         <div class="row">
 
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed"> Employees</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$employee_count ?? 0}}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('organization/employeeee') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                                <div class="card dash-widget overflow-visible">
+                                    <a href="{{ url('organization/employeeee') }}">
+                                        <div class="card-body modern-card">
+                                            <div class="dash-widget-info">
+                                                <span>Employees</span>
+                                                <h3>{{$employee_count ?? 0}}</h3>
+                                            </div>
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa-solid fa-users fa-2x modern-icon"></i>
+                                            </div>
+                                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                                <span style="font-size: 13px;">View</span>
+                                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!--<div class="col-xl-4 col-md-6 col-sm-12">-->
-                            <!--    <div class="card border-0">-->
-                            <!--        <div class="alert alert-primary border border-primary mb-0 p-3">-->
-                            <!--            <div class="d-flex align-items-start">-->
-                            <!--                <div class="text-primary w-100">-->
-                            <!--                    <i class="la la-dashboard rota-icon-size-fixed"></i>-->
-                            <!--                    <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Inactive Employee</div>-->
-                            <!--                    <div class="d-flex justify-content-between align-items-center">-->
-                            <!--                        <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$inactive_employee ?? 0}}</div>-->
-                            <!--                        <div class="fs-12">-->
-                            <!--                            <a href="{{ url('organization/inactiveEmployee') }}" class="text-primary fw-semibold">-->
-                            <!--                                <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all-->
-                            <!--                            </a>-->
-                            <!--                        </div>-->
-                            <!--                    </div>-->
-                            <!--                </div>-->
-                            <!--            </div>-->
-                            <!--        </div>-->
-                            <!--    </div>-->
-                            <!--</div>-->
-
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Department</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$department_count ?? 0}}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('org-settings/vw-department') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
 
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Designation</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$designation_count ?? 0}}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('org-settings/vw-designation') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                                <div class="card dash-widget overflow-visible">
+                                    <a href="{{ url('org-settings/vw-department') }}">
+                                        <div class="card-body modern-card">
+                                            <div class="dash-widget-info">
+                                                <span>Department</span>
+                                                <h3>{{$department_count ?? 0}}</h3>
+                                            </div>
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa-solid fa-building fa-2x modern-icon"></i>
+                                            </div>
+                                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                                <span style="font-size: 13px;">View</span>
+                                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                                <div class="card dash-widget overflow-visible">
+                                    <a href="{{ url('org-settings/vw-designation') }}">
+                                        <div class="card-body modern-card">
+                                            <div class="dash-widget-info">
+                                                <span>Designation</span>
+                                                <h3>{{$designation_count ?? 0}}</h3>
+                                            </div>
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa-solid fa-id-badge fa-2x modern-icon"></i>
+                                            </div>
+                                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                                <span style="font-size: 13px;">View</span>
+                                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
 
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Type of Employees</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$employee_type_count ?? 0 }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('org-settings/vw-employee-type') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                                <div class="card dash-widget overflow-visible">
+                                    <a href="{{ url('org-settings/vw-employee-type') }}">
+                                        <div class="card-body modern-card">
+                                            <div class="dash-widget-info">
+                                                <span>Type of Employees</span>
+                                                <h3>{{$employee_type_count ?? 0 }}</h3>
+                                            </div>
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa-solid fa-user-tie fa-2x modern-icon"></i>
+                                            </div>
+                                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                                <span style="font-size: 13px;">View</span>
+                                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">All Shifts</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$shift_count ?? 0 }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('organization/allShifts') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+
+                            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                                <div class="card dash-widget overflow-visible">
+                                    <a href="{{ url('organization/allShifts') }}">
+                                        <div class="card-body modern-card">
+                                            <div class="dash-widget-info">
+                                                <span>All Shifts</span>
+                                                <h3>{{$shift_count ?? 0 }}</h3>
+                                            </div>
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa-solid fa-clock fa-2x modern-icon"></i>
+                                            </div>
+                                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                                <span style="font-size: 13px;">View</span>
+                                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

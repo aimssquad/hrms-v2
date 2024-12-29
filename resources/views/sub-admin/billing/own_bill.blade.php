@@ -119,9 +119,9 @@
                                         <a class="dropdown-item" href="{{ route('subadmin.billing.own_bill_edit', $billing->id) }}">
                                            <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('subadmin.billing.delete', $billing->id) }}">
+                                        {{-- <a class="dropdown-item" href="{{ route('subadmin.billing.delete', $billing->id) }}">
                                            <i class="fa-solid fa-trash-can m-r-5"></i> Delete
-                                        </a>
+                                        </a> --}}
                                         
                                   </div>
                                </div>
