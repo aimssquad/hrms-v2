@@ -120,12 +120,12 @@
                                                     <div class="col-md-4">
                                                         <label>Upload Pdf</label>
                                                         <input type="file" name="pdf_files[]" class="form-control" value="{{$doc->pdf}}" accept=".pdf">
-                                                        <small>Current: <a href="{{ asset('storage/' . $doc->pdf) }}" target="_blank">{{ $doc->pdf }}</a></small>
+                                                        <small>Current: <a href="{{ asset('storage/app/public/' . $doc->pdf) }}" target="_blank">{{ $doc->pdf }}</a></small>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label>Upload Doc</label>
                                                         <input type="file" name="doc_files[]" class="form-control" value="{{$doc->doc}}" accept=".doc,.docx">
-                                                        <small>Current: <a href="{{ asset('storage/' . $doc->doc) }}"  target="_blank">{{ $doc->doc }}</a></small>
+                                                        <small>Current: <a href="{{ asset('storage/app/public/' . $doc->doc) }}"  target="_blank">{{ $doc->doc }}</a></small>
                                                     </div>
                                                     <button type="button" class="btn btn-danger-new remove-file-section" id="{{ $doc->id }}" style="margin-top:10px;">Remove</button>
                                                 </div>

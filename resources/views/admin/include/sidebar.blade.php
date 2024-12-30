@@ -252,7 +252,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#dossier">
-                            <i class="fas fa-th-list"></i>
+                            <i class="fas fa-archive"></i>
                             <p>Dossier</p>
                             <span class="caret"></span>
                         </a>
@@ -279,7 +279,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#sidebarLayoutjsbill">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-file-invoice"></i>
                             <p>Billing</p>
                             <span class="caret"></span>
                         </a>
@@ -344,7 +344,7 @@ $userType = Session::get('usersu_type');
                     </li>
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#sidebarLayoutjs">
-                            <i class="far fa-user"></i>
+                            <i class="fas fa-users-cog"></i>
                             <p>Employee Management</p>
                             <span class="caret"></span>
                         </a>
@@ -380,7 +380,7 @@ $userType = Session::get('usersu_type');
                     </li>
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#sidebarLayoutjstime">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-clock"></i>
                             <p>Time Shift Management
                             </p>
                             <span class="caret"></span>
@@ -417,7 +417,7 @@ $userType = Session::get('usersu_type');
                     </li>
                     <li class="nav-item">
                         <a href="{{url('superadmin/view-referred')}}">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-handshake"></i>
                             <p>Referred Master</p>
 
                         </a>
@@ -425,7 +425,7 @@ $userType = Session::get('usersu_type');
                     </li>
                     <li class="nav-item">
                         <a href="{{url('superadmin/visa-activity')}}">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-passport"></i>
                             <p>Visa Activity Configuration</p>
 
                         </a>
@@ -435,7 +435,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a href="{{url('superadmin/package')}}">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-box-open"></i>
                             <p>Package </p>
 
                         </a>
@@ -444,7 +444,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#sidebarLayoutjstimeassign">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-user-tag"></i>
                             <p>Assign</p>
                             <span class="caret"></span>
                         </a>
@@ -516,7 +516,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#sidebarLayoutjstimeassigviewn">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-eye"></i>
                             <p> View</p>
                             <span class="caret"></span>
                         </a>
@@ -550,7 +550,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a href="{{url('superadmin/view-reminder')}}">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-bell"></i>
                             <p>Invoice Reminder</p>
 
                         </a>
@@ -563,7 +563,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#sidebarLayoutjstimecomp">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-exclamation-circle"></i>
                             <p>Complain
                             </p>
                             <span class="caret"></span>
@@ -603,7 +603,7 @@ $userType = Session::get('usersu_type');
                     </li>
                     <li class="nav-item">
                         <a href="{{url('superadmin/enquiry')}}">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-question-circle"></i>
                             <p>Enquiry </p>
 
                         </a>
@@ -612,7 +612,7 @@ $userType = Session::get('usersu_type');
 
                     <li class="nav-item">
                         <a href="{{url('superadmin/activity-log')}}">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-history"></i>
                             <p>Activity Log</p>
 
                         </a>
@@ -620,7 +620,7 @@ $userType = Session::get('usersu_type');
                     </li>
                     <li class="nav-item">
                         <a href="{{url('superadmin/plans')}}">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-clipboard-list"></i>
                             <p>Subscription Plans </p>
 
                         </a>
@@ -628,7 +628,7 @@ $userType = Session::get('usersu_type');
                     </li>
                     <li class="nav-item">
                         <a href="{{url('superadmin/subscriptions')}}">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-receipt"></i>
                             <p>Subscriptions </p>
 
                         </a>
@@ -636,7 +636,7 @@ $userType = Session::get('usersu_type');
                     </li>
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#video_uplode">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-sign-in-alt"></i>
                             <p>Login Page File</p>
                             <span class="caret"></span>
                         </a>
