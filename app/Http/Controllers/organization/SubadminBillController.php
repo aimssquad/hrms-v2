@@ -234,7 +234,6 @@ class SubadminBillController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
         $email = Session::get('empsu_email');
         if(!empty($email)){
             $validatedData = $request->validate([
@@ -253,21 +252,15 @@ class SubadminBillController extends Controller
             ]);
             //dd($validatedData);
             $date = $request->date;
-            // //dd($date);
-            // $vatAmount = isset($validatedData['vat'], $validatedData['amount'])
-            //     ? ($validatedData['vat'] / 100) * $validatedData['amount']
-            //     : 0;
-            // $total = $vatAmount + $request->input('amount');
             $pt = $request->billing_type == 'sub-admin' ? 'p' : '';
-            // $month = date('m');
-            // $year = date('Y');
             $monthYear = date('mY', strtotime($request->date));
             $subadmin_name = DB::table('sub_admin_registrations')->where('email',$email)->first();
             if ($subadmin_name && $subadmin_name->com_name) {
                 $firstThreeLetters = substr($subadmin_name->com_name, 0, 3); // Get the first three letters
                 $latter = $firstThreeLetters;
             } else {
-                dd('Company name not found');
+                //dd('Company name not found');
+                redirect('subadmin');
             }
             // get last id from bills table
             $lastInvoice = Subadmin_bill::latest('id')->first();
@@ -278,16 +271,11 @@ class SubadminBillController extends Controller
                 $nextInvoiceNumber = 1; // If no record exists, start with 1
             }
             $invoiceNumber = strtoupper($latter . $pt . $monthYear . str_pad($nextInvoiceNumber, 2, '0', STR_PAD_LEFT));
-            //dd($invoiceNumber);
-            // Merge the generated invoice number with other data
             $dataToSave = array_merge($validatedData, [
                 'invoice_no' => $invoiceNumber,
                 'org_code' => $subadmin_name->org_code // Add the invoice number to save
             ]);
-           //dd($dataToSave);
             $bill = Subadmin_bill::create($dataToSave);
-            
-                // send email
                 if($bill){
                     $org_email = DB::table('registration')->where('reg',$request->entity_id)->first();
                     
@@ -305,8 +293,25 @@ class SubadminBillController extends Controller
                         'Vat' => $request->vat,
                         'Discount' => $request->discount_amount,
                     ];
-                    //dd($mailData);
-                    // Send the email
+                    //pdf data
+                      // Generate or retrieve the PDF
+                    $pdf = PDF::loadView('subadminbillPdf', $mailData); // Use your own Blade template
+                    $pdfPath = storage_path('app/public/' . $invoiceNumber . '.pdf');
+                    $pdf->save($pdfPath);
+
+                    // Send email with PDF attachment
+                    Mail::send('subadmin_mail', $mailData, function ($message) use ($toemail, $pdfPath) {
+                        $message->to($toemail, env('MAIL_FROM_NAME'))
+                                ->subject("Your Billing Invoice")
+                                ->attach($pdfPath, [
+                                    'as' => 'invoice.pdf',
+                                    'mime' => 'application/pdf',
+                                ]);
+                        $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+                    });
+                    //pdf data end
+                    //return view('subadmin_mail',$mailData);
+                    dd('okk');
                     Mail::send('subadmin_mail', $mailData, function ($message) use ($toemail) {
                         $message
                             ->to($toemail, env('MAIL_FROM_NAME'))
@@ -314,11 +319,10 @@ class SubadminBillController extends Controller
                         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
                     });
                 }    
-        
             Session::flash('message', 'Bill submitted successfully. Invoice Number: ' . $invoiceNumber);
             return redirect('sub-admin/billing-list');
         } else {
-            redirect('superadmin');
+            redirect('subadmin');
         }
     }
 
@@ -409,6 +413,7 @@ class SubadminBillController extends Controller
             $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
             $data['com_dtl'] = DB::table('sub_admin_registrations')->where('org_code',$data['bill']->org_code)->first();
             //dd('subadmin bills');
+            //return view('subadminbillPdf',$data);
             return view('sub-admin.billing.invoice',$data);
         } else {
             redirect('superadmin');

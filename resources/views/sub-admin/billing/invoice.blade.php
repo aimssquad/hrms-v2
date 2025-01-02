@@ -87,7 +87,7 @@
                                         <th >Quantity</th>
                                         <th>Unit Price Excluding VAT</th>
                                         <th>Unit Price</th>
-                                        <th>VAT</th>
+                                        <th>VAT (%)</th>
                                         <th class="text-end">TOTAL</th>
                                     </tr>
                                 </thead>
@@ -99,7 +99,14 @@
                                         <td>{{$bill->amount}}</td>
                                         <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td>
                                         <td>{{$bill->vat}}</td>
-                                        <td class="text-end">{{$bill->total_amount}}</td>
+                                        @php 
+                                            if($bill->vat){
+                                                $vat = $bill->amount * $bill->vat/100;
+                                            }
+                                            
+
+                                        @endphp
+                                        <td class="text-end">@if($bill->vat) {{$bill->amount + $vat }} @else {{$bill->total_amount}} @endif</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -125,6 +132,11 @@
                                         <div class="table-responsive no-border">
                                             <table class="table mb-0">
                                                 <tbody>
+                                                    <tr>
+                                                        <th>Discount:</th>
+                                                        <td></td>
+                                                        <td class="text-end">{{$bill->discount_amount}}</td>
+                                                    </tr>
                                                     <tr>
                                                         <th>Subtotal:</th>
                                                         <td></td>
