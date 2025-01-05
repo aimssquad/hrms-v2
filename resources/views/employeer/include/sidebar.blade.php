@@ -154,7 +154,7 @@
                     ['url' => 'org-settings/vw-education', 'label' => 'Education Master'],
                    // ['url' => 'org-settings/vw-department', 'label' => 'Department'],
                    // ['url' => 'org-settings/vw-designation', 'label' => 'Designation'],
-                    ['url' => 'org-settings/vw-employee-type', 'label' => 'Employment Type'],
+                    // ['url' => 'org-settings/vw-employee-type', 'label' => 'Employment Type'],
                     ['url' => 'org-settings/vw-paygroup', 'label' => 'Pay Group'],
                     ['url' => 'org-settings/vw-annualpay', 'label' => 'Annual Pay'],
                     ['url' => 'org-settings/vw-bank-sortcode', 'label' => 'Bank Shortcode'],
@@ -232,6 +232,13 @@
                 ['url' => 'rota-org/visitor-dashboard', 'label' => 'Dashboard'],
                 ['url' => 'rota-org/visitor-link', 'label' => 'Sign Up Link'],
                 ['url' => 'rota-org/visitor-regis', 'label' => 'Visitor List'],
+            ]
+        ],
+        24 => [
+            'title' => 'Notice',
+            'icon' => 'las la-bullhorn',
+            'items' => [
+                ['url' => 'notice/org-notice', 'label' => 'Notice'],
             ]
         ],
         

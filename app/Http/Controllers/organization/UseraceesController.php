@@ -525,6 +525,41 @@ class UseraceesController extends Controller
         }
     }
 
+    public function employeePermission(Request $request){
+        if (!empty(Session::get("emp_email"))) {
+            $email = Session::get("emp_email");
+            $Roledata = Registration::where("status", "=", "active")
+                    ->where("email", "=", $email)
+                    ->first();
+
+            $data["users"] = UserModel::join(
+                "employee",
+                "users.employee_id",
+                "=",
+                "employee.emp_code"
+            )
+
+                ->where("employee.emid", "=", $Roledata->reg)
+                ->where("users.emid", "=", $Roledata->reg)
+                ->select("users.*")
+                ->where("users.user_type", "=", "employee")
+                ->get();
+            $data["module"] = module::get();    
+            return view('employeer.user-access.employee-permission',$data);
+        } else {
+            return redirect("/");
+        }
+    }
+
+    public function createPermission(Request $request){
+        if (!empty(Session::get("emp_email"))) {
+            $email = Session::get("emp_email");
+           dd($request->all());
+        } else {
+            return redirect("/");
+        } 
+    }
+
 
 
 

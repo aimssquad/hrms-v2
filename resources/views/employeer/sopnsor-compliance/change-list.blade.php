@@ -28,7 +28,7 @@
                         <div class="row form-group">
                             <div class="col-md-3">
                                 <label for="employee_code" class="col-form-label">Employee Code</label>
-                                <select id="employee_code" class="form-control" name="employee_code" required>
+                                <select id="employee_code" class="select" name="employee_code" required>
                                     <option value="">Select</option>
                                     @foreach($employee_type_rs as $employee_type)
                                         <option value="{{ $employee_type->emp_code }}" {{ $employee_code == $employee_type->emp_code ? 'selected' : '' }}>
@@ -98,7 +98,7 @@
                         <form method="POST" action="{{ url('employee/employee-circumstances-report-pdf') }}" class="d-inline-block">
                             @csrf
                             <input type="hidden" name="employee_code" value="{{ $employee->emp_code }}">
-                            <button class="btn btn-info btn-sm">
+                            <button class="btn-download btn-download-pdf" style="margin-right: 10px;">
                                 <i class="fas fa-file-pdf"></i> Export to PDF
                             </button>
                         </form>
@@ -106,8 +106,8 @@
                         <form method="POST" action="{{ url('employee/employee-circumstances-excel') }}" class="d-inline-block">
                             @csrf
                             <input type="hidden" name="employee_code" value="{{ $employee->emp_code }}">
-                            <button class="btn btn-success btn-sm">
-                                <i class="fas fa-file-excel"></i> Export to Excel
+                            <button class="btn-download btn-download-excel ">
+                                 Export to Excel
                             </button>
                         </form>
                     </div>

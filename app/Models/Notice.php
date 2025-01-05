@@ -20,6 +20,7 @@ class Notice extends Model
          'organization_id',
          'created_by_type',
          'created_by_id',
+         'notice_for',
          'start_date',
          'end_date',
      ];

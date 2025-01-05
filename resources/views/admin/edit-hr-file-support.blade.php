@@ -125,6 +125,9 @@
                                                     <div class="col-md-4">
                                                         <label>Upload Doc</label>
                                                         <input type="file" name="doc_files[]" class="form-control" value="{{$doc->doc}}" accept=".doc,.docx">
+                                                        @if ($errors->has('doc_files.*'))
+                                                            <span style="color: red;">{{ $errors->first('doc_files.*') }}</span>
+                                                        @endif
                                                         <small>Current: <a href="{{ asset('storage/app/public/' . $doc->doc) }}"  target="_blank">{{ $doc->doc }}</a></small>
                                                     </div>
                                                     <button type="button" class="btn btn-danger-new remove-file-section" id="{{ $doc->id }}" style="margin-top:10px;">Remove</button>

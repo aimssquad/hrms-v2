@@ -475,11 +475,12 @@ class HrSupportController extends Controller
             'description' => 'required|string',
             'smalldescription' => 'required|string',
             'file_names' => 'required|array',
-            'document_desc' => 'required|array',
+            'document_desc' => 'array',
             'pdf_files.*' => 'nullable|file|mimes:pdf|max:2048',
             'doc_files.*' => 'nullable|file|mimes:doc,docx|max:2048',
-        ]);
 
+        ]);
+ 
         try {
             DB::beginTransaction();
 

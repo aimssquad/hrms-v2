@@ -42,8 +42,8 @@
                                            <input type="hidden" name="filename" id="filename">
                                            {{-- put the value - that is your file name --}}
                                            <input type="hidden" id="filenameInput" value="Job-applied">
-                                           <button type="submit" class="btn btn-success btn-sm">
-                                               <i class="fas fa-file-excel"></i> Export to Excel
+                                           <button type="submit" class="btn-download btn-download-excel me-0">
+                                                Export to Excel
                                            </button>
                                        </form>
                                    </div>
@@ -53,8 +53,8 @@
                                          <input type="hidden" name="data" id="pdfData">
                                          <input type="hidden" name="headings" id="pdfHeadings">
                                          <input type="hidden" name="filename" id="pdfFilename">
-                                         <button type="submit" class="btn btn-info btn-sm">
-                                             <i class="fas fa-file-pdf"></i> Export to PDF
+                                         <button type="submit" class="btn-download btn-download-pdf">
+                                             Export to PDF
                                          </button>
                                      </form>
                                    </div>

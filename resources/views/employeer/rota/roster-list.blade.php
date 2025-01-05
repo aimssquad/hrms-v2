@@ -111,13 +111,13 @@ return $output;
              <h4 class="card-title">Shift Schedule</h4>
              <div>
                <!-- Excel Link -->
-               <a href="path_to_excel_export" class="btn btn-success btn-sm">
-                   <i class="fas fa-file-excel"></i> Export to Excel
+               <a href="path_to_excel_export"  class="btn-download btn-download-excel me-0" >
+                   Export to Excel
                </a>
                
                <!-- PDF Link -->
-               <a href="path_to_pdf_export" class="btn btn-info btn-sm">
-                   <i class="fas fa-file-pdf"></i> Export to PDF
+               <a href="path_to_pdf_export" class="btn-download btn-download-pdf" style="margin-right: 10px;">
+                   Export to PDF
                </a>
            </div>
              @if(isset($department) ? $department : '')

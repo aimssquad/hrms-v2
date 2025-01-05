@@ -334,6 +334,9 @@ Route::get('user-access-role/view-users-role', 'App\Http\Controllers\organizatio
 Route::get('user-access-role/user-role', 'App\Http\Controllers\organization\UseraceesController@viewUserAccessRightsForm');
 Route::post('user-access-role/user-role', 'App\Http\Controllers\organization\UseraceesController@UserAccessRightsFormAuth');
 Route::get('user-accessrole/view-users-role/{role_authorization_id}', 'App\Http\Controllers\organization\UseraceesController@deleteUserAccess');
+
+Route::get('user-access/emp-permission', 'App\Http\Controllers\organization\UseraceesController@employeePermission')->name('employeepermission'); 
+Route::post('user-access/emp-permission', 'App\Http\Controllers\organization\UseraceesController@createPermission');
 //---------------------------------------------- End User Access ---------------------------------------
 
 //----------------------------------------------- Settings ---------------------------------------------
@@ -574,6 +577,13 @@ Route::post('org-recruitment/add-message-centre', 'App\Http\Controllers\organiza
 
 
 //-----------------------------End Recruitment Section -------------------------------------------------------------
+//-------------------------------Start Notice-------------------------------------------------------------
+Route::get('notice/org-notice', 'App\Http\Controllers\organization\NoticeController@index')->name('org.notice');
+Route::get('notice/add-notice', 'App\Http\Controllers\organization\NoticeController@create')->name('add.notice');
+Route::post('notice/add-notice', 'App\Http\Controllers\organization\NoticeController@store')->name('stor.notice');
+Route::get('notice/edit-notice/{id}', 'App\Http\Controllers\organization\NoticeController@edit')->name('edit.notice');
+Route::post('/notice/update/{id}', 'App\Http\Controllers\organization\NoticeController@update')->name('update.notice');
+Route::get('notice/delete-notice/{id}', 'App\Http\Controllers\organization\NoticeController@destroy')->name('delete.notice');
 #####################################################Sub-admin###############################################
 Route::get('sub-admin/dashboard', [AdminController::class, 'hh'])->name('sub-admin.dashboard');
 ######################################################################################

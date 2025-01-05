@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Leave Allocation')
+@section('title', 'Notice')
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -37,22 +37,22 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Leave Allocation</h3>
+				<h3 class="page-title">Notice</h3>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">Dashboard</a></li>
-					<li class="breadcrumb-item active">Allocation</li>
+					<li class="breadcrumb-item active">Notice</li>
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
 				@foreach($sidebarItems as $value)
-				@if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 45)
-				<a href="{{ url('leave/save-leave-allocation') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allocation</a>
+				@if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 44)
+				<a href="{{ url('notice/add-notice') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Notice</a>
 				@endif
 				@endforeach
 				@elseif($user_type == 'employer')
-				<a href="{{ url('leave/save-leave-allocation') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allocation</a>
+				<a href="{{ url('notice/add-notice') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Notice</a>
 				@endif
 				{{-- <div class="view-icons">
 					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
@@ -78,7 +78,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                 <input type="hidden" name="headings" id="headings">
                                 <input type="hidden" name="filename" id="filename">
                                 {{-- put the value - that is your file name --}}
-                                <input type="hidden" id="filenameInput" value="Leave Allocation">
+                                <input type="hidden" id="filenameInput" value="Notice">
                                 <button type="submit" class="btn-download btn-download-excel me-0">
                                     Export to Excel
                                </button>
@@ -103,65 +103,72 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                             <thead>
                                 <tr>
                                     <th>Sl.No.</th>
-                                    <th>Employee Type</th>
-                                    <th>Leave Type</th>
-                                    <th>Employee Code</th>
-                                    <th>Employee Name</th>
-                                    <th>Max. No. of Leave</th>
-                                    <th>Leave in Hand</th>
-                                    <th>Effective Year</th>
+                                    <th>Title</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Notice For</th>
+                                    <th>Status</th>
                                     <th>Action</th>
-                                </tr>
+                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($leave_allocation as $leave_allo)				 
-                                <?php
-                                    $leaveemdata = DB::table('employee')      
-                                        ->where('emp_code','=', $leave_allo->employee_code)
-                                        ->first(); 
-                                    //dd($leaveemdata);
-                                        $email = Session::get('emp_email'); 
-                                    $Roledata = DB::table('registration')      
-                                        ->where('email','=',$email) 
-                                        ->first();
-                                                                
-                                    $leaveenamemdata = DB::table('employee')      
-                                        ->where('emp_code','=', $leave_allo->employee_code)
-                                        ->where('emid', '=', $Roledata->reg)
-                                        ->first(); 					     
-                                ?>
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$leaveemdata->emp_status}}</td>
-                                        <td>{{$leave_allo->leave_type_name}}</td>
-                                        <td>{{$leave_allo->employee_code}}</td>
-                                        <td>{{$leaveenamemdata->emp_fname}} {{$leaveenamemdata->emp_mname}} {{$leaveenamemdata->emp_lname}}</td>
-                                        <td>{{$leave_allo->max_no}}</td>
-                                        <td>{{$leave_allo->leave_in_hand}}</td>
-                                        <td>{{$leave_allo->month_yr}}</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="material-icons">more_vert</i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    @if($user_type == 'employee')
-                                                        @foreach($sidebarItems as $value)
-                                                            @if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 45)
-                                                                <a class="dropdown-item" href="{{url('leave/leave-allocation-dtl/$leave_allo->id')}}">
-                                                                    <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                                                </a>
-                                                            @endif
-                                                        @endforeach
-                                                    @elseif($user_type == 'employer')
-                                                        <a class="dropdown-item" href="{{url('leave-management/leave-allocation-dtl/$leave_allo->id')}}">
+                                <?php $i = 1;?>
+                                @foreach($notices as $datas)
+                                <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $datas->title }}</td>
+                                <td>{{ $datas->start_date }}</td>
+                                <td>{{ $datas->end_date }}</td>
+                                <td>{{ ucwords($datas->notice_for) }}</td>
+                                <td>
+                                  @php
+                                      $currentDate = now();
+                                      $startDate = \Carbon\Carbon::parse($datas->start_date);
+                                      $endDate = \Carbon\Carbon::parse($datas->end_date);
+                                  @endphp
+                              
+                                  @if ($currentDate->between($startDate, $endDate))
+                                      <span class="badge badge-success">Active</span>
+                                  @else
+                                      <span class="badge badge-danger">Expired</span>
+                                  @endif
+                              </td>
+                                <td class="text-end">
+                                    <div class="dropdown dropdown-action">
+                                        <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="material-icons">more_vert</i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            @if($user_type == 'employee')
+                                                @foreach($sidebarItems as $value)
+                                                    @if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 44)
+                                                        <a class="dropdown-item" href="{{ route('edit.notice', $datas->id) }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                         </a>
                                                     @endif
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                                @endforeach
+                                            @elseif($user_type == 'employer')
+                                                <a class="dropdown-item" href="{{ route('edit.notice', $datas->id) }}">
+                                                    <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                </a>
+                                            @endif
+                                            @if($user_type == 'employee')
+                                                @foreach($sidebarItems as $value)
+                                                    @if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 44)
+                                                        <a class="dropdown-item" href="{{ route('delete.notice', $datas->id) }}">
+                                                            <i class="fa-solid fa-trash m-r-5"></i> delete
+                                                        </a>
+                                                    @endif
+                                                @endforeach
+                                            @elseif($user_type == 'employer')
+                                                <a class="dropdown-item" href="{{ route('delete.notice', $datas->id) }}">
+                                                    <i class="fa-solid fa-trash m-r-5"></i> delete
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -177,8 +184,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 @endsection
 
 @section('script')
-	<!-- Include jQuery and DataTables JS library -->
-    
+	
 <script>
     function confirmDelete(url) {
         if (confirm("Are you sure you want to delete this record?")) {
