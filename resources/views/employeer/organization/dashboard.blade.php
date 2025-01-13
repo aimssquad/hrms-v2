@@ -482,23 +482,28 @@
                                 <div class="tab-pane active" id="notification_tab">
                                     <div class="employee-noti-content" style="max-height: 380px; overflow-y: auto;">
                                         <ul class="employee-notification-list">
-                                            <li class="employee-notification-grid">
-                                                <div class="employee-notification-icon">
-                                                    <a href="#">
-                                                        <span class="badge-soft-danger rounded-circle">HR</span>
-                                                    </a>
-                                                </div>
-                                                <div class="employee-notification-content">
-                                                    <h6>
-                                                        <a href="#">Your leave request has been</a>
-                                                    </h6>
-                                                    <ul class="nav">
-                                                        <li>02:10 PM</li>
-                                                        <li>21 Apr 2024</li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="employee-notification-grid">
+                                            @foreach($notices as $notice)
+                                                <li class="employee-notification-grid">
+                                                    <div class="employee-notification-icon">
+                                                        {{-- <a href="#">
+                                                            <span class="badge-soft-danger rounded-circle">{{ $notice->title }}</span>
+                                                        </a> --}}
+                                                        <a href="{{ asset('storage/' . $notice->image) }}" target="_blank">
+                                                            <span class="badge-soft-danger rounded-circle">{{ $notice->title }}</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="employee-notification-content">
+                                                        <h6>
+                                                            <a href="#">{{ strip_tags($notice->description) }}</a>
+                                                        </h6>
+                                                        <ul class="nav">
+                                                            <li>{{ \Carbon\Carbon::parse($notice->start_date)->format('d-m-Y') }}</li>
+                                                            <li>{{ \Carbon\Carbon::parse($notice->end_date)->format('d-m-Y') }}</li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                            {{-- <li class="employee-notification-grid">
                                                 <div class="employee-notification-icon">
                                                     <a href="#">
                                                         <span class="badge-soft-info rounded-circle">ER</span>
@@ -577,7 +582,7 @@
                                                         <li>21 Apr 2024</li>
                                                     </ul>
                                                 </div>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                     </div>
                                 </div>

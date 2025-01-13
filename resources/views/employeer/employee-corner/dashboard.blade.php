@@ -2,10 +2,8 @@
 @section('title', 'Login Corner')
 @section('content')
     <div class="content container-fluid pb-0">
-        <div class="card" style="background: linear-gradient(135deg, #7b9af1, #87f1a1);">
-            <div class="card-header"> <h1>Login Corner Dashboard</h1></div>
-            <div class="card-body"></div>
-        </div>
+        
+            <div class="card-header"> <h3>Welcome {{ $Roledata->name }} !</h3></div>
 		@if(Session::has('message'))										
 			<div class="alert alert-success" style="text-align:center;">{{ Session::get('message') }}</div>
 		@endif

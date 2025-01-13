@@ -38,11 +38,14 @@ return $output;
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
-            @foreach($sidebarItems as $value)
-            @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 48)
-            <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allowance Period</a>
-            @endif
-            @endforeach
+               @if(isset($sidebarItems['Rota']))
+                  @foreach($sidebarItems['Rota'] as $rotaItem)
+                     @if($rotaItem['submenu_name'] == 'Shift Planning' && $rotaItem['can_add'] == 1)
+                        <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allowance Period</a>
+                        @break
+                     @endif
+                  @endforeach
+               @endif
             @elseif($user_type == 'employer')
             <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allowance Period</a>
             @endif
@@ -124,7 +127,8 @@ return $output;
                         <tr>
                            <td>{{ $employee_depers->department_name }}</td>
                            <td>{{ $employee_desigrs->designation_name }}</td>
-                           <!--<td>{{ $employee_shift->shift_code }} ( {{ $employee_shift->shift_des }}  )</td>-->
+                           {{-- <td>{{ $employee_shift->shift_code }}  {{ $employee_shift->shift_des }} </td> --}}
+                            
                            <td>{{ date('h:i a',strtotime($candidate->time_in)) }}</td>
                            <td>{{ date('h:i a',strtotime($candidate->grace_time)) }}</td>
                            <td class="text-end">
@@ -134,13 +138,13 @@ return $output;
                                  </a>
                                  <div class="dropdown-menu dropdown-menu-right">
                                     @if($user_type == 'employee')
-                                    @foreach($sidebarItems as $value)
-                                    @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-                                    <a class="dropdown-item" href="{{url('rota-org/add-grace-period/')}}?id={{$candidate->id}}">
-                                    <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                    </a>
-                                    @endif
-                                    @endforeach
+                                       @foreach($sidebarItems['Rota'] as $rotaItem)
+                                          @if($rotaItem['submenu_name'] == 'Shift Planning' && $rotaItem['can_add'] == 1)
+                                          <a class="dropdown-item" href="{{url('rota-org/add-grace-period/')}}?id={{$candidate->id}}">
+                                          <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                          </a>
+                                          @endif
+                                       @endforeach
                                     @elseif($user_type == 'employer')
                                     <a class="dropdown-item" href="{{url('rota-org/add-grace-period/')}}?id={{$candidate->id}}">
                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit

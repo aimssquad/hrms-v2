@@ -5,6 +5,7 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+//dd($sidebarItems);
 @endphp
 @section('content')
 @php
@@ -44,19 +45,35 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
-				@if($user_type == 'employee')
+				{{-- @if($user_type == 'employee')
 				@foreach($sidebarItems as $value)
 				@if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 48)
+               
 				<a href="{{url('rota-org/add-shift-management')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Shift Planning</a>
 				@endif
 				@endforeach
 				@elseif($user_type == 'employer')
 				<a href="{{url('rota-org/add-shift-management')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Shift Planning</a>
-				@endif
-				{{-- <div class="view-icons">
-					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
-					<a href="{{url('organization/emplist')}}" class="list-view btn btn-link active"><i class="fa-solid fa-bars"></i></a>
-				</div> --}}
+				@endif --}}
+                @if($user_type == 'employee')
+                    {{-- Check if "Rota" exists and has at least one submenu with "can_add" permission --}}
+                    @if(isset($sidebarItems['Rota']))
+                        @foreach($sidebarItems['Rota'] as $rotaItem)
+                            @if($rotaItem['submenu_name'] == 'Shift Planning' && $rotaItem['can_add'] == 1)
+                                <a href="{{ url('rota-org/add-shift-management') }}" class="btn add-btn">
+                                    <i class="fa-solid fa-plus"></i> Add Shift Planning
+                                </a>
+                                @break
+                            @endif
+                        @endforeach
+                    @endif
+                @elseif($user_type == 'employer')
+                    {{-- Always show button for employers --}}
+                    <a href="{{ url('rota-org/add-shift-management') }}" class="btn add-btn">
+                        <i class="fa-solid fa-plus"></i> Add Shift Planning
+                    </a>
+                @endif
+				
 			</div>
 		</div>
 	</div>
@@ -140,8 +157,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 @if($user_type == 'employee')
-                                                    @foreach($sidebarItems as $value)
-                                                        @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
+                                                    @foreach($sidebarItems['Rota'] as $rotaItem)
+                                                         @if($rotaItem['submenu_name'] == 'Shift Planning' && $rotaItem['can_edit'] == 1)
                                                             <a class="dropdown-item" href="{{url('rota-org/add-shift-management/')}}?id={{$candidate->id}}">
                                                                 <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                             </a>
@@ -154,8 +171,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                 @endif
                         
                                                 @if($user_type == 'employee')
-                                                    @foreach($sidebarItems as $value)
-                                                        @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
+                                                    @foreach($sidebarItems['Rota'] as $rotaItem)
+                                                        @if($rotaItem['submenu_name'] == 'Shift Planning' && $rotaItem['can_delete'] == 1)
                                                         <a class="dropdown-item" href="#" onclick="confirmDelete('{{ url('rota-org/delete-shift-management/' . $candidate->id) }}')"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
                                                         @endif
                                                     @endforeach

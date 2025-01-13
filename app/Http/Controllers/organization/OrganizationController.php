@@ -80,6 +80,7 @@ class OrganizationController extends Controller
                 ->where(DB::raw("DATE_FORMAT(emp_dob, '%m-%d')"), '=', DB::raw("DATE_FORMAT(CURDATE(), '%m-%d')"))
                 ->where('employee.emid', '=', $data["Roledata"]->reg)
                 ->get();  
+                $data['notices'] = DB::table('notices')->where('created_by_type','admin')->where('notice_for','organization')->get();
             } else {
                 
                 $usemail = Session::get("user_email");

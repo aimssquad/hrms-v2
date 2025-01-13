@@ -335,8 +335,10 @@ Route::get('user-access-role/user-role', 'App\Http\Controllers\organization\User
 Route::post('user-access-role/user-role', 'App\Http\Controllers\organization\UseraceesController@UserAccessRightsFormAuth');
 Route::get('user-accessrole/view-users-role/{role_authorization_id}', 'App\Http\Controllers\organization\UseraceesController@deleteUserAccess');
 
-Route::get('user-access/emp-permission', 'App\Http\Controllers\organization\UseraceesController@employeePermission')->name('employeepermission'); 
+Route::get('user-access/emp', 'App\Http\Controllers\organization\UseraceesController@getEmployee')->name('get_emp'); 
+Route::get('user-access/emp-permission/{id}', 'App\Http\Controllers\organization\UseraceesController@employeePermission')->name('employeepermission'); 
 Route::post('user-access/emp-permission', 'App\Http\Controllers\organization\UseraceesController@createPermission');
+//Route::get('user-access/permission-list', 'App\Http\Controllers\organization\UseraceesController@createPermission');
 //---------------------------------------------- End User Access ---------------------------------------
 
 //----------------------------------------------- Settings ---------------------------------------------

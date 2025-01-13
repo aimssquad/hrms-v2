@@ -45,11 +45,16 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
-				@foreach($sidebarItems as $value)
-				@if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 48)
-				<a href="{{url('rota-org/add-late-policy')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Late Policy</a>
-				@endif
-				@endforeach
+                    @if(isset($sidebarItems['Rota']))
+                        @foreach($sidebarItems['Rota'] as $rotaItem)
+                            @if($rotaItem['submenu_name'] == 'Late Policy' && $rotaItem['can_add'] == 1)
+                                <a href="{{ url('rota-org/add-late-policy') }}" class="btn add-btn">
+                                    <i class="fa-solid fa-plus"></i>  Add Late Policy
+                                </a>
+                                @break
+                            @endif
+                        @endforeach
+                    @endif
 				@elseif($user_type == 'employer')
 				<a href="{{url('rota-org/add-late-policy')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Late Policy</a>
 				@endif
@@ -136,13 +141,16 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 @if($user_type == 'employee')
-                                                    @foreach($sidebarItems as $value)
-                                                        @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
+                                                @if(isset($sidebarItems['Rota']))
+                                                    @foreach($sidebarItems['Rota'] as $rotaItem)
+                                                        @if($rotaItem['submenu_name'] == 'Late Policy' && $rotaItem['can_edit'] == 1)
                                                             <a class="dropdown-item" href="{{url('rota-org/add-late-policy/')}}?id={{$candidate->id}}">
                                                                 <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                             </a>
-                                                        @endif
-                                                    @endforeach
+                                                            @break
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
                                                 @elseif($user_type == 'employer')
                                                     <a class="dropdown-item" href="{{url('rota-org/add-late-policy/')}}?id={{$candidate->id}}">
                                                         <i class="fa-solid fa-pencil m-r-5"></i> Edit

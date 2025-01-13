@@ -1,7 +1,6 @@
 @php
-    $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+    $sidebarItems = \App\Helpers\Helper::getSidebarItems(); 
     $user_type = Session::get("user_type");
-    //dd($sidebarItems);
         $modules = [
         //    1 => [
         //     'title' => 'Organization',
@@ -326,7 +325,7 @@ function isActiveModule($moduleItems) {
                         @endif
                     @endforeach
                 @else
-                    @foreach($sidebarItems as $array_role)
+                    {{-- @foreach($sidebarItems as $array_role)
                         @php
                             $module_id = $array_role['module_name'];
                             $isActive = isset($modules[$module_id]) ? isActiveModule($modules[$module_id]['items']) : false;
@@ -360,7 +359,27 @@ function isActiveModule($moduleItems) {
                                 </ul>
                             </li>
                         @endif
-                    @endforeach        
+                    @endforeach         --}}
+                    @foreach ($sidebarItems as $moduleName => $submenus)
+                        <li class="menu-title">
+                            <span>{{ $moduleName }}</span>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="la la-cube"></i> 
+                                <span>{{ $moduleName }}</span> 
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                @foreach ($submenus as $submenu)
+                                    <li>
+                                        <a href="{{ url($submenu['submenu_url']) }}">
+                                            {{ $submenu['submenu_name'] }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
                 @endif
             </ul>
 
