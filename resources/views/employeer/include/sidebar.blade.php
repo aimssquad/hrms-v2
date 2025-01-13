@@ -169,7 +169,8 @@
             'items' => [
                 ['url' => 'user-access-role/dashboard', 'label' => 'Dashboard'],
                 ['url' => 'user-access-role/vw-users', 'label' => 'User Settings'],
-                ['url' => 'user-access-role/view-users-role', 'label' => 'Access Roles'],
+                // ['url' => 'user-access-role/view-users-role', 'label' => 'Access Roles'],
+                ['url' => 'user-access/emp', 'label' => 'Access Roles'],
             ]
         ],
         13 => [
