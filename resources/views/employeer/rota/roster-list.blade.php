@@ -146,12 +146,12 @@ return $output;
           </div>
           <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
-            @foreach($sidebarItems as $value)
-            @if($value['rights'] == 'Add' && $value['module_name'] == 1 && $value['menu'] == 1)
-            <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Employee Roster(Employee wise)"
-                   style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
-                   <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>Add Employee Roster(Department wise)</a>
-            @endif
+            @foreach($sidebarItems['Rota'] as $rotaItem)
+               @if($rotaItem['submenu_name'] == 'Employee Roster' && $rotaItem['can_edit'] == 1)
+               <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Employee Roster(Employee wise)"
+                     style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
+                     <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>Add Employee Roster(Department wise)</a>
+               @endif
             @endforeach
             @elseif($user_type == 'employer')
             <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Employee Roster(Employee wise)"

@@ -686,16 +686,28 @@ class RotaController extends Controller
     { 
         if (!empty(Session::get("emp_email"))) {
             $email = Session::get("emp_email");
-            $Roledata = Registration::where("status", "=", "active")
-
+            $user_type = Session::get("user_type");
+            if($user_type == "employee"){     
+                $emid = \App\Helpers\Helper::getEmidFromSidebarItems();
+                $Roledata = Registration::where("status", "=", "active")
+                    ->where("reg", "=", $emid)
+                    ->first();
+                    //dd($Roledata);
+            } else{
+                $Roledata = Registration::where("status", "=", "active")
                 ->where("email", "=", $email)
-                ->first();
-            $data["Roledata"] = Registration::where("status", "=", "active")
+                ->first();   
+            }
+            // $Roledata = Registration::where("status", "=", "active")
 
-                ->where("email", "=", $email)
-                ->first();
+            //     ->where("email", "=", $email)
+            //     ->first();
+            // $data["Roledata"] = Registration::where("status", "=", "active")
+
+            //     ->where("email", "=", $email)
+            //     ->first();
            
-            $data["departs"] = Department::where("emid", "=", $data["Roledata"]->reg)
+            $data["departs"] = Department::where("emid", "=", $Roledata->reg)
                 ->get();
                
         $data["result"] = "";
@@ -981,11 +993,23 @@ class RotaController extends Controller
         // dd("hello");
         if (!empty(Session::get("emp_email"))) {
             $email = Session::get("emp_email");
-
-            $data["Roledata"] = DB::table("registration")
-                ->where("status", "=", "active")
+            $user_type = Session::get("user_type");
+            if($user_type == "employee"){     
+                $emid = \App\Helpers\Helper::getEmidFromSidebarItems();
+                $data["Roledata"] = Registration::where("status", "=", "active")
+                    ->where("reg", "=", $emid)
+                    ->first();
+                    //dd($Roledata);
+            } else{
+                $data["Roledata"] = Registration::where("status", "=", "active")
                 ->where("email", "=", $email)
-                ->first();
+                ->first();   
+            }
+
+            // $data["Roledata"] = DB::table("registration")
+            //     ->where("status", "=", "active")
+            //     ->where("email", "=", $email)
+            //     ->first();
             $data["departs"] = DB::table("department")
                 ->where("emid", "=", $data["Roledata"]->reg)
                 ->get();
@@ -1081,12 +1105,24 @@ class RotaController extends Controller
     {
         if (!empty(Session::get("emp_email"))) {
             $email = Session::get("emp_email");
-
-            $data["Roledata"] = DB::table("registration")
-                ->where("status", "=", "active")
-
+            $user_type = Session::get("user_type");
+            if($user_type == "employee"){     
+                $emid = \App\Helpers\Helper::getEmidFromSidebarItems();
+                $data["Roledata"] = Registration::where("status", "=", "active")
+                    ->where("reg", "=", $emid)
+                    ->first();
+                    //dd($Roledata);
+            } else{
+                $data["Roledata"] = Registration::where("status", "=", "active")
                 ->where("email", "=", $email)
-                ->first();
+                ->first();   
+            }
+
+            // $data["Roledata"] = DB::table("registration")
+            //     ->where("status", "=", "active")
+
+            //     ->where("email", "=", $email)
+            //     ->first();
             $data["departs"] = DB::table("department")
                 ->where("emid", "=", $data["Roledata"]->reg)
                 ->get();

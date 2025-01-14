@@ -27,8 +27,22 @@ class DashboardController extends Controller
     public function getamployeedas()
     {
         if (!empty(Session::get('emp_email'))) {
-
             $email = Session::get('emp_email');
+            //$user_type = Session::get("user_type");
+            
+            // if($user_type == "employee"){     
+            //     $emid = \App\Helpers\Helper::getEmidFromSidebarItems();
+            //     //dd($emid);
+            //     $Roledata = Registration::where("status", "=", "active")
+            //         ->where("reg", "=", $emid)
+            //         ->first();
+            //         dd($Roledata);
+            // } else{
+            //     //dd('ok');
+            //     $Roledata = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();  
+            // }
             $Roledata = DB::table('registration')->where('status', '=', 'active')
 
                 ->where('email', '=', $email)

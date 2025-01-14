@@ -28,6 +28,7 @@ class Helper
                 foreach ($Roles_auth as $role) {
                     $sidebarItems[] = [
                         'module_name' => $role->module_name
+                        
                         //'module_display_name' => $role->module_display_name // Assuming you have a display name
                     ];
                 }
@@ -37,52 +38,10 @@ class Helper
             $users_id = Session::get("users_id");
             $dtaem = DB::table("users")
                 ->where("id", "=", $users_id)
-                ->first();
-            //dd($dtaem->employee_id);
-            if ($dtaem) {
-                // $Roles_auth = DB::table("role_authorization")
-                //     ->where("emid", "=", $dtaem->emid)
-                //     ->where("member_id", "=", $dtaem->email)
-                //     ->get();
-                    
-                // $Roles_auth = DB::table("role_authorization")
-                //     ->where("emid", "=", $dtaem->emid)
-                //     ->where("member_id", "=", $dtaem->email)
-                //     ->select('module_name', 'menu', 'rights')
-                //     ->groupBy('module_name')  // Group by module_name to ensure unique results
-                //     ->get(); 
-                //     dd($Roles_auth);
-                // foreach ($Roles_auth as $role) {
-                //     $sidebarItems[] = [
-                //         'module_name' => $role->module_name,
-                //         'menu' => $role->menu,
-                //         'rights' => $role->rights
-                //     ];
-                // }
-
-                // $Roles_auth = DB::table('employee_permissions')
-                // ->where('employee_id', '=', $dtaem->employee_id)
-                // ->select("employee_permissions.*")
-                // ->groupBy('submenu_id')
-                // ->get();
-                // // dd($Roles_auth);
-                // foreach ($Roles_auth as $role) {
-                //     $sidebarItems[] = [
-                //         'module_name' => $role->module_name,
-                //         'submenu_id' => $role->submenu_id,
-                //         'can_edit' => $role->can_edit,
-                //         'can_add' => $role->can_add,
-                //         'can_delete' => $role->can_delete,
-                //         'can_export' => $role->can_export,
-                //         'can_import' => $role->can_import,
-                //     ];
-                // }
-                // $Roles_auth = DB::table('employee_permissions')
-                //     ->join('sub_menu', 'employee_permissions.submenu_id', '=', 'sub_menu.id')
-                //     ->select('employee_permissions.module_name', 'sub_menu.submenu_name', 'employee_permissions.submenu_id','sub_menu.submenu_url')
-                //     ->where('employee_permissions.employee_id', '=', $dtaem->employee_id)
-                //     ->groupBy('employee_permissions.module_name', 'employee_permissions.submenu_id')
-                //     ->get();
+                ->first();    
+            //$organization_id = $dtaem->emid;
+            //dd($emid);
+            if ($dtaem) {       
                 $Roles_auth = DB::table('employee_permissions')
                     ->join('sub_menu', 'employee_permissions.submenu_id', '=', 'sub_menu.id')
                     ->select('employee_permissions.*', 'sub_menu.submenu_name', 'sub_menu.submenu_url')

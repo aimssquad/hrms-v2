@@ -1,6 +1,6 @@
 @php
     $sidebarItems = \App\Helpers\Helper::getSidebarItems();
-    //dd($sidebarItems);
+    //dd($organization_id);
     $user_type = Session::get("user_type");
 @endphp    
 

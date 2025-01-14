@@ -33,9 +33,21 @@ class LandingController extends Controller
     public function employeeDashboard(Request $request){
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
-                ->where('email', '=', $email)
-                ->first();
+            $user_type = Session::get("user_type");
+            if($user_type == "employee"){     
+                $emid = \App\Helpers\Helper::getEmidFromSidebarItems();
+                $Roledata = Registration::where("status", "=", "active")
+                    ->where("reg", "=", $emid)
+                    ->first();
+                    //dd($Roledata);
+            } else{
+                $Roledata = Registration::where("status", "=", "active")
+                ->where("email", "=", $email)
+                ->first();   
+            }
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
             //$data["employee_count"] = DB::table('employee')->where("emid","=",$Roledata->reg)->where('emp_status','!=','LEFT')->count();
              $data['employee_count'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
                 ->where('employee.emid', '=', $Roledata->reg)

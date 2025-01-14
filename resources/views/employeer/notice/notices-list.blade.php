@@ -5,7 +5,7 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
-
+//dd($sidebarItems);
 @endphp
 @section('content')
 @php
@@ -46,10 +46,10 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
-				@foreach($sidebarItems as $value)
-				@if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 44)
+				@foreach($sidebarItems['Rota'] as $rotaItem)
+                    @if($rotaItem['submenu_name'] == 'Notice' && $rotaItem['can_add'] == 1)
 				<a href="{{ url('notice/add-notice') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Notice</a>
-				@endif
+				    @endif
 				@endforeach
 				@elseif($user_type == 'employer')
 				<a href="{{ url('notice/add-notice') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Notice</a>
@@ -140,8 +140,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             @if($user_type == 'employee')
-                                                @foreach($sidebarItems as $value)
-                                                    @if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 44)
+                                                @foreach($sidebarItems['Rota'] as $rotaItem)
+                                                    @if($rotaItem['submenu_name'] == 'Notice' && $rotaItem['can_edit'] == 1)
                                                         <a class="dropdown-item" href="{{ route('edit.notice', $datas->id) }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                         </a>
@@ -153,8 +153,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                 </a>
                                             @endif
                                             @if($user_type == 'employee')
-                                                @foreach($sidebarItems as $value)
-                                                    @if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 44)
+                                                @foreach($sidebarItems['Rota'] as $rotaItem)
+                                                    @if($rotaItem['submenu_name'] == 'Notice' && $rotaItem['can_delete'] == 1)
                                                         <a class="dropdown-item" href="{{ route('delete.notice', $datas->id) }}">
                                                             <i class="fa-solid fa-trash m-r-5"></i> delete
                                                         </a>
