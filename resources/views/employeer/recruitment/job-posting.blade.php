@@ -3,6 +3,7 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+//dd($sidebarItems);
 @endphp
 @section('content')
 @php
@@ -38,8 +39,8 @@ return $output;
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
-            @foreach($sidebarItems as $value)
-            @if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 44)
+            @foreach($sidebarItems['Recruitment'] as $rotaItem)
+               @if($rotaItem['submenu_name'] == 'Job Posting' && $rotaItem['can_add'] == 1)
             <a href="{{ url('org-recruitment/add-job-post') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job Posting</a>
             @endif
             @endforeach
@@ -145,8 +146,8 @@ return $output;
                                  </a>
                                  <div class="dropdown-menu dropdown-menu-right">
                                     @if($user_type == 'employee')
-                                    @foreach($sidebarItems as $value)
-                                    @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
+                                    @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                    @if($rotaItem['submenu_name'] == 'Job Posting' && $rotaItem['can_edit'] == 1)
                                     <a class="dropdown-item" href="{{url('org-recruitment/add-job-post/')}}?id={{$recruitment_job->id}}">
                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                     </a>

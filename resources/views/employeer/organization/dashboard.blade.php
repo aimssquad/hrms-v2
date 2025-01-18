@@ -503,86 +503,7 @@
                                                     </div>
                                                 </li>
                                             @endforeach
-                                            {{-- <li class="employee-notification-grid">
-                                                <div class="employee-notification-icon">
-                                                    <a href="#">
-                                                        <span class="badge-soft-info rounded-circle">ER</span>
-                                                    </a>
-                                                </div>
-                                                <div class="employee-notification-content">
-                                                    <h6>
-                                                        <a href="#">You’re enrolled in upcoming training...</a>
-                                                    </h6>
-                                                    <ul class="nav">
-                                                        <li>12:40 PM</li>
-                                                        <li>21 Apr 2024</li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="employee-notification-grid">
-                                                <div class="employee-notification-icon">
-                                                    <a href="#">
-                                                        <span class="badge-soft-warning rounded-circle">SM</span>
-                                                    </a>
-                                                </div>
-                                                <div class="employee-notification-content">
-                                                    <h6>
-                                                        <a href="#">Your annual compliance training...</a>
-                                                    </h6>
-                                                    <ul class="nav">
-                                                        <li>11:00 AM</li>
-                                                        <li>21 Apr 2024</li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="employee-notification-grid">
-                                                <div class="employee-notification-icon">
-                                                    <a href="#">
-                                                        <span class="badge-soft-warning rounded-circle">SH</span>
-                                                    </a>
-                                                </div>
-                                                <div class="employee-notification-content">
-                                                    <h6>
-                                                        <a href="#">Jessica has requested feedback...</a>
-                                                    </h6>
-                                                    <ul class="nav">
-                                                        <li>10:30 AM</li>
-                                                        <li>21 Apr 2024</li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="employee-notification-grid">
-                                                <div class="employee-notification-icon">
-                                                    <a href="#">
-                                                        <span class="badge-soft-warning rounded-circle">DT</span>
-                                                    </a>
-                                                </div>
-                                                <div class="employee-notification-content">
-                                                    <h6>
-                                                        <a href="#">Gentle reminder about training...</a>
-                                                    </h6>
-                                                    <ul class="nav">
-                                                        <li>09:00 AM</li>
-                                                        <li>21 Apr 2024</li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="employee-notification-grid">
-                                                <div class="employee-notification-icon">
-                                                    <a href="#">
-                                                        <span class="badge-soft-danger rounded-circle">AU</span>
-                                                    </a>
-                                                </div>
-                                                <div class="employee-notification-content">
-                                                    <h6>
-                                                        <a href="#">Our HR system will be down for maintenance...</a>
-                                                    </h6>
-                                                    <ul class="nav">
-                                                        <li>11:50 AM</li>
-                                                        <li>21 Apr 2024</li>
-                                                    </ul>
-                                                </div>
-                                            </li> --}}
+                                          
                                         </ul>
                                     </div>
                                 </div>
@@ -594,26 +515,6 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="col-xl-4 col-md-6 col-sm-12">-->
-            <!--    <div class="card border-0">-->
-            <!--        <div class="alert alert-primary border border-primary mb-0 p-3">-->
-            <!--            <div class="d-flex align-items-start">-->
-            <!--                <div class="text-primary w-100">-->
-            <!--                    <i class="fa fa-gavel rota-icon-size-fixed"></i>-->
-            <!--                    <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Governance</div>-->
-            <!--                    <div class="d-flex justify-content-between align-items-center">-->
-            <!--                        <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>-->
-            <!--                        <div class="fs-12">-->
-            <!--                            <a href="#" class="text-primary fw-semibold">-->
-            <!--                                <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all-->
-            <!--                            </a>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--        </div>-->
-            <!--    </div>-->
-            <!--</div>         -->
         </div>
 
         

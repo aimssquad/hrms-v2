@@ -48,11 +48,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         </div>
                         <div class="col-auto float-end ms-auto">
                             @if($user_type == 'employee')
-                            @foreach($sidebarItems as $value)
-                            @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 44)
-                            <a href="{{ url('org-recruitment/add-job-published') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job Published</a>
-                            @endif
-                            @endforeach
+                                @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                    @if($rotaItem['submenu_name'] == 'Job Published' && $rotaItem['can_add'] == 1)
+                                        <a href="{{ url('org-recruitment/add-job-published') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job Published</a>
+                                    @endif
+                                @endforeach
                             @elseif($user_type == 'employer')
                             <a href="{{ url('org-recruitment/add-job-published') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job Published</a>
                             @endif
@@ -118,13 +118,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                         <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             @if($user_type == 'employee')
-                                                            @foreach($sidebarItems as $value)
-                                                                @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
-                                                                    <a class="dropdown-item" href="{{url('org-recruitment/add-job-published/')}}?id={{$published_job->id}}">
-                                                                        <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                                                    </a>
-                                                                @endif
-                                                            @endforeach
+                                                                @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                                                    @if($rotaItem['submenu_name'] == 'Job Published' && $rotaItem['can_edit'] == 1)
+                                                                        <a class="dropdown-item" href="{{url('org-recruitment/add-job-published/')}}?id={{$published_job->id}}">
+                                                                            <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                                        </a>
+                                                                    @endif
+                                                                @endforeach
                                                         @elseif($user_type == 'employer')
                                                             <a class="dropdown-item" href="{{url('org-recruitment/add-job-published/')}}?id={{$published_job->id}}">
                                                                 <i class="fa-solid fa-pencil m-r-5"></i> Edit

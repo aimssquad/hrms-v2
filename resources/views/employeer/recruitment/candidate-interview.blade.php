@@ -125,8 +125,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                         <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             @if($user_type == 'employee')
-                                                @foreach($sidebarItems as $value)
-                                                    @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
+                                            @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                            @if($rotaItem['submenu_name'] == 'Interview' && $rotaItem['can_edit'] == 1)
                                                         <a class="dropdown-item" href="{{url('org-recruitment/edit-interview/'.base64_encode($candidate->id))}}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                         </a>
@@ -138,8 +138,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                 </a>
                                             @endif
                                             @if($user_type == 'employee')
-                                                @foreach($sidebarItems as $value)
-                                                    @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
+                                            @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                            @if($rotaItem['submenu_name'] == 'Interview' && $rotaItem['can_edit'] == 1)
                                                         <a class="dropdown-item" href="{{asset('public/'.$candidate->resume)}}"downlode>
                                                             <i class="fa fa-arrow-circle-down m-r-5"></i> Downlode
                                                         </a>
@@ -152,8 +152,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                             @endif
                                             @if($candidate->status=='Interview')	
                                                 @if($user_type == 'employee')
-                                                    @foreach($sidebarItems as $value)
-                                                        @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
+                                                @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                                @if($rotaItem['submenu_name'] == 'Interview' && $rotaItem['can_edit'] == 1)
                                                             <a class="dropdown-item" href="{{url('org-recruitment/send-letter-job-shorting/'.base64_encode($candidate->id))}}">
                                                                 <i class="fa fa-upload m-r-5"></i> Send
                                                             </a>

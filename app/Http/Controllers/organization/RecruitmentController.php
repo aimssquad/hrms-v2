@@ -54,6 +54,7 @@ class RecruitmentController extends Controller
 
         $email = Session::get('emp_email');
         if (!empty($email)) {
+            $reg = Session::get('emid');
             $Roledata = Registration::where('status', '=', 'active')
 
                 ->where('email', '=', $email)
@@ -66,13 +67,13 @@ class RecruitmentController extends Controller
                
             $data['candidate_job'] = candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->select('candidate.*', 'company_job.job_code')
                 ->get();
               
             $data['candidate_offer'] = CandidateOffer::join('company_job', 'candidate_offer.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where('candidate_offer.status', '=', 'Hired')
 
                 ->select('candidate_offer.*', 'company_job.job_code')
@@ -81,7 +82,7 @@ class RecruitmentController extends Controller
                
             $data['candidate_short'] = candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
 
                 ->where(function ($query) {
                     $query->where('candidate.status', '=', 'Short listed')
@@ -93,7 +94,7 @@ class RecruitmentController extends Controller
 
             $data['candidate_rej'] = candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where('candidate.status', '=', 'Rejected')
 
                 ->select('candidate.*', 'company_job.job_code')
@@ -101,7 +102,7 @@ class RecruitmentController extends Controller
               
             $data['candidate_hired'] = candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where('candidate.status', '=', 'Hired')
 
                 ->select('candidate.*', 'company_job.job_code')
@@ -109,7 +110,7 @@ class RecruitmentController extends Controller
                
             $data['candidate_interview'] =candidate::join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where(function ($query) {
                     $query->where('candidate.status', '=', 'Interview')
                         ->orWhere('candidate.status', '=', 'Online Screen Test')
@@ -124,11 +125,11 @@ class RecruitmentController extends Controller
                
             $data['company_job_post_internal'] = CompanyJobs::join('company_job_list', 'company_job_list.id', '=', 'company_job.soc')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->select('company_job.*', 'company_job_list.soc')
                 ->get();
             $data['company_job_post_external'] = job_post::join('company_job_list', 'company_job_list.id', '=', 'job_post.job_id')
-                ->where('job_post.emid', '=', $Roledata->reg)
+                ->where('job_post.emid', '=', $reg)
                 ->select('job_post.*', 'company_job_list.soc')
                 // ->groupBy('job_post.title')
                 // ->toSql()
@@ -137,18 +138,18 @@ class RecruitmentController extends Controller
             // All count Query
             $data['company_job_rs'] = DB::Table('company_job')
             ->join('company_job_list', 'company_job.soc', '=', 'company_job_list.soc')
-            ->where('company_job.emid', '=', $Roledata->reg)
+            ->where('company_job.emid', '=', $reg)
             ->count();
             
             $data['applied_candidate_count'] = DB::Table('candidate')
             ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
-            ->where('company_job.emid', '=', $Roledata->reg)
+            ->where('company_job.emid', '=', $reg)
             ->select('candidate.*', 'company_job.soc')
             ->count();
 
             $data['shortlisted_count'] = DB::Table('candidate')
             ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
-            ->where('company_job.emid', '=', $Roledata->reg)
+            ->where('company_job.emid', '=', $reg)
             ->where(function ($query) {
                 $query->where('candidate.status', '=', 'Short listed')
                     ->orWhere('candidate.status', '=', 'Hold');
@@ -159,21 +160,21 @@ class RecruitmentController extends Controller
 
             $data['hired_count'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where('candidate.status', '=', 'Hired')
                 ->select('candidate.*', 'company_job.soc')
                 ->count();
 
             $data['rejected_count'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where('candidate.status', '=', 'Rejected')
                 ->select('candidate.*', 'company_job.soc')
                 ->count();
 
             $data['interview_count'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where(function ($query) {
                     $query->where('candidate.status', '=', 'Interview')
                         ->orWhere('candidate.status', '=', 'Online Screen Test')
@@ -186,21 +187,21 @@ class RecruitmentController extends Controller
                 ->count();
             
             $data['company_job_count'] = DB::Table('job_post')
-            ->where('emid', '=', $Roledata->reg)
+            ->where('emid', '=', $reg)
             ->count();
             
-            $data['job_list_count'] = DB::table('company_job_list')->where('emid', '=', $data['Roledata']->reg)->count();
+            $data['job_list_count'] = DB::table('company_job_list')->where('emid', '=', $reg)->count();
             
-            $data['job_posting_count']= DB::table('company_job')->where('emid','=',$Roledata->reg)->count();
+            $data['job_posting_count']= DB::table('company_job')->where('emid','=',$reg)->count();
             
             $data['offer_letter_count'] = DB::table('candidate_offer') 
                 ->join('company_job', 'candidate_offer.job_id', '=', 'company_job.id')
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where('candidate_offer.status', '=', 'Hired')
                 ->select('candidate_offer.*', 'company_job.soc')->count(); 
             
             $data['msg_count'] = DB::Table('recruitment_messaage_center')
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->orderBy('id', 'desc')
                 ->count();    
             // return View('recruitment/dashboard', $data);
@@ -227,11 +228,11 @@ class RecruitmentController extends Controller
 
     public function jobList(Request $request){ 
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');    
-            $data['Roledata'] = Registration::where('status', '=', 'active')
-                ->where('email', '=', $email)
-                ->first();
-            $data['recruitment_job_rs'] = DB::table('company_job_list')->where('emid', '=', $data['Roledata']->reg)->get();
+            $reg = Session::get('emid');    
+            // $data['Roledata'] = Registration::where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            $data['recruitment_job_rs'] = DB::table('company_job_list')->where('emid', '=', $reg)->get();
             //dd($data);
             return view($this->_routePrefix . '.job-list',$data);
         } else {
@@ -241,21 +242,21 @@ class RecruitmentController extends Controller
 
     public function jobPosting(Request $request){
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');
+            $reg = Session::get('emid');
             //dd($email);
-            $Roledata = Registration::where('status', '=', 'active')
+            // $Roledata = Registration::where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = Registration::where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = Registration::where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
                 //dd($Roledata->reg);
             $data['company_job_rs'] = DB::Table('company_job')
                 ->join('company_job_list', 'company_job.soc', '=', 'company_job_list.soc')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->select('company_job.*', 'company_job_list.soc')
                 ->get();
             return view($this->_routePrefix . '.job-posting',$data);
@@ -276,19 +277,19 @@ class RecruitmentController extends Controller
 
     public function jobPublished(Request $request) {
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['company_job_rs'] = DB::Table('job_post')
 
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->get();
 
             // dd($data['company_job_rs']);              
@@ -578,26 +579,20 @@ class RecruitmentController extends Controller
     {
         //dd(Input::get('id'));
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');
-
-            $data['Roledata'] = DB::table('registration')
-                ->where('status', '=', 'active')
-                ->where('email', '=', $email)
-                ->first();
-                
-                $data['oldcust'] = DB::table('company_job_list')
-                ->where('emid', $data['Roledata']->reg)
+            $reg = Session::get('emid'); 
+            $data['oldcust'] = DB::table('company_job_list')
+                ->where('emid', $reg)
                 ->get()
                 ->unique('soc');
             $data['depert'] = DB::table('department')
-                ->where('emid','=',$data['Roledata']->reg)
+                ->where('emid','=',$reg)
                 ->get();
             if(Input::get('id') ==''){
                 return view($this->_routePrefix . '.add-new-job-list',$data);
             }else{
                 $dt = DB::table('company_job_list')->where('id', '=',  Input::get('id'))->get();
                 if (count($dt) > 0) {
-                    $data['depert'] = DB::table('department')->where('emid','=',$data['Roledata']->reg)->get();
+                    $data['depert'] = DB::table('department')->where('emid','=',$reg)->get();
                     $data['departments'] = DB::table('company_job_list')->where('id', '=',  Input::get('id'))->get();
                     //dd($data);
                     return view($this->_routePrefix . '.add-new-job-list',$data);
@@ -664,16 +659,16 @@ class RecruitmentController extends Controller
     public function viewAddNewJobPost(Request $request)
     {
         if (!empty(Session::get('emp_email'))) {
+            $reg = Session::get('emid');
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['cuurenci_master'] = DB::table('country_new')->get();
             $data['location'] = DB::table('location_uk')->get();
@@ -686,13 +681,13 @@ class RecruitmentController extends Controller
                     ->select('company_job.*')
                     ->get();
 
-                $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $Roledata->reg)->where('id','=',Input::get('id'))->get();
+                $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $reg)->where('id','=',Input::get('id'))->get();
                 //dd($data['department_rs']);
                 return view($this->_routePrefix . '.add-new-job-post',$data);
                 //return view('recruitment/add-new-job-post', $data);
             } else {
 
-                $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $Roledata->reg)->get();
+                $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $reg)->get();
                 return view($this->_routePrefix . '.add-new-job-post',$data);
                 //return view('recruitment/add-new-job-post', $data);
             }
@@ -704,7 +699,7 @@ class RecruitmentController extends Controller
     public function saveJobListData(Request $request)
     {
         if (!empty(Session::get('emp_email'))) {
-           
+            $reg = Session::get('emid');
             $soc = strtoupper(trim($request->soc));
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
@@ -721,17 +716,17 @@ class RecruitmentController extends Controller
 
             $datadeprt = array(
                 'department_name' => strtoupper($request->department),
-                'emid' => $Roledata->reg,
+                'emid' => $reg,
                 'department_code' => $pid,
             );
 
-            $deptnmdb = DB::table('department')->where('department_name', '=', strtoupper($request->department))->where('emid', $Roledata->reg)->first();
+            $deptnmdb = DB::table('department')->where('department_name', '=', strtoupper($request->department))->where('emid', $reg)->first();
 
             if (empty($deptnmdb)) {
                 DB::table('department')->insert($datadeprt);
 
             }
-            $deptnmdbname = DB::table('department')->where('department_name', '=', strtoupper($request->department))->where('emid', $Roledata->reg)->first();
+            $deptnmdbname = DB::table('department')->where('department_name', '=', strtoupper($request->department))->where('emid', $reg)->first();
 
             $lsatdeptnmdgb = DB::table('designation')->orderBy('id', 'DESC')->first();
             if (empty($lsatdeptnmdgb)) {
@@ -744,12 +739,12 @@ class RecruitmentController extends Controller
                 'department_code' => $deptnmdbname->id,
                 'designation_code' => $pidf,
                 'designation_name' => strtoupper($request->title),
-                'emid' => $Roledata->reg,
+                'emid' => $reg,
                 'designation_status' => 'active',
             );
 
             $check_designation = DB::table('designation')->where('department_code', $deptnmdbname->id)->where('designation_name', strtoupper($request->title))
-                ->where('emid', '=', $Roledata->reg)->first();
+                ->where('emid', '=', $reg)->first();
 
             if (empty($check_designation)) {
                 DB::table('designation')->insert($datadesig);
@@ -776,7 +771,7 @@ class RecruitmentController extends Controller
                 $dataInsert = DB::table('company_job_list')
                     ->where('id', Input::get('id'))
                     ->update($data);
-                $ckeck_job_new = DB::table('company_job')->where('soc', Input::get('id'))->where('title', $request->title)->where('department', $request->department)->where('emid', $Roledata->reg)->first();
+                $ckeck_job_new = DB::table('company_job')->where('soc', Input::get('id'))->where('title', $request->title)->where('department', $request->department)->where('emid', $reg)->first();
 
                 if (!empty($ckeck_job_new)) {
                     $datajoblist = array(
@@ -807,7 +802,7 @@ class RecruitmentController extends Controller
                     'title' => $request->title,
                     'skil_set' => $request->skil_set,
                     'des_job' => $request->des_job,
-                    'emid' => $Roledata->reg,
+                    'emid' => $reg,
 
                 );
 
@@ -969,17 +964,17 @@ class RecruitmentController extends Controller
         //dd('kk');
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
-            $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $Roledata->reg)->get();
+            $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $reg)->get();
             if (Input::get('id')) {
                 $data['designation'] = DB::Table('job_post')
 
@@ -1146,21 +1141,21 @@ class RecruitmentController extends Controller
             
             }else{
            
-                $email = Session::get('emp_email');
-                $Roledata = DB::table('registration')->where('status', '=', 'active')
+                $reg = Session::get('emid');
+                // $Roledata = DB::table('registration')->where('status', '=', 'active')
     
-                    ->where('email', '=', $email)
-                    ->first();
-                $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+                //     ->where('email', '=', $email)
+                //     ->first();
+                // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
     
-                    ->where('email', '=', $email)
-                    ->first();
+                //     ->where('email', '=', $email)
+                //     ->first();
     
                 $data['candidate_rs'] = DB::Table('candidate')
                     ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
                     // ->join('company_job_list', 'company_job.id', '=', 'company_job_list.id')
     
-                    ->where('company_job.emid', '=', $Roledata->reg)
+                    ->where('company_job.emid', '=', $reg)
                     ->select('candidate.*', 'company_job.soc')
                     ->get();
                     // dd($data['candidate_rs']);
@@ -1290,20 +1285,20 @@ class RecruitmentController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['candidate_rs'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where(function ($query) {
                     $query->where('candidate.status', '=', 'Short listed')
                         ->orWhere('candidate.status', '=', 'Hold');
@@ -1411,20 +1406,20 @@ class RecruitmentController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['candidate_rs'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where(function ($query) {
                     $query->where('candidate.status', '=', 'Interview')
                         ->orWhere('candidate.status', '=', 'Online Screen Test')
@@ -1560,19 +1555,20 @@ class RecruitmentController extends Controller
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['candidate_rs'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where('candidate.status', '=', 'Hired')
 
                 ->select('candidate.*', 'company_job.soc')
@@ -1592,19 +1588,20 @@ class RecruitmentController extends Controller
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['candidate_rs'] = DB::Table('candidate_offer')
                 ->join('company_job', 'candidate_offer.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where('candidate_offer.status', '=', 'Hired')
 
                 ->select('candidate_offer.*', 'company_job.soc')
@@ -1623,18 +1620,19 @@ class RecruitmentController extends Controller
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
             $data['employeeslist'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where(function ($query) {
                     $query->where('candidate.status', '=', 'Hired')
                         ->orWhere('candidate.status', '=', 'Job Offered');
@@ -1646,7 +1644,7 @@ class RecruitmentController extends Controller
             $data['candidate_rs'] = DB::table('candidate_offer')->join('candidate', 'candidate_offer.user_id', '=', 'candidate.id')
                 ->join('company_job', 'candidate_offer.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
 
                 ->select('candidate_offer.*')->get();
 
@@ -1664,7 +1662,7 @@ class RecruitmentController extends Controller
                 }
 
             }
-            $data['employeelists'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
+            $data['employeelists'] = DB::table('employee')->where('emid', '=', $reg)->get();
             return view($this->_routePrefix . '.candidate-add-offer',$data);
             //return view('recruitment/candidate-add-offer', $data);
         } else {
@@ -1741,19 +1739,19 @@ class RecruitmentController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
                 // dd($Roledata->reg);
             $data['company_job_rs'] = DB::Table('company_job')
                 ->join('company_job_list', 'company_job.soc', '=', 'company_job_list.soc')
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->select('company_job.*')
                 ->get();
                 // dd($data['company_job_rs']);
@@ -1769,16 +1767,16 @@ class RecruitmentController extends Controller
     {
 
         if (!empty(Session::get('emp_email'))) {
-
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
             $status = $request->status;
             $start_date = date('Y-m-d', strtotime($request->start_date));
             $end_date = date('Y-m-d', strtotime($request->end_date));
@@ -1786,7 +1784,7 @@ class RecruitmentController extends Controller
                 $data['candidate_rs'] = DB::Table('candidate')
                     ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                    ->where('company_job.emid', '=', $Roledata->reg)
+                    ->where('company_job.emid', '=', $reg)
                     ->where('company_job.id', '=', $request->job_id)
                     ->where('candidate.status', '=', $status)
                     ->whereBetween('candidate.date', [$start_date, $end_date])
@@ -1796,7 +1794,7 @@ class RecruitmentController extends Controller
                 $data['candidate_rs'] = DB::Table('candidate')
                     ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                    ->where('company_job.emid', '=', $Roledata->reg)
+                    ->where('company_job.emid', '=', $reg)
                     ->where('candidate.status', '=', $status)
                     ->whereBetween('candidate.date', [$start_date, $end_date])
                     ->select('candidate.*', 'company_job.job_code')
@@ -1857,7 +1855,7 @@ class RecruitmentController extends Controller
             $data['company_job_rs'] = DB::Table('company_job')
                 ->join('company_job_list', 'company_job.soc', '=', 'company_job_list.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->select('company_job.*')
                 ->get();
 
@@ -1873,19 +1871,19 @@ class RecruitmentController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
             $data['company_job_rs'] = DB::Table('company_job')
                 ->join('company_job_list', 'company_job.soc', '=', 'company_job_list.soc')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->select('company_job.*')
                 ->get();
             return view($this->_routePrefix . '.search-status',$data);
@@ -1902,19 +1900,20 @@ class RecruitmentController extends Controller
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['candidate_rs'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->where('candidate.status', '=', 'Rejected')
 
                 ->select('candidate.*', 'company_job.soc')
@@ -1931,18 +1930,18 @@ class RecruitmentController extends Controller
     {
         $email = Session::get('emp_email');
         if (!empty($email)) {
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['msg_rs'] = DB::Table('recruitment_messaage_center')
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->orderBy('id', 'desc')
                 ->get();
             return view($this->_routePrefix . '.msg-list',$data);
@@ -1956,20 +1955,20 @@ class RecruitmentController extends Controller
     {
         $email = Session::get('emp_email');
         if (!empty($email)) {
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['or_rs'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
 
                 ->select('candidate.*', 'company_job.job_code')
                 ->get();
@@ -2196,14 +2195,15 @@ class RecruitmentController extends Controller
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $start_date = date('Y-m-d', strtotime($request->start_date));
             $end_date = date('Y-m-d', strtotime($request->end_date));
@@ -2211,7 +2211,7 @@ class RecruitmentController extends Controller
                 $data['candidate_rs'] = DB::Table('candidate')
                     ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                    ->where('company_job.emid', '=', $Roledata->reg)
+                    ->where('company_job.emid', '=', $reg)
                     ->where('company_job.id', '=', $request->job_id)
 
                     ->whereBetween('candidate.date', [$start_date, $end_date])
@@ -2221,7 +2221,7 @@ class RecruitmentController extends Controller
                 $data['candidate_rs'] = DB::Table('candidate')
                     ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
-                    ->where('company_job.emid', '=', $Roledata->reg)
+                    ->where('company_job.emid', '=', $reg)
 
                     ->whereBetween('candidate.date', [$start_date, $end_date])
                     ->select('candidate.*', 'company_job.job_code')
@@ -2239,7 +2239,7 @@ class RecruitmentController extends Controller
                             ->join('company_job', 'candidate_history.job_id', '=', 'company_job.id')
 
                             ->where('candidate_history.user_id', '=', $leave_allocation->id)
-                            ->where('company_job.emid', '=', $Roledata->reg)
+                            ->where('company_job.emid', '=', $reg)
 
                             ->select('candidate_history.*', 'company_job.job_code')
                             ->orderBy('candidate_history.id', 'ASC')
@@ -2342,7 +2342,7 @@ class RecruitmentController extends Controller
             $data['company_job_rs'] = DB::Table('company_job')
                 ->join('company_job_list', 'company_job.soc', '=', 'company_job_list.id')
 
-                ->where('company_job.emid', '=', $Roledata->reg)
+                ->where('company_job.emid', '=', $reg)
                 ->select('company_job.*')
                 ->get();
 

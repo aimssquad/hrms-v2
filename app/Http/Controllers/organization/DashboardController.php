@@ -26,6 +26,7 @@ class DashboardController extends Controller
 
     public function getamployeedas()
     {
+        $emid = Session::get('emid');
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             //$user_type = Session::get("user_type");

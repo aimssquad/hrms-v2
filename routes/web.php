@@ -5733,23 +5733,23 @@ Route::get('pis/getcompanycountryById/{empid}', function ($empid) {
 
 Route::get('pis/getjobpostByIdlkkk/{empid}', function ($empid) {
 
-    $email = Session::get('emp_email');
+    // $email = Session::get('emp_email');
 
-    $Roledata = DB::table('registration')
-        ->where('status', '=', 'active')
-        ->where('email', '=', $email)
-        ->first();
+    // $Roledata = DB::table('registration')
+    //     ->where('status', '=', 'active')
+    //     ->where('email', '=', $email)
+    //     ->first();
 
     $desig_rs = DB::table('company_job_list')
 
         ->where('soc', '=', $empid)
-        ->where('emid', '=', $Roledata->reg)
+        ->where('emid', '=', Session::get('emid'))
         ->first();
 
     $employee_rs = DB::table('company_job_list')
 
         ->where('soc', '=', $desig_rs->soc)
-        ->where('emid', '=', $Roledata->reg)
+        ->where('emid', '=', Session::get('emid'))
         ->get();
         // dd($employee_rs);
     $result = '';

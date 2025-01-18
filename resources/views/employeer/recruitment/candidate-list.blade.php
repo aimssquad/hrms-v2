@@ -3,6 +3,7 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+//dd($sidebarItems);
 @endphp
 @section('content')
 @php
@@ -203,8 +204,8 @@ return $output;
                                     <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         @if($user_type == 'employee')
-                                            @foreach($sidebarItems as $value)
-                                                @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
+                                             @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                                @if($rotaItem['submenu_name'] == 'Job Applied' && $rotaItem['can_edit'] == 1)
                                                     <a class="dropdown-item" href="{{url('org-recruitment/edit-candidate/'.base64_encode($candidate->id))}}">
                                                         <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                     </a>
@@ -216,21 +217,21 @@ return $output;
                                             </a>
                                         @endif
                                         @if($user_type == 'employee')
-                                            @foreach($sidebarItems as $value)
-                                                @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
-                                                    <a class="dropdown-item" href="{{asset('public/'.$candidate->resume)}}" target="_blank">
-                                                        <i class="fa fa-arrow-circle-down m-r-5"></i> Downlode
-                                                    </a>
-                                                @endif
-                                            @endforeach
+                                          @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                             @if($rotaItem['submenu_name'] == 'Job Applied' && $rotaItem['can_edit'] == 1)
+                                                   <a class="dropdown-item" href="{{asset('public/'.$candidate->resume)}}" target="_blank">
+                                                      <i class="fa fa-arrow-circle-down m-r-5"></i> Downlode
+                                                   </a>
+                                             @endif
+                                          @endforeach
                                         @elseif($user_type == 'employer')
                                             <a class="dropdown-item" href="{{asset('public/'.$candidate->resume)}}" target="_blank">
                                                 <i class="fa fa-arrow-circle-down m-r-5"></i> Downlode
                                             </a>
                                         @endif
                                         @if($user_type == 'employee')
-                                            @foreach($sidebarItems as $value)
-                                                @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
+                                                @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                                    @if($rotaItem['submenu_name'] == 'Job Applied' && $rotaItem['can_edit'] == 1)
                                                     <a class="dropdown-item" href="{{url('org-recruitment/send-letter-job-applied/'.base64_encode($candidate->id))}}">
                                                         <i class="fa fa-upload m-r-5"></i> Send
                                                     </a>

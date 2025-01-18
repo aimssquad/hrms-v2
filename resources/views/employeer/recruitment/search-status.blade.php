@@ -85,59 +85,32 @@ return $output;
          <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                  <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Status Search
-              </h4>
-              <div class="row">
-                 <div class="col-auto">
-                     <form action="{{ route('exportTableData') }}" method="POST" id="exportForm" class="d-inline">
-                         @csrf
-                         <input type="hidden" name="data" id="data">
-                         <input type="hidden" name="headings" id="headings">
-                         <input type="hidden" name="filename" id="filename">
-                         {{-- put the value - that is your file name --}}
-                         <input type="hidden" id="filenameInput" value="Status-search">
-                         <button type="submit" class="btn-download btn-download-excel me-0">
-                              Export to Excel
-                        </button>
-                     </form>
-                 </div>
-                 <div class="col-auto">
-                     <form action="{{ route('exportPDF') }}" method="POST" id="exportPDFForm">
-                       @csrf
-                       <input type="hidden" name="data" id="pdfData">
-                       <input type="hidden" name="headings" id="pdfHeadings">
-                       <input type="hidden" name="filename" id="pdfFilename">
-                       <button type="submit" class="btn-download btn-download-pdf">
-                              Export to PDF
-                        </button>
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Status Search
+               </h4>
+               <div class="d-flex justify-content-end align-items-center">
+                   <?php
+                   if (isset($result) && $result != '') {
+                   ?>
+                   <form method="post" action="{{ url('recruitment/status-search-result') }}" enctype="multipart/form-data" class="me-2">
+                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                       <input name="start_date" type="hidden" class="form-control" value="<?php if(isset($start_date) && $start_date) { echo $start_date; } ?>">
+                       <input name="end_date" type="hidden" class="form-control" value="<?php if(isset($end_date) && $end_date) { echo $end_date; } ?>">
+                       <input name="job_id" type="hidden" class="form-control" value="<?php if(isset($job_id) && $job_id) { echo $job_id; } ?>">
+                       <button class="btn-download btn-download-pdf" type="submit">Download PDF</button>
                    </form>
-                 </div>
-             </div>
-               <?php
-                  if(isset($result) && $result!=''  ){
-                  ?>
-               <form  method="post" action="{{ url('recruitment/status-search-result') }}" enctype="multipart/form-data" >
-                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  <input id="inputFloatingLabel-select-date" value="<?php if(isset($start_date) && $start_date) { echo $start_date;}?>"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
-                  <input id="inputFloatingLabel-select-date" name="end_date" value="<?php if(isset($end_date) && $end_date) { echo $end_date;}?>"  type="hidden" class="form-control input-border-bottom" required="" >					
-                  <input id="inputFloatingLabel-select-date" name="job_id" value="<?php if(isset($job_id) && $job_id) { echo $job_id;}?>"  type="hidden" class="form-control input-border-bottom" required="" >					
-                  <button class="btn btn-default" style="margin-top: -30px;float:right;" type="submit">Download Pdf</button>	
-               </form>
-               <?php
-                  }?>
-               <?php
-                  if(isset($result) && $result!=''  ){
-                  ?>
-               <form  method="post" action="{{ url('recruitment/status-search-result-excel') }}" enctype="multipart/form-data" >
-                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  <input id="inputFloatingLabel-select-date" value="<?php if(isset($start_date) && $start_date) { echo $start_date;}?>"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
-                  <input id="inputFloatingLabel-select-date" name="end_date" value="<?php if(isset($end_date) && $end_date) { echo $end_date;}?>"  type="hidden" class="form-control input-border-bottom" required="" >					
-                  <input id="inputFloatingLabel-select-date" name="job_id" value="<?php if(isset($job_id) && $job_id) { echo $job_id;}?>"  type="hidden" class="form-control input-border-bottom" required="" >					
-                  <button class="btn btn-default" style="margin-top: -30px;float:right;margin-right: 15px;" type="submit">Download Excel</button>	
-               </form>
-               <?php
-                  }?>
-            </div>
+                   <form method="post" action="{{ url('recruitment/status-search-result-excel') }}" enctype="multipart/form-data">
+                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                       <input name="start_date" type="hidden" class="form-control" value="<?php if(isset($start_date) && $start_date) { echo $start_date; } ?>">
+                       <input name="end_date" type="hidden" class="form-control" value="<?php if(isset($end_date) && $end_date) { echo $end_date; } ?>">
+                       <input name="job_id" type="hidden" class="form-control" value="<?php if(isset($job_id) && $job_id) { echo $job_id; } ?>">
+                       <button class="btn-download btn-download-excel me-0" type="submit">Download Excel</button>
+                   </form>
+                   <?php
+                   }
+                   ?>
+               </div>
+           </div>
+           
             <div class="card-body">
                <div class="table-responsive">
                   <table id="basic-datatables" class="display table table-striped table-hover" >

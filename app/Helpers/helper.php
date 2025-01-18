@@ -47,9 +47,10 @@ class Helper
                     ->select('employee_permissions.*', 'sub_menu.submenu_name', 'sub_menu.submenu_url')
                     ->where('employee_permissions.employee_id', '=', $dtaem->employee_id)
                     ->groupBy('employee_permissions.module_name', 'employee_permissions.submenu_id')
+                    ->orderBy('employee_permissions.submenu_id', 'asc')
                     ->get();
-
-
+                // echo $Roles_auth;
+                // dd();
                 // Group submenus by module name
                 $sidebarItems = [];
                 foreach ($Roles_auth as $role) {

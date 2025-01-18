@@ -555,7 +555,7 @@ class LandingController extends Controller
                     $subsCnt = DB::Table("subscriptions")
                         ->where("emid", "=", $Employee->employee_id)
                         ->count();
-                    //dd($subsCnt);
+                    
                     if ($subsCnt > 0) {
                         $subscription = DB::Table("subscriptions")
                             ->where("emid", "=", $Employee->employee_id)
@@ -578,12 +578,14 @@ class LandingController extends Controller
                             return redirect("/");
                         }
                     } else {
-                        //dd('okk');
+                        //dd($request->employee_id);
+                        //dd($Employee);
                         Session::put("employee_id", $request->employee_id);
                         Session::put("emp_email", $request->email);
                         Session::put("user_type", $Employee->user_type);
                         Session::put("users_id", $Employee->id);
                         Session::put("emp_pass", $request->psw);
+                        Session::put("emid",$Employee->employee_id);
                     }
                 } else {
                     
@@ -594,7 +596,7 @@ class LandingController extends Controller
                         ->count();
 
                     if ($subsCnt > 0) {
-                    //dd('ranjan');
+                        //dd('ranjan');
                         $subscription = DB::Table("subscriptions")
                             ->where("emid", "=", $Employee->emid)
                             ->where("expiry_date", ">=", date("Y-m-d"))
@@ -606,6 +608,7 @@ class LandingController extends Controller
                                 ->where("employee_id", "=", $Employee->emid)
                                 ->where("status", "=", "active")
                                 ->first();
+                                
                             if (!empty($Roledata)) {
                                 Session::put("employee_id", $request->employee_id);
                                 Session::put("emp_email", $Roledata->email);
@@ -628,23 +631,20 @@ class LandingController extends Controller
                             return redirect("/");
                         }
                     } else {
-                        
-                        //  dd("abbas");
-
-                       
                         $Roledata = DB::table("users")
                             ->where("employee_id", "=", $Employee->employee_id)
                             ->where("status", "=", "active")
                             ->first();
                          
                         if (!empty($Roledata)) {
-                            
+                            //dd($Roledata); 
                             Session::put("employee_id", $request->employee_id);
                             Session::put("emp_email", $Roledata->email);
                             Session::put("user_email", $request->email);
                             Session::put("user_type", $Employee->user_type);
                             Session::put("users_id", $Employee->id);
                             Session::put("emp_pass", $request->psw);
+                            Session::put("emid",$Roledata->emid);
                         } else {
                             //dd("ranjan");
                             Session::flash("error", "You are not active!!");

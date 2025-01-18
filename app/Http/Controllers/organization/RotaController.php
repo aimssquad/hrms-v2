@@ -35,38 +35,41 @@ class RotaController extends Controller
     }
 
     public function dashboard(Request $request){
+        //dd(session()->all());
         if (!empty(Session::get("emp_email"))) {
             $email = Session::get("emp_email");
-            $user_type = Session::get("user_type");
-            if($user_type == "employee"){
-                $emid = \App\Helpers\Helper::getEmidFromSidebarItems();
-                $Roledata = Registration::where("status", "=", "active")
-                    ->where("reg", "=", $emid)
-                    ->first();
-            } else{
-                $Roledata = Registration::where("status", "=", "active")
-                ->where("email", "=", $email)
-                ->first();
-            }
-            $data["shift_management"] = ShiftManagment::where("emid", "=", $Roledata->reg)
+            // $user_type = Session::get("user_type");
+            // if($user_type == "employee"){
+            //     $emid = \App\Helpers\Helper::getEmidFromSidebarItems();
+            //     $Roledata = Registration::where("status", "=", "active")
+            //         ->where("reg", "=", $emid)
+            //         ->first();
+            // } else{
+            //     $Roledata = Registration::where("status", "=", "active")
+            //     ->where("email", "=", $email)
+            //     ->first();
+            // }
+            $Roledata = Session::get("emid");
+            //dd($Roledata);
+            $data["shift_management"] = ShiftManagment::where("emid", "=", $Roledata)
                     ->count();
 
             $data["late_policy_count"] = LatePolicy::join('shift_management', 'shift_management.id', '=', 'late_policy.shift_code')
-                    ->where("shift_management.emid", "=", $Roledata->reg)
+                    ->where("shift_management.emid", "=", $Roledata)
                     ->count();
 
-            $data["day_off_count"] =offdays::where("emid", "=", $Roledata->reg)
+            $data["day_off_count"] =offdays::where("emid", "=", $Roledata)
                     ->whereNotNull("shift_code")
                     ->count();
 
-            $data["grac_count"] =GracePeriod::where("emid", "=", $Roledata->reg)
+            $data["grac_count"] =GracePeriod::where("emid", "=", $Roledata)
                     ->count();
 
                     $data['roast_count'] = DB::table("duty_roster")
                     ->join("employee", "duty_roster.employee_id", "=", "employee.emp_code")
                     ->join('shift_management', 'shift_management.id', '=', 'duty_roster.shift_code')
-                    ->where("duty_roster.emid", "=", $Roledata->reg)
-                    ->where("employee.emid", "=", $Roledata->reg)
+                    ->where("duty_roster.emid", "=", $Roledata)
+                    ->where("employee.emid", "=", $Roledata)
                     ->count();
             return view($this->_routePrefix.'.dashboard',$data);
         } else {

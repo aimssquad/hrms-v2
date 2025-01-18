@@ -38,10 +38,10 @@
                                             <th style="color:#3103fc"><strong>Module Name</strong></th>
                                             <th style="color:#4e03fc"><strong>Submenu</strong></th>
                                             <th class="text-center" style="color:#4e03fc"></th>
-                                            {{-- <th class="text-center" style="color:#0307fa">Edit</th>
+                                            <th class="text-center" style="color:#0307fa">Edit</th>
                                             <th class="text-center" style="color:#fa0202">Delete</th>
                                             <th class="text-center" style="color:#fa0202">Export</th>
-                                            <th class="text-center" style="color:#fa0202">Import</th> --}}
+                                            <th class="text-center" style="color:#fa0202">Import</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -86,7 +86,7 @@
                                                                 <span class="checkmark"></span>
                                                             </label>
                                                         </td>
-                                                        {{-- <td class="text-center">
+                                                        <td class="text-center">
                                                             <label class="custom_check">
                                                                 <input type="checkbox" 
                                                                     class="submenu-checkbox-{{ $moduleIndex }}" 
@@ -133,7 +133,7 @@
                                                                     }) ? 'checked' : '' }}>
                                                                 <span class="checkmark"></span>
                                                             </label>
-                                                        </td> --}}
+                                                        </td> 
                                                     </tr>
                                                 @endforeach
                                             @endif

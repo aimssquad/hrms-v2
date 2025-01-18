@@ -37,10 +37,10 @@
                                 <option value="">select</option>
                                @foreach($department_rs as $dept)
                                 <?php
-                                   $email = Session::get('emp_email');
-                                   $dataRoledata = DB::table('registration')      
-                                   ->where('email','=',$email) 
-                                   ->first();
+                                   $reg = Session::get('emid');
+                                 //   $dataRoledata = DB::table('registration')      
+                                 //   ->where('email','=',$email) 
+                                 //   ->first();
                                    if(isset($_GET['id'])){ ?>
                                      
                                     <option value="{{$dept->soc}}" <?php if($dept->soc==$dept->soc){?> selected="selected"<?php }?>>{{$dept->soc}}</option>
@@ -53,7 +53,7 @@
                                     }
                                    }else{
                                     $deptgf= DB::table('company_job')      
-                                   ->where('emid','=',$dataRoledata->reg) 
+                                   ->where('emid','=',$reg) 
                                    ->where('soc','=',$dept->id) 
                                    ->first();
                                    
@@ -111,7 +111,7 @@
                                   
                                    ->where('job_id','=',$designation[0]->job_id) 
                                    ->where('title','=',$designation[0]->title) 
-                                    ->where('emid','=',$Roledata->reg) 
+                                    ->where('emid','=',Session::get('emid')) 
                                    ->get();
                               
                           $countpayuppas= count($deptgfhh)			;?>
