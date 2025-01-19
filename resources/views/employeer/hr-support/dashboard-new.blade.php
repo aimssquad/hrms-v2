@@ -107,7 +107,7 @@
                                                                                                                 <td>{{ $docsFile->name ?? 'N/A' }}</td>
                                                                                             
                                                                                                                 <!-- Description -->
-                                                                                                                <td>{!! $docsFile->document_description ?? 'No description' !!}</td>
+                                                                                                                <td class="decription_td_hr_support"><p>{!! $docsFile->document_description ?? 'No description' !!}</p></td>
                                                                                             
                                                                                                                 <!-- PDF Link -->
                                                                                                                 <td class="text-center">
