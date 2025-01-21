@@ -36,51 +36,49 @@ class LeaveManagementController extends Controller
     public function viewdash()
     {
         try {
-            $email = Session::get("emp_email");
-            if (!empty($email)) {
-                $data["Roledata"] = DB::table("registration")
-                    ->where("status", "=", "active")
+            //$email = Session::get("emp_email");
+            if (!empty(Session::get("emp_email"))) {
+                $reg = Session::get("emid");
+                // $data["Roledata"] = DB::table("registration")
+                //     ->where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
+                //     ->where("email", "=", $email)
+                //     ->first();
                 $data["leave_type_tot"] = DB::Table("leave_rule")
-
                     ->join(
                         "leave_type",
                         "leave_rule.leave_type_id",
                         "=",
                         "leave_type.id"
                     )
-
                     ->select(
                         "leave_rule.*",
                         "leave_type.leave_type_name",
                         "leave_type.alies"
                     )
-
-                    ->where("leave_rule.emid", "=", $data["Roledata"]->reg)
+                    ->where("leave_rule.emid", "=", $reg)
                     ->get();
-                $data["leave_rule_tot"] = DB::Table("leave_rule")
 
+                $data["leave_rule_tot"] = DB::Table("leave_rule")
                     ->join(
                         "leave_type",
                         "leave_rule.leave_type_id",
                         "=",
                         "leave_type.id"
                     )
-
                     ->select(
                         "leave_rule.*",
                         "leave_type.leave_type_name",
                         "leave_type.alies"
                     )
                     ->where("leave_rule_status", "=", "active")
-                    ->where("leave_rule.emid", "=", $data["Roledata"]->reg)
+                    ->where("leave_rule.emid", "=", $reg)
                     ->get();
-                $data["leave_type_count"] = LeaveType::where("emid","=",$data["Roledata"]->reg)->count();
-                $data["late_rule_count"]    = LeaveRule::where("emid","=",$data["Roledata"]->reg)->count();
-                $data["leave_allocation_count"] =DB::table("leave_allocation")->where("emid","=",$data["Roledata"]->reg)->count();
-                $data["leave_balance_count"] = leaveAllocation::where("emid","=",$data["Roledata"]->reg)->count();
+
+                $data["leave_type_count"] = LeaveType::where("emid","=",$reg)->count();
+                $data["late_rule_count"]    = LeaveRule::where("emid","=",$reg)->count();
+                $data["leave_allocation_count"] =DB::table("leave_allocation")->where("emid","=",$reg)->count();
+                $data["leave_balance_count"] = leaveAllocation::where("emid","=",$reg)->count();
                    //dd($data);
                 return view($this->_routePrefix . '.dashboard',$data);
                 //return View("leave/dashboard", $data);
@@ -97,22 +95,18 @@ class LeaveManagementController extends Controller
     {   
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $data["Roledata"] = Registration::where("status", "=", "active")
+                $reg = Session::get("emid");
+                // $data["Roledata"] = Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $email = Session::get("emp_email");
+                // $Roledata = Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
+                //     ->where("email", "=", $email)
+                //     ->first();
 
-                $data["leave_type_rs"] = LeaveType::where(
-                    "emid",
-                    "=",
-                    $Roledata->reg
-                )
+                $data["leave_type_rs"] = LeaveType::where("emid","=",$reg)
                     ->orderBy("id", "desc")
                     ->get();
                     //dd($data);    
@@ -150,24 +144,24 @@ class LeaveManagementController extends Controller
         try {
             if (!empty(Session::get("emp_email"))) {
                 //$data=$request->all();
-                $email = Session::get("emp_email");
-                $data["Roledata"] = Registration::where("status", "=", "active")
+                $reg = Session::get("emid");
+                // $data["Roledata"] = Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $email = Session::get("emp_email");
+                // $Roledata = Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
+                //     ->where("email", "=", $email)
+                //     ->first();
                 $alias = trim(strtoupper($request->alies));
                 if (!empty($request->id)) {
-                    $leavedata = LeaveType::where("emid", "=", $Roledata->reg)
+                    $leavedata = LeaveType::where("emid", "=", $reg)
                         ->where("id", "!=", $request->id)
                         ->where("alies", "=", $alias)
                         ->first();
                 } else {
-                    $leavedata = LeaveType::where("emid", "=", $Roledata->reg)
+                    $leavedata = LeaveType::where("emid", "=", $reg)
                         ->where("alies", "=", $alias)
                         ->first();
                 }
@@ -206,7 +200,7 @@ class LeaveManagementController extends Controller
                     "alies" => trim(strtoupper($request->alies)),
                     "remarks" => $request->remarks,
                     "leave_type_status" => "active",
-                    "emid" => $Roledata->reg,
+                    "emid" => $reg,
                 ];
                 if (!empty($request->id)) {
                     // dd('hello');
@@ -267,45 +261,20 @@ class LeaveManagementController extends Controller
         
         try { 
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $data["Roledata"] = Registration::where("status", "=", "active")
-
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
-
-                    ->where("email", "=", $email)
-                    ->first();
-                   
-                // $data["leave_rule_rs"] = LeaveRule::join(
-                //     "leave_type",
-                //     "leave_rule.leave_type_id",
-                //     "=",
-                //     "leave_type.id"
-                // )
-                // ->join('employ_type_master','leave_rule.employee_type','employ_type_master.id')
-                //     ->select("leave_rule.*", "leave_type.leave_type_name",'employ_type_master.employ_type_name')
-                //     ->where("leave_rule_status", "=", "active")
-                //     ->where("leave_rule.emid", "=", $Roledata->reg)
-                //     ->orderBy("leave_rule.id", "desc")
-                //     ->get();
-                // dd($data['leave_rule_rs']);
+                $reg = Session::get("emid");
+               
                 $data["leave_rule_rs"] = LeaveRule::join(
-                    "leave_type",
-                    "leave_rule.leave_type_id",
-                    "=",
-                    "leave_type.id"
-                )
-                ->join('employ_type_master','leave_rule.employee_type','employ_type_master.employ_type_id')
-                ->select("leave_rule.*", "leave_type.leave_type_name",'employ_type_master.employ_type_name')
-                ->where("leave_rule_status", "=", "active")
-                ->where("leave_rule.emid", "=", $Roledata->reg)
-                ->orderBy("leave_rule.id", "desc")
-                ->get();
-                //dd($Roledata->reg);
-                // dd($data['leave_rule_rs']);
-
+                        "leave_type",
+                        "leave_rule.leave_type_id",
+                        "=",
+                        "leave_type.id"
+                    )
+                    ->join('employ_type_master','leave_rule.employee_type','employ_type_master.employ_type_id')
+                    ->select("leave_rule.*", "leave_type.leave_type_name",'employ_type_master.employ_type_name')
+                    ->where("leave_rule_status", "=", "active")
+                    ->where("leave_rule.emid", "=", $reg)
+                    ->orderBy("leave_rule.id", "desc")
+                    ->get();
                 //return view("leave/leave-rule", $data);
                 return view($this->_routePrefix . '.leave-rule',$data);
             } else {
@@ -320,27 +289,17 @@ class LeaveManagementController extends Controller
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $data["Roledata"] = Registration::where("status", "=", "active")
-
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
-
-                    ->where("email", "=", $email)
-                    ->first();
+                $reg = Session::get("emid");
                 $data["leave_type_rs"] = LeaveType::where(
                     "emid",
                     "=",
-                    $Roledata->reg
+                    $reg
                 )
                     ->where("leave_type_status", "=", "active")
                     ->select("id", "leave_type_name")
                     ->get();
                    
-                $data["employee_type_rs"] = EmployeeType::where('emid',$Roledata->reg)->get();
-                //dd($data["employee_type_rs"]);
+                $data["employee_type_rs"] = EmployeeType::where('emid',$reg)->get();
                 return view($this->_routePrefix . '.add-new-rule',$data);
                 //return view("leave/add-new-rule", $data);
             } else {
@@ -356,16 +315,16 @@ class LeaveManagementController extends Controller
         try {
             if (!empty(Session::get("emp_email"))) {
                 //dd($request->all());
-                $email = Session::get("emp_email");
-                $data["Roledata"] = Registration::where("status", "=", "active")
+                $reg = Session::get("emid");
+                // $data["Roledata"] = Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $email = Session::get("emp_email");
+                // $Roledata = Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
+                //     ->where("email", "=", $email)
+                //     ->first();
 
                 $validator = Validator::make(
                     $request->all(),
@@ -427,10 +386,10 @@ class LeaveManagementController extends Controller
                         "updated_at" => date("Y-m-d h:i:s"),
                         "created_at" => date("Y-m-d h:i:s"),
                         "leave_rule_status" => "active",
-                        "emid" => $Roledata->reg,
+                        "emid" => $reg,
                     ];
 
-                    $check_entry = LeaveRule::where("emid", "=", $Roledata->reg)
+                    $check_entry = LeaveRule::where("emid", "=", $reg)
                         ->where("employee_type", "=", $request->employee_type)
                         ->where("leave_type_id", "=", $request->leave_type_id)
                         ->where("effective_from", "=", $request->effective_from)
@@ -464,35 +423,17 @@ class LeaveManagementController extends Controller
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $data["Roledata"] = Registration::where("status", "=", "active")
+                $reg = Session::get("emid");
+                $data["leave_rule_data"] = LeaveRule::where("id",$leave_rule_id)->first();
 
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
-
-                    ->where("email", "=", $email)
-                    ->first();
-
-                $data["leave_rule_data"] = LeaveRule::where(
-                    "id",
-                    $leave_rule_id
-                )->first();
-            //   dd($data["leave_rule_data"]);
-                $data["leave_type_rs"] = LeaveType::where(
-                    "emid",
-                    "=",
-                    $Roledata->reg
-                )
+                $data["leave_type_rs"] = LeaveType::where("emid","=",$reg)
                     ->where("leave_type_status", "=", "active")
                     ->select("id", "leave_type_name")
                     ->get();
+
                 $data["employee_type_rs"] = DB::Table("employ_type_master")
-                    ->where("emid", "=", $Roledata->reg)
+                    ->where("emid", "=", $reg)
                     ->get();
-                // dd($data["employee_type_rs"]);
-                //return view("leave/add-new-rule", $data);
                 return view($this->_routePrefix . '.add-new-rule',$data);
             } else {
                 return redirect("/");
@@ -504,21 +445,20 @@ class LeaveManagementController extends Controller
 
     public function getLeaveAllocation()
     {
-        //dd('ok');
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $data["Roledata"] = DB::table("registration")
-                    ->where("status", "=", "active")
+                $reg = Session::get("emid");
+                // $data["Roledata"] = DB::table("registration")
+                //     ->where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata = DB::table("registration")
-                    ->where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $email = Session::get("emp_email");
+                // $Roledata = DB::table("registration")
+                //     ->where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
+                //     ->where("email", "=", $email)
+                //     ->first();
 
                 $data["leave_allocation"] = DB::table("leave_allocation")
                     ->join(
@@ -529,8 +469,8 @@ class LeaveManagementController extends Controller
                     )
                     ->select("leave_allocation.*", "leave_type.leave_type_name")
                     ->whereYear("leave_allocation.created_at", "=", date("Y"))
-                    ->where("leave_allocation.emid", "=", $Roledata->reg)
-                    ->where("leave_type.emid", "=", $Roledata->reg)
+                    ->where("leave_allocation.emid", "=", $reg)
+                    ->where("leave_type.emid", "=", $reg)
                     ->orderBy("leave_allocation.id", "desc")
                     ->get();
                     // dd($data["leave_allocation"]);
@@ -545,142 +485,145 @@ class LeaveManagementController extends Controller
     }
 
     public function viewAddLeaveAllocation()
-	{   try{
-	      if(!empty(Session::get('emp_email')))
-      {
-         
-
-		$email = Session::get('emp_email'); 
-		   $data['Roledata'] = Registration::where('status','=','active')      
-                 
-                  ->where('email','=',$email) 
-                  ->first();
-				   $email = Session::get('emp_email'); 
-		   $Roledata = Registration::where('status','=','active')       
-                 
-                  ->where('email','=',$email) 
-                  ->first();
-		
-		$data['result']	='';
-        $data['employees']=Employee::where('emid','=',$Roledata->reg)->get();
-		$data['employee_type_rs']=EmployeeType::where('emid',$Roledata->reg)->get();
-        //dd($data['employee_type_rs']);
-		
-		//return view('leave/add-new-allocation', $data);
-        return view($this->_routePrefix . '.add-new-allocation',$data);
-      }
-       else
-       {
-              return redirect('/');
-       }
+	{   
+        try{
+	        if(!empty(Session::get('emp_email'))){
+                $reg = Session::get('emid'); 
+                // $data['Roledata'] = Registration::where('status','=','active')      
+                        
+                //         ->where('email','=',$email) 
+                //         ->first();
+                //         $email = Session::get('emp_email'); 
+                // $Roledata = Registration::where('status','=','active')       
+                        
+                //         ->where('email','=',$email) 
+                //         ->first();
+                
+                $data['result']	='';
+                $data['employees']=Employee::where('emid','=',$reg)->get();
+                $data['employee_type_rs']=EmployeeType::where('emid',$reg)->get();
+                //dd($data['employee_type_rs']);
+                
+                //return view('leave/add-new-allocation', $data);
+                return view($this->_routePrefix . '.add-new-allocation',$data);
+            }else{
+                    return redirect('/');
+            }
 	    }catch(Exception $e){
             throw new Exception($e->getMessage());
         }
 	}
 
+    public function getEmployeeCode(Request $request, $empid)
+    {
+        //dd('okk');
+        $reg = Session::get('emid');
+        $employee_rs = DB::table('employee')
+            ->where('emp_status',$empid)
+            ->where('emid',$reg)
+            ->where('status','active')
+            ->get();
+        $result = '';
+        $result_status1 = "<option value=''>Select</option>
+                            <option value=''>All</option>";
+        foreach ($employee_rs as $bank) {
+            $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
+        }
+    
+        echo $result_status1;
+    }
+
     public function getAddLeaveAllocation(Request $request)
 	{   
         //dd('working');
         try{ 
-        if(!empty(Session::get('emp_email')))
-        {
-            $email = Session::get('emp_email'); 
-            $data['Roledata'] = Registration::where('status','=','active')      
-                    ->where('email','=',$email) 
-                    ->first();
-                    $email = Session::get('emp_email'); 
-            $Roledata = Registration::where('status','=','active')       
-                    
-                    ->where('email','=',$email) 
-                    ->first();
+            if(!empty(Session::get('emp_email')))
+            {
+                $reg = Session::get('emid');  
+                $Roledata = Registration::where('status','=','active')       
+                        
+                        ->where('reg','=',$reg) 
+                        ->first();
 
-            $current_year=date('Y');
-            $previous_year=$current_year-1;
-        
-            $desig_rs=EmployeeType::where('employ_type_name', '=',$request->employee_type)
-            ->where('emid',$Roledata->reg)
-            ->first();
-                //     $desig_rs=DB::table('employ_type_master')
-                // 	  ->where('emid',$Roledata->reg)
-                // 	  ->where('employ_type_name',$request->employee_type)
-                // 	  ->first();
-                    // dd($desig_rs);
-            if($request->employee_code!=''){
-                $employeesy=Employee::where('emp_code','=',$request->employee_code) ->where('emid', '=',  $Roledata->reg)->get();
-            }else{
-                $employeesy=Employee::where('emid', '=',  $Roledata->reg)->get();
-            }
-    
-            $leave_allocations=LeaveRule::leftJoin('leave_type','leave_rule.leave_type_id','=','leave_type.id')
-            ->where('leave_type.emid','=',$Roledata->reg) 
-            ->whereYear('effective_from','<=',$request->year_value.'-01-01')
-            ->whereYear('effective_to','>=',$request->year_value.'-12-31')
-            ->where('leave_rule.employee_type', '=',  $desig_rs->employ_type_id)
-            ->select('leave_rule.*','leave_type.leave_type_name')->get();
-            // 		dd($leave_allocations);
-            // dd($employeesy);
-        
-            $result='';
-            $i=1;	
-            foreach ($employeesy as $employeesyg){
-                
-                    foreach($leave_allocations as $leave_allocationkey=>$leave_allocation){
-                    
-                    //->where('month_yr','=',date('m').'/'.date('Y')) 
-
-                    $leave_allocationew=DB::Table('leave_allocation')
-                    ->where('emid','=',$Roledata->reg) 
-                    ->where('month_yr','like','%'.$request->year_value.'%')
-                    ->where('leave_rule_id','=',$leave_allocation->id) 
-                    ->where('employee_code', '=', $employeesyg->emp_code)
-                    ->first();
-                    // dd($leave_allocationew);
-                    if(empty($leave_allocationew)){
+                $current_year=date('Y');
+                $previous_year=$current_year-1;
             
-                        $leave_in_hand=$leave_allocation->max_no;
-
-                        $result .='<tr>
-                            <input type="hidden" value="'.$leave_allocation->leave_type_id.'" class="form-control" name="leave_type_id'.$i.'"  id="leave_type_id'.$i.'" readonly>
-
-
-                            <input type="hidden" value="'.$desig_rs->id.'" class="form-check-input" name="employee_type'.$i.'" id="employee_type'.$i.'"  readonly>
-                            <input type="hidden" value="'.$employeesyg->emp_code.'" class="form-check-input" name="employee_code'.$i.'" id="employee_code'.$i.'"  readonly>
-                            <td><div class="form-check"><label class="form-check-label"><input type="checkbox" name="leave_rule_id[]" value="'.$leave_allocation->id.'"  id="leave_rule_id'.$i.'" ><span class="form-check-sign"> </span></label></div></td>
-                            <td>'.$desig_rs->employ_type_name.'</td>
-                            
-                            <td>'.$employeesyg->emp_code.'</td>
-                            <td>'.$employeesyg->emp_fname.' '.$employeesyg->emp_mname.' '.$employeesyg->emp_lname.'</td>
-                            <td>'.$leave_allocation->leave_type_name.'</td>
-                            <td><input type="text" value="'.$leave_allocation->max_no.'" name="max_no'.$i.'" class="form-control" id="max_no'.$i.'"  readonly style="height: 35px !important"></td>
-                            
-                            
-                            <td><input type="text" id="leave_in_hand'.$i.'" value="'.$leave_in_hand.'" name="leave_in_hand'.$i.'" class="form-control" style="height: 35px !important" required></td>
-                            <td><input type="month" id="month_yr'.$i.'"  name="month_yr'.$i.'" class="form-control"  style="height: 35px !important"  required>
-                            </td>
-
-                        </tr>';
-                        $i++;
-                    }
+                $desig_rs=EmployeeType::where('employ_type_name', '=',$request->employee_type)
+                ->where('emid',$reg)
+                ->first();
+                if($request->employee_code!=''){
+                    $employeesy=Employee::where('emp_code','=',$request->employee_code) ->where('emid', '=',  $reg)->get();
+                }else{
+                    $employeesy=Employee::where('emid', '=',  $reg)->get();
                 }
-                    
-            }
-            $employees=Employee::where('emid','=',$Roledata->reg)
-                // ->where('status','=','active')
-                // ->where('emp_status','!=','TEMPORARY')
-                // ->where('emp_status','!=','EX-EMPLOYEE')
-                ->orderBy('emp_fname', 'asc')
-                // ->where('emp_status', '=',  $desig_rs->employee_type_name)
-                ->get();
-                // dd($employees);
+        
+                $leave_allocations=LeaveRule::leftJoin('leave_type','leave_rule.leave_type_id','=','leave_type.id')
+                ->where('leave_type.emid','=',$reg) 
+                ->whereYear('effective_from','<=',$request->year_value.'-01-01')
+                ->whereYear('effective_to','>=',$request->year_value.'-12-31')
+                ->where('leave_rule.employee_type', '=',  $desig_rs->employ_type_id)
+                ->select('leave_rule.*','leave_type.leave_type_name')->get();
+                // 		dd($leave_allocations);
+                // dd($employeesy);
             
-            $employee_type_rs=EmployeeType::where('emid','=',$Roledata->reg)->get();
-            $remp=$request->employee_code;
-            $rempty=$request->employee_type;
-            return view($this->_routePrefix . '.add-new-allocation',compact('result','Roledata','employees','employee_type_rs','remp','rempty'));
-            //return view('leave/add-new-allocation',compact('result','Roledata','employees','employee_type_rs','remp','rempty'));
-        } else {
-                return redirect('/');
-        }
+                $result='';
+                $i=1;	
+                foreach ($employeesy as $employeesyg){   
+                        foreach($leave_allocations as $leave_allocationkey=>$leave_allocation){
+                        $leave_allocationew=DB::Table('leave_allocation')
+                        ->where('emid','=',$reg) 
+                        ->where('month_yr','like','%'.$request->year_value.'%')
+                        ->where('leave_rule_id','=',$leave_allocation->id) 
+                        ->where('employee_code', '=', $employeesyg->emp_code)
+                        ->first();
+                        // dd($leave_allocationew);
+                        if(empty($leave_allocationew)){
+                
+                            $leave_in_hand=$leave_allocation->max_no;
+
+                            $result .='<tr>
+                                <input type="hidden" value="'.$leave_allocation->leave_type_id.'" class="form-control" name="leave_type_id'.$i.'"  id="leave_type_id'.$i.'" readonly>
+
+
+                                <input type="hidden" value="'.$desig_rs->employ_type_name.'" class="form-check-input" name="employee_type'.$i.'" id="employee_type'.$i.'"  readonly>
+                                <input type="hidden" value="'.$employeesyg->emp_code.'" class="form-check-input" name="employee_code'.$i.'" id="employee_code'.$i.'"  readonly>
+                                
+                                <td><div class="form-check"><label class="form-check-label"><input type="checkbox" name="leave_rule_id[]" value="'.$leave_allocation->id.'"  id="leave_rule_id'.$i.'" ><span class="form-check-sign"> </span></label></div></td>
+                                <td>'.$desig_rs->employ_type_name.'</td>
+                                
+                                <td>'.$employeesyg->emp_code.'</td>
+                                <td>'.$employeesyg->emp_fname.' '.$employeesyg->emp_mname.' '.$employeesyg->emp_lname.'</td>
+                                <td>'.$leave_allocation->leave_type_name.'</td>
+                                <td><input type="text" value="'.$leave_allocation->max_no.'" name="max_no'.$i.'" class="form-control" id="max_no'.$i.'"  readonly style="height: 35px !important"></td>
+                                
+                                
+                                <td><input type="text" id="leave_in_hand'.$i.'" value="'.$leave_in_hand.'" name="leave_in_hand'.$i.'" class="form-control" style="height: 35px !important" required></td>
+                                <td><input type="month" id="month_yr'.$i.'"  name="month_yr'.$i.'" class="form-control"  style="height: 35px !important"  required>
+                                </td>
+
+                            </tr>';
+                            $i++;
+                        }
+                    }
+                        
+                }
+                $employees=Employee::where('emid','=',$reg)
+                    // ->where('status','=','active')
+                    // ->where('emp_status','!=','TEMPORARY')
+                    // ->where('emp_status','!=','EX-EMPLOYEE')
+                    ->orderBy('emp_fname', 'asc')
+                    // ->where('emp_status', '=',  $desig_rs->employee_type_name)
+                    ->get();
+                    // dd($employees);
+                
+                $employee_type_rs=EmployeeType::where('emid','=',$reg)->get();
+                $remp=$request->employee_code;
+                $rempty=$request->employee_type;
+                return view($this->_routePrefix . '.add-new-allocation',compact('result','Roledata','employees','employee_type_rs','remp','rempty'));
+                //return view('leave/add-new-allocation',compact('result','Roledata','employees','employee_type_rs','remp','rempty'));
+            } else {
+                    return redirect('/');
+            }
 	    }catch(Exception $e){
             throw new Exception($e->getMessage());
         }
@@ -690,22 +633,21 @@ class LeaveManagementController extends Controller
 
     public function saveAddLeaveAllocation(Request $request)
     {
-        //dd('Working On this route');
-        try {
-           
+        //dd($request->all());
+        try {           
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $data["Roledata"] = DB::table("registration")
-                    ->where("status", "=", "active")
+                $reg = Session::get("emid");
+                // $data["Roledata"] = DB::table("registration")
+                //     ->where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata = DB::table("registration")
-                    ->where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $email = Session::get("emp_email");
+                // $Roledata = DB::table("registration")
+                //     ->where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
+                //     ->where("email", "=", $email)
+                //     ->first();
 
                 $allocation_list = $request->all();
                 if (
@@ -737,7 +679,7 @@ class LeaveManagementController extends Controller
                             "updated_at" => date("Y-m-d h:i:s"),
                             "created_at" => date("Y-m-d h:i:s"),
                             "leave_allocation_status" => "active",
-                            "emid" => $Roledata->reg,
+                            "emid" => $reg,
                         ];
 
                         $leave_month = $this->getLeaveAllocationByYear(
@@ -782,37 +724,81 @@ class LeaveManagementController extends Controller
         }
     }
     
-    public function getLeaveAllocationByYear(
-        $leave_rule_id,
-        $employee_code,
-        $month_yr
-    ) {
+    public function getLeaveAllocationByYear($leave_rule_id, $employee_code, $month_yr) 
+    {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
+                $reg = Session::get("emid");
                 $mon = date("Y", strtotime($month_yr . "-01"));
 
-                $data["Roledata"] = DB::table("registration")
-                    ->where("status", "=", "active")
+                // $data["Roledata"] = DB::table("registration")
+                //     ->where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata = DB::table("registration")
-                    ->where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $email = Session::get("emp_email");
+                // $Roledata = DB::table("registration")
+                //     ->where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
+                //     ->where("email", "=", $email)
+                //     ->first();
                 $current_year = date("Y");
                 $monthly_leave_allocation = DB::table("leave_allocation")
                     ->where("employee_code", "=", $employee_code)
                     ->where("leave_rule_id", "=", $leave_rule_id)
                     ->where("month_yr", "like", "%" . $mon . "%")
-                    ->where("emid", "=", $Roledata->reg)
+                    ->where("emid", "=", $reg)
 
                     ->first();
 
                 return $monthly_leave_allocation;
+            } else {
+                return redirect("/");
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\FrontException($e->getMessage());
+        }
+    }
+
+    public function getLeaveAllocationById($leave_allocation_id)
+    {
+        //dd($leave_allocation_id);
+        try {
+            if (!empty(Session::get("emp_email"))) {
+                $data["leave_allocation"] = DB::table("leave_allocation")
+                    ->where("id", $leave_allocation_id)
+                    ->first();
+                    // dd($data["leave_allocation"]);
+                $data["leave_type"] = DB::table("leave_type")
+                    ->where("id", $data["leave_allocation"]->leave_type_id)
+                    ->first();
+                     //dd($data);
+                return view($this->_routePrefix . '.edit-leave-allocation',$data);
+                //return view("leave/edit-leave-allocation", $data);
+            } else {
+                return redirect("/");
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\FrontException($e->getMessage());
+        }
+    }
+
+    public function editLeaveAllocation(Request $request)
+    {
+        //dd('okk');
+        try {
+            if (!empty(Session::get("emp_email"))) {
+                DB::table("leave_allocation")
+                    ->where("id", $request->id)
+                    ->update([
+                        "leave_in_hand" => $request->leave_in_hand,
+                        "month_yr" => $request->month_yr,
+                    ]);
+                Session::flash(
+                    "message",
+                    "Leave Allocation Information Successfully Updated."
+                );
+                return redirect("leave/leave-allocation-listing");
             } else {
                 return redirect("/");
             }
@@ -826,16 +812,16 @@ class LeaveManagementController extends Controller
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $data["Roledata"] =Registration::where("status", "=", "active")
+                $reg = Session::get("emid");
+                // $data["Roledata"] =Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
-                $Roledata =Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $email = Session::get("emp_email");
+                // $Roledata =Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
+                //     ->where("email", "=", $email)
+                //     ->first();
 
                 $data["leave_balance_rs"] =leaveAllocation::join(
                         "leave_type",
@@ -849,9 +835,9 @@ class LeaveManagementController extends Controller
                         "=",
                         "employee.emp_code"
                     )
-                    ->where("employee.emid", "=", $Roledata->reg)
-                    ->where("leave_allocation.emid", "=", $Roledata->reg)
-                    ->where("leave_type.emid", "=", $Roledata->reg)
+                    ->where("employee.emid", "=", $reg)
+                    ->where("leave_allocation.emid", "=", $reg)
+                    ->where("leave_type.emid", "=", $reg)
                     ->select(
                         "leave_allocation.*",
                         "leave_type.leave_type_name",
@@ -1020,15 +1006,15 @@ class LeaveManagementController extends Controller
         //dd($request->all());
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $data["Roledata"] =Registration::where("status", "=", "active")
+                $reg = Session::get("emid");
+                // $data["Roledata"] =Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
-                    ->first();
-                $email = Session::get("emp_email");
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $email = Session::get("emp_email");
                 $Roledata =Registration::where("status", "=", "active")
 
-                    ->where("email", "=", $email)
+                    ->where("reg", "=", $reg)
                     ->first();
                     //dd($Roledata->reg);
                 $employeelist = DB::table('employee')->join("leave_apply","leave_apply.employee_id",'employee.emp_code')
@@ -1045,30 +1031,9 @@ class LeaveManagementController extends Controller
                         "leave_type.leave_type_name",
                          DB::raw('SUM(leave_apply.no_of_leave) as total_leave')
                         )
-                    ->where("employee.emid", "=", $Roledata->reg)
+                    ->where("employee.emid", "=", $reg)
                     ->groupBy("employee.emp_code", "leave_type.leave_type_name")
                     ->get();
-                
-            //   $employeelist = DB::table('employee')
-            //     ->join("leave_apply", "leave_apply.employee_id", 'employee.emp_code')
-            //     ->join("leave_type", "leave_type.id", "leave_apply.leave_type")
-            //     ->select(
-            //         "employee.emp_code",
-            //         "employee.emp_fname",
-            //         "employee.emp_mname",
-            //         "employee.emp_lname",
-            //         "employee.emp_designation",
-            //         "employee.emid",
-            //         "leave_apply.status",
-            //         "leave_type.leave_type_name"
-            //         // DB::raw('SUM(leave_apply.no_of_leave) as total_leave')
-            //     )
-            //     ->where("employee.emid", "=", $Roledata->reg)
-            //     ->where("leave_apply.status", "=", "approved")
-            //     ->groupBy("employee.emp_code", "leave_type.leave_type_name")
-            //     ->get();
-
-              //dd($employeelist);
                $leave_rs = leaveAllocation::leftJoin(
                         "leave_type",
                         "leave_allocation.leave_type_id",
@@ -1087,9 +1052,9 @@ class LeaveManagementController extends Controller
                         "=",
                         $request->year_value
                     )
-                    ->where("employee.emid", "=", $Roledata->reg)
-                    ->where("leave_type.emid", "=", $Roledata->reg)
-                    ->where("leave_allocation.emid", "=", $Roledata->reg)
+                    ->where("employee.emid", "=", $reg)
+                    ->where("leave_type.emid", "=", $reg)
+                    ->where("leave_allocation.emid", "=", $reg)
                     ->select(
                         "leave_allocation.*",
                         "employee.emp_fname",
@@ -1103,7 +1068,7 @@ class LeaveManagementController extends Controller
                     ->get();
                  //dd($leave_rs);
                 $leave_type = LeaveType::orderBy("id", "ASC")
-                    ->where("emid", "=", $Roledata->reg)
+                    ->where("emid", "=", $reg)
                     ->get();
                    
                 $year_value = $request->year_value;
@@ -1127,9 +1092,9 @@ class LeaveManagementController extends Controller
                     "leave_rs" => $leave_rs,
                     "leave_type" => $leave_type,
                     "employeelist" => $employeelist,
-                    "emid" => $Roledata->reg,
+                    "emid" => $reg,
                 ];
-                 //dd($datap);
+                 //dd($employeelist);
 
                 $pdf = PDF::loadView("mypdfleave", $datap);
                 $pdf->setPaper("A4", "landscape");
@@ -1149,15 +1114,8 @@ class LeaveManagementController extends Controller
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $data["Roledata"] = Registration::where("status", "=", "active")
-
-                    ->where("email", "=", $email)
-                    ->first();
-                $Roledata = Registration::where("email", "=", $email)
-                    ->first();
-
-                $data["employee_rs"] =Employee::where("emid", "=", $Roledata->reg)
+                $reg = Session::get("emid");
+                $data["employee_rs"] =Employee::where("emid", "=", $reg)
                     ->get();
 
                 //return view("leave/leave-emplyee", $data);
@@ -1171,25 +1129,21 @@ class LeaveManagementController extends Controller
     }
 
     public function getleaveemplyee(Request $request)
-	{  
+	{  //dd('okk');
         try{
             if(!empty(Session::get('emp_email')))
             {
                 
                 $first_day_this_year =$request->year_value.'-01-01' ; 
                 $last_day_this_year  =$request->year_value.'-12-31';
-                $email = Session::get('emp_email'); 
-                $data['Roledata'] =Registration::where('status','=','active')            
-                        ->where('email','=',$email) 
-                        ->first();
-                        $Roledata= Registration::where('email','=',$email) 
-                        ->first();
+                $reg = Session::get('emid'); 
+                
                 $data['result'] ='';
                     $data['leaveApply']=DB::table('leave_apply')
                     ->join('leave_type','leave_apply.leave_type','=','leave_type.id') 
                     ->select('leave_apply.*','leave_type.leave_type_name','leave_type.alies')
                     ->where('leave_apply.employee_id','=',$request->employee_code)
-                    ->where('leave_apply.emid','=',$data['Roledata']->reg)
+                    ->where('leave_apply.emid','=',$reg)
                         ->where('leave_apply.status','=','APPROVED')
                     ->whereDate('leave_apply.from_date','>=',$first_day_this_year)
                     ->whereDate('leave_apply.to_date','<=',$last_day_this_year)
@@ -1198,7 +1152,7 @@ class LeaveManagementController extends Controller
                     if($data['leaveApply'])
                 {$f=1;
                     foreach($data['leaveApply'] as $lvapply){
-                        $job_details=DB::table('employee')->where('emp_code', '=', $request->employee_code)->where('emid', '=',$data['Roledata']->reg )->orderBy('id', 'DESC')->first();
+                        $job_details=DB::table('employee')->where('emp_code', '=', $request->employee_code)->where('emid', '=',$reg )->orderBy('id', 'DESC')->first();
         
                         $data['result'] .='<tr>
                             <td>'.$f.'</td>
@@ -1212,14 +1166,12 @@ class LeaveManagementController extends Controller
                         $f++;
                     }
                 }
-                $data['employee_rs']=DB::table('employee')->where('emid', '=', $data['Roledata']->reg )->get();
+                $data['employee_rs']=DB::table('employee')->where('emid', '=', $reg )->get();
                         $data['employee_code']=$request->employee_code;
                 $data['year_value']=$request->year_value;
                 return view($this->_routePrefix . '.leave-emplyee',$data);
                 //return view('leave/leave-emplyee',$data);
-            }
-            else
-            {
+            } else {
                     return redirect('/');
             }
 	    }catch(Exception $e){

@@ -27,12 +27,12 @@ class HolidayController extends Controller
 
     public function dashboard(Request $request){
         if (!empty(Session::get("emp_email"))) {
-            $email = Session::get("emp_email");
-            $Roledata = Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
-            $data["holiday_list_count"] = Holiday::where("holiday.emid", "=", $Roledata->reg)->count();
-            $data["holiday_type_count"] = HolidayType::where("emid", "=", $Roledata->reg)->count();
+            $reg = Session::get("emid");
+            // $Roledata = Registration::where("status", "=", "active")
+            //         ->where("email", "=", $email)
+            //         ->first();
+            $data["holiday_list_count"] = Holiday::where("holiday.emid", "=", $reg)->count();
+            $data["holiday_type_count"] = HolidayType::where("emid", "=", $reg)->count();
             //dd($data);
             return view($this->_routePrefix . '.dashboard',$data);
         }
@@ -42,15 +42,15 @@ class HolidayController extends Controller
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
-                $data["Roledata"] =Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
+                $reg = Session::get("emid");
+                // $Roledata = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $data["Roledata"] =Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
 
-                $data["holiday_rs"] = Holiday::where("holiday.emid", "=", $Roledata->reg)
+                $data["holiday_rs"] = Holiday::where("holiday.emid", "=", $reg)
                     ->select("holiday_type.name", "holiday.*")
                     ->join(
                         "holiday_type",
@@ -72,14 +72,14 @@ class HolidayController extends Controller
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
-                $data["Roledata"] = Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
-                $data["holiday_type"] = HolidayType::where("emid", "=", $Roledata->reg)
+                $reg = Session::get("emid");
+                // $Roledata = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $data["Roledata"] = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                $data["holiday_type"] = HolidayType::where("emid", "=", $reg)
                     ->get();
                 // dd($data);
                 //return view("holiday/add-holiday", $data);
@@ -97,13 +97,13 @@ class HolidayController extends Controller
         //dd('okkk');
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $Roledata =Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
-                $data["Roledata"] = Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
+                $reg = Session::get("emid");
+                // $Roledata =Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $data["Roledata"] = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
 
                 //echo "<pre>";print_r($request->all()); exit;
                 $validator = Validator::make(
@@ -137,7 +137,7 @@ class HolidayController extends Controller
                     "from_date" => $request->from_date,
                     "to_date" => $request->to_date,
                     "day" => $request->day,
-                    "emid" => $Roledata->reg,
+                    "emid" => $reg,
                     "weekname" => $request->weekname,
                     "holiday_type" => $request->holiday_type,
                     "updated_at" => date("Y-m-d h:i:s"),
@@ -200,22 +200,22 @@ class HolidayController extends Controller
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $Roledata = DB::table("registration")
-                    ->where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
-                $data["Roledata"] = DB::table("registration")
-                    ->where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
+                $reg = Session::get("emid");
+                // $Roledata = DB::table("registration")
+                //     ->where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $data["Roledata"] = DB::table("registration")
+                //     ->where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
 
                 $data["holidaydtl"] = DB::Table("holiday")
                     ->where("id", $holiday_id)
                     ->first();
                 // dd($data);
                 $data["holiday_type"] = DB::table("holiday_type")
-                    ->where("emid", "=", $Roledata->reg)
+                    ->where("emid", "=", $reg)
                     ->get();
                 //return view("holiday/add-holiday", $data);
                 return view($this->_routePrefix . '.add-holiday-list',$data);
@@ -231,15 +231,15 @@ class HolidayController extends Controller
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
-                $data["Roledata"] = Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
+                $reg = Session::get("emid");
+                // $Roledata = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $data["Roledata"] = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
 
-                $data["holiday_rs"] = HolidayType::where("emid", "=", $Roledata->reg)
+                $data["holiday_rs"] = HolidayType::where("emid", "=", $reg)
                     ->select("*")
                     ->get();
                 // dd($data['holiday_rs']);
@@ -282,13 +282,13 @@ class HolidayController extends Controller
     {
         try {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $Roledata = Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
-                $data["Roledata"] = Registration::where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
+                $reg = Session::get("emid");
+                // $Roledata = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+                // $data["Roledata"] = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
 
                 //echo "<pre>";print_r($request->all()); exit;
                 $validator = Validator::make(
@@ -309,7 +309,7 @@ class HolidayController extends Controller
                 $data = [
                     "name" => $request->name,
 
-                    "emid" => $Roledata->reg,
+                    "emid" => $reg,
                 ];
                 
                 if (!empty($request->id)) {

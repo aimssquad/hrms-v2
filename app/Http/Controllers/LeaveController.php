@@ -1124,6 +1124,7 @@ $email = Session::get('emp_email');
 
     public function getLeaveAllocationById($leave_allocation_id)
     {
+        //dd($leave_allocation_id);
         try {
             if (!empty(Session::get("emp_email"))) {
                 $email = Session::get("emp_email");

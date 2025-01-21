@@ -823,16 +823,17 @@ class RecruitmentController extends Controller
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
            
-            if (Input::get('id')) {$ckeck_dept = DB::table('company_job')->where('soc',$request->soc)->where('id', '!=', Input::get('id'))->where('emid', $Roledata->reg)->first();
+            if (Input::get('id')) {$ckeck_dept = DB::table('company_job')->where('soc',$request->soc)->where('id', '!=', Input::get('id'))->where('emid', $reg)->first();
                 if (!empty($ckeck_dept)) {
                     Session::flash('message', 'Job Code  Already Exists.');
                     return redirect('recruitment/job_posting');
@@ -925,7 +926,7 @@ class RecruitmentController extends Controller
                     'email' => $request->email,
                     'con_num' => $request->con_num,
                     // 'job_link' => env("BASE_URL") . 'career/' . base64_encode(($l_id)),
-                    'emid' => $Roledata->reg,
+                    'emid' => $reg,
                     'status' => 'Job Created',
                     'gender_male' => $request->gender_male,
                     'working_hour' => $request->working_hour,
@@ -1172,9 +1173,9 @@ class RecruitmentController extends Controller
     { 
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
+            $reg = Session::get('emid');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
+                ->where('reg', '=', $reg)
                 ->first();
             $pdf = '';
             $fo = '';
@@ -1675,9 +1676,10 @@ class RecruitmentController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
+            $reg = Session::get('emid');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
+                ->where('reg', '=', $reg)
                 ->first();
 
             $job = DB::table('candidate')->where('id', '=', $request->user_id)->first();
@@ -1924,6 +1926,22 @@ class RecruitmentController extends Controller
         } else {
             return redirect('/');
         }
+    }
+
+    public function viewrejectcandidatedetails($reject_id)
+    {
+        if (!empty(Session::get('emp_email'))) {
+
+            $data['job'] = DB::table('candidate')->where('id', '=', base64_decode($reject_id))->where('status', '=', 'Rejected')->first();
+
+            $data['job_details'] = DB::table('candidate_history')->where('user_id', '=', base64_decode($reject_id))->orderBy('id', 'DESC')->first();
+            //dd($data);
+            return view($this->_routePrefix . '.reject-edit',$data);
+            //return View('recruitment/reject-edit', $data);
+        } else {
+            return redirect('/');
+        }
+
     }
 
     public function viewmsgcen()

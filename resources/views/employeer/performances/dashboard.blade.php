@@ -1,7 +1,10 @@
 @extends('employeer.include.app')
-
 @section('title', 'Performence Control Dashboard')
-
+@php
+    $user_type = Session::get("user_type");
+    $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+    //dd($sidebarItems);
+@endphp
 @section('content')
 
 
@@ -33,48 +36,93 @@
                        
 
                         <div class="row">
-
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <a href="{{ url('org-performances') }}" class="modern-card-link">
-                                    <div class="modern-card">
-                                        <div class="modern-card-header">
-                                            <div class="modern_icon_wrapper">
-                                                <i class="la la-dashboard modern-icon"></i>
-                                            </div>
-                                            <h4 class="modern-card-title">Appraisal Request List</h4>
-                                        </div>
-                                        <div class="modern-card-body">
-                                            <div class="modern-status">
+                            @if($user_type ==="employee")
+                                @foreach($sidebarItems['Performance Control'] as $rotaItem)
+                                    @if($rotaItem['submenu_name'] == 'Appraisal Request List' && $rotaItem['can_add'] == 1)
+                                        <div class="col-xl-4 col-md-6 col-sm-12">
+                                            <a href="{{ url('org-performances') }}" class="modern-card-link">
+                                                <div class="modern-card">
+                                                    <div class="modern-card-header">
+                                                        <div class="modern_icon_wrapper">
+                                                            <i class="la la-dashboard modern-icon"></i>
+                                                        </div>
+                                                        <h4 class="modern-card-title">Appraisal Request List</h4>
+                                                    </div>
+                                                    <div class="modern-card-body">
+                                                        <div class="modern-status">
+                                                            </div>
+                                                            <div class="modern-arrow">
+                                                            <span class="employee-count">{{ $performence_list ?? 0 }}</span>
+                                                            <i class="fa fa-arrow-circle-right"></i>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </a>
+                                        </div>
+                                    @elseif($rotaItem['submenu_name'] == 'Create Request' && $rotaItem['can_add'] == 1)
+                                        <div class="col-xl-4 col-md-6 col-sm-12">
+                                            <a href="{{ url('org-performances/request') }}" class="modern-card-link">
+                                                <div class="modern-card border-0">
+                                                    <div class="modern-card-header">
+                                                        <div class="modern_icon_wrapper">
+                                                            <i class="la la-dashboard modern-icon"></i>
+                                                        </div>
+                                                        <h4 class="modern-card-title">Create Request</h4>
+                                                    </div>
+                                                    <div class="modern-card-body">
+                                                        <div class="modern-status"></div>
+                                                        <div class="modern-arrow">
+                                                            <span class="employee-count opacity-0"></span>
+                                                            <i class="fa fa-arrow-circle-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <div class="col-xl-4 col-md-6 col-sm-12">
+                                    <a href="{{ url('org-performances') }}" class="modern-card-link">
+                                        <div class="modern-card">
+                                            <div class="modern-card-header">
+                                                <div class="modern_icon_wrapper">
+                                                    <i class="la la-dashboard modern-icon"></i>
+                                                </div>
+                                                <h4 class="modern-card-title">Appraisal Request List</h4>
+                                            </div>
+                                            <div class="modern-card-body">
+                                                <div class="modern-status">
+                                                    </div>
+                                                    <div class="modern-arrow">
+                                                    <span class="employee-count">{{ $performence_list ?? 0 }}</span>
+                                                    <i class="fa fa-arrow-circle-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-sm-12">
+                                    <a href="{{ url('org-performances/request') }}" class="modern-card-link">
+                                        <div class="modern-card border-0">
+                                            <div class="modern-card-header">
+                                                <div class="modern_icon_wrapper">
+                                                    <i class="la la-dashboard modern-icon"></i>
+                                                </div>
+                                                <h4 class="modern-card-title">Create Request</h4>
+                                            </div>
+                                            <div class="modern-card-body">
+                                                <div class="modern-status"></div>
                                                 <div class="modern-arrow">
-                                                <span class="employee-count">{{ $performence_list ?? 0 }}</span>
-                                                <i class="fa fa-arrow-circle-right"></i>
+                                                    <span class="employee-count opacity-0"></span>
+                                                    <i class="fa fa-arrow-circle-right"></i>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
+                            @endif
 
-                            </div>
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <a href="{{ url('org-performances/request') }}" class="modern-card-link">
-                                    <div class="modern-card border-0">
-                                        <div class="modern-card-header">
-                                            <div class="modern_icon_wrapper">
-                                                <i class="la la-dashboard modern-icon"></i>
-                                            </div>
-                                            <h4 class="modern-card-title">Create Request</h4>
-                                        </div>
-                                        <div class="modern-card-body">
-                                            <div class="modern-status"></div>
-                                            <div class="modern-arrow">
-                                                <span class="employee-count opacity-0"></span>
-                                                <i class="fa fa-arrow-circle-right"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div>
                         </div>
                     </div>
                 </div>

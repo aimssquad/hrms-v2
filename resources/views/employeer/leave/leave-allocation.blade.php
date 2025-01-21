@@ -46,8 +46,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
-				@foreach($sidebarItems as $value)
-				@if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 45)
+				    @foreach($sidebarItems['Leave Management'] as $rotaItem)
+                        @if($rotaItem['submenu_name'] == 'Allocation' && $rotaItem['can_add'] == 1)
 				<a href="{{ url('leave/save-leave-allocation') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allocation</a>
 				@endif
 				@endforeach
@@ -120,14 +120,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                         ->where('emp_code','=', $leave_allo->employee_code)
                                         ->first(); 
                                     //dd($leaveemdata);
-                                        $email = Session::get('emp_email'); 
-                                    $Roledata = DB::table('registration')      
-                                        ->where('email','=',$email) 
-                                        ->first();
+                                    //     $email = Session::get('emp_email'); 
+                                    // $Roledata = DB::table('registration')      
+                                    //     ->where('email','=',$email) 
+                                    //     ->first();
                                                                 
                                     $leaveenamemdata = DB::table('employee')      
                                         ->where('emp_code','=', $leave_allo->employee_code)
-                                        ->where('emid', '=', $Roledata->reg)
+                                        ->where('emid', '=', Session::get("emid"))
                                         ->first(); 					     
                                 ?>
                                     <tr>
@@ -146,15 +146,15 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     @if($user_type == 'employee')
-                                                        @foreach($sidebarItems as $value)
-                                                            @if($value['rights'] == 'Add' && $value['module_name'] == 3 && $value['menu'] == 45)
-                                                                <a class="dropdown-item" href="{{url('leave/leave-allocation-dtl/$leave_allo->id')}}">
+                                                        @foreach($sidebarItems['Leave Management'] as $rotaItem)
+                                                            @if($rotaItem['submenu_name'] == 'Allocation' && $rotaItem['can_edit'] == 1)
+                                                                <a class="dropdown-item" href="{{ url('leave-management/leave-allocation-dtl/' . $leave_allo->id) }}">
                                                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                                 </a>
                                                             @endif
                                                         @endforeach
                                                     @elseif($user_type == 'employer')
-                                                        <a class="dropdown-item" href="{{url('leave-management/leave-allocation-dtl/$leave_allo->id')}}">
+                                                        <a class="dropdown-item" href="{{ url('leave-management/leave-allocation-dtl/' . $leave_allo->id) }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                         </a>
                                                     @endif

@@ -102,11 +102,12 @@ return $output;
                            
                            $leaveapplytoDate = date("d-m-Y", strtotime($lvapply->to_date));
                            $pemail = Session::get('emp_email');
-                           $Roledata = DB::table('registration')      
+                           $reg = Session::get('emid');
+                           // $Roledata = DB::table('registration')      
                            
-                           ->where('email','=',$pemail) 
-                           ->first();
-                           $job_details=DB::table('employee')->where('emp_code', '=', $lvapply->employee_id )->where('emid', '=', $Roledata->reg )->orderBy('id', 'DESC')->first();
+                           // ->where('email','=',$pemail) 
+                           // ->first();
+                           $job_details=DB::table('employee')->where('emp_code', '=', $lvapply->employee_id )->where('emid', '=', $reg )->orderBy('id', 'DESC')->first();
                            
                            //dd($job_details);
                            
@@ -124,25 +125,22 @@ return $output;
                            <td style="text-align:center;"><span class="name">{{$lvapply->no_of_leave}}</span></td>
                            <td style="text-align:center;">
                               @if($lvapply->status=='NOT APPROVED')
-                              <!-- <a href="#"><button class="btn btn-default not-approved" type="submit"> {{$lvapply->status}}</button></a> -->
-                              <a href="#"><button class="badge badge-warning" type="submit">{{$lvapply->status}}</button></a>
+                                 <a href="#"><button class="badge badge-warning" type="submit">{{$lvapply->status}}</button></a>
                               @elseif($lvapply->status=='REJECTED')
-                              <!-- <a href="#"><button class="btn btn-default reject" type="submit">{{$lvapply->status}}</button></a> -->
-                              <span class="badge badge-danger">{{$lvapply->status}}</span>
+                                 <span class="badge badge-danger">{{$lvapply->status}}</span>
                               @elseif($lvapply->status=='APPROVED')
-                              <a href="#"><button class="badge badge-success" type="submit">{{$lvapply->status}}</button></a>
+                                 <a href="#"><button class="badge badge-success" type="submit">{{$lvapply->status}}</button></a>
                               @elseif($lvapply->status=='RECOMMENDED')
-                              <!-- <a href="#"><button class="btn btn-default recomand" type="submit">{{$lvapply->status}}</button></a> -->
-                              <a href="#"><button class="badge badge-info" type="submit">{{$lvapply->status}}</button></a>
+                                 <a href="#"><button class="badge badge-info" type="submit">{{$lvapply->status}}</button></a>
                               @elseif($lvapply->status=='CANCEL')
-                              <a href="#"><button class="btn btn-default reject" type="submit">{{$lvapply->status}}</button></a>
+                                 <a href="#"><button class="btn btn-secondary reject" type="submit">{{$lvapply->status}}</button></a>
                               @endif
                            </td>
                            <td>{{ $lvapply->status_remarks }}</td>
                            @if(Session::get('user_type')=='employee')
                            <td>
                               @if($lvapply->status=='RECOMMENDED' || $lvapply->status=='NOT APPROVED')
-                              <a href="{{url('leave-approver/leave-approved-right/'.$lvapply->id)}}"><img  style="width: 30px;" src="{{ asset('assets/img/edit.png')}}"></a>
+                              <a href="{{url('leave-approver/leave-approved-right/'.$lvapply->id)}}"><i class="fa-solid fa-pencil m-r-5"></i></a>
                               @endif
                            </td>
                            @endif

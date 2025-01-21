@@ -88,7 +88,7 @@
                   <input  value="<?php echo $designation;?>"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
                   <input  value="<?php echo $start_date;?>"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                   <input  value="<?php echo $end_date;?>"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                  <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn btn-default" style="background:none !important;margin-top: -30px;float:right;" type="submit"><img  style="width: 35px;" src="{{ asset('img/dnld-pdf.png')}}"></button>	
+                  <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn-download btn-download-pdf"  type="submit">Download PDF</button>	
                </form>
                <form  method="post" action="{{ url('attendance/attendance-month-report-excel') }}" enctype="multipart/form-data" >
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -97,7 +97,7 @@
                   <input  value="<?php echo $designation;?>"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
                   <input  value="<?php echo $start_date;?>"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                   <input  value="<?php echo $end_date;?>"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                  <button data-toggle="tooltip" data-placement="bottom" title="Download Excel"  class="btn btn-default" style="margin-top: -30px;float:right;background:none !important" type="submit"><img  style="width: 35px;" src="{{ asset('img/excel-dnld.png')}}"></button>	
+                  <button data-toggle="tooltip" data-placement="bottom" title="Download Excel"  class="btn-download btn-download-excel me-3"  type="submit">Download Excel</button>	
                </form>
                <?php
                   }?>

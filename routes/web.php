@@ -167,6 +167,8 @@ Route::get('leave/leave-allocation-listing', 'App\Http\Controllers\organization\
 Route::get('leave/save-leave-allocation', 'App\Http\Controllers\organization\LeaveManagementController@viewAddLeaveAllocation');
 Route::post('leave/save-leave-allocation', 'App\Http\Controllers\organization\LeaveManagementController@saveAddLeaveAllocation');
 Route::post('leave/get-leave-allocation', 'App\Http\Controllers\organization\LeaveManagementController@getAddLeaveAllocation');
+Route::get('leave-management/leave-allocation-dtl/{leave_allocation_id}', 'App\Http\Controllers\organization\LeaveManagementController@getLeaveAllocationById');
+Route::post('attendance/save-edit-leave-allocation', 'App\Http\Controllers\organization\LeaveManagementController@editLeaveAllocation');
 
 Route::get('leave/leave-balance', 'App\Http\Controllers\organization\LeaveManagementController@getLeaveBalance');
 Route::post('leave/leave-balance', 'App\Http\Controllers\organization\LeaveManagementController@spoLeaveBalance');
@@ -180,6 +182,8 @@ Route::post('leave/leave-report-employee', 'App\Http\Controllers\organization\Le
 Route::post('leave/leave-report-employee-wise', 'App\Http\Controllers\organization\LeaveManagementController@postleaveemplyee');
 Route::post('leave/leave-report-employee-wise-excel', 'App\Http\Controllers\organization\LeaveManagementController@postleaveemplyeeexcel');
 Route::post('leave-management/save-leave-allocation', 'App\Http\Controllers\organization\LeaveManagementController@saveAddLeaveAllocation');
+
+Route::get('pis/getEmployeedailyattandeaneById/{empid}','App\Http\Controllers\organization\LeaveManagementController@getEmployeeCode');
 
 //------------------------------End Leave Management -----------------------------------------
 //-------------------------------Change of Circumstances----------------------------------------
@@ -213,11 +217,14 @@ Route::post('attendance-management/attendance-month-report', 'App\Http\Controlle
 // pdf pending
 
 Route::get('attendance-management/process-attendance', 'App\Http\Controllers\organization\AttendanceController@viewattendanceprocess');
-Route::post(' attendance-management/process-attendance', 'App\Http\Controllers\organization\AttendanceController@getprocessAttandance');
+Route::post('attendance-management/process-attendance', 'App\Http\Controllers\organization\AttendanceController@getProcessAttandance');
 Route::post('attendance-management/save-Process-Attandance', 'App\Http\Controllers\organization\AttendanceController@saveProcessAttandance');
 
 Route::get('attendance-management/absent-report', 'App\Http\Controllers\organization\AttendanceController@viewattendanabsent');
 Route::post('attendance-management/absent-report', 'App\Http\Controllers\organization\AttendanceController@getattendanabsent');
+
+Route::get('pis/getEmployeedailyattandeaneshightByIdnewr/{empid}','App\Http\Controllers\organization\AttendanceController@getEmpCode');
+Route::get('pis/getEmployeedailyattandeaneshightById/absent/{empid}','App\Http\Controllers\organization\AttendanceController@absentDesignation');
 //------------------------------------ End Attendance Management -------------------------------------
 
 //------------------------------------- Rota ---------------------------------------------------
@@ -284,6 +291,8 @@ Route::get('org-fileManagment/file-name-delete/{id}/{orgId}', 'App\Http\Controll
 // -----------------------------------------Leave Approver --------------------------------------------------
 Route::get('leaveapprover/leave-dashboard', 'App\Http\Controllers\organization\LeaveApproverController@dashboard')->name('leave-approver/dashboard');
 Route::get('leaveapprover/leave-request', 'App\Http\Controllers\organization\LeaveApproverController@viewLeaveApproved');
+Route::get('leave-approver/leave-approved-right/{id}', 'App\Http\Controllers\organization\LeaveApproverController@ViewLeavePermission');
+Route::post('leave-approver/leave-approved-right', 'App\Http\Controllers\organization\LeaveApproverController@SaveLeavePermission');
 
 //----------------------------------------- End Leave Approver -----------------------------------------------
 
@@ -3401,8 +3410,8 @@ Route::get('leaveapprovedashboard', 'App\Http\Controllers\LeaveApproverControlle
 
 Route::get('leave-approver/leave-request', 'App\Http\Controllers\LeaveApproverController@viewLeaveApproved');
 
-Route::get('leave-approver/leave-approved-right/{id}', 'App\Http\Controllers\LeaveApproverController@ViewLeavePermission');
-Route::post('leave-approver/leave-approved-right', 'App\Http\Controllers\LeaveApproverController@SaveLeavePermission');
+// Route::get('leave-approver/leave-approved-right/{id}', 'App\Http\Controllers\LeaveApproverController@ViewLeavePermission');
+// Route::post('leave-approver/leave-approved-right', 'App\Http\Controllers\LeaveApproverController@SaveLeavePermission');
 
 // Route::get('settings/get-add-row-item/{row}', function ($row) {
 //     $row = $row + 1;
@@ -4110,7 +4119,7 @@ Route::get('appcon/contract-word/{emid}/{agreement_id}', 'App\Http\Controllers\A
 
 Route::get('appleave/leave-status/{employee_id}/{emp_id}', 'App\Http\Controllers\AppemployeeController@allleavreqe');
 Route::get('pis/getEmployeedailyattandeaneByIdnewvchangenewdf/{empid}/{emid}', function ($empid, $emid) {
-
+    
     $Roledata = DB::table('registration')
 
         ->where('reg', '=', $emid)
@@ -4628,7 +4637,7 @@ Route::post('leave-management/get-leave-allocation', 'App\Http\Controllers\Leave
 
 Route::get('leave-management/leave-allocation-listing', 'App\Http\Controllers\LeaveController@getLeaveAllocation');
 
-Route::get('leave-management/leave-allocation-dtl/{leave_allocation_id}', 'App\Http\Controllers\LeaveController@getLeaveAllocationById');
+// Route::get('leave-management/leave-allocation-dtl/{leave_allocation_id}', 'App\Http\Controllers\LeaveController@getLeaveAllocationById');
 
 Route::get('organisationdashboard', 'App\Http\Controllers\OrganisationController@viewdash');
 
@@ -4718,7 +4727,7 @@ Route::get('billing/add-received-payment', 'App\Http\Controllers\BillingControll
 Route::post('billing/add-received-payment', 'App\Http\Controllers\BillingController@savepayre');
 Route::post('billing/edit-billing', 'App\Http\Controllers\BillingController@saveAddbillingy');
 
-Route::post('attendance/save-edit-leave-allocation', 'App\Http\Controllers\LeaveController@editLeaveAllocation');
+//Route::post('attendance/save-edit-leave-allocation', 'App\Http\Controllers\LeaveController@editLeaveAllocation');
 Route::get('attendancedashboard', 'App\Http\Controllers\AttendanceController@viewdash');
 Route::get('attendance/daily-attendance', 'App\Http\Controllers\AttendanceController@viewattendancedaily');
 Route::post('attendance/daily-attendance', 'App\Http\Controllers\AttendanceController@getDailyAttandance');
@@ -4782,138 +4791,139 @@ Route::get('attendance/absent-record-card-pdf/{absent_id}/{year_value}', 'App\Ht
 
 // });
 
-Route::get('pis/getEmployeedailyattandeaneshightById/absent/{empid}', function ($empid) {
-    $email = Session::get('emp_email');
-    $Roledata = DB::table('registration')
+// Route::get('pis/getEmployeedailyattandeaneshightById/absent/{empid}', function ($empid) {
+//     $reg = Session::get('emid');
+//     // $Roledata = DB::table('registration')
 
-        ->where('email', '=', $email)
-        ->first();
+//     //     ->where('email', '=', $email)
+//     //     ->first();
 
-    $employee_desigrs = DB::table('designation')
-        ->where('id', '=', $empid)
-        ->where('emid', '=', $Roledata->reg)
-        ->first();
-    $employee_depers = DB::table('department')
-        ->where('id', '=', $employee_desigrs->department_code)
-        ->where('emid', '=', $Roledata->reg)
-        ->first();
-    $employee_rs = DB::table('employee')
+//     $employee_desigrs = DB::table('designation')
+//         ->where('id', '=', $empid)
+//         ->where('emid', '=', $reg)
+//         ->first();
+//     $employee_depers = DB::table('department')
+//         ->where('id', '=', $employee_desigrs->department_code)
+//         ->where('emid', '=', $reg)
+//         ->first();
+//     $employee_rs = DB::table('employee')
 
-        ->where('emp_designation', '=', $employee_desigrs->designation_name)
-        ->where('emp_department', '=', $employee_depers->department_name)
-        ->where('emid', '=', $Roledata->reg)
-        ->where(function ($query) {
+//         ->where('emp_designation', '=', $employee_desigrs->designation_name)
+//         ->where('emp_department', '=', $employee_depers->department_name)
+//         ->where('emid', '=', $reg)
+//         ->where(function ($query) {
 
-            $query->whereNull('employee.emp_status')
-                ->orWhere('employee.emp_status', '!=', 'LEFT');
-        })
-        ->get();
-    $result = '';
-    $result_status1 = "  <option value=''>Select</option>
-";
-    foreach ($employee_rs as $bank) {
-        $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
-    }
+//             $query->whereNull('employee.emp_status')
+//                 ->orWhere('employee.emp_status', '!=', 'LEFT');
+//         })
+//         ->get();
+//     $result = '';
+//     $result_status1 = "  <option value=''>Select</option>
+// ";
+//     foreach ($employee_rs as $bank) {
+//         $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
+//     }
 
-    echo $result_status1;
+//     echo $result_status1;
 
-});
+// });
+//C:\Users\Home\Desktop\new-hrms\hrms-v2\app\Http\Controllers\organization\AttendanceController.php
+Route::get('pis/getEmployeedailyattandeaneshightById/{empid}','App\Http\Controllers\organization\AttendanceController@getEmployeeCode');
+// Route::get('pis/getEmployeedailyattandeaneshightById/{empid}', function ($empid) {
 
-Route::get('pis/getEmployeedailyattandeaneshightById/{empid}', function ($empid) {
+//     $reg = Session::get('emid');
+//     // $Roledata = DB::table('registration')
+//     //     ->where('email', '=', $email)
+//     //     ->first();
 
-    $email = Session::get('emp_email');
-    $Roledata = DB::table('registration')
-        ->where('email', '=', $email)
-        ->first();
+//         if (is_numeric($empid)) {
+//                 $designi = DB::table('designation')
+//                 ->where('id', '=',$empid)
+//                 ->first();
+//                 // dd($designi);
 
-        if (is_numeric($empid)) {
-                $designi = DB::table('designation')
-                ->where('id', '=',$empid)
-                ->first();
-                // dd($designi);
+//                  $employee_rs = DB::table('employee')
 
-                 $employee_rs = DB::table('employee')
+//         ->where('emp_designation', '=',$designi->designation_name)
 
-        ->where('emp_designation', '=',$designi->designation_name)
+//         ->where('emid', '=', $reg)
+//         ->where(function ($query) {
 
-        ->where('emid', '=', $Roledata->reg)
-        ->where(function ($query) {
+//             $query->whereNull('employee.emp_status')
+//                 ->orWhere('employee.emp_status', '!=', 'LEFT');
+//         })
+//         ->get();
 
-            $query->whereNull('employee.emp_status')
-                ->orWhere('employee.emp_status', '!=', 'LEFT');
-        })
-        ->get();
+//         // dd($employee_rs);
 
-        // dd($employee_rs);
+//     $result = '';
+//     $result_status1 = "  <option value=''>Select</option>
+// 	<option value=''>All</option>";
+//     foreach ($employee_rs as $bank) {
+//         $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
+//     }
 
-    $result = '';
-    $result_status1 = "  <option value=''>Select</option>
-	<option value=''>All</option>";
-    foreach ($employee_rs as $bank) {
-        $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
-    }
-
-    echo $result_status1;
-
-
-        } elseif (is_string($empid)) {
-           $employee_rs = DB::table('employee')
-
-        ->where('emp_designation', '=',$empid)
-
-        ->where('emid', '=', $Roledata->reg)
-        ->where(function ($query) {
-
-            $query->whereNull('employee.emp_status')
-                ->orWhere('employee.emp_status', '!=', 'LEFT');
-        })
-        ->get();
-
-        // dd($employee_rs);
-
-    $result = '';
-    $result_status1 = "  <option value=''>Select</option>
-	<option value=''>All</option>";
-    foreach ($employee_rs as $bank) {
-        $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
-    }
-
-    echo $result_status1;
-        } else {
-            echo "Unknown type";
-        }
+//     echo $result_status1;
 
 
+//         } elseif (is_string($empid)) {
+//            $employee_rs = DB::table('employee')
+
+//         ->where('emp_designation', '=',$empid)
+
+//         ->where('emid', '=', $reg)
+//         ->where(function ($query) {
+
+//             $query->whereNull('employee.emp_status')
+//                 ->orWhere('employee.emp_status', '!=', 'LEFT');
+//         })
+//         ->get();
+
+//         // dd($employee_rs);
+
+//     $result = '';
+//     $result_status1 = "  <option value=''>Select</option>
+// 	<option value=''>All</option>";
+//     foreach ($employee_rs as $bank) {
+//         $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
+//     }
+
+//     echo $result_status1;
+//         } else {
+//             echo "Unknown type";
+//         }
 
 
 
-});
 
-Route::get('pis/getEmployeedailyattandeaneById/{empid}', function ($empid) {
-   // dd($empid);
-    $email = Session::get('emp_email');
-    $Roledata = DB::table('registration')
 
-        ->where('email', '=', $email)
-        ->first();
+// });
 
-   $employee_rs = DB::table('employee')
-    ->where('emp_status',$empid)
-    ->where('emid',$Roledata->reg)
-    ->where('status','active')
-    ->get();
+// Route::get('pis/getEmployeedailyattandeaneById/{empid}', function ($empid) {
+//    // dd($empid);
+//     $reg = Session::get('emid');
+//     // $Roledata = DB::table('registration')
 
-//dd($employee_rs);
-    $result = '';
-    $result_status1 = "  <option value=''>Select</option>
-    <option value=''>All</option>";
-    foreach ($employee_rs as $bank) {
-        $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
-    }
+//     //     ->where('email', '=', $email)
+//     //     ->first();
 
-    echo $result_status1;
+//    $employee_rs = DB::table('employee')
+//     ->where('emp_status',$empid)
+//     ->where('emid',$reg)
+//     ->where('status','active')
+//     ->get();
 
-});
+// //dd($employee_rs);
+//     $result = '';
+//     $result_status1 = "  <option value=''>Select</option>
+//     <option value=''>All</option>";
+//     foreach ($employee_rs as $bank) {
+//         $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
+//     }
+
+//     echo $result_status1;
+
+// });
 
 Route::get('pis/getEmployeedailyattandeaneByIdnewvchange/{empid}', function ($empid) {
     $email = Session::get('emp_email');
@@ -5316,35 +5326,35 @@ Route::get('pis/getEmployeedesigByshiftIdcode/{department}/{designation}/{employ
     echo $result_status1;
 
 });
+Route::get('pis/getEmployeedesigByshiftId/{empid}','App\Http\Controllers\organization\AttendanceController@getDesignation');
+// Route::get('pis/getEmployeedesigByshiftId/{empid}', function ($empid) {
+//     $email = Session::get('emp_email');
+//     $Roledata = DB::table('registration')
 
-Route::get('pis/getEmployeedesigByshiftId/{empid}', function ($empid) {
-    $email = Session::get('emp_email');
-    $Roledata = DB::table('registration')
+//         ->where('email', '=', $email)
+//         ->first();
 
-        ->where('email', '=', $email)
-        ->first();
+//     $desig_rs = DB::table('department')
 
-    $desig_rs = DB::table('department')
-
-        ->where('id', '=', $empid)
-        ->where('emid', '=', $Roledata->reg)
-        ->first();
+//         ->where('id', '=', $empid)
+//         ->where('emid', '=', $Roledata->reg)
+//         ->first();
 
 
-    $employee_rs = DB::table('designation')
+//     $employee_rs = DB::table('designation')
 
-        ->where('department_code', '=', $desig_rs->id)
-        ->get();
-        // dd($employee_rs);
-    $result = '';
-    $result_status1 = "<option value='' selected disabled> &nbsp;</option>";
-    foreach ($employee_rs as $bank) {
-        $result_status1 .= '<option value="' . $bank->id . '">' . $bank->designation_name . '</option>';
-    }
+//         ->where('department_code', '=', $desig_rs->id)
+//         ->get();
+//         // dd($employee_rs);
+//     $result = '';
+//     $result_status1 = "<option value='' selected disabled> &nbsp;</option>";
+//     foreach ($employee_rs as $bank) {
+//         $result_status1 .= '<option value="' . $bank->id . '">' . $bank->designation_name . '</option>';
+//     }
 
-    echo $result_status1;
+//     echo $result_status1;
 
-});
+// });
 
 Route::get('settings/vw-tax', 'App\Http\Controllers\SettingController@getTaxmaster');
 Route::get('settings/tax', 'App\Http\Controllers\SettingController@viewAddTaxmaster');
@@ -5865,7 +5875,7 @@ Route::get('/subadmin-own-invoice/download/{id}', 'App\Http\Controllers\organiza
 
 
 // Ajax Route ------------------------------------------------------------
-Route::get('pis/getEmployeedailyattandeaneshightByIdnewr/{empid}','App\Http\Controllers\AjaxController@getEmpCode');
+//Route::get('pis/getEmployeedailyattandeaneshightByIdnewr/{empid}','App\Http\Controllers\AjaxController@getEmpCode');
 
 // Superadmin Dossier
 Route::get('superadmin/sponsor-dossier-list','App\Http\Controllers\DossierController@sponsorDossierList')->name('superadmin.sponsor-dossier-list');

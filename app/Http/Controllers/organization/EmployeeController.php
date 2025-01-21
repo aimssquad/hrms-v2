@@ -29,16 +29,17 @@ class EmployeeController extends Controller
          //dd('okk');
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['payment_wedes_rs'] = DB::table('payment_type_wedes')->where('emid', '=', $Roledata->reg)->get();
+            //     ->where('email', '=', $email)
+            //     ->first();
+            $data['payment_wedes_rs'] = DB::table('payment_type_wedes')->where('emid', '=', $reg)->get();
 
             $id = $request->get('q');
             if ($id) {
@@ -69,57 +70,57 @@ class EmployeeController extends Controller
                 $data['employee_rs'] = DB::table('employee')
                     ->join('employee_pay_structure', 'employee.emp_code', '=', 'employee_pay_structure.employee_code')
                     ->where('employee.emp_code', '=', $decrypted_id)
-                    ->where('employee.emid', '=', $Roledata->reg)
-                    ->where('employee_pay_structure.emid', '=', $Roledata->reg)
+                    ->where('employee.emid', '=', $reg)
+                    ->where('employee_pay_structure.emid', '=', $reg)
                     ->select('employee.*', 'employee_pay_structure.*')
                     ->get();
 
                 $data['employee_job_rs'] = DB::table('employee_job')
                     ->where('emp_id', '=', $decrypted_id)
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->get();
 
                 $data['employee_quli_rs'] = DB::table('employee_qualification')
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->where('emp_id', '=', $decrypted_id)
                     ->get();
 
                 $data['employee_otherd_doc_rs'] = DB::table('employee_other_doc')
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->where('emp_code', '=', $decrypted_id)
                     ->get();
                 $data['employee_train_rs'] = DB::table('employee_training')
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->where('emp_id', '=', $decrypted_id)
                     ->get();
 
                 $data['employee_upload_rs'] = DB::table('employee_upload')
                     ->where('emp_id', '=', $decrypted_id)
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->get();
 
                 $empdepartmen = DB::table('department')
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->where('department_name', '=', $data['employee_rs'][0]->emp_department)
                     ->where('department_status', '=', 'active')
                     ->first();
 
                 $data['department'] = DB::table('department')
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->where('department_status', '=', 'active')->get();
 
                 if (!empty($empdepartmen)) {
-                    $data['designation'] = DB::table('designation')->where('emid', '=', $Roledata->reg)->where('department_code', '=', $empdepartmen->id)->where('designation_status', '=', 'active')->get();
+                    $data['designation'] = DB::table('designation')->where('emid', '=', $reg)->where('department_code', '=', $empdepartmen->id)->where('designation_status', '=', 'active')->get();
                 } else {
                     $data['designation'] = '';
                 }
-                //dd($Roledata->reg);
-                //$data['employee_type'] = DB::table('employ_type_master')->where('emid', '=', $Roledata->reg)->get();
-                $data['employee_type'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->get();
+                //dd($reg);
+                //$data['employee_type'] = DB::table('employ_type_master')->where('emid', '=', $reg)->get();
+                $data['employee_type'] = DB::table('employee_type')->where('emid', '=', $reg)->get();
 
                 //dd($data['employee_type']);
-                $emppaygr = DB::table('pay_scale_master')->where('emid', '=', $Roledata->reg)->where('payscale_code', '=', $data['employee_rs'][0]->emp_group_name)->first();
-                $data['grade'] = DB::table('grade')->where('emid', '=', $Roledata->reg)->where('grade_status', '=', 'active')->get();
+                $emppaygr = DB::table('pay_scale_master')->where('emid', '=', $reg)->where('payscale_code', '=', $data['employee_rs'][0]->emp_group_name)->first();
+                $data['grade'] = DB::table('grade')->where('emid', '=', $reg)->where('grade_status', '=', 'active')->get();
                 if (!empty($emppaygr)) {
                     $data['annul'] = DB::table('pay_scale_basic_master')->where('pay_scale_master_id', '=', $emppaygr->id)->get();
                 } else {
@@ -128,13 +129,13 @@ class EmployeeController extends Controller
 
                 $data['currency_user'] = DB::table('currencies')->orderBy('country', 'asc')->get();
                 $data['bank'] = DB::table('bank_masters')->get();
-                $data['payscale_master'] = DB::table('pay_scale_master')->where('emid', '=', $Roledata->reg)->get();
-                $data['nation_master'] = DB::table('nationality_master')->where('emid', '=', $Roledata->reg)->orderBy('name', 'asc')->get();
-                $data['payment_type_master'] = DB::table('payment_type_master')->where('emid', '=', $Roledata->reg)->get();
+                $data['payscale_master'] = DB::table('pay_scale_master')->where('emid', '=', $reg)->get();
+                $data['nation_master'] = DB::table('nationality_master')->where('emid', '=', $reg)->orderBy('name', 'asc')->get();
+                $data['payment_type_master'] = DB::table('payment_type_master')->where('emid', '=', $reg)->get();
                 $data['currency_master'] = DB::table('currency_code')->get();
-                $data['tax_master'] = DB::table('tax_master')->where('emid', '=', $Roledata->reg)->get();
+                $data['tax_master'] = DB::table('tax_master')->where('emid', '=', $reg)->get();
 
-                $data['employeelists'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
+                $data['employeelists'] = DB::table('employee')->where('emid', '=', $reg)->get();
                 if ($data['employee_rs'][0]->emp_pr_pincode != '') {
 
                     $data['employee_pin_rs'] = "<option value=''>&nbsp;</option>";

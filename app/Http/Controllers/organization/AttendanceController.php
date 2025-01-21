@@ -25,43 +25,12 @@ class AttendanceController extends Controller
     }
     //return view($this->_routePrefix . '.holiday-list',$data);
     public function dashboard(Request $request)
-    {
-        $usetype = Session::get('user_type');
-        $email = Session::get('emp_email');
-    
-        // Check if the user is an employee
-        if ($usetype == 'employee') {
-            $usemail = Session::get('user_email');
-            $users_id = Session::get('users_id');
-    
-            // Get employee data
-            $dtaem = DB::table('users')
-                ->where('id', '=', $users_id)
-                ->first();
-    
-            // Fetch role authorization
-            $Roles_auth = DB::table('role_authorization')
-                ->where('emid', '=', $dtaem->emid)
-                ->where('member_id', '=', $dtaem->email)
-                ->get()
-                ->toArray();
-    
-            $arrrole = [];
-            foreach ($Roles_auth as $valrol) {
-                $arrrole[] = $valrol->menu;
-            }
-        }
-    
-        // Get Roledata from registration table
-        $Roledata = DB::table('registration')
-            ->where('email', '=', $email)
-            ->first();
-    
-        // Fetch the attendance data for employees
+    {  
+        $reg = Session::get('emid');    
         $employee_rs = DB::table('employee')
             ->join('attandence', 'employee.emp_code', '=', 'attandence.employee_code')
-            ->where('employee.emid', '=', $Roledata->reg)
-            ->where('attandence.emid', '=', $Roledata->reg)
+            ->where('employee.emid', '=', $reg)
+            ->where('attandence.emid', '=', $reg)
             ->where('attandence.date', '=', date('Y-m-d'))
             ->select('employee.*')
             ->distinct()
@@ -69,7 +38,7 @@ class AttendanceController extends Controller
         
         // Count total employees
         $employee_rs_ab = DB::table('employee')
-            ->where('emid', '=', $Roledata->reg)
+            ->where('emid', '=', $reg)
             ->get();
     
         // Calculate $ab
@@ -78,8 +47,8 @@ class AttendanceController extends Controller
         // Leave apply logic
         $leave_apply_rs = DB::table('employee')
             ->join('leave_apply', 'employee.emp_code', '=', 'leave_apply.employee_id')
-            ->where('employee.emid', '=', $Roledata->reg)
-            ->where('leave_apply.emid', '=', $Roledata->reg)
+            ->where('employee.emid', '=', $reg)
+            ->where('leave_apply.emid', '=', $reg)
             ->whereMonth('leave_apply.to_date', date('m'))
             ->where('leave_apply.status', '=', 'APPROVED')
             ->select('leave_apply.*')
@@ -92,7 +61,7 @@ class AttendanceController extends Controller
             foreach ($leave_apply_rs as $leave_rs) {
                 $leave_apply = DB::table('leave_apply')
                     ->where('employee_id', '=', $leave_rs->employee_id)
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->where('from_date', '<=', date('Y-m-d'))
                     ->where('to_date', '>=', date('Y-m-d'))
                     ->where('status', '=', 'APPROVED')
@@ -134,19 +103,17 @@ class AttendanceController extends Controller
     public function importExcel(Request $request)
     {
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');
+            $reg = Session::get('emid');
 
-            $data['Roledata'] = DB::table('registration')
-                ->where('status', '=', 'active')
-                ->where('email', '=', $email)
-                ->first();
+            // $data['Roledata'] = DB::table('registration')
+            //     ->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $file = $request->file('upload_csv');
             $extension = $file->getClientOriginalExtension();
             $fileSize = $file->getSize();
 
-            // File Details
-            // Valid File Extensions
             $valid_extension = array("csv");
             // 2MB in Bytes
             $maxFileSize = 2097152;
@@ -181,7 +148,7 @@ class AttendanceController extends Controller
                             ->where('month', '=', $importData[5])
                             ->where('date', '=', date('Y-m-d', strtotime($importData[2])))
                             ->where('employee_code', '=', $importData[0])
-                            ->where('emid', '=', $data['Roledata']->reg)
+                            ->where('emid', '=', $reg)
                             ->first();
 
                         if (!empty($month_entry)) {
@@ -220,7 +187,7 @@ class AttendanceController extends Controller
                             "time_in_location" => $importData[6],
                             "time_out_location" => $importData[7],
                             "duty_hours" => $duty_hours,
-                            "emid" => $data['Roledata']->reg,
+                            "emid" => $reg,
                         );
 
                         DB::table('attandence')->insert($insertData);
@@ -245,26 +212,36 @@ class AttendanceController extends Controller
     public function viewGenerateAttendence()
     {  
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
-
-
-            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
-            $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
-            //dd($data);
+            $reg = Session::get('emid');
+            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();
+            $data['departs'] = DB::table('department')->where('emid', '=', $reg)->get();
             return view($this->_routePrefix . '.genarate-list',$data);
             //return view('attendance/genarate-list', $data);
         } else {
             return redirect('/');
         }
 
+    }
+
+    public function getDesignation(Request $request, $empid)
+    {
+        $reg = Session::get('emid');
+        $desig_rs = DB::table('department')
+            ->where('id', '=', $empid)
+            ->where('emid', '=', $reg)
+            ->first();
+        $employee_rs = DB::table('designation')
+    
+            ->where('department_code', '=', $desig_rs->id)
+            ->get();
+            // dd($employee_rs);
+        $result = '';
+        $result_status1 = "<option value='' selected disabled> &nbsp;</option>";
+        foreach ($employee_rs as $bank) {
+            $result_status1 .= '<option value="' . $bank->id . '">' . $bank->designation_name . '</option>';
+        }
+    
+        echo $result_status1;
     }
 
     public function importGenerate(Request $request)
@@ -614,18 +591,18 @@ class AttendanceController extends Controller
     public function viewattendancedaily()
     {
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
-            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
-            $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();
+            $data['departs'] = DB::table('department')->where('emid', '=', $reg)->get();
             return view($this->_routePrefix . '.daily-list',$data);
             //return view('attendance/daily-list', $data);
         } else {
@@ -640,14 +617,15 @@ class AttendanceController extends Controller
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $employee_code = $request->employee_code;
             $department = $request->department;
@@ -655,11 +633,11 @@ class AttendanceController extends Controller
 
             $employee_desigrs = DB::table('designation')
                 ->where('id', '=', $designation)
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->first();
             $employee_depers = DB::table('department')
                 ->where('id', '=', $department)
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->first();
             $date = date('Y-m-d', strtotime($request->date));
 
@@ -668,7 +646,7 @@ class AttendanceController extends Controller
                 $leave_allocation_rs = DB::table('attandence')
                     ->join('employee', 'attandence.employee_code', '=', 'employee.emp_code')
                     ->where('attandence.employee_code', '=', $employee_code)
-                    ->where('attandence.emid', '=', $Roledata->reg)
+                    ->where('attandence.emid', '=', $reg)
                     ->where('employee.emp_designation', '=', $employee_desigrs->designation_name)
                     ->where('employee.emp_department', '=', $employee_depers->department_name)
                     ->where('attandence.date', '=', $date)
@@ -680,7 +658,7 @@ class AttendanceController extends Controller
 
                     ->join('employee', 'attandence.employee_code', '=', 'employee.emp_code')
 
-                    ->where('attandence.emid', '=', $Roledata->reg)
+                    ->where('attandence.emid', '=', $reg)
                     ->where('employee.emp_designation', '=', $employee_desigrs->designation_name)
                     ->where('employee.emp_department', '=', $employee_depers->department_name)
                     ->where('attandence.date', '=', $date)
@@ -702,13 +680,23 @@ class AttendanceController extends Controller
 														<td>' . date('h:i a', strtotime($leave_allocation->time_out)) . '</td>
 													<td>' . $leave_allocation->time_out_location . '</td>
 													<td>' . $leave_allocation->duty_hours . '</td>
-													<td><a href="edit-daily/' . base64_encode($leave_allocation->id) . '"><img  style="width: 15px;" src="' . env("BASE_URL") . 'public/assets/img/edit.png"></a></td>
+													
+                                                    <td class="text-end">
+                                                        <div class="dropdown dropdown-action">
+                                                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <a class="dropdown-item" href="edit-daily/' . base64_encode($leave_allocation->id) . '">
+                                                                    <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
 
 						</tr>';
                     $f++;}
             }
-            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
-            $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();
+            $data['departs'] = DB::table('department')->where('emid', '=', $reg)->get();
 
             return view($this->_routePrefix . '.daily-list',$data);
             //return view('attendance/daily-list', $data);
@@ -716,25 +704,74 @@ class AttendanceController extends Controller
             return redirect('/');
         }
     }
+    //<td><a href="edit-daily/' . base64_encode($leave_allocation->id) . '"><img  style="width: 15px;" src="' . env("BASE_URL") . 'public/assets/img/edit.png"></a></td>
+
+    public function getEmployeeCode(Request $request, $empid)
+    {
+        $reg = Session::get('emid');
+        if (is_numeric($empid)) {
+            $designi = DB::table('designation')
+                ->where('id', '=',$empid)
+                ->first();
+
+            $employee_rs = DB::table('employee')
+                ->where('emp_designation', '=',$designi->designation_name)
+                ->where('emid', '=', $reg)
+                ->where(function ($query) {
+                    $query->whereNull('employee.emp_status')
+                    ->orWhere('employee.emp_status', '!=', 'LEFT');
+                })->get();
+
+            $result = '';
+            $result_status1 = " <option value=''>Select</option>
+                                <option value=''>All</option>";
+            foreach ($employee_rs as $bank) {
+                $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
+            }
+            echo $result_status1;
+        } elseif (is_string($empid)) {
+
+            $employee_rs = DB::table('employee')
+                ->where('emp_designation', '=',$empid)
+                ->where('emid', '=', $reg)
+                ->where(function ($query) {
+                    $query->whereNull('employee.emp_status')
+                    ->orWhere('employee.emp_status', '!=', 'LEFT');
+                })->get();
+
+            $result = '';
+            $result_status1 = " <option value=''>Select</option>
+                                <option value=''>All</option>";
+            foreach ($employee_rs as $bank) {
+                $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
+            }
+            echo $result_status1;
+        } else {
+            echo "Unknown type";
+        }
+
+    }
+
+
 
     public function getDailyAttandancedetails($daily_id)
     {
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['job'] = DB::table('attandence')->where('id', '=', base64_decode($daily_id))->first();
 
             $data['job_details'] = DB::table('employee')->where('emp_code', '=', $data['job']->employee_code)
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->first();
             return view($this->_routePrefix . '.daily-edit',$data);
             //return View('attendance/daily-edit', $data);
@@ -776,18 +813,9 @@ class AttendanceController extends Controller
     public function viewattendancereport()
     {
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
-
-            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
-            $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+            $reg = Session::get('emid');
+            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();
+            $data['departs'] = DB::table('department')->where('emid', '=', $reg)->get();
             return view($this->_routePrefix . '.report-list',$data);
             //return view('attendance/report-list', $data);
         } else {
@@ -796,18 +824,43 @@ class AttendanceController extends Controller
 
     }
 
+    public function getEmpCode($empid){
+        $reg = Session::get('emid');
+        $employee_desigrs = DB::table('designation')
+            ->where('id', '=', $empid)
+            ->where('emid', '=', $reg)
+            ->first();
+        $employee_depers = DB::table('department')
+            ->where('id', '=', $employee_desigrs->department_code)
+            ->where('emid', '=', $reg)
+            ->first();
+        $employee_rs = DB::table('employee')
+    
+            ->where('emp_designation', '=', $employee_desigrs->designation_name)
+            ->where('emp_department', '=', $employee_depers->department_name)
+            ->where('emid', '=', $reg)
+            ->get();
+        $result = '';
+        $result_status1 = "  <option value=''>Select</option>";
+        foreach ($employee_rs as $bank) {
+            $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
+        }
+    
+        echo $result_status1;
+    }
+
     public function getReportAttandance(Request $request)
     {
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $employee_code = $request->employee_code;
             $department = $request->department;
@@ -816,13 +869,13 @@ class AttendanceController extends Controller
             $end_date = date('Y-m-d', strtotime($request->end_date));
             $employee_desigrs = DB::table('designation')
                 ->where('id', '=', $designation)
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->first();
-            $job_details = DB::table('employee')->where('emp_code', '=', $employee_code)->where('emid', '=', $Roledata->reg)->orderBy('id', 'DESC')->first();
+            $job_details = DB::table('employee')->where('emp_code', '=', $employee_code)->where('emid', '=', $reg)->orderBy('id', 'DESC')->first();
 
             $employee_depers = DB::table('department')
                 ->where('id', '=', $department)
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->first();
 
             if (date('m', strtotime($end_date)) != date('m', strtotime($start_date))) {
@@ -847,7 +900,7 @@ class AttendanceController extends Controller
 
                 $holidays = DB::table('holiday')->where('from_date', '>=', $start_date)
                     ->where('to_date', '<=', $end_date)
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->get();
                 $totday = 0;
 
@@ -905,7 +958,7 @@ class AttendanceController extends Controller
                     $duty_auth = DB::table('duty_roster')
 
                         ->where('employee_id', '=', $employee_code)
-                        ->where('emid', '=', $Roledata->reg)
+                        ->where('emid', '=', $reg)
 
                         ->whereDate('start_date', '<=', $new_f)
                         ->whereDate('end_date', '>=', $new_f)
@@ -920,14 +973,14 @@ class AttendanceController extends Controller
 
                             ->where('id', '=', $duty_auth->shift_code)
 
-                            ->where('emid', '=', $Roledata->reg)
+                            ->where('emid', '=', $reg)
                             ->orderBy('id', 'DESC')
                             ->first();
                         $off_auth = DB::table('offday')
 
                             ->where('shift_code', '=', $duty_auth->shift_code)
 
-                            ->where('emid', '=', $Roledata->reg)
+                            ->where('emid', '=', $reg)
                             ->orderBy('id', 'DESC')
                             ->first();
 
@@ -979,14 +1032,14 @@ class AttendanceController extends Controller
                             DB::table('employee')
 
                                 ->where('emp_code', '=', $employee_code)
-                                ->where('emid', '=', $Roledata->reg)
+                                ->where('emid', '=', $reg)
 
                                 ->first();
 
                             $laeveppnre = DB::table('leave_apply')
 
                                 ->where('employee_id', '=', $employee_code)
-                                ->where('emid', '=', $Roledata->reg)
+                                ->where('emid', '=', $reg)
                                 ->where('from_date', '<=', $new_f)
                                 ->where('to_date', '>=', $new_f)
                                 ->where('status', '=', 'APPROVED')
@@ -996,7 +1049,7 @@ class AttendanceController extends Controller
                             $laeveppnrejj = DB::table('leave_apply')
 
                                 ->where('employee_id', '=', $employee_code)
-                                ->where('emid', '=', $Roledata->reg)
+                                ->where('emid', '=', $reg)
                                 ->where('from_date', '<=', $new_f)
                                 ->where('to_date', '>=', $new_f)
                                 ->where('status', '!=', 'APPROVED')
@@ -1101,7 +1154,7 @@ class AttendanceController extends Controller
 
                                         } else if ($join_date == $new_f) {
 
-                                            $month_entrynew = DB::table('attandence')->where('month', '=', date('m/Y', strtotime($start_date)))->where('date', '=', $new_f)->where('employee_code', '=', $job_details->emp_code)->where('emid', '=', $data['Roledata']->reg)->get();
+                                            $month_entrynew = DB::table('attandence')->where('month', '=', date('m/Y', strtotime($start_date)))->where('date', '=', $new_f)->where('employee_code', '=', $job_details->emp_code)->where('emid', '=', $reg)->get();
 
                                             if (count($month_entrynew) != 0) {
                                                 foreach ($month_entrynew as $month_entry) {
@@ -1194,7 +1247,7 @@ class AttendanceController extends Controller
                                             $fh++;
                                         } else {
 
-                                            $month_entrynew = DB::table('attandence')->where('month', '=', date('m/Y', strtotime($start_date)))->where('date', '=', $new_f)->where('employee_code', '=', $job_details->emp_code)->where('emid', '=', $data['Roledata']->reg)->get();
+                                            $month_entrynew = DB::table('attandence')->where('month', '=', date('m/Y', strtotime($start_date)))->where('date', '=', $new_f)->where('employee_code', '=', $job_details->emp_code)->where('emid', '=', $reg)->get();
                                             //dd($month_entrynew);
                                             if (count($month_entrynew) != 0) {
                                                 foreach ($month_entrynew as $month_entry) {
@@ -1249,8 +1302,8 @@ class AttendanceController extends Controller
 
             }
             //dd($data['result']);
-            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
-            $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();
+            $data['departs'] = DB::table('department')->where('emid', '=', $reg)->get();
 
             $data['employee_code'] = $request->employee_code;
             $data['department'] = $request->department;
@@ -1406,18 +1459,18 @@ class AttendanceController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
-            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
-            $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();
+            $data['departs'] = DB::table('department')->where('emid', '=', $reg)->get();
             return view($this->_routePrefix . '.process-list',$data);
             //return view('attendance/process-list', $data);
         } else {
@@ -1427,17 +1480,18 @@ class AttendanceController extends Controller
 
     public function getProcessAttandance(Request $request)
     {
+        //dd('okk');
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $filename =
             $data['result'] = '';
@@ -1450,11 +1504,11 @@ class AttendanceController extends Controller
 
             $employee_desigrs = DB::table('designation')
                 ->where('id', '=', $designation)
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->first();
             $employee_depers = DB::table('department')
                 ->where('id', '=', $department)
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->first();
 
             $end_date = date('Y-m-d', strtotime($request->end_date));
@@ -1466,7 +1520,7 @@ class AttendanceController extends Controller
             }
             $holidays = DB::table('holiday')->where('from_date', '>=', $request->start_date)
                 ->where('to_date', '<=', $end_date)
-                ->where('emid', '=', $Roledata->reg)
+                ->where('emid', '=', $reg)
                 ->get();
             $totday = 0;
 
@@ -1503,8 +1557,8 @@ class AttendanceController extends Controller
                 $employee_rs = DB::Table('employee')
                     ->join('attandence', 'employee.emp_code', '=', 'attandence.employee_code')
                     ->whereBetween('attandence.date', [$start_date, $end_date])
-                    ->where('employee.emid', '=', $Roledata->reg)
-                    ->where('attandence.emid', '=', $Roledata->reg)
+                    ->where('employee.emid', '=', $reg)
+                    ->where('attandence.emid', '=', $reg)
                     ->where('employee.emp_code', '=', $emp_v)
                     ->where('employee.emp_designation', '=', $employee_desigrs->designation_name)
                     ->where('employee.emp_department', '=', $employee_depers->department_name)
@@ -1517,8 +1571,8 @@ class AttendanceController extends Controller
                 $employee_rs = DB::Table('employee')
                     ->join('attandence', 'employee.emp_code', '=', 'attandence.employee_code')
                     ->whereBetween('attandence.date', [$start_date, $end_date])
-                    ->where('employee.emid', '=', $Roledata->reg)
-                    ->where('attandence.emid', '=', $Roledata->reg)
+                    ->where('employee.emid', '=', $reg)
+                    ->where('attandence.emid', '=', $reg)
                     ->where('employee.emp_designation', '=', $employee_desigrs->designation_name)
                     ->where('employee.emp_department', '=', $employee_depers->department_name)
                     ->select('employee.*')
@@ -1533,7 +1587,7 @@ class AttendanceController extends Controller
             foreach ($employee_rs as $emp) {
                 $tour_leave_count = 0;
                 $number_of_days_leave = 0;
-                $leave_apply_rs = DB::select(DB::raw("SELECT SUM(no_of_leave) as number_of_days ,SUM(status),(to_date) as to_date , from_date as from_date FROM `leave_apply` WHERE employee_id='$emp->emp_code' and emid='$Roledata->reg'
+                $leave_apply_rs = DB::select(DB::raw("SELECT SUM(no_of_leave) as number_of_days ,SUM(status),(to_date) as to_date , from_date as from_date FROM `leave_apply` WHERE employee_id='$emp->emp_code' and emid='$reg'
             AND status='APPROVED' AND (to_date  between '$start_date' and '$end_date' OR from_date  between '$start_date' and '$end_date')"));
 
                 //dd(count($tour_leave));
@@ -1563,7 +1617,7 @@ class AttendanceController extends Controller
                 DB::table('attandence')
 
                     ->where('employee_code', '=', $emp->emp_code)
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->where('month', '=', $mon_y)
                     ->groupBy('date')
                     ->get();
@@ -1577,7 +1631,7 @@ class AttendanceController extends Controller
                 $duty_auth = DB::table('duty_roster')
 
                     ->where('employee_id', '=', $emp->emp_code)
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->where('end_date', '>=', $start_date)
 
                     ->orderBy('id', 'DESC')
@@ -1590,14 +1644,14 @@ class AttendanceController extends Controller
 
                         ->where('id', '=', $duty_auth->shift_code)
 
-                        ->where('emid', '=', $Roledata->reg)
+                        ->where('emid', '=', $reg)
                         ->orderBy('id', 'DESC')
                         ->first();
                     $off_auth = DB::table('offday')
 
                         ->where('shift_code', '=', $duty_auth->shift_code)
 
-                        ->where('emid', '=', $Roledata->reg)
+                        ->where('emid', '=', $reg)
                         ->orderBy('id', 'DESC')
                         ->first();
 
@@ -1655,7 +1709,7 @@ class AttendanceController extends Controller
                         $laeveppnre = DB::table('leave_apply')
 
                             ->where('employee_id', '=', $emp->emp_code)
-                            ->where('emid', '=', $Roledata->reg)
+                            ->where('emid', '=', $reg)
                             ->where('from_date', '<=', $new_f)
                             ->where('to_date', '>=', $new_f)
                             ->where('status', '=', 'APPROVED')
@@ -1731,9 +1785,9 @@ class AttendanceController extends Controller
                 }
             }
 
-            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
+            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();
 
-            $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+            $data['departs'] = DB::table('department')->where('emid', '=', $reg)->get();
             return view($this->_routePrefix . '.process-list',$data);
             //return view('attendance/process-list', $data);
         } else {
@@ -1742,23 +1796,23 @@ class AttendanceController extends Controller
     }
 
     public function saveProcessAttandance(Request $request)
-    {
+    {   
         if (!empty(Session::get('emp_email'))) {
 
             //print_r($request->all()); exit;
             $i = 0;
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-
+            //     ->where('email', '=', $email)
+            //     ->first();
+            //dd($Roledata->reg);
             $enteremployee = array();
-            $checkattendence = DB::table('process_attendance')->where('month_yr', '=', date('m/Y', strtotime($request->end_date)))->where('emid', '=', $Roledata->reg)->get();
+            $checkattendence = DB::table('process_attendance')->where('month_yr', '=', date('m/Y', strtotime($request->end_date)))->where('emid', '=', $reg)->get();
             foreach ($checkattendence as $chckatt) {
                 $enteremployee[] = $chckatt->employee_code;
             }
@@ -1775,7 +1829,7 @@ class AttendanceController extends Controller
                     $dataval['no_of_present'] = $allocation_list['no_of_present' . $pr];
                     $dataval['no_of_days_absent'] = $allocation_list['no_of_days_absent' . $pr];
                     $dataval['no_of_days_salary'] = $allocation_list['total_sal' . $pr];
-                    $dataval['emid'] = $Roledata->reg;
+                    $dataval['emid'] = $reg;
                     $dataval['created_at'] = date('Y-m-d');
                     $dataval['updated_at'] = date('Y-m-d');
 
@@ -1810,18 +1864,18 @@ class AttendanceController extends Controller
     public function viewattendanabsent()
     {
         if (!empty(Session::get('emp_email'))) {
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
-            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
-            $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();
+            $data['departs'] = DB::table('department')->where('emid', '=', $reg)->get();
             return view($this->_routePrefix . '.absent-list',$data);
             //return view('attendance/absent-list', $data);
         } else {
@@ -1834,15 +1888,15 @@ class AttendanceController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
             $at = 1;
 
             $increment = 0;
@@ -1894,16 +1948,16 @@ class AttendanceController extends Controller
 
                 $employee_desigrs = DB::table('designation')
                     ->where('id', '=', $designation)
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->first();
                 $employee_depers = DB::table('department')
                     ->where('id', '=', $department)
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->first();
 
                 $holidays = DB::table('holiday')->where('from_date', '>=', $first_day_this_year)
                     ->where('to_date', '<=', $last_day_this_year)
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->get();
                 $totday = 0;
                 $offgholi = array();
@@ -1939,8 +1993,8 @@ class AttendanceController extends Controller
                 $employee_rs = DB::Table('employee')
                     ->join('attandence', 'employee.emp_code', '=', 'attandence.employee_code')
                     ->whereBetween('attandence.date', [$first_day_this_year, $last_day_this_year])
-                    ->where('employee.emid', '=', $Roledata->reg)
-                    ->where('attandence.emid', '=', $Roledata->reg)
+                    ->where('employee.emid', '=', $reg)
+                    ->where('attandence.emid', '=', $reg)
                     ->where('employee.emp_code', '=', $emp_v)
                     ->where('employee.emp_designation', '=', $employee_desigrs->designation_name)
                     ->where('employee.emp_department', '=', $employee_depers->department_name)
@@ -1953,7 +2007,7 @@ class AttendanceController extends Controller
                     foreach ($employee_rs as $emp) {
                         $tour_leave_count = 0;
                         $number_of_days_leave = 0;
-                        $leave_apply_rs = DB::select(DB::raw("SELECT SUM(no_of_leave) as number_of_days ,SUM(status),(to_date) as to_date , from_date as from_date FROM `leave_apply` WHERE employee_id='$emp->emp_code' and emid='$Roledata->reg'
+                        $leave_apply_rs = DB::select(DB::raw("SELECT SUM(no_of_leave) as number_of_days ,SUM(status),(to_date) as to_date , from_date as from_date FROM `leave_apply` WHERE employee_id='$emp->emp_code' and emid='$reg'
         AND status='APPROVED' AND (to_date  between '$first_day_this_year' and '$last_day_this_year' OR from_date  between '$first_day_this_year' and '$last_day_this_year')"));
 
                         //dd(count($tour_leave));
@@ -1969,7 +2023,7 @@ class AttendanceController extends Controller
                         DB::table('attandence')
 
                             ->where('employee_code', '=', $emp->emp_code)
-                            ->where('emid', '=', $Roledata->reg)
+                            ->where('emid', '=', $reg)
                             ->where('month', '=', $mon_y)
                             ->groupBy('date')
                             ->get();
@@ -1983,7 +2037,7 @@ class AttendanceController extends Controller
                         $duty_auth = DB::table('duty_roster')
 
                             ->where('employee_id', '=', $emp->emp_code)
-                            ->where('emid', '=', $Roledata->reg)
+                            ->where('emid', '=', $reg)
 
                             ->where('end_date', '>=', $first_day_this_year)
                             ->orderBy('id', 'DESC')
@@ -1995,14 +2049,14 @@ class AttendanceController extends Controller
 
                                 ->where('id', '=', $duty_auth->shift_code)
 
-                                ->where('emid', '=', $Roledata->reg)
+                                ->where('emid', '=', $reg)
                                 ->orderBy('id', 'DESC')
                                 ->first();
                             $off_auth = DB::table('offday')
 
                                 ->where('shift_code', '=', $duty_auth->shift_code)
 
-                                ->where('emid', '=', $Roledata->reg)
+                                ->where('emid', '=', $reg)
                                 ->orderBy('id', 'DESC')
                                 ->first();
 
@@ -2061,7 +2115,7 @@ class AttendanceController extends Controller
                                 $laeveppnre = DB::table('leave_apply')
 
                                     ->where('employee_id', '=', $emp->emp_code)
-                                    ->where('emid', '=', $Roledata->reg)
+                                    ->where('emid', '=', $reg)
                                     ->where('from_date', '<=', $new_f)
                                     ->where('to_date', '>=', $new_f)
                                     ->where('status', '=', 'APPROVED')
@@ -2104,7 +2158,7 @@ class AttendanceController extends Controller
                                     $laevepp = DB::table('leave_apply')
 
                                         ->where('employee_id', '=', $emp->emp_code)
-                                        ->where('emid', '=', $Roledata->reg)
+                                        ->where('emid', '=', $reg)
                                         ->where('from_date', '<=', date('Y-m', strtotime($first_day_this_year)) . '-' . $wehgg)
                                         ->where('to_date', '>=', date('Y-m', strtotime($first_day_this_year)) . '-' . $wehgg)
                                         ->where('status', '=', 'APPROVED')
@@ -2180,7 +2234,7 @@ class AttendanceController extends Controller
 
                     $employee_rs_emp = DB::Table('employee')
 
-                        ->where('emid', '=', $Roledata->reg)
+                        ->where('emid', '=', $reg)
 
                         ->where('emp_code', '=', $emp_v)
                         ->where('emp_designation', '=', $employee_desigrs->designation_name)
@@ -2192,7 +2246,7 @@ class AttendanceController extends Controller
                     foreach ($employee_rs_emp as $emp) {
                         $tour_leave_count = 0;
                         $number_of_days_leave = 0;
-                        $leave_apply_rs = DB::select(DB::raw("SELECT SUM(no_of_leave) as number_of_days ,SUM(status),(to_date) as to_date , from_date as from_date FROM `leave_apply` WHERE employee_id='$emp->emp_code' and emid='$Roledata->reg'
+                        $leave_apply_rs = DB::select(DB::raw("SELECT SUM(no_of_leave) as number_of_days ,SUM(status),(to_date) as to_date , from_date as from_date FROM `leave_apply` WHERE employee_id='$emp->emp_code' and emid='$reg'
         AND status='APPROVED' AND (to_date  between '$first_day_this_year' and '$last_day_this_year' OR from_date  between '$first_day_this_year' and '$last_day_this_year')"));
 
                         //dd(count($tour_leave));
@@ -2208,7 +2262,7 @@ class AttendanceController extends Controller
                         DB::table('attandence')
 
                             ->where('employee_code', '=', $emp->emp_code)
-                            ->where('emid', '=', $Roledata->reg)
+                            ->where('emid', '=', $reg)
                             ->where('month', '=', $mon_y)
                             ->groupBy('date')
                             ->get();
@@ -2222,7 +2276,7 @@ class AttendanceController extends Controller
                         $duty_auth = DB::table('duty_roster')
 
                             ->where('employee_id', '=', $emp->emp_code)
-                            ->where('emid', '=', $Roledata->reg)
+                            ->where('emid', '=', $reg)
                             ->where('end_date', '>=', $first_day_this_year)
 
                             ->orderBy('id', 'DESC')
@@ -2233,14 +2287,14 @@ class AttendanceController extends Controller
 
                                 ->where('id', '=', $duty_auth->shift_code)
 
-                                ->where('emid', '=', $Roledata->reg)
+                                ->where('emid', '=', $reg)
                                 ->orderBy('id', 'DESC')
                                 ->first();
                             $off_auth = DB::table('offday')
 
                                 ->where('shift_code', '=', $duty_auth->shift_code)
 
-                                ->where('emid', '=', $Roledata->reg)
+                                ->where('emid', '=', $reg)
                                 ->orderBy('id', 'DESC')
                                 ->first();
 
@@ -2296,7 +2350,7 @@ class AttendanceController extends Controller
                                 $laeveppnre = DB::table('leave_apply')
 
                                     ->where('employee_id', '=', $emp->emp_code)
-                                    ->where('emid', '=', $Roledata->reg)
+                                    ->where('emid', '=', $reg)
                                     ->where('from_date', '<=', $new_f)
                                     ->where('to_date', '>=', $new_f)
                                     ->where('status', '=', 'APPROVED')
@@ -2340,7 +2394,7 @@ class AttendanceController extends Controller
                                     $laevepp = DB::table('leave_apply')
 
                                         ->where('employee_id', '=', $emp->emp_code)
-                                        ->where('emid', '=', $Roledata->reg)
+                                        ->where('emid', '=', $reg)
                                         ->where('from_date', '<=', date('Y-m', strtotime($first_day_this_year)) . '-' . $wehgg)
                                         ->where('to_date', '>=', date('Y-m', strtotime($first_day_this_year)) . '-' . $wehgg)
                                         ->where('status', '=', 'APPROVED')
@@ -2412,9 +2466,9 @@ class AttendanceController extends Controller
                 }
 
             }
-            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $Roledata->reg)->where('employee_type_status', '=', 'Active')->get();
+            $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();
 
-            $data['departs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+            $data['departs'] = DB::table('department')->where('emid', '=', $reg)->get();
             $data['employee_code'] = $request->employee_code;
             $data['year_value'] = $request->year_value;
             return view($this->_routePrefix . '.absent-list',$data);
@@ -2425,6 +2479,38 @@ class AttendanceController extends Controller
         }
 
     }
+
+    public function absentDesignation(Request $request, $empid)
+    {
+        $reg = Session::get('emid');
+        $employee_desigrs = DB::table('designation')
+            ->where('id', '=', $empid)
+            ->where('emid', '=', $reg)
+            ->first();
+        $employee_depers = DB::table('department')
+            ->where('id', '=', $employee_desigrs->department_code)
+            ->where('emid', '=', $reg)
+            ->first();
+        $employee_rs = DB::table('employee')
+
+            ->where('emp_designation', '=', $employee_desigrs->designation_name)
+            ->where('emp_department', '=', $employee_depers->department_name)
+            ->where('emid', '=', $reg)
+            ->where(function ($query) {
+
+                $query->whereNull('employee.emp_status')
+                    ->orWhere('employee.emp_status', '!=', 'LEFT');
+            })->get();
+            //$result = '';
+            $result_status1 = "  <option value=''>Select</option>";
+            foreach ($employee_rs as $bank) {
+                $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
+            }
+            echo $result_status1;
+    }
+
+
+    
 
 
 

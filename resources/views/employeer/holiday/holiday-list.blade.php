@@ -45,11 +45,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
-				@foreach($sidebarItems as $value)
-				@if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-				<a href="{{url('organization/add-holiday-list')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Record</a>
-				@endif
-				@endforeach
+				    @foreach($sidebarItems['Holiday Management'] as $rotaItem)
+                        @if($rotaItem['submenu_name'] == 'Record' && $rotaItem['can_add'] == 1)
+				            <a href="{{url('organization/add-holiday-list')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Record</a>
+				        @endif
+				    @endforeach
 				@elseif($user_type == 'employer')
 				<a href="{{url('organization/add-holiday-list')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Record</a>
 				@endif
@@ -133,8 +133,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     @if($user_type == 'employee')
-                                                        @foreach($sidebarItems as $value)
-                                                            @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
+                                                        @foreach($sidebarItems['Holiday Management'] as $rotaItem)
+                                                            @if($rotaItem['submenu_name'] == 'Record' && $rotaItem['can_edit'] == 1)
                                                                 <a class="dropdown-item" href="{{ url("organization/add-holiday-list/$holiday->id") }}">
                                                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                                 </a>
@@ -147,9 +147,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                     @endif
                             
                                                     @if($user_type == 'employee')
-                                                        @foreach($sidebarItems as $value)
-                                                            @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-                                                            <a class="dropdown-item" href="#" onclick="confirmDelete('{{ url('organization/delete-holiday-list/' . $holiday->id) }}')"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+                                                        @foreach($sidebarItems['Holiday Management'] as $rotaItem)
+                                                            @if($rotaItem['submenu_name'] == 'Record' && $rotaItem['can_delete'] == 1)
+                                                                <a class="dropdown-item" href="#" onclick="confirmDelete('{{ url('organization/delete-holiday-list/' . $holiday->id) }}')"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
                                                             @endif
                                                         @endforeach
                                                     @elseif($user_type == 'employer')

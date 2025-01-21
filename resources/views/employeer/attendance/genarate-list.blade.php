@@ -186,7 +186,7 @@
         }
         
         function chngshift(empid){
-            var emid="<?= $Roledata->reg;?>";  
+            var emid="<?= Session::get('emid');?>";  
             var department=document.getElementById("department").value;  
             var  designation=document.getElementById("designation").value;  
             var  employee_code=document.getElementById("employee_code").value; 

@@ -109,11 +109,11 @@ class LeaveApproverController extends Controller
     public function ViewLeavePermission($id)
     {
             if (!empty(Session::get("emp_email"))) {
-                $email = Session::get("emp_email");
-                $Roledata = DB::table("registration")
-                    ->where("status", "=", "active")
-                    ->where("email", "=", $email)
-                    ->first();
+                $reg = Session::get("emid");
+                // $Roledata = DB::table("registration")
+                //     ->where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
                 // $id = base64_decode(Input::get("id"));
                 // dd($id);
                 $id=$id;
@@ -132,7 +132,7 @@ class LeaveApproverController extends Controller
                         "leave_type.alies"
                     )
                     ->where("leave_apply.id", "=", $id)
-                    ->where("leave_apply.emid", "=", $Roledata->reg)
+                    ->where("leave_apply.emid", "=", $reg)
                     ->get();
 
                
@@ -159,7 +159,7 @@ class LeaveApproverController extends Controller
                     )
                     ->where("leave_apply.leave_type", "=", $lv_type->leave_type)
                     ->where("leave_apply.employee_id", "=", $lv_aply)
-                    ->where("leave_apply.emid", "=", $Roledata->reg)
+                    ->where("leave_apply.emid", "=", $reg)
                     ->where("leave_apply.status", "=", "APPROVED")
                     ->orderBy("created_at", "desc")
                     ->take(4)
@@ -176,7 +176,7 @@ class LeaveApproverController extends Controller
 
                     ->where("leave_type", "=", $lv_type->leave_type)
                     ->where("employee_id", "=", $lv_type->employee_id)
-                    ->where("emid", "=", $Roledata->reg)
+                    ->where("emid", "=", $reg)
                     ->whereBetween("from_date", [$from, $to])
                     ->whereBetween("to_date", [$from, $to])
                     ->orderBy("date_of_apply", "desc")

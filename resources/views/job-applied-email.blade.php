@@ -21,7 +21,7 @@
                                 <tr>
                                     <td width="25%" style="padding-left: 20px;">
                                         {{-- <p>Company Name: {{ $data['Roledata']->com_name ?? 'N/A' }}</p> --}}
-                                        <img src="{{ asset('storage/' . $data['Roledata']->logo) }}" alt="Company Logo"  width="100%">
+                                        <img src="{{ asset('storage/app/public' . $data['Roledata']->logo) }}" alt="Company Logo"  width="100%">
                                         {{-- <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%"> --}}
                                     </td>
                                     <td width="60%" style="padding: 0;margin: 0;">
@@ -98,7 +98,7 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <img src="{{ asset('storage/' . $data['Roledata']->logo) }}" alt="" style="width: 150px;">
+                            <img src="{{ asset('storage/app/public' . $data['Roledata']->logo) }}" alt="" style="width: 150px;">
                         </td>
                     </tr>
 

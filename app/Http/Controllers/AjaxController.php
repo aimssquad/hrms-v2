@@ -35,8 +35,7 @@ class AjaxController extends Controller
             ->where('emid', '=', $Roledata->reg)
             ->get();
         $result = '';
-        $result_status1 = "  <option value=''>Select</option>
-    ";
+        $result_status1 = "  <option value=''>Select</option>";
         foreach ($employee_rs as $bank) {
             $result_status1 .= '<option value="' . $bank->emp_code . '"';if (isset($employee_code) && $employee_code == $bank->emp_code) {$result_status1 .= 'selected';}$result_status1 .= '> ' . $bank->emp_fname . ' ' . $bank->emp_mname . ' ' . $bank->emp_lname . ' (' . $bank->emp_code . ')</option>';
         }

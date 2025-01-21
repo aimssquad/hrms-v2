@@ -121,13 +121,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                             @if($user_type == 'employee')
                                             @foreach($sidebarItems['Recruitment'] as $rotaItem)
                                             @if($rotaItem['submenu_name'] == 'Rejected' && $rotaItem['can_edit'] == 1)
-                                                        <a class="dropdown-item" href="{{url('recruitment/edit-reject/'.base64_encode($candidate->id))}}">
+                                                        <a class="dropdown-item" href="{{url('org-recruitment/edit-reject/'.base64_encode($candidate->id))}}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i>Edit
                                                         </a>
                                                     @endif
                                                 @endforeach
                                             @elseif($user_type == 'employer')
-                                                <a class="dropdown-item" href="{{url('recruitment/edit-reject/'.base64_encode($candidate->id))}}">
+                                                <a class="dropdown-item" href="{{url('org-recruitment/edit-reject/'.base64_encode($candidate->id))}}">
                                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                 </a>
                                             @endif

@@ -918,18 +918,18 @@ class SettingController extends Controller
     {
         try {
             if (!empty(Session::get('emp_email'))) {
-
                 $email = Session::get('emp_email');
-                $Roledata = DB::table('registration')->where('status', '=', 'active')
+                $reg = Session::get('emid');
+                // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                    ->where('email', '=', $email)
-                    ->first();
-                $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+                //     ->where('email', '=', $email)
+                //     ->first();
+                // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                    ->where('email', '=', $email)
-                    ->first();
+                //     ->where('email', '=', $email)
+                //     ->first();
 
-                $data['department_rs'] = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+                $data['department_rs'] = DB::table('department')->where('emid', '=', $reg)->get();
                 return view($this->_routePrefix . '.department', $data);
                 //return view('settings/department', $data);
             } else {
@@ -979,10 +979,8 @@ class SettingController extends Controller
 
                 $department_name = strtoupper(trim($request->department_name));
                 $email = Session::get('emp_email');
-                $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-                    ->where('email', '=', $email)
-                    ->first();
+                $reg = Session::get('emid');
+                
                 if (is_numeric($department_name) == 1) {
                     Session::flash('message', 'Department Should not be numeric.');
                     return redirect('org-settings/vw-department');
@@ -990,7 +988,7 @@ class SettingController extends Controller
                 }
 
                 if ($request->id) {
-                    $ckeck_dept = DB::table('department')->where('department_name', $department_name)->where('emid', $Roledata->reg)->where('id', '!=', $request->id)->first();
+                    $ckeck_dept = DB::table('department')->where('department_name', $department_name)->where('emid', $reg)->where('id', '!=', $request->id)->first();
                     if (!empty($ckeck_dept)) {
                         Session::flash('message', 'Department Already Exists.');
                         return redirect('org-settings/vw-department');
@@ -1021,7 +1019,7 @@ class SettingController extends Controller
                     return redirect('org-settings/vw-department');
 
                 } else {
-                    $ckeck_dept = DB::table('department')->where('department_name', $department_name)->where('emid', $Roledata->reg)->first();
+                    $ckeck_dept = DB::table('department')->where('department_name', $department_name)->where('emid', $reg)->first();
                     if (!empty($ckeck_dept)) {
 
                         Session::flash('message', 'Department Already Exists.');
@@ -1049,11 +1047,11 @@ class SettingController extends Controller
 
                     $data = array(
                         'department_name' => strtoupper($request->input('department_name')),
-                        'emid' => $Roledata->reg,
+                        'emid' => $reg,
                         'department_code' => $pid,
                     );
 
-                    $deptnmdb = DB::table('department')->where('department_name', '=', trim('department_name'))->where('department_status', '=', 'active')->where('emid', $Roledata->reg)->first();
+                    $deptnmdb = DB::table('department')->where('department_name', '=', trim('department_name'))->where('department_status', '=', 'active')->where('emid', $reg)->first();
 
                     if (empty($deptnmdb)) {
                         DB::table('department')->insert($data);
@@ -1075,19 +1073,12 @@ class SettingController extends Controller
         try {if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
+            $reg = Session::get('emid');
 
             $data['designation_rs'] = DB::Table('designation')
                 ->join('department', 'designation.department_code', '=', 'department.id')
                 ->where('designation.designation_status', '=', 'active')
-                ->where('designation.emid', '=', $Roledata->reg)
+                ->where('designation.emid', '=', $reg)
                 ->select('designation.*', 'department.department_name')
                 ->get();
             return view($this->_routePrefix . '.designation', $data);
@@ -1104,14 +1095,8 @@ class SettingController extends Controller
     {
         try {if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                ->where('email', '=', $email)
-                ->first();
+            $reg = Session::get('emid');
+           
 
             if ($request->id) {
                 $data['designation'] = DB::Table('designation')
@@ -1122,12 +1107,12 @@ class SettingController extends Controller
 
                     ->first();
 
-                $data['department'] = DB::Table('department')->where('department_status', '=', 'active')->where('emid', '=', $Roledata->reg)->get();
+                $data['department'] = DB::Table('department')->where('department_status', '=', 'active')->where('emid', '=', $reg)->get();
                 return view($this->_routePrefix . '.add-new-designation', $data);
                 //return view('settings/add-new-designation', $data);
             } else {
 
-                $data['department'] = DB::Table('department')->where('department_status', '=', 'active')->where('emid', '=', $Roledata->reg)->get();
+                $data['department'] = DB::Table('department')->where('department_status', '=', 'active')->where('emid', '=', $reg)->get();
                 return view($this->_routePrefix . '.add-new-designation', $data);
                 //return view('settings/add-new-designation', $data);
             }
@@ -1143,16 +1128,9 @@ class SettingController extends Controller
     {
         try {
             if (!empty(Session::get('emp_email'))) {
-
                 $email = Session::get('emp_email');
-                $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-                    ->where('email', '=', $email)
-                    ->first();
-                $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                    ->where('email', '=', $email)
-                    ->first();
+                $reg = Session::get('emid');
+                
 
                 $lsatdeptnmdb = DB::table('designation')->orderBy('id', 'DESC')->first();
                 if (empty($lsatdeptnmdb)) {
@@ -1185,7 +1163,7 @@ class SettingController extends Controller
                 } else {
 
                     if ($request->id) {
-                        $check_designation = DB::table('designation')->where('department_code', $dept_code)->where('designation_name', $request->designation_name)->where('emid', '=', $Roledata->reg)->where('id', '!=', $request->id)->first();
+                        $check_designation = DB::table('designation')->where('department_code', $dept_code)->where('designation_name', $request->designation_name)->where('emid', '=', $reg)->where('id', '!=', $request->id)->first();
                         if (!empty($check_designation)) {
                             Session::flash('message', 'Alredy Exists.');
                             return redirect('org-settings/vw-designation');
@@ -1203,7 +1181,7 @@ class SettingController extends Controller
                     } else {
 
                         //$data=request()->except(['_token'])+['designation_status' => 'active'];
-                        $check_designation = DB::table('designation')->where('department_code', $dept_code)->where('designation_name', $request->designation_name)->where('emid', '=', $Roledata->reg)->first();
+                        $check_designation = DB::table('designation')->where('department_code', $dept_code)->where('designation_name', $request->designation_name)->where('emid', '=', $reg)->first();
                         if (!empty($check_designation)) {
                             Session::flash('message', 'Alredy Exists.');
                             return redirect('org-settings/vw-designation');
@@ -1213,11 +1191,11 @@ class SettingController extends Controller
                             'department_code' => $dept_code,
                             'designation_code' => $pid,
                             'designation_name' => $designation_name,
-                            'emid' => $Roledata->reg,
+                            'emid' => $reg,
                             'designation_status' => 'active',
                         );
 
-                        $desigdb = DB::table('designation')->where('department_code', $dept_code)->where('designation_name', '=', $designation_name)->where('designation_status', '=', 'active')->where('emid', '=', $Roledata->reg)->first();
+                        $desigdb = DB::table('designation')->where('department_code', $dept_code)->where('designation_name', '=', $designation_name)->where('designation_status', '=', 'active')->where('emid', '=', $reg)->first();
 
                         if (empty($desigdb)) {
 
@@ -1245,6 +1223,7 @@ class SettingController extends Controller
             if (!empty(Session::get('emp_email'))) {
 
                 $email = Session::get('emp_email');
+                $reg = Session::get('emid');
                 $Roledata = DB::table('registration')->where('status', '=', 'active')
 
                     ->where('email', '=', $email)
@@ -1255,7 +1234,7 @@ class SettingController extends Controller
                     ->first();
 
                 $data['employee_type_rs'] = DB::Table('employee_type')
-                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emid', '=', $reg)
                     ->get();
                 return view($this->_routePrefix . '.employee-type', $data);
                 //return view('settings/employee-type', $data);
@@ -1296,10 +1275,8 @@ class SettingController extends Controller
 
             if (!empty(Session::get('emp_email'))) {
                 $email = Session::get('emp_email');
-                $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-                    ->where('email', '=', $email)
-                    ->first();
+                $reg = Session::get('emid');
+                
                 $employee_type_name = strtoupper(trim($request->employee_type_name));
 
                 if (is_numeric($employee_type_name) == 1) {
@@ -1307,7 +1284,7 @@ class SettingController extends Controller
                     return redirect('org-settings/vw-employee-type');
 
                 }
-                $employee_type = DB::table('employee_type')->where('employee_type_name', $request->employee_type_name)->where('emid', '=', $Roledata->reg)->first();
+                $employee_type = DB::table('employee_type')->where('employee_type_name', $request->employee_type_name)->where('emid', '=', $reg)->first();
                 if (!empty($employee_type)) {
                     Session::flash('message', 'Employee Type Alredy Exists.');
                     return redirect('org-settings/vw-employee-type');
@@ -1326,7 +1303,7 @@ class SettingController extends Controller
 
                 if (empty($request->id)) {
                     DB::table('employee_type')->insert(
-                        ['employee_type_name' => $employee_type_name, 'employee_type_status' => 'Active', 'emid' => $Roledata->reg]
+                        ['employee_type_name' => $employee_type_name, 'employee_type_status' => 'Active', 'emid' => $reg]
                     );
                     Session::flash('message', 'Employee Type Information Successfully saved.');
                     return redirect('org-settings/vw-employee-type');

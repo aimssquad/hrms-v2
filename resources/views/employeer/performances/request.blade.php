@@ -38,11 +38,11 @@ return $output;
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
-            @foreach($sidebarItems as $value)
-            @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-            <a href="{{url('org-performances/request')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Appraisal Request List</a>
-            @endif
-            @endforeach
+                @foreach($sidebarItems['Performance Control'] as $rotaItem)
+                    @if($rotaItem['submenu_name'] == 'Appraisal Request List' && $rotaItem['can_add'] == 1)
+                    <a href="{{url('org-performances/request')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Appraisal Request List</a>
+                    @endif
+                @endforeach
             @elseif($user_type == 'employer')
             <a href="{{url('org-performances/request')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Appraisal Request List</a>
             @endif
@@ -133,28 +133,27 @@ return $output;
                                        <i class="material-icons">more_vert</i>
                                        </a>
                                        <div class="dropdown-menu dropdown-menu-right">
-                                          @if($user_type == 'employee')
-                                          @foreach($sidebarItems as $value)
-                                          @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-                                          <a class="dropdown-item" href="{{url('/org-performances/request/'.encrypt($p->id))}}">
-                                          <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                          </a>
-                                          @endif
-                                          @endforeach
-                                          @elseif($user_type == 'employer')
-                                          <a class="dropdown-item" href="{{url('/org-performances/request/'.encrypt($p->id))}}">
-                                          <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                          </a>
-                                          @endif
-                                          @if($user_type == 'employee')
-                                          @foreach($sidebarItems as $value)
-                                          @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-                                          <a class="dropdown-item" href='{{url('org-performances/del/'.encrypt($p->id))}}' onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
-                                          @endif
-                                          @endforeach
-                                          @elseif($user_type == 'employer')
-                                          <a class="dropdown-item" href='{{url('org-performances/del/'.encrypt($p->id))}}' onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
-                                          @endif
+                                            @if($user_type == 'employee')
+                                                @foreach($sidebarItems['Performance Control'] as $rotaItem)
+                                                    @if($rotaItem['submenu_name'] == 'Appraisal Request List' && $rotaItem['can_edit'] == 1)
+                                                        <a class="dropdown-item" href="{{url('/org-performances/request/'.encrypt($p->id))}}">
+                                                            <i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
+                                                    @endif
+                                                @endforeach
+                                             @elseif($user_type == 'employer')
+                                                <a class="dropdown-item" href="{{url('/org-performances/request/'.encrypt($p->id))}}">
+                                                <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                </a>
+                                            @endif
+                                            @if($user_type == 'employee')
+                                                @foreach($sidebarItems['Performance Control'] as $rotaItem)
+                                                    @if($rotaItem['submenu_name'] == 'Appraisal Request List' && $rotaItem['can_delete'] == 1)
+                                                        <a class="dropdown-item" href='{{url('org-performances/del/'.encrypt($p->id))}}' onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+                                                    @endif
+                                                @endforeach
+                                            @elseif($user_type == 'employer')
+                                                <a class="dropdown-item" href='{{url('org-performances/del/'.encrypt($p->id))}}' onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+                                            @endif
                                        </div>
                                     </div>
                                  </td>

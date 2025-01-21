@@ -29,6 +29,7 @@ class DashboardController extends Controller
         $emid = Session::get('emid');
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
+            $reg = Session::get('emid');
             //$user_type = Session::get("user_type");
             
             // if($user_type == "employee"){     
@@ -46,11 +47,11 @@ class DashboardController extends Controller
             // }
             $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
+                ->where('reg', '=', $reg)
                 ->first();
             $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
+                ->where('reg', '=', $reg)
                 ->first();
             $data['employee_active'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
 

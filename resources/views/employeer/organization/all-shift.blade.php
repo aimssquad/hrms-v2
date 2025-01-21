@@ -103,7 +103,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                 @php
                                 
                                 $duty_roaster=DB::table('duty_roster')->where('emid', '=',
-                                $Roledata->reg)->where('shift_code', '=',
+                                Session::get('emid'))->where('shift_code', '=',
                                 $candidate->id)->get();
 
                                 //dd($duty_roaster);

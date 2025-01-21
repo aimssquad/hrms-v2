@@ -31,6 +31,7 @@ class LeaveApproverController extends Controller
 
     public function viewLeaveApproved()
     {
+        //dd('okk');
         try {
             if (!empty(Session::get("emp_email"))) {
                 if (Session::get("user_type") == "employee") {
@@ -100,4 +101,250 @@ class LeaveApproverController extends Controller
             throw new \App\Exceptions\FrontException($e->getMessage());
         }
     }
-}
+
+    public function ViewLeavePermission($id)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $reg = Session::get("emid");
+            // $Roledata = DB::table("registration")
+            //     ->where("status", "=", "active")
+            //     ->where("email", "=", $email)
+            //     ->first();
+            // $id = base64_decode(Input::get("id"));
+            // dd($id);
+            $id=$id;
+            
+            $data["LeaveApply"] = DB::table("leave_apply")
+                ->join(
+                    "leave_type",
+                    "leave_apply.leave_type",
+                    "=",
+                    "leave_type.id"
+                )
+
+                ->select(
+                    "leave_apply.*",
+                    "leave_type.leave_type_name",
+                    "leave_type.alies"
+                )
+                ->where("leave_apply.id", "=", $id)
+                ->where("leave_apply.emid", "=", $reg)
+                ->get();
+
+            
+
+            $lv_aply = DB::table("leave_apply")
+                ->where("id", "=", $id)
+                ->pluck("employee_id");
+            $lv_type = DB::table("leave_apply")
+                ->where("id", "=", $id) // dd($lv_aply);
+                ->first();
+                
+            $data["Prev_leave"] = DB::table("leave_apply")
+                ->join(
+                    "leave_type",
+                    "leave_apply.leave_type",
+                    "=",
+                    "leave_type.id"
+                )
+
+                ->select(
+                    "leave_apply.*",
+                    "leave_type.leave_type_name",
+                    "leave_type.alies"
+                )
+                ->where("leave_apply.leave_type", "=", $lv_type->leave_type)
+                ->where("leave_apply.employee_id", "=", $lv_aply)
+                ->where("leave_apply.emid", "=", $reg)
+                ->where("leave_apply.status", "=", "APPROVED")
+                ->orderBy("created_at", "desc")
+                ->take(4)
+                ->get();
+                
+            $from = date("Y-01-01");
+            $to = date("Y-12-31");
+            
+            $data["totleave"] = DB::table("leave_apply")
+
+                // ->join('leave_allocation','leave_apply.leave_type','=','leave_type.id')
+                // ->where("status", "=", "APPROVED")
+                ->select(DB::raw("SUM(no_of_leave) AS no_of_leave"))
+
+                ->where("leave_type", "=", $lv_type->leave_type)
+                ->where("employee_id", "=", $lv_type->employee_id)
+                ->where("emid", "=", $reg)
+                ->whereBetween("from_date", [$from, $to])
+                ->whereBetween("to_date", [$from, $to])
+                ->orderBy("date_of_apply", "desc")
+                ->first();
+            // dd($data['totleave']);
+            return view($this->_routePrefix . '.leave-approved-right',$data);        
+            //return view("leave-approver/leave-approved-right", $data);
+        } else {
+            return redirect("/");
+        }
+    } 
+
+    public function SaveLeavePermission(Request $request)
+    {
+        try {
+            if (!empty(Session::get("emp_email"))) {
+              
+                $reg = Session::get("emid");
+                // $Roledata = Registration::where("status", "=", "active")
+                //     ->where("email", "=", $email)
+                //     ->first();
+
+                $Allocation = leaveAllocation::where("employee_code", "=", $request->employee_id)
+                    ->where("leave_type_id", "=", $request->leave_type)
+                    ->where("emid", "=", $reg)
+
+                    ->where(
+                        "month_yr",
+                        "like",
+                        "%" . $request["month_yr"] . "%"
+                    )
+                    ->get();
+               
+                $inhand = $Allocation[0]->leave_in_hand;
+               
+                $lv_sanc_auth = Employee::where("emp_code", "=", $request->employee_id)
+                    ->where("emid", "=", $reg)
+                    ->first();
+
+                if (!empty($lv_sanc_auth)) {
+                  
+                    $lv_sanc_auth_name = $lv_sanc_auth->leaveauthority;
+                    // dd($lv_sanc_auth_name);
+                } else {
+                    $lv_sanc_auth_name = "";
+                }
+
+                if ($request->leave_check == "APPROVED") {
+                    $lv_inhand = $inhand - $request->no_of_leave;
+
+                    if ($lv_inhand < 0) {
+                        Session::flash(
+                            "message",
+                            "Insufficient Leave Balance!"
+                        );
+                        return redirect("leaveapprover/leave-request");
+                    } else {
+                      LeaveApply::where("id", $request->apply_id)
+                            ->where("employee_id", $request->employee_id)
+                            ->update([
+                                "status" => $request->leave_check,
+                                "status_remarks" => $request->status_remarks,
+                            ]);
+
+                            leaveAllocation::where("leave_type_id", "=", $request->leave_type)
+                            ->where("employee_code", "=", $request->employee_id)
+                            ->where(
+                                "month_yr",
+                                "like",
+                                "%" . $request["month_yr"] . "%"
+                            )
+                            ->update(["leave_in_hand" => $lv_inhand]);
+                        Session::flash(
+                            "message",
+                            "Leave Status updated successfully. "
+                        );
+
+                        return redirect("leaveapprover/leave-request");
+                    }
+                } elseif ($request->leave_check == "REJECTED") {
+                  LeaveApply::where("id", $request->apply_id)
+                        ->where("employee_id", $request->employee_id)
+                        ->where("emid", "=", $reg)
+                        ->update([
+                            "status" => $request->leave_check,
+                            "status_remarks" => $request->status_remarks,
+                        ]);
+                    Session::flash("message", "Leave Rejected Successfully!");
+                    return redirect("leaveapprover/leave-request");
+                } elseif ($request->leave_check == "RECOMMENDED") {
+                    $lv_inhand = $inhand - $request->no_of_leave;
+                    // dd($lv_inhand);
+                    if ($lv_inhand < 0) {
+                        Session::flash(
+                            "message",
+                            "Insufficient Leave Balance!"
+                        );
+                        return redirect("leaveapprover/leave-request");
+                    } else {
+                        $user_id = Session::get("users_id");
+                        $users = DB::table("users")
+                            ->where("id", "=", $user_id)
+                            ->first();
+
+                        $emp_code = $users->employee_id;
+
+                        $sanc_auth = DB::table("employee")
+                            ->where("emp_code", $request->employee_id)
+                            ->where("emid", "=", $reg)
+                            ->first();
+
+                        $sanc_auth_name = $sanc_auth->emp_lv_sanc_auth;
+
+                        DB::table("leave_apply")
+                            ->where("id", $request->apply_id)
+                            ->where("employee_id", $request->employee_id)
+                            ->where("emid", "=", $reg)
+                            ->update([
+                                "status" => $request->leave_check,
+                                "status_remarks" => $request->status_remarks,
+                                "emp_lv_sanc_auth" => $lv_sanc_auth_name,
+                            ]);
+                        Session::flash(
+                            "message",
+                            "Leave Recommended Successfully!"
+                        );
+                        return redirect("leaveapprover/leave-request");
+                    }
+                } else {
+                    $current_status = DB::table("leave_apply")
+                        ->where("id", $request->apply_id)
+                        ->first();
+                    if (
+                        $current_status->status == "APPROVED" &&
+                        $request->leave_check == "CANCEL"
+                    ) {
+                        $lv_inhand = $inhand + $request->no_of_leave;
+                        DB::table("leave_apply")
+                            ->where("id", $request->apply_id)
+                            ->where("employee_id", $request->employee_id)
+                            ->where("emid", "=", $reg)
+                            ->update([
+                                "status" => $request->leave_check,
+                                "status_remarks" => $request->status_remarks,
+                            ]);
+
+                        DB::table("leave_allocation")
+                            ->where("leave_type_id", $request->leave_type)
+                            ->where("emid", "=", $reg)
+                            ->where("employee_code", $request->employee_id)
+                            ->update(["leave_in_hand" => $lv_inhand]);
+                    } else {
+                        DB::table("leave_apply")
+                            ->where("id", $request->apply_id)
+                            ->where("employee_id", $request->employee_id)
+                            ->where("emid", "=", $reg)
+                            ->update([
+                                "status" => $request->leave_check,
+                                "status_remarks" => $request->status_remarks,
+                            ]);
+                    }
+
+                    Session::flash("message", "Leave Cancel Successfully!");
+                    return redirect("leaveapprover/leave-request");
+                }
+            } else {
+                return redirect("/");
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\FrontException($e->getMessage());
+        }
+    }
+
+
+} //End Class

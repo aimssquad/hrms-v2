@@ -76,29 +76,29 @@ class LandingController extends Controller
     { //dd('ok');
 
         if (!empty(Session::get('emp_email'))) {
-
+            $reg = Session::get('emid');
             $email = Session::get('emp_email');
             $user_email=Session::get('user_email');
             // dd($user_email);
             $user_type=Session::get('user_type');
-            $arrayEmail=[];
-            if($user_type==="employer"){
-                $email = Session::get('emp_email');
-                array_push($arrayEmail, $email);
-            }else{
-                $user_email=Session::get('user_email');
-                array_push($arrayEmail, $user_email);
-            }
-            $emp_email = implode(", ", $arrayEmail);
+            // $arrayEmail=[];
+            // if($user_type==="employer"){
+            //     $email = Session::get('emp_email');
+            //     array_push($arrayEmail, $email);
+            // }else{
+            //     $user_email=Session::get('user_email');
+            //     array_push($arrayEmail, $user_email);
+            // }
+            // $emp_email = implode(", ", $arrayEmail);
             // dd($emp_email);
             if($user_type==="employer"){
-                $Roledata = DB::table('registration')->where('status', '=', 'active')
+                // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $emp_email)
-                ->first();
+                // ->where('email', '=', $emp_email)
+                // ->first();
                 $data['employee_rs'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
-                ->where('employee.emid', '=', $Roledata->reg)
-                ->where('users.emid', '=', $Roledata->reg)
+                ->where('employee.emid', '=', $reg)
+                ->where('users.emid', '=', $reg)
                 ->where('users.status', '=', 'inactive')
                 ->where('users.user_type', '=', 'employee')
                 ->get();    
@@ -110,15 +110,21 @@ class LandingController extends Controller
             //dd($data);
             return view($this->_routePrefix . '.inactive-employee', $data);
             }else{
-                $Roledata = DB::table('users')->where('status', '=', 'active')
+                $data['employee_rs'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
+                ->where('employee.emid', '=', $reg)
+                ->where('users.emid', '=', $reg)
+                ->where('users.status', '=', 'inactive')
+                ->where('users.user_type', '=', 'employee')
+                ->get(); 
+            //     $Roledata = DB::table('users')->where('status', '=', 'active')
 
-                ->where('email', '=', $emp_email)
-                ->first();
-            //   dd($Roledata);
-            $data['employee_rs'] = DB::table('employee')->where('emp_code', '=', $Roledata->employee_id)->where(function ($query) {
-                $query->whereNull('employee.emp_status')
-                    ->orWhere('employee.emp_status', '!=', 'LEFT');
-            })->get();
+            //     ->where('email', '=', $emp_email)
+            //     ->first();
+            // //   dd($Roledata);
+            // $data['employee_rs'] = DB::table('employee')->where('emp_code', '=', $Roledata->employee_id)->where(function ($query) {
+            //     $query->whereNull('employee.emp_status')
+            //         ->orWhere('employee.emp_status', '!=', 'LEFT');
+            // })->get();
             //dd($data);
             return view($this->_routePrefix . '.inactive-employee', $data);
             }
@@ -134,15 +140,8 @@ class LandingController extends Controller
         
         if (!empty(Session::get("emp_email"))) {
             $email = Session::get("emp_email");
-            $Roledata = Registration::where("status", "=", "active")
-                ->where("email", "=", $email)
-                ->first();
-            $data["Roledata"] = Registration::where("status", "=", "active")
-
-                ->where("email", "=", $email)
-                ->first();
-
-            $data["employee_type_rs"] = ShiftManagment::where("emid", "=", $Roledata->reg)
+            $reg = Session::get("emid");
+            $data["employee_type_rs"] = ShiftManagment::where("emid", "=", $reg)
                 ->get();
                 //dd('okk');
             return view($this->_routePrefix . '.all-shift',$data);
@@ -157,6 +156,7 @@ class LandingController extends Controller
 
             $email = Session::get('emp_email');
             $user_email=Session::get('user_email');
+            $reg=Session::get('emid');
             // dd($user_email);
             $user_type=Session::get('user_type');
             $arrayEmail=[];
@@ -189,15 +189,23 @@ class LandingController extends Controller
             //dd($data);
             return view($this->_routePrefix . '.employees', $data);
             }else{
-                $Roledata = DB::table('users')->where('status', '=', 'active')
+                //dd($reg);
+                $data['employee_rs'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
+                ->where('employee.emid', '=', $reg)
+                ->where('users.emid', '=', $reg)
+                ->where('users.status', '=', 'active')
+                ->where('users.user_type', '=', 'employee')
+                ->get();
+            //     dd('okk');
+            //     $Roledata = DB::table('users')->where('status', '=', 'active')
 
-                ->where('email', '=', $emp_email)
-                ->first();
-            //   dd($Roledata);
-            $data['employee_rs'] = DB::table('employee')->where('emp_code', '=', $Roledata->employee_id)->where(function ($query) {
-                $query->whereNull('employee.emp_status')
-                    ->orWhere('employee.emp_status', '!=', 'LEFT');
-            })->get();
+            //     ->where('email', '=', $emp_email)
+            //     ->first();
+            // //   dd($Roledata);
+            // $data['employee_rs'] = DB::table('employee')->where('emp_code', '=', $Roledata->employee_id)->where(function ($query) {
+            //     $query->whereNull('employee.emp_status')
+            //         ->orWhere('employee.emp_status', '!=', 'LEFT');
+            // })->get();
             //dd($data);
             return view($this->_routePrefix . '.employees', $data);
             }
@@ -211,28 +219,16 @@ class LandingController extends Controller
     public function allEmpList(){ //dd('ok');
 
         if (!empty(Session::get('emp_email'))) {
-
             $email = Session::get('emp_email');
-            $user_email=Session::get('user_email');
-            // dd($user_email);
+            $reg = Session::get('emid');
             $user_type=Session::get('user_type');
-            $arrayEmail=[];
             if($user_type==="employer"){
-                $email = Session::get('emp_email');
-                array_push($arrayEmail, $email);
-            }else{
-                $user_email=Session::get('user_email');
-                array_push($arrayEmail, $user_email);
-            }
-            $emp_email = implode(", ", $arrayEmail);
-            // dd($emp_email);
-            if($user_type==="employer"){
-                $Roledata = DB::table('registration')->where('status', '=', 'active')
+                // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $emp_email)
-                ->first();
+                // ->where('email', '=', $emp_email)
+                // ->first();
 
-            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->where(function ($query) {
+            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $reg)->where(function ($query) {
 
                 $query->whereNull('employee.emp_status')
                     ->orWhere('employee.emp_status', '!=', 'LEFT');
@@ -240,15 +236,20 @@ class LandingController extends Controller
             //dd($data);
             return view($this->_routePrefix . '.employees-list', $data);
             }else{
-                $Roledata = DB::table('users')->where('status', '=', 'active')
+                $data['employee_rs'] = DB::table('employee')->where('emid', '=', $reg)->where(function ($query) {
 
-                ->where('email', '=', $emp_email)
-                ->first();
-            //   dd($Roledata);
-            $data['employee_rs'] = DB::table('employee')->where('emp_code', '=', $Roledata->employee_id)->where(function ($query) {
-                $query->whereNull('employee.emp_status')
-                    ->orWhere('employee.emp_status', '!=', 'LEFT');
-            })->get();
+                    $query->whereNull('employee.emp_status')
+                        ->orWhere('employee.emp_status', '!=', 'LEFT');
+                })->get();
+
+                // $Roledata = DB::table('users')->where('status', '=', 'active')
+
+                //     ->where('email', '=', $emp_email)
+                //     ->first();
+                // $data['employee_rs'] = DB::table('employee')->where('emp_code', '=', $Roledata->employee_id)->where(function ($query) {
+                //     $query->whereNull('employee.emp_status')
+                //         ->orWhere('employee.emp_status', '!=', 'LEFT');
+                // })->get();
             //dd($data);
             return view($this->_routePrefix . '.employees-list', $data);
             }

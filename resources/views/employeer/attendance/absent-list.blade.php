@@ -85,12 +85,10 @@
                     <?php 
                     if(isset($result) && $result != '') { 
                     ?>
-                        <a data-toggle="tooltip" data-placement="bottom" title="View" href="{{ url('attendance/absent-record-card/'.base64_encode($employee_code).'/'.base64_encode($year_value)) }}" target="_blank">
-                            <img style="width: 35px; margin-left: 10px;" src="{{ asset('img/view.png') }}">
+                        <a data-toggle="tooltip" data-placement="bottom" class="btn-download btn-download me-3" title="View" href="{{ url('attendance/absent-record-card/'.base64_encode($employee_code).'/'.base64_encode($year_value)) }}" target="_blank">
+                            <i class="fa-solid fa-eye"></i>View
                         </a>
-                        <a data-toggle="tooltip" data-placement="bottom" title="Download PDF" href="{{ url('attendance/absent-record-card-pdf/'.base64_encode($employee_code).'/'.base64_encode($year_value)) }}">
-                            <img style="width: 35px; margin-left: 10px;" src="{{ asset('img/dnld-pdf.png') }}">
-                        </a>
+                        <a data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn-download btn-download-pdf" href="{{ url('attendance/absent-record-card-pdf/'.base64_encode($employee_code).'/'.base64_encode($year_value)) }}">Download PDF</a>
                     <?php 
                     } 
                     ?>

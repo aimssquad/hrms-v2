@@ -23,9 +23,9 @@ class PerformanceController extends Controller
 
     public function dashboard(Request $request){
         if(!empty(Session::get('emp_email'))){
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')->where('email', '=', $email)->first();
-            $data['performence_list'] = Performance::where('emid', $Roledata->reg)->count();
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')->where('email', '=', $email)->first();
+            $data['performence_list'] = Performance::where('emid', $reg)->count();
             //dd($data);
             return view($this->_routePrefix . '.dashboard',$data);
         } else {
@@ -92,7 +92,7 @@ class PerformanceController extends Controller
                     ->where('users.id', $currentUser)
                     ->first();
                 $query = $request->all();
-                if (array_key_exists('status', $query)) {
+                if (array_key_exists('status', $query)) { 
                     $performanceList = Performance::select(
                         'performances.*',
                         'emp.emp_department as emp_department',
@@ -122,6 +122,7 @@ class PerformanceController extends Controller
                     $data['performances'] = $performanceList;
                 }
             }
+            //dd($data);
             return view($this->_routePrefix . '.request',$data);
             //return View('performancemanagement/request/request', $data);
         } else {
@@ -131,16 +132,16 @@ class PerformanceController extends Controller
 
     public function performanceRequest()
     {
-        if (!empty(Session::get('user_type'))) {
-            $currentUser = Session::get('users_id');
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+        if (!empty(Session::get('emp_email'))) {
+            //$currentUser = Session::get('users_id');
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
             $data = [];
 
-            $departments = DB::table('department')->where('emid', '=', $Roledata->reg)->get();
+            $departments = DB::table('department')->where('emid', '=', $reg)->get();
             // print_r($Roledata);
             $data['departments'] = $departments;
             $data['mode'] = 'create';

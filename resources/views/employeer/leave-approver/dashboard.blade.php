@@ -1,7 +1,11 @@
 @extends('employeer.include.app')
 
 @section('title', 'Leave Authosizer Dashboard')
-
+@php 
+$user_type = Session::get("user_type");
+$sidebarItems = \App\Helpers\Helper::getSidebarItems();
+//dd($sidebarItems);
+@endphp
 @section('content')
 
 
@@ -33,7 +37,32 @@
                        
 
                         <div class="row">
-
+                            @if($user_type === 'employee')
+                                @foreach($sidebarItems['Leave Approver'] as $rotaItem)
+                                    @if($rotaItem['submenu_name'] == 'Leave Application list' && $rotaItem['can_add'] == 1)
+                                        <div class="col-xl-4 col-md-6 col-sm-12">
+                                            <a href="{{ url('leaveapprover/leave-request') }}" class="modern-card-link">
+                                                <div class="modern-card">
+                                                    <div class="modern-card-header">
+                                                        <div class="modern_icon_wrapper">
+                                                            <i class="la la-dashboard modern-icon"></i>
+                                                        </div>
+                                                        <h4 class="modern-card-title">Leave Application List</h4>
+                                                    </div>
+                                                    <div class="modern-card-body">
+                                                        <div class="modern-status">
+                                                            </div>
+                                                            <div class="modern-arrow">
+                                                            <span class="application-count opacity-0"></span>
+                                                            <i class="fa fa-arrow-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @else
                             <div class="col-xl-4 col-md-6 col-sm-12">
                                 <a href="{{ url('leaveapprover/leave-request') }}" class="modern-card-link">
                                     <div class="modern-card">
@@ -54,6 +83,8 @@
                                     </div>
                                 </a>
                             </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>
