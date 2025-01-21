@@ -919,3 +919,18 @@ body::-webkit-scrollbar {
     position: absolute;
     left: -9999px;
 }
+
+.decription_td_hr_support p{
+    width: 98%;
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: break-spaces;
+}
+
+.extra_ul_li{
+    transition: 0.3s;
+    color: #000;
+}
+.extra_ul_li:hover{
+    color: #E87C1A;
+}

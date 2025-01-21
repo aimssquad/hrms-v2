@@ -53,7 +53,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                             {!! $data->small_description !!}
                             {!! $data->description !!}
 
-                            <h3>Download Template</h3>
+                            <h3 class="mb-3">Download Template</h3>
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -68,7 +68,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                     @foreach ($data->hrsupportDoc as $doc)
                                         <tr>
                                             <td>{{ $doc->name ?? 'N/A' }}</td>
-                                            <td>{{ $doc->document_description ?? 'No description' }}</td>
+                                            <td class="decription_td_hr_support"><p>{{ $doc->document_description ?? 'No description' }}</p></td>
                                             
                                             <!-- PDF Link -->
                                             <td>
@@ -97,12 +97,12 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <div class="col-md-4">
                             
 
-                            <h3 style="margin-top: 20px;"><u>Related Templates</u></h3>
+                            <h3 style="margin-top: 20px;" class="mb-3"><u>Related Templates</u></h3>
                             <ul>
                                 @if(!empty($relatedFiles))
                                     @foreach($relatedFiles as $relatedFile)
                                         @if($relatedFile->id != $data->id)
-                                            <a href="{{ isset($relatedFile->id) ? route('support-file.details', ['id' => $relatedFile->id]) : '#' }}" class="special-link" style="color: black;"><li style="color: black;font-size:15px;">{{ $relatedFile->title }}</li></a>
+                                            <a href="{{ isset($relatedFile->id) ? route('support-file.details', ['id' => $relatedFile->id]) : '#' }}" class="special-link"><li class="extra_ul_li">{{ $relatedFile->title }}</li></a>
                                         @endif
                                     @endforeach
                                 @else
