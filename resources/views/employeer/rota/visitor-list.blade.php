@@ -3,6 +3,7 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+//dd($sidebarItems);
 @endphp
 @section('content')
 @php
@@ -100,22 +101,56 @@ return $output;
                                             
                                             <td>{{ $i}}</td>
 											<td>{{ $candidate->name }}</td>
-                                            <td>{{ $candidate->desig }}</td>
-											 <td>{{ $candidate->email }}</td>
-											  <td>{{ $candidate->phone_number }}</td>
-											  <td>{{ $candidate->address }}</td>
-											  <td>{{ $candidate->purpose }}</td>
-											   <td>{{ date('d/m/Y',strtotime($candidate->date)) }}</td>
-											    <td>{{ date('h:i a',strtotime($candidate->time)) }}</td>
-											    <td>{{ $candidate->reff }}</td>
+                                 <td>{{ $candidate->desig }}</td>
+											<td>{{ $candidate->email }}</td>
+											<td>{{ $candidate->phone_number }}</td>
+											<td>{{ $candidate->address }}</td>
+											<td>{{ $candidate->purpose }}</td>
+											<td>{{ date('d/m/Y',strtotime($candidate->date)) }}</td>
+											<td>{{ date('h:i a',strtotime($candidate->time)) }}</td>
+											<td>{{ $candidate->reff }}</td>
 											   
-											<td>
+											{{-- <td>
 											    <a href="{{url('rota-org/visitor-regis-edit/'.$candidate->id)}}" data-toggle="tooltip" data-placement="bottom" title="Edit"  ><img  style="width: 14px;" src="{{ asset('assets/img/edit.png')}}"></a>
 											    <a href="{{url('rota-org/visitor-regis-deleted/'.$candidate->id)}}" data-toggle="tooltip" data-placement="bottom" title="Edit"  ><i class="fa fa-trash" aria-hidden="true"></i></a>
-											</td>
+											</td> --}}
+                                 <td class="text-end">
+                                    
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </a>
+                                            
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                
+                                                @if($user_type == 'employee')
+                                                    @foreach($sidebarItems['Visitor Register'] as $rotaItem)
+                                                        @if($rotaItem['submenu_name'] == 'Visitor List' && $rotaItem['can_edit'] == 1)
+                                                                <a class="dropdown-item" href="{{url('rota-org/visitor-regis-edit/'.$candidate->id)}}">
+                                                                    <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                                </a> 
+                                                        @endif
+                                                        @if($rotaItem['submenu_name'] == 'Visitor List' && $rotaItem['can_edit'] == 1)
+                                                                <a class="dropdown-item" href="{{url('rota-org/visitor-regis-deleted/'.$candidate->id)}}">
+                                                                    <i class="fa-regular fa-trash-can m-r-5"></i> Delete
+                                                                </a> 
+                                                        @endif
+                                                    @endforeach
+                                                @elseif($user_type == 'employer')
+                                                        <a class="dropdown-item" href="{{url('rota-org/visitor-regis-edit/'.$candidate->id)}}">
+                                                            <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                        </a>
+                                                        <a class="dropdown-item" href="{{url('rota-org/visitor-regis-deleted/'.$candidate->id)}}">
+                                                         <i class="fa-regular fa-trash-can m-r-5"></i> Delete
+                                                     </a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    
+                                </td>
 
 						
-											</td>
+											
                                         </tr>
                                         <?php
                                          $i++;?>

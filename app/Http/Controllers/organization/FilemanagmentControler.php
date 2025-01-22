@@ -32,9 +32,9 @@ class FilemanagmentControler extends Controller
     }
 
     public function dashboard(Request $request){
-      $email = Session::get('emp_email');
+      $reg = Session::get('emid');
       $user_email=Session::get('user_email');
-      $dataReg = Registration::where("email",$email)->first();
+      $dataReg = Registration::where("reg",$reg)->first();
       $organization_id = $dataReg['id'];
       $data['file_devision_count']= fileDivision::where("organization_id",$organization_id)->count();
       $data['file_manager_count'] = fileManager::where('organization_id', $dataReg->reg)->count();

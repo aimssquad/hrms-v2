@@ -45,11 +45,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
-				@foreach($sidebarItems as $value)
-				@if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 48)
-				<a href="{{ url('file-management/fileManagment-division-add') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Division</a>
-				@endif
-				@endforeach
+                    @foreach($sidebarItems['File Manager'] as $rotaItem)
+                        @if($rotaItem['submenu_name'] == 'Division' && $rotaItem['can_add'] == 1)
+                            <a href="{{ url('file-management/fileManagment-division-add') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Division</a>
+                        @endif
+                    @endforeach
 				@elseif($user_type == 'employer')
 				<a href="{{ url('file-management/fileManagment-division-add') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Division</a>
 				@endif
@@ -122,8 +122,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 @if($user_type == 'employee')
-                                                    @foreach($sidebarItems as $value)
-                                                        @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
+                                                    @foreach($sidebarItems['File Manager'] as $rotaItem)
+                                                        @if($rotaItem['submenu_name'] == 'Division' && $rotaItem['can_edit'] == 1)
                                                             <a class="dropdown-item" href="{{url("file-management/edit-file-devision/$item->id")}}">
                                                                 <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                             </a>

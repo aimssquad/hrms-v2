@@ -172,6 +172,7 @@
                 ['url' => 'user-access-role/vw-users', 'label' => 'User Settings'],
                 // ['url' => 'user-access-role/view-users-role', 'label' => 'Access Roles'],
                 ['url' => 'user-access/emp', 'label' => 'Access Roles'],
+                ['url' => 'user-access/role', 'label' => 'Role'],
             ]
         ],
         13 => [
