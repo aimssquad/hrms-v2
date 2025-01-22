@@ -91,7 +91,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                   @endphp --}}
                                <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$billing->invoice_no}}</td>
+                                    <td>
+                                        <a class="atag_titel_main" href="{{ route('organization.billing.invoice', $billing->id) }}">
+                                            {{$billing->invoice_no}}
+                                        </a>    
+                                    </td>
                                     <td>{{$billing->bill_for}}</td>
                                     @php
                                         $data = DB::table('registration')->where('reg',$billing->entity_id)->first();

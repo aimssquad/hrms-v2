@@ -45,8 +45,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
-				@foreach($sidebarItems as $value)
-				@if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 48)
+                @foreach($sidebarItems['File Manager'] as $rotaItem)
+                @if($rotaItem['submenu_name'] == 'File Manager' && $rotaItem['can_add'] == 1)
 				<a href="{{ url('file-management/fileManagment-add') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add File</a>
 				@endif
 				@endforeach
@@ -125,8 +125,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             @if($user_type == 'employee')
-                                                @foreach($sidebarItems as $value)
-                                                    @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
+                                            @foreach($sidebarItems['File Manager'] as $rotaItem)
+                                            @if($rotaItem['submenu_name'] == 'File Manager' && $rotaItem['can_edit'] == 1)
                                                         @if($item->status!=="pending")
                                                         <a class="dropdown-item" href="{{url("fileManagment/edit-fileManager/$item->id")}}">
                                                             <i class="fa fa-file m-r-5"></i> Create Folder</a>

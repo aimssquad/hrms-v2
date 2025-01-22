@@ -1,7 +1,11 @@
 @extends('employeer.include.app')
 
 @section('title', 'File Manager Dashboard')
-
+@php
+    $user_type = Session::get("user_type");
+    $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+    //dd($sidebarItems);
+@endphp
 @section('content')
 
 
@@ -33,50 +37,95 @@
                        
 
                         <div class="row">
-
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <a href="{{ url('file-management/file-devision-list') }}" class="modern-card-link">
-                                    <div class="modern-card">
-                                        <div class="modern-card-header">
-                                            <div class="modern_icon_wrapper">
-                                                <i class="la la-dashboard modern-icon"></i>
-                                            </div>
-                                            <h4 class="modern-card-title">File Devision</h4>
-                                        </div>
-                                        <div class="modern-card-body">
-                                            <div class="modern-status">
+                            @if($user_type ==="employee")
+                                @foreach($sidebarItems['File Manager'] as $rotaItem)
+                                    @if($rotaItem['submenu_name'] == 'Division' && $rotaItem['can_add'] == 1)
+                                        <div class="col-xl-4 col-md-6 col-sm-12">
+                                            <a href="{{ url('file-management/file-devision-list') }}" class="modern-card-link">
+                                                <div class="modern-card">
+                                                    <div class="modern-card-header">
+                                                        <div class="modern_icon_wrapper">
+                                                            <i class="la la-dashboard modern-icon"></i>
+                                                        </div>
+                                                        <h4 class="modern-card-title">File Devision</h4>
+                                                    </div>
+                                                    <div class="modern-card-body">
+                                                        <div class="modern-status">
+                                                            </div>
+                                                            <div class="modern-arrow">
+                                                            <span class="employee-count">{{ $file_devision_count ?? 0 }}</span>
+                                                            <i class="fa fa-arrow-circle-right"></i>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="modern-arrow">
-                                                <span class="employee-count">{{ $file_devision_count ?? 0 }}</span>
-                                                <i class="fa fa-arrow-circle-right"></i>
-                                            </div>
+                                            </a>
                                         </div>
-                                    </div>
-                                </a>
-
-                            </div>
-
-                            <div class="col-xl-4 col-md-6 col-sm-12">
-                                <a href="{{ url('file-management/fileManagmentList') }}" class="modern-card-link">
-                                    <div class="modern-card">
-                                        <div class="modern-card-header">
-                                            <div class="modern_icon_wrapper">
-                                                <i class="la la-dashboard modern-icon"></i>
-                                            </div>
-                                            <h4 class="modern-card-title">File Manager</h4>
-                                        </div>
-                                        <div class="modern-card-body">
-                                            <div class="modern-status">
+                                    @elseif($rotaItem['submenu_name'] == 'Manager' && $rotaItem['can_add'] == 1)    
+                                        <div class="col-xl-4 col-md-6 col-sm-12">
+                                            <a href="{{ url('file-management/fileManagmentList') }}" class="modern-card-link">
+                                                <div class="modern-card">
+                                                    <div class="modern-card-header">
+                                                        <div class="modern_icon_wrapper">
+                                                            <i class="la la-dashboard modern-icon"></i>
+                                                        </div>
+                                                        <h4 class="modern-card-title">File Manager</h4>
+                                                    </div>
+                                                    <div class="modern-card-body">
+                                                        <div class="modern-status">
+                                                            </div>
+                                                            <div class="modern-arrow">
+                                                            <span class="employee-count">{{ $file_manager_count ?? 0 }}</span>
+                                                            <i class="fa fa-arrow-circle-right"></i>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="modern-arrow">
-                                                <span class="employee-count">{{ $file_manager_count ?? 0 }}</span>
-                                                <i class="fa fa-arrow-circle-right"></i>
+                                            </a>
+                                        </div>
+                                    @endif    
+                                @endforeach        
+                            @else
+                                <div class="col-xl-4 col-md-6 col-sm-12">
+                                    <a href="{{ url('file-management/file-devision-list') }}" class="modern-card-link">
+                                        <div class="modern-card">
+                                            <div class="modern-card-header">
+                                                <div class="modern_icon_wrapper">
+                                                    <i class="la la-dashboard modern-icon"></i>
+                                                </div>
+                                                <h4 class="modern-card-title">File Devision</h4>
+                                            </div>
+                                            <div class="modern-card-body">
+                                                <div class="modern-status">
+                                                    </div>
+                                                    <div class="modern-arrow">
+                                                    <span class="employee-count">{{ $file_devision_count ?? 0 }}</span>
+                                                    <i class="fa fa-arrow-circle-right"></i>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
 
-                            </div>
+                                <div class="col-xl-4 col-md-6 col-sm-12">
+                                    <a href="{{ url('file-management/fileManagmentList') }}" class="modern-card-link">
+                                        <div class="modern-card">
+                                            <div class="modern-card-header">
+                                                <div class="modern_icon_wrapper">
+                                                    <i class="la la-dashboard modern-icon"></i>
+                                                </div>
+                                                <h4 class="modern-card-title">File Manager</h4>
+                                            </div>
+                                            <div class="modern-card-body">
+                                                <div class="modern-status">
+                                                    </div>
+                                                    <div class="modern-arrow">
+                                                    <span class="employee-count">{{ $file_manager_count ?? 0 }}</span>
+                                                    <i class="fa fa-arrow-circle-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

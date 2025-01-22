@@ -17,7 +17,7 @@
          </ul>
          <div class="card custom-card">
             <div class="card-header">
-               <h4 class="card-title"><i class="far fa-user"></i> Employee Permission</h4>
+               <h4 class="card-title"><i class="far fa-user"></i> {{$employee_id}}  Employee Permission</h4>
             </div>
             <div class="card-body">
                <div class="multisteps-form">

@@ -1297,20 +1297,20 @@ class RotaController extends Controller
     public function viewvisitorregis()
     {
         if (!empty(Session::get("emp_email"))) {
-            $email = Session::get("emp_email");
-            $Roledata = DB::table("registration")
-                ->where("status", "=", "active")
+            $reg = Session::get("emid");
+            // $Roledata = DB::table("registration")
+            //     ->where("status", "=", "active")
 
-                ->where("email", "=", $email)
-                ->first();
-            $data["Roledata"] = DB::table("registration")
-                ->where("status", "=", "active")
+            //     ->where("email", "=", $email)
+            //     ->first();
+            // $data["Roledata"] = DB::table("registration")
+            //     ->where("status", "=", "active")
 
-                ->where("email", "=", $email)
-                ->first();
+            //     ->where("email", "=", $email)
+            //     ->first();
 
             $data["employee_type_rs"] = DB::table("visiter_register")
-                ->where("emid", "=", $Roledata->reg)
+                ->where("emid", "=", $reg)
                 ->orderBy("id", "DESC")
                 ->get();
             return view($this->_routePrefix . '.visitor-list',$data);
@@ -1362,13 +1362,13 @@ class RotaController extends Controller
     public function visitorDashboard(Request $request)
     {
         if (!empty(Session::get("emp_email"))) {
-            $email = Session::get("emp_email");
-            $data["Roledata"] = DB::table("registration")
-                ->where("status", "=", "active")
-                ->where("email", "=", $email)
-                ->first();
+            $reg = Session::get("emid");
+            // $data["Roledata"] = DB::table("registration")
+            //     ->where("status", "=", "active")
+            //     ->where("email", "=", $email)
+            //     ->first();
             $data['visitor_count']  =   DB::table('visiter_register')
-                ->where('emid',$data["Roledata"]->reg)
+                ->where('emid',$reg)
                 ->count();
             return view($this->_routePrefix . '.visitor-dashboard',$data);
         }else{

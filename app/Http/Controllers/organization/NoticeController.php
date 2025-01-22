@@ -29,7 +29,7 @@ class NoticeController extends Controller
         try {
             $email = Session::get('emp_email');
             $user_id = Session::get('users_id');
-            dd($user_id);
+            //dd($user_id);
             if (!empty($email)) {
                 $notices = Notice::where('created_by_type', 'organization')->where('created_by_id',$user_id)->get();
                 return view($this->_routePrefix . '.notices-list', compact('notices'));

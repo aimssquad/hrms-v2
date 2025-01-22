@@ -44,6 +44,7 @@ class HrSupportController extends Controller
 
     public function viewdashboardnew(Request $request){
         $email = Session::get('emp_email');
+        //dd($email);
         if (!empty($email)) {
     
             $data['Roledata'] = DB::table('registration')

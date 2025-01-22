@@ -23,13 +23,13 @@ class CircumstanceController extends Controller
     public function viewchangecircumstanceseditadd()
     {
         if (!empty(Session::get("emp_email"))) {
-            $email = Session::get("emp_email");
-            $Roledata = DB::table("registration")
-                ->where("status", "=", "active")
-                ->where("email", "=", $email)
-                ->first();
+            $reg = Session::get("emid");
+            // $Roledata = DB::table("registration")
+            //     ->where("status", "=", "active")
+            //     ->where("email", "=", $email)
+            //     ->first();
             $data["employee_rs"] = DB::table("change_circumstances")
-                ->where("emid", "=", $Roledata->reg)
+                ->where("emid", "=", $reg)
                 ->orderBy("id", "ASC")
                 ->get();
             return view($this->_routePrefix. '.change-of-circumstances',$data);

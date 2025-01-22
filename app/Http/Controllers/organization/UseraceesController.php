@@ -577,7 +577,7 @@ class UseraceesController extends Controller
             $data['permission'] = EmployeePermission::select('submenu_id', 'can_add', 'can_edit', 'can_delete', 'can_export', 'can_import')
             ->where('employee_id', $id)
             ->get(); 
-            //dd($data['permission']);
+            //dd($data);
             //return view('employeer.user-access.employee-permission',$data);
             return view('employeer.user-access.premission',$data);
         } else {
@@ -636,6 +636,68 @@ class UseraceesController extends Controller
     // }
 
 
+    // public function createPermission(Request $request)
+    // {
+    //     if (!empty(Session::get("emp_email"))) {
+    //         $email = Session::get("emp_email");
+    //         $organization = Registration::where("status", "=", "active")
+    //                 ->where("email", "=", $email)
+    //                 ->first();
+
+    //         $request->validate([
+    //             'employee_id' => 'required|string',
+    //             'modules' => 'required|array',
+    //         ]);
+
+    //         $orgId = $organization->reg;
+    //         $employeeId = $request->input('employee_id');
+    //         $modules = $request->input('modules');
+
+    //         foreach ($modules as $moduleIndex => $module) {
+    //             $moduleName = $module['module_name'] ?? null;
+
+    //             if (isset($module['submenus'])) {
+    //                 foreach ($module['submenus'] as $submenuId => $submenu) {
+    //                     // Check if the record exists
+    //                     $existingPermission = DB::table('employee_permissions')
+    //                         ->where('employee_id', $employeeId)
+    //                         ->where('submenu_id', $submenuId)
+    //                         ->first();
+
+    //                     $permissionData = [
+    //                         'org_id' => $orgId,
+    //                         'employee_id' => $employeeId,
+    //                         'module_name' => $moduleName,
+    //                         'submenu_id' => $submenuId,
+    //                         'can_add' => $submenu['add'] ?? 0,
+    //                         'can_edit' => $submenu['edit'] ?? 0,
+    //                         'can_delete' => $submenu['delete'] ?? 0,
+    //                         'can_export' => $submenu['export'] ?? 0,
+    //                         'can_import' => $submenu['import'] ?? 0,
+    //                         'updated_at' => now(),
+    //                     ];
+
+    //                     if ($existingPermission) {
+    //                         // Update the existing record
+    //                         DB::table('employee_permissions')
+    //                             ->where('id', $existingPermission->id)
+    //                             ->update($permissionData);
+    //                     } else {
+    //                         // Insert a new record
+    //                         $permissionData['created_at'] = now();
+    //                         DB::table('employee_permissions')->insert($permissionData);
+    //                     }
+    //                 }
+    //             }
+    //         }
+
+    //         session()->flash('message', 'Permissions have been successfully updated.');
+    //         return redirect('user-access/emp');
+    //     } else {
+    //         return redirect("/");
+    //     }
+    // }
+
     public function createPermission(Request $request)
     {
         if (!empty(Session::get("emp_email"))) {
@@ -653,18 +715,17 @@ class UseraceesController extends Controller
             $employeeId = $request->input('employee_id');
             $modules = $request->input('modules');
 
+            // Delete existing permissions for the employee before inserting new ones
+            DB::table('employee_permissions')->where('employee_id', $employeeId)->delete();
+
+            // Insert new permissions
+            $insertData = [];
             foreach ($modules as $moduleIndex => $module) {
                 $moduleName = $module['module_name'] ?? null;
 
                 if (isset($module['submenus'])) {
                     foreach ($module['submenus'] as $submenuId => $submenu) {
-                        // Check if the record exists
-                        $existingPermission = DB::table('employee_permissions')
-                            ->where('employee_id', $employeeId)
-                            ->where('submenu_id', $submenuId)
-                            ->first();
-
-                        $permissionData = [
+                        $insertData[] = [
                             'org_id' => $orgId,
                             'employee_id' => $employeeId,
                             'module_name' => $moduleName,
@@ -674,21 +735,16 @@ class UseraceesController extends Controller
                             'can_delete' => $submenu['delete'] ?? 0,
                             'can_export' => $submenu['export'] ?? 0,
                             'can_import' => $submenu['import'] ?? 0,
+                            'created_at' => now(),
                             'updated_at' => now(),
                         ];
-
-                        if ($existingPermission) {
-                            // Update the existing record
-                            DB::table('employee_permissions')
-                                ->where('id', $existingPermission->id)
-                                ->update($permissionData);
-                        } else {
-                            // Insert a new record
-                            $permissionData['created_at'] = now();
-                            DB::table('employee_permissions')->insert($permissionData);
-                        }
                     }
                 }
+            }
+
+            // Insert all new records in a single query for better performance
+            if (!empty($insertData)) {
+                DB::table('employee_permissions')->insert($insertData);
             }
 
             session()->flash('message', 'Permissions have been successfully updated.');
@@ -697,6 +753,15 @@ class UseraceesController extends Controller
             return redirect("/");
         }
     }
+
+    public function roleCreate(Request $request){
+        if (!empty(Session::get("emp_email"))) {
+            return view($this->_routePrefix . '.view-user-config');
+        } else {
+            return redirect("/"); 
+        }
+    }
+
 
 
 
