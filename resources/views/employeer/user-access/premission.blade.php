@@ -32,12 +32,13 @@
                                 @php
                                     $moduleNames = array_column($sidebarItems, 'module_name');
                                 @endphp
-                                <table class="table table-striped custom-table" style="border: 1px solid rgb(204, 200, 200);">
+                                <table class="table table-striped table-bordered custom-table" style="border: 1px solid rgb(204, 200, 200);">
                                     <thead>
                                         <tr>
-                                            <th style="color:#3103fc"><strong>Module Name</strong></th>
-                                            <th style="color:#4e03fc"><strong>Submenu</strong></th>
-                                            <th class="text-center" style="color:#4e03fc"></th>
+                                            <th width="50">#</th>
+                                            <th><strong>Module Name</strong></th>
+                                            {{-- <th style="color:#4e03fc"><strong>Submenu</strong></th> --}}
+                                            {{-- <th class="text-center" style="color:#4e03fc"></th> --}}
                                             {{-- <th class="text-center" style="color:#0307fa">Edit</th>
                                             <th class="text-center" style="color:#fa0202">Delete</th>
                                             <th class="text-center" style="color:#fa0202">Export</th>
@@ -49,12 +50,6 @@
                                             @if (in_array($module->id, $moduleNames))
                                                 <!-- Module Row -->
                                                 <tr>
-                                                    <td>
-                                                        <h4 style="color:#FF902F">{{ $module->module_name }}</h4>
-                                                    </td>
-                                                    <td>
-                                                        <h4 style="font-size: 18px">Add All</h4>
-                                                    </td>
                                                     <td class="text-center">
                                                         <label class="custom_check">
                                                             <input type="checkbox" 
@@ -68,16 +63,16 @@
                                                             <span class="checkmark"></span>
                                                         </label>
                                                     </td>
+                                                    <td>
+                                                        <h4 style="color:#FF902F">{{ $module->module_name }}</h4>
+                                                    </td>
+                                                   
+                                                    
                                                 </tr>
                     
                                                 <!-- Submenu Rows -->
                                                 @foreach ($module->subMenus as $submenu)
                                                     <tr class="submenu-row-{{ $moduleIndex }}">
-                                                        <td></td>
-                                                        <td class="ps-5">
-                                                            {{-- <input type="hidden" name="modules[{{ $moduleIndex }}][submenus][{{ $submenu->id }}][submenu_name]" value="{{ $submenu->submenu_name }}"> --}}
-                                                            {{ $submenu->submenu_name }}
-                                                        </td>
                                                         <td class="text-center">
                                                             <label class="custom_check">
                                                                 <input type="checkbox" 
@@ -89,6 +84,11 @@
                                                                 <span class="checkmark"></span>
                                                             </label>
                                                         </td>
+                                                        <td class="ps-5">
+                                                            {{-- <input type="hidden" name="modules[{{ $moduleIndex }}][submenus][{{ $submenu->id }}][submenu_name]" value="{{ $submenu->submenu_name }}"> --}}
+                                                            {{ $submenu->submenu_name }}
+                                                        </td>
+                                                       
                                                         {{-- <td class="text-center">
                                                             <label class="custom_check">
                                                                 <input type="checkbox" 
