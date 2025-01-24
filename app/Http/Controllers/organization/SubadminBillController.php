@@ -344,13 +344,9 @@ class SubadminBillController extends Controller
 
     public function updateBilling(Request $request, $id)
     {
-        // For debugging purposes
-        //dd('okk');
-        
-        // Validation for required fields
         $request->validate([
             'bill_for' => 'required|string',
-            'billing_month' => 'required|string',
+            //'billing_month' => 'required|string',
             'amount' => 'required|numeric',
             'total_employee' => 'required|numeric',
             'vat' => 'nullable|numeric',
@@ -359,37 +355,25 @@ class SubadminBillController extends Controller
             'remarks' => 'nullable|string',
         ]);
 
-        // Fetch the Bill by ID
         $bill = Subadmin_bill::findOrFail($id);
 
-        // Get the amount and vat from the request
         $amount = $request->amount;
-        $vat = $request->vat ?? 0; // Default to 0 if vat is not provided
+        $vat = $request->vat ?? 0; 
 
-        // Calculate the VAT amount
-        $vat_amount = ($amount * $vat) / 100;  // VAT percentage calculation
-
-        // Calculate the total amount (original amount + VAT)
+        $vat_amount = ($amount * $vat) / 100; 
         $total_amount = $amount + $vat_amount;
 
-        // Update the fields with the new values
         $bill->bill_for = $request->bill_for;
-        $bill->billing_month = $request->billing_month;
         $bill->amount = $amount;
         $bill->total_employee = $request->total_employee;
-        $bill->vat = $vat;  // Update VAT if provided
-        $bill->total_amount = $total_amount;  // Store the total amount (amount + VAT)
+        $bill->vat = $vat;
+        $bill->discount_amount = $request->discount_amount;
+        $bill->total_amount = $request->total_amount;
         $bill->payment_mode = $request->payment_mode;
         $bill->description = $request->description ?? $bill->description;
         $bill->remarks = $request->remarks ?? $bill->remarks;
-
-        // Save the updated bill
         $bill->save();
-
-        // Flash a success message (optionally include the invoice number if available)
         Session::flash('message', 'Bill updated successfully. Invoice Number: ' . $bill->invoice_number);
-
-        // Redirect back with success message
         return redirect('sub-admin/billing-list');
     }
 
@@ -501,19 +485,17 @@ class SubadminBillController extends Controller
 
     public function downloadSubInvoice(Request $request, $id)
     {
-        ini_set('max_execution_time', '300'); // Increase max execution time to 5 minutes
+        ini_set('max_execution_time', '300'); 
         ini_set('memory_limit', '512M');  
         $email = Session::get('empsu_email');
         if (!empty($email)) {
-            // Retrieve data for the bill and company details
             $bill = DB::table('subadmin_bills')->where('id', $id)->first();
             $com_dtl = DB::table('sub_admin_registrations')->where('reg', $bill->entity_id)->first();
     
             if (!$bill) {
                 return back()->with('error', 'Invoice not found.');
             }
-    
-            // Pass the data to the Blade view for PDF generation
+
             $pdf = PDF::loadView('sub-admin.billing.sub-own-pdf', compact('bill', 'com_dtl'));
     
             // Return the generated PDF as a download

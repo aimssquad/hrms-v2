@@ -157,14 +157,14 @@ class DashboardController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['employee_rs'] = DB::table('employee')
-            ->where('emid', '=', $Roledata->reg)
+            ->where('emid', '=', $reg)
             ->where(function ($query) {
 
                 $query->whereNull('employee.emp_status')
@@ -183,15 +183,15 @@ class DashboardController extends Controller
 
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
                 $data['employee_rs'] = DB::table('users')
                 ->join('employee', 'users.employee_id', '=', 'employee.emp_code')
-                ->where('employee.emid', '=', $Roledata->reg)
-                ->where('users.emid', '=', $Roledata->reg)
+                ->where('employee.emid', '=', $reg)
+                ->where('users.emid', '=', $reg)
                 ->where('users.status', '=', 'active')
                 ->where(function ($query) {
                     $query->whereNull('employee.emp_status')
@@ -221,17 +221,17 @@ class DashboardController extends Controller
 
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
-            $data['employee_rs'] = DB::table('right_works')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_rs'] = DB::table('right_works')->where('emid', '=', $reg)->get();
             return view($this->_routePrefix . '.right-works',$data);
 
             //return view('dashboard/right-works', $data);
@@ -4251,20 +4251,20 @@ class DashboardController extends Controller
         //dd('okk');
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
-            $date['Roledata'] = DB::table('registration')
-                ->where('status', '=', 'active')
-                ->where('email', '=', $email)
-                ->first();
+            // $date['Roledata'] = DB::table('registration')
+            //     ->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
             $data['work_rs'] = DB::table('right_works')->where('id', '=', base64_decode($send_id))->first();
-            $data['employeeh'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->where('emp_code', '=', $data['work_rs']->employee_id)->first();
+            $data['employeeh'] = DB::table('employee')->where('emid', '=', $reg)->where('emp_code', '=', $data['work_rs']->employee_id)->first();
 
-            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $reg)->get();
 
             if ($data['work_rs']->date >= '2021-07-01') {
                 return view('employeer/sopnsor-compliance/edit-work', $data);

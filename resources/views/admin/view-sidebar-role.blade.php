@@ -71,10 +71,10 @@
                                                 <tr>
                                                     <th>Sl. No.</th>
                                                     <th>Employee ID</th>
-                                                    <th>Module Name</th>
+                                                    <th>Module Namef</th>
                                                     <th>User Name</th>
                                                     <th>Password</th>
-
+                                                    <th>Action</th>
 
 
                                                 </tr>
@@ -90,10 +90,10 @@
 
                                                             ->first();
                                                         $gtoo = DB::table('othorized_organization_module')
-                                                            ->join('module_admin', 'othorized_organization_module.module_name', '=', 'module_admin.id')
+                                                            ->join('module', 'othorized_organization_module.module_name', '=', 'module.id')
 
                                                             ->where('othorized_organization_module.employee_id', '=', $role->employee_id)
-                                                            ->select('othorized_organization_module.*', 'module_admin.module_name')
+                                                            ->select('othorized_organization_module.*', 'module.module_name')
 
                                                             ->groupBy('othorized_organization_module.module_name')
 
@@ -107,15 +107,20 @@
                                                         <td>
                                                             <?php $t = 1;?>
                                                             @foreach($gtoo as $vff)
-
-                                                            {{ $vff->module_name }} <a href="javascript:void(0)" onclick="revokePermission('<?php echo base64_encode($vff->id);?>');" title="Revoke assigned role - {{ $vff->module_name }}">(revoke)</a> @if( $t< count($gtoo)) , @endif
+                                                            {{ $vff->module_name }} ,
                                                                 <?php $t++;?> 
                                                             @endforeach
                                                         </td>
                                                         <td>{{$useraccessdtl->email}}</td>
                                                         <td>{{$useraccessdtl->password}}</td>
-
-
+                                                        <td class="drp">
+                                                            <div class="dropdown">
+                                                               <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                                                               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                  <a class="dropdown-item" href="{{url('superadmin/org-sidebar-permission/'.$role->employee_id)}}"><i class="far fa-edit"></i>&nbsp; Permission</a>
+                                                               </div>
+                                                            </div>
+                                                         </td>
                                                     </tr>
                                                 @endforeach
 

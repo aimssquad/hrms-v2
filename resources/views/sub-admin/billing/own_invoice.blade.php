@@ -89,10 +89,14 @@
                                         <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td>
                                         <td>{{$bill->vat}}</td>
                                         <td class="text-end">
-                                            @if($bill->vat == null)
+                                            @if($bill->vat !== null) 
+                                        
+                                                @php
+                                                    $total = $bill->amount*$bill->vat/100;
+                                                    echo $total+$bill->amount;
+                                                @endphp
+                                            @else 
                                                 {{$bill->amount}}
-                                            @else
-                                                {{$bill->total_amount}}
                                             @endif
                                         </td>
                                     </tr>

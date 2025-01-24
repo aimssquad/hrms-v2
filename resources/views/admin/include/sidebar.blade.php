@@ -158,8 +158,13 @@ $userType = Session::get('usersu_type');
                                         <span class="sub-item">Verified Organisation</span>
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{url('superadmin/view-sidebar-role')}}">
+                                        <span class="sub-item">Side Bar Permission</span>
+                                    </a>
+                                </li> --}}
+                                <li>
+                                    <a href="{{url('superadmin/view-sidebar-role-new')}}">
                                         <span class="sub-item">Side Bar Permission</span>
                                     </a>
                                 </li>
