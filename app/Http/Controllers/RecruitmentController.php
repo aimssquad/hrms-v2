@@ -35,6 +35,11 @@ use App\Models\Registration;
 
 class RecruitmentController extends Controller
 {
+
+    public function index(){
+        $jobs = job_post::all();
+        return view('recruitment.index', compact('jobs'));
+    }
     public function viewdash()
     {
 
