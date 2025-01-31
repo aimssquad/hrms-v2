@@ -61,7 +61,7 @@
                        <div class="col-md-4">
                           <div class="app-form-text">
                             <label for="name" class="col-form-label">Date of Birth:</label>
-                            <input class="form-control" type="date" name="" value="{{ date('d/m/Y',strtotime($job->dob))}}" readonly>
+                            <input class="form-control" type="date" name="" value="{{ date('Y-m-d', strtotime($job->dob)) }}" readonly>
                              {{-- <h5>Date Of Birth:<span>{{ date('d/m/Y',strtotime($job->dob))}}</span></h5> --}}
                           </div>
                        </div>
