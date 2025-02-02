@@ -1184,11 +1184,17 @@ class RecruitmentController extends Controller
 
             $data = array('name' => $job->name, 'pos' => $job->job_title, 'job_code' => $job_d->job_code, 'Roledata' => $Roledata, 'job' => $job_d);
             //dd($data);
-            return view('job-applied-email',compact('data'));
-            dd('okk');
+            // return view('job-applied-email',compact('data'));
+            // dd('okk');
             $toemail = $job->email;
 
-            Mail::send('mailjob', $data, function ($message) use ($toemail) {
+            // Mail::send('mailjob', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Workpermitcloud')->subject
+            //         ('Confirmation of Your Application ');
+
+            //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+            // });
+            Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Confirmation of Your Application ');
 
@@ -1196,7 +1202,7 @@ class RecruitmentController extends Controller
             });
             $toemail = $Roledata->authemail;
 
-            Mail::send('mailjob', $data, function ($message) use ($toemail) {
+            Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                     ('Confirmation of Your Application ');
 
