@@ -759,31 +759,7 @@
 @endsection
 @section('script')
 <script>
-//   document.addEventListener("DOMContentLoaded", function () {
-//     const shareCodeCheckbox = document.getElementById("share_code_checkbox");
-//     const evidenceContainer = document.querySelector("#evidence").parentElement;
 
-//     shareCodeCheckbox.addEventListener("change", function () {
-//         if (this.checked) {
-//             // Replace existing select with the new one
-//             evidenceContainer.innerHTML = `
-//                 <label>Evidence presented</label><br>
-//                 <select class="form-control" placeholder="" id="evidence2" name="evidence">
-//                     <option value="">Select</option>
-//                     <option value="share_code">Share code</option>
-//                 </select>
-//             `;
-//         } else {
-//             // Revert to the original select
-//             evidenceContainer.innerHTML = `
-//                 <label>Evidence presented</label><br>
-//                 <select class="form-control" placeholder="" id="evidence" name="evidence">
-//                     <option value="">Select</option>
-//                 </select>
-//             `;
-//         }
-//     });
-// });
 
 
 document.addEventListener("DOMContentLoaded", function () {

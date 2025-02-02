@@ -25,7 +25,7 @@
              <div class="col-md-12">
                 <div class="card">
                    <div class="card-header">
-                      <h4 class="card-title">Right to Work Checklist (RTW)</h4>
+                      <h4 class="card-title">Right to Work Checklist (RTW)<span id="share"></span></h4>
                    </div>
                    <div class="card-body">
                       <form name="basicform" id="basicform" method="post" action="{{ url('org-add-right-works') }}" >
@@ -54,12 +54,12 @@
                                      <label>Type of check</label><br>
                                      <div class="form-check-inline">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="type[]" value="Initial check for new employee/applicant - required before employment" checked>Initial check for new employee/applicant - required before employment
+                                        <input type="checkbox" class="form-check-input" id="initialCheck" name="type[]" value="Initial check for new employee/applicant - required before employment" checked>Initial check for new employee/applicant - required before employment
                                         </label>
                                      </div>
                                      <div class="form-check-inline">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="type[]" value="Follow-up check on an existing employee - required before permission to work    expires (under List B - Group 1 or 2)" >Follow-up check on an existing employee - required before permission to work    expires (under List B - Group 1 or 2)
+                                        <input type="checkbox" class="form-check-input" id="followUpCheck" name="type[]" value="Follow-up check on an existing employee - required before permission to work    expires (under List B - Group 1 or 2)" >Follow-up check on an existing employee - required before permission to work    expires (under List B - Group 1 or 2)
                                         </label>
                                      </div>
                                   </div>
@@ -69,12 +69,16 @@
                                      <label>Medium of check</label><br>
                                      <div class="form-check-inline">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="mediumgg[]" value="In-person manual check with original documents" checked>In-person manual check with original documents</label>
+                                        <input type="checkbox" class="form-check-input comon" name="mediumgg[]" value="In-person manual check with original documents" checked>In-person manual check with original documents</label>
                                      </div>
                                      <div class="form-check-inline">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="mediumgg[]" value="Online right to work check">Online right to work check</label>
+                                        <input type="checkbox" class="form-check-input comon" name="mediumgg[]" value="Online right to work check">Online right to work check</label>
                                      </div>
+                                     <div class="form-check-inline">
+                                       <label class="form-check-label">
+                                       <input type="checkbox" class="form-check-input" id="share_code_checkbox" name="mediumgg[]" value="Share Code" onclick='document.getElementById("share").innerHTML = " Share Code"'>Share Code</label>
+                                    </div>
                                   </div>
                                </div>
                                <div class="row form-group">
@@ -517,6 +521,66 @@
                                </div>
                             {{-- </fieldset> --}}
                          </div>
+                         <div id="sf5" class="frm" style="display: none;">                 
+                           <div class="row form-group">
+                              <div class="col-md-6">
+                                 <label>Share Code Referance No</label>
+                                 <input type="text" class="form-control" id="date" placeholder="" name="share_referance_no" required value="" style="text-transform: uppercase;">
+                              </div>
+                              <div class="col-md-6">
+                                 <label>Share Code Use By</label>
+                                 <input type="text" class="form-control" id="date" placeholder="" name="share_code_used_by" required value="" style="text-transform: uppercase;">
+                              </div>
+                              <div class="col-md-6">
+                                 <label>Company Name</label>
+                                 <input type="text" class="form-control" id="date" placeholder="" name="share_com_name" required value="" style="text-transform: uppercase;">
+                              </div>
+                              <div class="col-md-6">
+                                 <label>Date of Check</label>
+                                 <input type="date" class="form-control" id="date" placeholder="" name="share_date_check" required value="" >
+                              </div>
+                              <div class="col-md-6">
+                                 <label>Permission To Work From</label>
+                                 <input type="date" class="form-control" id="date" placeholder="" name="share_permission_form" required value="" >
+                              </div>
+                              <div class="col-md-6">
+                                 <label>Permission To Work Expiry</label>
+                                 <input type="date" class="form-control" id="date" placeholder="" name="share_permission_expiry" required value="" >
+                              </div>
+                              <div class="col-md-6">
+                                 <label>Remarks</label>
+                                 <input type="text" class="form-control" id="date" placeholder="" name="share_remarks" required value="" >
+                              </div>
+                              <div class="col-md-6" id="file-upload-area">
+                                 <label>Document Upload</label>
+                                 <div class="input-group mb-2 file-input-row">
+                                     <input type="file" class="form-control" name="share_doc[]" required>
+                                     <button type="button" class="btn btn-success add-file">+</button>
+                                 </div>
+                              </div>
+                              
+                           </div>
+                           <div class="row form-group">
+                              <div class="col-md-12">
+                                 <label style="padding-top:10px; text:20px;">If you employ this person you must : </label><br>
+                                 <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="share_phically" value="Check this look like the person you meet face to face or by video call" checked>Check this look like the person you meet face to face or by video call</label>
+                                 </div>
+                                 <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="share_hardcopy" value="Keep a secure copy of this online check(either electronicaly or hand copy), for duretion of the employment and for 2 years after" checked>Keep a secure copy of this online check(either electronicaly or hand copy), for duretion of the employment and for 2 years after</label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="clearfix" style="height: 10px;clear: both;"></div>
+                           <div class="form-group" style="margin-top: 30px">
+                              <div class="col-lg-10 col-lg-offset-2">
+                                 <button class="btn btn-warning back1" id="share_back" type="button"><span class="fa fa-arrow-left"></span> Back</button> 
+                                 <button class="btn btn-primary" type="submit">Submit </button> 
+                              </div>
+                           </div>
+                     </div>
                       </form>
                    </div>
                 </div>
@@ -528,6 +592,49 @@
  </div>
 @endsection
 @section('script')
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+       const shareCodeCheckbox = document.getElementById("share_code_checkbox");
+       const evidenceSelect = document.getElementById("evidence");
+       const comon = document.getElementsByClassName("comon");
+   
+       // Store the original select box options
+       const originalOptions = evidenceSelect.innerHTML;
+   
+       shareCodeCheckbox.addEventListener("change", function () {
+           if (this.checked) {
+               // Add the "Share code" option only if it's not already present
+               if (!document.getElementById("evidence2")) {
+                   evidenceSelect.innerHTML = `
+                       <option value="">Select</option>
+                       <option value="share_code">Share code</option>
+                   `;
+                   evidenceSelect.id = "evidence2"; 
+               }
+           } else {
+               // Restore the original options and ID
+               evidenceSelect.innerHTML = originalOptions;
+               evidenceSelect.id = "evidence"; 
+           }
+       });
+   });
+
+    $(document).ready(function () {
+       $(document).on('click', '.add-file', function () {
+           var fileInputHtml = `
+               <div class="input-group mb-2 file-input-row">
+                   <input type="file" class="form-control" name="share_doc[]" required>
+                   <button type="button" class="btn btn-danger remove-file">-</button>
+               </div>`;
+           $('#file-upload-area').append(fileInputHtml);
+       });
+
+       $(document).on('click', '.remove-file', function () {
+           $(this).closest('.file-input-row').remove();
+       });
+   });
+   
+</script>
 <script >
     $(document).ready(function() {
         $('#basic-datatables').DataTable({
@@ -578,7 +685,7 @@
  </script>
  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
  <script type="text/javascript">
-    jQuery().ready(function() {
+    /*jQuery().ready(function() {
       // validate form on keyup and submit
         var v = jQuery("#basicform").validate({
           rules: {
@@ -659,6 +766,130 @@
         });
     
       });
+         */
+      jQuery().ready(function() {
+         // Validate form on keyup and submit
+         var v = jQuery("#basicform").validate({
+            rules: {
+                  email: {
+                     required: true,
+                     email: true,
+                  },
+                  phone: {
+                     required: true,
+                  },
+                  method: {
+                     required: true,
+                  },
+                  city: {
+                     required: true,
+                  },
+                  country: {
+                     required: true,
+                  },
+                  postcode: {
+                     required: true,
+                  },
+                  ca1: {
+                     required: true,
+                  }
+            },
+            errorElement: "span",
+            errorClass: "help-inline-error",
+         });
+
+         // Function to check if 'Share Code' is checked and show step 5
+         function checkShareCode() {
+            if ($("#share_code_checkbox").is(":checked")) {
+                  $(".frm").hide("fast");
+                  $("#sf5").show("slow");
+                  return false;  // Stop further execution of click event
+            }
+            return true; // Continue to the next step normally
+         }
+
+         $("#initialCheck").change(function(){
+            if ($(this).is(":checked")) {
+               $("#followUpCheck").prop("checked", false);
+            }
+         });
+
+         $("#followUpCheck").change(function(){
+            if ($(this).is(":checked")) {
+               $("#initialCheck").prop("checked", false);
+            }
+         });
+
+         // When '.comon' checkbox is selected, uncheck the #share_code_checkbox
+         $(".comon").change(function() {
+            if ($(this).is(":checked")) {
+                  $("#share_code_checkbox").prop("checked", false);
+            }
+         });
+
+         // When #share_code_checkbox is selected, uncheck all .comon checkboxes
+         $("#share_code_checkbox").change(function() {
+            if ($(this).is(":checked")) {
+                  $(".comon").prop("checked", false);
+            }
+         });
+
+         // Binding next button on first step
+         $(".open1").click(function() {
+            if (v.form()) {
+                  if (checkShareCode()) {
+                     $(".frm").hide("fast");
+                     $("#sf2").show("slow");
+                  }
+            }
+         });
+
+         $(".open2").click(function() {
+            if (v.form()) {
+                  if (checkShareCode()) {
+                     $(".frm").hide("fast");
+                     $("#sf3").show("slow");
+                  }
+            }
+         });
+
+         $(".open3").click(function() {
+            if (v.form()) {
+                  if (checkShareCode()) {
+                     $(".frm").hide("fast");
+                     $("#sf4").show("slow");
+                  }
+            }
+         });
+
+         $(".open4").click(function() {
+            if (v.form()) {
+                  checkShareCode();
+            }
+         });
+
+         // Back buttons to navigate to previous steps
+         $(".back2").click(function() {
+            $(".frm").hide("fast");
+            $("#sf1").show("slow");
+         });
+
+         $(".back3").click(function() {
+            $(".frm").hide("fast");
+            $("#sf2").show("slow");
+         });
+
+         $(".back4").click(function() {
+            $(".frm").hide("fast");
+            $("#sf3").show("slow");
+         });
+
+         // Add back button event to return to the first step (sf1)
+         $(".back-to-start").click(function() {
+            $(".frm").hide("fast");
+            $("#sf1").show("slow");
+         });
+      });  
           $(document).ready(function() {
             var empid="<?=$employee_id;?>";
     
