@@ -62,6 +62,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 		</div>
 	</div>
 	<!-- /Page Header -->
+	@include('employeer.layout.message')
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card custom-card">

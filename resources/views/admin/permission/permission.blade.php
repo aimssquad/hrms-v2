@@ -62,13 +62,15 @@
                                                       <span class="checkmark"></span>
                                                   </label>
                                               </th>
-                                              <th><h4>Module Name</h4></th>
+
+                                              <th width="150" colspan="2"> <h5><b>Module Name</b></h5></th>
                                           </tr>
                                       </thead>
                                       <tbody>
                                           @foreach($module as $menu)
                                           <tr>
-                                              <td class="text-center">
+                                                <td>{{$loop->iteration}}</td>
+                                              <td>
                                                   <label class="custom_check">
                                                       <input type="checkbox" 
                                                           name="modules[]" 

@@ -2862,7 +2862,7 @@ Route::get('pis/getEmployeedreportfileById/{empid}', function ($empid) {
         ->where('emp_code', '=', $empid)
         ->where('emid', '=', $Roledata->reg)
         ->first();
-
+    //dd($desig_rs);
     $employee_rs = DB::table('employee_qualification')
 
         ->where('emp_id', '=', $empid)
@@ -2902,6 +2902,10 @@ Route::get('pis/getEmployeedreportfileById/{empid}', function ($empid) {
         $result_status1 .= '<option value="pass_docu">Passport Document </option>';
 
     }
+    // if ($desig_rs->pass_docu != '') {
+    //     $result_status1 .= '<option value="pass_docu">Share Code</option>';
+
+    // }
     if ($desig_rs->visa_upload_doc != '') {
         $result_status1 .= '<option value="visa_upload_doc">Visa Document </option>';
 

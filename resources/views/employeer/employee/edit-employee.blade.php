@@ -37,7 +37,7 @@
 <div class="page-inner">
    <div class="row">
         <div class="col">
-            <h3 class="page-title">Edit Employee</h3>
+            <h3 class="page-title">Edit Employee fff</h3>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
     			<li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">Employee Dashboard</a></li>
@@ -1013,6 +1013,78 @@
                                     </div>
                                     <br>
                                     <hr>
+                              <h4 style="color: #1269db;">Share Code Details</h4>
+                                 <div >
+                                    <div class="row">
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Share Code</label>	
+                                             <input id="inputFloatingLabeldn1" type="text" class="form-control input-border-bottom" value="@if(request()->get('q') != '') {{$employee_rs[0]->share_code}} @endif" name="share_code">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Share Code Use By</label>
+                                             <input id="inputFloatingLabeldn1" type="date" class="form-control input-border-bottom"
+                                                value="{{ request()->get('q') ? \Carbon\Carbon::parse($employee_rs[0]->share_code_used_by)->format('Y-m-d') : '' }}" 
+                                                name="share_code_used_by">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Date Of Check</label>
+                                             <input id="inputFloatingLabeldn1" type="date" class="form-control input-border-bottom" 
+                                             value="{{ request()->get('q') ? \Carbon\Carbon::parse($employee_rs[0]->share_date_check)->format('Y-m-d') : '' }}" name="share_date_check">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Issue Date</label>
+                                             <input id="inputFloatingLabeldn1" type="date" class="form-control input-border-bottom" 
+                                             value="{{ request()->get('q') ? \Carbon\Carbon::parse($employee_rs[0]->share_issue_date)->format('Y-m-d') : '' }}" name="share_issue_date">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Expiry Date</label>
+                                             <input id="inputFloatingLabeldn1" type="date" class="form-control input-border-bottom" 
+                                             value="{{ request()->get('q') ? \Carbon\Carbon::parse($employee_rs[0]->share_expiry_date)->format('Y-m-d') : '' }}" name="share_expiry_date">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3" id="file-upload-area">
+                                            <label>Document Upload</label>
+                                            <div class="input-group mb-2 file-input-row">
+                                                <input type="file" class="form-control" name="share_doc[]" multiple="multiple">
+                                                {{-- <button type="button" class="btn btn-success add-file">+</button> --}}
+                                            </div>
+                                            @foreach ($emp_share_doc as $doc)
+                                                <div class="file-preview">
+                                                    {{-- <a href="{{ asset('storage/app/' . $doc->document) }}" target="_blank">{{$doc->document}}</a> --}}
+                                                    <a href="{{ asset('storage/' . $doc->document) }}" target="_blank">{{ basename($doc->document) }}</a>
+                                                    <!-- Optionally, add a delete button -->
+                                                    <button type="button" class="btn btn-danger remove-file" data-id="{{ $doc->id }}">-</button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                       
+                                       {{-- <div class="col-md-3">
+                                          <div class="form-group form-floating-label" >
+                                             <label for="visa_exp_date" class="col-form-label">Expiry Date</label>	
+                                             <input id="visa_exp_date" type="date" class="form-control input-border-bottom" name="visa_exp_date" 
+                                                onchange="getreviewvisdate();">	
+                                          </div>
+                                       </div> --}}
+                                       {{-- <div class="col-md-3">
+                                          <label>Upload Front Side Document</label>
+                                          <input type="file" class="form-control" name="visa_upload_doc" id="visa_upload_doc" onchange="Filevalidationdopassdvisae()">
+                                          <small> Please select  file which size up to 2mb</small>
+                                       </div> --}}
+                                    </div>
+                                 </div>
+                                 <br>
+                                    <hr>
                                     <h4 style="color: #1269db;">EUSS/Time limit details </h4>
                                     <div class="multisteps-form__content">
                                     <div class="row mt-4">
@@ -1640,6 +1712,37 @@
 </div>
 @endsection
 @section('script')
+<script>
+    // $(document).ready(function () {
+    //     $(document).on('click', '.add-file', function () {
+    //         var fileInputHtml = `
+    //             <div class="input-group mb-2 file-input-row">
+    //                 <input type="file" class="form-control" name="share_doc[]" >
+    //                 <button type="button" class="btn btn-danger remove-file">-</button>
+    //             </div>`;
+    //         $('#file-upload-area').append(fileInputHtml);
+    //     });
+ 
+    //     $(document).on('click', '.remove-file', function () {
+    //         $(this).closest('.file-input-row').remove();
+    //     });
+    // });
+    $(document).ready(function () {
+    $(document).on('click', '.add-file', function () {
+        var fileInputHtml = `
+            <div class="input-group mb-2 file-input-row">
+                <input type="file" class="form-control" name="share_doc[]" required>
+                <button type="button" class="btn btn-danger remove-file">-</button>
+            </div>`;
+        $('#file-upload-area').append(fileInputHtml);
+    });
+
+    $(document).on('click', '.remove-file', function () {
+        $(this).closest('.file-input-row').remove();
+    });
+});
+ </script>
+ 
 <script>
    let currentTab = 0;
    

@@ -118,7 +118,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <tr>
                            <td>{{ $employee->employee_id}}</td>
                            <td>{{ $employefgf->emp_fname }} {{ $employefgf->emp_mname }} {{ $employefgf->emp_lname }}</td>
-                           <td>   {{ date('d/m/Y',strtotime($employee->date)) }} </td>
+                           <td>{{ date('d/m/Y',strtotime($employee->date)) }}</td>
                            <td>{{ $employee->type }}</td>
                            <!-- <td> -->
                            <td class="icon"> <a data-toggle="tooltip" data-placement="bottom" title="View" href="{{ url('dashboard/work-view/'.base64_encode($employee->id)) }}" target="_blank" ><img  style="width: 14px;" src="{{ asset('assets/img/view.png')}}"></a></td>

@@ -815,6 +815,63 @@
                               </div>
                               </br>
                               <hr>
+                              <h4 style="color: #1269db;">Share Code Details</h4>
+                                 <div class="multisteps-form__content">
+                                    <div class="row">
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Share Code</label>	
+                                             <input id="inputFloatingLabeldn1" type="text" class="form-control input-border-bottom"  name="share_code">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Share Code Use By</label>
+                                             <input id="inputFloatingLabeldn1" type="date" class="form-control input-border-bottom"  name="share_code_used_by">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Date Of Check</label>
+                                             <input id="inputFloatingLabeldn1" type="date" class="form-control input-border-bottom"  name="share_date_check">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Issue Date</label>
+                                             <input id="inputFloatingLabeldn1" type="date" class="form-control input-border-bottom"  name="share_issue_date">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <label for="inputFloatingLabeldn1" class="col-form-label">Expiry Date</label>
+                                             <input id="inputFloatingLabeldn1" type="date" class="form-control input-border-bottom"  name="share_expiry_date">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <label class="col-form-label">Multiple Document Upload</label>
+                                          <input type="file" class="form-control" name="share_code_doc" id="share_upload_doc" onchange="Filevalidationdopassdvisae()">
+                                          <small> Please select  file which size up to 2mb</small>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       
+                                       {{-- <div class="col-md-3">
+                                          <div class="form-group form-floating-label" >
+                                             <label for="visa_exp_date" class="col-form-label">Expiry Date</label>	
+                                             <input id="visa_exp_date" type="date" class="form-control input-border-bottom" name="visa_exp_date" 
+                                                onchange="getreviewvisdate();">	
+                                          </div>
+                                       </div> --}}
+                                       {{-- <div class="col-md-3">
+                                          <label>Upload Front Side Document</label>
+                                          <input type="file" class="form-control" name="visa_upload_doc" id="visa_upload_doc" onchange="Filevalidationdopassdvisae()">
+                                          <small> Please select  file which size up to 2mb</small>
+                                       </div> --}}
+                                    </div>
+                                 </div>
+                                 <br>
+                              <hr>
                               <h4 style="color: #1269db;">EUSS/Time limit details </h4>
                               <div class="multisteps-form__content">
                                  <div class="row">
