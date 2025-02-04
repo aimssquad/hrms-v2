@@ -54,13 +54,9 @@ class LoginController extends Controller
                 $dynamicFlag = 0;
                 return Helper::rj("Not a valid credential", $dynamicFlag);
             }
-
-            // Restrict login to employees only
             if ($checkuser->user_type !== "employee") {
                 return Helper::rj("Only employees can log in.", 0);
             }
-
-            // Fetch user data
             $user = UserModel::where("email", $request->email)->first();
             $token = $user->createToken("token")->accessToken;
 
@@ -71,7 +67,7 @@ class LoginController extends Controller
 
             // Get employee profile image
             $userImage = DB::table('employee')->where('emp_code', $user_id)->first();
-            $imagePath = $userImage->profileimage ?? null; // Handle null case
+            $imagePath = $userImage->profileimage ?? ''; // Handle null case
 
             // Update device token
             $user->update(['device_token' => $deviceToken]);
@@ -80,7 +76,14 @@ class LoginController extends Controller
             $checkuser = UserModel::join('employee', 'employee.emp_code', '=', 'users.employee_id')
                 ->where("employee_id", $user_id)
                 ->first();
-
+           $checkuser = json_decode(json_encode($checkuser), true);
+           foreach ($checkuser as $key => $value) {
+                if ($value === null) {
+                    $checkuser[$key] = "";
+                }
+            }
+           
+            $dynamicFlag = 1;
             return Helper::rj(
                 "Employee login success",
                 $dynamicFlag,
@@ -94,5 +97,25 @@ class LoginController extends Controller
             return Helper::rj("Server Error.", 500);
         }
     }
+
+    public function logout(Request $request)
+    {
+        $dynamicFlag = 1;
+
+        try {
+            if (auth()->user()) {
+                $user = auth()->user();
+                $user->tokens()->delete(); 
+
+                return Helper::rj("Logout successful", $dynamicFlag);
+            } else {
+                $dynamicFlag = 0;
+                return Helper::rj("User not authenticated", $dynamicFlag);
+            }
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        }
+    }
+
 
 }

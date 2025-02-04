@@ -78,4 +78,15 @@ class Helper
         $response = self::attendence($message, $flag, $halfDayData,$fullDayData,$totakWorkingDay,$data);
         return response()->json($response, $response['status']);
     }
+
+
+    public function replaceNullRecursive($data)
+    {
+        return array_map(function ($value) {
+            if (is_array($value)) {
+                return $this->replaceNullRecursive($value); // Use $this-> if inside a class
+            }
+            return is_null($value) ? "" : $value;
+        }, $data);
+    }
 }
