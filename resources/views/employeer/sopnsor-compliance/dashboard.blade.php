@@ -1,5 +1,10 @@
 @extends('employeer.include.app')
 @section('title', 'Sponsor Compaliance')
+@php 
+$user_type = Session::get("user_type");
+$sidebarItems = \App\Helpers\Helper::getSidebarItems();
+//dd($sidebarItems);
+@endphp
 @section('content')
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -131,10 +136,36 @@
                   </div>
                </a>
             </div>
+            @if($user_type ==="employee")
+            @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                @if($rotaItem['submenu_name'] == 'Dashboard' && $rotaItem['can_add'] == 1)
             <div class="col-xl-4 col-lg-4 col-md-6">
                <a 
-               href="{{ $usetype == 'employee' && in_array('2', $arrrole) ? url('recruitment/dashboard') : '#' }}" 
-               target="{{ $usetype == 'employee' && in_array('2', $arrrole) ? '_blank' : '_self' }}" 
+               href="{{ url('recruitment/dashboard')}}" target="_self" class="modern-card-link">
+                  <div class="modern-card">
+                     <div class="modern-card-header">
+                     <div class="modern_icon_wrapper">
+                              <i class="fa fa-building modern-icon"></i>
+                           </div>
+                           <h4 class="modern-card-title">Recruitment Process</h4>
+                     </div>
+                     <div class="modern-card-body">
+                        <div class="modern-status"></div>
+                        <div class="modern-arrow">
+                           <span class="employee-count">0</span>
+                           <i class="fa fa-arrow-right"></i>
+                        </div>
+                     </div>
+                  </div>
+               </a>
+            </div>
+            @endif
+            @endforeach
+            @else
+            <div class="col-xl-4 col-lg-4 col-md-6">
+               <a 
+               href="{{url('recruitment/dashboard')}}" 
+               target="_self" 
                class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
@@ -153,10 +184,36 @@
                   </div>
                </a>
             </div>
+            @endif
+            @if($user_type ==="employee")
+               @foreach($sidebarItems['Leave Management'] as $rotaItem)
+                  @if($rotaItem['submenu_name'] == 'Dashboard' && $rotaItem['can_add'] == 1)
+                     <div class="col-xl-4 col-lg-4 col-md-6">
+                        <a href="{{ url('leave/dashboard') }}" target="_self" class="modern-card-link">
+                           <div class="modern-card">
+                              <div class="modern-card-header">
+                              <div class="modern_icon_wrapper">
+                                       <i class="fa fa-building modern-icon"></i>
+                                    </div>
+                                    <h4 class="modern-card-title">Leave Management</h4>
+                              </div>
+                              <div class="modern-card-body">
+                                 <div class="modern-status"></div>
+                                 <div class="modern-arrow">
+                                    <span class="employee-count">0</span>
+                                    <i class="fa fa-arrow-right"></i>
+                                 </div>
+                              </div>
+                           </div>
+                        </a>
+                     </div>
+                  @endif
+               @endforeach
+            @else
             <div class="col-xl-4 col-lg-4 col-md-6">
                <a 
-               href="{{ $usetype == 'employee' && in_array('3', $arrrole) ? url('leavedashboard') : ($usetype != 'employee' ? url('leave/dashboard') : '#') }}" 
-               target="{{ $usetype == 'employee' && in_array('3', $arrrole) || $usetype != 'employee' ? '_blank' : '_self' }}" 
+               href="{{ url('leave/dashboard') }}" 
+               target="_self" 
                class="modern-card-link">
                   <div class="modern-card">
                      <div class="modern-card-header">
@@ -175,6 +232,7 @@
                   </div>
                </a>
             </div>
+            @endif
             <div class="col-xl-4 col-lg-4 col-md-6">
                <a href="#" class="modern-card-link">
                   <div class="modern-card">
@@ -194,25 +252,28 @@
                   </div>
                </a>
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-6">
-               <a href="{{ url('org-dashboard/key-contact') }}" class="modern-card-link">
-                  <div class="modern-card">
-                     <div class="modern-card-header">
-                     <div class="modern_icon_wrapper">
-                              <i class="fa fa-building modern-icon"></i>
+            @if($user_type ==="employee")
+            @else
+               <div class="col-xl-4 col-lg-4 col-md-6">
+                  <a href="{{ url('org-dashboard/key-contact') }}" class="modern-card-link">
+                     <div class="modern-card">
+                        <div class="modern-card-header">
+                        <div class="modern_icon_wrapper">
+                                 <i class="fa fa-building modern-icon"></i>
+                              </div>
+                              <h4 class="modern-card-title">Key Contact</h4>
+                        </div>
+                        <div class="modern-card-body">
+                           <div class="modern-status"></div>
+                           <div class="modern-arrow">
+                              <span class="employee-count">0</span>
+                              <i class="fa fa-arrow-right"></i>
                            </div>
-                           <h4 class="modern-card-title">Key Contact</h4>
-                     </div>
-                     <div class="modern-card-body">
-                        <div class="modern-status"></div>
-                        <div class="modern-arrow">
-                           <span class="employee-count">0</span>
-                           <i class="fa fa-arrow-right"></i>
                         </div>
                      </div>
-                  </div>
-               </a>
-            </div>
+                  </a>
+               </div>
+            @endif
             <div class="col-xl-4 col-lg-4 col-md-6">
                <a href="{{ url('org-dashboard/sponsor-management-dossier-new') }}" class="modern-card-link">
                   <div class="modern-card">

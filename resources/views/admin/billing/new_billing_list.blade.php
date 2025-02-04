@@ -141,7 +141,7 @@
                                             @endphp --}}
                                          <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$billing->invoice_no}}</td>
+                                            <td><a href="{{ route('admin.billing.invoice', $billing->id) }}">{{$billing->invoice_no}}</a></td>
                                             <td>{{$billing->bill_for}}</td>
                                             <td>{{ \Carbon\Carbon::parse($billing->date)->format('d-m-Y') }}</td>
                                             <td>{{$billing->billing_type}}</td>

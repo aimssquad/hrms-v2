@@ -1,5 +1,6 @@
 @php
     $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+    $user_name = DB::table('users')->where('employee_id',$employee_id)->first();
     //dd($sidebarItems);
 @endphp
 @extends('employeer.include.app')
@@ -17,7 +18,7 @@
          </ul>
          <div class="card custom-card">
             <div class="card-header">
-               <h4 class="card-title"><i class="far fa-user"></i> {{$employee_id}}  Employee Permission</h4>
+               <h4 class="card-title"><i class="far fa-user"></i> {{ strtoupper($user_name->name) }}  Employee Permission</h4>
             </div>
             <div class="card-body">
                <div class="multisteps-form">

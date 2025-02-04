@@ -79,6 +79,9 @@ class EmployeeController extends Controller
                     ->where('emp_id', '=', $decrypted_id)
                     ->where('emid', '=', $reg)
                     ->get();
+                $data['emp_share_doc'] =DB::table('share_code_doc')
+                    ->where('employee_id', '=', $decrypted_id)
+                    ->get();
 
                 $data['employee_quli_rs'] = DB::table('employee_qualification')
                     ->where('emid', '=', $reg)
@@ -142,7 +145,7 @@ class EmployeeController extends Controller
                 } else {
                     $data['employee_pin_rs'] = "<option value=''>&nbsp;</option>";
                 }
-                // dd($data['nation_master']);
+                //dd($data);
                 // return view('employee/edit-employee', $data);
                 return view($this->_routePrefix . '.edit-employee',$data);
 
@@ -236,23 +239,23 @@ class EmployeeController extends Controller
                 // dd($Roledata->reg);
                 $data['employee_code'] = $emp_code;
                 $data['currency_user'] = DB::table('currencies')->orderBy('country', 'asc')->get();
-                $data['department'] = DB::table('department')->where('emid', '=', $Roledata->reg)->where('department_status', '=', 'active')->get();
-                $data['designation'] = DB::table('designation')->where('emid', '=', $Roledata->reg)->where('designation_status', '=', 'active')->get();
+                $data['department'] = DB::table('department')->where('emid', '=', $reg)->where('department_status', '=', 'active')->get();
+                $data['designation'] = DB::table('designation')->where('emid', '=', $reg)->where('designation_status', '=', 'active')->get();
 
                 $data['employee_type'] = DB::table('employ_type_master')
-                ->where('emid', '=', $Roledata->reg)->get();
+                ->where('emid', '=', $reg)->get();
                 // ->where('employee_type_status', '=', 'active')
-                $data['grade'] = DB::table('grade')->where('emid', '=', $Roledata->reg)->where('grade_status', '=', 'active')->get();
+                $data['grade'] = DB::table('grade')->where('emid', '=', $reg)->where('grade_status', '=', 'active')->get();
                 // dd($data['grade']);
                 $data['bank'] = DB::table('bank_masters')->get();
-                $data['payscale_master'] = DB::table('pay_scale_master')->where('emid', '=', $Roledata->reg)->get();
+                $data['payscale_master'] = DB::table('pay_scale_master')->where('emid', '=', $reg)->get();
                 $data['nation_master'] = DB::table('nationality_master')->orderBy('name', 'asc')->get();
 
-                $data['payment_type_master'] = DB::table('payment_type_master')->where('emid', '=', $Roledata->reg)->get();
+                $data['payment_type_master'] = DB::table('payment_type_master')->where('emid', '=', $reg)->get();
                 $data['currency_master'] = DB::table('currency_code')->get();
-                $data['tax_master'] = DB::table('tax_master')->where('emid', '=', $Roledata->reg)->get();
+                $data['tax_master'] = DB::table('tax_master')->where('emid', '=', $reg)->get();
 
-                $data['employeelists'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
+                $data['employeelists'] = DB::table('employee')->where('emid', '=', $reg)->get();
                 //echo "<pre>";print_r($data['states']);exit;
                 //return view('employee/add-employee', $data);
                 return view($this->_routePrefix . '.add-employee',$data);
@@ -267,10 +270,11 @@ class EmployeeController extends Controller
 
     public function saveEmployee(Request $request)
     {
-        //dd($request->all());
+        
+        //dd($request->file('share_doc'));
         if (!empty(Session::get('emp_email'))) {
             // echo $id = Input::get('q');
-            // dd($request->all());
+            //dd($request->all());
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
 
@@ -281,7 +285,7 @@ class EmployeeController extends Controller
 
                 ->where('email', '=', $email)
                 ->first();
-
+            
             function my_simple_crypt($string, $action = 'encrypt')
             {
                 // you may change these values to your own
@@ -321,9 +325,10 @@ class EmployeeController extends Controller
             $id = $request->get('q');
 
             if ($id) {
+                //dd('okk');
                 //edit mode
                 $decrypted_id = my_simple_crypt($id, 'decrypt');
-
+                //dd($decrypted_id);
                 $ckeck_dept = DB::table('employee')->where('emp_code', $request->emp_code)->where('emp_code', '!=', $decrypted_id)->where('emid', $Roledata->reg)->first();
                 if (!empty($ckeck_dept)) {
                     Session::flash('message', 'Employee Code Code  Already Exists.');
@@ -547,6 +552,24 @@ class EmployeeController extends Controller
                         ->update($dataimgps);
 
                 }
+                if ($request->has('share_doc')) {
+                    $uploadedFiles = $request->file('share_doc');
+                    $sharedata=[];
+                    if ($uploadedFiles) {
+                        foreach ($uploadedFiles as $file) {
+                            $fileName = now()->timestamp . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                            //dd($fileName);
+                            $filePath = $file->store('public/uploads/share-code');  // Store in storage/app/public/uploads/share-code
+                            
+                            $sharedata[] = [
+                                'employee_id' => $decrypted_id,
+                                'document' => str_replace('public/', '', $filePath),
+                            ];
+                        }
+                        DB::table('share_code_doc')->insert($sharedata);
+                    }
+
+                }
 
                 if ($request->has('euss_upload_doc')) {
 
@@ -592,7 +615,7 @@ class EmployeeController extends Controller
                         ->update($dataimgps);
 
                 }
-
+                //dd('okkkk');
                 $dataupdate = array(
 
                     'emp_fname' => strtoupper($request->emp_fname),
@@ -743,16 +766,25 @@ class EmployeeController extends Controller
                     'nat_review_date' => date('Y-m-d', strtotime($request->nat_review_date)),
                     'nat_cur' => $request->nat_cur,
 
+                    'share_code' => strtoupper($request->share_code),
+                    'share_code_used_by' => $request->share_code_used_by,
+                    'share_date_check' => $request->share_date_check,
+                    'share_issue_date' => $request->share_issue_date,
+                    'share_expiry_date' => $request->share_expiry_date,
+
                     'nat_remarks' => $request->nat_remarks,
                     'updated_at' => date('Y-m-d H:i:s'),
 
                 );
-
+                //dd($Roledata->reg);
+                //dd($dataupdate);
+                
+                
                 DB::table('employee')
                     ->where('emp_code', $decrypted_id)
                     ->where('emid', '=', $Roledata->reg)
                     ->update($dataupdate);
-
+                //dd('okk');
 
                     // new code for change of circumtances 
                     $existingData = DB::table('change_circumstances_history')
@@ -770,6 +802,7 @@ class EmployeeController extends Controller
                         'pass_docu' => $sm_cch_pass_docu,
                         'pr_add_proof' => $sm_cch_pr_add_proof,
                         'emp_designation' => $request->emp_designation,
+                        'emp_status' => $request->emp_status,
                         'emp_ps_phone' => $request->emp_ps_phone,
                         'nationality' => $request->nationality,
                         'ni_no' => $request->ni_no,
@@ -829,9 +862,17 @@ class EmployeeController extends Controller
                         'emp_ps_state' => $request->emp_ps_state,
                         'emp_code' => $decrypted_id,
                         'emid' => $Roledata->reg,
+
+                        'date_confirm' => date('Y-m-d', strtotime($request->date_confirm)),
+
+                        'share_referance_no' => strtoupper($request->share_code),
+                        'share_code_used_by' => $request->share_code_used_by,
+                        'share_permission_form' => $request->share_date_check,
+                        'share_permission_expiry' => $request->share_issue_date,
+                        'emp_doj' => date('Y-m-d', strtotime($request->emp_doj)),
                         'date_change' => date('Y-m-d', strtotime($request->emp_doj)),
                     );
-
+                    
                     if ($existingData) {
                         $existingDataArray = (array)$existingData;
                         unset($existingDataArray['id'], $existingDataArray['date_change'], $existingDataArray['created_at'], $existingDataArray['updated_at']);
@@ -839,7 +880,7 @@ class EmployeeController extends Controller
                     } else {
                         $changes = $datachangecir;
                     }
-
+                    //dd($datachangecir);
                     if (!empty($changes)) {
                         DB::table('change_circumstances_history')->insert($datachangecir);
                     }
@@ -848,107 +889,7 @@ class EmployeeController extends Controller
                         ->where('emid', '=', $Roledata->reg)
                         ->delete();
 
-                // old code by ranjan 
-                // $datachangecir = array(
-
-                //     'emp_fname' => strtoupper($request->emp_fname),
-                //     'emp_mname' => strtoupper($request->emp_mid_name),
-                //     'emp_lname' => strtoupper($request->emp_lname),
-
-                //     'visa_upload_doc' => $sm_cch_visa_upload_doc,
-                //     'visaback_doc' => $sm_cch_visaback_doc,
-
-                //     'pass_docu' => $sm_cch_pass_docu,
-                //     'pr_add_proof' => $sm_cch_pr_add_proof,
-
-                //     'emp_designation' => $request->emp_designation,
-
-                //     'emp_ps_phone' => $request->emp_ps_phone,
-
-                //     'nationality' => $request->nationality,
-                //     'ni_no' => $request->ni_no,
-                //     'pass_doc_no' => $request->pass_doc_no,
-                //     'pass_nat' => $request->pass_nat,
-                //     'place_birth' => $request->place_birth,
-                //     'issue_by' => $request->issue_by,
-                //     'pas_iss_date' => date('Y-m-d', strtotime($request->pas_iss_date)),
-                //     'pass_exp_date' => date('Y-m-d', strtotime($request->pass_exp_date)),
-                //     'pass_review_date' => date('Y-m-d', strtotime($request->pass_review_date)),
-
-                //     'remarks' => $request->remarks,
-                //     'cur_pass' => $request->cur_pass,
-
-                //     'visa_doc_no' => $request->visa_doc_no,
-                //     'visa_nat' => $request->visa_nat,
-                //     'visa_issue' => $request->visa_issue,
-                //     'visa_issue_date' => date('Y-m-d', strtotime($request->visa_issue_date)),
-                //     'visa_exp_date' => date('Y-m-d', strtotime($request->visa_exp_date)),
-                //     'visa_review_date' => date('Y-m-d', strtotime($request->visa_review_date)),
-                //     'country_residence' => $request->country_residence,
-                //     'visa_remarks' => $request->visa_remarks,
-                //     'visa_cur' => $request->visa_cur,
-
-                //     'dbs_ref_no' => $request->dbs_ref_no,
-                //     'dbs_nation' => $request->dbs_nation,
-                //     'dbs_issue_date' => date('Y-m-d', strtotime($request->dbs_issue_date)),
-                //     'dbs_exp_date' => date('Y-m-d', strtotime($request->dbs_exp_date)),
-                //     'dbs_review_date' => date('Y-m-d', strtotime($request->dbs_review_date)),
-                //     'dbs_cur' => $request->dbs_cur,
-                //     'dbs_remarks' => $request->dbs_remarks,
-                //     'dbs_type' => $request->dbs_type,
-
-                //     'euss_ref_no' => $request->euss_ref_no,
-                //     'euss_nation' => $request->euss_nation,
-                //     'euss_issue_date' => date('Y-m-d', strtotime($request->euss_issue_date)),
-                //     'euss_exp_date' => date('Y-m-d', strtotime($request->euss_exp_date)),
-                //     'euss_review_date' => date('Y-m-d', strtotime($request->euss_review_date)),
-                //     'euss_cur' => $request->euss_cur,
-                //     'euss_remarks' => $request->euss_remarks,
-
-                //     'nat_id_no' => $request->nat_id_no,
-                //     'nat_nation' => $request->nat_nation,
-                //     'nat_country_res' => $request->nat_country_res,
-                //     'nat_issue_date' => date('Y-m-d', strtotime($request->nat_issue_date)),
-                //     'nat_exp_date' => date('Y-m-d', strtotime($request->nat_exp_date)),
-                //     'nat_review_date' => date('Y-m-d', strtotime($request->nat_review_date)),
-                //     'nat_cur' => $request->nat_cur,
-
-                //     'nat_remarks' => $request->nat_remarks,
-
-
-
-                //     'emp_dob' => date('Y-m-d', strtotime($request->emp_dob)),
-                //     'emp_pr_street_no' => $request->emp_pr_street_no,
-                //     'emp_per_village' => $request->emp_per_village,
-                //     'emp_pr_city' => $request->emp_pr_city,
-                //     'emp_pr_country' => $request->emp_pr_country,
-                //     'emp_pr_pincode' => $request->emp_pr_pincode,
-                //     'emp_pr_state' => $request->emp_pr_state,
-
-                //     'emp_ps_street_no' => $request->emp_ps_street_no,
-                //     'emp_ps_village' => $request->emp_ps_village,
-                //     'emp_ps_city' => $request->emp_ps_city,
-                //     'emp_ps_country' => $request->emp_ps_country,
-                //     'emp_ps_pincode' => $request->emp_ps_pincode,
-                //     'emp_ps_state' => $request->emp_ps_state,
-
-                //     'emp_code' => $decrypted_id,
-                //     'emid' => $Roledata->reg,
-                //     'hr' => '',
-                //     'home' => '',
-                //     'res_remark' => '',
-
-                //     'date_change' => date('Y-m-d', strtotime($request->emp_doj)),
-                //     'change_last' => '',
-                //     'stat_chage' => '',
-
-                //     'unique_law' => '',
-                //     'repo_ab' => '',
-                //     'laeve_date' => '',
-
-                // );
-                // DB::table('change_circumstances_history')->insert($datachangecir);
-                // DB::table('circumemployee_other_doc_history')->where('emp_code', '=', $decrypted_id)->where('emid', '=', $Roledata->reg)->delete();
+                
 
                 $employee_otherd_doc_rs = DB::table('employee_other_doc')
 
@@ -1175,21 +1116,22 @@ class EmployeeController extends Controller
                 return redirect('organization/emplist');
 
             } else {
+                //dd($request->all());
                 //Add mode
                 $ckeck_dept = DB::table('employee')->where('emp_code', $request->emp_code)->where('emid', $Roledata->reg)->first();
                 if (!empty($ckeck_dept)) {
                     Session::flash('message', 'Employee Code Code  Already Exists.');
-                    return redirect('employees');
+                    return redirect('organization/emplist');
                 }
                 $ckeck_email = DB::table('users')->where('email', '=', $request->emp_ps_email)->first();
                 if (!empty($ckeck_email)) {
                     Session::flash('message', 'E-mail id  Already Exists.');
-                    return redirect('employees');
+                    return redirect('organization/emplist');
                 }
                 $ckeck_email_em = DB::table('employee')->where('emp_ps_email', '=', $request->emp_ps_email)->first();
                 if (!empty($ckeck_email_em)) {
                     Session::flash('message', 'E-mail id  Already Exists.');
-                    return redirect('employees');
+                    return redirect('organization/emplist');
                 }
                 $pay = array(
                     'employee_code' => $request->emp_code,
@@ -1321,6 +1263,24 @@ class EmployeeController extends Controller
                 } else {
 
                     $path_nat_doc = '';
+
+                }
+                if ($request->has('share_doc')) {
+                    $uploadedFiles = $request->file('share_doc');
+                    $sharedata=[];
+                    if ($uploadedFiles) {
+                        foreach ($uploadedFiles as $file) {
+                            $fileName = now()->timestamp . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                            //dd($fileName);
+                            $filePath = $file->store('public/uploads/share-code');  // Store in storage/app/public/uploads/share-code
+                            
+                            $sharedata[] = [
+                                'employee_id' => $decrypted_id,
+                                'document' => str_replace('public/', '', $filePath),
+                            ];
+                        }
+                        DB::table('share_code_doc')->insert($sharedata);
+                    }
 
                 }
 
@@ -1481,6 +1441,12 @@ class EmployeeController extends Controller
 
                     'nat_remarks' => $request->nat_remarks,
 
+                    'share_code' => strtoupper($request->share_code),
+                    'share_code_used_by' => $request->share_code_used_by,
+                    'share_date_check' => $request->share_date_check,
+                    'share_issue_date' => $request->share_issue_date,
+                    'share_expiry_date' => $request->share_expiry_date,
+
                 );
 
                 $tot_item_quli = count($request->quli);
@@ -1628,8 +1594,9 @@ class EmployeeController extends Controller
 
                     'emp_designation' => $request->emp_designation,
 
+                    'date_confirm' => date('Y-m-d', strtotime($request->date_confirm)),
                     'emp_ps_phone' => $request->emp_ps_phone,
-
+                    'emp_status' => $request->emp_status,
                     'nationality' => $request->nationality,
                     'ni_no' => $request->ni_no,
                     'pass_doc_no' => $request->pass_doc_no,
@@ -1672,7 +1639,6 @@ class EmployeeController extends Controller
                     'dbs_type' => $request->dbs_type,
                     'dbs_upload_doc' => $path_dbs_doc,
 
-
                     'nat_id_no' => $request->nat_id_no,
                     'nat_nation' => $request->nat_nation,
                     'nat_country_res' => $request->nat_country_res,
@@ -1706,6 +1672,7 @@ class EmployeeController extends Controller
                     'res_remark' => '',
 
                     'date_change' => date('Y-m-d', strtotime($request->emp_doj)),
+                    'emp_doj' => date('Y-m-d', strtotime($request->emp_doj)),
                     'change_last' => '',
                     'stat_chage' => '',
 
@@ -1713,8 +1680,13 @@ class EmployeeController extends Controller
                     'repo_ab' => '',
                     'laeve_date' => '',
 
-                );
+                    'share_referance_no' => strtoupper($request->share_code),
+                    'share_code_used_by' => $request->share_code_used_by,
+                    'share_permission_form' => $request->share_date_check,
+                    'share_permission_expiry' => $request->share_issue_date,
 
+                );
+                //dd($datachangecir);
                 DB::table('change_circumstances_history')->insert($datachangecir);
 
                 $p_dd = mt_rand(1000, 9999);

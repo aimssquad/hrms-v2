@@ -99,7 +99,7 @@
                             @csrf
                             <input type="hidden" name="employee_code" value="{{ $employee->emp_code }}">
                             <button class="btn-download btn-download-pdf" style="margin-right: 10px;">
-                                <i class="fas fa-file-pdf"></i> Export to PDF
+                                 Export to PDF
                             </button>
                         </form>
                         
@@ -119,8 +119,10 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
+                                        <th>Joining Date</th>
                                         <th>Date of Change</th>
                                         <th>Designation</th>
+                                        <th>Employment Type</th>
                                         <th>Phone</th>
                                         <th>Nationality</th>
                                         <th>Visa Expiration</th>
@@ -131,8 +133,10 @@
                                 <tbody>
                                     @foreach($changeHistory as $change)
                                         <tr>
-                                            <td>{{ date('d/m/Y', strtotime($change->date_change)) }}</td>
+                                            <td>{{ date('d/m/Y', strtotime($change->emp_doj)) }}</td>
+                                            <td>{{ date('d/m/Y', strtotime($change->date_confirm)) }}</td>
                                             <td>{{ $change->emp_designation }}</td>
+                                            <td>{{ $change->emp_status }}</td>
                                             <td>{{ $change->emp_ps_phone }}</td>
                                             <td>{{ $change->nationality }}</td>
                                             <td>{{ $change->visa_exp_date != '1970-01-01' ? date('d/m/Y', strtotime($change->visa_exp_date)) : 'N/A' }}</td>

@@ -81,7 +81,7 @@
                         <tr>
                            <td>{{$loop->iteration}}</td>
                            
-                           <td>{{$billing->invoice_no}}</td>
+                           <td><a class="atag_titel_main" href="{{ route('subadmin.own_billing.invoice', $billing->id) }}">{{$billing->invoice_no}}</a></td>
                            <td>{{$billing->bill_for}}</td>
                            @php
                              $data = DB::table('sub_admin_registrations')->where('reg',$billing->entity_id)->first();

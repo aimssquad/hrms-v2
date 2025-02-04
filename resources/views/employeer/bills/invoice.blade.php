@@ -40,7 +40,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <div class="col-sm-6 m-b-20">
                             @if($bill->org_code == null)
                                 <img src="{{ asset('storage/' . $org_dtl->logo) }}" class="inv-logo"  alt="Logo" 
-                                style="width: 470px; height: 50px;">
+                                style="width: 150px; height: 125px;">
                             @else
                                 <img src="{{ asset('storage/' . $com_dtl->logo) }}" class="inv-logo"  alt="User Image" 
                                 style="width: 70px; height: 50px;">
@@ -128,6 +128,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                         @if($bill->vat !== null) 
                                         {{-- {{$bill->total_amount}} --}}
                                             @php
+                                            
                                                 $total = $bill->amount*$bill->vat/100;
                                                 echo $total+$bill->amount;
                                             @endphp
@@ -170,7 +171,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                     <td></td>
                                                     <td class="text-end">
                                                         @if($bill->total_amount==0)
-                                                            {{$bill->amount}}
+                                                        {{ !empty($bill->amount) ? $bill->amount : 'NA' }}
+                                                            {{-- {{$bill->amount}} --}}
                                                         @else
                                                             {{$bill->total_amount}}
                                                         @endif

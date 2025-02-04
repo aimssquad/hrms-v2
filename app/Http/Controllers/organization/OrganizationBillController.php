@@ -15,8 +15,35 @@ class OrganizationBillController extends Controller
 
     public function orgDashboard(Request $request){
         $email = Session::get('emp_email');
+        $emid = Session::get('emid');
         if(!empty($email)){
             $data['org_dtl'] = DB::table('registration')->where('email',$email)->first();
+            $data['invoice_count'] = DB::table('subadmin_bills')->where('entity_id',$emid)->count();
+            $data['previous_invoice'] = DB::table('subadmin_bills')
+                ->where('entity_id', $emid)
+                ->where('status', 1)
+                ->orderBy('id', 'desc')
+                ->skip(1)
+                ->take(1)
+                ->value('total_amount'); 
+            $data['last_invoice'] = DB::table('subadmin_bills')
+                ->where('status', 1)
+                ->where('entity_id', $emid)
+                ->orderBy('id', 'desc')
+                ->take(1)
+                ->value('total_amount');   
+            $data['paid_amount'] = DB::table('subadmin_bills')
+                ->where('entity_id', $emid)
+                ->where('status', 3)
+                ->sum('total_amount'); 
+            $data['last_paid_amount'] = DB::table('subadmin_bills')
+                ->where('entity_id', $emid)
+                ->where('status', 3)
+                ->orderBy('id', 'desc')
+                ->take(1)
+                ->value('total_amount'); 
+
+            //dd($data);
             return view('employeer.bills.dashboard',$data);
         } else {
             redirect('superadmin');

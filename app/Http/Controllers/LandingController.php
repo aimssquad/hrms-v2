@@ -652,41 +652,6 @@ class LandingController extends Controller
                         }
                     }
                 }
-
-
-                // dd($request->email);
-                // $randomNumber = mt_rand(100000, 999999);
-                // $base_url = env('BASE_URL');
-                // $data = ["otp" =>$randomNumber, "name" => $Employee->name, "url" => $base_url];
-                // $toemail = $request->email;
-                // $Employee = UserModel::where("email", $request->email)->first();
-                // if ($Employee) {
-                //     $Employee->otp = $randomNumber;
-                //     $Employee->save();
-                //     Mail::send("mailotp", $data, function ($message) use ($toemail) {
-                //         $message
-                //             ->to($toemail, env('MAIL_FROM_NAME'))
-                //             ->subject("OTP Validation");
-                //         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-                //     });
-                // }
-
-                // $randomNumber = mt_rand(100000, 999999);
-                // $base_url = env('BASE_URL');
-                // $data = ["otp" =>$randomNumber, "name" => $Employee->name, "url" => $base_url];
-                // $toemail = $request->email;
-                // $Employee = UserModel::where("email", $request->email)->first();
-
-                // if ($Employee) {
-                //     $Employee->otp = $randomNumber;
-                //     $Employee->save();
-                //     Mail::send("mailotp", $data, function ($message) use ($toemail) {
-                //         $message
-                //             ->to($toemail, env('MAIL_FROM_NAME'))
-                //             ->subject("OTP Validation");
-                //         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-                //     });
-                // }
                
                 return redirect()->intended("organization/employerdashboard"); 
                 // return redirect()->intended("otpvalidate");

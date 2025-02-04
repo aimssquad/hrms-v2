@@ -24,16 +24,15 @@ class CircumstanceController extends Controller
     {
         if (!empty(Session::get("emp_email"))) {
             $reg = Session::get("emid");
-            // $Roledata = DB::table("registration")
-            //     ->where("status", "=", "active")
-            //     ->where("email", "=", $email)
-            //     ->first();
-            $data["employee_rs"] = DB::table("change_circumstances")
-                ->where("emid", "=", $reg)
-                ->orderBy("id", "ASC")
-                ->get();
+
+            $data["employee_rs"] = DB::table('change_circumstances_history')
+            //->where('emp_code', '=', $employee_code)
+            ->where('emid', '=', $reg)
+            //->orderBy('emp_code')
+            ->orderBy('id','DESC')
+            ->get();
+            //dd($data);
             return view($this->_routePrefix. '.change-of-circumstances',$data);
-            //return view("employee/change-of-circumstances", $data);
         } else {
             return redirect("/");
         }

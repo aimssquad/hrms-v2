@@ -141,6 +141,9 @@ class EmployeeCornerOrganisationController extends Controller
             $users = DB::table("users")
                 ->where("email", "=", $email)
                 ->first();
+            $data['Roledata'] = DB::table("users")
+                ->where("email", "=", $email)
+                ->first();    
             
             $data["employee"] = DB::table("employee")
                 ->where("emp_code", "=", $users->employee_id)
@@ -194,6 +197,7 @@ class EmployeeCornerOrganisationController extends Controller
                 ->whereDate("leave_apply.from_date", ">=", $first_day_this_year)
                 ->whereDate("leave_apply.to_date", "<=", $last_day_this_year)
                 ->get();
+               
             return view($this->_routePrefix . '.dashboard',$data);
             //return View("employee-corner-organisation/dashboard", $data);
         } else {

@@ -154,7 +154,18 @@
                                             <td>{{$bill->amount}}</td>
                                             <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td>
                                             <td>{{$bill->vat}}</td>
-                                            <td class="text-end">{{$bill->total_amount}}</td>
+                                            {{-- <td class="text-end">{{$bill->total_amount}}</td> --}}
+                                            <td class="text-end">
+                                                @if($bill->vat !== null) 
+                                            
+                                                    @php
+                                                        $total = $bill->amount*$bill->vat/100;
+                                                        echo $total+$bill->amount;
+                                                    @endphp
+                                                @else 
+                                                    {{$bill->amount}}
+                                                @endif
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -181,9 +192,23 @@
                                                 <table class="table mb-0">
                                                     <tbody>
                                                         <tr>
+                                                            <th>Discount:</th>
+                                                            <td></td>
+                                                            {{-- <td class="text-end">{{ !empty($bill->discount_amount) ? $bill->discount_amount : 'NA' }}</td> --}}
+                                                            <td class="text-end">{{$bill->discount_amount}}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <th>Subtotal:</th>
                                                             <td></td>
-                                                            <td class="text-end">{{$bill->amount}}</td>
+                                                            <td class="text-end">
+                                                                @if($bill->total_amount==0)
+                                                                {{ !empty($bill->amount) ? $bill->amount : 'NA' }}
+                                                                    {{-- {{$bill->amount}} --}}
+                                                                @else
+                                                                    {{$bill->total_amount}}
+                                                                @endif
+                                                            </td>
+                                                            {{-- <td class="text-end">{{$bill->amount}}</td> --}}
                                                         </tr>
                                                         {{-- <tr>
                                                             <th>Tax: <span class="text-regular">({{$bill->vat}} %)</span></th>

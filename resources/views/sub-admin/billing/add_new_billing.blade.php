@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="date" >Invoice Date</label>
+                                <label for="date" class="form-label">Invoice Date</label>
                                 <input type="date" class="form-control" id="date"  name="date">
                             </div>
                         </div>
@@ -210,7 +210,7 @@
         var discount = parseFloat($('#discount_amount').val()) || 0; // Default to 0 if empty
 
         // Calculate VAT and apply discount
-        var totalAmount = amount * (1 + vat / 100) - discount;
+        var totalAmount = (amount- discount) * (1 + vat / 100) ;
 
         // Ensure the total amount doesn't go below 0
         totalAmount = Math.max(totalAmount, 0);

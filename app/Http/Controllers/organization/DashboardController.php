@@ -157,14 +157,14 @@ class DashboardController extends Controller
     {
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
             $data['employee_rs'] = DB::table('employee')
-            ->where('emid', '=', $Roledata->reg)
+            ->where('emid', '=', $reg)
             ->where(function ($query) {
 
                 $query->whereNull('employee.emp_status')
@@ -183,15 +183,15 @@ class DashboardController extends Controller
 
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
                 $data['employee_rs'] = DB::table('users')
                 ->join('employee', 'users.employee_id', '=', 'employee.emp_code')
-                ->where('employee.emid', '=', $Roledata->reg)
-                ->where('users.emid', '=', $Roledata->reg)
+                ->where('employee.emid', '=', $reg)
+                ->where('users.emid', '=', $reg)
                 ->where('users.status', '=', 'active')
                 ->where(function ($query) {
                     $query->whereNull('employee.emp_status')
@@ -221,17 +221,17 @@ class DashboardController extends Controller
 
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
-            $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
+            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
-            $data['employee_rs'] = DB::table('right_works')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_rs'] = DB::table('right_works')->where('emid', '=', $reg)->get();
             return view($this->_routePrefix . '.right-works',$data);
 
             //return view('dashboard/right-works', $data);
@@ -3225,7 +3225,7 @@ class DashboardController extends Controller
         $changeHistory = DB::table('change_circumstances_history')
             ->where('emp_code', '=', $employee_code)
             ->where('emid', '=', $Roledata->reg)
-            ->orderBy('date_change', 'DESC')
+            ->orderBy('id', 'DESC')
             ->get();
     
         // Step 3: Prepare data for the view
@@ -4100,8 +4100,28 @@ class DashboardController extends Controller
                 $data['start_date'] = '';
             }
             $data['employee_id'] = $request->employee_id;
+            //------------------------------------------------ggfhgfhhggg
+                $data['desig_rs'] = DB::table('employee')
+                    ->where('emp_code', '=', $request->employee_id)
+                    ->where('emid', '=', $Roledata->reg)
+                    ->first();
+                $data['employee_rs'] = DB::table('employee_qualification')
+
+                    ->where('emp_id', '=', $request->employee_id)
+                    ->where('emid', '=', $Roledata->reg)
+                    ->get();
+
+                $data['employee_upload_rs'] = DB::table('employee_upload')
+
+                    ->where('emp_id', '=', $request->employee_id)
+                    ->where('emid', '=', $Roledata->reg)
+                    ->get();
+                $data['employee_otherd_doc_rs'] = DB::table('employee_other_doc')
+                    ->where('emid', '=', $Roledata->reg)
+                    ->where('emp_code', '=', $request->employee_id)
+                    ->get();
+            //---------------------------------------------------hfhfgfhhfhgfhgfh
             if ($data['vis_due'] >= '2021-07-01') {
-                //dd('ll');
                 return view('employeer/sopnsor-compliance/add-right-works', $data);
                 //return view('dashboard/add-right-works', $data);
 
@@ -4117,7 +4137,8 @@ class DashboardController extends Controller
 
     public function saveEmployeesright(Request $request)
     {
-        //dd($request->all());
+        // dd($request->mediumgg[0]);
+         
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
@@ -4234,7 +4255,127 @@ class DashboardController extends Controller
                 'scan_r_img' => $request->scan_r_img,
                 'cr_date' => date('Y-m-d'),
                 'up_date' => date('Y-m-d'),
+                // New fields to be inserted
+                // 'share_referance_no' => $request->share_referance_no,
+                // 'share_code_used_by' => $request->share_code_used_by,
+                // 'share_com_name' => $request->share_com_name,
+                // 'share_date_check' => $request->share_date_check,
+                // 'share_permission_form' => $request->share_permission_form,
+                // 'share_permission_expiry' => $request->share_permission_expiry,
+                // 'share_remarks' => $request->share_remarks,
+
+                // 'share_phically' => $request->share_phically,
+                // 'share_hardcopy' => $request->share_hardcopy
             );
+            if($request->mediumgg[0] =="Share Code"){
+
+                $pay['share_referance_no'] = strtoupper($request->share_referance_no);
+                $pay['share_code_used_by'] = strtoupper($request->share_code_used_by);
+                $pay['share_com_name'] = strtoupper($request->share_com_name);
+                $pay['share_date_check'] = $request->share_date_check;
+                $pay['share_permission_form'] = $request->share_permission_form;
+                $pay['share_permission_expiry'] = $request->share_permission_expiry;
+                $pay['share_remarks'] = $request->share_remarks;
+                $pay['share_phically'] = $request->share_phically;
+                $pay['share_hardcopy'] = $request->share_hardcopy;
+
+                $uploadedFiles = $request->file('share_doc');
+                $filenames = [];   
+                foreach ($uploadedFiles as $file) {
+                    // Store the file and get its path
+                    $path = $file->store('public/uploads/rtw');  // Store in storage/app/uploads/documents
+                    $filenames[] = basename($path);
+                }
+                $pay['share_doc'] = json_encode($filenames);
+            }
+            $emp_data = DB::table('employee')->where('emid', Session::get('emid'))->where('emp_code',$request->employee_id)->first();
+            $change_history = [
+                'emp_fname' => $emp_data->emp_fname ?? '',
+                'emp_mname' => $emp_data->emp_mid_name ?? '',
+                'emp_lname' => $emp_data->emp_lname ?? '',
+                'visa_upload_doc' => $emp_data->visa_upload_doc ?? '',
+                'visaback_doc' => $emp_data->visaback_doc ?? '',
+                'pass_docu' => $emp_data->pass_docu ?? '',
+                'pr_add_proof' => $emp_data->pr_add_proof ?? '',
+                'emp_designation' => $emp_data->emp_designation ?? '',
+                'emp_status' => $emp_data->emp_status ?? '',
+                'emp_ps_phone' => $emp_data->emp_ps_phone ?? '',
+                'nationality' => $emp_data->nationality ?? '',
+                'ni_no' => $emp_data->ni_no ?? '',
+                'pass_doc_no' => $emp_data->pass_doc_no ?? '',
+                'pass_nat' => $emp_data->pass_nat ?? '',
+                'place_birth' => $emp_data->place_birth ?? '',
+                'issue_by' => $emp_data->issue_by ?? '',
+                'pas_iss_date' => date('Y-m-d', strtotime($emp_data->pas_iss_date)) ?? '',
+                'pass_exp_date' => date('Y-m-d', strtotime($emp_data->pass_exp_date)) ?? '',
+                'pass_review_date' => date('Y-m-d', strtotime($emp_data->pass_review_date)) ?? '',
+                'remarks' => $emp_data->remarks ?? '',
+                'cur_pass' => $emp_data->cur_pass ?? '',
+                'visa_doc_no' => $emp_data->visa_doc_no ?? '',
+                'visa_nat' => $emp_data->visa_nat ?? '',
+                'visa_issue' => $emp_data->visa_issue ?? '',
+                'visa_issue_date' => date('Y-m-d', strtotime($emp_data->visa_issue_date)) ?? '',
+                'visa_exp_date' => date('Y-m-d', strtotime($emp_data->visa_exp_date)),
+                'visa_review_date' => date('Y-m-d', strtotime($emp_data->visa_review_date)) ?? '',
+                'country_residence' => $emp_data->country_residence ?? '',
+                'visa_remarks' => $emp_data->visa_remarks ?? '',
+                'visa_cur' => $emp_data->visa_cur ?? '',
+                'dbs_ref_no' => $emp_data->dbs_ref_no ?? '',
+                'dbs_nation' => $emp_data->dbs_nation ?? '',
+                'dbs_issue_date' => date('Y-m-d', strtotime($emp_data->dbs_issue_date)) ?? '',
+                'dbs_exp_date' => date('Y-m-d', strtotime($emp_data->dbs_exp_date)) ?? '',
+                'dbs_review_date' => date('Y-m-d', strtotime($emp_data->dbs_review_date)) ?? '',
+                'dbs_cur' => $emp_data->dbs_cur ?? '',
+                'dbs_remarks' => $emp_data->dbs_remarks ?? '',
+                'dbs_type' => $emp_data->dbs_type ?? '',
+                'euss_ref_no' => $emp_data->euss_ref_no ?? '',
+                'euss_nation' => $emp_data->euss_nation ?? '',
+                'euss_issue_date' => date('Y-m-d', strtotime($emp_data->euss_issue_date)) ?? '',
+                'euss_exp_date' => date('Y-m-d', strtotime($emp_data->euss_exp_date)) ?? '',
+                'euss_review_date' => date('Y-m-d', strtotime($emp_data->euss_review_date)) ?? '',
+                'euss_cur' => $emp_data->euss_cur ?? '',
+                'euss_remarks' => $emp_data->euss_remarks ?? '',
+                'nat_id_no' => $emp_data->nat_id_no ?? '',
+                'nat_nation' => $emp_data->nat_nation ?? '',
+                'nat_country_res' => $emp_data->nat_country_res ?? '',
+                'nat_issue_date' => date('Y-m-d', strtotime($emp_data->nat_issue_date)) ?? '',
+                'nat_exp_date' => date('Y-m-d', strtotime($emp_data->nat_exp_date)) ?? '',
+                'nat_review_date' => date('Y-m-d', strtotime($emp_data->nat_review_date)) ?? '',
+                'nat_cur' => $emp_data->nat_cur ?? '',
+                'nat_remarks' => $emp_data->nat_remarks ?? '',
+                'emp_dob' => date('Y-m-d', strtotime($emp_data->emp_dob)) ?? '',
+                'emp_pr_street_no' => $emp_data->emp_pr_street_no ?? '',
+                'emp_per_village' => $emp_data->emp_per_village ?? '',
+                'emp_pr_city' => $emp_data->emp_pr_city ?? '',
+                'emp_pr_country' => $emp_data->emp_pr_country ?? '',
+                'emp_pr_pincode' => $emp_data->emp_pr_pincode ?? '',
+                'emp_pr_state' => $emp_data->emp_pr_state ?? '',
+                'emp_ps_street_no' => $emp_data->emp_ps_street_no ?? '',
+                'emp_ps_village' => $emp_data->emp_ps_village ?? '',
+                'emp_ps_city' => $emp_data->emp_ps_city ?? '',
+                'emp_ps_country' => $emp_data->emp_ps_country ?? '',
+                'emp_ps_pincode' => $emp_data->emp_ps_pincode ?? '',
+                'emp_ps_state' => $emp_data->emp_ps_state ?? '',
+                'emid'  =>  $emp_data->emid ?? '',
+                'emp_code'  =>  $emp_data->emp_code ?? '',
+                'emp_doj'  =>  $emp_data->emp_doj ?? '',
+                'date_confirm' => date('Y-m-d', strtotime($request->date)),
+                'share_referance_no'  =>  $request->share_referance_no,
+                'share_code_used_by'  =>  $request->share_code_used_by,
+                //'share_com_name'  =>  $request->emp_code,
+                'share_permission_form'  =>  $request->share_permission_form,
+                'share_permission_expiry'  =>  $request->share_permission_expiry,
+                'share_phically'  =>  $request->share_phically,
+                'share_hardcopy'  =>  $request->share_hardcopy,
+                'remarks'  =>  $request->share_remarks,
+                'evidence'  => $request->evidence
+            ];
+            //dd($change_history);
+            DB::table('change_circumstances_history')->insert($change_history);
+           
+
+
+            //dd($pay);
             DB::table('right_works')->insert($pay);
             Session::flash('message', 'Right to Work checks Added Successfully');
             return redirect('org-dashboard-right-works');
@@ -4251,22 +4392,23 @@ class DashboardController extends Controller
         //dd('okk');
         if (!empty(Session::get('emp_email'))) {
 
-            $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
+            $reg = Session::get('emid');
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
-                ->where('email', '=', $email)
-                ->first();
+            //     ->where('email', '=', $email)
+            //     ->first();
 
-            $date['Roledata'] = DB::table('registration')
-                ->where('status', '=', 'active')
-                ->where('email', '=', $email)
-                ->first();
+            // $date['Roledata'] = DB::table('registration')
+            //     ->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
             $data['work_rs'] = DB::table('right_works')->where('id', '=', base64_decode($send_id))->first();
-            $data['employeeh'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->where('emp_code', '=', $data['work_rs']->employee_id)->first();
+            $data['employeeh'] = DB::table('employee')->where('emid', '=', $reg)->where('emp_code', '=', $data['work_rs']->employee_id)->first();
 
-            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $reg)->get();
 
             if ($data['work_rs']->date >= '2021-07-01') {
+                //dd($data);
                 return view('employeer/sopnsor-compliance/edit-work', $data);
 
             } else {
@@ -4279,7 +4421,8 @@ class DashboardController extends Controller
 
     public function saveEmployeesrightedit(Request $request)
     {
-        //dd('ok');
+        //dd($request->all());
+        //dd($request->medium[0]);
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
@@ -4345,16 +4488,15 @@ class DashboardController extends Controller
             }
 
             $pay = array(
-
+                'employee_id' => $request->employee_id,
+                'emid' => Session::get('emid'),
                 'type_of_excuse' => $type_of_excuse,
                 'date' => $vis_due,
-
                 'medium' => $medium,
                 'type' => $type,
                 'evidence' => $request->evidence,
                 'list_euss_follow' => $list_euss_follow,
                 'list_eusss' => $request->list_eusss,
-                'list_euss_follow' => $request->list_euss_follow,
                 'start_date' => $start_date,
                 'start_time' => $request->start_time,
                 'list_ap' => $list_ap,
@@ -4392,10 +4534,119 @@ class DashboardController extends Controller
                 'scan_f_img' => $request->scan_f_img,
                 'scan_s_img' => $request->scan_s_img,
                 'scan_r_img' => $request->scan_r_img,
-
                 'up_date' => date('Y-m-d'),
             );
-            DB::table('right_works')->where('id', $request->newid)->update($pay);
+            
+            if($request->medium[0] =="Share Code"){
+
+                $pay['share_referance_no'] = strtoupper($request->share_referance_no);
+                $pay['share_code_used_by'] = strtoupper($request->share_code_used_by);
+                $pay['share_com_name'] = strtoupper($request->share_com_name);
+                $pay['share_date_check'] = $request->share_date_check;
+                $pay['share_permission_form'] = $request->share_permission_form;
+                $pay['share_permission_expiry'] = $request->share_permission_expiry;
+                $pay['share_remarks'] = $request->share_remarks;
+                $pay['share_phically'] = $request->share_phically;
+                $pay['share_hardcopy'] = $request->share_hardcopy;
+
+                $uploadedFiles = $request->file('share_doc');
+                $filenames = [];   
+                foreach ($uploadedFiles as $file) {
+                    // Store the file and get its path
+                    $path = $file->store('public/uploads/rtw');  // Store in storage/app/uploads/documents
+                    $filenames[] = basename($path);
+                }
+                $pay['share_doc'] = json_encode($filenames);
+            }
+
+            $emp_data = DB::table('employee')->where('emid', Session::get('emid'))->where('emp_code',$request->employee_id)->first();
+            //dd($emp_data);
+            $change_history = [
+                'emp_fname' => $emp_data->emp_fname ?? '',
+                'emp_mname' => $emp_data->emp_mid_name ?? '',
+                'emp_lname' => $emp_data->emp_lname ?? '',
+                'visa_upload_doc' => $emp_data->visa_upload_doc ?? '',
+                'visaback_doc' => $emp_data->visaback_doc ?? '',
+                'pass_docu' => $emp_data->pass_docu ?? '',
+                'pr_add_proof' => $emp_data->pr_add_proof ?? '',
+                'emp_designation' => $emp_data->emp_designation ?? '',
+                'emp_status' => $emp_data->emp_status ?? '',
+                'emp_ps_phone' => $emp_data->emp_ps_phone ?? '',
+                'nationality' => $emp_data->nationality ?? '',
+                'ni_no' => $emp_data->ni_no ?? '',
+                'pass_doc_no' => $emp_data->pass_doc_no ?? '',
+                'pass_nat' => $emp_data->pass_nat ?? '',
+                'place_birth' => $emp_data->place_birth ?? '',
+                'issue_by' => $emp_data->issue_by ?? '',
+                'pas_iss_date' => date('Y-m-d', strtotime($emp_data->pas_iss_date)) ?? '',
+                'pass_exp_date' => date('Y-m-d', strtotime($emp_data->pass_exp_date)) ?? '',
+                'pass_review_date' => date('Y-m-d', strtotime($emp_data->pass_review_date)) ?? '',
+                'remarks' => $emp_data->remarks ?? '',
+                'cur_pass' => $emp_data->cur_pass ?? '',
+                'visa_doc_no' => $emp_data->visa_doc_no ?? '',
+                'visa_nat' => $emp_data->visa_nat ?? '',
+                'visa_issue' => $emp_data->visa_issue ?? '',
+                'visa_issue_date' => date('Y-m-d', strtotime($emp_data->visa_issue_date)) ?? '',
+                'visa_exp_date' => date('Y-m-d', strtotime($emp_data->visa_exp_date)),
+                'visa_review_date' => date('Y-m-d', strtotime($emp_data->visa_review_date)) ?? '',
+                'country_residence' => $emp_data->country_residence ?? '',
+                'visa_remarks' => $emp_data->visa_remarks ?? '',
+                'visa_cur' => $emp_data->visa_cur ?? '',
+                'dbs_ref_no' => $emp_data->dbs_ref_no ?? '',
+                'dbs_nation' => $emp_data->dbs_nation ?? '',
+                'dbs_issue_date' => date('Y-m-d', strtotime($emp_data->dbs_issue_date)) ?? '',
+                'dbs_exp_date' => date('Y-m-d', strtotime($emp_data->dbs_exp_date)) ?? '',
+                'dbs_review_date' => date('Y-m-d', strtotime($emp_data->dbs_review_date)) ?? '',
+                'dbs_cur' => $emp_data->dbs_cur ?? '',
+                'dbs_remarks' => $emp_data->dbs_remarks ?? '',
+                'dbs_type' => $emp_data->dbs_type ?? '',
+                'euss_ref_no' => $emp_data->euss_ref_no ?? '',
+                'euss_nation' => $emp_data->euss_nation ?? '',
+                'euss_issue_date' => date('Y-m-d', strtotime($emp_data->euss_issue_date)) ?? '',
+                'euss_exp_date' => date('Y-m-d', strtotime($emp_data->euss_exp_date)) ?? '',
+                'euss_review_date' => date('Y-m-d', strtotime($emp_data->euss_review_date)) ?? '',
+                'euss_cur' => $emp_data->euss_cur ?? '',
+                'euss_remarks' => $emp_data->euss_remarks ?? '',
+                'nat_id_no' => $emp_data->nat_id_no ?? '',
+                'nat_nation' => $emp_data->nat_nation ?? '',
+                'nat_country_res' => $emp_data->nat_country_res ?? '',
+                'nat_issue_date' => date('Y-m-d', strtotime($emp_data->nat_issue_date)) ?? '',
+                'nat_exp_date' => date('Y-m-d', strtotime($emp_data->nat_exp_date)) ?? '',
+                'nat_review_date' => date('Y-m-d', strtotime($emp_data->nat_review_date)) ?? '',
+                'nat_cur' => $emp_data->nat_cur ?? '',
+                'nat_remarks' => $emp_data->nat_remarks ?? '',
+                'emp_dob' => date('Y-m-d', strtotime($emp_data->emp_dob)) ?? '',
+                'emp_pr_street_no' => $emp_data->emp_pr_street_no ?? '',
+                'emp_per_village' => $emp_data->emp_per_village ?? '',
+                'emp_pr_city' => $emp_data->emp_pr_city ?? '',
+                'emp_pr_country' => $emp_data->emp_pr_country ?? '',
+                'emp_pr_pincode' => $emp_data->emp_pr_pincode ?? '',
+                'emp_pr_state' => $emp_data->emp_pr_state ?? '',
+                'emp_ps_street_no' => $emp_data->emp_ps_street_no ?? '',
+                'emp_ps_village' => $emp_data->emp_ps_village ?? '',
+                'emp_ps_city' => $emp_data->emp_ps_city ?? '',
+                'emp_ps_country' => $emp_data->emp_ps_country ?? '',
+                'emp_ps_pincode' => $emp_data->emp_ps_pincode ?? '',
+                'emp_ps_state' => $emp_data->emp_ps_state ?? '',
+                'emid'  =>  $emp_data->emid ?? '',
+                'emp_code'  =>  $emp_data->emp_code ?? '',
+                'emp_doj'  =>  $emp_data->emp_doj ?? '',
+                'date_confirm' => date('Y-m-d', strtotime($request->date)),
+                'share_referance_no'  =>  $request->share_referance_no,
+                'share_code_used_by'  =>  $request->share_code_used_by,
+                //'share_com_name'  =>  $request->emp_code,
+                'share_permission_form'  =>  $request->share_permission_form,
+                'share_permission_expiry'  =>  $request->share_permission_expiry,
+                'share_phically'  =>  $request->share_phically,
+                'share_hardcopy'  =>  $request->share_hardcopy,
+                'remarks'  =>  $request->share_remarks,
+                'evidence'  => $request->evidence
+            ];
+            //dd($change_history);
+            DB::table('change_circumstances_history')->insert($change_history);
+            // Update the database
+            DB::table('right_works')->where('id', $request->id)->delete();
+            DB::table('right_works')->insert($pay);
             Session::flash('message', 'Right to Work checks Edited Successfully');
             return redirect('org-dashboard-right-works');
             //return redirect('dashboard-right-works');

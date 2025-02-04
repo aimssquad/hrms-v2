@@ -3,6 +3,7 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+//dd($sidebarItems);
 @endphp
 @section('content')
 @php
@@ -40,9 +41,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
-            @if($user_type == 'employee')
-            @foreach($sidebarItems as $value)
-            @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
+            @if($user_type ==="employee")
+            @foreach($sidebarItems['Sponsor Compliances'] as $rotaItem)
+                @if($rotaItem['submenu_name'] == 'Sponsor Compliances' && $rotaItem['can_add'] == 1)
             <a href="{{ url('org-add-right-works-by-datecheck') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Right to Work checks </a>
             @endif
             @endforeach
@@ -111,13 +112,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                        <tbody>
                         @foreach($employee_rs as $employee)
                         <?php
-                           $employefgf=DB::table('employee')->where('emid', '=', $Roledata->reg )->where('emp_code', '=', $employee->employee_id )->first();
+                           $employefgf=DB::table('employee')->where('emid', '=', Session::get('emid') )->where('emp_code', '=', $employee->employee_id )->first();
                            //dd($employee_rs);
                            ?>
                         <tr>
                            <td>{{ $employee->employee_id}}</td>
                            <td>{{ $employefgf->emp_fname }} {{ $employefgf->emp_mname }} {{ $employefgf->emp_lname }}</td>
-                           <td>   {{ date('d/m/Y',strtotime($employee->date)) }} </td>
+                           <td>{{ date('d/m/Y',strtotime($employee->date)) }}</td>
                            <td>{{ $employee->type }}</td>
                            <!-- <td> -->
                            <td class="icon"> <a data-toggle="tooltip" data-placement="bottom" title="View" href="{{ url('dashboard/work-view/'.base64_encode($employee->id)) }}" target="_blank" ><img  style="width: 14px;" src="{{ asset('assets/img/view.png')}}"></a></td>

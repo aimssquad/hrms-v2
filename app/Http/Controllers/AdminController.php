@@ -20538,106 +20538,106 @@ class AdminController extends Controller
     }
 
 
-    public function viewSidebarPermissionForm()
-    {
-        //dd(Session::get('empsu_email'));
-        try {
-            if (!empty(Session::get('empsu_email'))) {
+    // public function viewSidebarPermissionForm()
+    // {
+    //     //dd('okk');
+    //     try {
+    //         if (!empty(Session::get('empsu_email'))) {
 
-                $data['users'] = DB::table('users')
-                    ->where('user_type','=','employer')
-                    ->where('status','=','active')
-                    ->get();
-                $data['module'] = DB::table('module')->get();
-                $data['menu'] = DB::table('module_config')->get();
-                //dd($data);
-                return view('admin/view-sidebar-permission', $data);
-            } else {
-                return redirect('superadmin');
-            }
-        } catch (Exception $e) {
-            throw new \App\Exceptions\AdminException($e->getMessage());
-        }
-    }
+    //             $data['users'] = DB::table('users')
+    //                 ->where('user_type','=','employer')
+    //                 ->where('status','=','active')
+    //                 ->get();
+    //             $data['module'] = DB::table('module')->get();
+    //             $data['menu'] = DB::table('module_config')->get();
+    //             //dd($data);
+    //             return view('admin/view-sidebar-permission', $data);
+    //         } else {
+    //             return redirect('superadmin');
+    //         }
+    //     } catch (Exception $e) {
+    //         throw new \App\Exceptions\AdminException($e->getMessage());
+    //     }
+    // }
 
-    public function UserAccessRightsSidebarFormAuth(Request $request)
-    {
-        try {
-            $email = Session::get('empsu_email');
-            $userType = Session::get('usersu_type');
+    // public function UserAccessRightsSidebarFormAuth(Request $request)
+    // {
+    //     try {
+    //         $email = Session::get('empsu_email');
+    //         $userType = Session::get('usersu_type');
     
-            if (!empty($email)) {
+    //         if (!empty($email)) {
     
-                if ($userType == 'user') {
-                    $arrrole = Session::get('empsu_role');
-                    if (!in_array('5', $arrrole)) {
-                        throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
-                    }
-                }
+    //             if ($userType == 'user') {
+    //                 $arrrole = Session::get('empsu_role');
+    //                 if (!in_array('5', $arrrole)) {
+    //                     throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
+    //                 }
+    //             }
     
-                foreach ($request['member_id'] as $valuemenm) {
-                    foreach ($request['module_name'] as $key => $value) {
-                        $va = explode('(Code :', $valuemenm);
-                        $vag = explode(')', $va[1]);
-                        $member_id = trim($vag[0]);
+    //             foreach ($request['member_id'] as $valuemenm) {
+    //                 foreach ($request['module_name'] as $key => $value) {
+    //                     $va = explode('(Code :', $valuemenm);
+    //                     $vag = explode(')', $va[1]);
+    //                     $member_id = trim($vag[0]);
     
-                        if ($value == 'all') {
-                            $modules = DB::table('module')->get();
+    //                     if ($value == 'all') {
+    //                         $modules = DB::table('module')->get();
     
-                            foreach ($modules as $module) {
-                                $module_id = $module->id;
+    //                         foreach ($modules as $module) {
+    //                             $module_id = $module->id;
     
-                                // Check if the data already exists
-                                $exists = DB::table('othorized_organization_module')
-                                    ->where('employee_id', $member_id)
-                                    ->where('module_name', $module_id)
-                                    ->exists();
+    //                             // Check if the data already exists
+    //                             $exists = DB::table('othorized_organization_module')
+    //                                 ->where('employee_id', $member_id)
+    //                                 ->where('module_name', $module_id)
+    //                                 ->exists();
     
-                                if (!$exists) {
-                                    // Insert the data
-                                    DB::table('othorized_organization_module')->insert([
-                                        'module_name' => $module_id,
-                                        'employee_id' => $member_id,
-                                    ]);
-                                    Session::flash('message', 'Role Successfully Saved.');
-                                } else {
-                                    Session::flash('message', 'User Permission already exists!');
-                                }
-                            }
+    //                             if (!$exists) {
+    //                                 // Insert the data
+    //                                 DB::table('othorized_organization_module')->insert([
+    //                                     'module_name' => $module_id,
+    //                                     'employee_id' => $member_id,
+    //                                 ]);
+    //                                 Session::flash('message', 'Role Successfully Saved.');
+    //                             } else {
+    //                                 Session::flash('message', 'User Permission already exists!');
+    //                             }
+    //                         }
     
-                        } else {
-                            $module_id = $value;
+    //                     } else {
+    //                         $module_id = $value;
     
-                            // Check if the data already exists
-                            $exists = DB::table('othorized_organization_module')
-                                ->where('employee_id', $member_id)
-                                ->where('module_name', $module_id)
-                                ->exists();
+    //                         // Check if the data already exists
+    //                         $exists = DB::table('othorized_organization_module')
+    //                             ->where('employee_id', $member_id)
+    //                             ->where('module_name', $module_id)
+    //                             ->exists();
     
-                            if (!$exists) {
-                                // Insert the data
-                                DB::table('othorized_organization_module')->insert([
-                                    'module_name' => $module_id,
-                                    'employee_id' => $member_id,
-                                ]);
-                                Session::flash('message', 'Role Successfully Saved.');
-                            } else {
-                                Session::flash('message', 'User Permission already exists!');
-                            }
-                        }
-                    }
-                }
+    //                         if (!$exists) {
+    //                             // Insert the data
+    //                             DB::table('othorized_organization_module')->insert([
+    //                                 'module_name' => $module_id,
+    //                                 'employee_id' => $member_id,
+    //                             ]);
+    //                             Session::flash('message', 'Role Successfully Saved.');
+    //                         } else {
+    //                             Session::flash('message', 'User Permission already exists!');
+    //                         }
+    //                     }
+    //                 }
+    //             }
     
-                $this->addAdminLog(5, 'User role added.');
-                return redirect('superadmin/view-sidebar-permission');
-            } else {
-                return redirect('superadmin');
-            }
+    //             $this->addAdminLog(5, 'User role added.');
+    //             return redirect('superadmin/view-sidebar-permission');
+    //         } else {
+    //             return redirect('superadmin');
+    //         }
     
-        } catch (Exception $e) {
-            throw new \App\Exceptions\AdminException($e->getMessage());
-        }
-    }
+    //     } catch (Exception $e) {
+    //         throw new \App\Exceptions\AdminException($e->getMessage());
+    //     }
+    // }
 
     public function viewSidebarRole()
     {
@@ -20654,6 +20654,7 @@ class AdminController extends Controller
                     ->get();
 
                 $this->addAdminLog(5, 'Admin user role list view.');
+                //dd($data);
                 return view('admin/view-sidebar-role', $data);
             } else {
                 return redirect('superadmin');
@@ -21160,6 +21161,112 @@ class AdminController extends Controller
             //return redirect('subadmin');
         }
     }
+
+
+    public function viewPermissionOrg(Request $request){
+        if(!empty(Session::get('empsu_email'))){
+            $userType = Session::get('usersu_type');
+            if($userType == 'admin'){
+                $data['org_dtl'] = DB::table('registration')
+                    //->select('registration.*', DB::raw("(select GROUP_CONCAT(users_admin_emp.name) from tareq_app INNER JOIN users_admin_emp ON users_admin_emp.employee_id=tareq_app.`ref_id` where tareq_app.`emid` LIKE  `registration`.`reg`) as caseworker"), DB::raw("(select remark_su from tareq_app where tareq_app.`emid` LIKE  `registration`.`reg`) as assignment_remarks"), DB::raw("(select assign_date from tareq_app where tareq_app.`emid` LIKE  `registration`.`reg`) as assignment_date"))
+                    ->where('registration.status', '=', 'active')
+                    ->where('registration.verify', '=', 'approved')
+                    ->where('registration.licence', '=', 'no')
+                    //->whereBetween(DB::raw("(DATE(registration.verified_on))"), [$request->start_date, $request->end_date])
+                    ->orderBy('registration.id', 'desc')
+                    ->get();
+
+                //dd($data['org_dtl']); 
+                return view('admin/permission/organization-permission', $data);   
+
+            } else {
+                return redirect('/');  
+            }
+        
+        } else{
+            return redirect('superadmin'); 
+        }
+    }
+
+    // public function orgSidebarPermission(Request $request, $id){
+        
+    //     if(!empty(Session::get('empsu_email'))){ 
+    //         $userType = Session::get('usersu_type');
+    //         if($userType == 'admin'){
+    //             $data['module'] = DB::table('module')->get();
+    //             $data['org_module'] = DB::table('othorized_organization_module')->where('employee_id',$id)->get();
+    //             $data['org_id'] = $id;
+    //             return view('admin/permission/permission', $data);
+    //             //dd($data);
+    //         } else {
+    //             return redirect('/');  
+    //         }
+    //     } else{
+    //         return redirect('superadmin'); 
+    //     }
+    // }
+
+    public function orgSidebarPermission(Request $request, $id)
+    {
+        if (!empty(Session::get('empsu_email'))) { 
+            $userType = Session::get('usersu_type');
+            if ($userType == 'admin') {
+                $data['module'] = DB::table('module')->get();
+                $data['org_module'] = DB::table('othorized_organization_module')
+                                    ->where('employee_id', $id)
+                                    ->pluck('module_name')
+                                    ->toArray();
+                $data['org_id'] = $id;
+                return view('admin/permission/permission', $data);
+            } else {
+                return redirect('/');  
+            }
+        } else {
+            return redirect('superadmin'); 
+        }
+    }
+
+
+    public function addPermission(Request $request){
+        if (!empty(Session::get('empsu_email'))) { 
+            $userType = Session::get('usersu_type');
+            if ($userType == 'admin') {
+                $request->validate([
+                    'employee_id' => 'required|string',
+                    'modules' => 'required|array',
+                ]);
+    
+                $employeeId = $request->input('employee_id');
+                $modules = $request->input('modules');
+    
+                // Delete existing records for the given employee ID
+                DB::table('othorized_organization_module')->where('employee_id', $employeeId)->delete();
+    
+                // Prepare the new data for insertion
+                $insertData = [];
+                foreach ($modules as $moduleId) {
+                    $insertData[] = [
+                        'employee_id' => $employeeId,
+                        'module_name' => $moduleId,  // Use $moduleId directly since it's a string
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+    
+                // Insert new records
+                DB::table('othorized_organization_module')->insert($insertData);
+                //Session::flash('message', 'Upload Successfully Saved.');
+                Session::flash('message', 'Permissions have been successfully updated.');
+                return redirect('superadmin/view-sidebar-role-new');
+                //dd('okk');
+            } else {
+                return redirect('/');  
+            }
+        } else {
+            return redirect('superadmin'); 
+        }
+    }
+    
 
 
 

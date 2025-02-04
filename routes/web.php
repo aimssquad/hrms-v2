@@ -347,7 +347,8 @@ Route::get('user-accessrole/view-users-role/{role_authorization_id}', 'App\Http\
 Route::get('user-access/emp', 'App\Http\Controllers\organization\UseraceesController@getEmployee')->name('get_emp'); 
 Route::get('user-access/emp-permission/{id}', 'App\Http\Controllers\organization\UseraceesController@employeePermission')->name('employeepermission'); 
 Route::post('user-access/emp-permission', 'App\Http\Controllers\organization\UseraceesController@createPermission');
-//Route::get('user-access/permission-list', 'App\Http\Controllers\organization\UseraceesController@createPermission');
+
+Route::get('user-access/role', 'App\Http\Controllers\organization\UseraceesController@roleCreate');
 //---------------------------------------------- End User Access ---------------------------------------
 
 //----------------------------------------------- Settings ---------------------------------------------
@@ -1215,15 +1216,19 @@ Route::get('superadmin/vw-user-config/{user_id}', 'App\Http\Controllers\AdminCon
 
 Route::get('superadmin/user-role', 'App\Http\Controllers\AdminController@viewUserAccessRightsForm');
 Route::get('superadmin/admin-role', 'App\Http\Controllers\AdminController@viewAdminAccessRightsForm');
-Route::get('superadmin/view-sidebar-permission', 'App\Http\Controllers\AdminController@viewSidebarPermissionForm');
+ Route::get('superadmin/view-sidebar-permission', 'App\Http\Controllers\AdminController@viewSidebarPermissionForm');
 
 Route::post('superadmin/user-role', 'App\Http\Controllers\AdminController@UserAccessRightsFormAuth');
 Route::post('superadmin/admin-role', 'App\Http\Controllers\AdminController@AdminAccessRightsFormAuth');
-Route::post('superadmin/view-sidebar-permission', 'App\Http\Controllers\AdminController@UserAccessRightsSidebarFormAuth');
+//Route::post('superadmin/view-sidebar-permission', 'App\Http\Controllers\AdminController@UserAccessRightsSidebarFormAuth');
 
 Route::get('superadmin/view-users-role', 'App\Http\Controllers\AdminController@viewUserAccessRights');
 Route::get('superadmin/view-admin-role', 'App\Http\Controllers\AdminController@viewAdminAccessRights');
 Route::get('superadmin/view-sidebar-role', 'App\Http\Controllers\AdminController@viewSidebarRole');
+
+Route::get('superadmin/view-sidebar-role-new', 'App\Http\Controllers\AdminController@viewPermissionOrg');
+Route::get('superadmin/org-sidebar-permission/{id}', 'App\Http\Controllers\AdminController@orgSidebarPermission');
+Route::post('superadmin/add-permission', 'App\Http\Controllers\AdminController@addPermission');
 
 Route::get('superadmin/view-users-role/{role_authorization_id}', 'App\Http\Controllers\AdminController@deleteUserAccess');
 Route::get('superadmin/view-admin-role/{role_authorization_id}', 'App\Http\Controllers\AdminController@deleteAdminUserAccess');
@@ -2857,7 +2862,7 @@ Route::get('pis/getEmployeedreportfileById/{empid}', function ($empid) {
         ->where('emp_code', '=', $empid)
         ->where('emid', '=', $Roledata->reg)
         ->first();
-
+    //dd($desig_rs);
     $employee_rs = DB::table('employee_qualification')
 
         ->where('emp_id', '=', $empid)
@@ -2897,6 +2902,10 @@ Route::get('pis/getEmployeedreportfileById/{empid}', function ($empid) {
         $result_status1 .= '<option value="pass_docu">Passport Document </option>';
 
     }
+    // if ($desig_rs->pass_docu != '') {
+    //     $result_status1 .= '<option value="pass_docu">Share Code</option>';
+
+    // }
     if ($desig_rs->visa_upload_doc != '') {
         $result_status1 .= '<option value="visa_upload_doc">Visa Document </option>';
 
