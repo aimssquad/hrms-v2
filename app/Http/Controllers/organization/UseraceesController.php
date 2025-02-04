@@ -120,16 +120,28 @@ class UseraceesController extends Controller
                     $userlist[] = $user->employee_id;
                 }
 
-                $data["employees"] = [];
+                // $data["employees"] = [];
 
+                // foreach ($data["employeeslist"] as $key => $employee) {
+                //     $data["employees"][] = [
+                //         "emp_code" => $employee->emp_code,
+                //         "em_email" => $employee->em_email,
+                //         "emp_fname" => $employee->emp_fname,
+                //         "emp_mname" => $employee->emp_mname,
+                //         "emp_lname" => $employee->emp_lname,
+                //     ];
+                // }
+                $data["employees"] = [];
                 foreach ($data["employeeslist"] as $key => $employee) {
-                    $data["employees"][] = [
-                        "emp_code" => $employee->emp_code,
-                        "em_email" => $employee->em_email,
-                        "emp_fname" => $employee->emp_fname,
-                        "emp_mname" => $employee->emp_mname,
-                        "emp_lname" => $employee->emp_lname,
-                    ];
+                    if (in_array($employee->emp_code, $userlist)) {
+                    } else {
+                        $data["employees"][] = (object) [
+                            "emp_code" => $employee->emp_code,
+                            "emp_fname" => $employee->emp_fname,
+                            "emp_mname" => $employee->emp_mname,
+                            "emp_lname" => $employee->emp_lname,
+                        ];
+                    }
                 }
                 return view($this->_routePrefix . '.view-user-config',$data);
                 //return view("role/view-user-config", $data);
@@ -194,6 +206,7 @@ class UseraceesController extends Controller
                 $data["user"] = DB::table("users")
                     ->where("id", "=", $user_id)
                     ->first();
+                //dd($data);    
                 return view($this->_routePrefix . '.view-user-config',$data);
                 //return view("role/view-user-config", $data);
             } else {

@@ -24,6 +24,67 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
     
         <!-- Modules Section -->
         <div class="row">
+            <div class="col-xl-4 col-md-6 col-sm-12">
+                <a href="{{ url('organization/billing-show') }}" class="modern-card-link">
+                    <div class="modern-card">
+                        <div class="modern-card-header">
+                            <div class="modern_icon_wrapper">
+                                <i class="la la-dashboard modern-icon"></i>
+                            </div>
+                            <h4 class="modern-card-title">Invoice</h4>
+                        </div>
+                        <div class="modern-card-body">
+                            <div class="modern-status">
+                                </div>
+                                <div class="modern-arrow">
+                                <span class="employee-count">{{ $invoice_count }}</span>
+                                <i class="fa fa-arrow-circle-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="card-group m-b-30">                
+                    <div class="card" style="border-right: 5px solid rgb(211, 207, 207);">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <span class="d-block">Due Payment </span>
+                                </div>
+                                <div>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            <h3 class="mb-3">Last Month <i class="fa fa-pound-sign"></i> {{ $last_invoice }}</h3>
+                            <div class="progress height-five mb-2">
+                                <div class="progress-bar bg-primary w-70" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="mb-0">Previous Month <span class="text-muted"><i class="fa fa-pound-sign"></i> {{ $previous_invoice }}</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <span class="d-block">Paid Amount</span>
+                                </div>
+                                <div>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            <h3 class="mb-3">Total <i class="fa fa-pound-sign"></i> {{ $paid_amount }}</h3>
+                            <div class="progress height-five mb-2">
+                                <div class="progress-bar bg-primary w-70" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="mb-0">Previous Month <span class="text-muted"><i class="fa fa-pound-sign"></i> {{ $last_paid_amount }}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>	
+        </div>
+        {{-- <div class="row">
             <div class="col-md-12">
                 <div class="card-group m-b-30">                
                     <div class="card">
@@ -125,61 +186,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     </div>
                 </div>
             </div>
-            {{-- <div class="col-md-6 d-flex">
-                <div class="card card-table flex-fill">
-                    <div class="card-header">
-                        <h3 class="card-title mb-0">Payments</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">	
-                            <table class="table custom-table table-nowrap mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Invoice ID</th>
-                                        <th>Client</th>
-                                        <th>Payment Type</th>
-                                        <th>Paid Date</th>
-                                        <th>Paid Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><a href="invoice-view.html">#INV-0001</a></td>
-                                        <td>
-                                            <h2><a href="#">Global Technologies</a></h2>
-                                        </td>
-                                        <td>Paypal</td>
-                                        <td>11 Mar 2019</td>
-                                        <td>$380</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="invoice-view.html">#INV-0002</a></td>
-                                        <td>
-                                            <h2><a href="#">Delta Infotech</a></h2>
-                                        </td>
-                                        <td>Paypal</td>
-                                        <td>8 Feb 2019</td>
-                                        <td>$500</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="invoice-view.html">#INV-0003</a></td>
-                                        <td>
-                                            <h2><a href="#">Cream Inc</a></h2>
-                                        </td>
-                                        <td>Paypal</td>
-                                        <td>23 Jan 2019</td>
-                                        <td>$60</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="payments.html">View all payments</a>
-                    </div>
-                </div>
-            </div> --}}
-        </div>
+         
+        </div> --}}
     </div>
 @endsection
 

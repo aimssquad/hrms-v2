@@ -53,9 +53,16 @@
                                        <label for="selectFloatingLabel" class="col-form-label">Employee Code</label>
                                        <select  class="<?=$addclass?>" id="selectFloatingLabel"   <?php if(empty($user->id)){ ?>required=""  <?php } ?> name="emp_code" onchange="getEmployeeName()" <?php if(!empty($user->id)){echo 'style="display:none"';}?>>
                                           <option value="">Select Employee Code</option>
-                                          <?php foreach($employees as $employee){?>
-                                          <option value="<?php echo $employee['emp_code']; ?>" <?php if(!empty($user->id)){ if($user->employee_id== $employee['emp_code']){echo 'selected'; }} ?> ><?php echo $employee['emp_fname']." ".$employee['emp_mname']." ".$employee['emp_lname']." (".$employee['emp_code'].") "; ?></option>
-                                          <?php } ?>
+                                          <?php foreach ($employees as $employee) { ?>
+                                             <option value="<?php echo $employee->emp_code; ?>"
+                                                 <?php if (!empty($user->id)) {
+                                                     if ($user->employee_id == $employee->emp_code) {
+                                                         echo 'selected';
+                                                     }
+                                                 } ?>>
+                                                 <?php echo $employee->emp_fname . " " . $employee->emp_mname . " " . $employee->emp_lname . " (" . $employee->emp_code . ")"; ?>
+                                             </option>
+                                         <?php } ?>
                                        </select>
                                        <input type="text" name="employee_id" value="<?php if(!empty($user->id)){echo $user->employee_id;} ?>" <?php if(empty($user->id)){echo 'style="display:none"';}?> class="form-control input-border-bottom" id="selectFloatingLabel" readonly="1" />
                                        @if ($errors->has('emp_code'))
@@ -91,7 +98,7 @@
                                  </div>
                                  <div class="col-md-3" <?php if(empty($user->id)){ ?>style="display:none" <?php } ?>>
                                     <div class="form-group">
-                                       <label for="selectFloatingLabel3" class="col-form-label">User Password</label>
+                                       <label for="selectFloatingLabel3" class="col-form-label">User status</label>
                                        <select id="selectFloatingLabel3"  class="select"   name="status">
                                           <option value="active" <?php if(!empty($user->status)){  if($user->status == "active"){ ?> selected="selected" <?php } }?>  >Active</option>
                                           <option value="inactive" <?php if(!empty($user->status)){ if($user->status == "inactive"){ ?> selected="selected" <?php } } ?>>Inactive</option>
