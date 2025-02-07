@@ -1329,6 +1329,7 @@ class RecruitmentController extends Controller
                     ->orWhere('candidate.status', '=', 'Hold');
             })->first();
             $data['job_details'] = DB::table('candidate_history')->where('user_id', '=', base64_decode($short_id))->orderBy('id', 'DESC')->first();
+            //dd($data);
             return view($this->_routePrefix . '.short-edit',$data);
         } else {
             return redirect('/');
@@ -1338,7 +1339,7 @@ class RecruitmentController extends Controller
 
     public function saveshortcandidatedetails(Request $request)
     {
-
+        //dd($request->all());
         if (!empty(Session::get('emp_email'))) {
             $job = DB::table('candidate')->where('id', '=', $request->id)->first();
 
@@ -1459,6 +1460,7 @@ class RecruitmentController extends Controller
                 ->first();
 
             $data['job_details'] = DB::table('candidate_history')->where('user_id', '=', base64_decode($interview_id))->orderBy('id', 'DESC')->first();
+            //dd($data);
             return view($this->_routePrefix . '.interview-edit',$data);
             //return View('recruitment/interview-edit', $data);
         } else {
@@ -1980,15 +1982,6 @@ class RecruitmentController extends Controller
         $email = Session::get('emp_email');
         if (!empty($email)) {
             $reg = Session::get('emid');
-            // $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-            //     ->where('email', '=', $email)
-            //     ->first();
-            // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-            //     ->where('email', '=', $email)
-            //     ->first();
-
             $data['or_rs'] = DB::Table('candidate')
                 ->join('company_job', 'candidate.job_id', '=', 'company_job.id')
 
@@ -2071,6 +2064,7 @@ class RecruitmentController extends Controller
                 $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
                     'email' => $Roleempdata->email, 'msg' => $request->msg);
                 $toemail = $request->email;
+                return view('mailormsgcenrecru',$data);
                 Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
                     $message->to($toemail, 'Workpermitcloud')->subject
                         ($sub);

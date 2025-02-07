@@ -144,7 +144,7 @@ class DashboardController extends Controller
                 ->where('verify_status', '=', 'approved')
                 ->where('emp_status', '=', 'LEFT')
                 ->get();
-                //dd('okk');
+            //dd($data);
             return view($this->_routePrefix . '.dashboard',$data);
             //return view('dashboard/dashboard', $data);
 

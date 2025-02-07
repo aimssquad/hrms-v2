@@ -85,6 +85,10 @@ return $output;
                            <th>DOB</th>
                            <th>Mobile</th>
                            <th>Nationality</th>
+                           <th>Share Code</th>
+                           <th>Share Date Check</th>
+                           <th>Share Issue Date</th>
+                           <th>Share Expiry Date</th>
                            <th>NI Number</th>
                            <th>Visa Expired</th>
                            <th>Visa Reminder - 90 days </th>
@@ -112,6 +116,10 @@ return $output;
                    <td>    @if( $employee->emp_dob!='1970-01-01') @if( $employee->emp_dob!='') {{ date('d/m/Y',strtotime($employee->emp_dob)) }} @endif  @endif</td>
                    <td>{{ $employee->emp_ps_phone }}</td>
                    <td>{{ $employee->nationality }}</td>
+                   <td>{{ $employee->share_code}}</td>
+                  <td>{{ $employee->share_date_check}}</td>
+                  <td>{{ $employee->share_issue_date}}</td>
+                  <td>{{ $employee->share_expiry_date}}</td>
                    <td>{{ $employee->ni_no }}</td>
                    <td>    @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='') {{ date('d/m/Y',strtotime($employee->visa_exp_date)) }} @endif  @endif</td>
                    <td  style="color:red;">    @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='') {{   date('d/m/Y',strtotime($employee->visa_exp_date.'  - 90  days'))}} @endif  @endif</td>

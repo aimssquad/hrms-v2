@@ -59,9 +59,9 @@
                         <input id="subject" type="text"  name="subject"    class="form-control input-border-bottom" required="">
                      </div>
                   </div>
-                  <div class="col-md-12">
-                     <textarea id="editor" name="msg" style="margin-top:20px">
-                     </textarea>
+                  
+                  <div class="col-md-12" style="padding-top:20px;">
+                     <textarea id="editor" name="msg" style="margin-top:20px"></textarea>
                   </div>
                   <div class="col-md-12">
                      <div class=" form-group">
@@ -85,6 +85,15 @@
 <!-- /Page Content -->
 @endsection
 @section('script')
+<script>
+   CKEDITOR.replace('editor');
+   setTimeout(function() {
+      var notifications = document.querySelectorAll('.cke_notification');
+      notifications.forEach(function(notification) {
+         notification.style.display = 'none';
+      });
+   }, 1000);
+</script>
 <script >
               function billvalue(empid){
    

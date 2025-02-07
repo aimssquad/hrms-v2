@@ -111,32 +111,43 @@
                          <table class="table table-bordered">
                             <tr>
                                 <td width="300px">Current Organization:</td>
-                                <td>{{$job->cur_or}}</td>
+                                <td colspan="4">{{$job->cur_or}}</td>
                             </tr>
                             
                             <tr>
                                 <td width="300px">Current Job Title:</td>
-                                <td>{{$job->cur_deg}}</td>
+                                <td colspan="4">{{$job->cur_deg}}</td>
                             </tr>
                             
                               <tr>
                                 <td width="300px">Total Year of Experience:</td>
-                                <td>{{$job->exp}} Years {{$job->exp_month}} Months</td>
+                                <td colspan="4">{{$job->exp}} Years {{$job->exp_month}} Months</td>
                             </tr>
                             
                             <tr>
                                 <td width="300px">Current Salary:</td>
-                                <td>@if($job->sal!='') {{ number_format($job->sal,2)}} @endif</td>
+                                <td colspan="4">@if($job->sal!='') {{ number_format($job->sal,2)}} @endif</td>
                             </tr>
                             
                             <tr>
                                 <td width="300px">Expected Salary:</td>
-                                <td>@if($job->sal!='') {{ number_format($job->exp_sal,2)}} @endif</td>
+                                <td colspan="4">@if($job->exp_sal!='') {{ number_format($job->exp_sal,2)}} @endif</td>
+                               
                             </tr>
                             <tr>
                                 @if($job->recruited!='')
-                                <td colspan="2" width="300px"><h5>Are  there suitable settled workers available to be recruited for this role ?:<span>{{ $job->recruited }} @if($job->recruited=='Yes')( {{ $job->other }} ) @endif</span></h5></td>
+                                <td colspan="4" width="300px"><h5>Are  there suitable settled workers available to be recruited for this role ?:<span>{{ $job->recruited }} @if($job->recruited=='Yes')( {{ $job->other }} ) @endif</span></h5></td>
                                  @endif
+                            </tr>
+                            <tr>
+                              <td width="300px">Interview Date:</td>
+                              <td colspan="4">{{ \Carbon\Carbon::parse($job_details->date)->format('d-m-Y') }}</td>
+                            </tr>
+                            <tr>
+                              <td width="300px">Interview From Time</td>
+                              <td>{{$job_details->from_time}}</td>
+                              <td width="300px">Interview To Time</td>
+                              <td>{{$job_details->to_time}}</td>
                             </tr>
                            
                         </table>
@@ -166,7 +177,10 @@
    @include('employeer.layout.message')
    <div class="row">
       <div class="card">
+         
+            
          <div class="card-body">
+            <h3>Reschedule</h3>
             <form action="{{url('org-recruitment/edit-interview')}}" method="post" enctype="multipart/form-data">
                {{csrf_field()}}
                <input id="id" type="hidden"  name="id" class="form-control input-border-bottom" required="" value="<?php   echo $job->id;  ?>" >

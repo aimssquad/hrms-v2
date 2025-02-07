@@ -25,3 +25,9 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('v1/logout', 'App\Http\Controllers\Api\LoginController@logout');
 });
 
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
+    Route::get('leave','App\Http\Controllers\Api\LeaveController@leave');
+});
+
+
+

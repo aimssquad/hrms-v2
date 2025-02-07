@@ -493,6 +493,10 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                  <th>Employee Code</th>
                                  <th>Employee Name</th>
                                  <th>Address</th>
+                                 <th>Share Code</th>
+                                 <th>Share Date Check</th>
+                                 <th>Share Issue Date</th>
+                                 <th>Share Expiry Date</th>
                                  <th>Passport No.</th>
                                  <th>BRP No.</th>
                                  <th>Visa Issue Date</th>
@@ -518,6 +522,10 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                  <td>{{ $employee->emp_pr_street_no}} @if( $employee->emp_per_village) ,{{ $employee->emp_per_village}} @endif @if( $employee->emp_pr_state) ,{{ $employee->emp_pr_state}} @endif @if( $employee->emp_pr_city) ,{{ $employee->emp_pr_city}} @endif
                                     @if( $employee->emp_pr_pincode) ,{{ $employee->emp_pr_pincode}} @endif  @if( $employee->emp_pr_country) ,{{ $employee->emp_pr_country}} @endif
                                  </td>
+                                 <td>{{ $employee->share_code}}</td>
+                                 <td>{{ $employee->share_date_check}}</td>
+                                 <td>{{ $employee->share_issue_date}}</td>
+                                 <td>{{ $employee->share_expiry_date}}</td>
                                  <td>{{ $employee->pass_doc_no }}</td>
                                  <td>{{ $employee->visa_doc_no }}</td>
                                  <td>    @if( $employee->visa_issue_date!='1970-01-01') @if( $employee->visa_issue_date!='') {{ date('d/m/Y',strtotime($employee->visa_issue_date)) }} @endif  @endif</td>

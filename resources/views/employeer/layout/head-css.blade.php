@@ -38,4 +38,6 @@
 <link rel="stylesheet" href="{{ asset('frontend/assets/css/customize.css') }}">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
 

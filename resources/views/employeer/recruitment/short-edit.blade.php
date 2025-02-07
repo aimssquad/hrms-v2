@@ -172,6 +172,7 @@
                            <option value=""><?php  if($job->status!=''){ echo $job->status;  } ?></option>
                            <option value="Interview"  <?php  if($job->status!=''){  if($job->status=='Interview'){ echo 'selected';} } ?> >Interview</option>
                            <option value="Hold" <?php  if($job->status!=''){  if($job->status=='Hold'){ echo 'selected';} } ?>>Hold</option>
+                           <option value="Rejected" <?php  if($job->status!=''){  if($job->status=='Rejected'){ echo 'selected';} } ?>>Rejected</option>
                         </select>
                         <!--<label for="inputFloatingLabel-recruitment" class="placeholder">Current Stage of Recruitment</label>-->
                      </div>
@@ -187,33 +188,35 @@
                   <div class="col-md-4">
                      <div class="form-group" style="margin: 7px 0 15px;">
                         <label class="col-form-label">Date </label>	
-                        <input type="date" class="form-control" required=""  value="<?php  if(!empty($job_details)){ if($job->status=='Hold' || $job->status=='Interview'){  echo $job_details->date;} } ?>"  name="date">
+                        <input type="date" class="form-control"   value="<?php  if(!empty($job_details)){ if($job->status=='Hold' || $job->status=='Interview'){  echo $job_details->date;} } ?>"  name="date">
                      </div>
                   </div>
-                  <div class="col-md-4">
-                     <div class="form-group" style="margin: 7px 0 15px;">
-                        <label class="col-form-label">From Time </label>	
-                        <input type="time" class="form-control" required=""  value="<?php  if(!empty($job_details)){ if($job->status=='Hold' || $job->status=='Interview'){  echo $job_details->from_time;} } ?>"  name="from_time">
+                  {{-- <div id="remove"> --}}
+                     <div class="col-md-4 remove">
+                        <div class="form-group" style="margin: 7px 0 15px;">
+                           <label class="col-form-label">From Time </label>	
+                           <input type="time" class="form-control"   value="<?php  if(!empty($job_details)){ if($job->status=='Hold' || $job->status=='Interview'){  echo $job_details->from_time;} } ?>"  name="from_time">
+                        </div>
                      </div>
-                  </div>
-                  <div class="col-md-4">
-                     <div class="form-group" style="margin: 7px 0 15px;">
-                        <label class="col-form-label">To Time </label>	
-                        <input type="time" class="form-control" required=""  value="<?php  if(!empty($job_details)){ if($job->status=='Hold' || $job->status=='Interview'){  echo $job_details->to_time;} } ?>"  name="to_time">
+                     <div class="col-md-4 remove">
+                        <div class="form-group" style="margin: 7px 0 15px;">
+                           <label class="col-form-label">To Time </label>	
+                           <input type="time" class="form-control"   value="<?php  if(!empty($job_details)){ if($job->status=='Hold' || $job->status=='Interview'){  echo $job_details->to_time;} } ?>"  name="to_time">
+                        </div>
                      </div>
-                  </div>
-                  <div class="col-md-6">
-                     <div class=" form-group" style="margin: 7px 0 15px;">
-                         <label  class="col-form-label">Interview Place</label>
-                        <input type="text" placeholder="Interview Place" style="margin-top:9px" class="form-control" value="<?php  if($job->place!='') {  if($job->status=='Hold' || $job->status=='Interview'){  echo $job->place;} } ?>"  name="place">
+                     <div class="col-md-6 remove">
+                        <div class=" form-group" style="margin: 7px 0 15px;">
+                           <label  class="col-form-label">Interview Place</label>
+                           <input type="text" placeholder="Interview Place" style="margin-top:9px" class="form-control" value="<?php  if($job->place!='') {  if($job->status=='Hold' || $job->status=='Interview'){  echo $job->place;} } ?>"  name="place">
+                        </div>
                      </div>
-                  </div>
-                  <div class="col-md-6" >
-                     <div class=" form-group" style="margin: 7px 0 15px;">
-                         <label  class="col-form-label">Interview Panel</label>
-                        <input type="text" placeholder="Interview Panel " style="margin-top:9px" class="form-control" value="<?php  if($job->panel!='') {  if($job->status=='Hold' || $job->status=='Interview'){  echo $job->panel;} } ?>"  name="panel">
+                     <div class="col-md-6 remove" >
+                        <div class=" form-group" style="margin: 7px 0 15px;">
+                           <label  class="col-form-label">Interview Panel</label>
+                           <input type="text" placeholder="Interview Panel " style="margin-top:9px" class="form-control" value="<?php  if($job->panel!='') {  if($job->status=='Hold' || $job->status=='Interview'){  echo $job->panel;} } ?>"  name="panel">
+                        </div>
                      </div>
-                  </div>
+                  {{-- </div> --}}
                </div>
                <div class="row form-group" style="margin-top:15px;background:none;">
                   <div class="col-md-12 text-center">
@@ -228,6 +231,56 @@
 <!-- /Page Content -->
 @endsection
 @section('script')
+{{-- <script>
+   $(document).ready(function () {
+       // Function to check the selected status and hide/show the div
+       function toggleDiv() {
+           var status = $('select[name="status"]').val();
+           if (status === "Rejected") {
+               $("#remove").hide(); // Hide the section if Rejected
+           } else {
+               $("#remove").show(); // Show otherwise
+           }
+       }
+
+       // Call the function when the page loads
+       toggleDiv();
+
+       // Bind the function to the change event of the select dropdown
+       $('select[name="status"]').on('change', function () {
+           toggleDiv();
+       });
+   });
+</script> --}}
+<script>
+   $(document).ready(function () {
+       // Function to check the selected status and hide/show the content inside the div
+       function toggleDiv() {
+           var status = $('select[name="status"]').val();
+           if (status === "Rejected") {
+               $(".remove").css({
+                   "visibility": "hidden", // Hide the contents, keep the div visible
+                   "height": "0",          // Prevent layout shifting (optional)
+                   "overflow": "hidden"    // Prevent showing any content
+               });
+           } else {
+               $(".remove").css({
+                   "visibility": "visible", // Make it visible again
+                   "height": "auto",        // Restore original height
+                   "overflow": "visible"    // Show the content
+               });
+           }
+       }
+
+       // Call the function when the page loads
+       toggleDiv();
+
+       // Bind the function to the change event of the select dropdown
+       $('select[name="status"]').on('change', function () {
+           toggleDiv();
+       });
+   });
+</script>
 <script >
    $(document).ready(function() {
        $('#basic-datatables').DataTable({

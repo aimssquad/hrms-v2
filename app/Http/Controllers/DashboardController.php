@@ -114,6 +114,7 @@ class DashboardController extends Controller
                 ->where('verify_status', '=', 'approved')
                 ->where('emp_status', '=', 'LEFT')
                 ->get();
+            //dd($data)    
             return view('dashboard/dashboard', $data);
 
         } else {
@@ -4357,7 +4358,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
     }
     public function viewsendcandidatedetailssendnew($send_id)
     {
-        dd('ok');
+        //dd('ok');
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
