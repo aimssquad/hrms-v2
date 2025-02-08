@@ -33,6 +33,17 @@ class Helper
         ];
     }
 
+    public static function respd($message = '', $flag = 1, $data = [])
+    {
+        $status = 200;
+        return [
+            'status'  => $status,
+            'flag'    => $flag,
+            'message' => $message,
+            'data'    => $data  
+        ];
+    }
+
     public static function rj($message = '', $flag = 1, $data = [],$imagePath=[],$userPrimaryId=[],$token = [],$todayLogin=[])
     {
         $response = self::resp($message, $flag,$data,$imagePath,$userPrimaryId, $token,$todayLogin);
@@ -88,5 +99,11 @@ class Helper
             }
             return is_null($value) ? "" : $value;
         }, $data);
+    }
+
+    public static function rjd($message, $flag = 1, $data = [])
+    {
+        $response = self::respd($message, $flag,$data);
+        return response()->json($response, $response['status']);
     }
 }

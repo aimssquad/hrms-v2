@@ -90,6 +90,12 @@ $userType = Session::get('usersu_type');
                         </a>
 
                     </li>
+                    <li class="nav-item">
+                        <a href="{{url('/superadmin/mobile-menus')}}">
+                            <i class="fas fa-mobile-alt"></i>
+                            <p>Mobile Menu</p>
+                        </a>
+                    </li>
 
                     <!--<li class="nav-item">-->
                     <!--    <a href="{{url('superadmin/list-country')}}">-->

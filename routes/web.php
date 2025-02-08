@@ -15,6 +15,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\organization\OrganizationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Notice\NoticeController;
+use App\Http\Controllers\MobileMenuController;
 
 
 /*
@@ -5909,4 +5910,12 @@ Route::put('superadmin/dossiers3update/{id}', 'App\Http\Controllers\DossierContr
 Route::get('subadmin', 'App\Http\Controllers\AdminController@subadminindex');
 Route::post('subadmin-login','App\Http\Controllers\AdminController@subadminLogin');
 Route::get('subadmin/organization-employee', 'App\Http\Controllers\SubadminController@allOrganizationEmployee');
+
+// ----------------------- Mobile menu Route
+Route::get('/superadmin/mobile-menus', [MobileMenuController::class, 'index'])->name('mobile-menus.index');
+Route::get('/superadmin/mobile-menus/create', [MobileMenuController::class, 'create'])->name('mobile-menus.create');
+Route::post('/superadmin/mobile-menus', [MobileMenuController::class, 'store'])->name('mobile-menus.store');
+Route::get('/superadmin/mobile-menus/{id}/edit', [MobileMenuController::class, 'edit'])->name('mobile-menus.edit');
+Route::put('/superadmin/mobile-menus/{id}', [MobileMenuController::class, 'update'])->name('mobile-menus.update');
+Route::get('/superadmin/mobile-menus/{id}', [MobileMenuController::class, 'destroy'])->name('mobile-menus.destroy');
 

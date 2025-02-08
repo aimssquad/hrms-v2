@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\LeaveApprover\Leave_apply;
+use App\Models\LeaveApply;
 use Illuminate\Http\Request;
 use App\Helpers\Api\Helper;
 use Validator;
@@ -15,14 +16,34 @@ use DB;
 class LeaveController extends Controller
 {
     public function leave(Request $request){
-        $dynamicFlag = 1;
         try {
             if (auth()->check()) {
                 $employeeId = auth()->user()->employee_id;
-                dd($employeeId);
+                $data = LeaveApply::where('employee_id',$employeeId)->get();
+                $data = json_decode(json_encode($data), true);
+                //dd($data);
+                foreach ($data as $key => $value) {
+                     if ($value === null) {
+                         $data[$key] = "";
+                     }
+                 }
+                 //dd($data);
+                $dynamicFlag = 1;
+                $message = "Data get successfully";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
             } else {
-                $dynamicFlag = 0;
-                return Helper::rj("User not authenticated", $dynamicFlag);
+                $dynamicFlag = 1;
+                $data=[];
+                $message = "Somthing Went Wrong";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
             }
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);
