@@ -3,6 +3,7 @@
 namespace App\Helpers\Api;
 
 use Illuminate\Support\Facades\Auth;
+use DB;
 use Illuminate\Support\Str;
 
 class Helper
@@ -105,5 +106,22 @@ class Helper
     {
         $response = self::respd($message, $flag,$data);
         return response()->json($response, $response['status']);
+    }
+
+    function fetchAndTransform($table, $conditions, $select = ['*'])
+    {
+        $data = ['employee','select','all'];
+        $query = DB::table($table);
+        foreach ($conditions as $column => $value) {
+            $query->where($column, '=', $value);
+        }
+        $data = $query->select($select)->get();
+        $data->transform(function ($item) {
+            return collect($item)->map(function ($value) {
+                return $value === null ? "" : $value;
+            });
+        });
+
+        return $data;
     }
 }

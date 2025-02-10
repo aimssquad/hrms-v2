@@ -27,6 +27,7 @@ Route::middleware(['auth:api'])->group(function () {
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('leave','App\Http\Controllers\Api\LeaveController@leave');
+    Route::post('employee','App\Http\Controllers\Api\EmployeeController@editEmployee');
 });
 
 

@@ -4,6 +4,8 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+//$defult_image =\App\Helpers\Helper::getImageUrl($employee->emp_image);
+//dd( $defult_image);
 function my_simple_crypt( $string, $action = 'encrypt' ) {
 		// you may change these values to your own
 		$secret_key = 'bopt_saltlake_kolkata_secret_key';
@@ -80,13 +82,8 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3 employee-card" data-emp-name="{{ $employee->emp_fname.' '.$employee->emp_mname.' '.$employee->emp_lname }}">
             <div class="profile-widget">
                 <div class="profile-img">
-                    @if(!empty($employee->emp_image))
-                        <a href="#" class="avatar"><img src="{{asset('storage/app/public/' . $employee->emp_image)}}" alt="User Image"></a>
-                    @elseif($employee->emp_gender=="Male")
-                        <a href="#" class="avatar"><img src="{{asset('assets/img/user.png')}}" alt="User Image"></a>
-                    @else
-                        <a href="#" class="avatar"><img src="{{asset('assets/img/female.jpg')}}" alt="User Image"></a>
-                    @endif
+                    <a href="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" class="avatar"><img src="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" alt="User Image"></a>
+                    
                     <!--<a href="profile.html" class="avatar"><img src="{{asset('assets/img/chadengle.jpg')}}" alt="User Image"></a>-->
                 </div>
                 <div class="dropdown profile-action">

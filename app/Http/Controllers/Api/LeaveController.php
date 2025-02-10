@@ -20,13 +20,13 @@ class LeaveController extends Controller
             if (auth()->check()) {
                 $employeeId = auth()->user()->employee_id;
                 $data = LeaveApply::where('employee_id',$employeeId)->get();
-                $data = json_decode(json_encode($data), true);
+                //$data = json_decode(json_encode($data), true);
                 //dd($data);
-                foreach ($data as $key => $value) {
-                     if ($value === null) {
-                         $data[$key] = "";
-                     }
-                 }
+                $data->transform(function ($item) {
+                    return collect($item)->map(function ($value) {
+                        return $value === null ? "" : $value;
+                    });
+                });
                  //dd($data);
                 $dynamicFlag = 1;
                 $message = "Data get successfully";

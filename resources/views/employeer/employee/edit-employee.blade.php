@@ -37,7 +37,7 @@
 <div class="page-inner">
    <div class="row">
         <div class="col">
-            <h3 class="page-title">Edit Employee fff</h3>
+            <h3 class="page-title">Edit Employee</h3>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
     			<li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">Employee Dashboard</a></li>
@@ -274,10 +274,12 @@
                                             <label>Profile Picture</label>
                                             <div class="border rounded-1 p-2">
                                                 <?php if (request()->get('q') != '') {?>
-                                                <?php if ($employee_rs[0]->emp_image != '') {?>
-                                                <img src="{{ asset( $employee_rs[0]->emp_image ) }}" height="50px" width="50px"/>
+                                                    <img src="{{ asset(\App\Helpers\Helper::getImageUrl($employee_rs[0]->emp_image)) }}" height="50px" width="50px"/>
+                                                {{-- @if ($employee_rs[0]->emp_image != '')
+                                                <img src="{{ asset( $employee_rs[0]->emp_image ) }}" height="50px" width="50px"/> 
+                                                @endif  --}}
                                                 <?php
-                                                    }
+                                                  
                                                     }?>
                                                 <input type="file" name="emp_image" id="emp_image" onchange="Filevalidationproimge()"><br>
                                             </div>
