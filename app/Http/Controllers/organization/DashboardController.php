@@ -4255,17 +4255,6 @@ class DashboardController extends Controller
                 'scan_r_img' => $request->scan_r_img,
                 'cr_date' => date('Y-m-d'),
                 'up_date' => date('Y-m-d'),
-                // New fields to be inserted
-                // 'share_referance_no' => $request->share_referance_no,
-                // 'share_code_used_by' => $request->share_code_used_by,
-                // 'share_com_name' => $request->share_com_name,
-                // 'share_date_check' => $request->share_date_check,
-                // 'share_permission_form' => $request->share_permission_form,
-                // 'share_permission_expiry' => $request->share_permission_expiry,
-                // 'share_remarks' => $request->share_remarks,
-
-                // 'share_phically' => $request->share_phically,
-                // 'share_hardcopy' => $request->share_hardcopy
             );
             if($request->mediumgg[0] =="Share Code"){
 
