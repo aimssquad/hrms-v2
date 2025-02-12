@@ -733,7 +733,7 @@ class EmployeeCornerOrganisationController extends Controller
                     ->where("leave_allocation.leave_in_hand", "!=", 0)
                     ->groupBy('leave_type.id')
                     ->get();
-                    //  dd($leave_type_rs);
+                      //dd($leave_type_rs);
                 $holiday_rs = Holiday::where("emid", "=", $users->employee_id)
                     ->select("from_date", "to_date", "day", "holiday_type")
                     ->get();
@@ -797,7 +797,10 @@ class EmployeeCornerOrganisationController extends Controller
     public function saveApplyLeaveData(Request $request)
     {
         if (!empty(Session::get("emp_email"))) {
-             //dd($request->all());
+            dd($request->all());
+            $request->validate([
+                'doc_image' => 'required|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
+            ]);
             $user_id = Session::get("users_id");
             $users = UserModel::where("id", "=", $user_id)->first();
 
@@ -806,14 +809,20 @@ class EmployeeCornerOrganisationController extends Controller
                 ->first();
 
             if (!empty($report_auth)) {
-                $report_auth_name = $report_auth->reportingauthority;
+                $report_auth_name = $report_auth->emp_reporting_auth;
             } else {
                 $report_auth_name = "";
+            }
+            if (!empty($report_auth)) {
+                $emp_lv_sanc_auth = $report_auth->emp_lv_sanc_auth;
+            } else {
+                $emp_lv_sanc_auth = "";
             }
 
             $diff = abs(
                 strtotime($request->to_date) - strtotime($request->from_date)
             );
+            //dd($diff);
             $years = floor($diff / (365 * 60 * 60 * 24));
             $months = floor(
                 ($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24)
@@ -825,33 +834,41 @@ class EmployeeCornerOrganisationController extends Controller
                         $months * 30 * 60 * 60 * 24) /
                         (60 * 60 * 24)
                 ) + 1;
-
+            //dd($days);
+            if($days == $request->days){
+               $no_of_leave =  $request->days;
+            } else {
+                $no_of_leave =  $days;
+            }
+            //dd($no_of_leave);
             $leave_tyepenew = DB::table("leave_type")
                 ->where("id", "=", $request->leave_type)
                 ->first();
-
+            $path = $request->file('doc_image')->store('leave-apply', 'public'); 
+            //dd($path);       
             //  $request->leave_inhand;
             if ($request->leave_inhand >= $request->days) {
                 $data["employee_id"] = $request->employee_id;
                 $data["employee_name"] = $request->employee_name;
                 $data["emp_reporting_auth"] = $report_auth_name;
-                $data["emp_lv_sanc_auth"] = "";
+                $data["emp_lv_sanc_auth"] = $emp_lv_sanc_auth;
                 $data["date_of_apply"] = date(
                     "Y-m-d",
                     strtotime($request->date_of_apply)
                 );
+                $data["doc_image"] = $path;
                 $data["leave_type"] = $request->leave_type;
                 $data["half_cl"] = $request->half_cl;
                 $data["from_date"] = $request->from_date;
                 $data["to_date"] = $request->to_date;
-                $data["no_of_leave"] = $request->days;
+                $data["no_of_leave"] = $no_of_leave;
                 $data["status"] = "NOT APPROVED";
                 $data["emid"] = $users->emid;
-                //dd($data);
+                dd($data);
                 $leave_apply = DB::table("leave_apply")->insert($data);
 
                 Session::flash("message", "Leave Apply Successfully..!.");
-                return redirect("organization/employerdashboard");
+                return redirect("org-employee-corner/leave-apply");
             } else {
                 Session::flash("Leave_msg", "Sorry, No Leave Available");
                 return redirect("org-employee-corner/leave-apply");

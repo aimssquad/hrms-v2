@@ -107,63 +107,53 @@
                        <div class="col-md-12">
                           <div class="card custom-card">
                              <div class="card-header">
-                                <h4 class="card-title"><i class="fas fa-align-justify"></i>Mobile Menu<span><a href="{{ url('/superadmin/mobile-menus/create') }}" data-toggle="tooltip" data-placement="bottom" title="Generate Bill" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
+                                <h4 class="card-title"><i class="fas fa-align-justify"></i>Mobile Menu<span><a href="{{ url('/superadmin/menus/create') }}" data-toggle="tooltip" data-placement="bottom" title="Generate Bill" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
                                 @if(Session::has('message'))
                                 <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
                                 @endif
                              </div>
                              <div class="card-body">
                                 <div class="table-responsive">
-                                   <table id="basic-datatables" class="display table table-striped table-hover" >
+                                    <table id="basic-datatables" class="display table table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
+                                                <th>Organization Name</th>
                                                 <th>Menu Name</th>
-                                                {{-- <th>Identifier</th>
-                                                <th>Type</th> --}}
-                                                <th>image</th>
                                                 <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($menus as $menu)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $menu->menu_name }}</td>
-                                                {{-- <td>{{ $menu->identifier }}</td>
-                                                <td>{{ $menu->type }}</td> --}}
-                                                <td>
-                                                    @if (isset($menu) && $menu->image)
-                                                        <img src="{{ asset('storage/app/public' . $menu->image) }}" alt="Menu Image" 
-                                                             style="height: 80px; width: 100px; border-radius: 50%; object-fit: cover;">
-                                                    @endif
-                                                </td>                                                
-                                                <td>{{ $menu->status }}</td>
-                                                <td class="drp">
-                                                    <div class="dropdown">
-                                                       <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                       Action
-                                                       </button>
-                                                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="{{ route('mobile-menus.edit', $menu->id) }}">
-                                                                <i class="far fa-edit"></i>&nbsp; Edit
-                                                            </a>
-                                                            <a class="dropdown-item" href="{{ route('mobile-menus.destroy', $menu->id) }}" onclick="return confirm('Are you sure?')">
-                                                                <i class="fas fa-trash"></i>&nbsp; Delete
-                                                            </a>
-                                                            {{-- <form action="{{ route('mobile-menus.destroy', $menu->id) }}" method="POST" style="display:inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                                                            </form> --}}
-                                                       </div>
-                                                    </div>
-                                                 </td>
-                                            </tr>
+                                            @foreach ($groupedMenus as $organizationId => $menus)
+                                                <tr>
+                                                    <td>{{ $organizationId }}</td>
+                                                    <td>{{ $menus->first()->organization->com_name ?? 'N/A' }}</td>
+                                                    <td>
+                                                        {{-- Display all menu names as comma-separated values --}}
+                                                        {{ $menus->pluck('menu.menu_name')->implode(', ') }}
+                                                    </td>
+                                                    <td>
+                                                        {{-- Show status of the first menu (assuming same status for all menus of an org) --}}
+                                                        {{ $menus->first()->status == 1 ? 'Active' : 'Inactive' }}
+                                                    </td>
+                                                    <td class="drp">
+                                                        <div class="dropdown">
+                                                            <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                Action
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                <a class="dropdown-item" href="{{ route('menu.edit', $menus->first()->id) }}">
+                                                                    <i class="far fa-edit"></i>&nbsp; Edit
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    
                                 </div>
                              </div>
                           </div>

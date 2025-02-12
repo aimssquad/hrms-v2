@@ -5007,7 +5007,7 @@ Route::get('employee/contract-agreement-edit/{agreement_id}', 'App\Http\Controll
 
 Route::get('leave/get-leave-in-hand/{id_leave_type}/{apply_date}', function ($id_leave_type, $apply_date) {
     $user_id = Session::get('users_id');
-
+    //dd($id_leave_type, $apply_date);
     $users = DB::table('users')->where('id', '=', $user_id)->first();
 
     // $leaveinhand = DB::table('leave_allocation')
@@ -5918,4 +5918,17 @@ Route::post('/superadmin/mobile-menus', [MobileMenuController::class, 'store'])-
 Route::get('/superadmin/mobile-menus/{id}/edit', [MobileMenuController::class, 'edit'])->name('mobile-menus.edit');
 Route::put('/superadmin/mobile-menus/{id}', [MobileMenuController::class, 'update'])->name('mobile-menus.update');
 Route::get('/superadmin/mobile-menus/{id}', [MobileMenuController::class, 'destroy'])->name('mobile-menus.destroy');
+// Employee Mobile menu
+Route::get('/org/mobile-menu', [MobileMenuController::class,'organization_menu'])->name('employee-mobile-menu');
+Route::post('/save-organization-menu', [MobileMenuController::class, 'saveOrganizationMenu'])->name('save.organization.menu');
+
+// Organization Mobile Menu
+Route::get('/superadmin/menus', [MobileMenuController::class, 'menu'])->name('mobile-menus.menu');
+Route::get('/superadmin/menus/edit/{organization_id}', [MobileMenuController::class, 'menuEdit'])->name('menu.edit');
+Route::post('/superadmin/save-employee-menu', [MobileMenuController::class, 'saveEmployeeMenu'])->name('save.employee.menu');
+
+
+
+
+
 

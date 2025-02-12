@@ -175,6 +175,11 @@ $userType = Session::get('usersu_type');
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{url('/superadmin/menus')}}">
+                                        <span class="sub-item">Organization Mobile Menu</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{url('superadmin/license-not-applied')}}">
                                         <span class="sub-item">License Not Applied</span>
                                     </a>

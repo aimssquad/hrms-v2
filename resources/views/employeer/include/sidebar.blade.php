@@ -243,6 +243,13 @@
                 ['url' => 'notice/org-notice', 'label' => 'Notice'],
             ]
         ],
+        25 => [
+            'title' => 'Mobile Menu',
+            'icon' => 'las la-mobile',
+            'items' => [
+                ['url' => 'org/mobile-menu', 'label' => 'Mobile Menu'],
+            ]
+        ],
         
     ];
 // Function to check if any module item matches the current URL

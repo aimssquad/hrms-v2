@@ -107,63 +107,60 @@
                        <div class="col-md-12">
                           <div class="card custom-card">
                              <div class="card-header">
-                                <h4 class="card-title"><i class="fas fa-align-justify"></i>Mobile Menu<span><a href="{{ url('/superadmin/mobile-menus/create') }}" data-toggle="tooltip" data-placement="bottom" title="Generate Bill" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
+                                <h4 class="card-title"><i class="fas fa-align-justify"></i>Mobile Menu ff</h4>
                                 @if(Session::has('message'))
                                 <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
                                 @endif
                              </div>
                              <div class="card-body">
                                 <div class="table-responsive">
-                                   <table id="basic-datatables" class="display table table-striped table-hover" >
+                                    <table id="basic-datatables" class="display table table-striped table-hover" >
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th>Sl No</th>
+                                                <th>Organization Name</th>
                                                 <th>Menu Name</th>
-                                                {{-- <th>Identifier</th>
-                                                <th>Type</th> --}}
-                                                <th>image</th>
                                                 <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($menus as $menu)
+                                            @foreach ($organizations as $organization)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $menu->menu_name }}</td>
-                                                {{-- <td>{{ $menu->identifier }}</td>
-                                                <td>{{ $menu->type }}</td> --}}
+                                                <td>{{ strtoupper($organization->com_name) }}</td> {{-- Convert to uppercase --}}
                                                 <td>
-                                                    @if (isset($menu) && $menu->image)
-                                                        <img src="{{ asset('storage/app/public' . $menu->image) }}" alt="Menu Image" 
-                                                             style="height: 80px; width: 100px; border-radius: 50%; object-fit: cover;">
+                                                    @if ($organization->menus->isNotEmpty())
+                                                        {{ $organization->menus->pluck('menu.menu_name')->implode(' , ') }}
+                                                    @else
+                                                        <span class="text-danger">Mobile menu not assigned</span>
                                                     @endif
-                                                </td>                                                
-                                                <td>{{ $menu->status }}</td>
+                                                </td>
+                                                <td>
+                                                    @if ($organization->menus->isNotEmpty())
+                                                        {{ $organization->menus->first()->status == 1 ? 'Active' : 'Inactive' }}
+                                                    @else
+                                                        No Status
+                                                    @endif
+                                                </td>
                                                 <td class="drp">
                                                     <div class="dropdown">
-                                                       <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                       Action
-                                                       </button>
-                                                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="{{ route('mobile-menus.edit', $menu->id) }}">
+                                                        <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            Action
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <a class="dropdown-item" href="{{ route('menu.edit', $organization->id) }}">
                                                                 <i class="far fa-edit"></i>&nbsp; Edit
                                                             </a>
-                                                            <a class="dropdown-item" href="{{ route('mobile-menus.destroy', $menu->id) }}" onclick="return confirm('Are you sure?')">
-                                                                <i class="fas fa-trash"></i>&nbsp; Delete
-                                                            </a>
-                                                            {{-- <form action="{{ route('mobile-menus.destroy', $menu->id) }}" method="POST" style="display:inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                                                            </form> --}}
-                                                       </div>
+                                                        </div>
                                                     </div>
-                                                 </td>
+                                                </td>
                                             </tr>
-                                            @endforeach
+                                        @endforeach
+                                        
                                         </tbody>
                                     </table>
+                                    
                                 </div>
                              </div>
                           </div>
@@ -193,6 +190,54 @@
     <!-- Atlantis DEMO methods, don't include it in your project! -->
     <script src="{{ asset('assets/js/setting-demo2.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script >
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#multi-filter-select').DataTable( {
+				"pageLength": 5,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+
+			// Add Row
+			$('#add-row').DataTable({
+				"pageLength": 5,
+			});
+
+			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+			$('#addRowButton').click(function() {
+				$('#add-row').dataTable().fnAddData([
+					$("#addName").val(),
+					$("#addPosition").val(),
+					$("#addOffice").val(),
+					action
+					]);
+				$('#addRowModal').modal('hide');
+
+			});
+		});
+	</script>
   
 
 </body>

@@ -70,7 +70,7 @@
                            <div class="col-md-4">
                               <div class=" form-group form-floating-label">
                                  <label for="leave_type" class="col-form-label">Leave Type</label><br/>
-                                 <select  id="leave_type" name="leave_type" onchange="getLeaveInHand(this);"  class="form-control input-border-bottom" required=""  style="margin-top: 20px;">
+                                 <select  id="leave_type" name="leave_type" onchange="getLeaveInHand(this);"  class="form-control input-border-bottom" required=""  style="margin-top: 8px;">
                                     <option  value="">&nbsp;</option>
                                     @foreach($leave_type_rs as $leave)
                                     <option value="{{$leave->id}}">{{$leave->leave_type_name}}</option>
@@ -81,7 +81,7 @@
                            </div>
                            <div class="col-md-4">
                               <label for="leave_inhand" class="col-form-label">Leave In Hand</label>
-                              <input  type="text"readonly="" name="leave_inhand" class="form-control"  id="leave_inhand" required=""   col-form-label="" style="margin-top: 25px;">
+                              <input  type="text"readonly="" name="leave_inhand" class="form-control"  id="leave_inhand" required=""   col-form-label="" style="margin-top: 8px;">
                               @if ($errors->has('leave_inhand'))
                               <div class="error" style="color:red;">{{ $errors->first('leave_inhand') }}</div>
                               @endif
@@ -89,7 +89,7 @@
                            <div class="col-md-4">
                               <div class=" form-group form-floating-label">
                                  <label for="from_date"  class="col-form-label">From Date</label><br/>
-                                 <input type="date" id="from_date" name="from_date"  value="{{ old('from_date') }}""  type="date" class="form-control input-border-bottom" required="" style="margin-top: 16px;">
+                                 <input type="date" id="from_date" name="from_date"  value="{{ old('from_date') }}""  type="date" class="form-control input-border-bottom" required="" style="margin-top: 8px;">
                                  @if ($errors->has('from_date'))
                                  <div class="error" style="color:red;">{{ $errors->first('from_date') }}</div>
                                  @endif
@@ -100,7 +100,7 @@
                            <div class="col-md-4">
                               <div class=" form-group form-floating-label">
                                  <label for="to_date"  class="col-form-label">To Date</label><br/>
-                                 <input  id="to_date" name="to_date" value="{{ old('to_date') }}" onchange="get_duration()" type="date" class="form-control input-border-bottom" required="" style="margin-top: 16px;">
+                                 <input  id="to_date" name="to_date" value="{{ old('to_date') }}" onchange="get_duration()" type="date" class="form-control input-border-bottom" required="" >
                                  @if ($errors->has('to_date'))
                                  <div class="error" style="color:red;">{{ $errors->first('to_date') }}</div>
                                  @endif
@@ -108,9 +108,14 @@
                            </div>
                            <div class="col-md-4">
                               <label for="days" class="col-form-label">No. Of Days</label>
-                              <input   name="days" class="form-control" id="days"  type="text" readonly="" class="form-control input-border-bottom" required=""  placeholder="" style="margin-top: 25px;">
+                              <input   name="days" class="form-control" id="days"  type="text" readonly="" class="form-control input-border-bottom" required=""  placeholder="" >
+                           </div>
+                           <div class="col-md-4">
+                              <label for="image" class="col-form-label">Image</label>
+                              <input   name="doc_image" class="form-control" id="doc_image"  type="file" class="form-control input-border-bottom" >
                            </div>
                         </div>
+                        <br>
                         <div class="row form-group">
                            <div class="col-md-6">
                               <a class="apply" href="#">

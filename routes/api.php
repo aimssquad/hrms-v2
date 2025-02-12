@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\LeaveController;
+use App\Http\Controllers\Api\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,10 @@ Route::middleware(['auth:api'])->group(function () {
 });
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
-    Route::get('leave','App\Http\Controllers\Api\LeaveController@leave');
+    Route::get('leave',[LeaveController::class,'leave']);
+    Route::get('leave-type',[LeaveController::class,'leave_type']);
+    Route::post('leave-in-hand',[LeaveController::class, 'leave_in_hand']);
+    Route::post('leave-apply',[LeaveController::class, 'leaveApply']);
     Route::post('employee','App\Http\Controllers\Api\EmployeeController@editEmployee');
 });
 
