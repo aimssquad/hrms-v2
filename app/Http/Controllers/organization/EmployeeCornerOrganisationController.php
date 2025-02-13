@@ -799,7 +799,7 @@ class EmployeeCornerOrganisationController extends Controller
         if (!empty(Session::get("emp_email"))) {
             //dd($request->all());
             $request->validate([
-                'doc_image' => 'required|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
+                'doc_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
             ]);
             $user_id = Session::get("users_id");
             $users = UserModel::where("id", "=", $user_id)->first();
@@ -834,19 +834,19 @@ class EmployeeCornerOrganisationController extends Controller
                         $months * 30 * 60 * 60 * 24) /
                         (60 * 60 * 24)
                 ) + 1;
-            //dd($days);
             if($days == $request->days){
                $no_of_leave =  $request->days;
             } else {
                 $no_of_leave =  $days;
             }
-            //dd($no_of_leave);
             $leave_tyepenew = DB::table("leave_type")
                 ->where("id", "=", $request->leave_type)
                 ->first();
-            $path = $request->file('doc_image')->store('leave-apply', 'public'); 
-            //dd($path);       
-            //  $request->leave_inhand;
+            if(!empty($request->file('doc_image'))){
+                $path = $request->file('doc_image')->store('leave-apply', 'public'); 
+            } else {
+                $path = "";
+            }   
             if ($request->leave_inhand >= $request->days) {
                 $data["employee_id"] = $request->employee_id;
                 $data["employee_name"] = $request->employee_name;

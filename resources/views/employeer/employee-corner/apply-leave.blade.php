@@ -14,7 +14,7 @@
             </div>
         </div>
         <!-- /Page Header -->
-        
+        @include('employeer.layout.message')
         <div class="row">
             <div class="col-md-12">
                <div class="card">
@@ -27,9 +27,9 @@
                            <div class="col-md-6">
                               <div class="pay-slip-heading">
                                  <h4 class="card-title">Leave Application</h4>
-                                 @if(Session::has('Leave_msg'))
+                                 {{-- @if(Session::has('Leave_msg'))
                                  <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('Leave_msg') }}</em></div>
-                                 @endif
+                                 @endif --}}
                               </div>
                            </div>
                            <div class="col-md-6">

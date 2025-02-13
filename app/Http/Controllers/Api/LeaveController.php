@@ -169,7 +169,7 @@ class LeaveController extends Controller
                 $emid = auth()->user()->emid;
                 //dd($emid);
                 $request->validate([
-                    'doc_image' => 'required|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
+                    'doc_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
                 ]);
     
                 $report_auth = Employee::where("emp_code", "=", $employeeId)
@@ -211,7 +211,11 @@ class LeaveController extends Controller
                     $no_of_leave =  $days;
                 }
 
-                $path = $request->file('doc_image')->store('leave-apply', 'public'); 
+                if(!empty($request->file('doc_image'))){
+                    $path = $request->file('doc_image')->store('leave-apply', 'public'); 
+                } else {
+                    $path = "";
+                }  
                 if ($request->leave_inhand >= $no_of_leave) {
                     $data["employee_id"] = $employeeId;
                     $data["employee_name"] = $employee_name;
