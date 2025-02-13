@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LeaveController;
 use App\Http\Controllers\Api\EmployeeController;
-
+use App\Http\Controllers\Api\MobileMenuController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,7 +32,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('leave-type',[LeaveController::class,'leave_type']);
     Route::post('leave-in-hand',[LeaveController::class, 'leave_in_hand']);
     Route::post('leave-apply',[LeaveController::class, 'leaveApply']);
+    
     Route::post('employee','App\Http\Controllers\Api\EmployeeController@editEmployee');
+});
+
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {  
+    Route::get('mobile-menu',[MobileMenuController::class, 'getMobileMenu']);
 });
 
 

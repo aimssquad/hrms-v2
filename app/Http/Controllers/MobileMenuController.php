@@ -110,7 +110,7 @@ class MobileMenuController extends Controller
                 ->toArray(); 
             $status = MobileEmployeeMenu::where('organization_id', $organization_id)
                 ->value('status'); 
-            //dd($status);         
+            //dd($menus);         
             return view('employeer.mobile-menu.org-mobile-menu', compact('menus', 'assignedMenus', 'status'));
         } else {
             return redirect('/');
