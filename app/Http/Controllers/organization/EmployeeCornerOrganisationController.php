@@ -797,7 +797,7 @@ class EmployeeCornerOrganisationController extends Controller
     public function saveApplyLeaveData(Request $request)
     {
         if (!empty(Session::get("emp_email"))) {
-            dd($request->all());
+            //dd($request->all());
             $request->validate([
                 'doc_image' => 'required|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
             ]);
@@ -864,7 +864,7 @@ class EmployeeCornerOrganisationController extends Controller
                 $data["no_of_leave"] = $no_of_leave;
                 $data["status"] = "NOT APPROVED";
                 $data["emid"] = $users->emid;
-                dd($data);
+                //dd($data);
                 $leave_apply = DB::table("leave_apply")->insert($data);
 
                 Session::flash("message", "Leave Apply Successfully..!.");
