@@ -174,7 +174,9 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                    
+                                          
+                                        {{-- </div> 
+                                        <div class="row form-group pr-4 pl-4">    --}}
                                             <!-- Dynamic Dropdown for Organisation or Sub-admin -->
                                             <div class="col-md-3" id="entity_dropdown">
                                                 <div class="form-group">
@@ -240,7 +242,7 @@
                                                     <textarea class="form-control" id="remarks" name="remarks"></textarea>
                                                 </div>
                                             </div>
-                                            
+                                        {{-- </div>     --}}
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <button type="submit" class="btn btn-default btn-up">Submit</button>

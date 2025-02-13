@@ -7,6 +7,24 @@
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 @endphp
+@section('css')
+<style>
+  .card {
+    transition: all 0.3s ease-in-out;
+    border-right: 5px solid rgb(211, 207, 207);
+}
+
+.card:hover {
+    background-color: #f8785e !important;
+    border-right: 5px solid #f76a4d !important;
+    color: #fff; /* Optional: Change text color for better contrast */
+}
+
+.card:hover .text-muted {
+    color: #fff !important; /* Ensures text remains visible */
+}
+</style>
+@endsection
 @section('content')
     <div class="content container-fluid pb-0">
         <!-- Page Header -->
@@ -45,8 +63,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                 </a>
             </div>
             <div class="col-md-8">
-                <div class="card-group m-b-30">                
-                    <div class="card" style="border-right: 5px solid rgb(211, 207, 207);">
+                <div class="card-group m-b-30"> 
+                                 
+                    <div class="card pay" style="border-right: 5px solid rgb(211, 207, 207);">
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-3">
                                 <div>

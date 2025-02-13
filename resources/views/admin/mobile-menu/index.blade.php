@@ -135,7 +135,7 @@
                                                 <td>{{ $menu->type }}</td> --}}
                                                 <td>
                                                     @if (isset($menu) && $menu->image)
-                                                        <img src="{{ asset('storage/app/public' . $menu->image) }}" alt="Menu Image" 
+                                                        <img src="{{ asset('storage/app/public/' . $menu->image) }}" alt="Menu Image" 
                                                              style="height: 80px; width: 100px; border-radius: 50%; object-fit: cover;">
                                                     @endif
                                                 </td>                                                
