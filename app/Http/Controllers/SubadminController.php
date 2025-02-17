@@ -54,7 +54,7 @@ class SubadminController extends Controller
                     ->where('emid', '=', $data['Roledata']->reg)
                     ->get();
                 //dd($data['Roledata']);
-                return view('sub-admin\edit-subadmin',$data);
+                return view('sub-admin.edit-subadmin',$data);
                 //return View('company/edit-company', $data);
             } else {
                 return redirect('/');
