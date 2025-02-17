@@ -169,13 +169,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                            echo '<option value="pass_docu" '.$se.'>Passport    Document </option>'; 
                                              
                                           }
-                                          if($work_rs->evidence=='share_code'){
+                                          if($work_rs->evidence=='Share Code'){
                                                $se= 'selected';
                                                }else{
                                                    $se='';
                                                }
                                           if (!empty($work_rs->share_doc)){
-                                                echo  '<option value="share_code" '.$se.'>Share Code</option>';
+                                                echo  '<option value="Share Code" '.$se.'>Share Code</option>';
                                                }
                                            if($work_rs->evidence=='visa_upload_doc'){
                                                $se= 'selected';

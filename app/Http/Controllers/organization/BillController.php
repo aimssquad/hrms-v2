@@ -24,6 +24,19 @@ class BillController extends Controller
         }
     }
 
+    public function partnerOrgInvoiceList(Request $request){
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $billing_list = Subadmin_bill::where('org_code', 'admin')
+                ->get();
+            return view ('admin/billing/partner-org-billing-list',compact('billing_list'));
+        } else {
+            redirect('superadmin');
+        }
+    }
+
+    
+
     public function store(Request $request)
     {
         //dd($request->all());
@@ -73,6 +86,131 @@ class BillController extends Controller
         }
     }
 
+    // public function adminBillingPartnerOrg(Request $request){
+
+    //     $email = Session::get('empsu_email');
+    //     if(!empty($email)){
+    //         $validatedData = $request->validate([
+    //             'bill_for' => 'required|string',
+    //             'discount_amount' => 'nullable|string',
+    //             'billing_type' => 'required|string',
+    //             'entity_id' => 'required',
+    //             'amount' => 'nullable|numeric',
+    //             'total_employee' => 'nullable|integer',
+    //             'vat' => 'nullable|numeric', // This is the VAT percentage
+    //             'total_amount' => 'nullable|numeric',
+    //             'payment_mode' => 'required|string',
+    //             'description' => 'nullable|string',
+    //             'remarks' => 'nullable|string',
+    //             'date' => 'nullable|date',
+    //         ]);
+    //         $data = [
+    //             'bill_for' => $validatedData['bill_for'],
+    //             'discount_amount' => $validatedData['discount_amount'] ?? 0,
+    //             'billing_type' => 'employer',
+    //             'entity_id' => $validatedData['entity_id'],
+    //             'amount' => $validatedData['amount'] ?? 0,
+    //             'total_employee' => $validatedData['total_employee'] ?? 0,
+    //             'vat' => $validatedData['vat'] ?? 0,
+    //             'total_amount' => $validatedData['total_amount'] ?? 0,
+    //             'payment_mode' => $validatedData['payment_mode'],
+    //             'description' => $validatedData['description'] ?? '',
+    //             'org_code' => 'admin',
+    //             'remarks' => $validatedData['remarks'] ?? '',
+    //             'date' => $validatedData['date'] ?? now(),
+    //         ];
+
+    //         $pt = 'P';
+    //         $monthYear = date('mY', strtotime($request->date));
+        
+    //         $lastInvoice = Subadmin_bill::latest('id')->first();
+
+    //         if ($lastInvoice) {
+    //             $nextInvoiceNumber = $lastInvoice->id + 1; // Accessing the 'id' field
+    //         } else {
+    //             $nextInvoiceNumber = 1; // If no record exists, start with 1
+    //         }
+    //         // Generate the next invoice number
+    //         $invoiceNumber = "SWC" . $pt . $monthYear . str_pad($nextInvoiceNumber, 2, '0', STR_PAD_LEFT);
+    //             $dataToSave = array_merge($data, [
+    //                 'invoice_no' => $invoiceNumber, // Add the invoice number to save
+    //             ]);
+    //         $bill = Subadmin_bill::create($dataToSave);
+    //         Session::flash('message', 'Bill submitted successfully. Invoice Number: ' . $invoiceNumber);
+    //         return redirect('superadmin/partner-billing-list');
+    //     } else {
+    //         redirect('superadmin');
+    //     }
+    // }
+
+    public function adminBillingPartnerOrg(Request $request)
+    {
+        $email = Session::get('empsu_email');
+        if (!empty($email)) {
+            $validatedData = $request->validate([
+                'bill_for' => 'required|string',
+                'discount_amount' => 'nullable|string',
+                'billing_type' => 'required|string',
+                'entity_id' => 'required',
+                'amount' => 'nullable|numeric',
+                'total_employee' => 'nullable|integer',
+                'vat' => 'nullable|numeric', 
+                'total_amount' => 'nullable|numeric',
+                'payment_mode' => 'required|string',
+                'description' => 'nullable|string',
+                'remarks' => 'nullable|string',
+                'date' => 'nullable|date',
+            ]);
+
+            $entityId = $validatedData['entity_id'];
+            $billDate = $validatedData['date'] ?? now();
+            $month = date('m', strtotime($billDate));
+            $year = date('Y', strtotime($billDate));
+
+            // Check if an invoice already exists for this entity in the same month and year
+            $existingInvoice = Subadmin_bill::where('entity_id', $entityId)
+                ->whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->exists();
+
+            if ($existingInvoice) {
+                return redirect()->back()->with('error', 'An invoice for this Organisation already exists for this month.');
+            }
+
+            $data = [
+                'bill_for' => $validatedData['bill_for'],
+                'discount_amount' => $validatedData['discount_amount'] ?? 0,
+                'billing_type' => 'employer',
+                'entity_id' => $entityId,
+                'amount' => $validatedData['amount'] ?? 0,
+                'total_employee' => $validatedData['total_employee'] ?? 0,
+                'vat' => $validatedData['vat'] ?? 0,
+                'total_amount' => $validatedData['total_amount'] ?? 0,
+                'payment_mode' => $validatedData['payment_mode'],
+                'description' => $validatedData['description'] ?? '',
+                'org_code' => 'admin',
+                'remarks' => $validatedData['remarks'] ?? '',
+                'date' => $billDate,
+            ];
+
+            $pt = 'P';
+            $monthYear = date('mY', strtotime($billDate));
+
+            $lastInvoice = Subadmin_bill::latest('id')->first();
+            $nextInvoiceNumber = $lastInvoice ? $lastInvoice->id + 1 : 1;
+            $invoiceNumber = "SWC" . $pt . $monthYear . str_pad($nextInvoiceNumber, 2, '0', STR_PAD_LEFT);
+
+            $dataToSave = array_merge($data, ['invoice_no' => $invoiceNumber]);
+            Subadmin_bill::create($dataToSave);
+
+            Session::flash('message', 'Bill submitted successfully. Invoice Number: ' . $invoiceNumber);
+            return redirect('superadmin/partner-billing-list');
+        } else {
+            return redirect('superadmin');
+        }
+    }
+
+
     public function editBill(Request $request,$id){
         $email = Session::get('empsu_email');
         if(!empty($email)){
@@ -82,6 +220,20 @@ class BillController extends Controller
             }
         
             return view('admin.billing.edit_billing_list', compact('bills'));
+        } else {
+            redirect('superadmin');
+        }
+    }
+
+    public function editPartnerBill(Request $request,$id){
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $bills = DB::table('subadmin_bills')->where('id', $id)->first();
+            if (!$bills) {
+                return redirect()->back()->with('error', 'Billing rule not found.');
+            }
+        
+            return view('admin.billing.edit-partner-org-bill', compact('bills'));
         } else {
             redirect('superadmin');
         }
@@ -283,8 +435,7 @@ class BillController extends Controller
            } else {
                 $data['org_dtl'] = DB::table('sub_admin_registrations')->where('reg',$data['bill']->entity_id)->first();
            }
-           //dd($data['org_dtl']);
-           //$data['com_dtl'] = DB::table('sub_admin_registrations')->where('org_code',$data['bill']->org_code)->first();
+           //dd($data);
            return view('admin.billing.invoice',$data);
            //return view('new-bill-pdf',$data);
         } else {
@@ -292,7 +443,229 @@ class BillController extends Controller
         }
     }
 
+    public function partnerOrgBilling(Request $request)
+    {
+        try {
+            $email = Session::get('empsu_email');
+
+            $userType = Session::get('usersu_type');
+
+            if (!empty($email)) {
+
+                if ($userType == 'user') {
+                    $arrrole = Session::get('empsu_role');
+                    if (!in_array('4', $arrrole)) {
+                        throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
+                    }
+                }
+
+                //All Bills
+                $data['bill_rs'] = DB::Table('billing')->get();
+                //dd($data['bill_rs']);
+                //organisation details
+                $data['or_de'] = DB::Table('registration')
+                    ->where('status', '=', 'active')
+                    ->where('verify', '=', 'approved')
+                    //->where('licence', '=', 'yes')
+                    ->get();
+
+                // $data['candidate_rs'] = DB::Table('invoice_candidates')
+                //     ->where('status', '=', 'A')
+                //     ->get();
+
+                //hired candidate list
+                $data['candidate_rs'] = DB::Table('candidate')
+                    ->where('status', '=', 'Hired')
+                    ->get();
+                $data['partners'] = DB::Table('sub_admin_registrations')
+                    ->where('status', '=', 'active')
+                    ->where('verify', '=', 'approved')
+                    ->get();    
+
+                //dd($data['or_de']);
+
+                $userlist = array();
+                foreach ($data['bill_rs'] as $user) {
+                    $userlist[] = $user->emid;
+                }
+
+                $data['package_rs'] = DB::Table('package')
+                    ->where('status', '=', 'active')
+                    ->get();
+
+                $data['tax_rs'] = DB::Table('tax_bill')
+                    ->where('status', '=', 'active')
+                    ->get(); 
+                $data['partner_list'] = DB::table('users')
+                    //->where('user_type','=',$billingType)
+                    ->where('status', 'active')
+                    ->get(['id','employee_id', 'name']); 
+
+                return View('admin/billing/partner-org-billing', $data);
+
+            } else {
+                return redirect('superadmin');
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\AdminException($e->getMessage());
+        }
+    }
+
+    public function getPertnerOrganization(Request $request){
+        $organizations = DB::table('registration')
+        ->where('org_code', $request->billing_type)
+        // ->where('status','active')
+        // ->where('verify','approved')
+        ->select('id','reg', 'com_name')
+        ->get();
+
+        return response()->json($organizations);
+    }
+
+    public function updatePartnerBilling(Request $request, $id)
+    {
+        // Debugging
+        // dd('okk');
+        // dd($request->all());
+
+        // Validation for required fields
+        $validated = $request->validate([
+            'invoice_no' => 'required|string',
+            'bill_for' => 'required|string',
+            'date' => 'required|date', // Validate as a date
+            'billing_type' => 'required|string', // Changed to string
+            'entity_id' => 'required|string', // Changed to string
+            'amount' => 'nullable|numeric', // Amount should be numeric
+            'total_employee' => 'nullable|numeric', 
+            'total_amount' => 'nullable|numeric', // Total employee should be numeric
+            'vat' => 'nullable|numeric', // VAT should be numeric
+            'discount_amount' => 'nullable|numeric', // Discount should be numeric
+            'payment_mode' => 'nullable|string',
+            'description' => 'nullable|string',
+            'remarks' => 'nullable|string',
+            'status' => 'nullable|numeric',
+        ]);
+        //dd($validated);
+        $bill = Subadmin_bill::findOrFail($id);
+        $bill->invoice_no = $validated['invoice_no'];
+        $bill->bill_for = $validated['bill_for'];
+        $bill->date = $validated['date'];
+        $bill->billing_type = $validated['billing_type'];
+        $bill->entity_id = $validated['entity_id'];
+        $bill->amount = $validated['amount'];
+        $bill->total_employee = $validated['total_employee'] ?? 0; // Default to 0 if null
+        $bill->vat = $validated['vat'];
+        $bill->discount_amount = $validated['discount_amount'];
+        $bill->total_amount = $validated['total_amount']; // Save the calculated total amount
+        $bill->payment_mode = $validated['payment_mode'];
+        $bill->description = $validated['description'];
+        $bill->remarks = $validated['remarks'];
+        $bill->status = $validated['status'];
+        $bill->updated_at = now();
+        //dd('After Update:', $bill);
+        // Save the updated bill
+        $bill->save();
+
+        // Flash success message
+        Session::flash('message', 'Bill updated successfully.');
+
+        // Redirect back to the billing list
+        return redirect('superadmin/partner-billing-list');
+    }
+
+    public function partnerNotIssuedBills(Request $request)
+    {
+        $email = Session::get('empsu_email');
+        if ($email) {
+            $from_date = $request->get('from_date');
+            $to_date = $request->get('to_date');
+
+            // Extract month and year from from_date and to_date
+            $fromMonth = $from_date ? date('m', strtotime($from_date)) : null;
+            $fromYear = $from_date ? date('Y', strtotime($from_date)) : null;
+            $toMonth = $to_date ? date('m', strtotime($to_date)) : null;
+            $toYear = $to_date ? date('Y', strtotime($to_date)) : null;
+            //dd($fromYear);
+            $partner_orgs = DB::table('registration')
+                ->whereNotNull('org_code')
+                ->select('com_name', 'org_code', 'reg')
+                ->get();
+
+            $missingBills = [];
+            $currentMonth = date('m');
+            $currentYear = date('Y');
+
+            // Fetch all organization names from sub_admin_registrations at once
+            $partnerNames = DB::table('sub_admin_registrations')
+                ->pluck('com_name', 'org_code');
+
+            foreach ($partner_orgs as $org) {
+                // Apply year and month filters if both from_date and to_date are provided
+                $billedQuery = DB::table('subadmin_bills')
+                    ->where('entity_id', $org->reg)
+                    ->whereYear('date', $currentYear);
+
+                // Apply from_date and to_date filters
+                if ($from_date) {
+                    $billedQuery->whereDate('date', '>=', $from_date);
+                }
+                if ($to_date) {
+                    $billedQuery->whereDate('date', '<=', $to_date);
+                }
+
+                // Get all months where a bill exists for this organization within the date range
+                $billedMonths = $billedQuery->pluck(DB::raw('MONTH(date)'))->toArray();
+
+                // Generate an array of months from January to the current month
+                $allMonths = range(1, $currentMonth);
+
+                // If from_date is provided, filter months starting from the provided month
+                if ($fromMonth && $fromYear == $currentYear) {
+                    $allMonths = range($fromMonth, $currentMonth);
+                }
+
+                // If to_date is provided, filter months up to the provided month
+                if ($toMonth && $toYear == $currentYear) {
+                    $allMonths = range($fromMonth ?? 1, $toMonth);
+                }
+
+                // Find months where no bill exists
+                $notBilledMonths = array_diff($allMonths, $billedMonths);
+
+                if (!empty($notBilledMonths)) {
+                    $missingBills[] = [
+                        'org_name' => $org->com_name,
+                        'partner_name' => $partnerNames[$org->org_code] ?? 'Unknown',
+                        'reg' => $org->reg,
+                        'org_code' => $org->org_code,
+                        'missing_months' => array_map(function ($month) use ($currentYear) {
+                            return date("F Y", mktime(0, 0, 0, $month, 1, $currentYear));
+                        }, $notBilledMonths),
+                    ];
+                }
+            }
+
+            return view('admin.billing.invoice-not-issued', compact('missingBills'));
+        } else {
+            return redirect('superadmin');
+        }
+    }
+
+    public function notIssuedBills(Request $request){
+        return view('admin.billing.invoice-not-issued-org');
+    }
+
+
+
+
+
+    
+
+
+
+    
+
   
     
 
-}
+} // End Class

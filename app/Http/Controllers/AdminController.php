@@ -20977,7 +20977,7 @@ class AdminController extends Controller
 
                 //All Bills
                 $data['bill_rs'] = DB::Table('billing')->get();
-
+                //dd($data['bill_rs']);
                 //organisation details
                 $data['or_de'] = DB::Table('registration')
                     ->where('status', '=', 'active')
@@ -21121,6 +21121,50 @@ class AdminController extends Controller
                 ]);
             }
         }
+    }
+
+    public function getUserDtl(Request $request)
+    {
+        $billing_month = $request->billingMonth;
+        $billingType = $request->billingType;
+        $userId = $request->user_id;
+
+            $org_code = Db::table('sub_admin_registrations')->where('reg', $userId)->first();
+           
+            $organizations = DB::table('registration')
+                ->where('status', 'active')
+                ->where('org_code', $billingType)
+                ->pluck('reg');  
+                $totalEmployee = DB::table('employee')
+                ->whereIn('emid', $organizations)  // Use the collection directly here
+                ->count();
+            // Get the employee charge for this subadmin (optional: customize as needed)
+            $amount = DB::table('rule_table')
+            ->where('entity_id', $userId )
+            ->where('type','sub-admin')
+            ->first();
+            //dd($amount->employee_charge);
+            // Check if no record is found and use default entity_id
+            if ($amount === null) {
+                $amount = DB::table('rule_table')
+                    ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
+                    ->where('type', 'sub-admin')
+                    ->first();
+            }
+            // Calculate the total amount if employee charge exists
+            if ($amount !== null) {
+                $totalAmount = $amount->employee_charge * $totalEmployee;
+                return response()->json([
+                    'amount' => $totalAmount,
+                    'total_employee' => $totalEmployee
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'No employee charge found',
+                    'total_employee' => $totalEmployee
+                ]);
+            }
+      
     }
 
     public function subadminindex(Request $request)

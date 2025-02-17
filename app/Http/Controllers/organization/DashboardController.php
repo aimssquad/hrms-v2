@@ -4272,7 +4272,7 @@ class DashboardController extends Controller
                 $filenames = [];   
                 foreach ($uploadedFiles as $file) {
                     // Store the file and get its path
-                    $path = $file->store('public/uploads/rtw');  // Store in storage/app/uploads/documents
+                    $path = $file->store('public/uploads/share-code');  // Store in storage/app/uploads/documents
                     $filenames[] = basename($path);
                 }
                 $pay['share_doc'] = json_encode($filenames);
@@ -4542,7 +4542,7 @@ class DashboardController extends Controller
                 $filenames = [];   
                 foreach ($uploadedFiles as $file) {
                     // Store the file and get its path
-                    $path = $file->store('public/uploads/rtw');  // Store in storage/app/uploads/documents
+                    $path = $file->store('public/uploads/share-code');  // Store in storage/app/uploads/documents
                     $filenames[] = basename($path);
                 }
                 $pay['share_doc'] = json_encode($filenames);

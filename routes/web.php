@@ -45,6 +45,17 @@ Route::post('superadmin/bills/update/{id}', 'App\Http\Controllers\organization\B
 Route::get('superadmin/billing-list', 'App\Http\Controllers\organization\BillController@billingList')->name('bills.list');
 Route::get('/billing/delete/{id}', 'App\Http\Controllers\organization\BillController@destroy')->name('billing.delete');
 Route::get('superadmin/billing/invoice/{id}', 'App\Http\Controllers\organization\BillController@viewAdminInvoice')->name('admin.billing.invoice');
+Route::get('superadmin/partner-org-notissued', 'App\Http\Controllers\organization\BillController@notIssuedBills')->name('partnerOrgNotissuedInvoice');
+
+Route::get('superadmin/partner-billing-list', 'App\Http\Controllers\organization\BillController@partnerOrgInvoiceList')->name('partner.bills.list');
+Route::get('superadmin/partner-org-billing','App\Http\Controllers\organization\BillController@partnerOrgBilling')->name('superadmin.partner-org-billing');
+Route::get('superadmin/get-partner-organizations', 'App\Http\Controllers\organization\BillController@getPertnerOrganization')->name('get.partner-org');
+Route::get('/get-user-dtl','App\Http\Controllers\AdminController@getUserDtl')->name('get.user.dtl');
+Route::post('superadmin/partnerorg/bills/store', 'App\Http\Controllers\organization\BillController@adminBillingPartnerOrg')->name('bills.partner.store');
+Route::get('/partner/billing/edit/{id}', 'App\Http\Controllers\organization\BillController@editPartnerBill')->name('partner.billing.edit');
+Route::post('partner/bills/update/{id}', 'App\Http\Controllers\organization\BillController@updatePartnerBilling')->name('partner.billing.update');
+
+Route::get('superadmin/partner-not-issued-billing-list', 'App\Http\Controllers\organization\BillController@partnerNotIssuedBills')->name('partnerNotIssuedBills');
 
 Route::get('superadmin/show-rule','App\Http\Controllers\organization\BillController@showRule')->name('bill.show-rule');
 Route::get('superadmin/billing-rule','App\Http\Controllers\organization\BillController@getRule')->name('bill.rule');

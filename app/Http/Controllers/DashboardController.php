@@ -4660,7 +4660,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
     public function viewsendcandidatedetailswork($send_id)
     {
-
+        //dd('okk');
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
@@ -4677,6 +4677,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->where('emp_code', '=', $data['work_rs']->employee_id)->first();
 
             if ($data['work_rs']->date >= '2021-07-01') {
+                //dd('not');
+                //dd($data);
                 return view('dashboard/view-work', $data);
 
             } else {

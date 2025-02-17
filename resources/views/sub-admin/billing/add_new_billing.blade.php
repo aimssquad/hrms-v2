@@ -33,10 +33,7 @@
                                 <label for="bill_for" class="form-label">Invoice For</label>
                                 <select class="select" id="bill_for" name="bill_for" required="" >
                                     <option value="">&nbsp;</option>
-                                    <option value="invoice for license applied">Invoice for license applied</option>
-                                    <option value="invoice for license granted">Invoice for license granted</option>
-                                    <option value="first invoice recruitment service">First invoice for recruitment service</option>
-                                    <option value="second invoice visa service">Second invoice for visa service</option>
+                                    <option value="invoice for license applied">HRMS Subcriptions</option>
                                     <option value="other">Other</option>
                                 </select>
                             </div>

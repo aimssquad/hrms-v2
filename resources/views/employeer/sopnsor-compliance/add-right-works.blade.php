@@ -776,7 +776,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!document.getElementById("evidence2")) {
                 evidenceSelect.innerHTML = `
                     <option value="">Select</option>
-                    <option value="share_code">Share code</option>
+                    <option value="Share Code">Share code</option>
                 `;
                 evidenceSelect.id = "evidence2"; 
             }

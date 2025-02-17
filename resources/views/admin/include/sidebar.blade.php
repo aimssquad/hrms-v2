@@ -355,6 +355,11 @@ $userType = Session::get('usersu_type');
                                         <span class="sub-item">New Billing</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{url('superadmin/partner-billing-list')}}">
+                                        <span class="sub-item">Partner Organisation Billing</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
