@@ -21,7 +21,7 @@ class SubadminController extends Controller
                 ->where('email', '=', $email)
                 ->first();
           
-            return view('sub-admin\subadmin_profile',$data);
+            return view('sub-admin.subadmin_profile',$data);
 
         }else{
             return redirect('/');
