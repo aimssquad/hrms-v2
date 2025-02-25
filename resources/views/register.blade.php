@@ -176,6 +176,13 @@
                               @endif
                            </div>
                            <div class="input-block mb-2">
+                            <label class="col-form-label">Domain Name</label>
+                            <input class="form-control" type="text" name="domain_name" required="" value="{{old('domain_name')}}">
+                            @if ($errors->has('domain_name'))
+                            <div class="error" style="color:red;">{{ $errors->first('domain_name') }}</div>
+                            @endif
+                         </div>
+                           <div class="input-block mb-2">
                               <label class="col-form-label">First Name<span class="mandatory">*</span></label>
                               <input class="form-control" type="text" name="f_name" required="" value="{{old('f_name')}}">
                               @if ($errors->has('f_name'))

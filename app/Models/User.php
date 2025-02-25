@@ -42,4 +42,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function rule2Tables() {
+    //     return $this->hasMany(Rule2Table::class, 'entity_id', 'employee_id');
+    // }
 }

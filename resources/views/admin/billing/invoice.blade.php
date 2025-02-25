@@ -138,10 +138,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th class="d-none d-sm-table-cell">Description</th>
+                                            <th class="d-none d-sm-table-cell">Item Name</th>
                                             <th >Quantity</th>
-                                            <th>Unit Price Excluding VAT</th>
                                             <th>Unit Price</th>
+                                            <th>Unit Price Excluding VAT</th>
                                             <th>Discount</th>
                                             <th class="text-end">TOTAL</th>
                                         </tr>
@@ -149,10 +149,10 @@
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td class="d-none d-sm-table-cell">{{$bill->description}}</td>
+                                            <td class="d-none d-sm-table-cell">{{$bill->billFor->item_name}}</td>
                                             <td>{{$bill->total_employee}}</td>
-                                            <td>{{$bill->amount}}</td>
                                             <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td>
+                                            <td>{{$bill->amount}}</td>
                                             <td>{{$bill->discount_amount}}</td>
                                             {{-- <td class="text-end">{{$bill->total_amount}}</td> --}}
                                             <td class="text-end">

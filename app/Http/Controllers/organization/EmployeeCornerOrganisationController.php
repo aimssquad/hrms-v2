@@ -846,7 +846,8 @@ class EmployeeCornerOrganisationController extends Controller
                 $path = $request->file('doc_image')->store('leave-apply', 'public'); 
             } else {
                 $path = "";
-            }   
+            } 
+            //dd('okk');  
             if ($request->leave_inhand >= $request->days) {
                 $data["employee_id"] = $request->employee_id;
                 $data["employee_name"] = $request->employee_name;
@@ -870,7 +871,7 @@ class EmployeeCornerOrganisationController extends Controller
                 Session::flash("message", "Leave Apply Successfully..!.");
                 return redirect("org-employee-corner/leave-apply");
             } else {
-                Session::flash("Leave_msg", "Sorry, No Leave Available");
+                Session::flash("message", "Sorry, No Leave Available");
                 return redirect("org-employee-corner/leave-apply");
             }
         } else {

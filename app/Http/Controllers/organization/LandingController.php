@@ -564,6 +564,7 @@ class LandingController extends Controller
 
     public function Doforgot(Request $request)
     {
+        //dd($request->all());
         $Employee = DB::table("users")
             ->where("email", "=", $request->email)
             ->where("status", "=", "active")

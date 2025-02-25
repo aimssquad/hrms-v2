@@ -27,4 +27,12 @@ class Subadmin_bill extends Model
         'payment_document',
         'status',
     ];
+
+    public function billFor() {
+        return $this->belongsTo(BillingItem::class,'bill_for');
+    }
+
+    public function company() {
+        return $this->belongsTo(User::class, 'entity_id', 'employee_id');
+    }
 }

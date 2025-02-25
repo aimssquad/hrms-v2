@@ -28,7 +28,7 @@ Route::middleware(['auth:api'])->group(function () {
 });
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
-    Route::get('leave',[LeaveController::class,'leave']);
+    Route::post('leave',[LeaveController::class,'leave']);
     Route::get('leave-type',[LeaveController::class,'leave_type']);
     Route::post('leave-in-hand',[LeaveController::class, 'leave_in_hand']);
     Route::post('leave-apply',[LeaveController::class, 'leaveApply']);

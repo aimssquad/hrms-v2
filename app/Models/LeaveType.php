@@ -9,4 +9,6 @@ class LeaveType extends Model
 {
     use HasFactory;
     protected $table="leave_type";
+
+    
 }

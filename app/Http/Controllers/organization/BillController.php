@@ -15,9 +15,10 @@ class BillController extends Controller
     public function billingList(Request $request){
         $email = Session::get('empsu_email');
         if(!empty($email)){
-            $billing_list = Subadmin_bill::where('org_code', '')
+            $billing_list = Subadmin_bill::with('billFor','company')->where('org_code', '')
                 ->orWhereNull('org_code')
                 ->get();
+            //dd($billing_list);    
             return view ('admin/billing/new_billing_list',compact('billing_list'));
         } else {
             redirect('superadmin');
@@ -428,7 +429,8 @@ class BillController extends Controller
         $email = Session::get('empsu_email');
         if(!empty($email)){
            //dd($id);
-           $data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
+           //$data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
+           $data['bill'] = Subadmin_bill::with('billFor')->where('id',$id)->first();
            //dd($data['bill']);
            if($data['bill']->billing_type == 'employer'){
                 $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
@@ -653,6 +655,16 @@ class BillController extends Controller
 
     public function notIssuedBills(Request $request){
         return view('admin.billing.invoice-not-issued-org');
+    }
+
+    public function showItem(Request $request){
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $billing_rule = BillingRule::all();
+            return view ('admin/billing/billing_rule_list',compact('billing_rule'));
+        } else {
+            redirect('superadmin');
+        }
     }
 
 

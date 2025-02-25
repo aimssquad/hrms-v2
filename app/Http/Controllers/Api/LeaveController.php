@@ -20,10 +20,15 @@ class LeaveController extends Controller
     public function leave(Request $request){
         try {
             if (auth()->check()) {
+                $fromDate = $request->from_date;
+                $toDate = $request->to_date;
                 $employeeId = auth()->user()->employee_id;
-                $data = LeaveApply::where('employee_id',$employeeId)->get();
-                //$data = json_decode(json_encode($data), true);
-                //dd($data);
+                $query = LeaveApply::with('leaveType')->where('employee_id',$employeeId);
+                if (!empty($fromDate) && !empty($toDate)) {
+                    $query->whereBetween('from_date', [$fromDate, $toDate]);
+                }
+                $data = $query->get();
+  
                 $data->transform(function ($item) {
                     return collect($item)->map(function ($value) {
                         return $value === null ? "" : $value;

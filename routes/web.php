@@ -16,6 +16,9 @@ use App\Http\Controllers\organization\OrganizationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Notice\NoticeController;
 use App\Http\Controllers\MobileMenuController;
+use App\Http\Controllers\Billing\BillingItemController;
+use App\Http\Controllers\Billing\BillingController;
+use App\Http\Controllers\Billing\InvoiceRuleController;
 
 
 /*
@@ -36,6 +39,7 @@ Route::get('register-email', function () {
 // new route
 //------------------------------- Billing 
 Route::get('superadmin/add-billing2', 'App\Http\Controllers\AdminController@addbillng2');
+Route::get('superadmin/add-billing3', 'App\Http\Controllers\AdminController@addbillng3');
 Route::get('/get-entities', 'App\Http\Controllers\AdminController@getEntities')->name('get.entities');
 Route::get('/get-user-details','App\Http\Controllers\AdminController@getUserDetails')->name('get.user.details');
 Route::post('superadmin/bills/store', 'App\Http\Controllers\organization\BillController@store')->name('bills.store');
@@ -56,6 +60,26 @@ Route::get('/partner/billing/edit/{id}', 'App\Http\Controllers\organization\Bill
 Route::post('partner/bills/update/{id}', 'App\Http\Controllers\organization\BillController@updatePartnerBilling')->name('partner.billing.update');
 
 Route::get('superadmin/partner-not-issued-billing-list', 'App\Http\Controllers\organization\BillController@partnerNotIssuedBills')->name('partnerNotIssuedBills');
+
+// Route::get('superadmin/show-item',[BillingItemController::class,'index'])->name('billingItem');
+// Route::get('/superadmin/billing-item/create',[BillingItemController::class,'create'])->name('billingItem.create');
+Route::prefix('superadmin/billing_item')->group(function () {
+    Route::get('/', [BillingItemController::class, 'index'])->name('billing_item.index');
+    Route::get('/create', [BillingItemController::class, 'create'])->name('billing_item.create');
+    Route::post('/store', [BillingItemController::class, 'store'])->name('billing_item.store');
+    Route::get('/edit/{id}', [BillingItemController::class, 'edit'])->name('billing_item.edit');
+    Route::post('/update/{id}', [BillingItemController::class, 'update'])->name('billing_item.update');
+    Route::get('/delete/{id}', [BillingItemController::class, 'destroy'])->name('billing_item.destroy');
+});
+
+Route::prefix('admin/invoice_rule')->group(function () {
+    Route::get('/', [InvoiceRuleController::class, 'index'])->name('admin.rule.index');
+    Route::get('/create', [InvoiceRuleController::class, 'create'])->name('admin.rule.create');
+    Route::post('/store', [InvoiceRuleController::class, 'store'])->name('admin.rule.store');
+    Route::get('/edit/{id}', [InvoiceRuleController::class, 'edit'])->name('admin.rule.edit');
+    Route::post('/update/{id}', [InvoiceRuleController::class, 'update'])->name('admin.rule.update');
+    Route::get('/delete/{id}', [InvoiceRuleController::class, 'destroy'])->name('admin.rule.destroy');
+});
 
 Route::get('superadmin/show-rule','App\Http\Controllers\organization\BillController@showRule')->name('bill.show-rule');
 Route::get('superadmin/billing-rule','App\Http\Controllers\organization\BillController@getRule')->name('bill.rule');

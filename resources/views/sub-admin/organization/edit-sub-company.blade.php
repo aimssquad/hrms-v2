@@ -1296,4 +1296,24 @@
    }
    
 </script>
+<script>
+   $('#selectFloatingLabel').change(function() {
+        $('.write-type').hide();
+        $('#' + $(this).val()).show();
+   });
+   
+   $('#selectFloatingLabel3').change(function() {
+   if($('#selectFloatingLabel3').val()=='active'){
+   $('#dvInactiveRemarks').hide();
+   $('#inactive_remarks').prop('required', false);
+   }else{
+   $('#inactive_remarks').prop('required', true);
+   $('#dvInactiveRemarks').show();
+   }
+       
+   });
+   
+   
+   
+</script>
 @endsection

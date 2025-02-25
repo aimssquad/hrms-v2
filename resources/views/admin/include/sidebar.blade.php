@@ -346,6 +346,11 @@ $userType = Session::get('usersu_type');
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('billing_item.index') }}">
+                                        <span class="sub-item">Billing Item</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{url('superadmin/show-rule')}}">
                                         <span class="sub-item">Billing Rule</span>
                                     </a>

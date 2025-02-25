@@ -43,6 +43,7 @@ use App\Question;
 use App\BillingRemark;
 use App\Models\fileManager;
 use App\Models\UserModel;
+use App\Models\BillingItem;
 
 class AdminController extends Controller
 {
@@ -3993,8 +3994,8 @@ class AdminController extends Controller
                     $org_code ='';
                 }
                 $data['companies_rs'] = DB::table('registration')
-                ->where('status', '=', 'active')
-                ->where('verify', '=', 'not approved')
+                ->where('status', '=', 'inactive')
+                ->where('verify', '=', 'approved')
                 ->where('licence', '=', 'no')
                ->where(function($query) use ($org_code) {
                     if ($org_code !== '') {
@@ -5639,7 +5640,7 @@ class AdminController extends Controller
 
     public function saveCompany(Request $request)
     {
-        
+        //dd($request->all());
         try {
             $email = Session::get('empsu_email');
             $userType = Session::get('usersu_type');
@@ -5679,7 +5680,7 @@ class AdminController extends Controller
                     );
                     DB::table('registration')->where('reg', $request->reg)->update($data);
                 } else {
-                    
+                  //dd('not');  
                     $data = array(
                         'status' => $request->status,
                         'verify' => $request->verify,
@@ -19769,7 +19770,7 @@ class AdminController extends Controller
     
     public function saveSubChildCompany(Request $request)
     {
-        //dd($request->reg);
+        //dd($request->all());
         //dd($request->reg);
         try {
             $email = Session::get('empsu_email');
@@ -21022,6 +21023,70 @@ class AdminController extends Controller
         }
     }
 
+    public function addbillng3()
+    {
+        try {
+            $email = Session::get('empsu_email');
+
+            $userType = Session::get('usersu_type');
+
+            if (!empty($email)) {
+
+                if ($userType == 'user') {
+                    $arrrole = Session::get('empsu_role');
+                    if (!in_array('4', $arrrole)) {
+                        throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
+                    }
+                }
+
+                //All Bills
+                $data['bill_rs'] = DB::Table('billing')->get();
+                //dd($data['bill_rs']);
+                //organisation details
+                $data['or_de'] = DB::Table('registration')
+                    ->where('status', '=', 'active')
+                    ->where('verify', '=', 'approved')
+                    //->where('licence', '=', 'yes')
+                    ->get();
+
+                // $data['candidate_rs'] = DB::Table('invoice_candidates')
+                //     ->where('status', '=', 'A')
+                //     ->get();
+
+                //hired candidate list
+                $data['candidate_rs'] = DB::Table('candidate')
+                    ->where('status', '=', 'Hired')
+                    ->get();
+
+                //dd($data['or_de']);
+
+                $userlist = array();
+                foreach ($data['bill_rs'] as $user) {
+                    $userlist[] = $user->emid;
+                }
+
+                $data['package_rs'] = DB::Table('package')
+                    ->where('status', '=', 'active')
+                    ->get();
+
+                $data['tax_rs'] = DB::Table('tax_bill')
+                    ->where('status', '=', 'active')
+                    ->get();
+                    $data['items'] = BillingItem::all();    
+                if($userType=='sub-admin'){
+                    return view('sub-admin/billing/billing-add-new', $data);
+                }   
+                //dd($data); 
+                return View('admin/invoice/billing-add-new2', $data);
+
+            } else {
+                return redirect('superadmin');
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\AdminException($e->getMessage());
+        }
+    }
+
     public function getEntities(Request $request)
     {
         //dd('okk');
@@ -21036,49 +21101,124 @@ class AdminController extends Controller
         return response()->json($entities);
     }
 
+    // public function getUserDetails(Request $request)
+    // {
+    //     $billing_month = $request->billingMonth;
+    //     $billingType = $request->billingType;
+    //     $userId = $request->user_id;
+    //     //dd($userId);
+    //     //$user = DB::table('users')->where('emid', $userId)->first();
+    //     //dd($user->employee_id);
+    //     if ($billingType == 'sub-admin') {
+        
+    //         $org_code = Db::table('sub_admin_registrations')->where('reg', $userId)->first();
+      
+    //         $organizations = DB::table('registration')
+    //             ->where('status', 'active')
+    //             //->where('verify', 'approved')
+    //             ->where('org_code', $org_code->org_code)
+    //             ->pluck('reg');  
+    //         //dd($organizations);
+    //             $totalEmployee = DB::table('employee')
+    //             ->whereIn('emid', $organizations)  // Use the collection directly here
+    //             ->count();
+
+    //         // Get the employee charge for this subadmin (optional: customize as needed)
+    //         $amount = DB::table('rule_table')
+    //         ->where('entity_id', $org_code->reg )
+    //         ->where('type','sub-admin')
+    //         ->first();
+    //         //dd($amount->employee_charge);
+    //         // Check if no record is found and use default entity_id
+    //         if ($amount === null) {
+    //             $amount = DB::table('rule_table')
+    //                 ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
+    //                 ->where('type', 'sub-admin')
+    //                 ->first();
+    //         }
+    //         // Calculate the total amount if employee charge exists
+    //         if ($amount !== null) {
+    //             $totalAmount = $amount->employee_charge * $totalEmployee;
+    //             return response()->json([
+    //                 'amount' => $totalAmount,
+    //                 'total_employee' => $totalEmployee
+    //             ]);
+    //         } else {
+    //             return response()->json([
+    //                 'message' => 'No employee charge found',
+    //                 'total_employee' => $totalEmployee
+    //             ]);
+    //         }
+    //     } else {
+    //         //$user = DB::table('users')->where('emid', $userId)->first();
+    //         // Direct employee count for non sub-admins
+    //         $totalEmployee = DB::table('employee')
+    //             ->where('emid', $userId)
+    //             ->count();
+
+    //         $amount = DB::table('rule_table')
+    //             ->where('entity_id', $userId)
+    //             ->value('employee_charge');
+    //         if ($amount === null) {
+    //             $amount = DB::table('rule_table')
+    //                 ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
+    //                 ->where('type', 'employer')
+    //                 ->value('employee_charge');
+    //         }    
+
+    //         if ($amount !== null) {
+    //             $totalAmount = $amount * $totalEmployee;
+    //             return response()->json([
+    //                 'amount' => $totalAmount,
+    //                 'total_employee' => $totalEmployee
+    //             ]);
+    //         } else {
+    //             return response()->json([
+    //                 'message' => 'No employee charge found',
+    //                 'total_employee' => $totalEmployee
+    //             ]);
+    //         }
+    //     }
+    // }
+
     public function getUserDetails(Request $request)
     {
         $billing_month = $request->billingMonth;
         $billingType = $request->billingType;
         $userId = $request->user_id;
-        //dd($userId);
-        //$user = DB::table('users')->where('emid', $userId)->first();
-        //dd($user->employee_id);
+        $billFor = $request->bill_for; // Get bill_for value
+
+        // Decide which table to use based on bill_for value
+        $tableToUse = ($billFor == 1) ? 'rule_table' : 'rule2_table';
+
         if ($billingType == 'sub-admin') {
-            // Get the subadmin's employee_id to find linked organizations
-            //$subadminId = $user->employee_id;
-            //dd('okk');
-            $org_code = Db::table('sub_admin_registrations')->where('reg', $userId)->first();
-            //
-            //dd($org_code->org_code);
-            // Retrieve all active, approved organizations linked to this subadmin
+            $org_code = DB::table('sub_admin_registrations')->where('reg', $userId)->first();
+
             $organizations = DB::table('registration')
                 ->where('status', 'active')
-                //->where('verify', 'approved')
                 ->where('org_code', $org_code->org_code)
-                ->pluck('reg');  // Get org_codes of these organizations
-            //dd($organizations);
-                $totalEmployee = DB::table('employee')
-                ->whereIn('emid', $organizations)  // Use the collection directly here
-                ->count();
-            
-            // Output or return the total employee count
-            //dd($subadminId);
+                ->pluck('reg');
 
-            // Get the employee charge for this subadmin (optional: customize as needed)
-            $amount = DB::table('rule_table')
-            ->where('entity_id', $org_code->reg )
-            ->where('type','sub-admin')
-            ->first();
-            //dd($amount->employee_charge);
-            // Check if no record is found and use default entity_id
+            // $totalEmployee = DB::table('employee')
+            //     ->whereIn('emid', $organizations)
+            //     ->count();
+            $totalEmployee = DB::table('users')
+                ->where('status','active')
+                ->whereIn('emid', $organizations)
+                ->count();
+
+            $amount = DB::table($tableToUse) // Use the selected table
+                ->where('entity_id', $org_code->reg)
+                ->where('type', 'sub-admin')
+                ->first();
+
             if ($amount === null) {
-                $amount = DB::table('rule_table')
-                    ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
+                $amount = DB::table($tableToUse)
+                    ->where('entity_id', 'DEFULT')
                     ->where('type', 'sub-admin')
                     ->first();
             }
-            // Calculate the total amount if employee charge exists
+
             if ($amount !== null) {
                 $totalAmount = $amount->employee_charge * $totalEmployee;
                 return response()->json([
@@ -21092,18 +21232,22 @@ class AdminController extends Controller
                 ]);
             }
         } else {
-            //$user = DB::table('users')->where('emid', $userId)->first();
-            // Direct employee count for non sub-admins
-            $totalEmployee = DB::table('employee')
+            // $totalEmployee = DB::table('employee')
+            //     ->where('emid', $userId)
+            //     ->where('status','active')
+            //     ->count();
+            $totalEmployee = DB::table('users')
                 ->where('emid', $userId)
+                ->where('status','active')
                 ->count();
 
-            $amount = DB::table('rule_table')
+            $amount = DB::table($tableToUse)
                 ->where('entity_id', $userId)
                 ->value('employee_charge');
+
             if ($amount === null) {
-                $amount = DB::table('rule_table')
-                    ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
+                $amount = DB::table($tableToUse)
+                    ->where('entity_id', 'DEFULT')
                     ->where('type', 'employer')
                     ->value('employee_charge');
             }    
@@ -21122,6 +21266,7 @@ class AdminController extends Controller
             }
         }
     }
+
 
     public function getUserDtl(Request $request)
     {

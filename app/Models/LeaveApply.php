@@ -9,4 +9,8 @@ class LeaveApply extends Model
 {
     use HasFactory;
     protected $table= "leave_apply";
+
+    public function leaveType(){
+        return $this->belongsTo(LeaveType::class,'leave_type');
+    }
 }

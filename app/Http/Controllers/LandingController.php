@@ -131,7 +131,7 @@ class LandingController extends Controller
             Session::flash("message", "Invalid input");
             return redirect("register");
         }    
-       // dd($request->all());
+        //dd($request->all());
         $eml = [];
         if ($request->email != "") {
             $eml = explode(".", $request->email);
@@ -187,6 +187,7 @@ class LandingController extends Controller
                         "reg" => $pid,
                         "email" => $request->email,
                         "organ_email" => $request->email,
+                        "domain_name" => $request->domain_name,
 
                         "status" => "active",
                         "verify" => "not approved",

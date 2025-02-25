@@ -78,15 +78,17 @@
                                    <tr>
                                       <td>{{$loop->iteration}}</td>
                                       <td><a href="{{ route('admin.billing.invoice', $billing->id) }}">{{$billing->invoice_no}}</a></td>
-                                      <td>{{$billing->bill_for}}</td>
-                                      <td>{{ \Carbon\Carbon::parse($billing->date)->format('d-m-Y') }}</td>
-                                      <td>{{$billing->billing_type}}</td>
-                                      <td>{{$billing->entity_id}}</td>
-                                      <td>{{$billing->amount}}</td>
-                                      <td>{{$billing->total_employee}}</td>
-                                      <td>{{$billing->vat}}</td>
-                                      <td>{{$billing->total_amount}}</td>
-                                      <td>{{$billing->payment_mode}}</td>
+                                      {{-- <td>{{$billing->bill_for}}</td> --}}
+                                      <td>{{$billing->billFor->item_name ?? 'NA'}}</td>
+                                      <td>{{ \Carbon\Carbon::parse($billing->date)->format('d-m-Y')  ?? 'NA'}}</td>
+                                      <td>{{$billing->billing_type  ?? 'NA'}}</td>
+                                      <td>{{$billing->company->name  ?? 'NA'}}</td>
+                                      {{-- <td>{{$billing->entity_id}}</td> --}}
+                                      <td>{{$billing->amount  ?? 'NA'}}</td>
+                                      <td>{{$billing->total_employee  ?? 'NA'}}</td>
+                                      <td>{{$billing->vat ?? 'NA'}}</td>
+                                      <td>{{$billing->total_amount  ?? 'NA'}}</td>
+                                      <td>{{$billing->payment_mode  ?? 'NA'}}</td>
                                       <td>{{$billing->payment_dtl ?? 'NA'}}</td>
                                       <td>
                                           @if ($billing->payment_document)
