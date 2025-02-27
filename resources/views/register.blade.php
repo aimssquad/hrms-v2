@@ -170,7 +170,7 @@
                         <form class="container2" action="{{url('register')}}" method="post" enctype="multipart/form-data">
                            {{csrf_field()}}
                            @include('employeer.layout.message')
-                           @if ($domain_name && $domain_name->org_code)
+                           @if ($domain_name && empty($domain_name->org_code))
                            <input type="hidden" class="form-control" name="org_code"  value="{{$domain_name->org_code}}" autocomplete="off" >
                            <input type="hidden" class="form-control" name="subadmin"  value="Organization" autocomplete="off" >
                            @else
@@ -190,7 +190,6 @@
                               <div class="error" style="color:red;">{{ $errors->first('com_name') }}</div>
                               @endif
                            </div>
-                           @if ($domain_name && empty($domain_name->org_code))
                            <div class="input-block mb-2" id="domain">
                                 <label class="col-form-label">Domain Name</label>
                                 <input class="form-control" type="text" name="domain_name" required="" value="{{old('domain_name')}}">
@@ -198,7 +197,6 @@
                                 <div class="error" style="color:red;">{{ $errors->first('domain_name') }}</div>
                                 @endif
                             </div>
-                            @endif
                            <div class="input-block mb-2">
                               <label class="col-form-label">First Name<span class="mandatory">*</span></label>
                               <input class="form-control" type="text" name="f_name" required="" value="{{old('f_name')}}">
