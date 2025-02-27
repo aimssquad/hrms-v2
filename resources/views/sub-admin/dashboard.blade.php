@@ -200,7 +200,7 @@
                                     <div class="url-box">
                                         <i class="fas fa-link"></i>
                                         @if($data->domain_name !='')
-                                        <span id="registrationUrl">{{ $data->domain_name.'/hrms-v2/register/' . $org_code }}</span>
+                                        <span id="registrationUrl">{{ $data->domain_name.'/hrms-v2/register/' }}</span>
                                         @else
                                         <span id="registrationUrl">{{ url('register/' . $org_code) }}</span>
                                         @endif
