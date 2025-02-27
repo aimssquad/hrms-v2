@@ -171,7 +171,7 @@
                            {{csrf_field()}}
                            @include('employeer.layout.message')
                            @if ($domain_name || !empty($org_code))
-                           <input type="hidden" class="form-control" name="org_code"  value="{{$domain_name->org_code}}" autocomplete="off" >
+                           <input type="hidden" class="form-control" name="org_code"  value="{{ $domain_name ? $domain_name->org_code : $org_code }}" autocomplete="off" >
                            <input type="hidden" class="form-control" name="subadmin"  value="Organization" autocomplete="off" >
                            @else
                            <div class="input-block mb-2">
