@@ -8,11 +8,16 @@
       <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
       <title>Register - HRMS</title>
       <!-- Favicon -->
-      @if($domain_name->logo) 
+        @if($domain_name && $domain_name->logo)
+            <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
+        @else
+            <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+        @endif
+      {{-- @if($domain_name->logo) 
       <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
       @else
       <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
-      @endif
+      @endif --}}
       
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">
@@ -152,7 +157,7 @@
                      <div class="login_main_right pt-0">
                         <div class="text-center">
                            <div class="account-logo">
-                              @if($domain_name->logo) 
+                              @if($domain_name &&$domain_name->logo) 
                               <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}"></a>
                               @else
                               <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
