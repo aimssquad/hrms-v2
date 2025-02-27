@@ -157,7 +157,7 @@
                      <div class="login_main_right pt-0">
                         <div class="text-center">
                            <div class="account-logo">
-                              @if($domain_name &&$domain_name->logo) 
+                              @if($domain_name && $domain_name->logo) 
                               <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}"></a>
                               @else
                               <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
@@ -170,8 +170,8 @@
                         <form class="container2" action="{{url('register')}}" method="post" enctype="multipart/form-data">
                            {{csrf_field()}}
                            @include('employeer.layout.message')
-                           @if (!empty($org_code))
-                           <input type="hidden" class="form-control" name="org_code"  value="{{$org_code}}" autocomplete="off" >
+                           @if ($domain_name && $domain_name->org_code)
+                           <input type="hidden" class="form-control" name="org_code"  value="{{$domain_name->org_code}}" autocomplete="off" >
                            <input type="hidden" class="form-control" name="subadmin"  value="Organization" autocomplete="off" >
                            @else
                            <div class="input-block mb-2">
@@ -190,7 +190,7 @@
                               <div class="error" style="color:red;">{{ $errors->first('com_name') }}</div>
                               @endif
                            </div>
-                           @if (empty($org_code))
+                           @if ($domain_name && empty($domain_name->org_code))
                            <div class="input-block mb-2" id="domain">
                                 <label class="col-form-label">Domain Name</label>
                                 <input class="form-control" type="text" name="domain_name" required="" value="{{old('domain_name')}}">
