@@ -3996,8 +3996,8 @@ class AdminController extends Controller
                     $org_code ='';
                 }
                 $data['companies_rs'] = DB::table('registration')
-                ->where('status', '=', 'inactive')
-                ->where('verify', '=', 'approved')
+                ->where('status', '=', 'active')
+                ->where('verify', '=', 'not approved')
                 ->where('licence', '=', 'no')
                ->where(function($query) use ($org_code) {
                     if ($org_code !== '') {
