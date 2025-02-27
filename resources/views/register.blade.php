@@ -6,9 +6,14 @@
       <meta name="description" content="Smarthr - Bootstrap Admin Template">
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
-      <title>Register - HRMS admin template</title>
+      <title>Register - HRMS</title>
       <!-- Favicon -->
+      @if($domain_name->logo) 
+      <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
+      @else
       <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+      @endif
+      
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">
       <!-- Main CSS -->
@@ -147,7 +152,12 @@
                      <div class="login_main_right pt-0">
                         <div class="text-center">
                            <div class="account-logo">
+                              @if($domain_name->logo) 
+                              <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}"></a>
+                              @else
                               <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
+                              @endif
+                              
                            </div>
                            <h3 class="account-title mt-4">Register Here</h3>
                            <!--<p class="account-subtitle">Access to our dashboard</p>-->
@@ -161,7 +171,7 @@
                            @else
                            <div class="input-block mb-2">
                               <label class="col-form-label">Select type<span class="mandatory">*</span></label>
-                              <select class="form-control" name="subadmin"  required="">
+                              <select class="form-control" name="subadmin" id="type" required="">
                                  <option value="">Select type</option>
                                  <option value="Partner">Partner</option>
                                  <option value="Organization">Organization</option>
@@ -175,13 +185,15 @@
                               <div class="error" style="color:red;">{{ $errors->first('com_name') }}</div>
                               @endif
                            </div>
-                           <div class="input-block mb-2">
-                            <label class="col-form-label">Domain Name</label>
-                            <input class="form-control" type="text" name="domain_name" required="" value="{{old('domain_name')}}">
-                            @if ($errors->has('domain_name'))
-                            <div class="error" style="color:red;">{{ $errors->first('domain_name') }}</div>
+                           @if (empty($org_code))
+                           <div class="input-block mb-2" id="domain">
+                                <label class="col-form-label">Domain Name</label>
+                                <input class="form-control" type="text" name="domain_name" required="" value="{{old('domain_name')}}">
+                                @if ($errors->has('domain_name'))
+                                <div class="error" style="color:red;">{{ $errors->first('domain_name') }}</div>
+                                @endif
+                            </div>
                             @endif
-                         </div>
                            <div class="input-block mb-2">
                               <label class="col-form-label">First Name<span class="mandatory">*</span></label>
                               <input class="form-control" type="text" name="f_name" required="" value="{{old('f_name')}}">
@@ -271,60 +283,6 @@
                      </div>
                   </div>
                </div>
-        <!--       <div class="col-sm-6 bg-left_main">-->
-        <!--          <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">-->
-        <!--             <div class="carousel-indicators">-->
-        <!--                @if($videos->isNotEmpty())-->
-        <!--                @foreach($videos as $key => $video)-->
-        <!--                <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-label="Slide {{ $key + 1 }}"></button>-->
-        <!--                @endforeach-->
-        <!--                @else-->
-        <!--                <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>-->
-        <!--                @endif-->
-        <!--             </div>-->
-        <!--             <div class="carousel-inner">-->
-        <!--                @if($videos->isNotEmpty())-->
-        <!--                @foreach($videos as $key => $video)-->
-        <!--                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">-->
-        <!--                   <div class="img_middle">-->
-        <!--                      @if(pathinfo($video->file_path, PATHINFO_EXTENSION) == 'mp4')-->
-        <!--                      <video width="100%" style="padding-top:200px;" controls>-->
-        <!--                         <source src="{{ asset('storage/app/public/' . $video->file_path) }}" type="video/mp4">-->
-        <!--                         Your browser does not support the video tag.-->
-        <!--                      </video>-->
-        <!--                      @else-->
-        <!--                      <img src="{{ asset('storage/app/public/' . $video->file_path) }}" alt="slider">-->
-        <!--                      @endif-->
-        <!--                   </div>-->
-        <!--                   <div class="login_banner_text">-->
-        <!--                      <h2><b>{{ ucfirst($video->file_name) }}</b></h2>-->
-								<!--<p>{{ ucfirst($video->description) }}<p>-->
-        <!--                   </div>-->
-        <!--                </div>-->
-        <!--                @endforeach-->
-        <!--                @else-->
-                        <!-- Default image carousel item if no videos/images are found -->
-        <!--                <div class="carousel-item active">-->
-        <!--                   <div class="img_middle">-->
-        <!--                      <img src="{{ asset('frontend/assets/img/img2.gif') }}" alt="Default Image">-->
-        <!--                   </div>-->
-        <!--                   <div class="login_banner_text">-->
-        <!--                      <h2>No Media Available</h2>-->
-        <!--                      <p>Please check back later for updates.</p>-->
-        <!--                   </div>-->
-        <!--                </div>-->
-        <!--                @endif-->
-        <!--             </div>-->
-        <!--             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">-->
-        <!--             <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-        <!--             <span class="visually-hidden">Previous</span>-->
-        <!--             </button>-->
-        <!--             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">-->
-        <!--             <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-        <!--             <span class="visually-hidden">Next</span>-->
-        <!--             </button>-->
-        <!--          </div>-->
-        <!--       </div>-->
                 <div class="col-sm-6 bg-left_main">
                     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
@@ -382,115 +340,7 @@
             </div>
          </div>
       </div>
-      <!-- Main Wrapper -->
-      <!--     <div class="main-wrapper">-->
-      <!--<div class="account-content">-->
-      <!--	<div class="container">-->
-      <!--		<div class="account-logo">-->
-      <!--			<a href="admin-dashboard.html"><img src="{{asset('frontend/assets/img/swch_logo.png')}}" alt="Dreamguy's Technologies"></a>-->
-      <!--		</div>-->
-      <!--		<div class="account-box">-->
-      <!--			<div class="account-wrapper">-->
-      <!--				<h3 class="account-title">Register Here</h3>-->
-      <!--				{{-- <p class="account-subtitle">Access to our dashboard</p> --}}-->
-      <!--				<form action="{{url('register')}}" method="post" enctype="multipart/form-data">-->
-      <!--                             {{csrf_field()}}-->
-      <!--                             @include('layout.message')-->
-      <!--                                @if (!empty($org_code))-->
-      <!--                                    <input type="hidden" class="form-control" name="org_code"  value="{{$org_code}}" autocomplete="off" >-->
-      <!--                                    <input type="hidden" class="form-control" name="subadmin"  value="Organization" autocomplete="off" >-->
-      <!--                                @else-->
-      <!--                                     <div class="input-block mb-4">-->
-      <!--                                         <label class="col-form-label">Select type<span class="mandatory">*</span></label>-->
-      <!--                                         <select class="form-control" name="subadmin"  required="">-->
-      <!--                                             <option value="">Select type</option>-->
-      <!--                                             <option value="Partner">Partner</option>-->
-      <!--                                             <option value="Organization">Organization</option>-->
-      <!--                                         </select>-->
-      <!--                                    </div>	-->
-      <!--                                @endif-->
-      <!--                             <div class="input-block mb-4">-->
-      <!--						<label class="col-form-label">Organization name<span class="mandatory">*</span></label>-->
-      <!--						<input class="form-control" type="text" placeholder="Organization name" name="com_name"  required="" value="{{old('com_name')}}">-->
-      <!--                                 @if ($errors->has('com_name'))-->
-      <!--                                     <div class="error" style="color:red;">{{ $errors->first('com_name') }}</div>-->
-      <!--                                 @endif-->
-      <!--					</div>-->
-      <!--					<div class="input-block mb-4">-->
-      <!--						<label class="col-form-label">First Name<span class="mandatory">*</span></label>-->
-      <!--						<input class="form-control" type="text" name="f_name" required="" value="{{old('f_name')}}">-->
-      <!--                                 @if ($errors->has('f_name'))-->
-      <!--							<div class="error" style="color:red;">{{ $errors->first('f_name') }}</div>-->
-      <!--					    @endif-->
-      <!--					</div>-->
-      <!--					<div class="input-block mb-4">-->
-      <!--						<label class="col-form-label">Last Name<span class="mandatory">*</span></label>-->
-      <!--						<input class="form-control" type="text" name="l_name" required=""  value="{{old('l_name')}}">-->
-      <!--                                 @if ($errors->has('l_name'))-->
-      <!--							<div class="error" style="color:red;">{{ $errors->first('l_name') }}</div>-->
-      <!--					    @endif-->
-      <!--					</div>-->
-      <!--                             <div class="input-block mb-4">-->
-      <!--						<label class="col-form-label">Email<span class="mandatory">*</span></label>-->
-      <!--						<input class="form-control" type="email" name="email" required="" value="{{old('email')}}">-->
-      <!--                                 @if ($errors->has('email'))-->
-      <!--							<div class="error" style="color:red;">{{ $errors->first('email') }}</div>-->
-      <!--					    @endif-->
-      <!--					</div>-->
-      <!--					<div class="input-block mb-4">-->
-      <!--						<label class="col-form-label">Country<span class="mandatory">*</span></label>-->
-      <!--						<select class="form-control" name="country" id="country" required="">-->
-      <!--							<option value="">Select Country</option>-->
-      <!--							<?php foreach($user_details as $item){ ?>-->
-      <!--								<option value="<?php echo $item->name ?>">{{$item->name}}</option>-->
-      <!--							<?php } ?>-->
-      <!--						</select>-->
-      <!--					</div>-->
-      <!--                             <div class="input-block mb-4">-->
-      <!--						<label class="col-form-label">Country Code<span class="mandatory">*</span></label>-->
-      <!--						<select class="form-control" name="country_code" id="country_code" required="">-->
-      <!--                                     {{-- <option value="">Select Country Code</option> --}}-->
-      <?php //foreach($user_details as $item){ ?>
-      {{-- 
-      <option value="<?php// echo '+'.$item->phonecode ?>">+{{$item->phonecode}}</option>
-      --}}
-      <?php // } ?>
-      <!--                                 </select>-->
-      <!--					</div>-->
-      <!--                             <div class="input-block mb-4">-->
-      <!--						<label class="col-form-label">Your Contact Number<span class="mandatory">*</span></label>								-->
-      <!--						<input class="form-control" type="text" name="p_no" required="" value="{{old('p_no')}}">-->
-      <!--                                 @if ($errors->has('p_no'))-->
-      <!--							<div class="error" style="color:red;">{{ $errors->first('p_no') }}</div>-->
-      <!--					    @endif-->
-      <!--					</div>-->
-      <!--                             <div class="input-block mb-4">-->
-      <!--						<label class="col-form-label">Password<span class="mandatory">*</span></label>-->
-      <!--						<input class="form-control" type="text" name="pass" required="">-->
-      <!--                                 @if ($errors->has('pass'))-->
-      <!--							<div class="error" style="color:red;">{{ $errors->first('pass') }}</div>-->
-      <!--					    @endif-->
-      <!--					</div>-->
-      <!--                             <div class="input-block mb-4">-->
-      <!--						<label class="col-form-label">Repeat Password<span class="mandatory">*</span></label>-->
-      <!--						<input class="form-control" type="text" name="con_password" required="">-->
-      <!--                                 @if ($errors->has('con_password'))-->
-      <!--							<div class="error" style="color:red;">{{ $errors->first('con_password') }}</div>-->
-      <!--					    @endif-->
-      <!--					</div>-->
-      <!--					<div class="input-block mb-4 text-center">-->
-      <!--						<button class="btn btn-primary account-btn" type="submit">Register</button>-->
-      <!--					</div>-->
-      <!--					<div class="account-footer">-->
-      <!--						<p>Already have an account? <a href="{{ url('/') }}">Login</a></p>-->
-      <!--					</div>-->
-      <!--				</form>-->
-      <!--			</div>-->
-      <!--		</div>-->
-      <!--	</div>-->
-      <!--</div>-->
-      <!--     </div>-->
-      <!-- /Main Wrapper -->
+     
       <!-- jQuery -->
       <script src="{{asset('frontend/assets/js/jquery-3.7.1.min.js')}}"></script>
       <!-- Bootstrap Core JS -->
@@ -573,6 +423,26 @@
                     termsError.textContent = 'You must agree to both the Privacy Policy and Terms of Use before submitting.';
                     event.preventDefault(); // Prevent form submission
                 }
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                // Function to toggle the domain div
+                function toggleDomainField() {
+                    if ($("#type").val() === "Partner") {
+                        $("#domain").show(); // Show the div
+                    } else {
+                        $("#domain").hide(); // Hide the div
+                    }
+                }
+            
+                // Call the function on page load
+                toggleDomainField();
+            
+                // Call the function when the dropdown value changes
+                $("#type").change(function() {
+                    toggleDomainField();
+                });
             });
         </script>
         

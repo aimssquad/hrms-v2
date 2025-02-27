@@ -5889,6 +5889,8 @@ Route::post('subadmin/update/profile', 'App\Http\Controllers\SubadminController@
 //-------------------------Superadmin --------------------
 Route::get('subadmin/edit-sub-company/{comp_id}', 'App\Http\Controllers\AdminController@viewSubAddCompany');
 Route::post('subadmin/editsubcompany', 'App\Http\Controllers\AdminController@saveSubCompany');
+
+Route::get('subadmin/partner-emmployee-count', 'App\Http\Controllers\AdminController@getPartnerEmployee');
 //--------------------------
 //-------------------------------------Sub Admin Billing---------------------------------------
 Route::get('sub-admin/billing/dashboard','App\Http\Controllers\organization\SubadminBillController@dashboard')->name('subadmin.billing.dashboard');

@@ -15,4 +15,14 @@ class Registration extends Model
         return $this->hasMany(MobileOrganizationMenu::class, 'organization_id', 'id');
     }
 
+    public function activeEmployees()
+    {
+        return $this->hasMany(User::class, 'emid', 'reg')->where('status', 'active');
+    }
+    
+    public function inactiveEmployees()
+    {
+        return $this->hasMany(User::class, 'emid', 'reg')->where('status', 'inactive');
+    }
+
 }

@@ -311,9 +311,10 @@ class SubadminController extends Controller
             }
         } else {
             return redirect('subadmin');
-        }
-       
+        }   
     }
+
+
 
 
 

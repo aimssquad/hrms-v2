@@ -37,38 +37,33 @@ class LandingController extends Controller
     //     return view("forgot-password");
     // }
 
-    // public function register($org_code = null)
-    // {
-    //     // $data = array('to_name' => 'Subho', 'body_content' => 'This is mail testing local');
-
-    //     // $toemail = 'm.subhasish@gmail.com';
-    //     // Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
-    //     //     $message->to($toemail, 'Workpermitcloud')->subject
-    //     //         ('Organisation   Details');
-    //     //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
-    //     // });
-    //     if($org_code !== null){
-    //         $data['org_code']=$org_code;
-    //     }
-        
-
-    //     $data['user_details']=DB::table('country')->get();
-    //     //dd($data);
-    //     return view("register",$data);
-    // }
+  
     
     public function register($org_code = null)
     {
-            // Fetch all videos and images from the table
+        $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+        // Extract only the domain name and store it in a variable
+        $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+
+        // echo "Base URL: " . $baseUrl . "<br>";
+        // echo "Domain Name: " . $domainName;
+        $data = [];
+        if ($domainName != 'skilledworkerscloud.co.uk' && $domainName != 'swcworlds.com') {
+            // Fetch the domain from the database
+            $domain = DB::table('sub_admin_registrations')->where('domain_name', $domainName)->first();
+    
+            // Set the domain name in the data array
+            if ($domain) {
+                $data['domain_name'] = $domain;
+            } else {
+                $data['domain_name'] = null; // Set to null if no domain is found
+            }
+        } else {
+            $data['domain_name'] = null; // Set to null if domain is excluded
+        }
             $videos = DB::table('register_page_image')
             ->orderBy('slide_order', 'asc')
             ->get();
-            //dd($videos);
-            // Check if there are any videos/images
-       
-                // Fetch additional data if needed (org_code and user details)
-                //$org_code = $request->get('org_code'); // Assuming org_code is passed via request
-                $data = []; // Initialize data array
                 
                 if ($org_code !== null) {
                     $data['org_code'] = $org_code;
@@ -81,8 +76,6 @@ class LandingController extends Controller
                 
                 // Return the view with all data
                 return view('register', $data);
-     
-     
     }
     
     public function getCountryCode(Request $request)
@@ -187,8 +180,7 @@ class LandingController extends Controller
                         "reg" => $pid,
                         "email" => $request->email,
                         "organ_email" => $request->email,
-                        "domain_name" => $request->domain_name,
-
+            
                         "status" => "active",
                         "verify" => "not approved",
                         "licence" => "no",
@@ -320,6 +312,7 @@ class LandingController extends Controller
                         "reg" => $pid,
                         "email" => $request->email,
                         "organ_email" => $request->email,
+                        "domain_name" => $request->domain_name,
 
                         "status" => "active",
                         "verify" => "not approved",
@@ -333,7 +326,7 @@ class LandingController extends Controller
                         "created_at" => date("Y-m-d h:i:s"),
                     ];
 
-                    // dd($datareg);
+                     //dd($datareg);
                     DB::table("sub_admin_registrations")->insert($datareg);
 
                     $datauser = [
@@ -589,7 +582,10 @@ class LandingController extends Controller
                         Session::put("emid",$Employee->employee_id);
                     }
                 } else {
-                    
+                    if($Employee->user_type == "sub-admin"){
+                        Session::flash("error", "Your email or password was wrong!!");
+                        return redirect("subadmin");
+                    }
                     //emid=$Employee->emid
                     //check for subscription
                     $subsCnt = DB::Table("subscriptions")

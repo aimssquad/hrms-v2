@@ -44,6 +44,8 @@ use App\BillingRemark;
 use App\Models\fileManager;
 use App\Models\UserModel;
 use App\Models\BillingItem;
+use App\Models\SubadminRegistration;
+use App\Models\Registration;
 
 class AdminController extends Controller
 {
@@ -1373,7 +1375,7 @@ class AdminController extends Controller
                         ->whereIn('emid', $regValues)
                         ->where('verify_status','not approved')
                         ->count();    
-                    //dd($data['total_employee_count']);
+                    //dd($data['org_code']->domain_name);
                     return view('sub-admin.dashboard', $data);
                 }
                 return View('admin/dashboard', $data);
@@ -19896,14 +19898,12 @@ class AdminController extends Controller
     {
         // try {
         //dd($request->all());
-        // dd($request->reg);
             $userType = Session::get('usersu_type');
             $email = Session::get('empsu_email');
-            //$org_code = Session::get('org_code');
             $randomOrgCode = $this->generateKey();
-            //dd($userType);
+            //$randomOrgCode = $request->domain_name;
             if (!empty($email)) {
-                //dd('okk');
+                dd($randomOrgCode);
                 $email = Session::get('empsu_email');
 
                 if ($request->status == 'active' && $request->verify == 'approved' && $request->licence == 'no') {
@@ -21452,6 +21452,35 @@ class AdminController extends Controller
                 return redirect('/');  
             }
         } else {
+            return redirect('superadmin'); 
+        }
+    }
+
+    public function getPartnerEmployee(Request $request){
+        if(!empty(Session::get('empsu_email'))){
+            $userType = Session::get('usersu_type');
+            if($userType == 'admin'){
+                //$registrations = Registration::with('partner')->get();
+                $subadmins = SubadminRegistration::with(['organizations' => function ($query) {
+                    $query->withCount([
+                        'activeEmployees as active_count',
+                        'inactiveEmployees as inactive_count'
+                    ]);
+                }])
+                ->where('status', 'active')
+                ->where('verify', 'approved')
+                ->get();
+                
+                // Debugging
+                //dd($subadmins->toArray());
+                
+                // dd($subadmins);
+                return view('admin.partner-employee-count',compact('subadmins'));
+            } else {
+                return redirect('/');  
+            }
+        
+        } else{
             return redirect('superadmin'); 
         }
     }

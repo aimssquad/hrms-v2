@@ -199,7 +199,11 @@
                                 <div class="url-container">
                                     <div class="url-box">
                                         <i class="fas fa-link"></i>
+                                        @if($data->domain_name !='')
+                                        <span id="registrationUrl">{{ $data->domain_name.'/hrms-v2/register/' . $org_code }}</span>
+                                        @else
                                         <span id="registrationUrl">{{ url('register/' . $org_code) }}</span>
+                                        @endif
                                         <button class="copy-btn" id="copyButton" onclick="copyToClipboard()">
                                         <i class="fas fa-clipboard"></i>
                                             Copy
