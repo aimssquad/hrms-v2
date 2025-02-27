@@ -170,7 +170,7 @@
                         <form class="container2" action="{{url('register')}}" method="post" enctype="multipart/form-data">
                            {{csrf_field()}}
                            @include('employeer.layout.message')
-                           @if ($domain_name && empty($domain_name->org_code))
+                           @if ($domain_name)
                            <input type="hidden" class="form-control" name="org_code"  value="{{$domain_name->org_code}}" autocomplete="off" >
                            <input type="hidden" class="form-control" name="subadmin"  value="Organization" autocomplete="off" >
                            @else
