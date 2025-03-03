@@ -301,7 +301,7 @@
                             
                         </div>
                         <div class="carousel-inner">
-                            @if($domain_name == 'skilledworkerscloud.co.uk')
+                            @if($domain_name == 'skilledworkerscloud.co.uk' || $domain_name2 == 'swcworlds.com') 
                                 @if($videos->isNotEmpty())
                                     @foreach($videos as $key => $video)
                                         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
