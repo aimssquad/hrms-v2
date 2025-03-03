@@ -154,7 +154,8 @@
                         <div class="text-center">
                            <div class="account-logo">
                             @if($domain_name && $domain_name->logo) 
-                            <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}"></a>
+                            <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}"  
+                                width="175" height="75"></a>
                             @else
                             <a href="#"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
                             @endif
