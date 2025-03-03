@@ -35,8 +35,7 @@ class LandingController extends Controller
             }
            
         } else {
-            $data['domain_name'] = 'skilledworkerscloud.co.uk';
-            $data['domain_name2'] = 'swcworlds.com';
+            $data['domain_name'] = null; 
             //dd($data);
         }
 
@@ -82,8 +81,7 @@ class LandingController extends Controller
                 $data['domain_name'] = null; // Set to null if no domain is found
             }
         } else {
-            $data['domain_name'] = 'skilledworkerscloud.co.uk';
-            $data['domain_name2'] = 'swcworlds.com'; 
+            $data['domain_name'] = null; 
         }
             $videos = DB::table('register_page_image')
             ->orderBy('slide_order', 'asc')
