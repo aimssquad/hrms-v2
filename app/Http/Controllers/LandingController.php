@@ -289,28 +289,28 @@ class LandingController extends Controller
                         "web"  => env('BASE_URL'),
                     ];
                     //dd($data);
-                    if(!empty($request->org_code)){
-                        $org_code = $request->org_code;
-                        $toemail = $request->email;
-                        Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
-                            $message
-                                ->to($toemail, env('MAIL_FROM_NAME'))
-                                ->subject(
-                                    "Welcome to $sub_comname "
-                                );
-                            $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                        });
-                    } else{
-                        $toemail = $request->email;
-                        Mail::send("register-email", $data, function ($message) use ($toemail) {
-                            $message
-                                ->to($toemail, env('MAIL_FROM_NAME'))
-                                ->subject(
-                                    "Welcome to SWC HRMS. Your Organization Registration is Successful!"
-                                );
-                            $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                        });
-                    }
+                    // if(!empty($request->org_code)){
+                    //     $org_code = $request->org_code;
+                    //     $toemail = $request->email;
+                    //     Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
+                    //         $message
+                    //             ->to($toemail, env('MAIL_FROM_NAME'))
+                    //             ->subject(
+                    //                 "Welcome to $sub_comname "
+                    //             );
+                    //         $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                    //     });
+                    // } else{
+                    //     $toemail = $request->email;
+                    //     Mail::send("register-email", $data, function ($message) use ($toemail) {
+                    //         $message
+                    //             ->to($toemail, env('MAIL_FROM_NAME'))
+                    //             ->subject(
+                    //                 "Welcome to SWC HRMS. Your Organization Registration is Successful!"
+                    //             );
+                    //         $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                    //     });
+                    // }
                   
 
                 
@@ -421,14 +421,14 @@ class LandingController extends Controller
                         "web"  => env('BASE_URL'),
                     ];
                     $toemail = $request->email;
-                    Mail::send("register-email", $data, function ($message) use ($toemail) {
-                        $message
-                            ->to($toemail, env('MAIL_FROM_NAME'))
-                            ->subject(
-                                "Welcome to SWC HRMS. Your Partner Organization Registration is Successful!"
-                            );
-                        $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                    });
+                    // Mail::send("register-email", $data, function ($message) use ($toemail) {
+                    //     $message
+                    //         ->to($toemail, env('MAIL_FROM_NAME'))
+                    //         ->subject(
+                    //             "Welcome to SWC HRMS. Your Partner Organization Registration is Successful!"
+                    //         );
+                    //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                    // });
                 }
                 Session::flash(
                     "message",
