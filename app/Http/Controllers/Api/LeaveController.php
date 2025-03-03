@@ -58,8 +58,8 @@ class LeaveController extends Controller
                 return Helper::rjd(
                     $message,
                     $dynamicFlag,
-                    $totalLeaveBalance,
-                    $data
+                    $data,
+                    $totalLeaveBalance
                 );
             } else {
                 $dynamicFlag = 1;

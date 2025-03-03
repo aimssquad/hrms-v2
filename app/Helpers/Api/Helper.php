@@ -34,7 +34,7 @@ class Helper
         ];
     }
 
-    public static function respd($message = '', $flag = 1,$total_leave = 0, $data = [])
+    public static function respd($message = '', $flag = 1, $data = [], $total_leave = 0)
     {
         $status = 200;
         return [
@@ -105,7 +105,7 @@ class Helper
 
     public static function rjd($message, $flag = 1,  $data = [],$totla_leave=0)
     {
-        $response = self::respd($message, $flag, $totla_leave, $data);
+        $response = self::respd($message, $flag, $data, $totla_leave);
         return response()->json($response, $response['status']);
     }
 
