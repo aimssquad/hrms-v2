@@ -10,5 +10,7 @@ class LeaveType extends Model
     use HasFactory;
     protected $table="leave_type";
 
-    
+    // public function noOfleave(Request $request){
+    //     return $this->belongsTo(leaveAllocation::class,'leave_type_id');
+    // }
 }

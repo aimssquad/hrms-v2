@@ -38,6 +38,7 @@ Route::get('register-email', function () {
 
 // new route
 //------------------------------- Billing 
+Route::get('leave_no', 'App\Http\Controllers\LeaveController@leaveNo');
 Route::get('superadmin/add-billing2', 'App\Http\Controllers\AdminController@addbillng2');
 Route::get('superadmin/add-billing3', 'App\Http\Controllers\AdminController@addbillng3');
 Route::get('/get-entities', 'App\Http\Controllers\AdminController@getEntities')->name('get.entities');

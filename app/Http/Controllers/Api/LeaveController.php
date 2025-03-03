@@ -7,6 +7,7 @@ use App\Models\LeaveApprover\Leave_apply;
 use App\Models\LeaveApply;
 use App\Models\Employee;
 use App\Models\LeaveType;
+use App\Models\leaveAllocation;
 use Illuminate\Http\Request;
 use App\Helpers\Api\Helper;
 use Validator;
@@ -24,6 +25,17 @@ class LeaveController extends Controller
                 $toDate = $request->to_date;
                 $employeeId = auth()->user()->employee_id;
                 $query = LeaveApply::with('leaveType')->where('employee_id',$employeeId);
+                $totalMaxNo = leaveAllocation::where('employee_code', $employeeId)->sum('max_no');
+                $totalLeaveInHand = leaveAllocation::where('employee_code', $employeeId)->sum('leave_in_hand');
+                $leaveBalance = $totalMaxNo - $totalLeaveInHand;
+                $totalLeaveBalance ='';
+                if($leaveBalance >0){
+                    $totalLeaveBalance =  $leaveBalance;
+                } else {
+                    $totalLeaveBalance = 0;
+                }
+
+
                 if (!empty($fromDate) && !empty($toDate)) {
                     $query->whereBetween('from_date', [$fromDate, $toDate]);
                 }
@@ -34,14 +46,68 @@ class LeaveController extends Controller
                         return $value === null ? "" : $value;
                     });
                 });
+                // $data->transform(function ($item) use ($totalLeaveBalance) {
+                //     $item->total_leave_balance = $totalLeaveBalance; // Attach the calculated balance
+                //     return collect($item)->map(function ($value) {
+                //         return $value === null ? "" : $value;
+                //     });
+                // });
                  //dd($data);
                 $dynamicFlag = 1;
                 $message = "Data get successfully";
                 return Helper::rjd(
                     $message,
                     $dynamicFlag,
+                    $totalLeaveBalance,
                     $data
                 );
+            } else {
+                $dynamicFlag = 1;
+                $data=[];
+                $message = "Somthing Went Wrong";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            }
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        }
+    }
+
+    public function leaveNo(Request $request){
+        try{
+            if (auth()->check()) {
+                $employeeId = auth()->user()->employee_id;
+                //dd($employeeId);
+                $data = leaveAllocation::with(['leaveType' => function ($query) {
+                    $query->where('leave_type_status', 'active'); // Only active leave types
+                }])
+                ->where('employee_code', $employeeId)
+                ->select('leave_type_id', 'max_no')
+                ->get();
+                $data->transform(function ($item) {
+                return [
+                    'max_no' => $item->max_no,
+                    'leave_type_name' => $item->leaveType ? $item->leaveType->leave_type_name : null
+                ];
+                });
+                $data->transform(function ($item) {
+                    return collect($item)->map(function ($value) {
+                        return $value === null ? "" : $value;
+                    });
+                });
+               //dd($data);
+                $dynamicFlag = 1;
+                $totalLeave=0;
+                $message = "Data get successfully";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data,
+                    $totalLeave
+                );    
             } else {
                 $dynamicFlag = 1;
                 $data=[];

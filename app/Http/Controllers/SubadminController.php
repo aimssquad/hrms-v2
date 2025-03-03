@@ -53,6 +53,7 @@ class SubadminController extends Controller
                 $data['employee_or_rs'] = DB::table('company_employee')
                     ->where('emid', '=', $data['Roledata']->reg)
                     ->get();
+                $data['user'] = DB::table('users')->where('email',$email)->select('password')->first();     
                 //dd($data['Roledata']);
                 return view('sub-admin.edit-subadmin',$data);
                 //return View('company/edit-company', $data);
@@ -74,7 +75,10 @@ class SubadminController extends Controller
 
                 //dd($request->all());
                 $email = Session::get('empsu_email');
-
+                $password = $request->validate([
+                    'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
+                ]);
+                //dd($password);
                 $existingCompanyInfo = DB::table('sub_admin_registrations')->where('status', '=', 'active')->where('email', $email)->first();
                 //dd($existingCompanyInfo->licence);
 
@@ -136,6 +140,7 @@ class SubadminController extends Controller
                     'website' => $request->website,
                     'land' => $request->land,
                     'fax' => $request->fax,
+                    'pass' => $request->password,
 
                     'key_person' => $request->key_person,
                     'level_person' => $request->level_person,
@@ -246,7 +251,7 @@ class SubadminController extends Controller
                 // }
 
                 DB::table('sub_admin_registrations')->where('status', '=', 'active')->where('reg', $request->reg)->update($dataup);
-                
+                DB::table('users')->where('status', '=', 'active')->where('employee_id', $request->reg)->update($password);
                 Session::flash('message', 'Partner information successfully updated.');
                 return redirect('subadmin/profile');
                 

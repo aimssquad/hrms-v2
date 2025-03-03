@@ -32,6 +32,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('leave-type',[LeaveController::class,'leave_type']);
     Route::post('leave-in-hand',[LeaveController::class, 'leave_in_hand']);
     Route::post('leave-apply',[LeaveController::class, 'leaveApply']);
+    Route::get('leave_no',[LeaveController::class, 'leaveNo']);
     
     Route::post('employee','App\Http\Controllers\Api\EmployeeController@editEmployee');
 });

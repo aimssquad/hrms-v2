@@ -17,32 +17,49 @@
                     <!-- Header -->
                     <tr>
                         <td>
-                            <img src="https://ik.imagekit.io/oq9hcqjih/banner-01.png" alt="" width="100%">
+                            <table style="border-spacing: 0; padding: 0; margin: 0;">
+                                <tr>
+                                    @if($logo)
+                                    <td width="25%" style="padding-left: 20px;">
+                                        <img src="{{ asset('storage/app/public/' . $logo) }} " alt="" width="100%">
+                                    </td>
+                                    @endif
+                                    <td width="25%" style="padding-left: 20px;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%">
+                                    </td>
+                                    <td width="60%" style="padding: 0;margin: 0;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%">
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
 
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Dear <b>{{ strtoupper($name) }}</b></p>
-                            <p style="font-size: 16px; color: #333;">
-                                Welcome to Skilled Workers Cloud HRMS !
+                            <p style="font-size: 16px; color: #333;">Dear {{$name}},</p>
+                            <p style="font-size: 16px; color: #333;">Thank you for registering with us. We are thrilled
+                                to have you onboard and are excited to support your HR and sponsorship compliance needs!
                             </p>
 
-                            <p style="font-size: 16px; color: #333;">
-                               Your password here Bellow
-                            </p>
+                            {{-- <p style="font-size: 16px; color: #333;">As the next step, you need to complete your
+                                organization profile. This ensures a seamless process for utilizing our HRMS features
+                                and compliance services.</p> --}}
 
                             <div style="text-align: center; margin: 20px 0;">
-                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/"
+                                <a href="{{$web}}"
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
-                                    Your Login  Url</a>
+                                    Complete Your Organization Profile</a>
                             </div>
 
-                            <p style="font-size: 16px; color: #333;">Your login details:</p>
+                            <p style="font-size: 16px; color: #333;">Your login details: <strong>{{ $name}}</strong></p>
                             <p style="font-size: 16px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
-                            <p style="font-size: 16px; color: #333;"><strong>Your Password is:</strong> {{ $pass}}</p>
+                            <p style="font-size: 16px; color: #333;"><strong>Password:</strong> {{ $pass }}</p>
+
+                            <p style="font-size: 16px; color: #333;">Helpful tips to complete your organization profile:
+                            </p>
                         </td>
                     </tr>
 
@@ -62,7 +79,7 @@
                     <tr>
                         <td style="font-size: 18px; padding: 0 20px;">
                             <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
-                                    href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
+                                    href="mailto: {{$email}}">{{$email}}</a> or
                                 call <a href="tel: +44 074 6728 4718">+44 074 6728 4718</a></p>
 
                             <p>Let’s get started on your journey toward efficient HR and compliance!</p>
@@ -140,8 +157,17 @@
                         <td height="30"></td>
                     </tr>
                     <tr>
-                        <td>
-                            <img src="https://ik.imagekit.io/oq9hcqjih/footer-img.png" alt="" width="100%" height="auto">
+                        <td width="100%">
+                            <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
+                                <tr>
+                                    <td width="40%" style="background-color: #c2bbfd; padding: 0; margin: 0;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%">
+                                    </td>
+                                    <td width="60%" style="background-color: #151831; padding: 0; margin: 0; color: #67839c; text-align: center; height: 50px;border-radius: 16px 0 0 0;">
+                                        powered by <a href="#" style="color: #67839c;" target="_blank">Skilled Workers Cloud</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>

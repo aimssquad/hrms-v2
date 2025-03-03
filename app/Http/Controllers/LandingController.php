@@ -483,6 +483,8 @@ class LandingController extends Controller
 
     public function Doforgot(Request $request)
     {
+        // dd('okk');
+        // dd(env('MAIL_FROM_ADDRESS'));
         $Employee = DB::table("users")
             ->where("email", "=", $request->email)
             ->where("status", "=", "active")
@@ -505,6 +507,7 @@ class LandingController extends Controller
                     ->subject("Forgot  Password ");
                 $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
             });
+           
 
             Session::flash("message", "Mail sent successfully.");
             return redirect("forgot-password");

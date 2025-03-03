@@ -191,6 +191,17 @@
                                  </div>
                               </div>
                            </div>
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="password" class="col-form-label">Password</label>
+                                  <input id="password" type="text" class="form-control input-border-bottom"
+                                      name="password"
+                                      value="{{ old('password', $user->password) }}" 
+                                      placeholder="Pattern like this (Arun#843)"
+                                      required>
+                                  <span id="passwordError" class="text-danger"></span>
+                              </div>
+                           </div>
                         </div>
                         <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px;">Authorised Person Details</h3>
                         <div class="row">
@@ -2785,5 +2796,25 @@
        }
    }
    
+</script>
+<script>
+   document.getElementById("password").addEventListener("input", function() {
+       let passwordInput = this.value;
+       let errorSpan = document.getElementById("passwordError");
+
+       // Regular Expression for validation
+       let regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+       if (passwordInput.length < 8) {
+           errorSpan.textContent = "Password must be at least 8 characters long and like A27!un53";
+           this.classList.add("is-invalid");
+       } else if (!regex.test(passwordInput)) {
+           errorSpan.textContent = "Password must contain at least one letter, one number, and one special character.";
+           this.classList.add("is-invalid");
+       } else {
+           errorSpan.textContent = "";
+           this.classList.remove("is-invalid");
+       }
+   });
 </script>
 @endsection

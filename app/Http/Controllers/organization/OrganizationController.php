@@ -282,6 +282,7 @@ class OrganizationController extends Controller
                     ->where('emid', '=', $data['Roledata']->reg)
                     ->get();
                     //dd($data);
+                $data['user'] = DB::table('users')->where('email',$email)->select('password')->first(); 
                 return view($this->_routePrefix . '.edit-company',$data);
                 //return View('company/edit-company', $data);
             } else {
@@ -301,7 +302,12 @@ class OrganizationController extends Controller
 
                 //dd($request->all());
                 $email = Session::get('emp_email');
-
+                $password = $request->validate([
+                    'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
+                ], [
+                    'password.regex' => 'Password must contain at least one letter, one number, and one special character.',
+                ]);
+                //dd($password);
                 $existingCompanyInfo = DB::table('registration')->where('status', '=', 'active')->where('email', $email)->first();
                 //dd($existingCompanyInfo->licence);
 
@@ -376,6 +382,7 @@ class OrganizationController extends Controller
                     'website' => $request->website,
                     'land' => $request->land,
                     'fax' => $request->fax,
+                    'pass' => $request->password,
 
                     'key_person' => $request->key_person,
                     'level_person' => $request->level_person,
@@ -822,6 +829,8 @@ class OrganizationController extends Controller
                 }
 
                 DB::table('registration')->where('status', '=', 'active')->where('reg', $request->reg)->update($dataup);
+                
+                DB::table('users')->where('status', '=', 'active')->where('employee_id', $request->reg)->update($password);
                 //DB::table('registration')->where('reg', $request->reg)->update($dataup);
 
                 Session::flash('message', 'Organisation Information Successfully saved.');

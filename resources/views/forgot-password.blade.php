@@ -6,7 +6,7 @@
         <meta name="description" content="Smarthr - Bootstrap Admin Template">
 		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
         <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
-        <title>Forgot Password - HRMS admin template</title>
+        <title>Forgot Password</title>
 		
 		<!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
@@ -44,7 +44,7 @@
 					<div class="account-box">
 						<div class="account-wrapper">
 							<h3 class="account-title">Forgot Password?</h3>
-							<p class="account-subtitle">Your Virtual HR Manager</p>
+							<p class="account-subtitle">@include('employeer.layout.message')</p>
 							
 							<!-- Account Form -->
 							<form action="{{url('forgot-password')}}" method="post" id="my_captcha_form">

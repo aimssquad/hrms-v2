@@ -22,6 +22,39 @@ use App\Models\Employee;
 use App\Models\leaveAllocation;
 class LeaveController extends Controller
 {
+
+    public function leaveNo(Request $request){
+        $email = Session::get("emp_email");
+        $employee_id = DB::table('users')->where('email',$email)->first();
+        //dd($employee_id->employee_id);
+       
+        $data = leaveAllocation::with(['leaveType' => function ($query) {
+            $query->where('leave_type_status', 'active'); // Only active leave types
+        }])
+        ->where('employee_code', $employee_id->employee_id)
+        ->select('leave_type_id', 'max_no')
+        ->get();
+        //dd($data);
+        // Transform Data to Include leave_type_name
+        $data->transform(function ($item) {
+        return [
+            'max_no' => $item->max_no,
+            'leave_type_name' => $item->leaveType ? $item->leaveType->leave_type_name : null
+        ];
+        });
+        $dynamicFlag = 1;
+        $message = "Data get successfully";
+        $response = [
+            'status' => $dynamicFlag ? 200 : 400,  // Set HTTP status dynamically
+            'message' => $message, // Include total leave balance
+            'data' => $data, // Include leave allocation data
+        ];
+        dd($response);
+        dd($data);
+        dd($email);
+    }
+
+
     public function viewdash()
     {
         try {

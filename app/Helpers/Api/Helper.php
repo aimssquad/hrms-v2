@@ -34,14 +34,15 @@ class Helper
         ];
     }
 
-    public static function respd($message = '', $flag = 1, $data = [])
+    public static function respd($message = '', $flag = 1,$total_leave = 0, $data = [])
     {
         $status = 200;
         return [
             'status'  => $status,
             'flag'    => $flag,
             'message' => $message,
-            'data'    => $data  
+            'data'    => $data,
+            'total_leave' => $total_leave
         ];
     }
 
@@ -102,9 +103,9 @@ class Helper
         }, $data);
     }
 
-    public static function rjd($message, $flag = 1, $data = [])
+    public static function rjd($message, $flag = 1,  $data = [],$totla_leave=0)
     {
-        $response = self::respd($message, $flag,$data);
+        $response = self::respd($message, $flag, $totla_leave, $data);
         return response()->json($response, $response['status']);
     }
 
