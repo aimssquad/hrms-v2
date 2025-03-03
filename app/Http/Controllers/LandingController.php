@@ -18,10 +18,31 @@ class LandingController extends Controller
     {
         //dd('okk');
         //$videos = DB::table('login_page_image')->get();
-        $videos = DB::table('login_page_image')
+        $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+        // Extract only the domain name and store it in a variable
+        $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+
+        // echo "Base URL: " . $baseUrl . "<br>";
+        // echo "Domain Name: " . $domainName;
+        $data = [];
+        if ($domainName != 'skilledworkerscloud.co.uk' && $domainName != 'swcworlds.com') {
+            // Fetch the domain from the database
+            $domain = DB::table('sub_admin_registrations')->where('domain_name', $domainName)->first();
+    
+            // Set the domain name in the data array
+            if ($domain) {
+                $data['domain_name'] = $domain;
+            } else {
+                $data['domain_name'] = null; // Set to null if no domain is found
+            }
+        } else {
+            $data['domain_name'] = null; // Set to null if domain is excluded
+        }
+
+        $data['videos'] = DB::table('login_page_image')
         ->orderBy('slide_order', 'asc') // Order by slide_order in descending order
         ->get();
-        return view('index', compact('videos'));
+        return view('index', $data);
         //return view("index");
     }
     public function indexloginpay()
