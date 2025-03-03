@@ -153,7 +153,12 @@
                      <div class="login_main_right">
                         <div class="text-center">
                            <div class="account-logo">
-                              <a href="#"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
+                            @if($domain_name && $domain_name->logo) 
+                            <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}"></a>
+                            @else
+                            <a href="#"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
+                            @endif
+                              {{-- <a href="#"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a> --}}
                            </div>
                            <h3 class="account-title mt-4">Login</h3>
                            <p class="account-subtitle">Access to our dashboard</p>
