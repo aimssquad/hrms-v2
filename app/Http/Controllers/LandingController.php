@@ -35,9 +35,11 @@ class LandingController extends Controller
             } else {
                 $data['domain_name'] = null; // Set to null if no domain is found
             }
+            dd($data);
         } else {
             $data['domain_name'] = 'skilledworkerscloud.co.uk';
             $data['domain_name2'] = 'swcworlds.com';
+            dd($data);
         }
 
         $data['videos'] = DB::table('login_page_image')
