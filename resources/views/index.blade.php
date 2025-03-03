@@ -108,7 +108,7 @@
                             @endif
                         </div>
                         <div class="carousel-inner">
-                            @if($domain_name && $domain_name->domain_name) 
+                            @if($domain_name && $domain_name->logo) 
                                 @if($videos->isNotEmpty())
                                     @foreach($videos as $key => $video)
                                         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
