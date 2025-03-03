@@ -105,7 +105,7 @@
                             @endif
                         </div>
                         <div class="carousel-inner">
-                            @if($domain_name == 'skilledworkerscloud.co.uk' || $domain_name == 'swcworlds.com') 
+                            @if($domain_name == 'skilledworkerscloud.co.uk') 
                                 @if($videos->isNotEmpty())
                                     @foreach($videos as $key => $video)
                                         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
