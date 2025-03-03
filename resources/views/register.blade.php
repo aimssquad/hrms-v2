@@ -296,6 +296,7 @@
                             @else
                                 <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
                             @endif
+                            
                         </div>
                         <div class="carousel-inner">
                             @if($videos->isNotEmpty())
@@ -329,6 +330,33 @@
                                     </div>
                                 </div>
                             @endif
+                             {{-- <div class="carousel-item active">
+                                <div class="img_middle">
+                                    <img src="{{ asset('frontend/assets/img/b1.jpg') }}" alt="Default Image">
+                                </div>
+                                <div class="login_banner_text">
+                                    <h2>Your UKVI Compliance Partner</h2>
+                                    <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item active">
+                                <div class="img_middle">
+                                    <img src="{{ asset('frontend/assets/img/b2.jpg') }}" alt="Default Image">
+                                </div>
+                                <div class="login_banner_text">
+                                    <h2>Your UKVI Compliance Partner</h2>
+                                    <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item active">
+                                <div class="img_middle">
+                                    <img src="{{ asset('frontend/assets/img/b5.jpg') }}" alt="Default Image">
+                                </div>
+                                <div class="login_banner_text">
+                                    <h2>Your UKVI Compliance Partner</h2>
+                                    <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
+                                </div>
+                            </div> --}}
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -105,36 +105,66 @@
                             @endif
                         </div>
                         <div class="carousel-inner">
-                            @if($videos->isNotEmpty())
-                                @foreach($videos as $key => $video)
-                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                            @if(!empty($domain_name) && !empty($domain_name->logo)) 
+                                @if($videos->isNotEmpty())
+                                    @foreach($videos as $key => $video)
+                                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                            <div class="img_middle">
+                                                @if(pathinfo($video->file_path, PATHINFO_EXTENSION) == 'mp4')
+                                                    <video width="100%" style="padding-top:200px;" muted controls>
+                                                        <source src="{{ asset('storage/app/public/' . $video->file_path) }}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                @else
+                                                    <img src="{{ asset('storage/app/public/' . $video->file_path) }}" alt="slider">
+                                                @endif
+                                            </div>
+                                            <div class="login_banner_text">
+                                                    <h2><b>{{ ucfirst($video->file_name) }}</b></h2>
+                                                        <p>{{ ucfirst($video->description) }}<p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    
+                                    <div class="carousel-item active">
                                         <div class="img_middle">
-                                            @if(pathinfo($video->file_path, PATHINFO_EXTENSION) == 'mp4')
-                                                <video width="100%" style="padding-top:200px;" muted controls>
-                                                    <source src="{{ asset('storage/app/public/' . $video->file_path) }}" type="video/mp4">
-                                                    Your browser does not support the video tag.
-                                                </video>
-                                            @else
-                                                <img src="{{ asset('storage/app/public/' . $video->file_path) }}" alt="slider">
-                                            @endif
+                                            <img src="{{ asset('frontend/assets/img/b1.jpg') }}" alt="Default Image">
                                         </div>
                                         <div class="login_banner_text">
-                                            	<h2><b>{{ ucfirst($video->file_name) }}</b></h2>
-							                    	<p>{{ ucfirst($video->description) }}<p>
+                                            <h2>No Media Available</h2>
+                                            <p>Please check back later for updates.</p>
                                         </div>
                                     </div>
-                                @endforeach
+                                @endif
                             @else
-                                <!-- Default image carousel item if no videos/images are found -->
-                                <div class="carousel-item active">
-                                    <div class="img_middle">
-                                        <img src="{{ asset('frontend/assets/img/defult.gif') }}" alt="Default Image">
-                                    </div>
-                                    <div class="login_banner_text">
-                                        <h2>No Media Available</h2>
-                                        <p>Please check back later for updates.</p>
-                                    </div>
+                            <div class="carousel-item active">
+                                <div class="img_middle">
+                                    <img src="{{ asset('frontend/assets/img/b1.jpg') }}" alt="Default Image">
                                 </div>
+                                <div class="login_banner_text">
+                                    <h2>Your UKVI Compliance Partner</h2>
+                                    <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item active">
+                                <div class="img_middle">
+                                    <img src="{{ asset('frontend/assets/img/b2.jpg') }}" alt="Default Image">
+                                </div>
+                                <div class="login_banner_text">
+                                    <h2>Your UKVI Compliance Partner</h2>
+                                    <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item active">
+                                <div class="img_middle">
+                                    <img src="{{ asset('frontend/assets/img/b5.jpg') }}" alt="Default Image">
+                                </div>
+                                <div class="login_banner_text">
+                                    <h2>Your UKVI Compliance Partner</h2>
+                                    <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
+                                </div>
+                            </div>
                             @endif
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -155,9 +185,9 @@
                            <div class="account-logo">
                             @if($domain_name && $domain_name->logo) 
                             <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}"  
-                                width="175" height="75"></a>
+                                style="width: auto; height: 75px; object-fit: contain;"></a>
                             @else
-                            <a href="#"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
+                            <a href="#"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH" style="width: auto; height: 75px; object-fit: contain;"></a>
                             @endif
                               {{-- <a href="#"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a> --}}
                            </div>
