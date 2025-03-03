@@ -28,14 +28,14 @@ class LandingController extends Controller
         if ($domainName != 'skilledworkerscloud.co.uk' && $domainName != 'swcworlds.com') {
             // Fetch the domain from the database
             $domain = DB::table('sub_admin_registrations')->where('domain_name', $domainName)->first();
-            //dd($domain);
+            dd('okk');
             // Set the domain name in the data array
             if ($domain) {
                 $data['domain_name'] = $domain;
             } else {
                 $data['domain_name'] = null; // Set to null if no domain is found
             }
-            dd($data);
+           
         } else {
             $data['domain_name'] = 'skilledworkerscloud.co.uk';
             $data['domain_name2'] = 'swcworlds.com';
