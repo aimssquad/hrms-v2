@@ -28,8 +28,6 @@ class LandingController extends Controller
         if ($domainName != 'skilledworkerscloud.co.uk' && $domainName != 'swcworlds.com') {
             // Fetch the domain from the database
             $domain = DB::table('sub_admin_registrations')->where('domain_name', $domainName)->first();
-            dd('okk');
-            // Set the domain name in the data array
             if ($domain) {
                 $data['domain_name'] = $domain;
             } else {
@@ -39,7 +37,7 @@ class LandingController extends Controller
         } else {
             $data['domain_name'] = 'skilledworkerscloud.co.uk';
             $data['domain_name2'] = 'swcworlds.com';
-            dd($data);
+            //dd($data);
         }
 
         $data['videos'] = DB::table('login_page_image')
@@ -84,7 +82,8 @@ class LandingController extends Controller
                 $data['domain_name'] = null; // Set to null if no domain is found
             }
         } else {
-            $data['domain_name'] = null; // Set to null if domain is excluded
+            $data['domain_name'] = 'skilledworkerscloud.co.uk';
+            $data['domain_name2'] = 'swcworlds.com'; 
         }
             $videos = DB::table('register_page_image')
             ->orderBy('slide_order', 'asc')
