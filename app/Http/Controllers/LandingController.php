@@ -28,7 +28,7 @@ class LandingController extends Controller
         if ($domainName != 'skilledworkerscloud.co.uk' && $domainName != 'swcworlds.com') {
             // Fetch the domain from the database
             $domain = DB::table('sub_admin_registrations')->where('domain_name', $domainName)->first();
-    
+            //dd($domain);
             // Set the domain name in the data array
             if ($domain) {
                 $data['domain_name'] = $domain;
@@ -42,6 +42,7 @@ class LandingController extends Controller
         $data['videos'] = DB::table('login_page_image')
         ->orderBy('slide_order', 'asc') // Order by slide_order in descending order
         ->get();
+        //dd($data);
         return view('index', $data);
         //return view("index");
     }

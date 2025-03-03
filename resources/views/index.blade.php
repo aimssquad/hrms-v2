@@ -1,3 +1,6 @@
+@php
+    dd($domain_name->domain_name);
+@endphp
 <!DOCTYPE html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
    <head>
@@ -105,7 +108,7 @@
                             @endif
                         </div>
                         <div class="carousel-inner">
-                            @if($domain_name == 'skilledworkerscloud.co.uk') 
+                            @if($domain_name && $domain_name->domain_name) 
                                 @if($videos->isNotEmpty())
                                     @foreach($videos as $key => $video)
                                         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
