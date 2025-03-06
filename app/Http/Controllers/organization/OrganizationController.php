@@ -309,7 +309,6 @@ class OrganizationController extends Controller
                 ]);
                 //dd($password);
                 $existingCompanyInfo = DB::table('registration')->where('status', '=', 'active')->where('email', $email)->first();
-                dd($existingCompanyInfo->licence,$existingCompanyInfo->verify,$request->verify,$existingCompanyInfo->com_name,$existingCompanyInfo->authemail);
                 $company_email = $request->email;
                 $company_name = $request->company_name;
                 if ($request->has('image')) {
@@ -713,16 +712,16 @@ class OrganizationController extends Controller
 
                     $data_email = array('to_name' => '', 'body_content' => 'License already applied, please issue the 1st Invoice.<p> Organisation with name "' . $existingCompanyInfo->com_name . '" .</p><p>Invoice Amount: £1500 plus VAT</p>');
                     $toemail = 'info@skilledworkerscloud.co.uk';
-                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
                         $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Organisation License Applied');
-                        $message->from($company_email, $company_name);
+                        $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                     });
                     if($existingCompanyInfo->authemail !=null || trim($existingCompanyInfo->authemail) !=''){
                      
                         $toemail = $existingCompanyInfo->authemail;
-                        Mail::send('mailsmcommon', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                        Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
                             $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Need your action to complete sponsorship licence application');
-                            $message->from($company_email, $company_name);
+                            $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                         });
                     
                     }                    
@@ -735,24 +734,24 @@ class OrganizationController extends Controller
 
                     $toemail = 'sales@skilledworkerscloud.co.uk';
                
-                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
                         $message->to($toemail, env('MAIL_FROM_NAME'))->subject('New Unassigned HR');
-                        $message->from($company_email, $company_name);
+                        $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                     });
 
                     $data = array('to_name' => '', 'body_content' => 'Organisation with name "' . $existingCompanyInfo->com_name . '" has been applied for license. Please proceed with the Recruitement File.');
                     $toemail = 'info@skilledworkerscloud.co.uk';
-                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
                         $message->to($toemail, env('MAIL_FROM_NAME'))->subject('New Recruitment organisation');
-                        $message->from($company_email, $company_name);
+                        $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                     });
 
                     $data_email = array('to_name' => '', 'body_content' => 'License already applied, please issue the 1st Invoice.<p> Organisation with name "' . $existingCompanyInfo->com_name . '" .</p><p>Invoice Amount: £1500 plus VAT</p>');
                     if($existingCompanyInfo->authemail !=null || trim($existingCompanyInfo->authemail) !=''){         
                         $toemail = $existingCompanyInfo->authemail;
-                        Mail::send('mailsmsla', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                        Mail::send('mailsmsla', $data, function ($message) use ($toemail) {
                             $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Need action to prepare HR File');
-                            $message->from($company_email, $company_name);
+                            $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                         });
                     }        
                 }
@@ -761,9 +760,9 @@ class OrganizationController extends Controller
 
                     $data = array('f_name' => $request->f_name, 'l_name' => $request->l_name, 'com_name' => $request->com_name, 'p_no' => $request->p_no, 'email' => $request->email);
                     $toemail = 'info@skilledworkerscloud.co.uk';
-                    Mail::send('mailorupnew', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                    Mail::send('mailorupnew', $data, function ($message) use ($toemail) {
                         $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Organisation Update');
-                        $message->from($company_email, $company_name);
+                        $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                     });
                 }
 

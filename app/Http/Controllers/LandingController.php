@@ -144,7 +144,12 @@ class LandingController extends Controller
         // if ($_SERVER['HTTP_REFERER'] != 'http://localhost/hrms/register' || $_SERVER['HTTP_REFERER'] != 'https://workpermitcloud.co.uk/hrms/register') {
         //     die('don\'t be an jerk, ruin your own site');
         // }
-        
+        $password = $request->validate([
+            'pass' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
+        ], [
+            'pass.regex' => 'Password must contain at least one letter, one number, and one special character.',
+        ]);
+        //dd($password['pass']);
         if($request->subadmin == ""){
             Session::flash("message", "Invalid input");
             return redirect("register");
@@ -215,7 +220,7 @@ class LandingController extends Controller
 
                         "org_code" => $request->org_code,
                         "p_no" => $request->p_no,
-                        "pass" => $request->pass,
+                        "pass" => $password['pass'],
                         "created_at" => date("Y-m-d h:i:s"),
                     ];
                     //dd($datareg);
@@ -231,8 +236,9 @@ class LandingController extends Controller
 
                         "updated_at" => date("Y-m-d h:i:s"),
                         "created_at" => date("Y-m-d h:i:s"),
-                        "password" => $request->pass,
+                        "password" => $password['pass'],
                     ];
+                    //dd($datauser);
                     DB::table("users")->insert($datauser);
 
                     $le_type = DB::table("le_type")->get();
@@ -267,43 +273,48 @@ class LandingController extends Controller
                         "com_name" => $request->com_name,
                         "p_no" => $request->p_no,
                         "email" => $request->email,
-                        "desig" => $request->desig,
                     ];
 
                     $toemail = $request->email;
-                    $toemail = 'info@workpermitcloud.co.uk';
-                    // $toemail = 'm.subhasish@gmail.com';
-                    // Mail::send("mailre", $data, function ($message) use ($toemail) {
-                    //     $message
-                    //         ->to($toemail, env('MAIL_FROM_NAME'))
-                    //         ->subject("New Organisation Registered");
-                    //     $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-                    // });
-
-
-
-                    $data = [
-                        "f_name" => $request->f_name,
-                        "l_name" => $request->l_name,
-                        "com_name" => $request->com_name,
-                        "p_no" => $request->p_no,
-                        "email" => $request->email,
-                        "pass" => $request->pass,
-                        "web"  => env('BASE_URL'),
-                    ];
+                    $toemail = 'info@skilledworkerscloud.co.uk';
+                    Mail::send("mailre", $data, function ($message) use ($toemail) {
+                        $message
+                            ->to($toemail, env('MAIL_FROM_NAME'))
+                            ->subject("New Organisation Registered");
+                        $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+                    });
+                   
                     //dd($data);
                     if(!empty($request->org_code)){
                         $org_code = $request->org_code;
+                        $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+                        // Extract only the domain name and store it in a variable
+                        $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+                        $baseUrl = $baseUrl."/hrms-v2";
+                        $data = [
+                            "f_name" => $request->f_name,
+                            "l_name" => $request->l_name,
+                            "com_name" => $request->com_name,
+                            "p_no" => $request->p_no,
+                            "email" => $request->email,
+                            "pass" => $password['pass'],
+                            "web"  => $baseUrl,
+                        ];
                         $toemail = $request->email;
                         Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
-                            $message
-                                ->to($toemail, env('MAIL_FROM_NAME'))
-                                ->subject(
-                                    "Welcome to $sub_comname "
-                                );
+                            $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
                             $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                         });
                     } else{
+                        $data = [
+                            "f_name" => $request->f_name,
+                            "l_name" => $request->l_name,
+                            "com_name" => $request->com_name,
+                            "p_no" => $request->p_no,
+                            "email" => $request->email,
+                            "pass" => $password['pass'],
+                            "web"  => env('BASE_URL'),
+                        ];
                         $toemail = $request->email;
                         Mail::send("register-email", $data, function ($message) use ($toemail) {
                             $message
@@ -347,7 +358,7 @@ class LandingController extends Controller
                         "country_code"=>$request->country_code,
 
                         "p_no" => $request->p_no,
-                        "pass" => $request->pass,
+                        "pass" => $password['pass'],
                         "created_at" => date("Y-m-d h:i:s"),
                     ];
 
@@ -364,7 +375,7 @@ class LandingController extends Controller
 
                         "updated_at" => date("Y-m-d h:i:s"),
                         "created_at" => date("Y-m-d h:i:s"),
-                        "password" => $request->pass,
+                        "password" => $password['pass'],
                     ];
                     DB::table("users")->insert($datauser);
 
@@ -393,43 +404,19 @@ class LandingController extends Controller
                         ];
                         DB::table("employee_type")->insert($datauseremployty);
                     }
-
-                    // $data = [
-                    //     "f_name" => $request->f_name,
-                    //     "l_name" => $request->l_name,
-                    //     "com_name" => $request->com_name,
-                    //     "p_no" => $request->p_no,
-                    //     "email" => $request->email,
-                    //     "desig" => $request->desig,
-                    //      "web"  => env('BASE_URL'),
-                    // ];
-
-                    // $toemail = $request->email;
-                    // Mail::send("mailor", $data, function ($message) use ($toemail) {
-                    //     $message
-                    //         ->to($toemail, env('MAIL_FROM_NAME'))
-                    //         ->subject(
-                    //             "Welcome to SkilledWorkedCloud Cloud HR Management System"
-                    //         );
-                    //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                    // });
-
                     $data = [
                         "f_name" => $request->f_name,
                         "l_name" => $request->l_name,
                         "com_name" => $request->com_name,
                         "p_no" => $request->p_no,
                         "email" => $request->email,
-                        "pass" => $request->pass,
+                        "pass" => $password['pass'],
                         "web"  => env('BASE_URL'),
                     ];
                     $toemail = $request->email;
                     Mail::send("register-email", $data, function ($message) use ($toemail) {
-                        $message
-                            ->to($toemail, env('MAIL_FROM_NAME'))
-                            ->subject(
-                                "Welcome to SWC HRMS. Your Partner Organization Registration is Successful!"
-                            );
+                        $message->to($toemail, env('MAIL_FROM_NAME'))
+                            ->subject("Welcome to SWC HRMS. Your Partner Organization Registration is Successful!");
                         $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                     });
                 }
@@ -443,8 +430,6 @@ class LandingController extends Controller
                 return redirect("register");
             }
         }
-        //  @if(auth()->check())
-        //auth()->user()->name
     }
 
     public function Dashboard(Request $request)
