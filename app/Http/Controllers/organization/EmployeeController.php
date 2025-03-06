@@ -278,6 +278,7 @@ class EmployeeController extends Controller
             $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
             // Extract only the domain name and store it in a variable
             $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+            $baseUrl = $baseUrl."/hrms-v2";
             //dd($baseUrl);
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
