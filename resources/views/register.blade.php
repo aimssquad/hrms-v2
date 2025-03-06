@@ -1,12 +1,3 @@
-@php
-  $domain_name; 
-//   dd($dName);
-  if($dName ==='swcworlds.com' || $dname === 'skilledworkerscloud.co.uk'){
-    dd('okk');
-  } else {
-    dd('noo');
-  }
-@endphp
 <!DOCTYPE html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
    <head>
