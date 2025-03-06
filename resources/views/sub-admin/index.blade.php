@@ -3,14 +3,27 @@
 
 <head>
     <!-- Design by foolishdeveloper.com -->
-    <title>login page</title>
+    {{-- <title>login page</title> --}}
     <!-- links -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome link corrected -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/fontawesome.min.css" rel="stylesheet">
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css" integrity="sha512-5v1op2E5fO4YeHY/ViMn9mvHjHF9ONymCfWq6QAN0U8/5RBuMzOxAOsrOqq+JY09joXLhkaEp9ll2sfxoAaPZg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-
+    @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+        <title>Login - SWCH Partner</title>
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+    @else
+        <title>Login -{{$domain_name->com_name}}</title>
+        <!-- Favicon -->
+        {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}"> --}}
+        @if($domain_name && $domain_name->logo) 
+            <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
+        @else
+            <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/assets/img/logo2.png')}}">
+        @endif
+    @endif
     <!--Stylesheet-->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/index.css') }}">
     {{-- <link rel="stylesheet" href="style.css"> --}}

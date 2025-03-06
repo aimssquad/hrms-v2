@@ -21316,7 +21316,25 @@ class AdminController extends Controller
     {
         try {
             //dd('okk');
-            return view('sub-admin/index');
+             $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+            // Extract only the domain name and store it in a variable
+            $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+             $data = [];
+        $data['dName'] = $domainName;
+        if ($domainName != 'skilledworkerscloud.co.uk' && $domainName != 'swcworlds.com') {
+            // Fetch the domain from the database
+            $domain = DB::table('sub_admin_registrations')->where('domain_name', $domainName)->first();
+    
+            // Set the domain name in the data array
+            if ($domain) {
+                $data['domain_name'] = $domain;
+            } else {
+                $data['domain_name'] = null; // Set to null if no domain is found
+            }
+        } else {
+            $data['domain_name'] = null; 
+        }
+            return view('sub-admin/index',$data);
 
         } catch (Exception $e) {
             throw new \App\Exceptions\AdminException($e->getMessage());
