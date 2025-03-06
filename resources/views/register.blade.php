@@ -291,12 +291,16 @@
                 <div class="col-sm-6 bg-left_main">
                     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
-                            @if($videos->isNotEmpty())
-                                @foreach($videos as $key => $video)
-                                    <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-label="Slide {{ $key + 1 }}"></button>
-                                @endforeach
+                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+                                @if($videos->isNotEmpty())
+                                    @foreach($videos as $key => $video)
+                                        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-label="Slide {{ $key + 1 }}"></button>
+                                    @endforeach
+                                @else
+                                    <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+                                @endif
                             @else
-                                <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
                             @endif
                             
                         </div>
@@ -337,42 +341,6 @@
                                 <div class="carousel-item active">
                                     <div class="img_middle">
                                         <img src="{{ asset('frontend/assets/img/b1.jpg') }}" alt="Default Image">
-                                    </div>
-                                    <div class="login_banner_text">
-                                        <h2>Your UKVI Compliance Partner</h2>
-                                        <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item active">
-                                    <div class="img_middle">
-                                        <img src="{{ asset('frontend/assets/img/b2.jpg') }}" alt="Default Image">
-                                    </div>
-                                    <div class="login_banner_text">
-                                        <h2>Your UKVI Compliance Partner</h2>
-                                        <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item active">
-                                    <div class="img_middle">
-                                        <img src="{{ asset('frontend/assets/img/b5.jpg') }}" alt="Default Image">
-                                    </div>
-                                    <div class="login_banner_text">
-                                        <h2>Your UKVI Compliance Partner</h2>
-                                        <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item active">
-                                    <div class="img_middle">
-                                        <img src="{{ asset('frontend/assets/img/b5.jpg') }}" alt="Default Image">
-                                    </div>
-                                    <div class="login_banner_text">
-                                        <h2>Your UKVI Compliance Partner</h2>
-                                        <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item active">
-                                    <div class="img_middle">
-                                        <img src="{{ asset('frontend/assets/img/b5.jpg') }}" alt="Default Image">
                                     </div>
                                     <div class="login_banner_text">
                                         <h2>Your UKVI Compliance Partner</h2>
