@@ -1,3 +1,6 @@
+@php
+  $domain_name;  
+@endphp
 <!DOCTYPE html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
    <head>
