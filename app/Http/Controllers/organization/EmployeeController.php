@@ -292,7 +292,7 @@ class EmployeeController extends Controller
                 ->first();
             $company_name = $Roledata->com_name;
             $company_email = $Roledata->email;
-            //dd($company_email);
+            //dd($company_email,$company_name);
             function my_simple_crypt($string, $action = 'encrypt')
             {
                 // you may change these values to your own
@@ -1738,11 +1738,11 @@ class EmployeeController extends Controller
                 //         ('Employee Login  Details');
                 //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
                 // });
-                Mail::send('mail', $data, function ($message) use ($toemail) {
-                    $message->to($toemail, env('MAIL_FROM_NAME'))->subject
-                        ('Employee Login  Details');
+                Mail::send('mail', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                    $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Employee Login Details');
                     $message->from($company_email, $company_name);
                 });
+                
 
                 Session::flash('message', 'Please assign the role.');
                 return redirect('organization/emplist');
