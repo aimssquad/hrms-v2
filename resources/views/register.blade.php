@@ -1,5 +1,9 @@
 @php
-  $domain_name;  
+  $domain_name; 
+  dd($domain_name);
+  if($domain_name){
+    
+  } 
 @endphp
 <!DOCTYPE html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
