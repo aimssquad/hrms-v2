@@ -21,10 +21,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Sub Admin Dashboard</h3>
+                    <h3 class="page-title">Dashboard</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Sub Admin Dashboard</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ul>
                 </div>
             </div>

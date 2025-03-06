@@ -135,7 +135,7 @@ class OrganizationController extends Controller
                 ->where('status', '=', 'active')
                 ->where('email', '=', $email)
                 ->first();
-             //dd($data['companies_rs']);
+             dd($data['companies_rs']);
             //dd($data); 
             return view($this->_routePrefix . '.profile',$data);
 

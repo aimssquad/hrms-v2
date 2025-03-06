@@ -28,11 +28,11 @@
                     <div class="profile-view">
                         <div class="profile-img-wrap">
                             <div class="profile-img">
-                                {{-- @if($companies_rs->logo !="")
+                                @if($companies_rs->logo !="")
                                     <a href="#"><img src="{{ asset('storage/app/public/' . $companies_rs->logo) }}" alt="User Image"></a>
                                 @else
                                     <a href="#"><img src="{{asset('assets/img/user.png')}}" alt="User "></a>
-                                @endif --}}
+                                @endif
                                 
                             </div>
                         </div>
