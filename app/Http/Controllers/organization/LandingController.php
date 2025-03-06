@@ -578,16 +578,16 @@ class LandingController extends Controller
                 $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land];
                 //dd($data);
                 $toemail = $request->email;
-                // Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
-                //     $message
-                //         ->to($toemail, env('MAIL_FROM_NAME'))
-                //         ->subject("Forgot  Password ");
-                //     $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
-                // });
                 Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
-                    $message->to($toemail)->subject("Forgot Password");
-                    $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                    $message
+                        ->to($toemail, env('MAIL_FROM_NAME'))
+                        ->subject("Forgot  Password ");
+                    $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
                 });
+                // Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
+                //     $message->to($toemail)->subject("Forgot Password");
+                //     $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                // });
                 Session::flash("message", "Mail sent successfully.");
                 return redirect("forgot-password");
             } else {

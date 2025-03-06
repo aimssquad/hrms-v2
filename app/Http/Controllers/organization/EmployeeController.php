@@ -118,8 +118,8 @@ class EmployeeController extends Controller
                     $data['designation'] = '';
                 }
                 //dd($reg);
-                //$data['employee_type'] = DB::table('employ_type_master')->where('emid', '=', $reg)->get();
-                $data['employee_type'] = DB::table('employee_type')->where('emid', '=', $reg)->get();
+                $data['employee_type'] = DB::table('employ_type_master')->where('emid', '=', $reg)->get();
+                //$data['employee_type'] = DB::table('employee_type')->where('emid', '=', $reg)->get();
 
                 //dd($data['employee_type']);
                 $emppaygr = DB::table('pay_scale_master')->where('emid', '=', $reg)->where('payscale_code', '=', $data['employee_rs'][0]->emp_group_name)->first();

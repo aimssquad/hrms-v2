@@ -152,8 +152,6 @@
             url:'{{url('pis/getEmployeedesigBydutytshiftId')}}/'+empid,
             cache: false,
             success: function(response){
-                
-                
                 document.getElementById("shift_code").innerHTML = response;
             }
         });

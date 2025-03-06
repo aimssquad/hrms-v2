@@ -298,8 +298,9 @@ class LeaveManagementController extends Controller
                     ->where("leave_type_status", "=", "active")
                     ->select("id", "leave_type_name")
                     ->get();
-                   
+                //dd($data["leave_type_rs"]);   
                 $data["employee_type_rs"] = EmployeeType::where('emid',$reg)->get();
+                //dd($data["employee_type_rs"]);
                 return view($this->_routePrefix . '.add-new-rule',$data);
                 //return view("leave/add-new-rule", $data);
             } else {

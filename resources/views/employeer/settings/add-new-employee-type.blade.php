@@ -43,14 +43,14 @@
                            <div class="col-12 col-lg-12 m-auto">
                               <form action="{{ url('org-settings/employee-type') }}" method="post" enctype="multipart/form-data">
                                  {{csrf_field()}}
-                                 <input type="hidden" name="id"  class="col-form-label" value="<?php if(!empty($employee_type->id)){ echo $employee_type->id;}?>">
+                                 <input type="hidden" name="id"  class="col-form-label" value="<?php if(!empty($employee_type->employ_type_id )){ echo $employee_type->employ_type_id ;}?>">
                                  <div class="row">
                                     <div class="col-md-4">
                                        <div class="form-group">
                                           <label for="inputFloatingLabel" class="col-form-label">Employment Type</label>
-                                          <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom" required="" name="employee_type_name" value="<?php if(!empty($employee_type->employee_type_name)){ echo $employee_type->employee_type_name;}?>">
-                                          @if ($errors->has('employee_type_name'))
-                                          <div class="error" style="color:red;">{{ $errors->first('employee_type_name') }}</div>
+                                          <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom" required="" name="employ_type_name" value="<?php if(!empty($employee_type->employ_type_name)){ echo $employee_type->employ_type_name;}?>">
+                                          @if ($errors->has('employ_type_name'))
+                                          <div class="error" style="color:red;">{{ $errors->first('employ_type_name') }}</div>
                                           @endif
                                        </div>
                                     </div>

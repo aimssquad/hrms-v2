@@ -1233,9 +1233,10 @@ class SettingController extends Controller
                     ->where('email', '=', $email)
                     ->first();
 
-                $data['employee_type_rs'] = DB::Table('employee_type')
+                $data['employee_type_rs'] = DB::Table('employ_type_master')
                     ->where('emid', '=', $reg)
                     ->get();
+                //dd($data['employee_type_rs']);    
                 return view($this->_routePrefix . '.employee-type', $data);
                 //return view('settings/employee-type', $data);
             } else {
@@ -1272,28 +1273,30 @@ class SettingController extends Controller
     public function saveEmployeeType(Request $request)
     {
         try {
-
+            
             if (!empty(Session::get('emp_email'))) {
                 $email = Session::get('emp_email');
                 $reg = Session::get('emid');
                 
-                $employee_type_name = strtoupper(trim($request->employee_type_name));
-
-                if (is_numeric($employee_type_name) == 1) {
+                $employ_type_name = strtoupper(trim($request->employ_type_name));
+                //dd($employ_type_name);
+                if (is_numeric($employ_type_name) == 1) {
                     Session::flash('message', 'Employee Type Should not be numeric.');
                     return redirect('org-settings/vw-employee-type');
 
                 }
-                $employee_type = DB::table('employee_type')->where('employee_type_name', $request->employee_type_name)->where('emid', '=', $reg)->first();
+                
+                $employee_type = DB::table('employ_type_master')->where('employ_type_name', $request->employ_type_name)->where('emid', '=', $reg)->first();
+                
                 if (!empty($employee_type)) {
                     Session::flash('message', 'Employee Type Alredy Exists.');
                     return redirect('org-settings/vw-employee-type');
                 }
-
+                //dd($employee_type);
                 $validator = Validator::make($request->all(), [
-                    'employee_type_name' => 'required|max:255',
+                    'employ_type_name' => 'required|max:255',
                 ],
-                    ['employee_type_name.required' => 'Employee Type Name required']);
+                    ['employ_type_name.required' => 'Employee Type Name required']);
 
                 if ($validator->fails()) {
                     return redirect('org-settings/employee-type')->withErrors($validator)->withInput();
@@ -1302,15 +1305,17 @@ class SettingController extends Controller
                 //$data=request()->except(['_token']);
 
                 if (empty($request->id)) {
-                    DB::table('employee_type')->insert(
-                        ['employee_type_name' => $employee_type_name, 'employee_type_status' => 'Active', 'emid' => $reg]
+                   
+                    DB::table('employ_type_master')->insert(
+                        ['employ_type_name' => $employ_type_name, 'emid' => $reg]
                     );
                     Session::flash('message', 'Employee Type Information Successfully saved.');
                     return redirect('org-settings/vw-employee-type');
                 } else {
-                    DB::table('employee_type')
-                        ->where('id', $request->id)
-                        ->update(['employee_type_name' => $employee_type_name]);
+                    //dd($employ_type_name);
+                    DB::table('employ_type_master')
+                        ->where('employ_type_id', $request->id)
+                        ->update(['employ_type_name' => $employ_type_name]);
                     Session::flash('message', 'Employee Type Information Successfully Updated.');
                     return redirect('org-settings/vw-employee-type');
                 }
@@ -1327,6 +1332,7 @@ class SettingController extends Controller
     public function getTypeById($id)
     {
         try {
+            
             if (!empty(Session::get('emp_email'))) {
 
                 $email = Session::get('emp_email');
@@ -1338,7 +1344,8 @@ class SettingController extends Controller
 
                     ->where('email', '=', $email)
                     ->first();
-                $data['employee_type'] = DB::table('employee_type')->where('id', $id)->first();
+                $data['employee_type'] = DB::table('employ_type_master')->where('employ_type_id', $id)->first();
+                //dd($data['employee_type']);
                 return view($this->_routePrefix . '.add-new-employee-type', $data);
                 //return view('settings/add-new-employee-type', $data);
             } else {

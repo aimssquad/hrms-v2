@@ -107,7 +107,7 @@ return $output;
                       <tr>
                           <td>{{$loop->iteration}}</td>
                         
-                          <td>{{ $employee_type->employee_type_name  }}</td>
+                          <td>{{ $employee_type->employ_type_name  }}</td>
                            <td class="text-end">
                               <div class="dropdown dropdown-action">
                                  <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -117,13 +117,13 @@ return $output;
                                     @if($user_type == 'employee')
                                     @foreach($sidebarItems['Employee Administration'] as $rotaItem)
                                     @if($rotaItem['submenu_name'] == 'Type of Employment' && $rotaItem['can_edit'] == 1)
-                                    <a class="dropdown-item" href="{{ url("org-settings/employee-type/$employee_type->id") }}">
+                                    <a class="dropdown-item" href="{{ url("org-settings/employee-type/$employee_type->employ_type_id ") }}">
                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                     </a>
                                     @endif
                                     @endforeach
                                     @elseif($user_type == 'employer')
-                                    <a class="dropdown-item" href="{{ url("org-settings/employee-type/$employee_type->id") }}">
+                                    <a class="dropdown-item" href="{{ url("org-settings/employee-type/$employee_type->employ_type_id ") }}">
                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                     </a>
                                     @endif

@@ -40,13 +40,14 @@
                                  <div class="form-group">
                                     <label for="employee_type" class="col-form-label">Employee Type</label>
                                     <select   id="employee_type" name="employee_type"  class="select" required="">
-                                       {{-- <option>Select</option> --}}
+                                       <option value="">Select</option>
                                        @foreach($employee_type_rs as $employee_type)
                                        <?php if(!isset($leave_rule_data->employee_type)){ ?>
                                        <option value="{{$employee_type->employ_type_id}}">{{ $employee_type->employ_type_name}}</option>
                                        <?php }else{ ?> 
                                        <option value="{{$employee_type->employ_type_id}}" <?php if(!empty($employee_type->employ_type_id)){ if($employee_type->employ_type_id == $leave_rule_data->employee_type){ echo "selected"; } } ?>>{{ $employee_type->employ_type_name}}</option>
                                        <?php } ?>
+                                       
                                        @endforeach
                                     </select>
                                     @if ($errors->has('employee_type'))

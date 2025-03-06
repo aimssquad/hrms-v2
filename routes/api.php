@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LeaveController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\MobileMenuController;
+use App\Http\Controllers\Api\AttendanceController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,6 +35,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::post('leave-apply',[LeaveController::class, 'leaveApply']);
     Route::get('leave_no',[LeaveController::class, 'leaveNo']);
     
+    Route::get('show_daily_attendance',[AttendanceController::class, 'showDailyAttendance']);
     Route::post('employee','App\Http\Controllers\Api\EmployeeController@editEmployee');
 });
 

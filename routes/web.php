@@ -5221,6 +5221,7 @@ Route::get('rota/add-employee-duty', 'App\Http\Controllers\RotaController@viewAd
 Route::post('rota/add-employee-duty', 'App\Http\Controllers\RotaController@saveemployeedutyData');
 
 Route::get('pis/getEmployeedailyattandeaneshightdutyById/{empid}', function ($empid) {
+    
     $email = Session::get('emp_email');
     $Roledata = DB::table('registration')
 
@@ -5232,7 +5233,8 @@ Route::get('pis/getEmployeedailyattandeaneshightdutyById/{empid}', function ($em
         ->where('emid', '=', $Roledata->reg)
         ->first();
 
-        $designation_name=$employee_desigrs->designation_name;
+    $designation_name=$employee_desigrs->designation_name;
+    //dd($employee_desigrs);
     $employee_depers = DB::table('department')
         ->where('id', '=', $employee_desigrs->department_code)
         ->where('emid', '=', $Roledata->reg)
@@ -5244,7 +5246,8 @@ Route::get('pis/getEmployeedailyattandeaneshightdutyById/{empid}', function ($em
         ->where('emp_department', '=', $employee_depers->department_name)
         ->where('emid', '=', $Roledata->reg)
         ->get();
-    $result = '';
+    //dd($employee_rs);    
+    $result_status1 = '';
     $result_status1 = "  <option value=''>&nbsp;</option>
 	";
     foreach ($employee_rs as $bank) {

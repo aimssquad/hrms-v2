@@ -308,7 +308,7 @@ class EmployeeCornerOrganisationController extends Controller
              $emp_email=Session::get("user_email_new");
             //  dd($emp_email);
             $users = UserModel::where("email", "=",  $emp_email)->first();
-        //    dd($users);
+                //    dd($users);
             $data["user_type"]="employer";
             //     $data["Roledata"] = Registration::where(
             //     "reg",
