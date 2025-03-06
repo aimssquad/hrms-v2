@@ -7,7 +7,7 @@
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
-        <title>Register - HRMS</title>
+        <title>Register - SWCH</title>
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
       @else
@@ -15,7 +15,6 @@
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
       @endif
-      <title>Register - HRMS</title>
     
       
       <!-- Bootstrap CSS -->
@@ -156,13 +155,17 @@
                      <div class="login_main_right pt-0">
                         <div class="text-center">
                            <div class="account-logo">
-                              @if($domain_name && $domain_name->logo) 
-                                <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}" 
-                                    style="width: auto; height: 75px; object-fit: contain;">
-                                </a>
-                              @else
+                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
                                 <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
-                              @endif
+                            @else 
+                                @if($domain_name && $domain_name->logo) 
+                                    <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}" 
+                                        style="width: auto; height: 75px; object-fit: contain;">
+                                    </a>
+                                @else
+                                    <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/logo.png')}}" alt="SWCH"></a>
+                                @endif
+                            @endif  
                               
                            </div>
                            <h3 class="account-title mt-4">Register Here</h3>
