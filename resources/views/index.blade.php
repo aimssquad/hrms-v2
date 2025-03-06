@@ -16,13 +16,16 @@
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
-      <title>{{$domain_name->com_name}}</title>
-      @else
       <title>SWCH Login</title>
+       <!-- Favicon -->
+       <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+      @else
+      <title>{{$domain_name->com_name}}</title>
+       <!-- Favicon -->
+       <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
       @endif
       
-      <!-- Favicon -->
-      <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+     
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">
       <!-- Fontawesome CSS -->

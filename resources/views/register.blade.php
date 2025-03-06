@@ -6,13 +6,22 @@
       <meta name="description" content="Smarthr - Bootstrap Admin Template">
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
+      @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+        <title>Register - HRMS</title>
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+      @else
+        <title>{{$domain_name->com_name}}</title>
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
+      @endif
       <title>Register - HRMS</title>
       <!-- Favicon -->
-        @if($domain_name && $domain_name->logo)
+        {{-- @if($domain_name && $domain_name->logo)
             <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
         @else
             <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
-        @endif
+        @endif --}}
       {{-- @if($domain_name->logo) 
       <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
       @else
