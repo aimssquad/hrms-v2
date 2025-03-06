@@ -24,6 +24,7 @@ class LandingController extends Controller
 
         // echo "Base URL: " . $baseUrl . "<br>";
         // echo "Domain Name: " . $domainName;
+        $data['dName'] = $domainName;
         $data = [];
         if ($domainName != 'skilledworkerscloud.co.uk' && $domainName != 'swcworlds.com') {
             // Fetch the domain from the database
