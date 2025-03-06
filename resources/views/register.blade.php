@@ -13,7 +13,12 @@
       @else
         <title>Register -{{$domain_name->com_name}}</title>
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
+        {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}"> --}}
+        @if($domain_name && $domain_name->logo) 
+            <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
+        @else
+            <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/assets/img/logo2.png')}}">
+        @endif
       @endif
     
       
@@ -163,7 +168,7 @@
                                         style="width: auto; height: 75px; object-fit: contain;">
                                     </a>
                                 @else
-                                    <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/logo.png')}}" alt="SWCH"></a>
+                                    <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/logo2.png')}}" alt="SWCH"></a>
                                 @endif
                             @endif  
                               
