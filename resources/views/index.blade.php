@@ -20,7 +20,7 @@
        <!-- Favicon -->
        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
       @else
-      <title>{{$domain_name->com_name}}</title>
+      <title>Login -{{$domain_name->com_name}}</title>
        <!-- Favicon -->
        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
       @endif

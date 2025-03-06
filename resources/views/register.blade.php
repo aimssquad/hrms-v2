@@ -11,22 +11,12 @@
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
       @else
-        <title>{{$domain_name->com_name}}</title>
+        <title>Register -{{$domain_name->com_name}}</title>
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
       @endif
       <title>Register - HRMS</title>
-      <!-- Favicon -->
-        {{-- @if($domain_name && $domain_name->logo)
-            <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
-        @else
-            <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
-        @endif --}}
-      {{-- @if($domain_name->logo) 
-      <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
-      @else
-      <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
-      @endif --}}
+    
       
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">
