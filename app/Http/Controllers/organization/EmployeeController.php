@@ -275,6 +275,10 @@ class EmployeeController extends Controller
         if (!empty(Session::get('emp_email'))) {
             // echo $id = Input::get('q');
             //dd($request->all());
+            $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+            // Extract only the domain name and store it in a variable
+            $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+            //dd($baseUrl);
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
 
@@ -1724,13 +1728,13 @@ class EmployeeController extends Controller
                 );
                 DB::table('role_authorization')->insert($ins_data_role1);
 
-                $data = array('firstname' => $request->emp_fname, 'maname' => $request->emp_mid_name, 'email' => $request->emp_ps_email, 'lname' => $request->emp_lname, 'password' => $p_dd);
+                $data = array('firstname' => $request->emp_fname, 'maname' => $request->emp_mid_name, 'email' => $request->emp_ps_email, 'lname' => $request->emp_lname, 'password' => $p_dd, 'baseUrl' =>$baseUrl);
                 $toemail = $request->emp_ps_email;
-                // Mail::send('mail', $data, function ($message) use ($toemail) {
-                //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject
-                //         ('Employee Login  Details');
-                //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
-                // });
+                Mail::send('mail', $data, function ($message) use ($toemail) {
+                    $message->to($toemail, env('MAIL_FROM_NAME'))->subject
+                        ('Employee Login  Details');
+                    $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                });
 
                 Session::flash('message', 'Please assign the role.');
                 return redirect('organization/emplist');
