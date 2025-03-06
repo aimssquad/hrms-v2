@@ -1738,9 +1738,9 @@ class EmployeeController extends Controller
                 //         ('Employee Login  Details');
                 //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
                 // });
-                Mail::send('mail', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                Mail::send('mail', $data, function ($message) use ($toemail) {
                     $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Employee Login Details');
-                    $message->from($company_email, $company_name);
+                    $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                 });
                 
 

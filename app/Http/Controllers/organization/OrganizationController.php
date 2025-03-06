@@ -135,7 +135,7 @@ class OrganizationController extends Controller
                 ->where('status', '=', 'active')
                 ->where('email', '=', $email)
                 ->first();
-             dd($data['companies_rs']);
+             //dd($data['companies_rs']);
             //dd($data); 
             return view($this->_routePrefix . '.profile',$data);
 
@@ -309,8 +309,9 @@ class OrganizationController extends Controller
                 ]);
                 //dd($password);
                 $existingCompanyInfo = DB::table('registration')->where('status', '=', 'active')->where('email', $email)->first();
-                //dd($existingCompanyInfo->licence);
-
+                dd($existingCompanyInfo->licence,$existingCompanyInfo->verify,$request->verify,$existingCompanyInfo->com_name,$existingCompanyInfo->authemail);
+                $company_email = $request->email;
+                $company_name = $request->company_name;
                 if ($request->has('image')) {
 
                     $file = $request->file('image');
@@ -709,46 +710,21 @@ class OrganizationController extends Controller
                 }
 
                 if ($existingCompanyInfo->verify == 'not approved' && $request->verify == 'approved') {
-                    //     //mail to case worker for assignment of organisation
-                    //     $data = array('to_name' => '', 'body_content' => 'Organisation with name "' . $existingCompanyInfo->com_name . '" has been verified for license apply. Please proceed with the needful.');
 
-                    //     //$toemail = 'm.subhasish@gmail.com';
-                    //     $toemail = 'hr@workpermitcloud.co.uk';
-                    //     Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
-                    //         $message->to($toemail, 'Workpermitcloud')->subject
-                    //             ('Organisation License Applied');
-                    //         $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
-                    //     });
-                    //     // $toemail = 'invoice@workpermitcloud.co.uk';
-                    //     // Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
-                    //     //     $message->to($toemail, 'Workpermitcloud')->subject
-                    //     //         ('Organisation License Applied');
-                    //     //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
-                    //     // });
-                
                     $data_email = array('to_name' => '', 'body_content' => 'License already applied, please issue the 1st Invoice.<p> Organisation with name "' . $existingCompanyInfo->com_name . '" .</p><p>Invoice Amount: £1500 plus VAT</p>');
-
-                    $toemail = 'invoice@workpermitcloud.co.uk';
-                    Mail::send('mailsmcommon', $data_email, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
-                            ('License invoice');
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                    $toemail = 'info@skilledworkerscloud.co.uk';
+                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                        $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Organisation License Applied');
+                        $message->from($company_email, $company_name);
                     });
-
                     if($existingCompanyInfo->authemail !=null || trim($existingCompanyInfo->authemail) !=''){
-                            
+                     
                         $toemail = $existingCompanyInfo->authemail;
-                        Mail::send('mailsmslaprior', $data_email, function ($message) use ($toemail) {
-                            $message->to($toemail, 'Workpermitcloud')->subject
-                                ('Need your action to complete sponsorship licence application');
-                            $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        Mail::send('mailsmcommon', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                            $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Need your action to complete sponsorship licence application');
+                            $message->from($company_email, $company_name);
                         });
-                        $toemail = "m.subhasish@gmail.com";
-                        Mail::send('mailsmslaprior', $data_email, function ($message) use ($toemail) {
-                            $message->to($toemail, 'Workpermitcloud')->subject
-                                ('Need your action to complete sponsorship licence application');
-                            $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
-                        });
+                    
                     }                    
 
                 }
@@ -757,74 +733,37 @@ class OrganizationController extends Controller
                     //mail to case worker for assignment of organisation
                     $data = array('to_name' => '', 'body_content' => 'Organisation with name "' . $existingCompanyInfo->com_name . '" has been applied for license. Please proceed with the HR File.');
 
-                    //$toemail = 'm.subhasish@gmail.com';
-                    $toemail = 'hr@workpermitcloud.co.uk';
-                    //$toemail = 'manager@workpermitcloud.co.uk';
-                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
-                            ('New Unassigned HR');
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                    $toemail = 'sales@skilledworkerscloud.co.uk';
+               
+                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                        $message->to($toemail, env('MAIL_FROM_NAME'))->subject('New Unassigned HR');
+                        $message->from($company_email, $company_name);
                     });
 
                     $data = array('to_name' => '', 'body_content' => 'Organisation with name "' . $existingCompanyInfo->com_name . '" has been applied for license. Please proceed with the Recruitement File.');
-
-                    //$toemail = 'm.subhasish@gmail.com';
-                    $toemail = 'recruitment@workpermitcloud.co.uk';
-                    //$toemail = 'manager@workpermitcloud.co.uk';
-                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
-                            ('New Recruitment organisation');
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                    $toemail = 'info@skilledworkerscloud.co.uk';
+                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                        $message->to($toemail, env('MAIL_FROM_NAME'))->subject('New Recruitment organisation');
+                        $message->from($company_email, $company_name);
                     });
 
-                    $toemail = 'm.subhasish@gmail.com';
-                    // $toemail = 'hr@workpermitcloud.co.uk';
-                    //$toemail = 'manager@workpermitcloud.co.uk';
-                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
-                            ('New Unassigned HR');
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
-                    });
-
-                    $data = array('to_name' => '', 'body_content' => 'Organisation with name "' . $existingCompanyInfo->com_name . '" has been applied for license. Please proceed with the Recruitement File.');
-
-                    $toemail = 'm.subhasish@gmail.com';
-                    // $toemail = 'recruitment@workpermitcloud.co.uk';
-                    //$toemail = 'manager@workpermitcloud.co.uk';
-                    Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
-                            ('New Recruitment organisation');
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
-                    });
-
-                     //$data = array('to_name' => '', 'body_content' => 'First license invoice need to be raised for Organisation with name "' . $existingCompanyInfo->com_name . '". Please proceed with the needful.');
-                    if($existingCompanyInfo->authemail !=null || trim($existingCompanyInfo->authemail) !=''){
-                            
+                    $data_email = array('to_name' => '', 'body_content' => 'License already applied, please issue the 1st Invoice.<p> Organisation with name "' . $existingCompanyInfo->com_name . '" .</p><p>Invoice Amount: £1500 plus VAT</p>');
+                    if($existingCompanyInfo->authemail !=null || trim($existingCompanyInfo->authemail) !=''){         
                         $toemail = $existingCompanyInfo->authemail;
-                        Mail::send('mailsmsla', $data_email, function ($message) use ($toemail) {
-                            $message->to($toemail, 'Workpermitcloud')->subject
-                                ('Need action to prepare HR File');
-                            $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        Mail::send('mailsmsla', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                            $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Need action to prepare HR File');
+                            $message->from($company_email, $company_name);
                         });
                     }        
-                    $toemail = 'm.subhasish@gmail.com';
-                        Mail::send('mailsmsla', $data_email, function ($message) use ($toemail) {
-                            $message->to($toemail, 'Workpermitcloud')->subject
-                                ('Need action to prepare HR File');
-                            $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
-                        });            
-
-
                 }
 
                 if ($Roledatauseer->created_at != '' && $Roledatauseer->updated_at == '') {
 
                     $data = array('f_name' => $request->f_name, 'l_name' => $request->l_name, 'com_name' => $request->com_name, 'p_no' => $request->p_no, 'email' => $request->email);
-                    $toemail = 'admin@workpermitcloud.co.uk';
-                    Mail::send('mailorupnew', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
-                            ('Organisation Update');
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                    $toemail = 'info@skilledworkerscloud.co.uk';
+                    Mail::send('mailorupnew', $data, function ($message) use ($toemail, $company_email, $company_name) {
+                        $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Organisation Update');
+                        $message->from($company_email, $company_name);
                     });
                 }
 
