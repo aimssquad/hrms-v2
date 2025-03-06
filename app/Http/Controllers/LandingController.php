@@ -72,6 +72,7 @@ class LandingController extends Controller
         // echo "Base URL: " . $baseUrl . "<br>";
         // echo "Domain Name: " . $domainName;
         $data = [];
+        $data['dName'] = $domainName;
         if ($domainName != 'skilledworkerscloud.co.uk' && $domainName != 'swcworlds.com') {
             // Fetch the domain from the database
             $domain = DB::table('sub_admin_registrations')->where('domain_name', $domainName)->first();

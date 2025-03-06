@@ -301,7 +301,7 @@
                             
                         </div>
                         <div class="carousel-inner">
-                            {{-- @if($domain_name == 'skilledworkerscloud.co.uk' || $domain_name2 == 'swcworlds.com') 
+                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
                                 @if($videos->isNotEmpty())
                                     @foreach($videos as $key => $video)
                                         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
@@ -333,7 +333,7 @@
                                         </div>
                                     </div>
                                 @endif
-                            @else --}}
+                            @else
                                 <div class="carousel-item active">
                                     <div class="img_middle">
                                         <img src="{{ asset('frontend/assets/img/b1.jpg') }}" alt="Default Image">
@@ -361,7 +361,25 @@
                                         <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
                                     </div>
                                 </div>
-                            {{-- @endif --}}
+                                <div class="carousel-item active">
+                                    <div class="img_middle">
+                                        <img src="{{ asset('frontend/assets/img/b5.jpg') }}" alt="Default Image">
+                                    </div>
+                                    <div class="login_banner_text">
+                                        <h2>Your UKVI Compliance Partner</h2>
+                                        <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item active">
+                                    <div class="img_middle">
+                                        <img src="{{ asset('frontend/assets/img/b5.jpg') }}" alt="Default Image">
+                                    </div>
+                                    <div class="login_banner_text">
+                                        <h2>Your UKVI Compliance Partner</h2>
+                                        <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
