@@ -21,42 +21,6 @@ class LeaveController extends Controller
 {
     public function leave(Request $request){
         try {
-            // if (auth()->check()) {
-            //     $fromDate = $request->from_date;
-            //     $toDate = $request->to_date;
-            //     $employeeId = auth()->user()->employee_id;
-            //     $query = LeaveApply::with('leaveType')->where('employee_id',$employeeId);
-            //     $totalMaxNo = leaveAllocation::where('employee_code', $employeeId)->sum('max_no');
-            //     $totalLeaveInHand = leaveAllocation::where('employee_code', $employeeId)->sum('leave_in_hand');
-            //     $leaveBalance = $totalMaxNo - $totalLeaveInHand;
-            //     $totalLeaveBalance ='';
-            //     if($leaveBalance >0){
-            //         $totalLeaveBalance =  $leaveBalance;
-            //     } else {
-            //         $totalLeaveBalance = 0;
-            //     }
-
-
-            //     if (!empty($fromDate) && !empty($toDate)) {
-            //         $query->whereBetween('from_date', [$fromDate, $toDate]);
-            //     }
-            //     $data = $query->get();
-
-            //     //dd($data[0]->emp_lv_sanc_auth);
-            //     $data->transform(function ($item) {
-            //         return collect($item)->map(function ($value) {
-            //             return $value === null ? "" : $value;
-            //         });
-            //     });
-                
-            //     $dynamicFlag = 1;
-            //     $message = "Data get successfully";
-            //     return Helper::rjd(
-            //         $message,
-            //         $dynamicFlag,
-            //         $data,
-            //         $totalLeaveBalance
-            //     );
             if (auth()->check()) {
                 $fromDate = $request->from_date;
                 $toDate = $request->to_date;
@@ -279,6 +243,7 @@ class LeaveController extends Controller
                 //dd($emid);
                 $request->validate([
                     'doc_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
+                    'leave_cos' => 'required'
                 ]);
     
                 $report_auth = Employee::where("emp_code", "=", $employeeId)
@@ -340,6 +305,7 @@ class LeaveController extends Controller
                     $data["from_date"] = $request->from_date;
                     $data["to_date"] = $request->to_date;
                     $data["no_of_leave"] = $no_of_leave;
+                    $data["leave_cos"] = $request->leave_cos;
                     $data["status"] = "NOT APPROVED";
                     $data["emid"] = $emid;
                     //dd($data);
