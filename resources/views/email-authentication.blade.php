@@ -49,9 +49,10 @@
 							<!-- Account Form -->
 							<form action="" method="post" id="my_captcha_form">
                                 @csrf
+								<input type="hidden" name="email" value="{{ session('email') }}">
 								<div class="input-block mb-4">
-									<label class="col-form-label">Email Address</label>
-									<input class="form-control" type="text" name="email">
+									<label class="col-form-label">Enter OTP</label>
+									<input class="form-control" type="text" name="otp" required>
 								</div>
 								<div class="input-block mb-4 text-center">
 									<button class="btn btn-primary account-btn" type="submit">Send</button>

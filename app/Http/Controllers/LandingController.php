@@ -63,7 +63,6 @@ class LandingController extends Controller
         // Store the OTP and registration data in the cache for 5 minutes
         Cache::put('registration_data_' . $request->email, $registrationData, now()->addMinutes(5));
         Cache::put('otp_' . $request->email, $otp, now()->addMinutes(5));
-        $storedOTP = Cache::get('otp_' . $request->email);
         $toemail = $request->email;
         $data = ['otp' => $otp, 'email'=>$request->email,'com_name'=>$request->com_name];
         Mail::send("mail-otp", $data, function ($message) use ($toemail) {
@@ -72,8 +71,58 @@ class LandingController extends Controller
                 ->subject("New Organisation Registered");
             $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
         });
+        return redirect()->route('verify.otp')->with('email', $request->email);
+    }
+    public function showOTPForm()
+    {
+        return view('email-authentication');
+    }
+
+    public function completeRegistration(Request $request)
+    {
+        // Validate the request
+        dd($request->all());
+        $request->validate([
+            'otp' => 'required|string|size:6',
+            'email' => 'required|email',
+        ]);
+
+        // Retrieve the stored OTP and registration data
+        $storedOTP = Cache::get('otp_' . $request->email);
         $registrationData = Cache::get('registration_data_' . $request->email);
-        dd($registrationData);
+        
+        // Check if the OTP matches
+        if ($storedOTP && $storedOTP == $request->otp) {
+            dd('okk');
+            // Save the registration data to the database
+            DB::table("registration")->insert([
+                "com_name" => $registrationData['com_name'],
+                "f_name" => $registrationData['f_name'],
+                "l_name" => $registrationData['l_name'],
+                "email" => $registrationData['email'],
+                "p_no" => $registrationData['p_no'],
+                "pass" => bcrypt($registrationData['pass']), // Hash the password
+                "subadmin" => $registrationData['subadmin'],
+                "org_code" => $registrationData['org_code'],
+                "country" => $registrationData['country'],
+                "country_code" => $registrationData['country_code'],
+                "created_at" => now(),
+            ]);
+
+            // Clear the OTP and registration data from the cache
+            Cache::forget('otp_' . $request->email);
+            Cache::forget('registration_data_' . $request->email);
+
+            // Redirect to the login page with a success message
+            return redirect()->route('login')->with('success', 'Registration successful! You can now login.');
+        } else {
+            Session::flash(
+                "message",
+                "Invalid OTP. Please try again."
+            );
+            // Redirect back with an error message
+            return redirect('register')->with('error', 'Invalid OTP. Please try again.');
+        }
     }
 
     public function index()
