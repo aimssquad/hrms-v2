@@ -1531,19 +1531,19 @@ class RecruitmentController extends Controller
             $toemail = $job->email;
 
             Mail::send('mailsend', $data, function ($message) use ($toemail, $path) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skillworkerscloud')->subject
                     ('Job Offer');
                 $message->attach($path);
-                $message->from('infoswc@skilledworkerscloud.co.uk', 'Workpermitcloud');
+                $message->from('infoswc@skilledworkerscloud.co.uk', 'Skillworkerscloud');
             });
 
             $toemail = $Roledata->authemail;
 
             Mail::send('mailsend', $data, function ($message) use ($toemail, $path) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skillworkerscloud')->subject
                     ('Job Offer');
                 $message->attach($path);
-                $message->from('infoswc@skilledworkerscloud.co.uk', 'Workpermitcloud');
+                $message->from('infoswc@skilledworkerscloud.co.uk', 'Skillworkerscloud');
             });
 
             Session::flash('message', 'Job Offer Letter send Successfully.');
@@ -1853,14 +1853,14 @@ class RecruitmentController extends Controller
                     'email' => $Roleempdata->email, 'msg' => $request->msg);
                 $toemail = $request->email;
                 Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
-                    $message->to($toemail, 'Workpermitcloud')->subject
+                    $message->to($toemail, 'Skillworkerscloud')->subject
                         ($sub);
                     foreach ($path as $filePath) {
 
                         $message->attach($filePath);
                     }
 
-                    $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkerscloud');
                 });
 
                 if ($request->cc != '') {
@@ -1869,14 +1869,14 @@ class RecruitmentController extends Controller
                         'email' => $Roleempdata->email, 'msg' => $request->msg);
                     $toemail = $request->cc;
                     Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skillworkerscloud')->subject
                             ($sub);
                         foreach ($path as $filePath) {
 
                             $message->attach($filePath);
                         }
 
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkerscloud');
                     });
 
                 }
@@ -1886,9 +1886,9 @@ class RecruitmentController extends Controller
                     'email' => $Roleempdata->email, 'msg' => $request->msg);
                 $toemail = $request->email;
                 Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
-                    $message->to($toemail, 'Workpermitcloud')->subject
+                    $message->to($toemail, 'Skillworkerscloud')->subject
                         ($sub);
-                    $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkerscloud');
                 });
 
                 if ($request->cc != '') {
@@ -1898,9 +1898,9 @@ class RecruitmentController extends Controller
                         'email' => $Roleempdata->email, 'msg' => $request->msg);
                     $toemail = $request->cc;
                     Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skillworkerscloud')->subject
                             ($sub);
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkerscloud');
                     });
 
                 }
@@ -2298,10 +2298,10 @@ class RecruitmentController extends Controller
                 //$toemail = 'm.subhasish@gmail.com';
 
                 Mail::send('mailjobapplyinterview', $dataup, function ($message) use ($toemail) {
-                    $message->to($toemail, 'Workpermitcloud')->subject
+                    $message->to($toemail, 'Skillworkerscloud')->subject
                         ('Interview Confirmation');
 
-                    $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkerscloud');
                 });
             }
 
@@ -2311,10 +2311,10 @@ class RecruitmentController extends Controller
                 //$toemail = 'm.subhasish@gmail.com';
 
                 Mail::send('mailjobapplyinterview', $dataup, function ($message) use ($toemail) {
-                    $message->to($toemail, 'Workpermitcloud')->subject
+                    $message->to($toemail, 'Skillworkerscloud')->subject
                         ('Interview Confirmation');
 
-                    $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkerscloud');
                 });
             }
 
@@ -2345,18 +2345,18 @@ class RecruitmentController extends Controller
             $toemail = $job->email;
 
             Mail::send('mailjob', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skillworkerscloud')->subject
                     ('Confirmation of Your Application ');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkerscloud');
             });
             $toemail = $Roledata->authemail;
 
             Mail::send('mailjob', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skillworkerscloud')->subject
                     ('Confirmation of Your Application ');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkerscloud');
             });
 
             Session::flash('message', 'Job Applied  send Successfully.');

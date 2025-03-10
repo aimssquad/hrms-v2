@@ -10,16 +10,16 @@
 <table style="width:100%;">
   <thead>
     <tr>
-	  <td><h3 style="color: #29b9ff;font-size: 20px;">Work Permit Cloud</h3>
+	  <td><h3 style="color: #29b9ff;font-size: 20px;">Skilled Workers Cloud Ltd</h3>
 	  <p>1st Floor, 112-116 Whitechapel Road<br />
 London, E1 1JE</p>
 
 <p>Phone: 020-808-723-43<br />
-Email:info@workpermitcloud.co.uk<br />
-www.workpermitcloud.co.uk
+Email:infoswc@skilledworkerscloud.co.uk<br />
+www.skilledworkerscloud.co.uk
 </p>
 </td>
-	  <td style="    text-align: right;"><img width="120" src="http://workpermitcloud.co.uk/hrms/public/assets/img/comp-logo.jpg" alt="" /></td>
+	  <td style="    text-align: right;"><img width="120" src="http://skilledworkerscloud.co.uk/hrms/public/assets/img/comp-logo.jpg" alt="" /></td>
 	</tr>
   </thead>
 </table>
@@ -32,14 +32,14 @@ www.workpermitcloud.co.uk
 	  
 
 <p>We will now create an employee profile for each of your employees. All of your employees will now receive an e-mail with user ID & Password to access their profile. They will be able to fill in necessary information and upload required documents (i.e. Passport, BRP card) in their profile. This will enable us to complete the HR file for every employee (i.e. Drafting employment contract, Holiday, Sickness and Absence record, Rota, Time sheet and check status of the right to work in the UK). </p>
-<p>If you have any queries, please contact us at <a href="mailto:info@workpermitcloud.co.uk">info@workpermitcloud.co.uk</a></p>
+<p>If you have any queries, please contact us at <a href="mailto:infoswc@skilledworkerscloud.co.uk">infoswc@skilledworkerscloud.co.uk</a></p>
 
 <p>Thanking you</p>
 
-<h5 style="margin-bottom:0;color: #29b9ff;font-size: 16px;">Work Permit Cloud Team</h5>
+<h5 style="margin-bottom:0;color: #29b9ff;font-size: 16px;">Skilled Workers Cloud Team</h5>
 <p style="margin-top:0;margin-bottom:0;">Phone: 020-808-723-43<br />
-Email:info@workpermitcloud.co.uk<br />
-www.workpermitcloud.co.uk
+Email:infoswc@skilledworkerscloud.co.uk<br />
+www.skilledworkerscloud.co.uk
 </p>
 	</td>
   </tr>

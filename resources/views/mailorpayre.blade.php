@@ -4,4 +4,4 @@
  <p>Download you invoice from the link: {{$invoice_path}}</p>
 
   <p>  Thanks & Regards</p>
-   <p>  Workpermitcloud limited</p>
+   <p>  skilledworkerscloud limited</p>

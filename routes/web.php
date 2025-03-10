@@ -127,6 +127,7 @@ Route::put('superadmin/upload-register-video-image/{id}', 'App\Http\Controllers\
 Route::get('forgot-password', 'App\Http\Controllers\organization\LandingController@indexfor');
 Route::post('forgot-password', 'App\Http\Controllers\organization\LandingController@Doforgot');
 
+
 //Export Excel Dynamically route
 Route::post('/export-table-data', [ExportController::class, 'exportTableData'])->name('exportTableData');
 Route::post('/export-pdf', [PDFController::class, 'exportPDF'])->name('exportPDF');
@@ -667,6 +668,9 @@ Route::get('otpsend', 'App\Http\Controllers\LandingController@otpsend');
 Route::get('employerdashboard', 'App\Http\Controllers\LandingController@Dashboard')->name('home');
 //payroll dashboard
 Route::get('payroll-home-dashboard', 'App\Http\Controllers\HomeController@Dashboard');
+
+Route::get('email-authentication', 'App\Http\Controllers\organization\LandingController@emailAuthenticate');
+Route::post('email-authentication', 'App\Http\Controllers\organization\LandingController@sendOtp');
 
 
 

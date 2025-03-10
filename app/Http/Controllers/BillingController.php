@@ -186,20 +186,20 @@ class BillingController extends Controller
 				}
              
                 Mail::send('mailbillsend', $data, function($message) use($toemail,$path) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('Bill Details');
                   $message->attach($path);
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 }); 
                 $data = array('name'=>$pass->f_name.' '.$pass->l_name,'com_name'=>$com_name,'address' =>$add ,'users'=>$usersnew,'billing_type'=>$job->billing_type);
       
-                $toemail='accounts@workpermitcloud.co.uk';
+                $toemail='accounts@skilledworkerscloud.co.uk';
              
                 Mail::send('mailbillsend', $data, function($message) use($toemail,$path) {
-                $message->to($toemail, 'WorkPermitCloud')->subject
+                $message->to($toemail, 'Skilledworkescoud')->subject
                 ('Invoice Details');
                   $message->attach($path);
-                $message->from('noreply@workpermitcloud.co.uk','WorkPermitCloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescoud');
                 });
                 
                	$usersnew=DB::Table('users')
@@ -213,10 +213,10 @@ class BillingController extends Controller
                 $toemail=$pass->organ_email;
              
                 Mail::send('mailbillsend', $data, function($message) use($toemail,$path) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('Bill Details');
                   $message->attach($path);
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 }); 
 	  $dataimgedit=array(
                  'bill_send'=>date('Y-m-d'),
@@ -662,29 +662,29 @@ $datap = ['Roledata' => $Roledata,'pay_recipt' => $pid,'re_amount'=>$request->re
                 $toemail=$Roledata->email;
              
                 Mail::send('mailorpayre', $datanew, function($message) use($toemail,$path) {
-                $message->to($toemail, 'Skilledworkerroute')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('Payment Receive   Details');
                   $message->attach($path);
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 }); 
                 	$path=public_path().'/paypdf/'.$filename;
         $datanew = array('f_name'=>$Roledata->f_name,'l_name'=>$Roledata->l_name,'com_name'=>$Roledata->com_name,'p_no'=>$Roledata->p_no,'email'=>$Roledata->email,'pass'=>$Roledata->pass,'amount'=>$request->re_amount,'bill'=>$lsatdeptnmdb->in_id);
                $toemail=$Roledata->authemail;   
                 Mail::send('mailorpayre', $datanew, function($message) use($toemail,$path) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('Payment Receive   Details');
                   $message->attach($path);
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 }); 
                 
 				  $path=public_path().'/paypdf/'.$filename;
         $datanew = array('f_name'=>$Roledata->f_name,'l_name'=>$Roledata->l_name,'com_name'=>$Roledata->com_name,'p_no'=>$Roledata->p_no,'email'=>$Roledata->email,'pass'=>$Roledata->pass,'amount'=>$request->re_amount,'bill'=>$lsatdeptnmdb->in_id);
-               $toemail="accounts@workpermitcloud.co.uk";   
+               $toemail="accounts@skilledworkerscloud.co.uk";   
                 Mail::send('mailorpayre', $datanew, function($message) use($toemail,$path) {
                 $message->to($toemail, 'Workpermitcloud')->subject
                 ('Payment Receive   Details');
                   $message->attach($path);
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Workpermitcloud');
                 }); 
 				  		
 	
@@ -771,29 +771,29 @@ $datap = ['Roledata' => $Roledata,'pay_recipt' => $pid,'re_amount'=>$request->re
                 $toemail=$Roledata->email;
              
                 Mail::send('mailorpayre', $datanew, function($message) use($toemail,$path) {
-                $message->to($toemail, 'Skilledworkerroute')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('Payment Receive   Details');
                   $message->attach($path);
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 }); 
                 	$path=public_path().'/paypdf/'.$filename;
         $datanew = array('f_name'=>$Roledata->f_name,'l_name'=>$Roledata->l_name,'com_name'=>$Roledata->com_name,'p_no'=>$Roledata->p_no,'email'=>$Roledata->email,'pass'=>$Roledata->pass,'amount'=>$request->re_amount,'bill'=>$lsatdeptnmdb->in_id);
                $toemail=$Roledata->authemail;   
                 Mail::send('mailorpayre', $datanew, function($message) use($toemail,$path) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('Payment Receive   Details');
                   $message->attach($path);
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 }); 
                 
 				  $path=public_path().'/paypdf/'.$filename;
         $datanew = array('f_name'=>$Roledata->f_name,'l_name'=>$Roledata->l_name,'com_name'=>$Roledata->com_name,'p_no'=>$Roledata->p_no,'email'=>$Roledata->email,'pass'=>$Roledata->pass,'amount'=>$request->re_amount,'bill'=>$lsatdeptnmdb->in_id);
-               $toemail="info@workpermitcloud.co.uk";   
+               $toemail="info@skilledworkerscloud.co.uk";   
                 Mail::send('mailorpayre', $datanew, function($message) use($toemail,$path) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('Payment Receive   Details');
                   $message->attach($path);
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 }); 
 				  
        	Session::flash('message','Payment Received Successfully .');

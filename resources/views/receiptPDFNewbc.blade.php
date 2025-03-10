@@ -32,22 +32,22 @@
             <thead>
                 <tr>
                     <th style="text-align: left;">
-                        <h3 style="font-size: 25px;">WorkPermitCloud Limited </h3>
+                        <h3 style="font-size: 25px;">Skilled Workers Cloud Limited </h3>
                     </th>
                     <th style="text-align: right;">
                         <h3 style="font-size: 20px;padding-right: 38px;">Tax Invoice</h3>
                     </th>
                 </tr>
                 <tr>
-                    <th style="text-align: left;">2nd Floor, 112-116, Whitechapel Road, London, E1 1JE
-                        <br>+44-020-8087-2343<br>
-                        info@workpermitcloud.co.uk<br>
-                        www.workpermitcloudlimited.co.uk<br>
-                        VAT Registration# 3843391960
+                    <th style="text-align: left;">
+                        <br>+44 0208 129 1655<br>
+                        infoswc@skilledworkerscloud.co.uk<br>
+                        www.infoswc@skilledworkerscloud.co.uk<br>
+                        VAT Registration# 855564752
                     </th>
 
                     <th style="text-align: right;"><img
-                            src="https://workpermitcloud.co.uk/hrms/public/assets/img/logo.png"></th>
+                            src="https://skilledworkerscloud.co.uk/hrms-v2/public/assets/img/logo.png"></th>
                     <!-- <th style="text-align: right;"><img
                             src="http://localhost/hrms/public/assets/img/logo.png"></th> -->
                 </tr>
@@ -287,7 +287,7 @@
 
         <table width="100%" style="font-family: calibri;margin: 25px auto;text-align: left;border-collapse:collapse;">
             <tr>
-                <td>Thank you for selecting WorkPermitCloud Limited as your preferred business partner! </td>
+                <td>Thank you for selecting Skilled Workers Cloud Limited as your preferred business partner! </td>
 
             </tr>
             <tr>
@@ -300,11 +300,11 @@
             <tfoot style="position: fixed;bottom: 0;">
                 <tr>
                     <!-- <td><img src="http://localhost/hrms/public/assets/img/ftr-logo.png"></td> -->
-                    <td><img src="https://workpermitcloud.co.uk/hrms/public/assets/img/ftr-logo.png"></td>
+                    <td><img src="https://skilledworkerscloud.co.uk/hrms-v2/public/assets/img/ftr-logo.png"></td>
                     <td>
-                        <p style="margin-bottom: 0;">WorkPermitCloud Limited is Regulated to provide immigration
+                        <p style="margin-bottom: 0;">Skilled Workers Cloud Limited is Regulated to provide immigration
                             services by the</p>
-                        <p style="margin-top: 0;">Immigration Ser-vices Commissioner. Registration No. F202100311.</p>
+                        <p style="margin-top: 0;">Immigration Ser-vices Commissioner. Registration No. F50254551.</p>
                     </td>
                 </tr>
             </tfoot>

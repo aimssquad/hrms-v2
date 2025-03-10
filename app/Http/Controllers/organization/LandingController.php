@@ -620,5 +620,41 @@ class LandingController extends Controller
         return view("forgot-password");
     }
 
+    public function emailAuthenticate(){
+        return view('email-authentication');
+    }
+
+    public function sendOtp(Request $request){
+            $validateEmail = $request->validate([
+                'email' => 'required|email',
+            ]);
+            dd($validateEmail['email']);
+            $randomNumber = mt_rand(100000, 999999);
+            $base_url = env('BASE_URL');
+            $toemail = $validateEmail['email'];
+            
+            dd($toemail,$randomNumber,$base_url);
+            $Employee = UserModel::where("email", $email)->first();
+            $data = ["otp" =>$randomNumber, "name" => $Employee->name, "url" => $base_url];
+            if ($Employee) {
+                $Employee->otp = $randomNumber;
+                $Employee->save();
+                Mail::send("mailotp", $data, function ($message) use ($toemail) {
+                    $message
+                        ->to($toemail, "SWCH")
+                        ->subject("OTP Validation");
+                    $message->from("infoswc@skilledworkerscloud.co.uk", "Swch");
+                });
+            }
+
+            //return redirect()->intended("employerdashboard");
+            Session::flash("message", "Send otp check your mail!!");
+            return redirect()->back();
+        
+        // } catch (Exception $e) {
+        //     throw new \App\Exceptions\FrontException($e->getMessage());
+        // }
+    }
+
 
 }

@@ -2447,7 +2447,7 @@ class AdminController extends Controller
                             ->where('reg', '=', $lsatdeptnmdb->emid)
                             ->first();
                         $path = public_path() . '/paypdf/' . $filename;
-                        $dynamic_invoice_path = "https://workpermitcloud.co.uk/hrms/download-invoice/" . base64_encode($lastPayRec->id);
+                        $dynamic_invoice_path = "https://skilledworkerscloud.co.uk/hrms/download-invoice/" . base64_encode($lastPayRec->id);
 
                         $datanew = array('f_name' => $Roledata->f_name, 'l_name' => $Roledata->l_name, 'com_name' => $Roledata->com_name, 'p_no' => $Roledata->p_no, 'email' => $Roledata->email, 'pass' => $Roledata->pass, 'amount' => $request->re_amount, 'bill' => $lsatdeptnmdb->in_id, 'invoice_path' => $dynamic_invoice_path);
                         $toemail = $Roledata->email;
@@ -2475,7 +2475,7 @@ class AdminController extends Controller
 
                         $path = public_path() . '/paypdf/' . $filename;
                         $datanew = array('f_name' => $Roledata->f_name, 'l_name' => $Roledata->l_name, 'com_name' => $Roledata->com_name, 'p_no' => $Roledata->p_no, 'email' => $Roledata->email, 'pass' => $Roledata->pass, 'amount' => $request->re_amount, 'bill' => $lsatdeptnmdb->in_id, 'invoice_path' => $dynamic_invoice_path);
-                        $toemail = "accounts@workpermitcloud.co.uk";
+                        $toemail = "accounts@skilledworkerscloud.co.uk";
                         Mail::send('mailorpayre', $datanew, function ($message) use ($toemail, $path) {
                             $message->to($toemail, 'skilledworkerscloud')->subject
                                 ('Payment Receive   Details');
@@ -2485,7 +2485,7 @@ class AdminController extends Controller
 
                         if($recruitment_inv_payment_recv==true){
                             $bill_inv_info = DB::table('billing')->where('id', '=', $request->in_id)->orderBy('id', 'DESC')->first();
-                            $toemail = 'recruitment@workpermitcloud.co.uk';
+                            $toemail = 'recruitment@skilledworkerscloud.co.uk';
 
                             $data_email = array('to_name' => '', 'body_content' => 'Payment received for recruitment.
                             <p>Organisation with name "'.$Roledata->com_name.'"</p>
@@ -2601,7 +2601,7 @@ class AdminController extends Controller
 
                         $path = public_path() . '/paypdf/' . $filename;
 
-                        $dynamic_invoice_path = "https://workpermitcloud.co.uk/hrms/download-invoice/" . base64_encode($lastPayRec->id);
+                        $dynamic_invoice_path = "https://skilledworkerscloud.co.uk/hrms/download-invoice/" . base64_encode($lastPayRec->id);
 
                         $datanew = array('f_name' => $Roledata->f_name, 'l_name' => $Roledata->l_name, 'com_name' => $Roledata->com_name, 'p_no' => $Roledata->p_no, 'email' => $Roledata->email, 'pass' => $Roledata->pass, 'amount' => $request->re_amount, 'bill' => $lsatdeptnmdb->in_id, 'invoice_path' => $dynamic_invoice_path);
                         $toemail = $Roledata->email;
@@ -2631,7 +2631,7 @@ class AdminController extends Controller
                         $path = public_path() . '/paypdf/' . $filename;
                         $datanew = array('f_name' => $Roledata->f_name, 'l_name' => $Roledata->l_name, 'com_name' => $Roledata->com_name, 'p_no' => $Roledata->p_no, 'email' => $Roledata->email, 'pass' => $Roledata->pass, 'amount' => $request->re_amount, 'bill' => $lsatdeptnmdb->in_id, 'invoice_path' => $dynamic_invoice_path);
 
-                        $toemail = "info@workpermitcloud.co.uk";
+                        $toemail = "info@skilledworkerscloud.co.uk";
 
                         Mail::send('mailorpayre', $datanew, function ($message) use ($toemail, $path) {
                             $message->to($toemail, 'skilledworkerscloud')->subject
@@ -2642,7 +2642,7 @@ class AdminController extends Controller
 
                         if($recruitment_inv_payment_recv==true){
                             $bill_inv_info = DB::table('billing')->where('id', '=', $request->in_id)->orderBy('id', 'DESC')->first();
-                            $toemail = 'recruitment@workpermitcloud.co.uk';
+                            $toemail = 'recruitment@skilledworkerscloud.co.uk';
 
                             $data_email = array('to_name' => '', 'body_content' => 'Payment received for recruitment.
                             <p>Organisation with name "'.$Roledata->com_name.'"</p>
@@ -3035,7 +3035,7 @@ class AdminController extends Controller
                 }
                 $data = array('name' => $pass->f_name . ' ' . $pass->l_name, 'com_name' => $com_name, 'address' => $add, 'users' => $usersnew, 'billing_type' => $job->billing_type, 'bill_for' => $job->bill_for);
 
-                $toemail = 'accounts@workpermitcloud.co.uk';
+                $toemail = 'accounts@skilledworkerscloud.co.uk';
                 //dd($toemail);
                 Mail::send('mailbillsend', $data, function ($message) use ($toemail, $path) {
                     $message->to($toemail, 'skilledworkerscloud')->subject
@@ -6781,7 +6781,7 @@ class AdminController extends Controller
 
                         //$toemail = 'm.subhasish@gmail.com';
                         $toemail = $caseworker->notification_email;
-                        //$toemail = 'info@workpermitcloud.co.uk';
+                        //$toemail = 'info@skilledworkerscloud.co.uk';
                         if ($toemail != '') {
                             Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
                                 $message->to($toemail, 'skilledworkerscloud')->subject
@@ -7037,7 +7037,7 @@ class AdminController extends Controller
 
                     //$toemail = 'm.subhasish@gmail.com';
                     $toemail = $lsatdeptorganlasr->notification_email;
-                    //$toemail = 'hr@workpermitcloud.co.uk';
+                    //$toemail = 'hr@skilledworkerscloud.co.uk';
 
                     Mail::send('mailsmcommon', $data, function ($message) use ($toemail) {
                         $message->to($toemail, 'skilledworkerscloud')->subject
@@ -10389,7 +10389,7 @@ class AdminController extends Controller
                         ->where('employee_id', '=', $request->ref_id)
                         ->first();
 
-                    //$toemail = 'hr@workpermitcloud.co.uk';
+                    //$toemail = 'hr@skilledworkerscloud.co.uk';
                     $toemail = $caseworker->notification_email;
 
                     if ($toemail != '') {
@@ -10534,7 +10534,7 @@ class AdminController extends Controller
                         $data_email = array('to_name' => '', 'body_content' => 'License granted for Organisation with name "' . $data['Roledata']->com_name . '" . Please proceed with the needful for recruitment.');
 
                         //$toemail = 'm.subhasish@gmail.com';
-                        $toemail = 'recruitment@workpermitcloud.co.uk';
+                        $toemail = 'recruitment@skilledworkerscloud.co.uk';
                         Mail::send('mailsmcommon', $data_email, function ($message) use ($toemail) {
                             $message->to($toemail, 'skilledworkerscloud')->subject
                                 ('Organisation License Granted');
@@ -10543,7 +10543,7 @@ class AdminController extends Controller
 
                         $data_email = array('to_name' => '', 'body_content' => 'This company sponsorship licence is GRANTED. Please issue the 2nd invoice.<p> Organisation with name "' . $data['Roledata']->com_name . '" .</p><p>Invoice Amount: £750 plus VAT</p>');
 
-                        $toemail = 'invoice@workpermitcloud.co.uk';
+                        $toemail = 'invoice@skilledworkerscloud.co.uk';
                         Mail::send('mailsmcommon', $data_email, function ($message) use ($toemail) {
                             $message->to($toemail, 'skilledworkerscloud')->subject
                                 ('Organisation License Granted');
@@ -11202,7 +11202,7 @@ class AdminController extends Controller
                         ->where('employee_id', '=', $request->ref_id)
                         ->first();
 
-                    //$toemail = 'info@workpermitcloud.co.uk';
+                    //$toemail = 'info@skilledworkerscloud.co.uk';
                     $toemail = $caseworker->notification_email;
 
                     if ($toemail != '') {
@@ -11777,7 +11777,7 @@ class AdminController extends Controller
                         ->where('employee_id', '=', $request->ref_id)
                         ->first();
 
-                    // $toemail = 'info@workpermitcloud.co.uk';
+                    // $toemail = 'info@skilledworkerscloud.co.uk';
                     $toemail = $caseworker->notification_email;
 
                     if ($toemail != '') {
@@ -12022,7 +12022,7 @@ class AdminController extends Controller
                         ->where('employee_id', '=', $request->employee_id)
                         ->first();
 
-                    //$toemail = 'info@workpermitcloud.co.uk';
+                    //$toemail = 'info@skilledworkerscloud.co.uk';
                     $toemail = $caseworker->notification_email;
 
                     if ($toemail != '') {
@@ -12220,7 +12220,7 @@ class AdminController extends Controller
                         ->where('employee_id', '=', $request->employee_id)
                         ->first();
 
-                    // $toemail = 'info@workpermitcloud.co.uk';
+                    // $toemail = 'info@skilledworkerscloud.co.uk';
                     $toemail = $caseworker->notification_email;
 
                     if ($toemail != '') {
@@ -16539,9 +16539,9 @@ class AdminController extends Controller
                         $imgpa = '';
                         if ($leave_allocation->pay_recipt_pdf != '') {
 
-                            //$imgpa = '<a href="https://workpermitcloud.co.uk/hrms/public/paypdf/' . $leave_allocation->pay_recipt_pdf . '" data-toggle="tooltip" data-placement="bottom" title="Download" download>
-                            $imgpa = '<a target="_blank" href="https://workpermitcloud.co.uk/hrms/download-invoice/' . base64_encode($leave_allocation->id) . '" data-toggle="tooltip" data-placement="bottom" title="Download" download>
-<img style="width: 19px;" src="https://workpermitcloud.co.uk/hrms/public/assets/img/download.png"></a>';} else {
+                            //$imgpa = '<a href="https://skilledworkerscloud.co.uk/hrms/public/paypdf/' . $leave_allocation->pay_recipt_pdf . '" data-toggle="tooltip" data-placement="bottom" title="Download" download>
+                            $imgpa = '<a target="_blank" href="https://skilledworkerscloud.co.uk/hrms/download-invoice/' . base64_encode($leave_allocation->id) . '" data-toggle="tooltip" data-placement="bottom" title="Download" download>
+<img style="width: 19px;" src="https://skilledworkerscloud.co.uk/hrms/public/assets/img/download.png"></a>';} else {
 
                             $imgpa = '';
                         }

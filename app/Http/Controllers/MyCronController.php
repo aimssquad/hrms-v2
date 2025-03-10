@@ -80,10 +80,10 @@ class MyCronController extends Controller
 
         if ($toemail != '') {
             Mail::send('mailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary Visa 90-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
 
         }
@@ -93,10 +93,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('mailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary Visa 90-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -105,10 +105,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('mailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary Visa 90-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -136,10 +136,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('mailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary Visa 60-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -149,10 +149,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('mailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary Visa 60-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -162,10 +162,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('mailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary Visa 60-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -191,10 +191,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('mailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary Visa 30-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -203,10 +203,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('mailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary Visa 30-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -215,10 +215,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('mailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary Visa 30-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -421,10 +421,10 @@ class MyCronController extends Controller
 
         if ($toemail != '') {
             Mail::send('eussmailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 90-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
 
         }
@@ -434,10 +434,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('eussmailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 90-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -446,10 +446,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('eussmailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 90-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -477,10 +477,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('eussmailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 60-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -490,10 +490,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('eussmailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 60-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -503,10 +503,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('eussmailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 60-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -532,10 +532,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('eussmailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 30-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -544,10 +544,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('eussmailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 30-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -556,10 +556,10 @@ class MyCronController extends Controller
         if ($toemail != '') {
 
             Mail::send('eussmailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Right to Work Documentation – Temporary EUSS 30-day Reminder');
 
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
         }
 
@@ -708,10 +708,10 @@ class MyCronController extends Controller
                 if ($toemail != '') {
         
                     Mail::send('mailsendsubscription', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skilledworkescloud')->subject
                             ('Subscription Renewal 15-day Reminder');
         
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                     });
                     echo 'mail sent remind15';
                     // $file = fopen("public/subscription15.txt","a");
@@ -729,10 +729,10 @@ class MyCronController extends Controller
                 if ($toemail != '') {
         
                     Mail::send('mailsendsubscription', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skilledworkescloud')->subject
                             ('Subscription Renewal 30-day Reminder');
         
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                     });
                     echo 'mail sent remind30';
                     // $file = fopen("public/subscription30.txt","a");
@@ -792,32 +792,32 @@ class MyCronController extends Controller
                 if ($toemail != '') {
         
                     Mail::send('mailsendsplreminder', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skilledworkescloud')->subject
                             ('License Decision Pending 30-days Reminder');
         
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                     });
                     
                 }
-                $toemail = 'hr@workpermitcloud.co.uk';
+                $toemail = 'hr@skilledworkerscloud.co.uk';
                 //$toemail = 'm.subhasish@gmail.com';
                 if ($toemail != '') {
         
                     Mail::send('mailsendsplreminder', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skilledworkescloud')->subject
                             ('License Decision Pending 30-days Reminder');
         
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                     });
                     echo 'mail sent remind30';
                 }
 
                 // $toemail = 'm.subhasish@gmail.com';
                 // Mail::send('mailsendsplreminder', $data, function ($message) use ($toemail) {
-                //     $message->to($toemail, 'Workpermitcloud')->subject
+                //     $message->to($toemail, 'Skilledworkescloud')->subject
                 //         ('License Decision Pending 30-days Reminder');
     
-                //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                 // });
 
                 echo 'mail sent remind30';
@@ -837,32 +837,32 @@ class MyCronController extends Controller
                 if ($toemail != '') {
         
                     Mail::send('mailsendsplreminder', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skilledworkescloud')->subject
                             ('License Decision Pending 60-days Reminder');
         
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                     });
                     
                 }
-                $toemail = 'hr@workpermitcloud.co.uk';
+                $toemail = 'hr@skilledworkerscloud.co.uk';
                 //$toemail = 'm.subhasish@gmail.com';
                 if ($toemail != '') {
         
                     Mail::send('mailsendsplreminder', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skilledworkescloud')->subject
                             ('License Decision Pending 60-days Reminder');
         
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                     });
                     echo 'mail sent remind60';
                 }
 
                 // $toemail = 'm.subhasish@gmail.com';
                 // Mail::send('mailsendsplreminder', $data, function ($message) use ($toemail) {
-                //     $message->to($toemail, 'Workpermitcloud')->subject
+                //     $message->to($toemail, 'Skilledworkescloud')->subject
                 //         ('License Decision Pending 60-days Reminder');
     
-                //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                 // });
                 echo 'mail sent remind60';
 
@@ -881,33 +881,33 @@ class MyCronController extends Controller
                 if ($toemail != '') {
         
                     Mail::send('mailsendsplreminder', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skilledworkescloud')->subject
                             ('License Decision Pending 90-days Reminder');
         
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                     });
                     
                 }
 
-                $toemail = 'hr@workpermitcloud.co.uk';
+                $toemail = 'hr@skilledworkerscloud.co.uk';
                 //$toemail = 'm.subhasish@gmail.com';
                 if ($toemail != '') {
         
                     Mail::send('mailsendsplreminder', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'Workpermitcloud')->subject
+                        $message->to($toemail, 'Skilledworkescloud')->subject
                             ('License Decision Pending 90-days Reminder');
         
-                        $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                     });
                     echo 'mail sent remind90';
                 }
 
                 // $toemail = 'm.subhasish@gmail.com';
                 // Mail::send('mailsendsplreminder', $data, function ($message) use ($toemail) {
-                //     $message->to($toemail, 'Workpermitcloud')->subject
+                //     $message->to($toemail, 'Skilledworkescloud')->subject
                 //         ('License Decision Pending 90-days Reminder');
     
-                //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                 // });
                 echo 'mail sent remind90';
 

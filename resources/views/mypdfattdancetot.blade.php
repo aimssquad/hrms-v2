@@ -20,7 +20,7 @@ tr:nth-child(even) {
 <table style="width:100%;font-family:cambria">
  <thead>
   <tr>
-    <th style="text-align: left;width: 10%;"><img src="https://workpermitcloud.co.uk/hrms/public/{{ $com_logo }}" alt="" width="130"/></th>
+    <th style="text-align: left;width: 10%;"><img src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $com_logo }}" alt="" width="130"/></th>
 	<th style="width:90%"><h2 style="font-size: 30px;    margin-bottom: 0;">{{ $com_name }}</h2>
 	 <p style="margin:0;font-size:15px">{{ $address }}<br />{{$addresssub}}</p>
 

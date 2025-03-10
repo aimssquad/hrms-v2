@@ -201,9 +201,9 @@ class TaskController extends Controller
 				$file='';	
 		 if($leave_allocation->file!=''){
 			 $file='
-			   <a href="https://workpermitcloud.co.uk/hrms/public/'.$leave_allocation->file.'" data-toggle="tooltip" data-placement="bottom" title="Download" download>
+			   <a href="https://skilledworkerscloud.co.uk/hrms-v2/public/'.$leave_allocation->file.'" data-toggle="tooltip" data-placement="bottom" title="Download" download>
 
-              <img style="width: 14px;" src="https://workpermitcloud.co.uk/hrms/public/assets/img/download.png"></a>';	
+              <img style="width: 14px;" src="https://skilledworkerscloud.co.uk/hrms-v2/public/assets/img/download.png"></a>';	
 		 }else{
 			 $file='';	
 		 }

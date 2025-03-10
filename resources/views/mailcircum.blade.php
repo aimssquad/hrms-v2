@@ -14,7 +14,7 @@
     padding: 10px;font-size:20px;">
 		<tr>
 				<td><h3>{{ $job->emp_fname }} {{ $job->emp_mname }} {{ $job->emp_lname }}</h3></td>
-			<td>@if($Roledata->logo!='') <img width="100" src="http://workpermitcloud.co.uk/hrms/public/{{ $Roledata->logo }}" alt="" /> @endif</td>
+			<td>@if($Roledata->logo!='') <img width="100" src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $Roledata->logo }}" alt="" /> @endif</td>
 		</tr>
 		<tr>
 			<td colspan="2">{{ $job->emp_pr_street_no}} @if( $job->emp_per_village) ,{{ $job->emp_per_village}} @endif @if( $job->emp_pr_state) ,{{ $job->emp_pr_state}} @endif @if( $job->emp_pr_city) ,{{ $job->emp_pr_city}} @endif
@@ -37,7 +37,7 @@ Correspondences address, landline telephone number and mobile telephone number, 
 contact details, Next of Kin details, Disability Information, Registrations and Memberships status, Job
 Title). Please notify us immediately if there is any change in circumstances at your end.
 Mentionable, your historic contact details will be retained in the form of hardcopy and/or digital
-format. You can also update such information yourself by logging into <a href="https://workpermitcloud.co.uk/hrms/" >https://workpermitcloud.co.uk/hrms/</a> with your
+format. You can also update such information yourself by logging into <a href="https://skilledworkerscloud.co.uk/hrms-v2/" >https://skilledworkerscloud.co.uk/hrms-v2/</a> with your
 employee login credentials.</p>
 
 <p>Please do not hesitate to contact your HR/line manager if you have any concern or would like to

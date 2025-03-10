@@ -42,7 +42,7 @@ td, th {
 
 <div class="header">
     <div class="logo">
-        <img src="https://skilledworkerscloud.co.uk/hrms/img/logo.png" alt="" />
+        <img src="https://skilledworkerscloud.co.uk/hrms-v2/img/logo.png" alt="" />
     </div>
     <div class="address">
         <p>{{ $address }}<br />{{$addresssub}}</p>

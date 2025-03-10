@@ -32,7 +32,7 @@ if(!empty($offer->reportauthor)){
   <thead>
     <tr>
 	  <td style="color: #29b9ff;font-size: 20px;">{{ $Roledata->com_name }}</td>
-	  <td style="    text-align: right;"><img width="100" src="http://workpermitcloud.co.uk/hrms/public/{{ $Roledata->logo }}" alt="" /></td>
+	  <td style="    text-align: right;"><img width="100" src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $Roledata->logo }}" alt="" /></td>
 	</tr>
   </thead>
 </table>

@@ -416,7 +416,7 @@ class LandingController extends Controller
                     $toemail = $request->email;
                     Mail::send("register-email", $data, function ($message) use ($toemail) {
                         $message->to($toemail, env('MAIL_FROM_NAME'))
-                            ->subject("Welcome to SWC HRMS. Your Partner Organization Registration is Successful!");
+                            ->subject("Welcome to SWCH HRMS. Your Partner Organization Registration is Successful!");
                         $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                     });
                 }
@@ -704,7 +704,7 @@ class LandingController extends Controller
                         $message
                             ->to($toemail, "SWCH")
                             ->subject("OTP Validation");
-                        $message->from("noreply@eitclimbr.in", "Swch");
+                        $message->from("infoswc@skilledworkerscloud.co.uk", "Swch");
                     });
                 }
 
@@ -983,14 +983,14 @@ class LandingController extends Controller
                     "email" => $request->email,
                     "desig" => $request->desig,
                 ];
-                $toemail = "info@workpermitcloud.co.uk";
+                $toemail = "infoswc@skilledworkerscloud.co.uk";
                 Mail::send("mailre", $data, function ($message) use ($toemail) {
                     $message
-                        ->to($toemail, "Workpermitcloud")
+                        ->to($toemail, "SkilledWorkerscloud")
                         ->subject("Organisation   Details");
                     $message->from(
-                        "noreply@workpermitcloud.co.uk",
-                        "Workpermitcloud"
+                        "infoswc@skilledworkerscloud.co.uk",
+                        "skilledworkerscloud"
                     );
                 });
 
@@ -1002,16 +1002,16 @@ class LandingController extends Controller
                     "email" => $request->email,
                     "desig" => $request->desig,
                 ];
-                $toemail = "admin@workpermitcloud.co.uk";
+                $toemail = "infoswc@skilledworkerscloud.co.uk";
                 Mail::send("mailre", $datamail, function ($message) use (
                     $toemail
                 ) {
                     $message
-                        ->to($toemail, "Workpermitcloud")
+                        ->to($toemail, "SkilledWorkerscloud")
                         ->subject("Organisation   Details");
                     $message->from(
-                        "noreply@workpermitcloud.co.uk",
-                        "Workpermitcloud"
+                        "infoswc@skilledworkerscloud.co.uk",
+                        "SkilledWorkerscloud"
                     );
                 });
 
@@ -1026,13 +1026,13 @@ class LandingController extends Controller
                 $toemail = $request->email;
                 Mail::send("mailor", $data, function ($message) use ($toemail) {
                     $message
-                        ->to($toemail, "Workpermitcloud")
+                        ->to($toemail, "SkilledWorkerscloud")
                         ->subject(
                             "Welcome to Work Permit Cloud HR Management System"
                         );
                     $message->from(
-                        "noreply@workpermitcloud.co.uk",
-                        "Workpermitcloud"
+                        "infoswc@skilledworkerscloud.co.uk",
+                        "SkilledWorkerscloud"
                     );
                 });
 
@@ -1075,11 +1075,11 @@ class LandingController extends Controller
             $toemail = $request->email;
             Mail::send("mailforgot", $data, function ($message) use ($toemail) {
                 $message
-                    ->to($toemail, "Workpermitcloud")
+                    ->to($toemail, "SkilledWorkerscloud")
                     ->subject("Forgot  Password ");
                 $message->from(
-                    "noreply@workpermitcloud.co.uk",
-                    "Workpermitcloud"
+                    "infoswc@skilledworkerscloud.co.uk",
+                    "SkilledWorkerscloud"
                 );
             });
 

@@ -32,7 +32,7 @@ body{    background-color: #fef2f2;}header{height: 68px;}
 		<div class="wrapper">
 			<div class="row">
 			    <div class="text-center col-lg-7 col-md-6">
-			    	<h6>WorkPermitCloud</h6>
+			    	<h6>Skilled Workers Cloud LTD</h6>
 			    	<h3>Your Virtual HR Manager</h3>
 			    	<img src="{{ asset('img/hiring.png')}}" alt="" style="width: 100%;">
 			    </div>

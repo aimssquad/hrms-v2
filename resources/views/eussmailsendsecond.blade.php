@@ -14,7 +14,7 @@
     padding: 10px;">
 		<tr>
 			<td><h3>{{ $offer->emp_fname }} {{ $offer->emp_mname }} {{ $offer->emp_lname }}</h3></td>
-			<td>@if($Roledata->logo!='') <img width="100" src="http://workpermitcloud.co.uk/hrms/public/{{ $Roledata->logo }}" alt="" /> @endif</td>
+			<td>@if($Roledata->logo!='') <img width="100" src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $Roledata->logo }}" alt="" /> @endif</td>
 		</tr>
 		<tr>
 			<td colspan="2">{{ $offer->emp_pr_street_no}} @if( $offer->emp_per_village) ,{{ $offer->emp_per_village}} @endif @if( $offer->emp_pr_state) ,{{ $offer->emp_pr_state}} @endif @if( $offer->emp_pr_city) ,{{ $offer->emp_pr_city}} @endif

@@ -244,9 +244,9 @@ class SubadminController extends Controller
                 //     $data = array('f_name' => $request->f_name, 'l_name' => $request->l_name, 'com_name' => $request->com_name, 'p_no' => $request->p_no, 'email' => $request->email);
                 //     $toemail = 'sales@skilledworkerscloud.co.uk';
                 //     Mail::send('mailorupnew', $data, function ($message) use ($toemail) {
-                //         $message->to($toemail, 'Workpermitcloud')->subject
+                //         $message->to($toemail, 'Skilledworkescloud')->subject
                 //             ('Organisation Update');
-                //         $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                //         $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                 //     });
                 // }
 

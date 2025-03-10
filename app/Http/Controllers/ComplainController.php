@@ -210,29 +210,29 @@ $decrypted_id = base64_decode( $id );
   $data = array('p_name'=>$request->p_name,'cat_name'=>$request->cat_name,'com_name'=>$Roledatagg->com_name,'descrption'=>$request->descrption,
   'others' =>$request->others,'ind'=>count($Roledathh));
                 
-                $toemail='ankita@eitpl.in';
+                $toemail='ankita@skilledworkerscloud.co.uk';
                 Mail::send('mailnewcom', $data, function($message) use($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('New Complain');
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 });	
                 
                     $data = array('p_name'=>$request->p_name,'cat_name'=>$request->cat_name,'com_name'=>$Roledatagg->com_name,'descrption'=>$request->descrption,
   'others' =>$request->others,'ind'=>count($Roledathh));
-                $toemail='tirtha@eitpl.in';
+                $toemail='tirtha@skilledworkerscloud.co.uk';
                 Mail::send('mailnewcom', $data, function($message) use($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('New Complain');
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 });	
                       
  $data = array('p_name'=>$request->p_name,'cat_name'=>$request->cat_name,'com_name'=>$Roledatagg->com_name,'descrption'=>$request->descrption,
   'others' =>$request->others,'ind'=>count($Roledathh));        
-                $toemail='subhasish@eitpl.in';
+                $toemail='subhasish@skilledworkerscloud.co.uk';
                 Mail::send('mailnewcom', $data, function($message) use($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                 ('New Complain');
-                $message->from('noreply@workpermitcloud.co.uk','Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk','Skilledworkescloud');
                 });	
                    
         

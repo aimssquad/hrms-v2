@@ -446,21 +446,7 @@ class UseraceesController extends Controller
                                             "password" =>
                                                 $employeusereRoledata->password,
                                         ];
-                                         $toemail = $valuemenm;
-                                        // Mail::send("mail", $data, function (
-                                        //     $message
-                                        // ) use ($toemail) {
-                                        //     $message
-                                        //         ->to($toemail, "Workpermitcloud")
-                                        //         ->subject(
-                                        //             "Employee Login  Details"
-                                        //         );
-                                        //     $message->from(
-                                        //         "noreply@workpermitcloud.co.uk",
-                                        //         "Workpermitcloud"
-                                        //     );
-                                        //  });
-                                        
+                                         $toemail = $valuemenm;  
                                 }
                                 //dd($ins_data);
                                 RoleAuthorization::insert(

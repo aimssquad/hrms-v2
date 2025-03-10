@@ -114,22 +114,22 @@ if(isset($path) && $path!=''  ){
 								</div>
 								<div class="card-body" style="width:50%;margin:auto;">
 								@if(count($secod)==1)
-								  <embed src="https://workpermitcloud.co.uk/hrms/public/{{$path}}" frameborder="0" width="100%" height="auto"></embed>
+								  <embed src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{$path}}" frameborder="0" width="100%" height="auto"></embed>
 
 							  @elseif(count($secod)==2)
-							   <embed src="https://workpermitcloud.co.uk/hrms/public/{{$secod[0]}}" frameborder="0" width="100%" height="auto"></embed>
-<embed style="margin-top:20px;padding-left:0;" src="https://workpermitcloud.co.uk/hrms/public/{{$secod[1]}}" frameborder="0" width="100%" height="auto"></embed>
+							   <embed src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{$secod[0]}}" frameborder="0" width="100%" height="auto"></embed>
+<embed style="margin-top:20px;padding-left:0;" src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{$secod[1]}}" frameborder="0" width="100%" height="auto"></embed>
 
 							  @endif
 
 									</div>
 									<div class="col-md-6 text-right">
 									@if(count($secod)==1)
-									<a data-toggle="tooltip" data-placement="bottom" title="Download" href="https://workpermitcloud.co.uk/hrms/public/{{$path}}" download    class="btn btn-default" style="background:none !important;" ><img  style="width: 25px;" src="{{ asset('img/dnld.png')}}"></a>
+									<a data-toggle="tooltip" data-placement="bottom" title="Download" href="https://skilledworkerscloud.co.uk/hrms-v2/public/{{$path}}" download    class="btn btn-default" style="background:none !important;" ><img  style="width: 25px;" src="{{ asset('img/dnld.png')}}"></a>
 									
 									@elseif(count($secod)==2)
-									<a data-toggle="tooltip" data-placement="bottom" title="Download" href="https://workpermitcloud.co.uk/hrms/public/{{$secod[0]}}" download    class="btn btn-default" style="background:none !important;" ><img  style="width: 25px;" src="{{ asset('img/dnld.png')}}"></a>
-									<a data-toggle="tooltip" data-placement="bottom" title="Download" href="https://workpermitcloud.co.uk/hrms/public/{{$secod[1]}}" download    class="btn btn-default" style="background:none !important;" ><img  style="width: 25px;" src="{{ asset('img/dnld.png')}}"></a>
+									<a data-toggle="tooltip" data-placement="bottom" title="Download" href="https://skilledworkerscloud.co.uk/hrms-v2/public/{{$secod[0]}}" download    class="btn btn-default" style="background:none !important;" ><img  style="width: 25px;" src="{{ asset('img/dnld.png')}}"></a>
+									<a data-toggle="tooltip" data-placement="bottom" title="Download" href="https://skilledworkerscloud.co.uk/hrms-v2/public/{{$secod[1]}}" download    class="btn btn-default" style="background:none !important;" ><img  style="width: 25px;" src="{{ asset('img/dnld.png')}}"></a>
 									
 							   
 							  @endif

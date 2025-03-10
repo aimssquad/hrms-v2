@@ -2250,9 +2250,9 @@ class AppemployeeController extends Controller
                 $data = array('firstname' => $request->emp_fname, 'maname' => $request->emp_mid_name, 'email' => $request->emp_ps_email, 'lname' => $request->emp_lname, 'password' => $p_dd);
                 $toemail = $request->emp_ps_email;
                 Mail::send('mail', $data, function ($message) use ($toemail) {
-                    $message->to($toemail, 'Workpermitcloud')->subject
+                    $message->to($toemail, 'Skilledworkescloud')->subject
                         ('Employee Login  Details');
-                    $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                 });
 
                 Session::flash('message', 'Please assign the role.');
@@ -3062,9 +3062,9 @@ Name of Employee	................................................</p>
             $data = array('firstname' => $request->emp_fname, 'maname' => $request->emp_mid_name, 'email' => $request->emp_ps_email, 'lname' => $request->emp_lname, 'password' => $p_dd);
             $toemail = $request->emp_ps_email;
             Mail::send('mail', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('Employee Login  Details');
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
 
             $Roledataemp = DB::table('registration')
@@ -3075,9 +3075,9 @@ Name of Employee	................................................</p>
             $data = array('emp_code' => $request->emp_code, 'emp_fname' => $request->emp_fname, 'emp_mid_name' => $request->emp_mid_name, 'emp_lname' => $request->emp_lname, 'emp_ps_email' => $request->emp_ps_email, 'emp_ps_phone' => $request->emp_ps_phone);
             $toemail = $Roledataemp->email;
             Mail::send('mailempnew', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Workpermitcloud')->subject
+                $message->to($toemail, 'Skilledworkescloud')->subject
                     ('New Employee   Details');
-                $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             });
 
             Session::flash('message', ' Thank you,Employee Details Saved Successfully.');
@@ -7838,9 +7838,9 @@ Name of Employee	................................................</p>
 
                 if ($leave_allocation->file != '') {
                     $file = '
-			   <a href="https://workpermitcloud.co.uk/hrms/public/' . $leave_allocation->file . '" data-toggle="tooltip" data-placement="bottom" title="Download" download>
+			   <a href="https://skilledworkerscloud.co.uk/hrms/public/' . $leave_allocation->file . '" data-toggle="tooltip" data-placement="bottom" title="Download" download>
 
-              <img style="width: 14px;" src="https://workpermitcloud.co.uk/hrms/public/assets/img/download.png"></a>';
+              <img style="width: 14px;" src="https://skilledworkerscloud.co.uk/hrms/public/assets/img/download.png"></a>';
                 } else {
                     $file = '';
                 }

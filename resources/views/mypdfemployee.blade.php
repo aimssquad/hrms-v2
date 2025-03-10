@@ -47,9 +47,9 @@
 <table style="width:100%;margin-top: 20px;">
     <tr style="background-color: #fff;">
     <td>
-          @if($employeedata->emp_image!='')<img src="https://workpermitcloud.co.uk/hrms/public/{{ $employeedata->emp_image }}" style="height:100px;width:100px;border-radius:50%;"/>
+          @if($employeedata->emp_image!='')<img src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $employeedata->emp_image }}" style="height:100px;width:100px;border-radius:50%;"/>
           @else
-          <img src="https://workpermitcloud.co.uk/hrms/public/assets/img/user.png" style="height:80px;width:80px;border-radius:50%;"/> 
+          <img src="https://skilledworkerscloud.co.uk/hrms-v2/public/assets/img/user.png" style="height:80px;width:80px;border-radius:50%;"/> 
           @endif</td>
           <td style="line-height:22px;">
               Employee Name: {{  $employeedata->emp_fname}} {{  $employeedata->emp_mname}} {{  $employeedata->emp_lname}}	

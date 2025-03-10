@@ -65,7 +65,7 @@ if (!empty($emp_de->wedges_paymode)) {
     <tbody>
       <tr>
 
-        <th style="text-align: left;"> @if($com_logo!='')<img src="https://workpermitcloud.co.uk/hrms/public/{{ $com_logo }}"  alt="" width="100"> @endif</th>
+        <th style="text-align: left;"> @if($com_logo!='')<img src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $com_logo }}"  alt="" width="100"> @endif</th>
 
       </tr>
       <tr><th><h2 style="margin: 0;text-align: left;">{{ $com_name }}</h2></th></tr>

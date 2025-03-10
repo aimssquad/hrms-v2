@@ -46,7 +46,7 @@
     <div class="form-body-admin" style="background: url({{asset('public/img/login-bg-IC.webp')}}) no-repeat center center;">
 		<div class="login-form">
 						<div class="col-md-12">
-						  <h3><img  style="width: 60px;" src="{{ asset('img/logo.png')}}"> Climbr</h3>
+						  <h3><img  style="width: 60px;" src="{{ asset('img/logo.png')}}"> SWCH</h3>
 						  <h4 style="font-size:18px;margin-top: 30px;color: #388de4;font-weight: 400;border-bottom: 1px solid #999;padding-bottom: 10px;">Internal User Login</h4>
 						  <h4 style="font-size:15px;">Sign-in to your account</h4></div>
 					<form action="{{url('user-login')}}"  method="post" id="my_captcha_form">

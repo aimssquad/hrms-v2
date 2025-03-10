@@ -23,7 +23,7 @@ $job_details=DB::table('employee')->where('emp_code', '=', $leaveApply[0]->emplo
 <table style="width:100%;font-family:cambria">
  <thead>
   <tr>
-   <th style="text-align: left;width: 10%;">@if($com_logo!='') <img src="https://workpermitcloud.co.uk/hrms/public/{{ $com_logo }}" alt="" width="100"/> @endif</th>
+   <th style="text-align: left;width: 10%;">@if($com_logo!='') <img src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $com_logo }}" alt="" width="100"/> @endif</th>
 		<th style="width:90%"><h2 style="font-size: 30px;    margin-bottom: 0;">{{ $com_name }}</h2>
 	 <p style="margin:0;font-size:15px">{{ $address }}<br />{{$addresssub}}</p>
 

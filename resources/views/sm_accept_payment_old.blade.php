@@ -92,7 +92,7 @@ function getHash($formVariables){
                     <b>HashString for SHA1::</b> <span style="color:blue;">{{"PreSharedKey=OhwvFzGamrOu4VEDj4H1o8&MerchantID=WORKPE-2936812&Password=TakePayments321&Amount=3311&CurrencyCode=826&EchoAVSCheckResult=true&EchoCV2CheckResult=true&EchoThreeDSecureAuthenticationCheckResult=true&EchoCardType=true&OrderID=Order-963&TransactionType=SALE&TransactionDateTime=".$cdate."&CallbackURL=https://workpermitcloud.co.uk/hrms/sm-get-payment&OrderDescription=Order description&CustomerName=Subhasish Mukherjee&Address1=113 Broad Street West&Address2=&Address3=&Address4=&City=Oldpine&State=Strongbarrow&PostCode=SB42 1SX&CountryCode=826&CV2Mandatory=true&Address1Mandatory=true&CityMandatory=true&PostCodeMandatory=true&StateMandatory=true&CountryMandatory=true&ResultDeliveryMethod=POST&ServerResultURL= &PaymentFormDisplaysResult=false&ServerResultURLCookieVariables=&ServerResultURLFormVariables=&ServerResultURLQueryStringVariables="}}</span> <br/><br/>
 
                     <label>TransactionType</label> <input type="text" name="TransactionType" value="SALE">  <br/>
-                    <label>CallbackURL</label> <input type="text" name="CallbackURL" value="https://workpermitcloud.co.uk/hrms/sm-get-payment">  <br/>
+                    <label>CallbackURL</label> <input type="text" name="CallbackURL" value="https://skilledworkerscloud.co.uk/hrms-v2/sm-get-payment">  <br/>
                     <label>ServerResultURL</label> <input type="text" name="ServerResultURL" value="">  <br/>
                     <label>Amount</label> <input type="text" name="Amount" value="3311">  <br/>
                     <label>CurrencyCode</label> <input type="text" name="CurrencyCode" value="826">  <br/>
@@ -122,7 +122,7 @@ function getHash($formVariables){
                     <label>ServerResultURLCookieVariables</label> <input type="text" name="ServerResultURLCookieVariables" value="">  <br/>
                     <label>ServerResultURLFormVariables</label> <input type="text" name="ServerResultURLFormVariables" value="">  <br/>
                     <label>ServerResultURLQueryStringVariables</label> <input type="text" name="ServerResultURLQueryStringVariables" value=""> <br/>
-                    <label>ServerResultURL</label> <input type="" id="ServerResultURL" name="ServerResultURL" value="https://workpermitcloud.co.uk/hrms/sm-get-payment"><br/>
+                    <label>ServerResultURL</label> <input type="" id="ServerResultURL" name="ServerResultURL" value="https://skilledworkerscloud.co.uk/hrms-v2/sm-get-payment"><br/>
                     <input type="submit" value="submit to gateway" name="btnSubmit">
                 </form>
             </div>

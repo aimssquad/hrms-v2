@@ -485,13 +485,13 @@ class UseraceesController extends Controller
                                         //     $message
                                         // ) use ($toemail) {
                                         //     $message
-                                        //         ->to($toemail, "Workpermitcloud")
+                                        //         ->to($toemail, "Skilledworkescloud")
                                         //         ->subject(
                                         //             "Employee Login  Details"
                                         //         );
                                         //     $message->from(
-                                        //         "noreply@workpermitcloud.co.uk",
-                                        //         "Workpermitcloud"
+                                        //         "noreply@skilledworkerscloud.co.uk",
+                                        //         "Skilledworkescloud"
                                         //     );
                                         //  });
                                         

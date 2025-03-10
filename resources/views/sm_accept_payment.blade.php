@@ -15,7 +15,7 @@ $tran = array (
     'orderRef' => 'Test purchase merchant acc',
     'formResponsive' => 'Y',
      'transactionUnique' => uniqid(),
-     'redirectURL' =>  'https://workpermitcloud.co.uk/hrms/sm-get-payment' ,
+     'redirectURL' =>  'https://skilledworkerscloud.co.uk/hrms-v2/sm-get-payment' ,
 );
 
 echo $CSGW->hostedRequest($tran);

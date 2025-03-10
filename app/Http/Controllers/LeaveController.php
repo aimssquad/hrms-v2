@@ -49,9 +49,7 @@ class LeaveController extends Controller
             'message' => $message, // Include total leave balance
             'data' => $data, // Include leave allocation data
         ];
-        dd($response);
-        dd($data);
-        dd($email);
+        
     }
 
 

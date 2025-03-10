@@ -36,28 +36,28 @@
 				<div class="container">
 				
 					<!-- Account Logo -->
-					<div class="account-logo">
-						<a href="admin-dashboard.html"><img src="{{asset('frontend/assets/img/swch_logo.png')}}" alt="SWCH"></a>
-					</div>
+					{{-- <div class="account-logo">
+						<a href="admin-dashboard.html"><img src="{{asset('frontend/assets/img/swch_logo.png')}}" alt="Logo"></a>
+					</div> --}}
 					<!-- /Account Logo -->
 					
 					<div class="account-box">
 						<div class="account-wrapper">
-							<h3 class="account-title">Forgot Password?</h3>
+							<h3 class="account-title">Email authentication?</h3>
 							<p class="account-subtitle">@include('employeer.layout.message')</p>
 							
 							<!-- Account Form -->
-							<form action="{{url('forgot-password')}}" method="post" id="my_captcha_form">
+							<form action="" method="post" id="my_captcha_form">
                                 @csrf
 								<div class="input-block mb-4">
 									<label class="col-form-label">Email Address</label>
 									<input class="form-control" type="text" name="email">
 								</div>
 								<div class="input-block mb-4 text-center">
-									<button class="btn btn-primary account-btn" type="submit">Reset Password</button>
+									<button class="btn btn-primary account-btn" type="submit">Send</button>
 								</div>
 								<div class="account-footer">
-									<p>Remember your password? <a href="{{ url('/') }}">Login</a></p>
+									<p>Remember your password? <a href="{{ url('register') }}">Register</a></p>
 								</div>
 							</form>
 							<!-- /Account Form -->

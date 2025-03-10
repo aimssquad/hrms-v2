@@ -62,13 +62,13 @@ $number=$re_amount;
 			<tr>
 			<th style="vertical-align: middle;">
 				<h4 style="font-weight: 600;color: #0070c0;text-align:left;">PAYMENT RECEIPT</h4></th>
-            <th style="text-align: right;"><img src="https://workpermitcloud.co.uk/hrms/public/assets/img/comp-logo.jpg" alt=""></th>
+            <th style="text-align: right;"><img src="https://skilledworkerscloud.co.uk/hrms-v2/public/assets/img/comp-logo.jpg" alt=""></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td colspan="2"><h5 style="color: #2170c0;font-weight: 500;">WORKPERMITCLOUD LIMITED
-				<span style="float: right;"><img src="https://workpermitcloud.co.uk/hrms/public/img/paidm.png" alt="" width="100"></span></h5>
+				<span style="float: right;"><img src="https://skilledworkerscloud.co.uk/hrms-v2/public/img/paidm.png" alt="" width="100"></span></h5>
 			<p>1st Floor, 112-116 Whitechapel Road<br>London, E1 1JE<br>
 			Phone: 02080872343<br>Email: invoice@workpermitcloud.co.uk<br>www.workpermitcloud.co.uk</p>
 			</td>

@@ -1896,7 +1896,7 @@ class EmployeeController extends Controller
                 // Mail::send('mail', $data, function ($message) use ($toemail) {
                 //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject
                 //         ('Employee Login  Details');
-                //     $message->from('noreply@workpermitcloud.co.uk', 'Workpermitcloud');
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
                 // });
 
                 Session::flash('message', 'Please assign the role.');
@@ -3116,12 +3116,12 @@ class EmployeeController extends Controller
                 $toemail
             ) {
                 $message
-                    ->to($toemail, "Workpermitcloud")
+                    ->to($toemail, "Skilledworkescloud")
                     ->subject("Visa Expiry Reminder");
 
                 $message->from(
-                    "noreply@workpermitcloud.co.uk",
-                    "Workpermitcloud"
+                    "noreply@skilledworkerscloud.co.uk",
+                    "Skilledworkescloud"
                 );
             });
             Session::flash("message", "Mail send Successfully.");
@@ -5725,11 +5725,11 @@ class EmployeeController extends Controller
     //             $toemail = $request->emp_ps_email;
     //             Mail::send("mail", $data, function ($message) use ($toemail) {
     //                 $message
-    //                     ->to($toemail, "Workpermitcloud")
+    //                     ->to($toemail, "Skilledworkescloud")
     //                     ->subject("Employee Login  Details");
     //                 $message->from(
-    //                     "noreply@workpermitcloud.co.uk",
-    //                     "Workpermitcloud"
+    //                     "noreply@skilledworkerscloud.co.uk",
+    //                     "Skilledworkescloud"
     //                 );
     //             });
 
@@ -6939,11 +6939,11 @@ class EmployeeController extends Controller
                 $toemail = $request->emp_ps_email;
                 Mail::send("mail", $data, function ($message) use ($toemail) {
                     $message
-                        ->to($toemail, "Workpermitcloud")
+                        ->to($toemail, "Skilledworkescloud")
                         ->subject("Employee Login  Details");
                     $message->from(
-                        "noreply@workpermitcloud.co.uk",
-                        "Workpermitcloud"
+                        "noreply@skilledworkerscloud.co.uk",
+                        "Skilledworkescloud"
                     );
                 });
 
@@ -8984,11 +8984,11 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $toemail = $request->emp_ps_email;
             Mail::send("mail", $data, function ($message) use ($toemail) {
                 $message
-                    ->to($toemail, "Workpermitcloud")
+                    ->to($toemail, "Skilledworkescloud")
                     ->subject("Employee Login  Details");
                 $message->from(
-                    "noreply@workpermitcloud.co.uk",
-                    "Workpermitcloud"
+                    "noreply@skilledworkerscloud.co.uk",
+                    "Skilledworkescloud"
                 );
             });
 
@@ -9008,11 +9008,11 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $toemail = $Roledataemp->email;
             Mail::send("mailempnew", $data, function ($message) use ($toemail) {
                 $message
-                    ->to($toemail, "Workpermitcloud")
+                    ->to($toemail, "Skilledworkescloud")
                     ->subject("New Employee   Details");
                 $message->from(
-                    "noreply@workpermitcloud.co.uk",
-                    "Workpermitcloud"
+                    "noreply@skilledworkerscloud.co.uk",
+                    "Skilledworkescloud"
                 );
             });
 
@@ -9828,23 +9828,23 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             Mail::send("mailcircum", $data, function ($message) use ($toemail) {
                 $message
-                    ->to($toemail, "Workpermitcloud")
+                    ->to($toemail, "Skilledworkescloud")
                     ->subject("Change of Circumstances - Annual Reminder");
 
                 $message->from(
-                    "noreply@workpermitcloud.co.uk",
-                    "Workpermitcloud"
+                    "noreply@skilledworkerscloud.co.uk",
+                    "Skilledworkescloud"
                 );
             });
             $toemail = $Roledata->authemail;
             Mail::send("mailcircum", $data, function ($message) use ($toemail) {
                 $message
-                    ->to($toemail, "Workpermitcloud")
+                    ->to($toemail, "Skilledworkescloud")
                     ->subject(" Change of Circumstances - Annual Reminder");
 
                 $message->from(
-                    "noreply@workpermitcloud.co.uk",
-                    "Workpermitcloud"
+                    "noreply@skilledworkerscloud.co.uk",
+                    "Skilledworkescloud"
                 );
             });
 

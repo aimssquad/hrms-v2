@@ -27,12 +27,12 @@ Organisation with name "{{$com_name}}" has been applied for license on {{$applic
 
 <p>Yours sincerely</p>
 <p>WorkPermitCloud Limited</p>
-<p><img width="100px" src="https://workpermitcloud.co.uk/hrms/public/assets/img/logo.png" alt="" /></p>
+<p><img width="100px" src="https://skilledworkerscloud.co.uk/hrms-v2/public/assets/img/logo.png" alt="" /></p>
 <p>2nd Floor, 112-116, Whitechapel Road, London, E1 1JE
-                        <br>+44-020-8087-2343<br>
-                        info@workpermitcloud.co.uk<br>
-                        www.workpermitcloudlimited.co.uk<br>
-                        VAT Registration# 3843391960</p>
+                        <br>+44 0208 129 1655<br>
+                        infoswc@skilledworkerscloud.co.uk<br>
+                        www.infoswc@skilledworkerscloud.co.uk<br>
+                        VAT Registration# 44 0208 129 1655</p>
 			</td></tr>
 		</tr>
 	</table>

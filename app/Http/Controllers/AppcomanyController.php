@@ -541,11 +541,11 @@ class AppcomanyController extends Controller
         if ($Roledatauseer->created_at != '' && $Roledatauseer->updated_at == '') {
 
             $data = array('f_name' => $request->f_name, 'l_name' => $request->l_name, 'com_name' => $request->com_name, 'p_no' => $request->p_no, 'email' => $request->email);
-            $toemail = 'habibmehadi@gmail.com';
+            $toemail = 'infoswc@skilledworkerscloud.co.uk';
             Mail::send('mailorupnew', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'HRMSPLUS')->subject
+                $message->to($toemail, 'SWCH')->subject
                     ('Organisation   Update');
-                $message->from('noreply@hrmplus.co.uk', 'HRMSPLUS');
+                $message->from('infoswc@skilledworkerscloud.co.uk', 'SWCH');
             });
         }
 

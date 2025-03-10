@@ -22,13 +22,13 @@
            <th style="text-align: right;"><h3 style="font-size: 25px;padding-right: 38px;">INVOICE</h3></th>
        </tr>
        <tr>
-           <th style="text-align: left;">VIP Road, Kaikhali, Kolkata - 700052
-            <br>+91 8336933522<br>
-            info@climbr.in<br>
-            www.climbr.in<br>
-            VAT Registration# 3843391960</th>
+           <th style="text-align: left;">G21, Unit 3 Triangle Centre, 399 Uxbridge Road, UB1 3EJ United Kingdom.
+            <br>+44 0208 129 1655<br>
+            infoswc@skilledworkerscloud.co.uk<br>
+            www.infoswc@skilledworkerscloud.co.uk<br>
+            VAT Registration# 264664612</th>
 
-           <th style="text-align: right;"><img src="https://workpermitcloud.co.uk/hrms/public/assets/img/logo.png"></th>
+           <th style="text-align: right;"><img src="https://skilledworkerscloud.co.uk/hrms-v2/public/assets/img/logo.png"></th>
        </tr>
    </thead>
 </table>
@@ -245,14 +245,14 @@ $number=$amount;
   </tr>
  
   <tr style="background-color: #daeef3;">
-    <th>CLIMBR</th>
+    <th>SWCH</th>
   </tr>
   <tr >
-    <th>Sort Code: 60-83-71</th>
+    <th>Sort Code: 70-55-63</th>
   </tr>
   <tr>
     <th>
-      Account Number: 564-130-88
+      Account Number: 568-225-866
     </th>
   </tr>
 </thead>
@@ -272,9 +272,9 @@ $number=$amount;
 <table width="100%" style="font-family: calibri;margin: 25px auto;text-align: left;border-collapse:collapse;">
   <tfoot style="position: fixed;bottom: 0;">
     <tr>
-      <td><img src="https://climbr.co.in/public/assets/img/ftr-logo.png"></td>
-      <td><p style="margin-bottom: 0;">Climbr is Regulated to provide immigration services by the</p>      
-        <p style="margin-top: 0;">Immigration Ser-vices Commissioner. Registration No. F202100311.</p></td>
+      <td><img src="https://skilledworkerscloud.co.uk/hrms-v2/public/assets/img/ftr-logo.png"></td>
+      <td><p style="margin-bottom: 0;"></p>      
+        <p style="margin-top: 0;">Immigration Ser-vices Commissioner</p></td>
     </tr>
   </tfoot>
 </table>

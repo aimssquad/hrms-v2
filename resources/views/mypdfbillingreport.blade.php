@@ -11,11 +11,11 @@
 	<table style="width: 900px;margin:auto; font-family: cambria;">
 		<thead>
 			<tr>
-				<th style="width: 100px"><img src="https://workpermitcloud.co.uk/hrms/public/img/logo.png" alt="" width="80"></th>
+				<th style="width: 100px"><img src="https://skilledworkerscloud.co.uk/hrms-v2/public/img/logo.png" alt="" width="80"></th>
 				<th>
-					<h2 style="margin-bottom: 0;font-size: 30px;">WorkPermit Cloud</h2>
+					<h2 style="margin-bottom: 0;font-size: 30px;">Skilled Workers Cloud Limited</h2>
 					<!--<h5 style="margin: 0;font-size: 20px;">Company Address Goes Here....</h5>-->
-					<p style="margin:0;">Phone Number : 020 8087 2343,   Email- info@workpermitcloud.co.uk</p>
+					<p style="margin:0;">Phone Number : +44 0208 129 1655,   Email- infoswc@skilledworkerscloud.co.uk</p>
 						<h5 style="margin: 0;font-size: 20px;">Billing Report</h5>
 				</th>
 			</tr>
