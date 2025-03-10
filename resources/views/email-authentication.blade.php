@@ -43,7 +43,7 @@
 					
 					<div class="account-box">
 						<div class="account-wrapper">
-							<h3 class="account-title">Email authentication?</h3>
+							<p class="account-title">Please log in using the email address <strong>{{ session('email') }}</strong> and enter the OTP provided below.</p>
 							<p class="account-subtitle">@include('employeer.layout.message')</p>
 							
 							<!-- Account Form -->
@@ -55,7 +55,7 @@
 									<input class="form-control" type="text" name="otp" required>
 								</div>
 								<div class="input-block mb-4 text-center">
-									<button class="btn btn-primary account-btn" type="submit">Send</button>
+									<button class="btn btn-primary account-btn" type="submit">Submit</button>
 								</div>
 							</form>
 							<!-- /Account Form -->
