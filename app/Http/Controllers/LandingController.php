@@ -93,7 +93,7 @@ class LandingController extends Controller
         
         // Check if the OTP matches
         if ($storedOTP && $storedOTP == $request->otp) {
-            dd('okk');
+            dd($registrationData);
             // Save the registration data to the database
             DB::table("registration")->insert([
                 "com_name" => $registrationData['com_name'],
