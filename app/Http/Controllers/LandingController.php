@@ -81,7 +81,7 @@ class LandingController extends Controller
     public function completeRegistration(Request $request)
     {
         // Validate the request
-        dd($request->all());
+        //dd($request->all());
         $request->validate([
             'otp' => 'required|string|size:6',
             'email' => 'required|email',
