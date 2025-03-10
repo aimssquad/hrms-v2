@@ -55,10 +55,24 @@ class LandingController extends Controller
             Session::flash("message", "Email already exists");
             return redirect("register");
         }
+        $org_code = '';
+        if($request->org_code){
+            $org_code = $request->org_code;
+        } else {
+            $org_code = '';
+        }
+        $subadmin_data = DB::table('sub_admin_registrations')->where('org_code', $org_code)->first();
+        if(empty($subadmin_data)){
+            $sub_comname = '';
+        } else {
+            $sub_comname = $subadmin_data->com_name;
+        }
+        //dd($sub_comname);
     
         // Generate a 6-digit OTP
         $otp = rand(100000, 999999);
-        $registrationData = $request->only(['com_name', 'f_name', 'l_name', 'email', 'p_no', 'pass', 'subadmin', 'org_code', 'country', 'country_code','domain_name']);
+        //$registrationData = $request->only(['com_name', 'f_name', 'l_name', 'email', 'p_no', 'pass', 'subadmin', 'org_code', 'country', 'country_code','domain_name']);
+        $registrationData = ['com_name'=>$request->com_name, 'f_name'=>$request->f_name, 'l_name'=>$request->l_name, 'email'=>$request->email, 'p_no'=>$request->p_no, 'pass'=>$request->pass, 'subadmin'=>$request->subadmin, 'org_code'=>$request->org_code, 'country'=>$request->country, 'country_code'=>$request->country_code,'domain_name'=>$request->domain_name];
         //dd($registrationData);
         // Store the OTP and registration data in the cache for 5 minutes
         Cache::put('registration_data_' . $request->email, $registrationData, now()->addMinutes(5));
