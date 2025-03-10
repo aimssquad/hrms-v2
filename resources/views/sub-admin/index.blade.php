@@ -15,7 +15,7 @@
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
     @else
-        <title>Login -{{$domain_name->com_name}}</title>
+        <title>Login</title>
         <!-- Favicon -->
         {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}"> --}}
         @if($domain_name && $domain_name->logo) 
