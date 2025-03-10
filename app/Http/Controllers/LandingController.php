@@ -66,7 +66,7 @@ class LandingController extends Controller
         $storedOTP = Cache::get('otp_' . $request->email);
         $toemail = $request->email;
         $data = ['otp' => $otp, 'email'=>$request->email,'com_name'=>$request->com_name];
-        Mail::send("mailre", $data, function ($message) use ($toemail) {
+        Mail::send("mail-otp", $data, function ($message) use ($toemail) {
             $message
                 ->to($toemail, env('MAIL_FROM_NAME'))
                 ->subject("New Organisation Registered");
