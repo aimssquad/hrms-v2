@@ -658,7 +658,8 @@ Route::get('register/{org_code?}', 'App\Http\Controllers\LandingController@regis
 Route::get('/get-country-code','App\Http\Controllers\LandingController@getCountryCode')->name('get-country-code');
 
 //Route::get('employerdashboard','LandingController@employerdashboard');
-Route::post('register', 'App\Http\Controllers\LandingController@Doregister');
+Route::post('register', 'App\Http\Controllers\LandingController@otpRegister');
+//Route::post('register', 'App\Http\Controllers\LandingController@Doregister');
 // Route::get('forgot-password', 'App\Http\Controllers\LandingController@indexfor');
 // Route::post('forgot-password', 'App\Http\Controllers\LandingController@Doforgot');
 Route::post('/', 'App\Http\Controllers\LandingController@DoLogin');

@@ -56,9 +56,6 @@
 								<div class="input-block mb-4 text-center">
 									<button class="btn btn-primary account-btn" type="submit">Send</button>
 								</div>
-								<div class="account-footer">
-									<p>Remember your password? <a href="{{ url('register') }}">Register</a></p>
-								</div>
 							</form>
 							<!-- /Account Form -->
 							

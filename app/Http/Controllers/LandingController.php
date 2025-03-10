@@ -11,9 +11,71 @@ use Validator;
 use view;
 use Exception;
 use App\Models\UserModel;
+use Illuminate\Support\Facades\Cache;
+use App\Mail\SendOTP;
+
 
 class LandingController extends Controller
 {
+    public function otpRegister(Request $request){
+         //dd($request->all());
+        $data = $request->validate([
+            'subadmin' => 'required',
+            'org_code' => 'nullable',
+            'com_name' => 'required|string|max:255',
+            'f_name' => 'required|string|max:255',
+            'l_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:registration,email',
+            'domain_name' => 'nullable|string',
+            'country' => 'required|string',
+            'country_code' => 'required|string',
+            'p_no' => 'required|string|max:15',
+            'pass' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
+            'con_password' => 'required|same:pass',
+        ], [
+            'pass.regex' => 'Password must contain at least one letter, one number, and one special character.',
+        ]);
+        // dd($data);
+        // Check if the email is valid
+        $eml = explode(".", $request->email);
+        if (count($eml) > 4) {
+            Session::flash("message", "Invalid input");
+            return redirect("register");
+        }
+    
+        // Check if the phone number is valid
+        if ($request->p_no != "" && substr($request->p_no, 0, 2) == "83") {
+            Session::flash("message", "Invalid input");
+            return redirect("register");
+        }
+    
+        // Check if the user already exists
+        $Employee = DB::table("users")->where("email", "=", $request->email)->first();
+        if ($Employee) {
+            Session::flash("message", "Email already exists");
+            return redirect("register");
+        }
+    
+        // Generate a 6-digit OTP
+        $otp = rand(100000, 999999);
+        $registrationData = $request->only(['com_name', 'f_name', 'l_name', 'email', 'p_no', 'pass', 'subadmin', 'org_code', 'country', 'country_code','domain_name']);
+        //dd($registrationData);
+        // Store the OTP and registration data in the cache for 5 minutes
+        Cache::put('registration_data_' . $request->email, $registrationData, now()->addMinutes(5));
+        Cache::put('otp_' . $request->email, $otp, now()->addMinutes(5));
+        $storedOTP = Cache::get('otp_' . $request->email);
+        $toemail = $request->email;
+        $data = ['otp' => $otp, 'email'=>$request->email,'com_name'=>$request->com_name];
+        Mail::send("mailre", $data, function ($message) use ($toemail) {
+            $message
+                ->to($toemail, env('MAIL_FROM_NAME'))
+                ->subject("New Organisation Registered");
+            $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+        });
+        $registrationData = Cache::get('registration_data_' . $request->email);
+        dd($registrationData);
+    }
+
     public function index()
     {
         //dd('okk');
