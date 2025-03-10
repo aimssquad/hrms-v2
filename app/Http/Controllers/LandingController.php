@@ -223,7 +223,7 @@ class LandingController extends Controller
                         "pass" => $password['pass'],
                         "created_at" => date("Y-m-d h:i:s"),
                     ];
-                    dd($datareg);
+                    //dd($datareg);
                     DB::table("registration")->insert($datareg);
 
                     $datauser = [
@@ -361,7 +361,7 @@ class LandingController extends Controller
                         "pass" => $password['pass'],
                         "created_at" => date("Y-m-d h:i:s"),
                     ];
-                    dd('okk');
+                    //dd('okk');
                      //dd($datareg);
                     DB::table("sub_admin_registrations")->insert($datareg);
 
