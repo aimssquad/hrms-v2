@@ -241,12 +241,12 @@ class LeaveController extends Controller
                 //dd(auth()->user()->emid);
                 $employeeId = auth()->user()->employee_id;
                 $emid = auth()->user()->emid;
-                //dd($emid);
                 $request->validate([
                     'doc_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
-                    'leave_cos' => 'required'
+                    'leave_cos' => 'required',
+                    'notify_emp_id' => 'nullable|email'
                 ]);
-    
+                $toemail = $request->notify_emp_id; dd($toemail);
                 $report_auth = Employee::where("emp_code", "=", $employeeId)
                     ->where("emid", "=", $emid)
                     ->first();
