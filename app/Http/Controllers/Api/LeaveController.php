@@ -8,6 +8,7 @@ use App\Models\LeaveApply;
 use App\Models\Employee;
 use App\Models\LeaveType;
 use App\Models\User;
+use App\Models\offdays;
 use App\Models\leaveAllocation;
 use Illuminate\Http\Request;
 use App\Helpers\Api\Helper;
@@ -343,4 +344,41 @@ class LeaveController extends Controller
             return Helper::rj("Server Error.", 500);
         }
     }
+
+    public function getAllEmployee(Request $request)
+    {
+        try {
+            if (auth()->check()) {
+                $empDtl = auth()->user();
+                $emid = $empDtl->emid;
+                $allEmployee = User::where('emid',$emid)->where('user_type','employee')->where('status','active')->select('employee_id','name','email')->get();
+                $allEmployee->transform(function ($item) {
+                    return collect($item)->map(function ($value) {
+                        return $value === null ? "" : $value;
+                    });
+                });
+                //dd($allEmployee);
+                $dynamicFlag = 1;
+                $data = $allEmployee;
+                $message = "You have no leave";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );    
+            } else {
+                $dynamicFlag = 1;
+                $data=[];
+                $message = "Somthing Went Wrong";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            }
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        }
+    }
+
 } //End Class

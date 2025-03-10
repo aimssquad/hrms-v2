@@ -425,7 +425,7 @@ class RotaController extends Controller
                 ->whereNotNull("shift_code")
                 ->get();
 
-            //    dd($data);
+                //dd($data);
             return view($this->_routePrefix . '.offday-list',$data);
             //return view("rota/offday-list", $data);
         } else {
