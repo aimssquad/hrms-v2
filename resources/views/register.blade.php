@@ -11,8 +11,11 @@
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
       @else
-        <title>Register</title>
-        {{-- <title>Register -{{$domain_name->com_name}}</title> --}}
+        @if($domain_name->com_name)
+            <title>Register - {{ $domain_name->com_name }}</title>
+        @else
+            <title>Register</title>
+        @endif
         <!-- Favicon -->
         {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}"> --}}
         @if($domain_name && $domain_name->logo) 
