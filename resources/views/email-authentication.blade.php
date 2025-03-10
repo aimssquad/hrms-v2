@@ -47,7 +47,7 @@
 							<p class="account-subtitle">@include('employeer.layout.message')</p>
 							
 							<!-- Account Form -->
-							<form action="" method="post" id="my_captcha_form">
+							<form action="{{ route('register.complete') }}" method="post" id="my_captcha_form">
                                 @csrf
 								<input type="hidden" name="email" value="{{ session('email') }}">
 								<div class="input-block mb-4">
