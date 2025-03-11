@@ -19,11 +19,11 @@
                         <td>
                             <table style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
-                                    @if($logo)
+                                    {{-- @if($logo)
                                     <td width="25%" style="padding-left: 20px;">
                                         <img src="{{ asset('storage/app/public/' . $logo) }} " alt="" width="100%">
                                     </td>
-                                    @endif
+                                    @endif --}}
                                     <td width="25%" style="padding-left: 20px;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%">
                                     </td>
@@ -38,19 +38,20 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Dear {{$name}},</p>
-                            <p style="font-size: 16px; color: #333;">Thank you for registering with us. We are thrilled
-                                to have you onboard and are excited to support your HR and sponsorship compliance needs!
+                            <p style="font-size: 16px; color: #333;">Dear {{strtoupper($name)}},</p>
+                            <p style="font-size: 16px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS!</strong></p>
+                            <p style="font-size: 16px; color: #333;">Your password is provided below.
                             </p>
 
                             {{-- <p style="font-size: 16px; color: #333;">As the next step, you need to complete your
                                 organization profile. This ensures a seamless process for utilizing our HRMS features
                                 and compliance services.</p> --}}
-
+                            {{-- <p style="font-size: 16px; color: #333;"><strong>Username:</strong>
+                            </p>     --}}
                             <div style="text-align: center; margin: 20px 0;">
                                 <a href="{{$web}}"
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
-                                    Complete Your Organization Profile</a>
+                                    Your Login URL:</a>
                             </div>
 
                             <p style="font-size: 16px; color: #333;">Your login details: <strong>{{ $name}}</strong></p>
@@ -78,9 +79,9 @@
 
                     <tr>
                         <td style="font-size: 18px; padding: 0 20px;">
-                            <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
-                                    href="mailto: {{$email}}">{{$email}}</a> or
-                                call <a href="tel: +44 074 6728 4718">+44 074 6728 4718</a></p>
+                            <p style="margin: 0;">Our team is here to help! Reach out anytime at<a
+                                    href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
+                                call <a href="tel: +44 074 6728 4718">+44 7467284718.</a></p>
 
                             <p>Let’s get started on your journey toward efficient HR and compliance!</p>
                         </td>
@@ -115,8 +116,7 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <p style="margin: 0 0 20px; font-size: 18px; font-weight: bold; color: #0044cc;">SWC HRMS
-                                Team</p>
+                            <p style="margin: 0 0 20px; font-size: 18px; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
                         </td>
                     </tr>
 
@@ -135,7 +135,7 @@
                             <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/phone-call.png" alt="Phone"
                                     style="width: 24px; vertical-align: middle; margin-right: 5px;">
-                                <strong>Phone:</strong> +44 074 6728 4718
+                                <strong>Phone:</strong>  +44 7467284718
                             </p>
                             <!-- Landline -->
                             <p style="margin: 5px 0;">
