@@ -1937,10 +1937,10 @@ Route::get('leavecount/bydays/{from_date}/{to_date}/{leave_type}', function ($fr
     $date2_ts = strtotime($to_date);
     $diff = $date2_ts - $date1_ts;
     $leave_tyepenew = DB::table('leave_type')->where('id', '=', $leave_type)->first();
-
+    //dd($user_id);
     $Date1 = date('d-m-Y', strtotime($from_date));
     $Date2 = date('d-m-Y', strtotime($to_date));
-
+    
 // Declare an empty array
     $array = array();
 

@@ -38,7 +38,7 @@
                      <input class="form-control" type="text" id="soc" name="soc" value="{{ $designation[0]->soc }}" onchange="chngdepartment(this.value);" readonly>
                      @else
                      <select id="soc" class="select" required name="soc" onchange="chngdepartment(this.value);">
-                        {{-- <option value="">&nbsp;</option> --}}
+                        <option value="">&nbsp;</option>
                         @foreach($department_rs as $dept)
                         <option value="{{ $dept->soc }}" @if(isset($_GET['id']) && $designation[0]->soc == $dept->id) selected @endif>{{ $dept->soc }}</option>
                         @endforeach

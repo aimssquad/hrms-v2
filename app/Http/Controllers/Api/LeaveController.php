@@ -238,15 +238,172 @@ class LeaveController extends Controller
         //dd($request->all());
         try {
             if (auth()->check()) {
-                //dd(auth()->user()->emid);
+                //dd(auth()->user());
                 $employeeId = auth()->user()->employee_id;
                 $emid = auth()->user()->emid;
+                //dd()
                 $request->validate([
                     'doc_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
                     'leave_cos' => 'required',
                     'notify_email' => 'nullable|email'
                 ]);
                 $toemail = $request->notify_email;
+                //dd($request->leave_type);
+                //--------------------------------------------
+                // $user_id = Session::get('users_id');
+                $users = DB::table('users')->where('employee_id', '=', $employeeId)->first();
+                //dd($users);
+                $satnew = 'Saturday';
+                $sunnew = 'Sunday';
+                $total_wk_days = 0;
+                $date1_ts = strtotime($request->from_date);
+                $date2_ts = strtotime($request->to_date);
+                $diff = $date2_ts - $date1_ts;
+                $leave_tyepenew = DB::table('leave_type')->where('id', '=', $request->leave_type)->first();
+                //dd($leave_tyepenew);
+                $Date1 = date('d-m-Y', strtotime($request->from_date));
+                $Date2 = date('d-m-Y', strtotime($request->to_date));
+                
+            // Declare an empty array
+                $array = array();
+
+            // Use strtotime function
+                $Variable1 = strtotime($Date1);
+                $Variable2 = strtotime($Date2);
+
+            // Use for loop to store dates into array
+                // 86400 sec = 24 hrs = 60*60*24 = 1 day
+                for ($currentDate = $Variable1; $currentDate <= $Variable2;
+                    $currentDate += (86400)) {
+
+                    $Store = date('Y-m-d', $currentDate);
+
+                    $array[] = $Store;
+                }
+                //dd($leave_tyepenew);
+                if (trim($leave_tyepenew->alies)) {
+                    //dd('okk');
+                    $total_wk_days = (round($diff / 86400) + 1);
+
+                    $daysnew = 0;
+                    if (date('d', strtotime($request->from_date)) > $total_wk_days) {
+                        $total_wk_days = date('d', strtotime($request->from_date)) + ($total_wk_days - 1);
+
+                    } else if (date('d', strtotime($request->from_date)) != 1) {
+                        $total_wk_days = date('d', strtotime($request->from_date)) + ($total_wk_days - 1);
+                    } else {
+                        $total_wk_days = $total_wk_days;
+                    }
+                    if (date('d', strtotime($request->from_date)) == date('d', strtotime($request->to_date))) {
+                        $total_wk_days = date('d', strtotime($request->from_date));
+                    }
+
+                    foreach ($array as $valueogf) {
+                    //   dd("hello");
+                        $new_f = $valueogf;
+                        $duty_auth = DB::table('duty_roster')
+
+                            ->where('employee_id', '=', $users->employee_id)
+                            ->where('emid', '=', $users->emid)
+
+                            ->orderBy('id', 'DESC')
+                            ->first();
+                        //  dd($duty_auth);
+                        $holidays = DB::table('holiday')
+                            ->whereDate('from_date', '<=', $new_f)
+                            ->whereDate('to_date', '>=', $new_f)
+
+                            ->where('emid', '=', $users->emid)
+                            ->first();
+
+                        $offg = array();
+                        if (!empty($duty_auth)) {
+
+                            $shift_auth = DB::table('shift_management')
+
+                                ->where('id', '=', $duty_auth->shift_code)
+
+                                ->where('emid', '=', $users->emid)
+                                ->orderBy('id', 'DESC')
+                                ->first();
+                            $off_auth = DB::table('offday')
+
+                                ->where('shift_code', '=', $duty_auth->shift_code)
+
+                                ->where('emid', '=', $users->emid)
+                                ->orderBy('id', 'DESC')
+                                ->first();
+                             //dd($off_auth);
+                            $off_day = 0;
+                            if (!empty($off_auth)) {
+                                if ($off_auth->sun == '1') {
+
+                                    $off_day = $off_day + 1;
+                                    $offg[] = 'Sunday';
+                                }
+                                if ($off_auth->mon == '1') {
+                                    $off_day = $off_day + 1;
+                                    $offg[] = 'Monday';
+                                }
+
+                                if ($off_auth->tue == '1') {
+                                    $off_day = $off_day + 1;
+                                    $offg[] = 'Tuesday';
+                                }
+
+                                if ($off_auth->wed == '1') {
+                                    $off_day = $off_day + 1;
+                                    $offg[] = 'Wednesday';
+                                }
+
+                                if ($off_auth->thu == '1') {
+                                    $off_day = $off_day + 1;
+                                    $offg[] = 'Thursday';
+                                }
+
+                                if ($off_auth->fri == '1') {
+                                    $off_day = $off_day + 1;
+                                    $offg[] = 'Friday';
+                                }
+                                if ($off_auth->sat == '1') {
+                                    $off_day = $off_day + 1;
+                                    $offg[] = 'Saturday';
+                                }
+
+                            }
+                        }
+                        if (in_array(date('l', strtotime($new_f)), $offg)) {
+
+                        } else {
+                            $daysnew++;
+                        }
+
+                    }
+
+                } else {
+                    $diff = abs(strtotime($to_date) - strtotime($from_date));
+                    $years = floor($diff / (365 * 60 * 60 * 24));
+                    $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+                    $days = (floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24))) + 1;
+                    $daysnew = $days;
+                }
+
+                //echo $daysnew;
+                
+                $no_of_leave = $daysnew;
+                $leaveinhand=DB::table('leave_allocation')
+                    ->where('leave_type_id','=',$request->leave_type)
+                    ->where('employee_code','=',$employeeId)
+                    ->where('emid','=',$emid)
+                    ->orderBy('id','DESC')
+                    ->first();
+                if ($leaveinhand->leave_in_hand > 0){
+                    $leaveInHand = $leaveinhand->leave_in_hand;
+                } else {
+                    $leaveInHand = 0;
+                }    
+                //dd($leaveInHand);
+                //-----------------------------------
                 $report_auth = Employee::where("emp_code", "=", $employeeId)
                     ->where("emid", "=", $emid)
                     ->first();
@@ -263,35 +420,15 @@ class LeaveController extends Controller
                 }
                 $employee_id = $report_auth->emp_code;
                 $employee_name = $report_auth->emp_fname .' '. $report_auth->emp_mname .' '. $report_auth->emp_lname;
-                //dd($employee_name);
-                $diff = abs(
-                    strtotime($request->to_date) - strtotime($request->from_date)
-                );
-                //dd($diff);
-                $years = floor($diff / (365 * 60 * 60 * 24));
-                $months = floor(
-                    ($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24)
-                );
-                $days =
-                    floor(
-                        ($diff -
-                            $years * 365 * 60 * 60 * 24 -
-                            $months * 30 * 60 * 60 * 24) /
-                            (60 * 60 * 24)
-                    ) + 1;
-                //dd($days);
-                if($days == $request->days){
-                   $no_of_leave =  $request->days;
-                } else {
-                    $no_of_leave =  $days;
-                }
+                //dd($no_of_leave);
+              
 
                 if(!empty($request->file('doc_image'))){
                     $path = $request->file('doc_image')->store('leave-apply', 'public'); 
                 } else {
                     $path = "";
                 }  
-                if ($request->leave_inhand >= $no_of_leave) {
+                if ($leaveInHand >= $no_of_leave) {
                     $data["employee_id"] = $employeeId;
                     $data["employee_name"] = $employee_name;
                     $data["emp_reporting_auth"] = $report_auth_name;
@@ -311,7 +448,7 @@ class LeaveController extends Controller
 
                     $dynamicFlag = 1;
                     $data=[];
-                    $message = "Leave Apply Successfully..!.";
+                    $message = "Leave Apply Successfully.";
                     return Helper::rjd(
                         $message,
                         $dynamicFlag,
