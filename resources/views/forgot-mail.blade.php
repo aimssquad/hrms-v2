@@ -54,13 +54,13 @@
                                     Your Login URL:</a>
                             </div>
 
-                            <p style="font-size: 16px; color: #333;">Your login details: <strong>{{ $name}}</strong></p>
+                            <p style="font-size: 16px; color: #333;"><strong>Your login details:</strong></p>
                             <p style="font-size: 16px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
                             <p style="font-size: 16px; color: #333;"><strong>Password:</strong> {{ $pass }}</p>
 
-                            <p style="font-size: 16px; color: #333;">Helpful tips to complete your organization profile:
-                            </p>
+                            {{-- <p style="font-size: 16px; color: #333;">Helpful tips to complete your organization profile:
+                            </p> --}}
                         </td>
                     </tr>
 
