@@ -73,9 +73,9 @@
 
                     <tr>
                         <td style="font-size: 18px; padding: 0 20px;">
-                            <p style="margin: 0;">Our team is here to help! Reach out anytime at<a
-                                    href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
-                                call <a href="tel: +44 074 6728 4718">+44 7467284718.</a></p>
+                            <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
+                                    href="mailto: info@skilledworkerscloud.co.uk"><strong>info@skilledworkerscloud.co.uk</strong></a> or
+                                call <a href="tel: +44 074 6728 4718"><strong>+44 7467284718.</strong></a></p>
 
                             <p>Let’s get started on your journey toward efficient HR and compliance!</p>
                         </td>
