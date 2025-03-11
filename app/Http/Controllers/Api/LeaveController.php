@@ -246,7 +246,7 @@ class LeaveController extends Controller
                     'leave_cos' => 'required',
                     'notify_emp_id' => 'nullable|email'
                 ]);
-                $toemail = $request->notify_emp_id; dd($toemail);
+                $toemail = $request->notify_emp_id;
                 $report_auth = Employee::where("emp_code", "=", $employeeId)
                     ->where("emid", "=", $emid)
                     ->first();
@@ -352,20 +352,32 @@ class LeaveController extends Controller
                 $empDtl = auth()->user();
                 $emid = $empDtl->emid;
                 $allEmployee = User::where('emid',$emid)->where('user_type','employee')->where('status','active')->select('employee_id','name','email')->get();
-                $allEmployee->transform(function ($item) {
-                    return collect($item)->map(function ($value) {
-                        return $value === null ? "" : $value;
+                if($allEmployee){
+                    $allEmployee->transform(function ($item) {
+                        return collect($item)->map(function ($value) {
+                            return $value === null ? "" : $value;
+                        });
                     });
-                });
-                //dd($allEmployee);
-                $dynamicFlag = 1;
-                $data = $allEmployee;
-                $message = "You have no leave";
-                return Helper::rjd(
-                    $message,
-                    $dynamicFlag,
-                    $data
-                );    
+                    //dd($allEmployee);
+                    $dynamicFlag = 1;
+                    $data = $allEmployee;
+                    $message = "You have no leave";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );  
+                } else {
+                    $dynamicFlag = 1;
+                    $data = [];
+                    $message = "No Employee Found";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+                }
+                 
             } else {
                 $dynamicFlag = 1;
                 $data=[];
