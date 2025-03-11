@@ -296,10 +296,7 @@ class LeaveController extends Controller
                     $data["employee_name"] = $employee_name;
                     $data["emp_reporting_auth"] = $report_auth_name;
                     $data["emp_lv_sanc_auth"] = $emp_lv_sanc_auth;
-                    $data["date_of_apply"] = date(
-                        "Y-m-d",
-                        strtotime($request->date_of_apply)
-                    );
+                    $data["date_of_apply"] = date("Y-m-d");
                     $data["doc_image"] = $path;
                     $data["leave_type"] = $request->leave_type;
                     $data["half_cl"] = $request->half_cl;
