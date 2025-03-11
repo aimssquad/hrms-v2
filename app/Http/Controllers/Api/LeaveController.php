@@ -244,9 +244,9 @@ class LeaveController extends Controller
                 $request->validate([
                     'doc_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
                     'leave_cos' => 'required',
-                    'notify_emp_id' => 'nullable|email'
+                    'notify_email' => 'nullable|email'
                 ]);
-                $toemail = $request->notify_emp_id;
+                $toemail = $request->notify_email;
                 $report_auth = Employee::where("emp_code", "=", $employeeId)
                     ->where("emid", "=", $emid)
                     ->first();
