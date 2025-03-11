@@ -42,12 +42,6 @@
                             <p style="font-size: 16px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS!</strong></p>
                             <p style="font-size: 16px; color: #333;">Your password is provided below.
                             </p>
-
-                            {{-- <p style="font-size: 16px; color: #333;">As the next step, you need to complete your
-                                organization profile. This ensures a seamless process for utilizing our HRMS features
-                                and compliance services.</p> --}}
-                            {{-- <p style="font-size: 16px; color: #333;"><strong>Username:</strong>
-                            </p>     --}}
                             <div style="text-align: center; margin: 20px 0;">
                                 <a href="{{$web}}"
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
