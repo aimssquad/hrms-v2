@@ -43,7 +43,7 @@
 					
 					<div class="account-box">
 						<div class="account-wrapper">
-							<p class="account-title">Please log in using the email <strong>{{ session('email') }}</strong> </p>
+							<p class="account-title">Please log in using the email</p>
 							<p class="account-title"><strong>{{ session('email') }}</strong></p>
 							<p class="account-title"><strong></strong>and enter the OTP provided below.</p>
 							<p class="account-subtitle">@include('employeer.layout.message')</p>
