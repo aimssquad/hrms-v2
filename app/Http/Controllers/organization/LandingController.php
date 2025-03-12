@@ -564,8 +564,6 @@ class LandingController extends Controller
 
     public function Doforgot(Request $request)
     {
-        //dd('okk');
-        //dd(env('MAIL_FROM_ADDRESS'));
         $Employee = DB::table("users")
             ->where("email", "=", $request->email)
             ->where("status", "=", "active")
@@ -573,7 +571,7 @@ class LandingController extends Controller
             ->first();
         if (!empty($Employee)) {
             $checkuser = DB::table('registration')->where('email',$Employee->email)->first();
-            if($checkuser->org_code == null){
+            if($checkuser->org_code != null){
                 $base_url = env('BASE_URL');
                 $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land];
                 //dd($data);
@@ -582,10 +580,6 @@ class LandingController extends Controller
                     $message->to($toemail)->subject("Forgot  Password ");
                     $message->from(env('MAIL_USERNAME'));
                 });
-                // Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
-                //     $message->to($toemail)->subject("Forgot Password");
-                //     $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-                // });
                 Session::flash("message", "Mail sent successfully.");
                 return redirect("forgot-password");
             } else {
