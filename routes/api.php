@@ -35,6 +35,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::post('leave-apply',[LeaveController::class, 'leaveApply']);
     Route::get('leave_no',[LeaveController::class, 'leaveNo']);
     Route::get('get-employee',[LeaveController::class, 'getAllEmployee']);
+
+    
     
     Route::get('show_daily_attendance',[AttendanceController::class, 'showDailyAttendance']);
     Route::post('employee','App\Http\Controllers\Api\EmployeeController@editEmployee');

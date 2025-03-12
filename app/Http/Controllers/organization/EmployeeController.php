@@ -1733,10 +1733,10 @@ class EmployeeController extends Controller
 
                 $data = array('firstname' => $request->emp_fname, 'maname' => $request->emp_mid_name, 'email' => $request->emp_ps_email, 'lname' => $request->emp_lname, 'password' => $p_dd, 'baseUrl' =>$baseUrl);
                 $toemail = $request->emp_ps_email;
-                Mail::send('mail', $data, function ($message) use ($toemail) {
-                    $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Employee Login Details');
-                    $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                });
+                // Mail::send('mail', $data, function ($message) use ($toemail) {
+                //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Employee Login Details');
+                //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                // });
                 
 
                 Session::flash('message', 'Please assign the role.');

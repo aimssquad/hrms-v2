@@ -78,9 +78,9 @@ class LandingController extends Controller
         $data = ['otp' => $otp, 'email'=>$request->email,'com_name'=>$request->com_name];
         Mail::send("mail-otp", $data, function ($message) use ($toemail) {
             $message
-                ->to($toemail, env('MAIL_FROM_NAME'))
+                ->to($toemail)
                 ->subject("New Organisation Registered");
-            $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+            $message->from(env('MAIL_USERNAME'));
         });
         return redirect()->route('verify.otp')->with('email', $request->email);
     }
@@ -223,10 +223,10 @@ class LandingController extends Controller
                             "web"  => $baseUrl,
                         ];
                         $toemail = $registrationData['email'];
-                        Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
-                            $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
-                            $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                        });
+                        // Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
+                        //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
+                        //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                        // });
                     } else{
                         $data = [
                             "f_name" => $registrationData['f_name'],
@@ -336,11 +336,11 @@ class LandingController extends Controller
                         "web"  => env('BASE_URL'),
                     ];
                     $toemail = $registrationData['email'];
-                    Mail::send("register-email", $data, function ($message) use ($toemail) {
-                        $message->to($toemail, env('MAIL_FROM_NAME'))
-                            ->subject("Welcome to SWCH HRMS. Your Partner Organization Registration is Successful!");
-                        $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                    });
+                    // Mail::send("register-email", $data, function ($message) use ($toemail) {
+                    //     $message->to($toemail, env('MAIL_FROM_NAME'))
+                    //         ->subject("Welcome to SWCH HRMS. Your Partner Organization Registration is Successful!");
+                    //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                    // });
                 }
                 // Clear the OTP and registration data from the cache
                 Cache::forget('otp_' . $request->email);
@@ -651,10 +651,10 @@ class LandingController extends Controller
                             "web"  => $baseUrl,
                         ];
                         $toemail = $request->email;
-                        Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
-                            $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
-                            $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                        });
+                        // Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
+                        //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
+                        //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                        // });
                     } else{
                         $data = [
                             "f_name" => $request->f_name,
