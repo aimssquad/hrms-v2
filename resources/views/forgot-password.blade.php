@@ -6,10 +6,22 @@
         <meta name="description" content="Smarthr - Bootstrap Admin Template">
 		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
         <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
-        <title>Forgot Password</title>
+        {{-- <title>Forgot Password</title>
 		
 		<!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}"> --}}
+		@if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+			<title>Forgot Password - SWCH</title>
+			<!-- Favicon -->
+			<link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+		@else
+			<title>Forgot Password</title>
+			@if($domain_name && $domain_name->logo) 
+				<link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/app/public/' . $domain_name->logo) }}">
+			@else
+				<link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/assets/img/logo2.png')}}">
+			@endif
+      	@endif
 		
 		<!-- Bootstrap CSS -->
         <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">
@@ -37,7 +49,18 @@
 				
 					<!-- Account Logo -->
 					<div class="account-logo">
-						<a href="admin-dashboard.html"><img src="{{asset('frontend/assets/img/swch_logo.png')}}" alt="SWCH"></a>
+						{{-- <a href="admin-dashboard.html"><img src="{{asset('frontend/assets/img/swch_logo.png')}}" alt="SWCH"></a> --}}
+						@if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+							<a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
+						@else 
+							@if($domain_name && $domain_name->logo) 
+								<a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}" 
+									style="width: auto; height: 75px; object-fit: contain;">
+								</a>
+							@else
+								<a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/logo2.png')}}" alt="SWCH"></a>
+							@endif
+						@endif 
 					</div>
 					<!-- /Account Logo -->
 					

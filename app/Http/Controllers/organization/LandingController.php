@@ -579,10 +579,8 @@ class LandingController extends Controller
                 //dd($data);
                 $toemail = $request->email;
                 Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
-                    $message
-                        ->to($toemail, env('MAIL_FROM_NAME'))
-                        ->subject("Forgot  Password ");
-                    $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                    $message->to($toemail)->subject("Forgot  Password ");
+                    $message->from(env('MAIL_USERNAME'));
                 });
                 // Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
                 //     $message->to($toemail)->subject("Forgot Password");
@@ -599,10 +597,8 @@ class LandingController extends Controller
                 $data = ["pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url ];
                 $toemail = $request->email;
                 Mail::send("mailforgot", $data, function ($message) use ($toemail) {
-                    $message
-                        ->to($toemail, env('MAIL_FROM_NAME'))
-                        ->subject("Forgot  Password ");
-                    $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                    $message->to($toemail)->subject("Forgot  Password ");
+                    $message->from(env('MAIL_USERNAME'));
                 });
 
                 Session::flash("message", "Mail sent successfully.");
@@ -617,7 +613,30 @@ class LandingController extends Controller
 
     public function indexfor()
     {
-        return view("forgot-password");
+        $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+        // Extract only the domain name and store it in a variable
+        $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+
+        // echo "Base URL: " . $baseUrl . "<br>";
+        // echo "Domain Name: " . $domainName;
+        $data = [];
+        $data['dName'] = $domainName;
+        
+        if ($domainName != 'skilledworkerscloud.co.uk' && $domainName != 'swcworlds.com') {
+            // Fetch the domain from the database
+            $domain = DB::table('sub_admin_registrations')->where('domain_name', $domainName)->first();
+            //dd($domain);
+            if ($domain) {
+                $data['domain_name'] = $domain;
+            } else {
+                $data['domain_name'] = null; // Set to null if no domain is found
+            }
+           
+        } else {
+            $data['domain_name'] = null; 
+            //dd('not');
+        }
+        return view("forgot-password",$data);
     }
 
     public function emailAuthenticate(){
