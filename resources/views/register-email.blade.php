@@ -24,7 +24,7 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Dear <b>{{ strtoupper($f_name) }} {{ strtoupper($l_name) }},</b></p>
+                            <p style="font-size: 16px; color: #333;">Dear <b>{{ strtoupper($com_name) }},</b></p>
                             <p style="font-size: 16px; color: #333;">
                                 Welcome to Skilled Workers Cloud HRMS ! Thank you for registering with us. 
                                 We are thrilled to have you onboard and are excited to support your HR and sponsorship compliance needs and to run your business operation smoothly! 
@@ -34,7 +34,9 @@
                                 As the next step, you need to complete your organization profile. 
                                 This ensures a seamless process for utilizing our HRMS features and compliance services.
                             </p>
-
+                            <p style="font-size: 16px; color: #333;"><strong>Click below to start your journey:</strong>
+                            </p>
+                            
                             <div style="text-align: center; margin: 20px 0;">
                                 <a href="https://skilledworkerscloud.co.uk/hrms-v2/register"
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
