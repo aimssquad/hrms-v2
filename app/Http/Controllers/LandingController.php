@@ -79,7 +79,7 @@ class LandingController extends Controller
         Mail::send("mail-otp", $data, function ($message) use ($toemail) {
             $message
                 ->to($toemail)
-                ->subject("New Organisation Registered");
+                ->subject("Verify your mail");
             $message->from(env('MAIL_USERNAME'));
         });
         return redirect()->route('verify.otp')->with('email', $request->email);
