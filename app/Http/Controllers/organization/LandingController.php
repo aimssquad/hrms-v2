@@ -573,7 +573,7 @@ class LandingController extends Controller
             $checkuser = DB::table('registration')->where('email',$Employee->email)->first();
             if($checkuser->org_code != null){
                 $base_url = env('BASE_URL');
-                $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land];
+                $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land, "f_name"=>$checkuser->f_name, "l_name"=>$checkuser->l_name];
                 //dd($data);
                 $toemail = $request->email;
                 Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
