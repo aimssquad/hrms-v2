@@ -40,7 +40,7 @@
                             <p style="font-size: 16px; color: #333;">Your Login Credentials:</p>
                             <p style="font-size: 16px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
-                            <p style="font-size: 16px; color: #333;"><strong>Password:</strong> {{ $pass}}</p>
+                            <p style="font-size: 16px; color: #333;"><strong>Password:</strong> {{ $password}}</p>
 
                             
                             <div style="text-align: center; margin: 20px 0;">
