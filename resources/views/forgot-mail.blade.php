@@ -37,7 +37,7 @@
                             <p style="font-size: 16px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS !</strong></p>
                             <p style="font-size: 16px; color: #333;">Your password is provided below.
                             </p>
-                            <div style="text-align: center; margin: 20px 0;">
+                            <div style=" margin: 20px 0;">
                                 <a href="{{$web}}"
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
                                     Your Login URL:</a>

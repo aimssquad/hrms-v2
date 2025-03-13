@@ -238,6 +238,7 @@ class LandingController extends Controller
                             "web"  => env('BASE_URL'),
                         ];
                         $toemail = $registrationData['email'];
+                        //return view('register-email',$data);
                         Mail::send("register-email", $data, function ($message) use ($toemail) {
                             $message
                                 ->to($toemail, env('MAIL_FROM_NAME'))

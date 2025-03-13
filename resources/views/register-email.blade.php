@@ -43,7 +43,7 @@
                                     Complete Your Organization Profile</a>
                             </div>
 
-                            <p style="font-size: 16px; color: #333;">Your login details:</p>
+                            <p style="font-size: 16px; color: #333;"><strong>Your login details:</strong></p>
                             <p style="font-size: 16px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
                             <p style="font-size: 16px; color: #333;"><strong>Password:</strong> {{ $pass}}</p>
