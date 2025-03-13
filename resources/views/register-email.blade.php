@@ -52,9 +52,10 @@
                             </p>
                             <ol style="font-size: 16px; color: #333;">
                                 <li>Navigate to the ‘Organization Profile’ tab to begin.</li>
-                                <li>Go to ‘Profile Status’ and fill in necessary details.</li>
+                                <li>Go to ‘Profile Status’ and fill in:</li>
                                 <li>Basic business details: trading name, company registration number, business address, trading hours, and trading period.</li>
-                                <li>Information about your authorizing officer (e.g., director or key employee). This person will liaise with the Home Office regarding your sponsor license application</li>
+                                <li>Information about your authorizing officer (e.g., director or key employee). 
+                                    This person will liaise with the Home Office regarding your sponsor license application.</li>
                                 <li>Basic details of all employees for the hierarchy chart, a mandatory Home Office requirement.</li>
                                 <li>Upload required documents under the ‘Documents’ section. Use the ‘Add’ button for additional uploads. </li>
                                 <li>Make sure every field is filled out completely to ensure full compliances.</li>
@@ -79,7 +80,7 @@
                         <td style="font-size: 18px; padding: 0 20px;">
                             <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
                                     href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
-                                call <a href="tel: +44 074 6728 4718">+44 074 6728 4718</a></p>
+                                call <a href="tel:  +44 7467284718"> +44 7467284718</a></p>
 
                             <p>Let’s get started on your journey toward efficient HR and compliance!</p>
                         </td>
