@@ -17,23 +17,13 @@
                     <!-- Header -->
                     <tr>
                         <td>
-                            {{-- <table style="border-spacing: 0; padding: 0; margin: 0;">
+                            <table style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
                                     <td width="25%" style="padding-left: 20px;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%">
                                     </td>
                                     <td width="60%" style="padding: 0;margin: 0;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%">
-                                    </td>
-                                </tr>
-                            </table> --}}
-                            <table style="border-spacing: 0; padding: 0; margin: 0;">
-                                <tr style="height: 200px;">
-                                    <td width="25%" style="padding-left: 20px; height: 200px; vertical-align: top;">
-                                        <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%" style="display: block;">
-                                    </td>
-                                    <td width="60%" style="padding: 0; margin: 0; height: 200px; vertical-align: top;">
-                                        <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%" style="display: block;">
                                     </td>
                                 </tr>
                             </table>
@@ -169,23 +159,13 @@
                     </tr>
                     <tr>
                         <td width="100%">
-                            {{-- <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
+                            <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
                                     <td width="40%" style="background-color: #c2bbfd; padding: 0; margin: 0;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%">
                                     </td>
                                     <td width="60%" style="background-color: #151831; padding: 0; margin: 0; color: #67839c; text-align: center; height: 50px;border-radius: 16px 0 0 0;">
                                         powered by <a href="#" style="color: #67839c;" target="_blank">Skilled Workers Cloud</a>
-                                    </td>
-                                </tr>
-                            </table> --}}
-                            <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
-                                <tr style="height: 50px;">
-                                    <td width="40%" style="background-color: #c2bbfd; padding: 0; margin: 0; height: 50px; vertical-align: top;">
-                                        <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%" style="display: block;">
-                                    </td>
-                                    <td width="60%" style="background-color: #151831; padding: 0; margin: 0; color: #67839c; text-align: center; height: 50px; border-radius: 16px 0 0 0; vertical-align: middle;">
-                                        powered by <a href="#" style="color: #67839c; text-decoration: none;" target="_blank">Skilled Workers Cloud</a>
                                     </td>
                                 </tr>
                             </table>
