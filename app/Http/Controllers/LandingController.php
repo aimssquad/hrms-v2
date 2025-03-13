@@ -482,305 +482,305 @@ class LandingController extends Controller
 
     }
 
-    public function Doregister(Request $request)
-    {
-        //dd($request->all());
-        //dd($_SERVER);
-        // if ($_SERVER['HTTP_HOST'] != 'workpermitcloud.co.uk') {
-        //     Session::flash('message', 'Invalid Referrer');
-        //     return redirect('register');
-        // }
+    // public function Doregister(Request $request)
+    // {
+    //     //dd($request->all());
+    //     //dd($_SERVER);
+    //     // if ($_SERVER['HTTP_HOST'] != 'workpermitcloud.co.uk') {
+    //     //     Session::flash('message', 'Invalid Referrer');
+    //     //     return redirect('register');
+    //     // }
 
-        // if ($_SERVER['HTTP_REFERER'] != 'http://localhost/hrms/register' || $_SERVER['HTTP_REFERER'] != 'https://workpermitcloud.co.uk/hrms/register') {
-        //     die('don\'t be an jerk, ruin your own site');
-        // }
-        $password = $request->validate([
-            'pass' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
-        ], [
-            'pass.regex' => 'Password must contain at least one letter, one number, and one special character.',
-        ]);
-        //dd($password['pass']);
-        if($request->subadmin == ""){
-            Session::flash("message", "Invalid input");
-            return redirect("register");
-        }    
-        //dd($request->all());
-        $eml = [];
-        if ($request->email != "") {
-            $eml = explode(".", $request->email);
-            //dd($eml);
-        }
-        if (count($eml) > 4) {
-            Session::flash("message", "Invalid input");
-            return redirect("register");
-        }
-        if ($request->p_no != "" && substr($request->p_no, 0, 2) == "83") {
-            // case-insensitive here
-            Session::flash("message", "Invalid input");
-            return redirect("register");
-        }
-        //dd(stripos("83", $request->p_no));
-        if ($request->pass != $request->con_password) {
-            Session::flash(
-                "message",
-                "Password and Confirm Password both not same"
-            );
-            return redirect("register")->withInput();
-        } else {
-            $Employee = DB::table("users")
-                ->where("email", "=", $request->email)
-                ->first();
+    //     // if ($_SERVER['HTTP_REFERER'] != 'http://localhost/hrms/register' || $_SERVER['HTTP_REFERER'] != 'https://workpermitcloud.co.uk/hrms/register') {
+    //     //     die('don\'t be an jerk, ruin your own site');
+    //     // }
+    //     $password = $request->validate([
+    //         'pass' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
+    //     ], [
+    //         'pass.regex' => 'Password must contain at least one letter, one number, and one special character.',
+    //     ]);
+    //     //dd($password['pass']);
+    //     if($request->subadmin == ""){
+    //         Session::flash("message", "Invalid input");
+    //         return redirect("register");
+    //     }    
+    //     //dd($request->all());
+    //     $eml = [];
+    //     if ($request->email != "") {
+    //         $eml = explode(".", $request->email);
+    //         //dd($eml);
+    //     }
+    //     if (count($eml) > 4) {
+    //         Session::flash("message", "Invalid input");
+    //         return redirect("register");
+    //     }
+    //     if ($request->p_no != "" && substr($request->p_no, 0, 2) == "83") {
+    //         // case-insensitive here
+    //         Session::flash("message", "Invalid input");
+    //         return redirect("register");
+    //     }
+    //     //dd(stripos("83", $request->p_no));
+    //     if ($request->pass != $request->con_password) {
+    //         Session::flash(
+    //             "message",
+    //             "Password and Confirm Password both not same"
+    //         );
+    //         return redirect("register")->withInput();
+    //     } else {
+    //         $Employee = DB::table("users")
+    //             ->where("email", "=", $request->email)
+    //             ->first();
 
-            if (empty($Employee)) {
-                $employee_pid = DB::table("registration")
-                    ->orderBy("id", "DESC")
-                    ->first();
+    //         if (empty($Employee)) {
+    //             $employee_pid = DB::table("registration")
+    //                 ->orderBy("id", "DESC")
+    //                 ->first();
 
-                if (empty($employee_pid)) {
-                    $pid = "EM1";
-                } else {
-                    $pid = "EM" . ($employee_pid->id + 1);
-                }
-                if($request->subadmin == 'Organization'){ 
-                    //dd($request->org_code);
-                   $subadmin_data = DB::table('sub_admin_registrations')->where('org_code', $request->org_code)->first();
-                   //dd($subadmin_data);
-                   if(empty($subadmin_data)){
-                        $sub_comname = '';
-                   } else {
-                        $sub_comname = $subadmin_data->com_name;
-                   }
+    //             if (empty($employee_pid)) {
+    //                 $pid = "EM1";
+    //             } else {
+    //                 $pid = "EM" . ($employee_pid->id + 1);
+    //             }
+    //             if($request->subadmin == 'Organization'){ 
+    //                 //dd($request->org_code);
+    //                $subadmin_data = DB::table('sub_admin_registrations')->where('org_code', $request->org_code)->first();
+    //                //dd($subadmin_data);
+    //                if(empty($subadmin_data)){
+    //                     $sub_comname = '';
+    //                } else {
+    //                     $sub_comname = $subadmin_data->com_name;
+    //                }
                    
-                    //dd($sub_email);
-                    $datareg = [
-                        "com_name" => $request->com_name,
-                        "f_name" => $request->f_name,
+    //                 //dd($sub_email);
+    //                 $datareg = [
+    //                     "com_name" => $request->com_name,
+    //                     "f_name" => $request->f_name,
 
-                        "l_name" => $request->l_name,
-                        "reg" => $pid,
-                        "email" => $request->email,
-                        "organ_email" => $request->email,
+    //                     "l_name" => $request->l_name,
+    //                     "reg" => $pid,
+    //                     "email" => $request->email,
+    //                     "organ_email" => $request->email,
             
-                        "status" => "active",
-                        "verify" => "not approved",
-                        "licence" => "no",
+    //                     "status" => "active",
+    //                     "verify" => "not approved",
+    //                     "licence" => "no",
 
-                        "country"=>$request->country,
-                        "country_code"=>$request->country_code,
+    //                     "country"=>$request->country,
+    //                     "country_code"=>$request->country_code,
 
-                        "org_code" => $request->org_code,
-                        "p_no" => $request->p_no,
-                        "pass" => $password['pass'],
-                        "created_at" => date("Y-m-d h:i:s"),
-                    ];
-                    //dd($datareg);
-                    DB::table("registration")->insert($datareg);
+    //                     "org_code" => $request->org_code,
+    //                     "p_no" => $request->p_no,
+    //                     "pass" => $password['pass'],
+    //                     "created_at" => date("Y-m-d h:i:s"),
+    //                 ];
+    //                 //dd($datareg);
+    //                 DB::table("registration")->insert($datareg);
 
-                    $datauser = [
-                        "name" => $request->com_name,
-                        "user_type" => "employer",
+    //                 $datauser = [
+    //                     "name" => $request->com_name,
+    //                     "user_type" => "employer",
 
-                        "status" => "inActive",
-                        "employee_id" => $pid,
-                        "email" => $request->email,
+    //                     "status" => "inActive",
+    //                     "employee_id" => $pid,
+    //                     "email" => $request->email,
 
-                        "updated_at" => date("Y-m-d h:i:s"),
-                        "created_at" => date("Y-m-d h:i:s"),
-                        "password" => $password['pass'],
-                    ];
-                    //dd($datauser);
-                    DB::table("users")->insert($datauser);
+    //                     "updated_at" => date("Y-m-d h:i:s"),
+    //                     "created_at" => date("Y-m-d h:i:s"),
+    //                     "password" => $password['pass'],
+    //                 ];
+    //                 //dd($datauser);
+    //                 DB::table("users")->insert($datauser);
 
-                    $le_type = DB::table("le_type")->get();
-                    //dd( $le_type);
-                    foreach ($le_type as $value_le) {
-                        $datauserleave = [
-                            "leave_type_name" => $value_le->leave_type_name,
-                            "alies" => $value_le->alies,
+    //                 $le_type = DB::table("le_type")->get();
+    //                 //dd( $le_type);
+    //                 foreach ($le_type as $value_le) {
+    //                     $datauserleave = [
+    //                         "leave_type_name" => $value_le->leave_type_name,
+    //                         "alies" => $value_le->alies,
 
-                            "remarks" => $value_le->remarks,
-                            "emid" => $pid,
-                            "leave_type_status" => "active",
-                        ];
-                        DB::table("leave_type")->insert($datauserleave);
-                    }
+    //                         "remarks" => $value_le->remarks,
+    //                         "emid" => $pid,
+    //                         "leave_type_status" => "active",
+    //                     ];
+    //                     DB::table("leave_type")->insert($datauserleave);
+    //                 }
 
-                    $em_type = DB::table("em_type")->get();
+    //                 $em_type = DB::table("em_type")->get();
 
-                    foreach ($em_type as $value_em) {
-                        $datauseremployty = [
-                            "employee_type_name" => $value_em->name,
+    //                 foreach ($em_type as $value_em) {
+    //                     $datauseremployty = [
+    //                         "employee_type_name" => $value_em->name,
 
-                            "emid" => $pid,
-                            "employee_type_status" => "Active",
-                        ];
-                        DB::table("employee_type")->insert($datauseremployty);
-                    }
+    //                         "emid" => $pid,
+    //                         "employee_type_status" => "Active",
+    //                     ];
+    //                     DB::table("employee_type")->insert($datauseremployty);
+    //                 }
 
-                    $data = [
-                        "f_name" => $request->f_name,
-                        "l_name" => $request->l_name,
-                        "com_name" => $request->com_name,
-                        "p_no" => $request->p_no,
-                        "email" => $request->email,
-                    ];
+    //                 $data = [
+    //                     "f_name" => $request->f_name,
+    //                     "l_name" => $request->l_name,
+    //                     "com_name" => $request->com_name,
+    //                     "p_no" => $request->p_no,
+    //                     "email" => $request->email,
+    //                 ];
 
-                    $toemail = $request->email;
-                    $toemail = 'info@skilledworkerscloud.co.uk';
-                    Mail::send("mailre", $data, function ($message) use ($toemail) {
-                        $message
-                            ->to($toemail, env('MAIL_FROM_NAME'))
-                            ->subject("New Organisation Registered");
-                        $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-                    });
+    //                 $toemail = $request->email;
+    //                 $toemail = 'info@skilledworkerscloud.co.uk';
+    //                 Mail::send("mailre", $data, function ($message) use ($toemail) {
+    //                     $message
+    //                         ->to($toemail, env('MAIL_FROM_NAME'))
+    //                         ->subject("New Organisation Registered");
+    //                     $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+    //                 });
                    
-                    //dd($data);
-                    if(!empty($request->org_code)){
-                        $org_code = $request->org_code;
-                        $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
-                        // Extract only the domain name and store it in a variable
-                        $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
-                        $baseUrl = $baseUrl."/hrms-v2";
-                        $data = [
-                            "f_name" => $request->f_name,
-                            "l_name" => $request->l_name,
-                            "com_name" => $request->com_name,
-                            "p_no" => $request->p_no,
-                            "email" => $request->email,
-                            "pass" => $password['pass'],
-                            "web"  => $baseUrl,
-                        ];
-                        $toemail = $request->email;
-                        // Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
-                        //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
-                        //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                        // });
-                    } else{
-                        $data = [
-                            "f_name" => $request->f_name,
-                            "l_name" => $request->l_name,
-                            "com_name" => $request->com_name,
-                            "p_no" => $request->p_no,
-                            "email" => $request->email,
-                            "pass" => $password['pass'],
-                            "web"  => env('BASE_URL'),
-                        ];
-                        $toemail = $request->email;
-                        Mail::send("register-email", $data, function ($message) use ($toemail) {
-                            $message
-                                ->to($toemail, env('MAIL_FROM_NAME'))
-                                ->subject(
-                                    "Welcome to SWC HRMS. Your Organization Registration is Successful!"
-                                );
-                            $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                        });
-                    }
+    //                 //dd($data);
+    //                 if(!empty($request->org_code)){
+    //                     $org_code = $request->org_code;
+    //                     $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+    //                     // Extract only the domain name and store it in a variable
+    //                     $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+    //                     $baseUrl = $baseUrl."/hrms-v2";
+    //                     $data = [
+    //                         "f_name" => $request->f_name,
+    //                         "l_name" => $request->l_name,
+    //                         "com_name" => $request->com_name,
+    //                         "p_no" => $request->p_no,
+    //                         "email" => $request->email,
+    //                         "pass" => $password['pass'],
+    //                         "web"  => $baseUrl,
+    //                     ];
+    //                     $toemail = $request->email;
+    //                     // Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
+    //                     //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
+    //                     //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+    //                     // });
+    //                 } else{
+    //                     $data = [
+    //                         "f_name" => $request->f_name,
+    //                         "l_name" => $request->l_name,
+    //                         "com_name" => $request->com_name,
+    //                         "p_no" => $request->p_no,
+    //                         "email" => $request->email,
+    //                         "pass" => $password['pass'],
+    //                         "web"  => env('BASE_URL'),
+    //                     ];
+    //                     $toemail = $request->email;
+    //                     Mail::send("register-email", $data, function ($message) use ($toemail) {
+    //                         $message
+    //                             ->to($toemail, env('MAIL_FROM_NAME'))
+    //                             ->subject(
+    //                                 "Welcome to SWC HRMS. Your Organization Registration is Successful!"
+    //                             );
+    //                         $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+    //                     });
+    //                 }
                   
 
                 
-                } elseif ($request->subadmin == 'Partner') {
+    //             } elseif ($request->subadmin == 'Partner') {
 
-                     $reg_pid = DB::table("sub_admin_registrations")
-                    ->orderBy("id", "DESC")
-                    ->first();
-                     if (empty($reg_pid)) {
-                    $pid = "SUBA1";
-                    } else {
-                        $pid = "SUBA" . ($reg_pid->id + 1);
-                    }
+    //                  $reg_pid = DB::table("sub_admin_registrations")
+    //                 ->orderBy("id", "DESC")
+    //                 ->first();
+    //                  if (empty($reg_pid)) {
+    //                 $pid = "SUBA1";
+    //                 } else {
+    //                     $pid = "SUBA" . ($reg_pid->id + 1);
+    //                 }
                   
 
-                    $datareg = [
-                        "com_name" => $request->com_name,
-                        "f_name" => $request->f_name,
+    //                 $datareg = [
+    //                     "com_name" => $request->com_name,
+    //                     "f_name" => $request->f_name,
 
-                        "l_name" => $request->l_name,
-                        "reg" => $pid,
-                        "email" => $request->email,
-                        "organ_email" => $request->email,
-                        "domain_name" => $request->domain_name,
+    //                     "l_name" => $request->l_name,
+    //                     "reg" => $pid,
+    //                     "email" => $request->email,
+    //                     "organ_email" => $request->email,
+    //                     "domain_name" => $request->domain_name,
 
-                        "status" => "active",
-                        "verify" => "not approved",
-                        "licence" => "no",
+    //                     "status" => "active",
+    //                     "verify" => "not approved",
+    //                     "licence" => "no",
 
-                        "country"=>$request->country,
-                        "country_code"=>$request->country_code,
+    //                     "country"=>$request->country,
+    //                     "country_code"=>$request->country_code,
 
-                        "p_no" => $request->p_no,
-                        "pass" => $password['pass'],
-                        "created_at" => date("Y-m-d h:i:s"),
-                    ];
-                    //dd('okk');
-                     //dd($datareg);
-                    DB::table("sub_admin_registrations")->insert($datareg);
+    //                     "p_no" => $request->p_no,
+    //                     "pass" => $password['pass'],
+    //                     "created_at" => date("Y-m-d h:i:s"),
+    //                 ];
+    //                 //dd('okk');
+    //                  //dd($datareg);
+    //                 DB::table("sub_admin_registrations")->insert($datareg);
 
-                    $datauser = [
-                        "name" => $request->com_name,
-                        "user_type" => "sub-admin",
+    //                 $datauser = [
+    //                     "name" => $request->com_name,
+    //                     "user_type" => "sub-admin",
 
-                        "status" => "inActive",
-                        "employee_id" => $pid,
-                        "email" => $request->email,
+    //                     "status" => "inActive",
+    //                     "employee_id" => $pid,
+    //                     "email" => $request->email,
 
-                        "updated_at" => date("Y-m-d h:i:s"),
-                        "created_at" => date("Y-m-d h:i:s"),
-                        "password" => $password['pass'],
-                    ];
-                    DB::table("users")->insert($datauser);
+    //                     "updated_at" => date("Y-m-d h:i:s"),
+    //                     "created_at" => date("Y-m-d h:i:s"),
+    //                     "password" => $password['pass'],
+    //                 ];
+    //                 DB::table("users")->insert($datauser);
 
-                    $le_type = DB::table("le_type")->get();
-                    //dd( $le_type);
-                    foreach ($le_type as $value_le) {
-                        $datauserleave = [
-                            "leave_type_name" => $value_le->leave_type_name,
-                            "alies" => $value_le->alies,
+    //                 $le_type = DB::table("le_type")->get();
+    //                 //dd( $le_type);
+    //                 foreach ($le_type as $value_le) {
+    //                     $datauserleave = [
+    //                         "leave_type_name" => $value_le->leave_type_name,
+    //                         "alies" => $value_le->alies,
 
-                            "remarks" => $value_le->remarks,
-                            "emid" => $pid,
-                            "leave_type_status" => "active",
-                        ];
-                        DB::table("leave_type")->insert($datauserleave);
-                    }
+    //                         "remarks" => $value_le->remarks,
+    //                         "emid" => $pid,
+    //                         "leave_type_status" => "active",
+    //                     ];
+    //                     DB::table("leave_type")->insert($datauserleave);
+    //                 }
 
-                    $em_type = DB::table("em_type")->get();
+    //                 $em_type = DB::table("em_type")->get();
 
-                    foreach ($em_type as $value_em) {
-                        $datauseremployty = [
-                            "employee_type_name" => $value_em->name,
+    //                 foreach ($em_type as $value_em) {
+    //                     $datauseremployty = [
+    //                         "employee_type_name" => $value_em->name,
 
-                            "emid" => $pid,
-                            "employee_type_status" => "Active",
-                        ];
-                        DB::table("employee_type")->insert($datauseremployty);
-                    }
-                    $data = [
-                        "f_name" => $request->f_name,
-                        "l_name" => $request->l_name,
-                        "com_name" => $request->com_name,
-                        "p_no" => $request->p_no,
-                        "email" => $request->email,
-                        "pass" => $password['pass'],
-                        "web"  => env('BASE_URL'),
-                    ];
-                    $toemail = $request->email;
-                    Mail::send("register-email", $data, function ($message) use ($toemail) {
-                        $message->to($toemail, env('MAIL_FROM_NAME'))
-                            ->subject("Welcome to SWCH HRMS. Your Partner Organization Registration is Successful!");
-                        $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                    });
-                }
-                Session::flash(
-                    "message",
-                    "Thank you for registration, will get back to you soon."
-                );
-                return redirect("register");
-            } else {
-                Session::flash("message", "Email ID already exists even when we brand new email.");
-                return redirect("register");
-            }
-        }
-    }
+    //                         "emid" => $pid,
+    //                         "employee_type_status" => "Active",
+    //                     ];
+    //                     DB::table("employee_type")->insert($datauseremployty);
+    //                 }
+    //                 $data = [
+    //                     "f_name" => $request->f_name,
+    //                     "l_name" => $request->l_name,
+    //                     "com_name" => $request->com_name,
+    //                     "p_no" => $request->p_no,
+    //                     "email" => $request->email,
+    //                     "pass" => $password['pass'],
+    //                     "web"  => env('BASE_URL'),
+    //                 ];
+    //                 $toemail = $request->email;
+    //                 Mail::send("register-email", $data, function ($message) use ($toemail) {
+    //                     $message->to($toemail, env('MAIL_FROM_NAME'))
+    //                         ->subject("Welcome to SWCH HRMS. Your Partner Organization Registration is Successful!");
+    //                     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+    //                 });
+    //             }
+    //             Session::flash(
+    //                 "message",
+    //                 "Thank you for registration, will get back to you soon."
+    //             );
+    //             return redirect("register");
+    //         } else {
+    //             Session::flash("message", "Email ID already exists even when we brand new email.");
+    //             return redirect("register");
+    //         }
+    //     }
+    // }
 
     public function Dashboard(Request $request)
     {

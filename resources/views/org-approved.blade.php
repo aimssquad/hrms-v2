@@ -4,53 +4,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sub Admin Child Data Verification</title>
+    <title>Organization Verification Successful by SWC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
 
-<body style="background-color: #ffff; font-family: Arial, sans-serif; margin: 0; padding: 0;">
-    <div style="max-width: 80%; margin: 30px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #d4e2f7; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <div style="text-align: center; padding: 20px; background-color: #17276d; color: white; border-radius: 10px 10px 0 0;">
-            <h2>Welcome To Our <strong>{{ $sub_comname ?? '' }}</strong> Organisation</h2> 
-            <h4>Here Are Your Credentials to Join Our Organization</h4>
-        </div>
-            <p style="color: #080808;"><strong>Hello {{ $name ?? '' }},</strong></p>
-            <p style="color: #080808;">
-                Thank you for registering with SkilledWorkersCloud. As your next step, please create your organization profile. You can do this by clicking on the link below.
-            </p>
-            <p style="color: #440af3;">
-                <strong>
-                    <a href="{{ url('/') }}">{{ url('/') }}</a>
-                </strong>
-            </p>
-            <p style="color: #070707;"><strong>Username:</strong> {{ $email ?? '' }}</p>
-            <p style="color: #060606;"><strong>Password:</strong> {{ $password ?? '' }}</p>
-            <p style="color: #060606;">Here are some useful tips to help you complete your organization profile effortlessly.</p>
-            <ul style="padding-left: 18px;">
-                <li style="padding-bottom:7px;">To get started, select the 'Organization Profile' tab.</li>
-                <li style="padding-bottom:7px;">Next, click on the 'Profile Status' tab. Fill out all the necessary fields in this section. Provide essential business information, including your trading name, company registration number, business address, trading hours (opening and closing times), and the start date of your business operations.</li>
+<body style="font-family: 'Arial', 'Helvetica', 'Verdana', 'Tahoma', 'Geneva', sans-serif; margin: 0; padding: 0;">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600px" cellspacing="0" cellpadding="0" border="0"
+                    style="background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td>
+                            <img src="https://ik.imagekit.io/oq9hcqjih/banner-01.png" alt="" width="100%">
+                        </td>
+                    </tr>
 
-                <li style="padding-bottom:7px;">Please provide details of an authorizing officer. This individual will be the primary contact for the Home Office regarding your sponsor license application. The authorizing officer could be your company's director or another knowledgeable employee. We recommend nominating someone with excellent communication skills to ensure a smooth application process. </li>
-                <li style="padding-bottom:7px;">You're also required to provide basic information (e.g., name, job title, etc.) for all employees at your business. This information is necessary to create a hierarchy chart, a mandatory requirement from the Home Office.</li>
-                <li style="padding-bottom:7px;">Finally, you'll need to upload specific documents. You'll see a list of document names with an 'upload document' field next to each. Please upload all required documents as instructed. If you need to add more documents, use the 'Add' button at the bottom of the documents section.</li>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 20px;">
+                            <p style="font-size: 16px; color: #333;">Dear <b>{{ strtoupper($name) }},</b></p>
+                            <p style="font-size: 16px; color: #333;">
+                                Congratulations! Your organization has been successfully verified. 
+                                Thank you for registering with Skilled Workers Cloud (SWC). 
+                                You’re now ready to set up your organization profile and unlock the full potential of our HRMS. 
+                            </p>
 
-                <li style="padding-bottom:7px;">Please note that, there is one document field with the title 'submission sheet'. Ignore this field for now. You have not received the document yet. You will only get the document once you submitted the license application and  pay the Home Office Fees. </li>
-                <li style="padding-bottom:7px;">It is crucial that you complete your organization profile thoroughly. Without the necessary information and documents, we regret that we will be unable to assist with your sponsorship application. </li>
-            </ul>
-            <p style="color: #060606;"><strong>Your journey begins here. Should you have any questions, please feel free to reach out to us at <a style="color: #440af3;" href="https://skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> We are always here to assist you!</strong></p>
-            <p style="color: #060606;"><strong><i>Thanking you.</i></strong></p>
-        <div
-            style="text-align: center; padding: 20px; background-color: #17276d; color: white; border-radius: 0 0 10px 10px;">
-            <p>
-                Thank you,<br>
-                [ {{ $sub_comname ?? '' }} ]<br>
-                {{ $sub_address ?? '' }}<br>
-                {{ $sub_zip ?? '' }}<br>
-                {{ $sub_country ?? '' }}<br>
-                <strong>{{ $sub_email ?? '' }}</strong>
-            </p>
-        </div>
-    </div>
+                            {{-- <p style="font-size: 16px; color: #333;">
+                                As the next step, you need to complete your organization profile. 
+                                This ensures a seamless process for utilizing our HRMS features and compliance services.
+                            </p> --}}
+                            
+
+                            <p style="font-size: 16px; color: #333;">Your Login Credentials:</p>
+                            <p style="font-size: 16px; color: #333;"><strong>Username:</strong> {{ $email }}
+                            </p>
+                            <p style="font-size: 16px; color: #333;"><strong>Password:</strong> {{ $pass}}</p>
+
+                            
+                            <div style="text-align: center; margin: 20px 0;">
+                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/register"
+                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
+                                    Click here to access your account</a>
+                            </div>
+
+                            <p style="font-size: 16px; color: #333;">Steps to Complete Your Organization Profile:
+                            </p>
+                            <ol style="font-size: 16px; color: #333;">
+                                <li>Go to the ‘Organization Profile’ tab.</li>
+                                <li>Click ‘Profile Status’ and provide key details, including:</li>
+                                <li>Trading name, company registration number, business address, trading hours, and start date.</li>
+                                <li>Add information for an authorizing officer (e.g., company director or key employee).</li>
+                                <li>Enter basic employee details to build a hierarchy chart (required by the Home Office).</li>
+                                <li>Upload required documents in the ‘Documents’ section (use the ‘Add’ button if needed) </li>
+                                <li>Skip the ‘Submission Sheet’ field for now—you’ll receive this after submitting your license application.</li>
+                                <li>Completing your profile is essential to ensure compliance and smooth HR operations.</li>
+                            </ol>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+
+                    <tr>
+                        <td>
+                            <p style="font-size: 24px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td height="20"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-size: 18px; padding: 0 20px;">
+                            <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
+                                    href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
+                                call <a href="tel: +44 7467284718"> +44 7467284718</a></p>
+
+                            <p>Let’s get started on your journey toward efficient HR and compliance!</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td height="20"></td>
+                    </tr>
+
+
+                    <!-- Text Section -->
+
+                    <tr>
+                        <td style="padding: 0 20px;">
+                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 150px;">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td height="30"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: left; color: #333; font-size: 20px; padding: 0 20px;">
+                            <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td height="20"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 0 20px;">
+                            <p style="margin: 0 0 20px; font-size: 18px; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
+                        </td>
+                    </tr>
+
+                    <!-- Contact Info Section -->
+                    <tr>
+                        <td style="color: #333; font-size: 16px; line-height: 1.8; padding: 0 20px;">
+                            <!-- Email -->
+                            <p style="margin: 5px 0;">
+                                <img src="https://ik.imagekit.io/oq9hcqjih/email.png" alt="Email"
+                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                <strong>Email:</strong>
+                                <a href="mailto:info@skilledworkerscloud.co.uk"
+                                    style="color: #0044cc; text-decoration: none;">info@skilledworkerscloud.co.uk</a>
+                            </p>
+                            <!-- Phone -->
+                            <p style="margin: 5px 0;">
+                                <img src="https://ik.imagekit.io/oq9hcqjih/phone-call.png" alt="Phone"
+                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                <strong>Phone:</strong> +44 7467284718
+                            </p>
+                            <!-- Landline -->
+                            <p style="margin: 5px 0;">
+                                <img src="https://ik.imagekit.io/oq9hcqjih/telephone.png" alt="Landline"
+                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                <strong>Landline:</strong> +44 (0) 208 129 1655
+                            </p>
+                            <!-- Website -->
+                            <p style="margin: 5px 0;">
+                                <img src="https://ik.imagekit.io/oq9hcqjih/web.png" alt="Website"
+                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                <strong>Website:</strong>
+                                <a href="https://www.skilledworkerscloud.co.uk"
+                                    style="color: #0044cc; text-decoration: none;">www.skilledworkerscloud.co.uk</a>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="30"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="https://ik.imagekit.io/oq9hcqjih/footer-img.png" alt="" width="100%" height="auto">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>

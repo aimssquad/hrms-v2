@@ -674,10 +674,10 @@
                                           <?php } else {?>
                                           <input type="text" class="form-control "  name="licence_o" readonly value="@if($Roledata->licence=='yes') APPLIED @else NOT APPLIED @endif" >
                                           <input type="hidden" class="form-control "   name="licence"  value="{{$Roledata->licence}}" >
-                                          <!-- <select id="licence"  class="form-control "   name="licence" <?php if ($Roledata->status == "inactive" || $Roledata->verify == "not approved") {?> readonly <?php }?>>
+                                          {{-- <select id="licence"  class="form-control "   name="licence" <?php if ($Roledata->status == "inactive" || $Roledata->verify == "not approved") {?> readonly <?php }?>>
                                              <option value="yes" <?php if (!empty($Roledata->licence)) {if ($Roledata->licence == "yes") {?> selected="selected" <?php }}?>  >APPLIED</option>
                                              <option value="no" <?php if (!empty($Roledata->licence)) {if ($Roledata->licence == "no") {?> selected="selected" <?php }}?>>NOT APPLIED</option>
-                                             </select> -->
+                                             </select>  --}}
                                           <?php
                                              }?>
                                        </div>

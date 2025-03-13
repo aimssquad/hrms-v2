@@ -4016,12 +4016,12 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
                 $data = array('name' => $Roleempdata->emp_fname . ' ' . $Roleempdata->emp_mname . ' ' . $Roleempdata->emp_lname, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->emp_ps_mobile,
                     'email' => $Roleempdata->emp_ps_email, 'msg' => $request->msg);
                 $toemail = $request->email;
-                Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub, $path) {
-                    $message->to($toemail, 'Skilledworkescloud')->subject
-                        ($sub);
-                    $message->attach($path);
-                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-                });
+                // Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub, $path) {
+                //     $message->to($toemail, 'Skilledworkescloud')->subject
+                //         ($sub);
+                //     $message->attach($path);
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+                // });
 
                 if ($request->cc != '') {
 
@@ -4030,12 +4030,12 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
                     $data = array('name' => $Roleempdata->emp_fname . ' ' . $Roleempdata->emp_mname . ' ' . $Roleempdata->emp_lname, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->emp_ps_mobile,
                         'email' => $Roleempdata->emp_ps_email, 'msg' => $request->msg);
                     $toemail = $request->cc;
-                    Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub, $path) {
-                        $message->to($toemail, 'Skilledworkescloud')->subject
-                            ($sub);
-                        $message->attach($path);
-                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-                    });
+                    // Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub, $path) {
+                    //     $message->to($toemail, 'Skilledworkescloud')->subject
+                    //         ($sub);
+                    //     $message->attach($path);
+                    //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+                    // });
 
                 }
             } else {
@@ -4043,11 +4043,11 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
                 $data = array('name' => $Roleempdata->emp_fname . ' ' . $Roleempdata->emp_mname . ' ' . $Roleempdata->emp_lname, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->emp_ps_mobile,
                     'email' => $Roleempdata->emp_ps_email, 'msg' => $request->msg);
                 $toemail = $request->email;
-                Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub) {
-                    $message->to($toemail, 'Skilledworkescloud')->subject
-                        ($sub);
-                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-                });
+                // Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub) {
+                //     $message->to($toemail, 'Skilledworkescloud')->subject
+                //         ($sub);
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+                // });
 
                 if ($request->cc != '') {
 
@@ -4055,11 +4055,11 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
                     $data = array('name' => $Roleempdata->emp_fname . ' ' . $Roleempdata->emp_mname . ' ' . $Roleempdata->emp_lname, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->emp_ps_mobile,
                         'email' => $Roleempdata->emp_ps_email, 'msg' => $request->msg);
                     $toemail = $request->cc;
-                    Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub) {
-                        $message->to($toemail, 'Skilledworkescloud')->subject
-                            ($sub);
-                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-                    });
+                    // Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub) {
+                    //     $message->to($toemail, 'Skilledworkescloud')->subject
+                    //         ($sub);
+                    //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+                    // });
 
                 }
             }
@@ -4120,12 +4120,12 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
                 $data = array('name' => $Roleempdata->emp_fname . ' ' . $Roleempdata->emp_mname . ' ' . $Roleempdata->emp_lname, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->emp_ps_mobile,
                     'email' => $Roleempdata->emp_ps_email, 'msg' => $request->msg);
                 $toemail = $request->email;
-                Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub, $path) {
-                    $message->to($toemail, 'Skilledworkescloud')->subject
-                        ($sub);
-                    $message->attach($path);
-                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-                });
+                // Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub, $path) {
+                //     $message->to($toemail, 'Skilledworkescloud')->subject
+                //         ($sub);
+                //     $message->attach($path);
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+                // });
                 if ($request->cc != '') {
 
                     $path = public_path() . '/' . $path_visa_doc;
@@ -4133,12 +4133,12 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
                     $data = array('name' => $Roleempdata->emp_fname . ' ' . $Roleempdata->emp_mname . ' ' . $Roleempdata->emp_lname, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->emp_ps_mobile,
                         'email' => $Roleempdata->emp_ps_email, 'msg' => $request->msg);
                     $toemail = $request->cc;
-                    Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub, $path) {
-                        $message->to($toemail, 'Skilledworkescloud')->subject
-                            ($sub);
-                        $message->attach($path);
-                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-                    });
+                    // Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub, $path) {
+                    //     $message->to($toemail, 'Skilledworkescloud')->subject
+                    //         ($sub);
+                    //     $message->attach($path);
+                    //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+                    // });
 
                 }
             } else {
@@ -4146,21 +4146,21 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
                 $data = array('name' => $Roleempdata->emp_fname . ' ' . $Roleempdata->emp_mname . ' ' . $Roleempdata->emp_lname, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->emp_ps_mobile,
                     'email' => $Roleempdata->emp_ps_email, 'msg' => $request->msg);
                 $toemail = $request->email;
-                Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub) {
-                    $message->to($toemail, 'Skilledworkescloud')->subject
-                        ($sub);
-                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-                });
+                // Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub) {
+                //     $message->to($toemail, 'Skilledworkescloud')->subject
+                //         ($sub);
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+                // });
                 if ($request->cc != '') {
                     $sub = $request->subject;
                     $data = array('name' => $Roleempdata->emp_fname . ' ' . $Roleempdata->emp_mname . ' ' . $Roleempdata->emp_lname, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->emp_ps_mobile,
                         'email' => $Roleempdata->emp_ps_email, 'msg' => $request->msg);
                     $toemail = $request->cc;
-                    Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub) {
-                        $message->to($toemail, 'Skilledworkescloud')->subject
-                            ($sub);
-                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-                    });
+                    // Mail::send('mailormsgcenemp', $data, function ($message) use ($toemail, $sub) {
+                    //     $message->to($toemail, 'Skilledworkescloud')->subject
+                    //         ($sub);
+                    //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+                    // });
 
                 }
             }
@@ -4254,21 +4254,21 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $toemail = $job->emp_ps_email;
             //return view('reminder-email-90days', $data);
-            Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 90-day Reminder');
+            // Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 90-day Reminder');
+            // Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Visa Review Reminder send Successfully.');
 
@@ -4295,21 +4295,21 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $toemail = $job->emp_ps_email;
             // return view('reminder-email-60days', $data);
             // dd('okk');
-            Mail::send('reminder-email-60days', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 60-day Reminder');
+            // Mail::send('reminder-email-60days', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('reminder-email-60days', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 60-day Reminder');
+            // Mail::send('reminder-email-60days', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Visa Review Reminder send Successfully.');
 
@@ -4334,19 +4334,19 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
 
-            Mail::send('reminder-email-30days', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 30-day Reminder');
+            // Mail::send('reminder-email-30days', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
             $toemail = $Roledata->authemail;
-            Mail::send('reminder-email-30days', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 30-day Reminder');
+            // Mail::send('reminder-email-30days', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Visa Review Reminder send Successfully.');
 
@@ -4372,20 +4372,20 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
 
-            Mail::send('mailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 90-day Reminder');
+            // Mail::send('mailsendfirt', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
             $toemail = $Roledata->authemail;
 
-            Mail::send('mailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 90-day Reminder');
+            // Mail::send('mailsendfirt', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Visa Review Reminder send Successfully.');
 
@@ -4411,21 +4411,21 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
 
-            Mail::send('mailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 60-day Reminder');
+            // Mail::send('mailsendsecond', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('mailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 60-day Reminder');
+            // Mail::send('mailsendsecond', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Visa Review Reminder send Successfully.');
 
@@ -4450,19 +4450,19 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
 
-            Mail::send('mailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 30-day Reminder');
+            // Mail::send('mailsendthird', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
             $toemail = $Roledata->authemail;
-            Mail::send('mailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Visa 30-day Reminder');
+            // Mail::send('mailsendthird', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Visa 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Visa Review Reminder send Successfully.');
 
@@ -4972,19 +4972,19 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $toemail = $job->emp_ps_email;
 
-            Mail::send('mailcircum', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Change of Circumstances - Annual Reminder');
+            // Mail::send('mailcircum', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Change of Circumstances - Annual Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
             $toemail = $Roledata->authemail;
-            Mail::send('mailcircum', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    (' Change of Circumstances - Annual Reminder');
+            // Mail::send('mailcircum', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         (' Change of Circumstances - Annual Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Annual  Reminder send Successfully.');
 
@@ -5162,21 +5162,21 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $toemail = $job->emp_ps_email;
             // return view('passport-90days-reminder',$data);
             // dd('okk');
-            Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Passport 90-day Reminder');
+            // Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Passport 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Passport 90-day Reminder');
+            // Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Passport 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Passport Review Reminder send Successfully.');
 
@@ -5201,23 +5201,23 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
-            return view('passport-60days-reminder',$data);
-            dd('okk');
-            Mail::send('passmailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Passport 60-day Reminder');
+            //return view('passport-60days-reminder',$data);
+            //dd('okk');
+            // Mail::send('passmailsendsecond', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Passport 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('passmailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Passport 60-day Reminder');
+            // Mail::send('passmailsendsecond', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Passport 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Passport Review Reminder send Successfully.');
 
@@ -5241,21 +5241,21 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
-            return view('passport-30days-reminder',$data);
-            dd('okk');
-            Mail::send('passmailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Passport 30-day Reminder');
+            // return view('passport-30days-reminder',$data);
+            // dd('okk');
+            // Mail::send('passmailsendthird', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Passport 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
             $toemail = $Roledata->authemail;
-            Mail::send('passmailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary Passport 30-day Reminder');
+            // Mail::send('passmailsendthird', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary Passport 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'Passport Review Reminder send Successfully.');
 
@@ -5372,21 +5372,21 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $toemail = $job->emp_ps_email;
 
-            Mail::send('dbsmailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary DBS 90-day Reminder');
+            // Mail::send('dbsmailsendfirt', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary DBS 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('dbsmailsendfirt', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary DBS 90-day Reminder');
+            // Mail::send('dbsmailsendfirt', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary DBS 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'DBS Review Reminder send Successfully.');
 
@@ -5412,21 +5412,21 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
 
-            Mail::send('dbsmailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary DBS 60-day Reminder');
+            // Mail::send('dbsmailsendsecond', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary DBS 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('dbsmailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary DBS 60-day Reminder');
+            // Mail::send('dbsmailsendsecond', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary DBS 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'DBS Review Reminder send Successfully.');
 
@@ -5452,19 +5452,19 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
 
-            Mail::send('dbsmailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary DBS 30-day Reminder');
+            // Mail::send('dbsmailsendthird', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary DBS 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
             $toemail = $Roledata->authemail;
-            Mail::send('dbsmailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary DBS 30-day Reminder');
+            // Mail::send('dbsmailsendthird', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary DBS 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'DBS Review Reminder send Successfully.');
 
@@ -5557,23 +5557,23 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $toemail = $job->emp_ps_email;
             // euss-90days-reminder
-            return view('euss-90days-reminder', $data);
-            dd('okk');
-            Mail::send('euss-90days-reminder', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary EUSS 90-day Reminder');
+            // return view('euss-90days-reminder', $data);
+            // dd('okk');
+            // Mail::send('euss-90days-reminder', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary EUSS 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('euss-90days-reminder', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary EUSS 90-day Reminder');
+            // Mail::send('euss-90days-reminder', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary EUSS 90-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'EUSS Review Reminder send Successfully.');
 
@@ -5599,23 +5599,23 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
-            return view('euss-60days-reminder', $data);
-            dd('okk');
-            Mail::send('eussmailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary EUSS 60-day Reminder');
+            // return view('euss-60days-reminder', $data);
+            // dd('okk');
+            // Mail::send('eussmailsendsecond', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary EUSS 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             $toemail = $Roledata->authemail;
 
-            Mail::send('eussmailsendsecond', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary EUSS 60-day Reminder');
+            // Mail::send('eussmailsendsecond', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary EUSS 60-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'EUSS Review Reminder send Successfully.');
 
@@ -5642,22 +5642,22 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
             $toemail = $job->emp_ps_email;
             //$toemail = 'm.subhasish@gmail.com';
-            return view('euss-30days-reminder', $data);
-            dd('okk');
-            Mail::send('eussmailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary EUSS 30-day Reminder');
+            // return view('euss-30days-reminder', $data);
+            // dd('okk');
+            // Mail::send('eussmailsendthird', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary EUSS 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
             $toemail = $Roledata->authemail;
             //$toemail = 'm.subhasish@gmail.com';
-            Mail::send('eussmailsendthird', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skilledworkescloud')->subject
-                    ('Right to Work Documentation – Temporary EUSS 30-day Reminder');
+            // Mail::send('eussmailsendthird', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skilledworkescloud')->subject
+            //         ('Right to Work Documentation – Temporary EUSS 30-day Reminder');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            // });
 
             Session::flash('message', 'EUSS Review Reminder send Successfully.');
 

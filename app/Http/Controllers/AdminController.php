@@ -5668,11 +5668,11 @@ class AdminController extends Controller
                     $data = array('f_name' => $request->f_name, 'l_name' => $request->l_name, 'com_name' => $request->com_name, 'p_no' => $request->p_no, 'email' => $request->email, 'pass' => $request->pass);
                     //dd($data);
                     $toemail = $request->email;
-                    Mail::send('mailorupli', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'skilledworkerscloud')->subject
-                            ('Make your HR file ready');
-                        $message->from('infoswc@skilledworkerscloud.co.uk', 'skilledworkerscloud');
-                    });
+                    // Mail::send('mailorupli', $data, function ($message) use ($toemail) {
+                    //     $message->to($toemail, 'skilledworkerscloud')->subject
+                    //         ('Make your HR file ready');
+                    //     $message->from('infoswc@skilledworkerscloud.co.uk', 'skilledworkerscloud');
+                    // });
                     $data = array(
                         'status' => $request->status,
                         'verify' => $request->verify,
@@ -5724,18 +5724,15 @@ class AdminController extends Controller
                 $this->addAdminLog(3, 'Organisation - Updated data for company code: ' . $request->reg);
 
                 $toemail=$request->email;
-                // $toemail='boton.cob2@gmail.com';
                 //dd($toemail);
-                // if ($toemail != '') {
-                //     // dd($exits);
-                //     $subDtl = DB::table('sub_admin_registrations')->where('email', $email)->where('verify','=','approved')->first();
-                //     $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password,"sub_comname"=>$subDtl->com_name, "sub_address"=>$subDtl->address, "sub_zip"=>$subDtl->zip, "sub_country"=>$subDtl->country, "sub_email"=>$subDtl->email];
-                //     Mail::send('org-approved', $data, function ($message) use ($toemail) {
-                //         $message->to($toemail, 'skilledworkerscloud')->subject
-                //             ('Organisation Approved');
-                //         $message->from('infoswc@skilledworkerscloud.co.uk', 'skilledworkerscloud');
-                //     });
-                // }
+                if ($toemail != '') {
+                    $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password];
+                    $com_name = $exits->name;
+                    Mail::send('org-approved', $data, function ($message) use ($toemail,$com_name) {
+                        $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Organization Verification Successful $com_name!");
+                        $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+                    });
+                }
                 // if($userType == 'sub-admin'){
                 //     $verification = DB::table('registration')->where('reg', $request->reg)->where('verify','=','approved')->first();
                 //     $subDtl = DB::table('sub_admin_registrations')->where('email', $email)->where('verify','=','approved')->first();

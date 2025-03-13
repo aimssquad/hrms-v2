@@ -1194,20 +1194,20 @@ class RecruitmentController extends Controller
 
             //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
             // });
-            Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skillworkescloud')->subject
-                    ('Confirmation of Your Application ');
+            // Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skillworkescloud')->subject
+            //         ('Confirmation of Your Application ');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+            // });
             $toemail = $Roledata->authemail;
 
-            Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
-                $message->to($toemail, 'Skillworkescloud')->subject
-                    ('Confirmation of Your Application ');
+            // Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail, 'Skillworkescloud')->subject
+            //         ('Confirmation of Your Application ');
 
-                $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-            });
+            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+            // });
 
             Session::flash('message', 'Job Applied  send Successfully.');
 
@@ -2064,33 +2064,33 @@ class RecruitmentController extends Controller
                 $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
                     'email' => $Roleempdata->email, 'msg' => $request->msg);
                 $toemail = $request->email;
-                return view('mailormsgcenrecru',$data);
-                Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
-                    $message->to($toemail, 'Skillworkescloud')->subject
-                        ($sub);
-                    foreach ($path as $filePath) {
+                // return view('mailormsgcenrecru',$data);
+                // Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
+                //     $message->to($toemail, 'Skillworkescloud')->subject
+                //         ($sub);
+                //     foreach ($path as $filePath) {
 
-                        $message->attach($filePath);
-                    }
+                //         $message->attach($filePath);
+                //     }
 
-                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                });
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                // });
 
                 if ($request->cc != '') {
                     $sub = $request->subject;
                     $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
                         'email' => $Roleempdata->email, 'msg' => $request->msg);
                     $toemail = $request->cc;
-                    Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
-                        $message->to($toemail, 'Skillworkescloud')->subject
-                            ($sub);
-                        foreach ($path as $filePath) {
+                    // Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
+                    //     $message->to($toemail, 'Skillworkescloud')->subject
+                    //         ($sub);
+                    //     foreach ($path as $filePath) {
 
-                            $message->attach($filePath);
-                        }
+                    //         $message->attach($filePath);
+                    //     }
 
-                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                    });
+                    //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                    // });
 
                 }
             } else {
@@ -2098,11 +2098,11 @@ class RecruitmentController extends Controller
                 $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
                     'email' => $Roleempdata->email, 'msg' => $request->msg);
                 $toemail = $request->email;
-                Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
-                    $message->to($toemail, 'Skillworkescloud')->subject
-                        ($sub);
-                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                });
+                // Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
+                //     $message->to($toemail, 'Skillworkescloud')->subject
+                //         ($sub);
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                // });
 
                 if ($request->cc != '') {
 
@@ -2110,11 +2110,11 @@ class RecruitmentController extends Controller
                     $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
                         'email' => $Roleempdata->email, 'msg' => $request->msg);
                     $toemail = $request->cc;
-                    Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
-                        $message->to($toemail, 'Skillworkescloud')->subject
-                            ($sub);
-                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                    });
+                    // Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
+                    //     $message->to($toemail, 'Skillworkescloud')->subject
+                    //         ($sub);
+                    //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                    // });
 
                 }
             }
@@ -2159,12 +2159,12 @@ class RecruitmentController extends Controller
                 $toemail = $job->email;
                 //$toemail = 'm.subhasish@gmail.com';
 
-                Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
-                    $message->to($toemail, 'Skillworkescloud')->subject
-                        ('Interview Confirmation');
+                // Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
+                //     $message->to($toemail, 'Skillworkescloud')->subject
+                //         ('Interview Confirmation');
 
-                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                });
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                // });
             }
 
             if (isset($Roledata->authemail) && $Roledata->authemail != '' && $Roledata->authemail != null) {
@@ -2172,12 +2172,12 @@ class RecruitmentController extends Controller
                 $toemail = $Roledata->authemail;
                 //$toemail = 'm.subhasish@gmail.com';
 
-                Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
-                    $message->to($toemail, 'Skillworkescloud')->subject
-                        ('Interview Confirmation');
+                // Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
+                //     $message->to($toemail, 'Skillworkescloud')->subject
+                //         ('Interview Confirmation');
 
-                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                });
+                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                // });
             }
 
             Session::flash('message', 'Job Interview  send Successfully.');
