@@ -43,9 +43,8 @@
 					
 					<div class="account-box">
 						<div class="account-wrapper">
-							<p class="account-title">Please log in using the email</p>
-							<p class="account-title"><strong>{{ session('email') }}</strong></p>
-							<p class="account-title"><strong></strong>and enter the OTP provided below.</p>
+							<p style="font-size: 20px;">We’ve sent a <b>6-digit OTP</b> to your registered email <b>{{ session('email') }}</b></p>
+							<p style="font-size: 20px;">Please enter the OTP below.</p>
 							<p class="account-subtitle">@include('employeer.layout.message')</p>
 							
 							<!-- Account Form -->
@@ -55,7 +54,6 @@
 								<div class="input-block mb-4">
 									<label class="col-form-label">Enter OTP</label>
 									<input class="form-control" type="text" name="otp" required>
-									<span class="text-end">This OTP is valid for 10 minutes</span>
 								</div>
 								<div class="input-block mb-4 text-center">
 									<button class="btn btn-primary account-btn" type="submit">Submit</button>
