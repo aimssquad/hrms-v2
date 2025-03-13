@@ -17,13 +17,23 @@
                     <!-- Header -->
                     <tr>
                         <td>
-                            <table style="border-spacing: 0; padding: 0; margin: 0;">
+                            {{-- <table style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
                                     <td width="25%" style="padding-left: 20px;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%">
                                     </td>
                                     <td width="60%" style="padding: 0;margin: 0;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%">
+                                    </td>
+                                </tr>
+                            </table> --}}
+                            <table style="border-spacing: 0; padding: 0; margin: 0;">
+                                <tr style="height: 200px;">
+                                    <td width="25%" style="padding-left: 20px; height: 200px; vertical-align: top;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%" style="display: block;">
+                                    </td>
+                                    <td width="60%" style="padding: 0; margin: 0; height: 200px; vertical-align: top;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%" style="display: block;">
                                     </td>
                                 </tr>
                             </table>
@@ -33,20 +43,20 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 40px; color: #333;">Dear {{strtoupper($name)}},</p>
-                            <p style="font-size: 40px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS !</strong></p>
-                            <p style="font-size: 40px; color: #333;">Your password is provided below.
+                            <p style="font-size: 30px; color: #333;"><strong>Dear {{strtoupper($name)}},</strong></p>
+                            <p style="font-size: 30px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS !</strong></p>
+                            <p style="font-size: 30px; color: #333;">Your password is provided below.
                             </p>
                             <div style=" margin: 20px 0;">
                                 <a href="{{$web}}"
-                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 40px;">👉
+                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
                                     Your Login URL:</a>
                             </div>
 
-                            <p style="font-size: 40px; color: #333;"><strong>Your login details:</strong></p>
-                            <p style="font-size: 40px; color: #333;"><strong>Username:</strong> {{ $email }}
+                            <p style="font-size: 30px; color: #333;"><strong>Your login details:</strong></p>
+                            <p style="font-size: 30px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
-                            <p style="font-size: 40px; color: #333;"><strong>Password:</strong> {{ $pass }}</p>
+                            <p style="font-size: 30px; color: #333;"><strong>Password:</strong> {{ $pass }}</p>
 
                             {{-- <p style="font-size: 16px; color: #333;">Helpful tips to complete your organization profile:
                             </p> --}}
@@ -57,7 +67,7 @@
 
                     <tr>
                         <td>
-                            <p style="font-size: 40px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
+                            <p style="font-size: 30px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
                             </p>
                         </td>
                     </tr>
@@ -69,19 +79,19 @@
                     <tr>
                         <td style="font-size: 18px; padding: 0 20px;">
                             
-                            <p style="margin: 0; font-size: 40px;">Our team is here to help! Reach out anytime at <a style="font-size: 40px;"
+                            <p style="margin: 0; font-size: 30px;">Our team is here to help! Reach out anytime at <a style="font-size: 30px;"
                                     href="mailto: info@skilledworkerscloud.co.uk"><strong>info@skilledworkerscloud.co.uk</strong></a> or
                                 call <a href="tel: +44 7467284718"><strong>+44 7467284718.</strong></a></p>
 
-                            <p style="font-size: 40px;">Let’s get started on your journey toward efficient HR and compliance!</p>
+                            <p style="font-size: 30px;">Let’s get started on your journey toward efficient HR and compliance!</p>
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-size: 16px; padding: 0 20px;">
-                            <p style="font-size: 16px;"><strong>Disclaimer:</strong> This email, including any attachments, is intended solely for the designated recipient(s) and may contain confidential or
+                        <td style="font-size: 20px; padding: 0 20px;">
+                            <p style="font-size: 20px;"><strong>Disclaimer:</strong> This email, including any attachments, is intended solely for the designated recipient(s) and may contain confidential or
                                  privileged information. Unauthorized access, distribution, or reliance on its content without our explicit written permission is strictly prohibited. 
                                  If you have received this email in error, please delete all copies and notify the sender immediately, with a copy to info@skilledworkerscloud.co.uk.</p>
-                            <p style="font-size: 16px;">
+                            <p style="font-size: 20px;">
                                 While <strong>Skilled Workers Cloud HRMS</strong> employs the latest virus protection measures, we strongly recommend conducting your own virus scan before opening any attachments.
                                  <strong>SWC HRMS</strong> is not responsible for any loss or damage resulting from software viruses.
                             </p>     
@@ -106,7 +116,7 @@
                     </tr>
 
                     <tr>
-                        <td style="text-align: left; color: #333; font-size: 40px; padding: 0 20px;">
+                        <td style="text-align: left; color: #333; font-size: 30px; padding: 0 20px;">
                             <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
                         </td>
                     </tr>
@@ -117,13 +127,13 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <p style="margin: 0 0 20px; font-size: 40px; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
+                            <p style="margin: 0 0 20px; font-size: 30px; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
                         </td>
                     </tr>
 
                     <!-- Contact Info Section -->
                     <tr>
-                        <td style="color: #333; font-size: 40px; line-height: 1.8; padding: 0 20px;">
+                        <td style="color: #333; font-size: 30px; line-height: 1.8; padding: 0 20px;">
                             <!-- Email -->
                             <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/email.png" alt="Email"
@@ -159,13 +169,23 @@
                     </tr>
                     <tr>
                         <td width="100%">
-                            <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
+                            {{-- <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
                                     <td width="40%" style="background-color: #c2bbfd; padding: 0; margin: 0;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%">
                                     </td>
                                     <td width="60%" style="background-color: #151831; padding: 0; margin: 0; color: #67839c; text-align: center; height: 50px;border-radius: 16px 0 0 0;">
                                         powered by <a href="#" style="color: #67839c;" target="_blank">Skilled Workers Cloud</a>
+                                    </td>
+                                </tr>
+                            </table> --}}
+                            <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
+                                <tr style="height: 50px;">
+                                    <td width="40%" style="background-color: #c2bbfd; padding: 0; margin: 0; height: 50px; vertical-align: top;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%" style="display: block;">
+                                    </td>
+                                    <td width="60%" style="background-color: #151831; padding: 0; margin: 0; color: #67839c; text-align: center; height: 50px; border-radius: 16px 0 0 0; vertical-align: middle;">
+                                        powered by <a href="#" style="color: #67839c; text-decoration: none;" target="_blank">Skilled Workers Cloud</a>
                                     </td>
                                 </tr>
                             </table>
