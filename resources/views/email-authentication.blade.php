@@ -43,8 +43,8 @@
 					
 					<div class="account-box">
 						<div class="account-wrapper">
-							<p style="font-size: 20px;">We’ve sent a <b>6-digit OTP</b> to your registered email <b>{{ session('email') }}</b></p>
-							<p style="font-size: 20px;">Please enter the OTP below.</p>
+							<p class="text-center" style="font-size: 20px;">We’ve sent a <b>6-digit OTP</b> to your registered email <b>{{ session('email') }}</b></p>
+							<p class="text-center" style="font-size: 20px;">Please enter the OTP below.</p>
 							<p class="account-subtitle">@include('employeer.layout.message')</p>
 							
 							<!-- Account Form -->
