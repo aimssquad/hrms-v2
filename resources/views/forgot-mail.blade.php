@@ -34,8 +34,7 @@
                     <tr>
                         <td style="padding: 20px;">
                             <p style="font-size: 16px; color: #333;">Dear {{strtoupper($name)}},</p>
-                            <p style="font-size: 16px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS! !</strong></p>
-                            {{-- <p style="font-size: 16px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS!</strong></p> --}}
+                            <p style="font-size: 16px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS !</strong></p>
                             <p style="font-size: 16px; color: #333;">Your password is provided below.
                             </p>
                             <div style="text-align: center; margin: 20px 0;">
@@ -72,7 +71,7 @@
                             
                             <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
                                     href="mailto: info@skilledworkerscloud.co.uk"><strong>info@skilledworkerscloud.co.uk</strong></a> or
-                                call <a href="tel: +44 074 6728 4718"><strong>+44 7467284718.</strong></a></p>
+                                call <a href="tel: +44 7467284718"><strong>+44 7467284718.</strong></a></p>
 
                             <p>Let’s get started on your journey toward efficient HR and compliance!</p>
                         </td>
@@ -86,12 +85,8 @@
                     <!-- Text Section -->
 
                     <tr>
-                        <td style="padding: 0 20px;">
-                            @if($logo)
-                                <img src="{{ asset('storage/app/public/' . $logo) }} " alt="" width="100%">
-                            @else
-                                <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 150px;">
-                            @endif  
+                        <td style="padding: 0 20px;">  
+                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 150px;"> 
                         </td>
                     </tr>
 

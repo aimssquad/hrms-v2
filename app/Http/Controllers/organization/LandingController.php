@@ -572,7 +572,7 @@ class LandingController extends Controller
         if (!empty($Employee)) {
             $checkuser = DB::table('registration')->where('email',$Employee->email)->first();
             if($checkuser->org_code != null){
-                dd('partner org');
+                //dd('partner org');
                 $base_url = env('BASE_URL');
                 $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land, "f_name"=>$checkuser->f_name, "l_name"=>$checkuser->l_name];
                 //dd($data);
@@ -584,7 +584,7 @@ class LandingController extends Controller
                 Session::flash("message", "Mail sent successfully.");
                 return redirect("forgot-password");
             } else {
-                dd('superadmin org');
+                //dd('superadmin org');
                 $Roledata = DB::table("users")
                 ->where("employee_id", "=", $Employee->emid)
                 ->where("status", "=", "active")
