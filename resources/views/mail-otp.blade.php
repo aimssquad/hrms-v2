@@ -15,7 +15,7 @@
                 <table width="600px" cellspacing="0" cellpadding="0" border="0"
                     style="background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     <!-- Header -->
-                    <tr>
+                    {{-- <tr>
                         <td>
                             <table style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
@@ -28,7 +28,7 @@
                                 </tr>
                             </table>
                         </td>
-                    </tr>
+                    </tr> --}}
 
                     <!-- Body -->
                     <tr>
@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                         <td width="100%">
-                            <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
+                            {{-- <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
                                     <td width="40%" style="background-color: #c2bbfd; padding: 0; margin: 0;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%">
@@ -54,7 +54,7 @@
                                          <a href="#" style="color: #67839c;" target="_blank"></a>
                                     </td>
                                 </tr>
-                            </table>
+                            </table> --}}
                         </td>
                     </tr>
                 </table>

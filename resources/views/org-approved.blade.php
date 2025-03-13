@@ -15,11 +15,11 @@
                 <table width="600px" cellspacing="0" cellpadding="0" border="0"
                     style="background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     <!-- Header -->
-                    <tr>
+                    {{-- <tr>
                         <td>
                             <img src="https://ik.imagekit.io/oq9hcqjih/banner-01.png" alt="" width="100%">
                         </td>
-                    </tr>
+                    </tr> --}}
 
                     <!-- Body -->
                     <tr>
@@ -44,16 +44,7 @@
 
                             <p style="font-size: 30px; color: #333;"><strong>Steps to Complete Your Organization Profile:</strong>
                             </p>
-                            {{-- <ol style="font-size: 16px; color: #333;">
-                                <li>Go to the ‘Organization Profile’ tab.</li>
-                                <li>Click ‘Profile Status’ and provide key details, including:</li>
-                                <li>Trading name, company registration number, business address, trading hours, and start date.</li>
-                                <li>Add information for an authorizing officer (e.g., company director or key employee).</li>
-                                <li>Enter basic employee details to build a hierarchy chart (required by the Home Office).</li>
-                                <li>Upload required documents in the ‘Documents’ section (use the ‘Add’ button if needed) </li>
-                                <li>Skip the ‘Submission Sheet’ field for now—you’ll receive this after submitting your license application.</li>
-                                <li>Completing your profile is essential to ensure compliance and smooth HR operations.</li>
-                            </ol> --}}
+                        
                             <ol style="font-size: 30px; color: #333; line-height: 1.6;">
                                 <li>Go to the <strong>‘Organization Profile’</strong> tab.</li>
                                 <li>Click <strong>‘Profile Status’</strong> and provide key details, including:
@@ -173,11 +164,11 @@
                     <tr>
                         <td height="30"></td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td>
                             <img src="https://ik.imagekit.io/oq9hcqjih/footer-img.png" alt="" width="100%" height="auto">
                         </td>
-                    </tr>
+                    </tr> --}}
                 </table>
             </td>
         </tr>
