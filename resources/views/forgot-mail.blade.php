@@ -76,6 +76,17 @@
                             <p style="font-size: 40px;">Let’s get started on your journey toward efficient HR and compliance!</p>
                         </td>
                     </tr>
+                    <tr>
+                        <td style="font-size: 16px; padding: 0 20px;">
+                            <p style="font-size: 16px;"><strong>Disclaimer:</strong> This email, including any attachments, is intended solely for the designated recipient(s) and may contain confidential or
+                                 privileged information. Unauthorized access, distribution, or reliance on its content without our explicit written permission is strictly prohibited. 
+                                 If you have received this email in error, please delete all copies and notify the sender immediately, with a copy to info@skilledworkerscloud.co.uk.</p>
+                            <p style="font-size: 16px;">
+                                While <strong>Skilled Workers Cloud HRMS</strong> employs the latest virus protection measures, we strongly recommend conducting your own virus scan before opening any attachments.
+                                 <strong>SWC HRMS</strong> is not responsible for any loss or damage resulting from software viruses.
+                            </p>     
+                        </td>
+                    </tr>
 
                     <tr>
                         <td height="20"></td>
