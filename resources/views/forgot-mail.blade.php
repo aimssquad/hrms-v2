@@ -33,20 +33,20 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 50px; color: #333;">Dear {{strtoupper($name)}},</p>
-                            <p style="font-size: 50px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS !</strong></p>
-                            <p style="font-size: 50px; color: #333;">Your password is provided below.
+                            <p style="font-size: 40px; color: #333;">Dear {{strtoupper($name)}},</p>
+                            <p style="font-size: 40px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS !</strong></p>
+                            <p style="font-size: 40px; color: #333;">Your password is provided below.
                             </p>
                             <div style=" margin: 20px 0;">
                                 <a href="{{$web}}"
-                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
+                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 40px;">👉
                                     Your Login URL:</a>
                             </div>
 
-                            <p style="font-size: 50px; color: #333;"><strong>Your login details:</strong></p>
-                            <p style="font-size: 50px; color: #333;"><strong>Username:</strong> {{ $email }}
+                            <p style="font-size: 40px; color: #333;"><strong>Your login details:</strong></p>
+                            <p style="font-size: 40px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
-                            <p style="font-size: 50px; color: #333;"><strong>Password:</strong> {{ $pass }}</p>
+                            <p style="font-size: 40px; color: #333;"><strong>Password:</strong> {{ $pass }}</p>
 
                             {{-- <p style="font-size: 16px; color: #333;">Helpful tips to complete your organization profile:
                             </p> --}}
@@ -57,7 +57,7 @@
 
                     <tr>
                         <td>
-                            <p style="font-size: 50px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
+                            <p style="font-size: 40px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
                             </p>
                         </td>
                     </tr>
@@ -69,11 +69,11 @@
                     <tr>
                         <td style="font-size: 18px; padding: 0 20px;">
                             
-                            <p style="margin: 0; font-size: 50px;">Our team is here to help! Reach out anytime at <a style="font-size: 50px;"
+                            <p style="margin: 0; font-size: 40px;">Our team is here to help! Reach out anytime at <a style="font-size: 40px;"
                                     href="mailto: info@skilledworkerscloud.co.uk"><strong>info@skilledworkerscloud.co.uk</strong></a> or
                                 call <a href="tel: +44 7467284718"><strong>+44 7467284718.</strong></a></p>
 
-                            <p style="font-size: 50px;">Let’s get started on your journey toward efficient HR and compliance!</p>
+                            <p style="font-size: 40px;">Let’s get started on your journey toward efficient HR and compliance!</p>
                         </td>
                     </tr>
 
@@ -86,7 +86,7 @@
 
                     <tr>
                         <td style="padding: 0 20px;">  
-                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 150px;"> 
+                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 350px;"> 
                         </td>
                     </tr>
 
@@ -95,7 +95,7 @@
                     </tr>
 
                     <tr>
-                        <td style="text-align: left; color: #333; font-size: 50px; padding: 0 20px;">
+                        <td style="text-align: left; color: #333; font-size: 40px; padding: 0 20px;">
                             <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
                         </td>
                     </tr>
@@ -106,13 +106,13 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <p style="margin: 0 0 20px; font-size: 18px; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
+                            <p style="margin: 0 0 20px; font-size: 40px; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
                         </td>
                     </tr>
 
                     <!-- Contact Info Section -->
                     <tr>
-                        <td style="color: #333; font-size: 16px; line-height: 1.8; padding: 0 20px;">
+                        <td style="color: #333; font-size: 40px; line-height: 1.8; padding: 0 20px;">
                             <!-- Email -->
                             <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/email.png" alt="Email"
