@@ -44,7 +44,7 @@
 
                             
                             <div style="text-align: center; margin: 20px 0;">
-                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/register"
+                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/"
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
                                     Click here to access your account</a>
                             </div>
