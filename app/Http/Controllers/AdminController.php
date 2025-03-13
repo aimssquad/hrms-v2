@@ -5729,7 +5729,7 @@ class AdminController extends Controller
                     $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password];
                     $com_name = $exits->name;
                     Mail::send('org-approved', $data, function ($message) use ($toemail,$com_name) {
-                        $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Organization Verification Successful $com_name!");
+                        $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Organization Verification Successful – Welcome to $com_name!");
                         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
                     });
                 }

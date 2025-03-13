@@ -19,16 +19,9 @@
                         <td>
                             <table style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
-                                    @if($logo)
-                                        <td width="25%" style="padding-left: 20px;">
-                                            <img src="{{ asset('storage/app/public/' . $logo) }} " alt="" width="100%">
-                                        </td>
-                                    @else
-                                        <td width="25%" style="padding-left: 20px;">
-                                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%">
-                                        </td>
-                                    @endif
-                                    
+                                    <td width="25%" style="padding-left: 20px;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%">
+                                    </td>
                                     <td width="60%" style="padding: 0;margin: 0;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%">
                                     </td>
@@ -40,8 +33,8 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Dear {{strtoupper($f_name)}} {{strtoupper($l_name)}},</p>
-                            <p style="font-size: 16px; color: #333;">Welcome to <strong>{{$name}} !</strong></p>
+                            <p style="font-size: 16px; color: #333;">Dear {{strtoupper($name)}},</p>
+                            <p style="font-size: 16px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS! !</strong></p>
                             {{-- <p style="font-size: 16px; color: #333;">Welcome to <strong>Skilled Workers Cloud HRMS!</strong></p> --}}
                             <p style="font-size: 16px; color: #333;">Your password is provided below.
                             </p>
