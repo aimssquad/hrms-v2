@@ -55,6 +55,7 @@
 								<div class="input-block mb-4">
 									<label class="col-form-label">Enter OTP</label>
 									<input class="form-control" type="text" name="otp" required>
+									<span class="text-end">This OTP is valid for 10 minutes</span>
 								</div>
 								<div class="input-block mb-4 text-center">
 									<button class="btn btn-primary account-btn" type="submit">Submit</button>
