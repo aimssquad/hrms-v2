@@ -60,17 +60,17 @@
                                 <li>Upload required documents under the ‘Documents’ section. Use the ‘Add’ button for additional uploads. </li>
                                 <li>Make sure every field is filled out completely to ensure full compliances.</li>
                             </ol> --}}
-                            <ol style="font-size: 16px; color: #333; line-height: 1.6;">
-                                <li>1. Navigate to the <strong>‘Organization Profile’</strong> tab to begin.</li>
-                                <li>2. Go to <strong>‘Profile Status’</strong> and fill in:
+                            <ol style="font-size: 30px; color: #333; line-height: 1.6;">
+                                <li>Navigate to the <strong>‘Organization Profile’</strong> tab to begin.</li>
+                                <li>Go to <strong>‘Profile Status’</strong> and fill in:
                                     <ul style="list-style-type: disc; margin-left: 20px;">
                                         <li>Basic business details: trading name, company registration number, business address, trading hours, and trading period.</li>
                                         <li>Information about your authorizing officer (e.g., director or key employee). This person will liaise with the Home Office regarding your sponsor license application.</li>
                                         <li>Basic details of all employees for the hierarchy chart, a mandatory Home Office requirement.</li>
                                     </ul>
                                 </li>
-                                <li>3. Upload required documents under the <strong>‘Documents’</strong> section. Use the <strong>‘Add’</strong> button for additional uploads</li>
-                                <li>4. Make sure every field is filled out completely to ensure full compliances.</li>
+                                <li>Upload required documents under the <strong>‘Documents’</strong> section. Use the <strong>‘Add’</strong> button for additional uploads</li>
+                                <li>Make sure every field is filled out completely to ensure full compliances.</li>
                             </ol>
                         </td>
                     </tr>
@@ -128,7 +128,7 @@
 
                     <tr>
                         <td style="text-align: left; color: #333; font-size: 30px; padding: 0 20px;">
-                            <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
+                            <p style="margin: 0 0 10px; padding-top: 10px;"><strong>Kind regards,</strong></p>
                         </td>
                     </tr>
 

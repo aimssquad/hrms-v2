@@ -55,8 +55,8 @@
                                 <li>Completing your profile is essential to ensure compliance and smooth HR operations.</li>
                             </ol> --}}
                             <ol style="font-size: 30px; color: #333; line-height: 1.6;">
-                                <li>1. Go to the <strong>‘Organization Profile’</strong> tab.</li>
-                                <li>2. Click <strong>‘Profile Status’</strong> and provide key details, including:
+                                <li>Go to the <strong>‘Organization Profile’</strong> tab.</li>
+                                <li>Click <strong>‘Profile Status’</strong> and provide key details, including:
                                     <ul style="list-style-type: disc; margin-left: 20px;">
                                         <li>Trading name, company registration number, business address, trading hours, and start date.</li>
                                         <li>Add information for an <strong>authorizing officer</strong> (e.g., company director or key employee).</li>
@@ -65,7 +65,7 @@
                                         <li>Skip the <strong>‘Submission Sheet’</strong> field for now—you’ll receive this after submitting your license application.</li>
                                     </ul>
                                 </li>
-                                <li>3. Completing your profile is essential to ensure compliance and smooth HR operations.</li>
+                                <li>Completing your profile is essential to ensure compliance and smooth HR operations.</li>
                             </ol>
                         </td>
                     </tr>
