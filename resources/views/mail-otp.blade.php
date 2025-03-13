@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Verification</title>
+    <title>Your One-Time Password (OTP) for Verification</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
 
@@ -33,10 +33,11 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Hello <b>{{ $com_name }}</b>,</p>
-                            <p style="font-size: 16px; color: #333;">This is your authenticated 6-digit OTP</p>
-                            <p style="font-size: 16px; color: #333;"><strong>OTP:</strong> {{ $otp}}</p>
-                            <p style="font-size: 16px; color: #333;">This OTP is valid for 10 minutes.</p>
+                            <p style="font-size: 30px; color: #333;">Hello <b>{{ $com_name }}</b>,</p>
+                            <p style="font-size: 30px; color: #333;">Here is your 6-digit OTP for verification:</p>
+                            <p style="font-size: 30px; color: #333;"><strong>OTP:</strong> {{ $otp}}</p>
+                            <p style="font-size: 30px; color: #333;">This OTP is valid for <strong>10 minutes.</strong> Please do not share it with anyone for security reasons.</p>
+                            <p style="font-size: 30px; color: #333;">If you did not request this, please ignore this email.</p>
                         </td>
                     </tr>
                     <tr>

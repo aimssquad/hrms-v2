@@ -24,34 +24,27 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Dear <b>{{ strtoupper($name) }},</b></p>
-                            <p style="font-size: 16px; color: #333;">
-                                Congratulations! Your organization has been successfully verified. 
-                                Thank you for registering with Skilled Workers Cloud (SWC). 
-                                You’re now ready to set up your organization profile and unlock the full potential of our HRMS. 
+                            <p style="font-size: 30px; color: #333;"><strong>Dear {{ strtoupper($name) }},</strong></p>
+                            <p style="font-size: 30px; color: #333;">
+                                Congratulations! Your organization has been successfully verified. Thank you for registering with Skilled Workers Cloud (SWC). You’re now ready to set up your organization profile and unlock the full potential of our HRMS.
                             </p>
-
-                            {{-- <p style="font-size: 16px; color: #333;">
-                                As the next step, you need to complete your organization profile. 
-                                This ensures a seamless process for utilizing our HRMS features and compliance services.
-                            </p> --}}
                             
 
-                            <p style="font-size: 16px; color: #333;">Your Login Credentials:</p>
-                            <p style="font-size: 16px; color: #333;"><strong>Username:</strong> {{ $email }}
+                            <p style="font-size: 30px; color: #333;"><strong>Your Login Credentials:</strong></p>
+                            <p style="font-size: 30px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
-                            <p style="font-size: 16px; color: #333;"><strong>Password:</strong> {{ $password}}</p>
+                            <p style="font-size: 30px; color: #333;"><strong>Password:</strong> {{ $password}}</p>
 
                             
-                            <div style="text-align: center; margin: 20px 0;">
+                            <div style=" margin: 20px 0;">
                                 <a href="https://skilledworkerscloud.co.uk/hrms-v2/"
-                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
+                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
                                     Click here to access your account</a>
                             </div>
 
-                            <p style="font-size: 16px; color: #333;">Steps to Complete Your Organization Profile:
+                            <p style="font-size: 30px; color: #333;"><strong>Steps to Complete Your Organization Profile:</strong>
                             </p>
-                            <ol style="font-size: 16px; color: #333;">
+                            {{-- <ol style="font-size: 16px; color: #333;">
                                 <li>Go to the ‘Organization Profile’ tab.</li>
                                 <li>Click ‘Profile Status’ and provide key details, including:</li>
                                 <li>Trading name, company registration number, business address, trading hours, and start date.</li>
@@ -60,6 +53,19 @@
                                 <li>Upload required documents in the ‘Documents’ section (use the ‘Add’ button if needed) </li>
                                 <li>Skip the ‘Submission Sheet’ field for now—you’ll receive this after submitting your license application.</li>
                                 <li>Completing your profile is essential to ensure compliance and smooth HR operations.</li>
+                            </ol> --}}
+                            <ol style="font-size: 30px; color: #333; line-height: 1.6;">
+                                <li>1. Go to the <strong>‘Organization Profile’</strong> tab.</li>
+                                <li>2. Click <strong>‘Profile Status’</strong> and provide key details, including:
+                                    <ul style="list-style-type: disc; margin-left: 20px;">
+                                        <li>Trading name, company registration number, business address, trading hours, and start date.</li>
+                                        <li>Add information for an <strong>authorizing officer</strong> (e.g., company director or key employee).</li>
+                                        <li>Enter <strong>basic employee details</strong> to build a hierarchy chart (required by the Home Office).</li>
+                                        <li>Upload required documents in the <strong>‘Documents’</strong> section (use the <strong>‘Add’</strong> button if needed).</li>
+                                        <li>Skip the <strong>‘Submission Sheet’</strong> field for now—you’ll receive this after submitting your license application.</li>
+                                    </ul>
+                                </li>
+                                <li>3. Completing your profile is essential to ensure compliance and smooth HR operations.</li>
                             </ol>
                         </td>
                     </tr>
@@ -68,7 +74,7 @@
 
                     <tr>
                         <td>
-                            <p style="font-size: 24px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
+                            <p style="font-size: 30px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
                             </p>
                         </td>
                     </tr>
@@ -78,12 +84,23 @@
                     </tr>
 
                     <tr>
-                        <td style="font-size: 18px; padding: 0 20px;">
+                        <td style="font-size: 30px; padding: 0 20px;">
                             <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
                                     href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
                                 call <a href="tel: +44 7467284718"> +44 7467284718</a></p>
 
-                            <p>Let’s get started on your journey toward efficient HR and compliance!</p>
+                            <p style="font-size: 30px;">Let’s get started on your journey toward efficient HR and compliance!</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; padding: 0 20px;">
+                            <p style="font-size: 20px;"><strong>Disclaimer:</strong> This email, including any attachments, is intended solely for the designated recipient(s) and may contain confidential or
+                                 privileged information. Unauthorized access, distribution, or reliance on its content without our explicit written permission is strictly prohibited. 
+                                 If you have received this email in error, please delete all copies and notify the sender immediately, with a copy to info@skilledworkerscloud.co.uk.</p>
+                            <p style="font-size: 20px;">
+                                While <strong>Skilled Workers Cloud HRMS</strong> employs the latest virus protection measures, we strongly recommend conducting your own virus scan before opening any attachments.
+                                 <strong>SWC HRMS</strong> is not responsible for any loss or damage resulting from software viruses.
+                            </p>     
                         </td>
                     </tr>
 
@@ -96,7 +113,7 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 150px;">
+                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 350px;">
                         </td>
                     </tr>
 
@@ -105,7 +122,7 @@
                     </tr>
 
                     <tr>
-                        <td style="text-align: left; color: #333; font-size: 20px; padding: 0 20px;">
+                        <td style="text-align: left; color: #333; font-size: 30px; padding: 0 20px;">
                             <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
                         </td>
                     </tr>
@@ -116,13 +133,13 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <p style="margin: 0 0 20px; font-size: 18px; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
+                            <p style="margin: 0 0 20px; font-size: 30px; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
                         </td>
                     </tr>
 
                     <!-- Contact Info Section -->
                     <tr>
-                        <td style="color: #333; font-size: 16px; line-height: 1.8; padding: 0 20px;">
+                        <td style="color: #333; font-size: 30px; line-height: 1.8; padding: 0 20px;">
                             <!-- Email -->
                             <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/email.png" alt="Email"

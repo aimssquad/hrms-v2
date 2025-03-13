@@ -24,33 +24,33 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Dear <b>{{ strtoupper($com_name) }},</b></p>
-                            <p style="font-size: 16px; color: #333;">
-                                Welcome to Skilled Workers Cloud HRMS ! Thank you for registering with us. 
+                            <p style="font-size: 30px; color: #333;"><strong>Dear {{ strtoupper($com_name) }},</strong></p>
+                            <p style="font-size: 30px; color: #333;">
+                                Welcome to <strong>Skilled Workers Cloud HRMS !</strong> Thank you for registering with us. 
                                 We are thrilled to have you onboard and are excited to support your HR and sponsorship compliance needs and to run your business operation smoothly! 
                             </p>
 
-                            <p style="font-size: 16px; color: #333;">
+                            <p style="font-size: 30px; color: #333;">
                                 As the next step, you need to complete your organization profile. 
                                 This ensures a seamless process for utilizing our HRMS features and compliance services.
                             </p>
-                            <p style="font-size: 16px; color: #333;"><strong>Click below to start your journey:</strong>
+                            <p style="font-size: 30px; color: #333;"><strong>Click below to start your journey:</strong>
                             </p>
                             
-                            <div style="text-align: center; margin: 20px 0;">
+                            <div style=" margin: 20px 0;">
                                 <a href="https://skilledworkerscloud.co.uk/hrms-v2/register"
-                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
+                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
                                     Complete Your Organization Profile</a>
                             </div>
 
-                            <p style="font-size: 16px; color: #333;"><strong>Your login details:</strong></p>
-                            <p style="font-size: 16px; color: #333;"><strong>Username:</strong> {{ $email }}
+                            <p style="font-size: 30px; color: #333;"><strong>Your login details:</strong></p>
+                            <p style="font-size: 30px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
-                            <p style="font-size: 16px; color: #333;"><strong>Password:</strong> {{ $pass}}</p>
+                            <p style="font-size: 30px; color: #333;"><strong>Password:</strong> {{ $pass}}</p>
 
-                            <p style="font-size: 16px; color: #333;">Helpful tips to complete your organization profile:
+                            <p style="font-size: 30px; color: #333;"><strong>Helpful tips to complete your organization profile:</strong>
                             </p>
-                            <ol style="font-size: 16px; color: #333;">
+                            {{-- <ol style="font-size: 30px; color: #333;">
                                 <li>Navigate to the ‘Organization Profile’ tab to begin.</li>
                                 <li>Go to ‘Profile Status’ and fill in:</li>
                                 <li>Basic business details: trading name, company registration number, business address, trading hours, and trading period.</li>
@@ -59,6 +59,18 @@
                                 <li>Basic details of all employees for the hierarchy chart, a mandatory Home Office requirement.</li>
                                 <li>Upload required documents under the ‘Documents’ section. Use the ‘Add’ button for additional uploads. </li>
                                 <li>Make sure every field is filled out completely to ensure full compliances.</li>
+                            </ol> --}}
+                            <ol style="font-size: 16px; color: #333; line-height: 1.6;">
+                                <li>1. Navigate to the <strong>‘Organization Profile’</strong> tab to begin.</li>
+                                <li>2. Go to <strong>‘Profile Status’</strong> and fill in:
+                                    <ul style="list-style-type: disc; margin-left: 20px;">
+                                        <li>Basic business details: trading name, company registration number, business address, trading hours, and trading period.</li>
+                                        <li>Information about your authorizing officer (e.g., director or key employee). This person will liaise with the Home Office regarding your sponsor license application.</li>
+                                        <li>Basic details of all employees for the hierarchy chart, a mandatory Home Office requirement.</li>
+                                    </ul>
+                                </li>
+                                <li>3. Upload required documents under the <strong>‘Documents’</strong> section. Use the <strong>‘Add’</strong> button for additional uploads</li>
+                                <li>4. Make sure every field is filled out completely to ensure full compliances.</li>
                             </ol>
                         </td>
                     </tr>
@@ -67,7 +79,7 @@
 
                     <tr>
                         <td>
-                            <p style="font-size: 24px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
+                            <p style="font-size: 30px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
                             </p>
                         </td>
                     </tr>
@@ -77,12 +89,23 @@
                     </tr>
 
                     <tr>
-                        <td style="font-size: 18px; padding: 0 20px;">
+                        <td style="font-size: 30px; padding: 0 20px;">
                             <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
                                     href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
                                 call <a href="tel:  +44 7467284718"> +44 7467284718</a></p>
 
-                            <p>Let’s get started on your journey toward efficient HR and compliance!</p>
+                            <p style="font-size: 30px;">Let’s get started on your journey toward efficient HR and compliance!</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; padding: 0 20px;">
+                            <p style="font-size: 20px;"><strong>Disclaimer:</strong> This email, including any attachments, is intended solely for the designated recipient(s) and may contain confidential or
+                                 privileged information. Unauthorized access, distribution, or reliance on its content without our explicit written permission is strictly prohibited. 
+                                 If you have received this email in error, please delete all copies and notify the sender immediately, with a copy to info@skilledworkerscloud.co.uk.</p>
+                            <p style="font-size: 20px;">
+                                While <strong>Skilled Workers Cloud HRMS</strong> employs the latest virus protection measures, we strongly recommend conducting your own virus scan before opening any attachments.
+                                 <strong>SWC HRMS</strong> is not responsible for any loss or damage resulting from software viruses.
+                            </p>     
                         </td>
                     </tr>
 
@@ -95,7 +118,7 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 150px;">
+                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 350px;">
                         </td>
                     </tr>
 
@@ -104,7 +127,7 @@
                     </tr>
 
                     <tr>
-                        <td style="text-align: left; color: #333; font-size: 20px; padding: 0 20px;">
+                        <td style="text-align: left; color: #333; font-size: 30px; padding: 0 20px;">
                             <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
                         </td>
                     </tr>
@@ -115,14 +138,14 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <p style="margin: 0 0 20px; font-size: 18px; font-weight: bold; color: #0044cc;">SWC HRMS
+                            <p style="margin: 0 0 20px; font-size: 30px; font-weight: bold; color: #0044cc;">SWC HRMS
                                 Team</p>
                         </td>
                     </tr>
 
                     <!-- Contact Info Section -->
                     <tr>
-                        <td style="color: #333; font-size: 16px; line-height: 1.8; padding: 0 20px;">
+                        <td style="color: #333; font-size: 30px; line-height: 1.8; padding: 0 20px;">
                             <!-- Email -->
                             <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/email.png" alt="Email"
