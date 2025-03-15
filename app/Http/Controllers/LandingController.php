@@ -194,7 +194,7 @@ class LandingController extends Controller
                     if(!empty($registrationData['org_code'])){
                         $org_code = $registrationData['org_code'];
                         $partner_name = DB::table('sub_admin_registrations')->where('org_code',$org_code)->select('com_name')->first();
-                        //dd($partner_name);
+                        dd($partner_name);
                         $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
                         // Extract only the domain name and store it in a variable
                         $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
@@ -246,7 +246,7 @@ class LandingController extends Controller
 
                         $admin = 'info@skilledworkerscloud.co.uk';
                         Mail::send("mailre", $data, function ($message) use ($admin) {
-                            $message->to($admin, env('MAIL_FROM_NAME'))->subject("New Organisation Registered");
+                            $message->to($admin, env('MAIL_FROM_NAME'))->subject("New Registration Alert Organization Registered");
                             $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
                         });
                     }
