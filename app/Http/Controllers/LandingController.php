@@ -189,33 +189,20 @@ class LandingController extends Controller
                         DB::table("employee_type")->insert($datauseremployty);
                     }
 
-                    $data = [
-                        "user_type"=>$registrationData['subadmin'],
-                        "org_code"=>$registrationData['org_code'],
-                        "f_name" => $registrationData['f_name'],
-                        "l_name" => $registrationData['l_name'],
-                        "com_name" => $registrationData['com_name'],
-                        "p_no" => $registrationData['p_no'],
-                        "email" => $registrationData['email'],
-                    ];
-
-                    $toemail = $registrationData['email'];
-                    $toemail = 'info@skilledworkerscloud.co.uk';
-                    Mail::send("mailre", $data, function ($message) use ($toemail) {
-                        $message
-                            ->to($toemail, env('MAIL_FROM_NAME'))
-                            ->subject("New Organisation Registered");
-                        $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-                    });
-                
+                   
                     //dd($data);
                     if(!empty($registrationData['org_code'])){
                         $org_code = $registrationData['org_code'];
+                        $partner_name = DB::table('sub_admin_registrations')->where('org_code',$org_code)->select('com_name')->first();
+                        //dd($partner_name);
                         $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
                         // Extract only the domain name and store it in a variable
                         $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
                         $baseUrl = $baseUrl."/hrms-v2";
                         $data = [
+                            "partner_name" => $partner_name,
+                            "user_type"=>$registrationData['subadmin'],
+                            "org_code"=>$registrationData['org_code'],
                             "f_name" => $registrationData['f_name'],
                             "l_name" => $registrationData['l_name'],
                             "com_name" => $registrationData['com_name'],
@@ -229,8 +216,16 @@ class LandingController extends Controller
                         //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
                         //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                         // });
+                        $admin = 'info@skilledworkerscloud.co.uk';
+                        Mail::send("mailre", $data, function ($message) use ($admin) {
+                            $message->to($admin, env('MAIL_FROM_NAME'))
+                                    ->subject("New Registration Alert  Partner - Organization Registered");
+                            $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+                        });
                     } else{
                         $data = [
+                            "user_type"=>$registrationData['subadmin'],
+                            "org_code"=>$registrationData['org_code'],
                             "f_name" => $registrationData['f_name'],
                             "l_name" => $registrationData['l_name'],
                             "com_name" => $registrationData['com_name'],
@@ -240,7 +235,6 @@ class LandingController extends Controller
                             "web"  => env('BASE_URL'),
                         ];
                         $toemail = $registrationData['email'];
-                        //return view('register-email',$data);
                         Mail::send("register-email", $data, function ($message) use ($toemail) {
                             $message
                                 ->to($toemail, env('MAIL_FROM_NAME'))
@@ -248,6 +242,12 @@ class LandingController extends Controller
                                     "Welcome to SWC HRMS. Your Organization Registration is Successful!"
                                 );
                             $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                        });
+
+                        $admin = 'info@skilledworkerscloud.co.uk';
+                        Mail::send("mailre", $data, function ($message) use ($admin) {
+                            $message->to($admin, env('MAIL_FROM_NAME'))->subject("New Organisation Registered");
+                            $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
                         });
                     }
                 

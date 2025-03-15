@@ -1,11 +1,18 @@
-<p>Hello <b>Superadmin</b>,</p>
+<p>Hello <b>Superadmin,</b></p>
 @if($user_type == "Partner")
-  <p>This is new Partner details: </p>
+  <p>A new <b>Partner</b> has successfully registered on the <b>SWC_HRMS</b> portal. Below are the details:</p>
 @else
-  <p>This is new @if($org_code) <b>Partner</b> @endif <b>Organisation</b> details: </p>
+  <p>A new @if($org_code) <b>Partner</b> @endif <b>Organisation</b> has successfully registered on the <b>SWC_HRMS</b> portal. Below are the details:</p>
 @endif
-<p>   Company  Name: {{ strtoupper($com_name) }}</p>
-<p> Name : {{ $f_name }}  {{ $l_name }}</p>
-<p>  E mail : {{ $email}}.</p>
-<p>  Phone Number : {{ $p_no}}.</p>
-<p>  Thanks</p>
+@if($user_type == "Organization")
+  @if($org_code)
+  <p><b>Partner Name : </b> {{$partner_name}}</p>
+  @endif
+@endif
+<p><b>Company  Name : </b> {{ strtoupper($com_name) }}</p>
+<p><b>Name : </b> {{ $f_name }}  {{ $l_name }}</p>
+<p><b>E mail : </b> {{ $email}}.</p>
+<p><b>Phone Number : </b> {{ $p_no}}.</p>
+<i>Please review and take any necessary actions.</i>
+<p><b>Thanks</b></p>
+<p><b>HRMS</b> System</p>
