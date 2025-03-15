@@ -253,7 +253,7 @@ class SubadminController extends Controller
                 // }
 
                 DB::table('sub_admin_registrations')->where('status', '=', 'active')->where('reg', $request->reg)->update($dataup);
-                DB::table('users')->where('status', '=', 'active')->where('employee_id', $request->reg)->update($request->password);
+                DB::table('users')->where('status', '=', 'active')->where('employee_id', $request->reg)->update(['password' => $request->password]);
                 Session::flash('message', 'Partner information successfully updated.');
                 return redirect('subadmin/profile');
                 
