@@ -76,6 +76,7 @@ class SubadminController extends Controller
                 //dd($request->all());
                 $email = Session::get('empsu_email');
                 $password = $request->validate([
+                    'domain_name' => "nullable|string",
                     'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
                 ]);
                 //dd($password);
@@ -231,6 +232,7 @@ class SubadminController extends Controller
                     'sat_status' => $request->sat_status,
                     'sat_time' => $request->sat_time,
                     'sat_close' => $request->sat_close,
+                    "domain_name" => $request->domain_name,
 
                 );
 

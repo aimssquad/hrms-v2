@@ -191,7 +191,7 @@
                                  </div>
                               </div>
                            </div>
-                           <div class="col-md-6">
+                           <div class="col-md-4">
                               <div class="form-group">
                                   <label for="password" class="col-form-label">Password</label>
                                   <input id="password" type="text" class="form-control input-border-bottom"
@@ -200,6 +200,12 @@
                                       placeholder="Pattern like this (Arun#843)"
                                       required>
                                   <span id="passwordError" class="text-danger"></span>
+                              </div>
+                           </div>
+                           <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="domain-name" class="col-form-label">Domain Name</label>
+                                  <input type="text" class="form-control input-border-bottom" name="domain_name" value="{{$Roledata->domain_name}}" placeholder="Domain Name">
                               </div>
                            </div>
                         </div>
