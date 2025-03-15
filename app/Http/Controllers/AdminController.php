@@ -19900,7 +19900,7 @@ class AdminController extends Controller
             $randomOrgCode = $this->generateKey();
             //$randomOrgCode = $request->domain_name;
             if (!empty($email)) {
-                dd($randomOrgCode);
+                //dd($randomOrgCode);
                 $email = Session::get('empsu_email');
 
                 if ($request->status == 'active' && $request->verify == 'approved' && $request->licence == 'no') {
@@ -19927,11 +19927,11 @@ class AdminController extends Controller
                     //dd($request->all());
                     $data = array('f_name' => $request->f_name, 'l_name' => $request->l_name, 'com_name' => $request->com_name, 'p_no' => $request->p_no, 'email' => $request->email, 'pass' => $request->pass);
                     $toemail = $request->email;
-                    Mail::send('mailorupli', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'skilledworkerscloud')->subject
-                            ('Make your HR file ready');
-                        $message->from('infoswc@skilledworkerscloud.co.uk', 'skilledworkerscloud');
-                    });
+                    // Mail::send('mailorupli', $data, function ($message) use ($toemail) {
+                    //     $message->to($toemail, 'skilledworkerscloud')->subject
+                    //         ('Make your HR file ready');
+                    //     $message->from('infoswc@skilledworkerscloud.co.uk', 'skilledworkerscloud');
+                    // });
                     $data = array(
                         'status' => $request->status,
                         'verify' => $request->verify,
