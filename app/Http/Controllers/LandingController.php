@@ -340,7 +340,7 @@ class LandingController extends Controller
                     Mail::send("mailre", $data1, function ($message) use ($toemail_superadmin) {
                         $message
                             ->to($toemail_superadmin, env('MAIL_FROM_NAME'))
-                            ->subject("New Organisation Registered");
+                            ->subject("New Partner Registered");
                         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
                     });
 
