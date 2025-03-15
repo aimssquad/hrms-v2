@@ -69,7 +69,7 @@ class SubadminController extends Controller
     public function updateSubadminProfile(Request $request)
     {
         //dd('okk');
-        dd($request->all());
+        //dd($request->all());
         try {
             if (!empty(Session::get('empsu_email'))) {
 
