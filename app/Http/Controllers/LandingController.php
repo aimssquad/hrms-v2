@@ -190,6 +190,7 @@ class LandingController extends Controller
                     }
 
                     $data = [
+                        "user_type"=>$registrationData['subadmin'],
                         "org_code"=>$registrationData['org_code'],
                         "f_name" => $registrationData['f_name'],
                         "l_name" => $registrationData['l_name'],
