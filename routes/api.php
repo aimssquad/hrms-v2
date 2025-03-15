@@ -35,6 +35,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::post('leave-apply',[LeaveController::class, 'leaveApply']);
     Route::get('leave_no',[LeaveController::class, 'leaveNo']);
     Route::get('get-employee',[LeaveController::class, 'getAllEmployee']);
+    Route::get('leave-balance',[LeaveController::class, 'getAllLeaveBalance']);
 
     
     

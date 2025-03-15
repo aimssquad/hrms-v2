@@ -244,11 +244,11 @@ class LeaveController extends Controller
                 //dd()
                 $request->validate([
                     'doc_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,docx|max:3000',
-                    'leave_cos' => 'required',
+                    'leave_cos' => 'nullable',
                     'notify_email' => 'nullable|email'
                 ]);
                 $toemail = $request->notify_email;
-                //dd($request->leave_type);
+                //dd($data);
                 //--------------------------------------------
                 // $user_id = Session::get('users_id');
                 $users = DB::table('users')->where('employee_id', '=', $employeeId)->first();
@@ -426,7 +426,7 @@ class LeaveController extends Controller
                 if(!empty($request->file('doc_image'))){
                     $path = $request->file('doc_image')->store('leave-apply', 'public'); 
                 } else {
-                    $path = "";
+                    $path = null;
                 }  
                 if ($leaveInHand >= $no_of_leave) {
                     $data["employee_id"] = $employeeId;
@@ -525,6 +525,83 @@ class LeaveController extends Controller
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);
         }
+    }
+
+    public function getAllLeaveBalance(Request $request)
+    {
+        try {
+            if (auth()->check()) {
+                $empDtl = auth()->user();
+                $emplayeeId = $empDtl->employee_id;
+                $emid = $empDtl->emid;
+                $leaveTypes = LeaveType::join(
+                    "leave_allocation",
+                    "leave_type.id",
+                    "=",
+                    "leave_allocation.leave_type_id"
+                )
+                ->select(
+                    "leave_type.id",
+                    "leave_type.leave_type_name" 
+                    // "leave_allocation.id as lv_alloc_id",
+                    // "leave_allocation.month_yr"
+                )
+                ->where("leave_type.emid", "=", $emid)
+                ->where("leave_allocation.emid", "=", $emid)
+                ->where("leave_allocation.leave_in_hand", "!=", 0)
+                ->groupBy('leave_type.id')
+                ->get();
+            
+                $leaveBalances = [];
+                
+                foreach ($leaveTypes as $leaveType) {
+                    $leaveBalance = DB::table('leave_allocation')
+                        ->where('leave_type_id', '=', $leaveType->id)
+                        ->where('employee_code', '=', $emplayeeId)
+                        ->where('emid', '=', $emid)
+                        ->orderBy('id', 'DESC')
+                        ->select('leave_in_hand')
+                        ->first();
+                    if ($leaveBalance) {
+                        $leaveBalance->leave_type_name = $leaveType->leave_type_name;
+                        $leaveBalances[] = $leaveBalance;
+                    }
+                }
+                if($leaveBalances){
+                    //dd($leaveBalances);
+                    $dynamicFlag = 1;
+                    $data = $leaveBalances;
+                    $message = "Your all leave balance";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );  
+                } else {
+                    $dynamicFlag = 1;
+                    $data = [];
+                    $message = "You have no leave balance";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+                }
+            } else {
+                $dynamicFlag = 1;
+                $data=[];
+                $message = "Somthing Went Wrong";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            }
+
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        }
+
     }
 
 } //End Class
