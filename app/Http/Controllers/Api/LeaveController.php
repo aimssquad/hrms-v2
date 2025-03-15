@@ -560,7 +560,7 @@ class LeaveController extends Controller
                         ->where('employee_code', '=', $emplayeeId)
                         ->where('emid', '=', $emid)
                         ->orderBy('id', 'DESC')
-                        ->select('leave_in_hand')
+                        ->select('id','leave_in_hand')
                         ->first();
                     if ($leaveBalance) {
                         $leaveBalance->leave_type_name = $leaveType->leave_type_name;

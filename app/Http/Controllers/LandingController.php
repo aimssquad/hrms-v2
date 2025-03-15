@@ -190,6 +190,7 @@ class LandingController extends Controller
                     }
 
                     $data = [
+                        "org_code"=>$registrationData['org_code'],
                         "f_name" => $registrationData['f_name'],
                         "l_name" => $registrationData['l_name'],
                         "com_name" => $registrationData['com_name'],
@@ -327,6 +328,22 @@ class LandingController extends Controller
                         ];
                         DB::table("employee_type")->insert($datauseremployty);
                     }
+                    $data1 = [
+                        'user_type'=>$registrationData['subadmin'],
+                        "f_name" => $registrationData['f_name'],
+                        "l_name" => $registrationData['l_name'],
+                        "com_name" => $registrationData['com_name'],
+                        "p_no" => $registrationData['p_no'],
+                        "email" => $registrationData['email'],
+                    ];
+                    $toemail_superadmin = 'info@skilledworkerscloud.co.uk';
+                    Mail::send("mailre", $data1, function ($message) use ($toemail_superadmin) {
+                        $message
+                            ->to($toemail_superadmin, env('MAIL_FROM_NAME'))
+                            ->subject("New Organisation Registered");
+                        $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+                    });
+
                     $data = [
                         "f_name" => $registrationData['f_name'],
                         "l_name" => $registrationData['l_name'],
