@@ -194,7 +194,7 @@ class LandingController extends Controller
                     if(!empty($registrationData['org_code'])){
                         $org_code = $registrationData['org_code'];
                         $partner_name = DB::table('sub_admin_registrations')->where('org_code',$org_code)->select('com_name')->first();
-                       ;
+                        
                         $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
                         // Extract only the domain name and store it in a variable
                         $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
