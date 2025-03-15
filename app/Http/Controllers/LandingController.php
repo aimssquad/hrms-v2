@@ -26,7 +26,7 @@ class LandingController extends Controller
             'f_name' => 'required|string|max:255',
             'l_name' => 'required|string|max:255',
             'email' => 'required|email|unique:registration,email',
-            'domain_name' => 'nullable|string',
+            //'domain_name' => 'nullable|string',
             'country' => 'required|string',
             'country_code' => 'required|string',
             'p_no' => 'required|string|max:15',
@@ -273,7 +273,7 @@ class LandingController extends Controller
                         "reg" => $pid,
                         "email" => $registrationData['email'],
                         "organ_email" => $registrationData['email'],
-                        "domain_name" => $registrationData['domain_name'],
+                       // "domain_name" => $registrationData['domain_name'],
             
                         "status" => "active",
                         "verify" => "not approved",

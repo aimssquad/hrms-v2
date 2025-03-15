@@ -201,13 +201,13 @@
                               <div class="error" style="color:red;">{{ $errors->first('com_name') }}</div>
                               @endif
                            </div>
-                           <div class="input-block mb-2" id="domain">
+                           {{-- <div class="input-block mb-2" id="domain">
                                 <label class="col-form-label">Partner Prfile</label>
                                 <input class="form-control" type="text" name="domain_name"  value="{{old('domain_name')}}">
                                 @if ($errors->has('domain_name'))
                                 <div class="error" style="color:red;">{{ $errors->first('domain_name') }}</div>
                                 @endif
-                            </div>
+                            </div> --}}
                            <div class="input-block mb-2">
                               <label class="col-form-label">First Name<span class="mandatory">*</span></label>
                               <input class="form-control" type="text" name="f_name" required="" value="{{old('f_name')}}">
