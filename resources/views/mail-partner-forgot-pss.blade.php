@@ -42,8 +42,8 @@
                                     Your Login URL:</a>
                             </div>
                             <ul style="list-style-type: disc; padding-left: 20px;">
-                                <li><b>Username : </b> {{ $email }}</li>
-                                <li><b>Password : </b> {{ $pass }}</li>
+                                <li style="font-size: 30px;"><b>Username : </b> {{ $email }}</li>
+                                <li style="font-size: 30px;"><b>Password : </b> {{ $pass }}</li>
                             </ul>
                             {{-- <p style="font-size: 30px; color: #333;"><strong>Username:</strong> {{ $email }}
                             </p>
