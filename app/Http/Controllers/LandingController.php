@@ -400,7 +400,7 @@ class LandingController extends Controller
                 "web"  => "https://skilledworkerscloud.co.uk",
                 "url"  => "https://skilledworkerscloud.co.uk",
             ];
-        return view('mail-partner-forgot-pss',$data);
+        return view('mail-new-partner-registration',$data);
     }
 
     public function index()

@@ -55,25 +55,25 @@
 							<p style="font-size: 30px; color: #333;"><strong>Your Login Details:</strong>
                             </p>
                             <ul style="list-style-type: disc; padding-left: 20px;">
-                                <li><b>Username : </b> {{ $email }}</li>
-                                <li><b>Password : </b> {{ $pass }}</li>
+                                <li style="font-size: 30px;"><b>Username : </b> {{ $email }}</li>
+                                <li style="font-size: 30px;"><b>Password : </b> {{ $pass }}</li>
                             </ul>
                             <p style="font-size: 30px; color: #333;"><strong>How to Join an Organization:</strong>
                             </p>
 							<ol style="padding-left: 20px;">
-								<li>Log in to your Partner Dashboard.</li>
-								<li>Navigate to the <b>‘Organizations’</b> tab.</li>
-								<li>Search for an organization you wish to join or connect with.</li>
-								<li>Send a request to join, and once approved, you’ll have access to collaborate effectively.</li>
-								<li>Repeat the process to join multiple organizations.</li>
+								<li style="font-size: 30px;">Log in to your Partner Dashboard.</li>
+								<li style="font-size: 30px;">Navigate to the <b>‘Organizations’</b> tab.</li>
+								<li style="font-size: 30px;">Search for an organization you wish to join or connect with.</li>
+								<li style="font-size: 30px;">Send a request to join, and once approved, you’ll have access to collaborate effectively.</li>
+								<li style="font-size: 30px;">Repeat the process to join multiple organizations.</li>
 							</ol>
 							<p style="font-size: 30px; color: #333;"><strong>Why Partner with SWC HRMS?</strong>
                             </p>
 							<ul style="list-style-type: disc; padding-left: 20px;">
-                                <li>Manage and support multiple organizations effortlessly.</li>
-                                <li>Access tools for compliance, recruitment, and HR management.</li>
-								<li>Gain insights with real-time analytics and reporting.</li>
-								<li>Streamline communication and collaboration.</li>
+                                <li style="font-size: 30px;">Manage and support multiple organizations effortlessly.</li>
+                                <li style="font-size: 30px;">Access tools for compliance, recruitment, and HR management.</li>
+								<li style="font-size: 30px;">Gain insights with real-time analytics and reporting.</li>
+								<li style="font-size: 30px;">Streamline communication and collaboration.</li>
 								
                             </ul>
                         </td>
