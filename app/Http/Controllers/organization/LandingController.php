@@ -596,7 +596,7 @@ class LandingController extends Controller
                 $toemail = $request->email;
                
                 Mail::send("mail-partner-forgot-pss", $data, function ($message) use ($toemail) {
-                    $message->to($toemail)->subject("Welcome to Skilled Workers Cloud HRMS!");
+                    $message->to($toemail)->subject("Forgot  Password !");
                     $message->from(env('MAIL_USERNAME'));
                 });
                 Session::flash("message", "Mail sent successfully.");
