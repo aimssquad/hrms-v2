@@ -19894,7 +19894,7 @@ class AdminController extends Controller
     public function saveSubCompany(Request $request)
     {
         // try {
-        dd($request->all());
+        //dd($request->all());
             $userType = Session::get('usersu_type');
             $email = Session::get('empsu_email');
             $randomOrgCode = $this->generateKey();
