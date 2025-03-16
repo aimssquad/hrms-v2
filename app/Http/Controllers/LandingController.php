@@ -358,7 +358,7 @@ class LandingController extends Controller
                     //     "web"  => env('BASE_URL'),
                     // ];
                     $toemail = $registrationData['email'];
-                    Mail::send("mail-new-partner-registration", $data1, function ($message) use ($toemail) {
+                    Mail::send("mail-new-partner-registration2", $data1, function ($message) use ($toemail) {
                         $message->to($toemail, env('MAIL_FROM_NAME'))
                             ->subject("Welcome to SWC HRMS! Partner Registration is Successful!");
                         $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
@@ -400,7 +400,7 @@ class LandingController extends Controller
                 "web"  => "https://skilledworkerscloud.co.uk",
                 "url"  => "https://skilledworkerscloud.co.uk",
             ];
-        return view('mail-new-partner-registration',$data);
+        return view('mail-new-partner-registration2',$data);
     }
 
     public function index()
