@@ -564,15 +564,47 @@ class LandingController extends Controller
 
     public function Doforgot(Request $request)
     {
+        
         $Employee = DB::table("users")
             ->where("email", "=", $request->email)
             ->where("status", "=", "active")
             ->where("user_type", "!=", "admin")
             ->first();
+            //dd($Employee);
         if (!empty($Employee)) {
+            if($Employee->user_type == "sub-admin"){
+                $partner = $Employee->email;
+                $partnerData = DB::table('sub_admin_registrations')
+                    ->where('email',$partner)
+                    ->where('status','active')
+                    ->where('verify','approved')->first();
+                $url = "";    
+                if($partnerData->domain_name){
+                    $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+                    $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+                    $url = $baseUrl;
+                    //dd('okk');
+                } else {
+                    $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+                    $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
+                    $url = $baseUrl;
+                    //dd($url = $baseUrl );
+                }
+                $data = ["email" => $partnerData->email, "pass" => $partnerData->pass, "com_name" => $partnerData->com_name,"web"=>$url, "logo" => $partnerData->logo, "phone" => $partnerData->p_no, "land_line" => $partnerData->land, "f_name"=>$partnerData->f_name, "l_name"=>$partnerData->l_name];
+                // $toemail = $request->email;
+                // Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
+                //     $message->to($toemail)->subject("Forgot  Password ");
+                //     $message->from(env('MAIL_USERNAME'));
+                // });
+                dd($data);
+            } else {
+
+            }
             $checkuser = DB::table('registration')->where('email',$Employee->email)->first();
             if($checkuser->org_code != null){
                 //dd('partner org');
+                
+                // if($domainName == "skill")
                 $base_url = env('BASE_URL');
                 $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land, "f_name"=>$checkuser->f_name, "l_name"=>$checkuser->l_name];
                 //dd($data);
