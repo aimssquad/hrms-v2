@@ -37,7 +37,7 @@
                             <p style="font-size: 30px; color: #333;">We’re excited to welcome you to <strong>Skilled Workers Cloud HRMS!</strong> Below are your login credentials to access your account.</p>
                             <p style="font-size: 30px; color: #333;"><strong>Your login details:</strong></p>
                             <div style=" margin: 20px 0;">
-                                <a href="{{$web.'/hrms-v2/'}}"
+                                <a href="{{$web}}"
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
                                     Your Login URL:</a>
                             </div>
@@ -73,7 +73,7 @@
                             <p style="font-size: 30px;">Let’s begin your journey towards seamless HR management and compliance!</p>
                         </td>
                     </tr>
-                    {{-- <tr>
+                    <tr>
                         <td style="font-size: 20px; padding: 0 20px;">
                             <i style="font-size: 20px;"><strong>Disclaimer:</strong> This email, including any attachments, is intended solely for the designated recipient(s) and may contain confidential or
                                  privileged information. Unauthorized access, distribution, or reliance on its content without our explicit written permission is strictly prohibited. 
@@ -83,7 +83,7 @@
                                  <strong>SWC HRMS</strong> is not responsible for any loss or damage resulting from software viruses.
                             </i>     
                         </td>
-                    </tr> --}}
+                    </tr>
 
                     <tr>
                         <td height="20"></td>

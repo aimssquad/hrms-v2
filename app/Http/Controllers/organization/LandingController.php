@@ -583,15 +583,16 @@ class LandingController extends Controller
                 if($partnerData->domain_name != null){
                     $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
                     $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
-                    $url = $baseUrl;
+                    $url = $baseUrl."/hrms-v2/";
                     //dd('okk');
                 } else {
                     $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
                     $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
-                    $url = $baseUrl;
+                    $url = $baseUrl."/hrms-v2/";
                     //dd($url = $baseUrl );
                 }
                 $data = ["email" => $partnerData->email, "pass" => $Employee->password, "com_name" => $partnerData->com_name,"web"=>$url, "logo" => $partnerData->logo, "phone" => $partnerData->p_no, "land_line" => $partnerData->land, "f_name"=>$partnerData->f_name, "l_name"=>$partnerData->l_name];
+
                 $toemail = $request->email;
                
                 Mail::send("mail-partner-forgot-pss", $data, function ($message) use ($toemail) {
