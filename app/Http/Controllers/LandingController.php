@@ -213,7 +213,7 @@ class LandingController extends Controller
                         ];
                        
                         //$toemail = $registrationData['email'];
-                        // Mail::send("mailor", $data, function ($message) use ($toemail, $sub_comname) {
+                        // Mail::send("mail-new-partner-registration", $data, function ($message) use ($toemail, $sub_comname) {
                         //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
                         //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                         // });
@@ -337,6 +337,8 @@ class LandingController extends Controller
                         "com_name" => $registrationData['com_name'],
                         "p_no" => $registrationData['p_no'],
                         "email" => $registrationData['email'],
+                        "pass" => $registrationData['pass'],
+                        "web"  => env('BASE_URL'),
                     ];
                     $toemail_superadmin = 'info@skilledworkerscloud.co.uk';
                     Mail::send("mailre", $data1, function ($message) use ($toemail_superadmin) {
@@ -346,21 +348,21 @@ class LandingController extends Controller
                         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
                     });
 
-                    $data = [
-                        "f_name" => $registrationData['f_name'],
-                        "l_name" => $registrationData['l_name'],
-                        "com_name" => $registrationData['com_name'],
-                        "p_no" => $registrationData['p_no'],
-                        "email" => $registrationData['email'],
-                        "pass" => $registrationData['pass'],
-                        "web"  => env('BASE_URL'),
-                    ];
+                    // $data = [
+                    //     "f_name" => $registrationData['f_name'],
+                    //     "l_name" => $registrationData['l_name'],
+                    //     "com_name" => $registrationData['com_name'],
+                    //     "p_no" => $registrationData['p_no'],
+                    //     "email" => $registrationData['email'],
+                    //     "pass" => $registrationData['pass'],
+                    //     "web"  => env('BASE_URL'),
+                    // ];
                     $toemail = $registrationData['email'];
-                    // Mail::send("register-email", $data, function ($message) use ($toemail) {
-                    //     $message->to($toemail, env('MAIL_FROM_NAME'))
-                    //         ->subject("Welcome to SWCH HRMS. Your Partner Organization Registration is Successful!");
-                    //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                    // });
+                    Mail::send("mail-new-partner-registration", $data1, function ($message) use ($toemail) {
+                        $message->to($toemail, env('MAIL_FROM_NAME'))
+                            ->subject("Welcome to SWC HRMS! Partner Registration is Successful!");
+                        $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                    });
                 }
                 // Clear the OTP and registration data from the cache
                 Cache::forget('otp_' . $request->email);
@@ -382,6 +384,23 @@ class LandingController extends Controller
             // Redirect back with an error message
             return redirect('register');
         }
+    }
+
+    public function regPEmail(Request $request){
+        $domain = "";
+        $data = [
+                "f_name" => "Ranjan ",
+                "l_name" => "Sharma",
+                "domain_name" => $domain,
+                "com_name" => "Ranjan Construction",
+                "name" => "Ranjan Construction",
+                "p_no" => "8963257458",
+                "email" => "ranjan@yopmail.com",
+                "pass" => "Ranjan@123",
+                "web"  => "https://skilledworkerscloud.co.uk",
+                "url"  => "https://skilledworkerscloud.co.uk",
+            ];
+        return view('mail-partner-verify',$data);
     }
 
     public function index()

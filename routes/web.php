@@ -36,6 +36,7 @@ Route::get('register-email', function () {
     return view('register-email');
 });
 
+Route::get('partner_email','App\Http\Controllers\LandingController@regPEmail');
 // new route
 //------------------------------- Billing 
 Route::get('leave_no', 'App\Http\Controllers\LeaveController@leaveNo');

@@ -34,34 +34,59 @@
                     <tr>
                         <td style="padding: 20px;">
                             <p style="font-size: 30px; color: #333;"><strong>Dear {{strtoupper($com_name)}},</strong></p>
-                            <p style="font-size: 30px; color: #333;">We’re excited to welcome you to <strong>Skilled Workers Cloud HRMS!</strong> Below are your login credentials to access your account.</p>
-                            <p style="font-size: 30px; color: #333;"><strong>Your login details:</strong></p>
+                            <p style="font-size: 30px; color: #333;">
+								Welcome to <strong>Skilled Workers Cloud HRMS!</strong> 
+								Thank you for registering as a partner with us. We are excited to have you on board and look forward 
+								to helping you connect with and support multiple organizations seamlessly through our platform.
+							</p>
+
+							<p style="font-size: 30px; color: #333; margin-top :20px; margin :20px;"><strong>What’s Next?</strong></p>
+
+							<p style="font-size: 30px; color: #333;">You’re now ready to join and manage multiple organizations. 
+								Start exploring our HRMS features designed to optimize HR operations, compliance, and workforce management.
+							</p>
+
+                            <p style="font-size: 30px; color: #333;"><strong>Click below to get started:</strong></p>
                             <div style=" margin: 20px 0;">
-                                <a href="{{$web}}"
+                                <a href=""
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
-                                    Your Login URL:</a>
+                                    Share link to Join Organization </a>
                             </div>
+							<p style="font-size: 30px; color: #333;"><strong>Your Login Details:</strong>
+                            </p>
                             <ul style="list-style-type: disc; padding-left: 20px;">
                                 <li><b>Username : </b> {{ $email }}</li>
                                 <li><b>Password : </b> {{ $pass }}</li>
                             </ul>
-                            {{-- <p style="font-size: 30px; color: #333;"><strong>Username:</strong> {{ $email }}
+                            <p style="font-size: 30px; color: #333;"><strong>How to Join an Organization:</strong>
                             </p>
-                            <p style="font-size: 30px; color: #333;"><strong>Password:</strong> {{ $pass }}</p> --}}
-
-                            {{-- <p style="font-size: 16px; color: #333;">Helpful tips to complete your organization profile:
-                            </p> --}}
+							<ol style="padding-left: 20px;">
+								<li>Log in to your Partner Dashboard.</li>
+								<li>Navigate to the <b>‘Organizations’</b> tab.</li>
+								<li>Search for an organization you wish to join or connect with.</li>
+								<li>Send a request to join, and once approved, you’ll have access to collaborate effectively.</li>
+								<li>Repeat the process to join multiple organizations.</li>
+							</ol>
+							<p style="font-size: 30px; color: #333;"><strong>Why Partner with SWC HRMS?</strong>
+                            </p>
+							<ul style="list-style-type: disc; padding-left: 20px;">
+                                <li>Manage and support multiple organizations effortlessly.</li>
+                                <li>Access tools for compliance, recruitment, and HR management.</li>
+								<li>Gain insights with real-time analytics and reporting.</li>
+								<li>Streamline communication and collaboration.</li>
+								
+                            </ul>
                         </td>
                     </tr>
 
                     <!-- Footer -->
 
-                    {{-- <tr>
+                    <tr>
                         <td>
                             <p style="font-size: 30px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
                             </p>
                         </td>
-                    </tr> --}}
+                    </tr>
 
                     <tr>
                         <td height="20"></td>
@@ -70,11 +95,11 @@
                     <tr>
                         <td style="font-size: 18px; padding: 0 20px;">
                             
-                            <p style="margin: 0; font-size: 30px;">If you need any assistance, our support team is here to help! Feel free to reach out to us at <a style="font-size: 30px;"
+                            <p style="margin: 0; font-size: 30px;">Our team is here to assist you at every step. Contact us anytime for guidance or support  at <a style="font-size: 30px;"
                                     href="mailto: info@skilledworkerscloud.co.uk"><strong>info@skilledworkerscloud.co.uk</strong></a> or
                                 call <a href="tel: +44 7467284718"><strong>+44 7467284718.</strong></a></p>
 
-                            <p style="font-size: 30px;">Let’s begin your journey towards seamless HR management and compliance!</p>
+                            <p style="font-size: 30px;">Let’s work together to simplify HR and compliance management for all organizations you partner with!</p>
                         </td>
                     </tr>
                     <tr>

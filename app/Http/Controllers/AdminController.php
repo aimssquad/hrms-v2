@@ -19894,7 +19894,7 @@ class AdminController extends Controller
     public function saveSubCompany(Request $request)
     {
         // try {
-        //dd($request->all());
+        dd($request->all());
             $userType = Session::get('usersu_type');
             $email = Session::get('empsu_email');
             $randomOrgCode = $this->generateKey();
@@ -19962,41 +19962,27 @@ class AdminController extends Controller
                 $exits = DB::table('users')->where('employee_id', $request->reg)->first();
 
                 if ($request->status == 'inactive') {
-
                     $datau = array(
                         'email' => $exits->email . 'inactive',
-
                     );
-
                     DB::table('users')->where('employee_id', $request->reg)->update($datau);
-
                     $datau = array(
                         'email' => $exits->email . 'inactive',
                         'inactive_remarks' => $request->inactive_remarks,
-
                     );
-
                     DB::table('sub_admin_registrations')->where('reg', $request->reg)->update($datau);
-
                 }
-
                 $this->addAdminLog(3, 'Organisation - Updated data for company code: ' . $request->reg);
-                // $exits2 = DB::table('sub_admin_registrations')->where('reg', $request->reg)->first();
-                // $name = $exits2->f_name.' '.$exits2->l_name;
-                //dd($name);
+                $partner_data = DB::table('sub_admin_registrations')->where('email', $request->email)->first();
                 $toemail=$request->email;
-                // $toemail='boton.cob2@gmail.com';
                 if ($toemail != '') {
-                $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password];
-                //dd($data);
-                // $data = ["name" => $name, "email" => $exits2->email,"password" =>$exits2->pass];
-                    Mail::send('org-approved', $data, function ($message) use ($toemail) {
-                        $message->to($toemail, 'skilledworkerscloud')->subject
-                            ('Partner Organisation Approved');
-                        $message->from('infoswc@skilledworkerscloud.co.uk', 'skilledworkerscloud');
-                    });
+                // $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password, "domain_name"=>$partner_data->domain_name];
+                //     Mail::send('mail-partner-verify', $data, function ($message) use ($toemail) {
+                //         $message->to($toemail, 'skilledworkerscloud')->subject
+                //             ('Your Partner Account Verification is Complete!');
+                //         $message->from(env('MAIL_USERNAME'),'skilledworkerscloud');
+                //     });
                 }
-                //dd('77');
                 Session::flash('message', 'Partner Organisation Information Successfully Updated.');
                
                 if ($request->status == 'active' && $request->verify == 'not approved' && $request->licence == 'no') {

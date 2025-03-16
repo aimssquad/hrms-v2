@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>Organization Verification Successful by SWC</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
 
@@ -15,64 +15,64 @@
                 <table width="600px" cellspacing="0" cellpadding="0" border="0"
                     style="background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     <!-- Header -->
-                    <tr>
+                    {{-- <tr>
                         <td>
-                            <table style="border-spacing: 0; padding: 0; margin: 0;">
-                                <tr>
-                                    <td width="25%" style="padding-left: 20px;">
-                                        <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%">
-                                    </td>
-                                    <td width="60%" style="padding: 0;margin: 0;">
-                                        <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%">
-                                    </td>
-                                </tr>
-                            </table>
+                            <img src="https://ik.imagekit.io/oq9hcqjih/banner-01.png" alt="" width="100%">
                         </td>
-                    </tr>
+                    </tr> --}}
 
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 30px; color: #333;"><strong>Dear {{strtoupper($com_name)}},</strong></p>
-                            <p style="font-size: 30px; color: #333;">We’re excited to welcome you to <strong>Skilled Workers Cloud HRMS!</strong> Below are your login credentials to access your account.</p>
-                            <p style="font-size: 30px; color: #333;"><strong>Your login details:</strong></p>
-                            <div style=" margin: 20px 0;">
-                                <a href="{{$web}}"
-                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
-                                    Your Login URL:</a>
-                            </div>
+                            <p style="font-size: 30px; color: #333;"><strong>Hello  {{ strtoupper($name) }},</strong></p>
+                            <p style="font-size: 30px; color: #333;">
+                                Welcome to <strong> Skilled Workers Cloud (SWC)! </strong>We’re thrilled to have you as a verified partner. 
+                                Your account has been successfully verified, giving you access to our platform to seamlessly connect with multiple organizations.
+                            </p>
+                            
+
+                            <p style="font-size: 30px; color: #333;"><strong>Your Login Credentials:</strong></p>
                             <ul style="list-style-type: disc; padding-left: 20px;">
                                 <li><b>Username : </b> {{ $email }}</li>
                                 <li><b>Password : </b> {{ $pass }}</li>
                             </ul>
-                            {{-- <p style="font-size: 30px; color: #333;"><strong>Username:</strong> {{ $email }}
+                            @if(empty($domain_name))
+                                <p style="font-size: 30px; color: #333;">Go to your website click <b>Partner Login</b> Button. Use your login Credential.</p>
+                            @else
+                                <div style=" margin: 20px 0;">
+                                    <a href="https://skilledworkerscloud.co.uk/hrms-v2/subadmin"
+                                        style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
+                                        Log in now to explore your partner dashboard:</a>
+                                </div>
+                            @endif
+                            <p style="font-size: 30px; color: #333;"><strong>What’s Next?</strong>
                             </p>
-                            <p style="font-size: 30px; color: #333;"><strong>Password:</strong> {{ $pass }}</p> --}}
-
-                            {{-- <p style="font-size: 16px; color: #333;">Helpful tips to complete your organization profile:
-                            </p> --}}
+							<ul style="list-style-type: disc; padding-left: 20px;">
+                                <li>Manage and collaborate with multiple organizations efficiently.</li>
+                                <li>Leverage our advanced HRMS features for <strong>recruitment, employee management, compliance, and more.</strong></li>
+								<li>Connect with businesses in need of HR expertise and support.</li>	
+                            </ul>
                         </td>
                     </tr>
 
                     <!-- Footer -->
 
-                    {{-- <tr>
+                    <tr>
                         <td>
                             <p style="font-size: 30px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
                             </p>
                         </td>
-                    </tr> --}}
+                    </tr>
 
                     <tr>
                         <td height="20"></td>
                     </tr>
 
                     <tr>
-                        <td style="font-size: 18px; padding: 0 20px;">
-                            
-                            <p style="margin: 0; font-size: 30px;">If you need any assistance, our support team is here to help! Feel free to reach out to us at <a style="font-size: 30px;"
-                                    href="mailto: info@skilledworkerscloud.co.uk"><strong>info@skilledworkerscloud.co.uk</strong></a> or
-                                call <a href="tel: +44 7467284718"><strong>+44 7467284718.</strong></a></p>
+                        <td style="font-size: 30px; padding: 0 20px;">
+                            <p style="margin: 0;">Our team is here to help! Contact us anytime at <a
+                                    href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
+                                call <a href="tel: +44 7467284718"> +44 7467284718</a></p>
 
                             <p style="font-size: 30px;">Let’s begin your journey towards seamless HR management and compliance!</p>
                         </td>
@@ -97,8 +97,8 @@
                     <!-- Text Section -->
 
                     <tr>
-                        <td style="padding: 0 20px;">  
-                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 350px;"> 
+                        <td style="padding: 0 20px;">
+                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 350px;">
                         </td>
                     </tr>
 
@@ -137,7 +137,7 @@
                             <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/phone-call.png" alt="Phone"
                                     style="width: 24px; vertical-align: middle; margin-right: 5px;">
-                                <strong>Phone:</strong>  +44 7467284718
+                                <strong>Phone:</strong> +44 7467284718
                             </p>
                             <!-- Landline -->
                             <p style="margin: 5px 0;">
@@ -158,20 +158,11 @@
                     <tr>
                         <td height="30"></td>
                     </tr>
-                    <tr>
-                        <td width="100%">
-                            <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
-                                <tr>
-                                    <td width="40%" style="background-color: #c2bbfd; padding: 0; margin: 0;">
-                                        <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%">
-                                    </td>
-                                    <td width="60%" style="background-color: #151831; padding: 0; margin: 0; color: #67839c; text-align: center; height: 50px;border-radius: 16px 0 0 0;">
-                                        powered by <a href="#" style="color: #67839c;" target="_blank">Skilled Workers Cloud</a>
-                                    </td>
-                                </tr>
-                            </table>
+                    {{-- <tr>
+                        <td>
+                            <img src="https://ik.imagekit.io/oq9hcqjih/footer-img.png" alt="" width="100%" height="auto">
                         </td>
-                    </tr>
+                    </tr> --}}
                 </table>
             </td>
         </tr>
