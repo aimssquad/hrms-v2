@@ -37,7 +37,7 @@
                             <p style="font-size: 30px; color: #333;">We’re excited to welcome you to <strong>Skilled Workers Cloud HRMS!</strong> Below are your login credentials to access your account.</p>
                             <p style="font-size: 30px; color: #333;"><strong>Your login details:</strong></p>
                             <div style=" margin: 20px 0;">
-                                <a href="{{$web}}"
+                                <a href="{{$web}}subadmin/"
                                     style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
                                     Your Login URL:</a>
                             </div>
