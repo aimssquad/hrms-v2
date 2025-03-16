@@ -578,8 +578,9 @@ class LandingController extends Controller
                     ->where('email',$partner)
                     ->where('status','active')
                     ->where('verify','approved')->first();
-                $url = "";    
-                if($partnerData->domain_name){
+                $url = "";  
+
+                if($partnerData->domain_name != null){
                     $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
                     $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
                     $url = $baseUrl;
