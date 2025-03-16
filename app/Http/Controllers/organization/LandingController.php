@@ -591,50 +591,48 @@ class LandingController extends Controller
                     $url = $baseUrl;
                     //dd($url = $baseUrl );
                 }
-                $data = ["email" => $partnerData->email, "pass" => $partnerData->pass, "com_name" => $partnerData->com_name,"web"=>$url, "logo" => $partnerData->logo, "phone" => $partnerData->p_no, "land_line" => $partnerData->land, "f_name"=>$partnerData->f_name, "l_name"=>$partnerData->l_name];
-                // $toemail = $request->email;
-                // Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
-                //     $message->to($toemail)->subject("Forgot  Password ");
-                //     $message->from(env('MAIL_USERNAME'));
-                // });
-                dd($data);
-            } else {
-
-            }
-            $checkuser = DB::table('registration')->where('email',$Employee->email)->first();
-            if($checkuser->org_code != null){
-                //dd('partner org');
-                
-                // if($domainName == "skill")
-                $base_url = env('BASE_URL');
-                $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land, "f_name"=>$checkuser->f_name, "l_name"=>$checkuser->l_name];
-                //dd($data);
-                // $toemail = $request->email;
-                // Mail::send("mailforgot", $data, function ($message) use ($toemail) {
-                //     $message->to($toemail)->subject("Forgot  Password ");
-                //     $message->from(env('MAIL_USERNAME'));
-                // });
-                Session::flash("message", "Mail sent successfully.");
-                return redirect("forgot-password");
-            } else {
-                //dd('superadmin org');
-                $Roledata = DB::table("users")
-                ->where("employee_id", "=", $Employee->emid)
-                ->where("status", "=", "active")
-                ->first();
-                $base_url = env('BASE_URL');
-                //$data = ["pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url ];
-                $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land, "f_name"=>$checkuser->f_name, "l_name"=>$checkuser->l_name];
+                $data = ["email" => $partnerData->email, "pass" => $Employee->password, "com_name" => $partnerData->com_name,"web"=>$url, "logo" => $partnerData->logo, "phone" => $partnerData->p_no, "land_line" => $partnerData->land, "f_name"=>$partnerData->f_name, "l_name"=>$partnerData->l_name];
                 $toemail = $request->email;
-                Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
-                    $message->to($toemail)->subject("Forgot  Password ");
+               
+                Mail::send("mail-partner-forgot-pss", $data, function ($message) use ($toemail) {
+                    $message->to($toemail)->subject("Welcome to Skilled Workers Cloud HRMS!");
                     $message->from(env('MAIL_USERNAME'));
                 });
-
                 Session::flash("message", "Mail sent successfully.");
                 return redirect("forgot-password");
-            }
-           
+                //dd($data);
+            } else {
+                $checkuser = DB::table('registration')->where('email',$Employee->email)->first();
+                if($checkuser->org_code != null){
+                    $base_url = env('BASE_URL');
+                    $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land, "f_name"=>$checkuser->f_name, "l_name"=>$checkuser->l_name];
+                    //dd($data);
+                    // $toemail = $request->email;
+                    // Mail::send("mailforgot", $data, function ($message) use ($toemail) {
+                    //     $message->to($toemail)->subject("Forgot  Password ");
+                    //     $message->from(env('MAIL_USERNAME'));
+                    // });
+                    Session::flash("message", "Mail sent successfully.");
+                    return redirect("forgot-password");
+                } else {
+                    //dd('superadmin org');
+                    $Roledata = DB::table("users")
+                    ->where("employee_id", "=", $Employee->emid)
+                    ->where("status", "=", "active")
+                    ->first();
+                    $base_url = env('BASE_URL');
+                    //$data = ["pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url ];
+                    $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land, "f_name"=>$checkuser->f_name, "l_name"=>$checkuser->l_name];
+                    $toemail = $request->email;
+                    Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
+                        $message->to($toemail)->subject("Forgot  Password ");
+                        $message->from(env('MAIL_USERNAME'));
+                    });
+    
+                    Session::flash("message", "Mail sent successfully.");
+                    return redirect("forgot-password");
+                }
+            }  
         } else {
             Session::flash("error", "Your email id was wrong!!");
             return redirect("forgot-password");
