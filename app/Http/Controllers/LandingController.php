@@ -117,7 +117,7 @@ class LandingController extends Controller
                 ->subject("Your New One-Time Password (OTP) for Verification");
             $message->from(env('MAIL_USERNAME'));
         });
-        Session::flash("message", "success', 'A new OTP has been sent to your email.");
+        Session::flash("message", "A new OTP has been sent to your email.");
         // Redirect back to the OTP verification page with a success message
         return redirect()->route('verify.otp')->with('email', $request->email);
     }
