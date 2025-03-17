@@ -428,6 +428,13 @@ class LandingController extends Controller
         $domain = "";
         $data = [
                 "f_name" => "Ranjan ",
+                "firstname"=>"ranjan",
+                "maname"=>"Kumar",
+                "lname"=>"Sharma",
+                "baseUrl"  => "https://skilledworkerscloud.co.uk",
+                "company_name"=> "Abbas Cos",
+                "company_email"=> "abbas@yopmail.com",
+                "company_phone"=> "9865874589",
                 "l_name" => "Sharma",
                 "domain_name" => $domain,
                 "com_name" => "Ranjan Construction",
@@ -439,7 +446,7 @@ class LandingController extends Controller
                 "web"  => "https://skilledworkerscloud.co.uk",
                 "url"  => "https://skilledworkerscloud.co.uk",
             ];
-        return view('mail-partner-verify2',$data);
+        return view('mail',$data);
     }
 
     public function index()

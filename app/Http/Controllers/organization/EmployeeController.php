@@ -270,29 +270,25 @@ class EmployeeController extends Controller
 
     public function saveEmployee(Request $request)
     {
-        
-        //dd($request->file('share_doc'));
+      
         if (!empty(Session::get('emp_email'))) {
-            // echo $id = Input::get('q');
-            //dd($request->all());
             $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
-            // Extract only the domain name and store it in a variable
+            
             $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
-            $baseUrl = $baseUrl."/hrms-v2";
-            //dd($baseUrl);
+            $url = $baseUrl."/hrms-v2/";
+            
             $email = Session::get('emp_email');
             $Roledata = DB::table('registration')->where('status', '=', 'active')
-
                 ->where('email', '=', $email)
                 ->first();
-
             $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
                 ->where('email', '=', $email)
                 ->first();
             $company_name = $Roledata->com_name;
             $company_email = $Roledata->email;
-            //dd($company_email,$company_name);
+            $company_phone = $Roledata->p_no;
+            //dd($company_email,$company_name,$company_phone);
             function my_simple_crypt($string, $action = 'encrypt')
             {
                 // you may change these values to your own
@@ -1731,15 +1727,13 @@ class EmployeeController extends Controller
                 );
                 DB::table('role_authorization')->insert($ins_data_role1);
 
-                $data = array('firstname' => $request->emp_fname, 'maname' => $request->emp_mid_name, 'email' => $request->emp_ps_email, 'lname' => $request->emp_lname, 'password' => $p_dd, 'baseUrl' =>$baseUrl);
+                $data = array('firstname' => $request->emp_fname, 'maname' => $request->emp_mid_name, 'email' => $request->emp_ps_email, 'lname' => $request->emp_lname, 'password' => $p_dd, 'baseUrl' =>$url, 'company_email'=>$company_email, 'company_name'=>$company_name, 'company_phone'=>$company_phone);
                 $toemail = $request->emp_ps_email;
-                // Mail::send('mail', $data, function ($message) use ($toemail) {
-                //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject('Employee Login Details');
-                //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
-                // });
-                
-
-                Session::flash('message', 'Please assign the role.');
+                Mail::send('mail', $data, function ($message) use ($toemail,$company_name) {
+                    $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $company_name – Your Employment Account is Ready!");
+                    $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                });
+                Session::flash('message', 'Employee created successfuly.');
                 return redirect('organization/emplist');
                 // return redirect('pis/employee');
             }
