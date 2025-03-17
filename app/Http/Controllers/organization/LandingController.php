@@ -602,6 +602,26 @@ class LandingController extends Controller
                 Session::flash("message", "Mail sent successfully.");
                 return redirect("forgot-password");
                 //dd($data);
+            } elseif($Employee->user_type == "employee") {
+                $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
+                $url = $baseUrl."/hrms-v2/";
+                $employee_name = $Employee->name;
+                $employee_email = $Employee->email;
+                $employee_password = $Employee->password;
+                $employee_emid = $Employee->emid;
+                $company_data = DB::table('registration')->where('reg',$employee_emid)->first();
+                $company_name = $company_data->com_name;
+                $company_phone = $company_data->p_no;
+                $company_email = $company_data->email;
+                $data = ["employee_name" => $employee_name, "employee_email" => $employee_email, "employee_password" => $employee_password,"url"=>$url, "company_name" => $company_name, "company_phone" => $company_phone, "company_email"=>$company_email];
+                //dd($data);
+                $toemail = $request->email;
+                Mail::send("mail-emp-forgot-pass", $data, function ($message) use ($toemail, $company_name) {
+                    $message->to($toemail)->subject("Reset Your Password – $company_name HRMS");
+                    $message->from(env('MAIL_USERNAME'));
+                });
+                Session::flash("message", "Mail sent successfully.");
+                return redirect("forgot-password");
             } else {
                 $checkuser = DB::table('registration')->where('email',$Employee->email)->first();
                 if($checkuser->org_code != null){
