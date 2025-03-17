@@ -56,22 +56,16 @@
 									<input class="form-control" type="text" name="otp" required>
 								</div>
 								<div class="input-block mb-4 text-center">
-									<button class="btn btn-primary account-btn" type="submit">Submit</button>
+									<button class="btn btn-primary account-btn" type="submit">Validate</button>
 								</div>
 							</form>
 							<form action="{{ route('resend.otp') }}" method="POST">
 								@csrf
 								<input type="hidden" name="email" value="{{ session('email') }}">
-								{{-- <div class="input-block mb-4 text-end">
-									<button type="submit" class="btn btn-link text-decoration-none">
-										<span>Didn't receive the OTP?</span>
-										<span>🔄 Resend OTP</span> <!-- Use a symbol here -->
-									</button>
-								</div> --}}
 								<div class="input-block mb-4 text-center">
-									<button type="submit" class="btn btn-link text-decoration-none" style="color: #FF902F;">
+									<button type="submit" class="btn btn-link text-decoration-none" >
 										<span>Didn't receive the OTP?</span>
-										<span><i class="fas fa-sync-alt"></i> Resend OTP</span>
+										<span style="color: #FC6075;">Resend OTP <i class="fas fa-sync-alt"></i></span>
 									</button>
 								</div>
 							</form>
