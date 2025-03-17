@@ -40,7 +40,7 @@
                                     Login URL: </a>
                             </div>
                             <p style="font-size: 30px; color: #333;"><strong>Username :</strong> {{ $email }}</p>
-                            <p style="font-size: 30px; color: #333;"><strong><b>Password :</strong> {{ $pass }}</p>
+                            <p style="font-size: 30px; color: #333;"><strong><b>Password :</strong> {{ $password }}</p>
                             {{-- <ul style="list-style-type: disc; padding-left: 20px;">
                                 <li><b>Username : </b> {{ $email }}</li>
                                 <li><b>Password : </b> {{ $pass }}</li>
