@@ -1730,8 +1730,8 @@ class EmployeeController extends Controller
                 $data = array('firstname' => $request->emp_fname, 'maname' => $request->emp_mid_name, 'email' => $request->emp_ps_email, 'lname' => $request->emp_lname, 'password' => $p_dd, 'baseUrl' =>$url, 'company_email'=>$company_email, 'company_name'=>$company_name, 'company_phone'=>$company_phone);
                 $toemail = $request->emp_ps_email;
                 Mail::send('mail', $data, function ($message) use ($toemail,$company_name) {
-                    $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $company_name – Your Employment Account is Ready!");
-                    $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
+                    $message->to($toemail)->subject("Welcome to $company_name – Your Employment Account is Ready!");
+                    $message->from(env('MAIL_USERNAME'));
                 });
                 Session::flash('message', 'Employee created successfuly.');
                 return redirect('organization/emplist');
