@@ -97,16 +97,20 @@ class LandingController extends Controller
             Session::flash("error", "Invalid request. Please register again.");
             return redirect()->route('register');
         }
-
         // Generate a new 6-digit OTP
         $otp = rand(100000, 999999);
-
+        $cachedData = Cache::get('registration_data_' . $request->email);
+        if ($cachedData) {
+            $com_name = $cachedData['com_name'];
+        } else {
+            $com_name = "No data found.";
+        }
         // Store the new OTP in the cache for 10 minutes
         Cache::put('otp_' . $request->email, $otp, now()->addMinutes(10));
 
         // Send the new OTP via email
         $toemail = $request->email;
-        $data = ['otp' => $otp, 'email' => $request->email];
+        $data = ['otp' => $otp, 'email' => $request->email, 'com_name'=>$com_name];
         Mail::send("mail-otp", $data, function ($message) use ($toemail) {
             $message
                 ->to($toemail)
