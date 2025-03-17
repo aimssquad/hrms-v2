@@ -59,6 +59,22 @@
 									<button class="btn btn-primary account-btn" type="submit">Submit</button>
 								</div>
 							</form>
+							<form action="{{ route('resend.otp') }}" method="POST">
+								@csrf
+								<input type="hidden" name="email" value="{{ session('email') }}">
+								{{-- <div class="input-block mb-4 text-end">
+									<button type="submit" class="btn btn-link text-decoration-none">
+										<span>Didn't receive the OTP?</span>
+										<span>🔄 Resend OTP</span> <!-- Use a symbol here -->
+									</button>
+								</div> --}}
+								<div class="input-block mb-4 text-center">
+									<button type="submit" class="btn btn-link text-decoration-none" style="color: #FF902F;">
+										<span>Didn't receive the OTP?</span>
+										<span><i class="fas fa-sync-alt"></i> Resend OTP</span>
+									</button>
+								</div>
+							</form>
 							<!-- /Account Form -->
 							
 						</div>

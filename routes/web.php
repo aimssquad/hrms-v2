@@ -662,6 +662,9 @@ Route::get('/get-country-code','App\Http\Controllers\LandingController@getCountr
 //Route::get('employerdashboard','LandingController@employerdashboard');
 Route::post('register', 'App\Http\Controllers\LandingController@otpRegister');
 Route::get('/verify-otp', 'App\Http\Controllers\LandingController@showOTPForm')->name('verify.otp');
+Route::post('/resend-otp', 'App\Http\Controllers\LandingController@resendOtp')
+    ->middleware('throttle:3,10') // Allow 3 requests per 10 minutes
+    ->name('resend.otp');
 Route::post('/register/complete', 'App\Http\Controllers\LandingController@completeRegistration')->name('register.complete');
 //Route::post('register', 'App\Http\Controllers\LandingController@Doregister');
 // Route::get('forgot-password', 'App\Http\Controllers\LandingController@indexfor');

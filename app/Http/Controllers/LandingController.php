@@ -84,6 +84,40 @@ class LandingController extends Controller
         });
         return redirect()->route('verify.otp')->with('email', $request->email);
     }
+
+    public function resendOtp(Request $request)
+    {
+        // Validate the email
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        // Check if the email exists in the cache (i.e., registration data exists)
+        if (!Cache::has('registration_data_' . $request->email)) {
+            Session::flash("error", "Invalid request. Please register again.");
+            return redirect()->route('register');
+        }
+
+        // Generate a new 6-digit OTP
+        $otp = rand(100000, 999999);
+
+        // Store the new OTP in the cache for 10 minutes
+        Cache::put('otp_' . $request->email, $otp, now()->addMinutes(10));
+
+        // Send the new OTP via email
+        $toemail = $request->email;
+        $data = ['otp' => $otp, 'email' => $request->email];
+        Mail::send("mail-otp", $data, function ($message) use ($toemail) {
+            $message
+                ->to($toemail)
+                ->subject("Your New One-Time Password (OTP) for Verification");
+            $message->from(env('MAIL_USERNAME'));
+        });
+        Session::flash("message", "success', 'A new OTP has been sent to your email.");
+        // Redirect back to the OTP verification page with a success message
+        return redirect()->route('verify.otp')->with('email', $request->email);
+    }
+
     public function showOTPForm()
     {
         return view('email-authentication');
