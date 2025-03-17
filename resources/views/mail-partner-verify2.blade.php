@@ -24,33 +24,52 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 30px; color: #333;"><strong>Hello  {{ strtoupper($name) }},</strong></p>
+                            <p style="font-size: 30px; color: #333;"><strong>Dear  {{ strtoupper($name) }},</strong></p>
                             <p style="font-size: 30px; color: #333;">
-                                Welcome to <strong> Skilled Workers Cloud (SWC)! </strong>We’re thrilled to have you as a verified partner. 
-                                Your account has been successfully verified, giving you access to our platform to seamlessly connect with multiple organizations.
+                                We’re pleased to inform you that your <strong>partner account verification is now complete,</strong> and
+                                your account has been <strong>successfully activated!</strong>You can now log in and start managing
+                                multiple organizations seamlessly.           
                             </p>
                             
 
-                            <p style="font-size: 30px; color: #333;"><strong>Your Login Credentials:</strong></p>
-                            <ul style="list-style-type: disc; padding-left: 20px;">
+                            <p style="font-size: 30px; color: #333;"><strong>Next Steps:</strong></p>
+                            <p style="font-size: 30px; color: #333;"><strong>Log in to your Partner Dashboard</strong>  using the details below:</p>
+                            <div style=" margin: 20px 0;">
+                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/subadmin"
+                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
+                                    Login URL: </a>
+                            </div>
+                            <p style="font-size: 30px; color: #333;"><strong>Username :</strong> {{ $email }}</p>
+                            <p style="font-size: 30px; color: #333;"><strong><b>Password :</strong> {{ $pass }}</p>
+                            {{-- <ul style="list-style-type: disc; padding-left: 20px;">
                                 <li><b>Username : </b> {{ $email }}</li>
                                 <li><b>Password : </b> {{ $pass }}</li>
-                            </ul>
-                            @if(empty($domain_name))
-                                <p style="font-size: 30px; color: #333;">Go to your website click <b>Partner Login</b> Button. Use your login Credential.</p>
-                            @else
-                                <div style=" margin: 20px 0;">
-                                    <a href="https://skilledworkerscloud.co.uk/hrms-v2/subadmin"
-                                        style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
-                                        Log in now to explore your partner dashboard:</a>
-                                </div>
-                            @endif
-                            <p style="font-size: 30px; color: #333;"><strong>What’s Next?</strong>
+                            </ul> --}}
+                        
+                            <p style="font-size: 30px; color: #333;">
+                                <strong>Copy and Share Your Organization Join Link</strong>
                             </p>
 							<ul style="list-style-type: disc; padding-left: 20px;">
-                                <li>Manage and collaborate with multiple organizations efficiently.</li>
-                                <li>Leverage our advanced HRMS features for <strong>recruitment, employee management, compliance, and more.</strong></li>
-								<li>Connect with businesses in need of HR expertise and support.</li>	
+                                <li style="font-size: 30px;">Once logged in, go to the <strong>Landing Page or Dashboard</strong></li>
+                                <li style="font-size: 30px;">Copy your <strong>organization join link</strong></li>
+								<li style="font-size: 30px;">Share it with the organizations you want to onboard</li>	
+                            </ul>
+
+                            <p style="font-size: 30px; color: #333;">
+                                <strong>Guide Your Organizations to Complete Their Details</strong>
+                            </p>
+                            <ul style="list-style-type: disc; padding-left: 20px;">
+                                <li style="font-size: 30px;">Ensure they <strong> fill in all required organizational details</strong></li>
+                                <li style="font-size: 30px;">This will help in <strong>smooth compliance and HR management</strong></li>
+                            </ul>
+
+                            <p style="font-size: 30px; color: #333;">
+                                <strong>Now You Can:</strong>
+                            </p>
+                            <ul style="list-style-type: disc; padding-left: 20px;">
+                                <li style="font-size: 30px;"><strong>Manage multiple organizations efficiently</strong></li>
+                                <li style="font-size: 30px;"><strong>Streamline HR processes, compliance, and workforce management</strong></li>
+                                <li style="font-size: 30px;"><strong>Leverage advanced HRMS tools for recruitment, analytics, and collaboration</strong></li>
                             </ul>
                         </td>
                     </tr>
@@ -59,7 +78,7 @@
 
                     <tr>
                         <td>
-                            <p style="font-size: 30px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
+                            <p style="font-size: 30px; padding: 0 20px; margin: 0;"><strong>Need Help?</strong>
                             </p>
                         </td>
                     </tr>
@@ -70,11 +89,11 @@
 
                     <tr>
                         <td style="font-size: 30px; padding: 0 20px;">
-                            <p style="margin: 0;">Our team is here to help! Contact us anytime at <a
-                                    href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
+                            <p style="margin: 0;">Our team is always ready to assist. Feel free to reach out for any guidance support at
+                                <a href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
                                 call <a href="tel: +44 7467284718"> +44 7467284718</a></p>
 
-                            <p style="font-size: 30px;">Let’s begin your journey towards seamless HR management and compliance!</p>
+                            <p style="font-size: 30px;">Let’s build a strong network and simplify HR management together!</p>
                         </td>
                     </tr>
                     <tr>

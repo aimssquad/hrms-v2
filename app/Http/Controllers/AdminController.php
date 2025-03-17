@@ -19976,12 +19976,13 @@ class AdminController extends Controller
                 $partner_data = DB::table('sub_admin_registrations')->where('email', $request->email)->first();
                 $toemail=$request->email;
                 if ($toemail != '') {
-                // $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password, "domain_name"=>$partner_data->domain_name];
-                //     Mail::send('mail-partner-verify', $data, function ($message) use ($toemail) {
-                //         $message->to($toemail, 'skilledworkerscloud')->subject
-                //             ('Your Partner Account Verification is Complete!');
-                //         $message->from(env('MAIL_USERNAME'),'skilledworkerscloud');
-                //     });
+                    // email template name is = mail-partner-verify
+                $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password, "domain_name"=>$partner_data->domain_name];
+                    Mail::send('mail-partner-verify1', $data, function ($message) use ($toemail) {
+                        $message->to($toemail, 'skilledworkerscloud')->subject
+                            ('Your Partner Account Verification is Complete & Activated!');
+                        $message->from(env('MAIL_USERNAME'),'skilledworkerscloud');
+                    });
                 }
                 Session::flash('message', 'Partner Organisation Information Successfully Updated.');
                

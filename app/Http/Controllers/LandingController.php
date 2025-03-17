@@ -400,7 +400,7 @@ class LandingController extends Controller
                 "web"  => "https://skilledworkerscloud.co.uk",
                 "url"  => "https://skilledworkerscloud.co.uk",
             ];
-        return view('mail-new-partner-registration2',$data);
+        return view('mail-partner-verify2',$data);
     }
 
     public function index()
