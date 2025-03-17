@@ -19978,7 +19978,7 @@ class AdminController extends Controller
                 if ($toemail != '') {
                     // email template name is = mail-partner-verify
                 $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password, "domain_name"=>$partner_data->domain_name];
-                    Mail::send('mail-partner-verify1', $data, function ($message) use ($toemail) {
+                    Mail::send('mail-partner-verify2', $data, function ($message) use ($toemail) {
                         $message->to($toemail, 'skilledworkerscloud')->subject
                             ('Your Partner Account Verification is Complete & Activated!');
                         $message->from(env('MAIL_USERNAME'),'skilledworkerscloud');
