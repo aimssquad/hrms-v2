@@ -50,26 +50,26 @@
                                 <strong>Copy and Share Your Organization Join Link</strong>
                             </p>
 							<ul style="list-style-type: disc; padding-left: 20px;">
-                                <li style="font-size: 30px;">Once logged in, go to the <strong>Landing Page or Dashboard</strong></li>
-                                <li style="font-size: 30px;">Copy your <strong>organization join link</strong></li>
-								<li style="font-size: 30px;">Share it with the organizations you want to onboard</li>	
+                                <li style="font-size: 30px; font-weight: normal;">Once logged in, go to the <strong>Landing Page or Dashboard</strong></li>
+                                <li style="font-size: 30px; font-weight: normal;">Copy your <strong>organization join link</strong></li>
+                                <li style="font-size: 30px; font-weight: normal;">Share it with the organizations you want to onboard</li>
                             </ul>
 
                             <p style="font-size: 30px; color: #333;">
                                 <strong>Guide Your Organizations to Complete Their Details</strong>
                             </p>
                             <ul style="list-style-type: disc; padding-left: 20px;">
-                                <li style="font-size: 30px;">Ensure they <strong> fill in all required organizational details</strong></li>
-                                <li style="font-size: 30px;">This will help in <strong>smooth compliance and HR management</strong></li>
+                                <li style="font-size: 30px; font-weight: normal;">Ensure they <strong> fill in all required organizational details</strong></li>
+                                <li style="font-size: 30px; font-weight: normal;">This will help in <strong>smooth compliance and HR management</strong></li>
                             </ul>
 
                             <p style="font-size: 30px; color: #333;">
                                 <strong>Now You Can:</strong>
                             </p>
                             <ul style="list-style-type: disc; padding-left: 20px;">
-                                <li style="font-size: 30px;"><strong>Manage multiple organizations efficiently</strong></li>
-                                <li style="font-size: 30px;"><strong>Streamline HR processes, compliance, and workforce management</strong></li>
-                                <li style="font-size: 30px;"><strong>Leverage advanced HRMS tools for recruitment, analytics, and collaboration</strong></li>
+                                <li style="font-size: 30px; font-weight: normal;"><strong>Manage multiple organizations efficiently</strong></li>
+                                <li style="font-size: 30px; font-weight: normal;"><strong>Streamline HR processes, compliance, and workforce management</strong></li>
+                                <li style="font-size: 30px; font-weight: normal;"><strong>Leverage advanced HRMS tools for recruitment, analytics, and collaboration</strong></li>
                             </ul>
                         </td>
                     </tr>

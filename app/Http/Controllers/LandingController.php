@@ -397,6 +397,7 @@ class LandingController extends Controller
                 "p_no" => "8963257458",
                 "email" => "ranjan@yopmail.com",
                 "pass" => "Ranjan@123",
+                "password" => "Ranjan@123",
                 "web"  => "https://skilledworkerscloud.co.uk",
                 "url"  => "https://skilledworkerscloud.co.uk",
             ];
