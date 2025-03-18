@@ -4254,7 +4254,6 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $toemail = $job->emp_ps_email;
             // dd($toemail);
-            // return view('reminder-email-90days', $data);
             Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
                 $message->to($toemail)->subject('Your Visa is Due to Expire in 90 Days');
                 $message->from(env('MAIL_USERNAME'));

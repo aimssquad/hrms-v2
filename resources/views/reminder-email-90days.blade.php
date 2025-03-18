@@ -40,8 +40,8 @@
                             </p> --}}
                             {{-- <p style="font-size: 30px; color: #333;">Date : {{date('d/m/Y',strtotime($offer->visa_exp_date.'  - 90  days'))}}</p> --}}
                             <p style="font-size: 30px; color: #333;">
-                                We hope this email finds you well. This is a reminder that your visa is set to expire on {{date('d/m/Y',strtotime($offer->visa_exp_date))}}, 90 days from today. To maintain your
-                                employment with {{ $Roledata->com_name }} it is essential to renew your visa and provide updated right-to-work documentation.                                
+                                We hope this email finds you well. This is a reminder that your visa is set to expire on <strong>{{date('d/m/Y',strtotime($offer->visa_exp_date))}},</strong> 90 days from today. To maintain your
+                                employment with <strong>{{ $Roledata->com_name }}</strong> it is essential to renew your visa and provide updated right-to-work documentation.                                
                             </p>
                             <p style="font-size: 30px; color: #333;"><strong>Example of Required Documentation:</strong>
                             </p>
