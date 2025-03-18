@@ -4253,13 +4253,12 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
 
             $toemail = $job->emp_ps_email;
-            //return view('reminder-email-90days', $data);
-            // Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
-            //     $message->to($toemail, 'Skilledworkescloud')->subject
-            //         ('Right to Work Documentation – Temporary Visa 90-day Reminder');
-
-            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            // });
+            // dd($toemail);
+            // return view('reminder-email-90days', $data);
+            Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
+                $message->to($toemail)->subject('Your Visa is Due to Expire in 90 Days');
+                $message->from(env('MAIL_USERNAME'));
+            });
 
             $toemail = $Roledata->authemail;
 

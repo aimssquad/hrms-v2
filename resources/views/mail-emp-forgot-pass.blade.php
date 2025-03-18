@@ -46,7 +46,7 @@
                             </div>
 
                             <p style="font-size: 30px; color: #333;">
-                                or security reasons, we recommend changing your password after logging in.
+                                For security reasons, we recommend changing your password after logging in.
                             </p>
                             <p style="font-size: 30px; color: #333;">
                                 If you did not request a password reset or need further assistance, please contact your HR
