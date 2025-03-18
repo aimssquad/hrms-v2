@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
+    <title>Follow-Up Reminder: Your Visa Expires in 90 Days</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
 
@@ -33,12 +33,8 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 30px; color: #333;">Dear {{ $offer->emp_fname }} {{ $offer->emp_mname }} {{ $offer->emp_lname }},</p>
-                            {{-- <p style="font-size: 30px; color: #333;">
-                                {{ $offer->emp_pr_street_no}} @if( $offer->emp_per_village) ,{{ $offer->emp_per_village}} @endif @if( $offer->emp_pr_state) ,{{ $offer->emp_pr_state}} @endif @if( $offer->emp_pr_city) ,{{ $offer->emp_pr_city}} @endif
-                                @if( $offer->emp_pr_pincode) ,{{ $offer->emp_pr_pincode}} @endif  @if( $offer->emp_pr_country) ,{{ $offer->emp_pr_country}} @endif
-                            </p> --}}
-                            {{-- <p style="font-size: 30px; color: #333;">Date : {{date('d/m/Y',strtotime($offer->visa_exp_date.'  - 90  days'))}}</p> --}}
+                            <p style="font-size: 30px; color: #333;"><strong>Dear {{ $offer->emp_fname }} {{ $offer->emp_mname }} {{ $offer->emp_lname }},</strong></p>
+                          
                             <p style="font-size: 30px; color: #333;">
                                 We hope this email finds you well. This is a reminder that your visa is set to expire on <strong>{{date('d/m/Y',strtotime($offer->visa_exp_date))}},</strong> 90 days from today. To maintain your
                                 employment with <strong>{{ $Roledata->com_name }}</strong> it is essential to renew your visa and provide updated right-to-work documentation.                                

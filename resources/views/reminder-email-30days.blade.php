@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
+    <title>Follow-Up Reminder: Your Visa Expires in 30 Days</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
 
@@ -20,7 +20,7 @@
                             <table style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
                                     <td width="25%" style="padding-left: 20px;">
-                                        <img src="{{ asset('storage/'.$Roledata->logo)}}" alt="" width="100%">
+                                        <img src="{{ asset('storage/app/public/'.$Roledata->logo)}}" alt="" width="100%">
                                     </td>
                                     <td width="60%" style="padding: 0;margin: 0;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%">
@@ -33,91 +33,87 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Dear {{ $offer->emp_fname }} {{ $offer->emp_mname }} {{ $offer->emp_lname }},</p>
-                            <p style="font-size: 16px; color: #333;">
-                                {{ $offer->emp_pr_street_no}} @if( $offer->emp_per_village) ,{{ $offer->emp_per_village}} @endif @if( $offer->emp_pr_state) ,{{ $offer->emp_pr_state}} @endif @if( $offer->emp_pr_city) ,{{ $offer->emp_pr_city}} @endif
-                                @if( $offer->emp_pr_pincode) ,{{ $offer->emp_pr_pincode}} @endif  @if( $offer->emp_pr_country) ,{{ $offer->emp_pr_country}} @endif
+                            <p style="font-size: 30px; color: #333;"><strong>Dear {{ $offer->emp_fname }} {{ $offer->emp_mname }} {{ $offer->emp_lname }},</strong></p>
+                          
+                            <p style="font-size: 30px; color: #333;">
+                                We hope this email finds you well. This is a reminder that your visa is set to expire on <strong>{{date('d/m/Y',strtotime($offer->visa_exp_date))}},</strong> 30 days from today. To maintain your
+                                employment with <strong>{{ $Roledata->com_name }}</strong> it is essential to renew your visa and provide updated right-to-work documentation.                                
                             </p>
-                            <p style="font-size: 16px; color: #333;">Date : {{date('d/m/Y',strtotime($offer->visa_exp_date.'  - 30  days'))}}</p>
-                            <p style="font-size: 16px; color: #333;">
-                                Further to your employment on a temporary visa, I am writing to remind you that this visa is due to
-                                expire on {{date('d/m/Y',strtotime($offer->visa_exp_date))}}. You are therefore requested to make arrangements to renew your right to
-                                work documentation in order for you to remain in employment.
+                            <p style="font-size: 30px; color: #333;"><strong>Example of Required Documentation:</strong>
                             </p>
-                            <p style="font-size: 16px; color: #333;">Examples of the documents we require are as follows:
+                            <ul style="list-style-type: disc; margin-left: 20px;">
+                                <li>A Share Code with HO Reference Number to prove your Right-to-Work.</li>
+                                <li>A copy of your completed visa application and/or Document Checklist.</li>
+                                <li>Proof of postage and/or Submitted application.</li>
+                                <li>Acknowledgment letter or email from the Home Office confirming receipt of your application.</li>
+                                <li>If applicable, a Certificate of Application providing you with the right to work (must always be dated within 6 months).</li>
+                            </ul>
+                            <p style="font-size: 30px; color: #333;"><strong>What You Need to Do:</strong>
                             </p>
-                            <ol style="font-size: 16px; color: #333;">
-                                <li>A copy of your completed application; and</li>
-                                <li>Proof of postage; and/or</li>
-                                <li> An acknowledgement letter from the Home Office confirming receipt of your application</li>
-                                <li> Where a Certificate of Application provides you with the right to work it is your responsibility
-                                to ensure your certificate of application is always dated within 6 months</li>
+                            <p style="font-size: 30px; color: #333;">Please submit your updated documents regarding your Right-to-Work to the HR team no later
+                                than <strong>15 days from the issuance of this letter.</strong> Failure to provide any update of your
+                                documents may result in a review of your ongoing employment.                                                               
+                            </p>
+                            <p style="font-size: 30px; color: #333;">
+                                <strong>Employer's Responsibilities:</strong>
+                            </p>
+                            <ul style="list-style-type: disc; margin-left: 20px;">
+                                <li>As required by the Immigration, Asylum, and Nationality Act 2006, we must ensure
+                                    all employees have valid right-to-work documentation.</li>
+                                <li>If necessary, we will contact the Home Office Employer Checking Service to confirm
+                                    your application status. In case of a negative verification notice, we may not be able
+                                    to continue your employment unless alternative evidence is provided.
+                                </li>
+                            </ul>
+                            <p style="font-size: 30px; color: #333;">We understand that visa renewals can be a complex process. Please do not hesitate to contact
+                                us at <strong>{{ $Roledata->email }}</strong> if you have any concerns or require assistance.
+                            </p>
+                            <p style="font-size: 30px; color: #333;"><strong>Next Steps:</strong></p>
+                            <ol style="list-style-type: decimal; margin-left: 20px;">
+                                <li>Gather and submit the required documents and update your visa application information promptly.</li>
+                                <li>Reach out to HR for guidance if needed.</li>
                             </ol>
-                            <p style="font-size: 16px; color: #333;">{{ $Roledata->com_name }}  will complete a check with the Home Office Employer Checking Service to
-                                obtain confirmation of any application at the time of your visa expiring or at 5 monthly intervals
-                                dependent on the checking requirements for the right to work documents you provide to us. Where
-                                a negative verification notice is received, we cannot continue to employ you, unless you are able to
-                                provide alternative evidence to satisfy us that you have the right to work.</p>
-
-                            {{-- <div style="text-align: center; margin: 20px 0;">
-                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/register"
-                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
-                                    Complete Your Organization Profile</a>
-                            </div> --}}
-
-                            <p style="font-size: 16px; color: #333;">
-                                As previously advised, the immigration, Asylum and the Nationality Act 2006 requires all employers
-                                to make documentation checks at the start of every new colleague’s employment. This legislation
-                                also requires employers to carry out follow-up checks where the documents provided only give a
-                                colleague the temporary right to work in the UK. This also forms part of the employment with
-                                {{ $Roledata->com_name }}
+                            <p style="font-size: 30px; color: #333;">Your cooperation is crucial to ensure compliance with employment and immigration laws,
+                                and we are here to support you through this process.
                             </p>
-                            <p style="font-size: 16px; color: #333;">
-                                Please bring your original documents into the HR team without delay or no later than & 15 days of
-                                issuance of letter;. Otherwise, we will have no option but to review your ongoing right to work
-                                when your current visa expires. A failure to provide sufficient document evidencing your ongoing
-                                right to work in the UK could result {{ $Roledata->com_name }} taking action, which may include
-                                considering the summary termination of your employment.
-                                Please do not hesitate to contact me if you have any concern or would like to discuss this further.
-                            </p>
+
+                            
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-size: 20px; padding: 0 20px;">
+                            <i style="font-size: 20px;"><strong>Disclaimer:</strong> This email, including any attachments, is intended solely for the designated recipient(s) and may contain confidential or privileged information. Any unauthorized access,
+                                distribution, or reliance on its content without explicit written permission is strictly prohibited. If you have received this email in error, please delete all copies and notify the sender
+                                immediately, with a copy to {{ $Roledata->email }} .
+                            </i>
+
+                            <i style="font-size: 20px;">
+                                Please note that this email does not guarantee a permanent position within the company. Employment status will be determined based on the terms outlined in your employment contract.
+                            </i> 
+
+                            <i style="font-size: 20px;">
+                                While <strong> {{$Roledata->com_name}} </strong> employs the latest virus protection measures, we strongly recommend conducting your own virus scan before opening any attachments. 
+                                {{$Roledata->com_name}} is not responsible for any loss or damage resulting from software viruses
+                            </i>     
                         </td>
                     </tr>
 
                     <!-- Footer -->
 
-                    <tr>
-                        <td>
-                            <p style="font-size: 24px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
-                            </p>
-                        </td>
-                    </tr>
 
                     <tr>
                         <td height="20"></td>
                     </tr>
 
-                    <tr>
-                        <td style="font-size: 18px; padding: 0 20px;">
-                            <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
-                                    href="mailto: {{ $Roledata->email }}">{{ $Roledata->email }}</a> or
-                                call <a href="tel: {{ $Roledata->p_no }}">{{ $Roledata->p_no }}</a></p>
-
-                            <p>Let’s get started on your journey toward efficient HR and compliance!</p>
-                        </td>
-                    </tr>
+                    
 
                     <tr>
                         <td height="20"></td>
                     </tr>
 
 
-                    <!-- Text Section -->
-
-                    <tr>
-                        <td style="padding: 0 20px;">
-                            <img src="{{ asset('storage/'.$Roledata->logo)}}" alt="" style="width: 150px;">
-                        </td>
-                    </tr>
+                   
 
                     <tr>
                         <td height="30"></td>
@@ -125,7 +121,7 @@
 
                     <tr>
                         <td style="text-align: left; color: #333; font-size: 20px; padding: 0 20px;">
-                            <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
+                            <p style="margin: 0 0 10px;"><strong>Best regards,</strong></p>
                         </td>
                     </tr>
 
@@ -135,14 +131,13 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <p style="margin: 0 0 20px; font-size: 18px; font-weight: bold; color: #0044cc;">{{ $Roledata->com_name }}
-                                Team</p>
+                            <p style="margin: 0 0 20px; font-size: 18px; font-weight: bold; color: #0044cc;"><strong>{{ $Roledata->com_name }} HR Team</strong></p>
                         </td>
                     </tr>
 
                     <!-- Contact Info Section -->
                     <tr>
-                        <td style="color: #333; font-size: 16px; line-height: 1.8; padding: 0 20px;">
+                        <td style="color: #333; font-size: 30px; line-height: 1.8; padding: 0 20px;">
                             <!-- Email -->
                             <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/email.png" alt="Email"
@@ -158,19 +153,19 @@
                                 <strong>Phone:</strong> {{ $Roledata->p_no }}
                             </p>
                             <!-- Landline -->
-                            <p style="margin: 5px 0;">
+                            {{-- <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/telephone.png" alt="Landline"
                                     style="width: 24px; vertical-align: middle; margin-right: 5px;">
                                 <strong>Landline:</strong> {{ $Roledata->land }}
-                            </p>
+                            </p> --}}
                             <!-- Website -->
-                            <p style="margin: 5px 0;">
+                            {{-- <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/web.png" alt="Website"
                                     style="width: 24px; vertical-align: middle; margin-right: 5px;">
                                 <strong>Website:</strong>
                                 <a href="{{ $Roledata->website }}"
                                     style="color: #0044cc; text-decoration: none;">{{ $Roledata->website }}</a>
-                            </p>
+                            </p> --}}
                         </td>
                     </tr>
                     <tr>
@@ -184,7 +179,7 @@
                                         <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%">
                                     </td>
                                     <td width="60%" style="background-color: #151831; padding: 0; margin: 0; color: #67839c; text-align: center; height: 50px;border-radius: 16px 0 0 0;">
-                                        powered by <a href="#" style="color: #67839c;" target="_blank">Skilled Workers Cloud</a>
+                                       <a href="#" style="color: #67839c;" target="_blank"></a>
                                     </td>
                                 </tr>
                             </table>
