@@ -283,11 +283,21 @@ class EmployeeCornerOrganisationController extends Controller
             $users = DB::table("users")
                 ->where("id", "=", $user_id)
                 ->first();
-            $holidays = DB::table("holiday")
+            // $holidays = DB::table("holiday")
 
-                ->where("emid", "=", $users->emid)
-                ->get();
-                //dd($holidays);
+            //     ->where("emid", "=", $users->emid)
+            //     ->get();
+                //-------------- new code
+            $holidays = Holiday::where("holiday.emid", "=", $users->emid)
+            ->select("holiday_type.name", "holiday.*")
+            ->join(
+                "holiday_type",
+                "holiday.holiday_type",
+                "=",
+                "holiday_type.id"
+            )
+            ->get();  
+
             return view($this->_routePrefix . '.holiday-calendar',compact("holidays"));
             // return view(
             //     "employee-corner/holiday-calendar",

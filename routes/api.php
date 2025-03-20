@@ -36,7 +36,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('leave_no',[LeaveController::class, 'leaveNo']);
     Route::get('get-employee',[LeaveController::class, 'getAllEmployee']);
     Route::get('leave-balance',[LeaveController::class, 'getAllLeaveBalance']);
-
+    Route::get('leave-calendar',[LeaveController::class, 'getLeaveCalendar']);
     
     
     Route::get('show_daily_attendance',[AttendanceController::class, 'showDailyAttendance']);

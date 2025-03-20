@@ -2065,32 +2065,33 @@ class RecruitmentController extends Controller
                     'email' => $Roleempdata->email, 'msg' => $request->msg);
                 $toemail = $request->email;
                 // return view('mailormsgcenrecru',$data);
-                // Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
-                //     $message->to($toemail, 'Skillworkescloud')->subject
-                //         ($sub);
-                //     foreach ($path as $filePath) {
+                Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
+                    $message->to($toemail, 'Skillworkescloud')->subject
+                        ($sub);
+                    foreach ($path as $filePath) {
 
-                //         $message->attach($filePath);
-                //     }
+                        $message->attach($filePath);
+                    }
 
-                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                // });
+                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                });
 
                 if ($request->cc != '') {
                     $sub = $request->subject;
                     $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
                         'email' => $Roleempdata->email, 'msg' => $request->msg);
                     $toemail = $request->cc;
-                    // Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
-                    //     $message->to($toemail, 'Skillworkescloud')->subject
-                    //         ($sub);
-                    //     foreach ($path as $filePath) {
+                    //return view('mailormsgcenrecru',$data);
+                    Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
+                        $message->to($toemail, 'Skillworkescloud')->subject
+                            ($sub);
+                        foreach ($path as $filePath) {
 
-                    //         $message->attach($filePath);
-                    //     }
+                            $message->attach($filePath);
+                        }
 
-                    //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                    // });
+                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                    });
 
                 }
             } else {

@@ -111,14 +111,14 @@ return $output;
              <h4 class="card-title">Shift Schedule</h4>
              <div>
                <!-- Excel Link -->
-               <a href="path_to_excel_export"  class="btn-download btn-download-excel me-0" >
+               {{-- <a href="path_to_excel_export"  class="btn-download btn-download-excel me-0" >
                    Export to Excel
-               </a>
+               </a> --}}
                
                <!-- PDF Link -->
-               <a href="path_to_pdf_export" class="btn-download btn-download-pdf" style="margin-right: 10px;">
+               {{-- <a href="path_to_pdf_export" class="btn-download btn-download-pdf" style="margin-right: 10px;">
                    Export to PDF
-               </a>
+               </a> --}}
            </div>
              @if(isset($department) ? $department : '')
                    <form  method="post" action="{{ url('rota/duty-roster-report') }}" enctype="multipart/form-data" >
@@ -128,7 +128,7 @@ return $output;
                        <input  value="{{ isset($designation) ? $designation : '' }}"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
                        <input  value="{{ isset($start_date) ? $start_date : '' }}"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                        <input  value="{{ isset($end_date) ? $end_date : '' }}"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                       <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn btn-default" style="background:none !important;margin-top: -30px;float:right;" type="submit"><img  style="width: 35px;" src="{{ asset('img/dnld-pdf.png')}}"></button>    
+                       <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn-download btn-download-pdf" style="background:none !important;margin-top: -30px;float:right;" type="submit"></button>    
                    </form>
                @endif
                
@@ -140,7 +140,7 @@ return $output;
                        <input  value="{{ isset($designation) ? $designation : '' }}"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
                        <input  value="{{ isset($start_date) ? $start_date : '' }}"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                        <input  value="{{ isset($end_date) ? $end_date : '' }}"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                       <button data-toggle="tooltip" data-placement="bottom" title="Download excel"  class="btn btn-default" style="background:none !important;margin-top: -30px;float:right;margin-right: 15px;" type="submit"><img  style="width: 35px;" src="{{ asset('img/excel-dnld.png')}}"></button>    
+                       <button data-toggle="tooltip" data-placement="bottom" title="Download excel"  class="btn-download btn-download-excel me-0" style="background:none !important;margin-top: -30px;float:right;margin-right: 15px;" type="submit"></button>    
                    </form>
                @endif
           </div>

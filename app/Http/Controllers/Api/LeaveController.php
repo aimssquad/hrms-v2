@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\LeaveType;
 use App\Models\User;
 use App\Models\offdays;
+use App\Models\Holiday;
 use App\Models\leaveAllocation;
 use Illuminate\Http\Request;
 use App\Helpers\Api\Helper;
@@ -603,5 +604,97 @@ class LeaveController extends Controller
         }
 
     }
+
+
+    public function getLeaveCalendar(Request $request)
+    {
+        try {
+            if (auth()->check()) {
+                $empDtl = auth()->user();
+                $emplayeeId = $empDtl->employee_id;
+                $emid = $empDtl->emid;
+
+                // Retrieve Duty Roster
+                $dutyEachEmployee = DB::table('duty_roster')
+                    ->where('emid', $emid)
+                    ->where('employee_id', $emplayeeId)
+                    ->get();
+
+                // Retrieve Leave Applications
+                $leaveApply = DB::table('leave_apply')
+                    ->where('emid', $emid)
+                    ->where('employee_id', $emplayeeId)
+                    ->get();
+
+                // Retrieve Holidays
+                $holiday_rs = Holiday::where("holiday.emid", "=", $emid)
+                    ->select("holiday_type.name", "holiday.*")
+                    ->join(
+                        "holiday_type",
+                        "holiday.holiday_type",
+                        "=",
+                        "holiday_type.id"
+                    )
+                    ->get();
+
+                // Retrieve Off Days
+                $offDays = DB::table('offday')
+                    ->where('emid', $emid)
+                    ->where('shift_code', $dutyEachEmployee[0]->shift_code)
+                    ->get();
+
+                // Combine data into calendarData
+                $calendarData = [
+                    'duty_roster' => $dutyEachEmployee,
+                    'leave_applications' => $leaveApply,
+                    'holidays' => $holiday_rs,
+                    'off_days' => $offDays,
+                ];
+
+                function replaceNullWithEmpty($data) {
+                    if (is_array($data)) {
+                 
+                        foreach ($data as $key => $value) {
+                            $data[$key] = replaceNullWithEmpty($value);
+                        }
+                    } elseif (is_object($data)) {
+                      
+                        foreach ($data as $key => $value) {
+                            $data->$key = replaceNullWithEmpty($value);
+                        }
+                    } elseif ($data === null) {
+              
+                        $data = "";
+                    }
+                    return $data;
+                }
+                $calendarData = replaceNullWithEmpty($calendarData);
+
+                $dynamicFlag = 1;
+                $data = $calendarData;
+                $message = "Employee Leave Calendar";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            } else {
+                $dynamicFlag = 1;
+                $data = [];
+                $message = "Something Went Wrong";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            }
+
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        }
+    }
+
+
+
 
 } //End Class
