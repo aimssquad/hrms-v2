@@ -2066,14 +2066,11 @@ class RecruitmentController extends Controller
                 $toemail = $request->email;
                 // return view('mailormsgcenrecru',$data);
                 Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
-                    $message->to($toemail, 'Skillworkescloud')->subject
-                        ($sub);
+                    $message->to($toemail)->subject($sub);
                     foreach ($path as $filePath) {
-
                         $message->attach($filePath);
                     }
-
-                    $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                    $message->from('noreply@skilledworkerscloud.co.uk');
                 });
 
                 if ($request->cc != '') {
@@ -2081,16 +2078,12 @@ class RecruitmentController extends Controller
                     $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
                         'email' => $Roleempdata->email, 'msg' => $request->msg);
                     $toemail = $request->cc;
-                    //return view('mailormsgcenrecru',$data);
                     Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub, $path) {
-                        $message->to($toemail, 'Skillworkescloud')->subject
-                            ($sub);
+                        $message->to($toemail)->subject($sub);
                         foreach ($path as $filePath) {
-
                             $message->attach($filePath);
                         }
-
-                        $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
+                        $message->from('noreply@skilledworkerscloud.co.uk');
                     });
 
                 }
@@ -2099,11 +2092,10 @@ class RecruitmentController extends Controller
                 $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
                     'email' => $Roleempdata->email, 'msg' => $request->msg);
                 $toemail = $request->email;
-                // Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
-                //     $message->to($toemail, 'Skillworkescloud')->subject
-                //         ($sub);
-                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                // });
+                Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
+                    $message->to($toemail)->subject($sub);
+                    $message->from('noreply@skilledworkerscloud.co.uk');
+                });
 
                 if ($request->cc != '') {
 
@@ -2111,17 +2103,14 @@ class RecruitmentController extends Controller
                     $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
                         'email' => $Roleempdata->email, 'msg' => $request->msg);
                     $toemail = $request->cc;
-                    // Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
-                    //     $message->to($toemail, 'Skillworkescloud')->subject
-                    //         ($sub);
-                    //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                    // });
+                    Mail::send('mailormsgcenrecru', $data, function ($message) use ($toemail, $sub) {
+                        $message->to($toemail)->subject($sub);
+                        $message->from('noreply@skilledworkerscloud.co.uk');
+                    });
 
                 }
             }
-
             Session::flash('message', 'Message Send Successfully .');
-
             return redirect('org-recruitment/message-centre');
         } else {
             return redirect('/');
