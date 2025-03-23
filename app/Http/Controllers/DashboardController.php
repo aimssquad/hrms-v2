@@ -4242,6 +4242,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
     {
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
+            //dd($email);
             $Roledata = DB::table('registration')->where('status', '=', 'active')
 
                 ->where('email', '=', $email)
@@ -4253,10 +4254,11 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
 
             $toemail = $job->emp_ps_email;
+            //dd($toemail);
             // return view('reminder-email-90days', $data);
             Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
                 $message->to($toemail)->subject('Your Visa is Due to Expire in 90 Days');
-                $message->from(env('MAIL_USERNAME'));
+                $message->from('sharmaranjanetc@gmail.com');
             });
 
             $toemail = $Roledata->authemail;
