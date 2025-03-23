@@ -4253,7 +4253,8 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
 
-            $toemail = $job->emp_ps_email;
+            // $toemail = $job->emp_ps_email;
+            $toemail = "riashakarmakar71@gmail.com";
             //dd($toemail);
             // return view('reminder-email-90days', $data);
             Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
