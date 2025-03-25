@@ -33,39 +33,39 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 30px; color: #333;"><strong>Dear {{strtoupper($com_name)}},</strong></p>
-                            <p style="font-size: 30px; color: #333;">
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; color: #333;"><strong>Dear {{strtoupper($com_name)}},</strong></p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; color: #333;">
 								Welcome to <strong>Skilled Workers Cloud HRMS!</strong> 
 								Thank you for registering as a partner with us. We are excited to have you on board and look forward 
 								to helping you connect with and support multiple organizations seamlessly through our platform.
 							</p>
 
 						
-							<p style="font-size: 30px; color: #333;"><strong>Your Login Details:</strong></p>	
+							<p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; color: #333;"><strong>Your Login Details:</strong></p>	
                             <div style=" margin: 20px 0;">
                                 <a href="https://skilledworkerscloud.co.uk/hrms-v2/subadmin"
-                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 30px;">👉
+                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;">👉
                                     Login URL </a>
                             </div>
                             <ul style="list-style-type: disc; padding-left: 20px;">
-                                <li style="font-size: 30px;"><b>Username : </b> {{ $email }}</li>
-                                <li style="font-size: 30px;"><b>Password : </b> {{ $pass }}</li>
+                                <li style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;"><b>Username : </b> {{ $email }}</li>
+                                <li style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;"><b>Password : </b> {{ $pass }}</li>
                             </ul>
-                            <p style="font-size: 30px; color: #333;"><strong>Next Steps</strong>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; color: #333;"><strong>Next Steps</strong>
                             </p>
-                            <p style="font-size: 30px; color: #333;">
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; color: #333;">
                                 Please allow<strong> 48 to 72 hours </strong>for us to complete your partner profile verification. Once the
                                 verification process is completed, you will receive a confirmation email.
                             </p>
 						
-							<p style="font-size: 30px; color: #333;"><strong>After Verification, You Can:</strong>
+							<p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; color: #333;"><strong>After Verification, You Can:</strong>
                             </p>
 							<ul style="list-style-type: disc; padding-left: 20px;">
-                                <li style="font-size: 30px;">
+                                <li style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;">
                                     <strong>Access multiple organizations </strong>and manage them efficiently.
                                 </li>
-                                <li style="font-size: 30px;"><strong>Manage HR processes, compliance, and workforce operations effortlessly</strong></li>
-								<li style="font-size: 30px;">
+                                <li style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;"><strong>Manage HR processes, compliance, and workforce operations effortlessly</strong></li>
+								<li style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;">
                                     <strong>Utilize powerful HRMS tools </strong> for recruitment, analytics, and collaboration.
                                 </li>
 								
@@ -77,7 +77,7 @@
 
                     <tr>
                         <td>
-                            <p style="font-size: 30px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
                             </p>
                         </td>
                     </tr>
@@ -89,24 +89,31 @@
                     <tr>
                         <td style="font-size: 18px; padding: 0 20px;">
                             
-                            <p style="margin: 0; font-size: 30px;">Our team is here to help at every step. Feel free to contact us for guidance or support at <a style="font-size: 30px;"
+                            <p style="margin: 0; font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;">Our team is here to help at every step. Feel free to contact us for guidance or support at <a 
                                     href="mailto: info@skilledworkerscloud.co.uk"><strong>info@skilledworkerscloud.co.uk</strong></a> or
                                 call <a href="tel: +44 7467284718"><strong>+44 7467284718.</strong></a></p>
 
-                            <p style="font-size: 30px;">Let’s work together to simplify HR and compliance management for all organizations you
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;">Let’s work together to simplify HR and compliance management for all organizations you
                                 partner with!
                                 </p>
                         </td>
                     </tr>
                     <tr>
                         <td style="font-size: 20px; padding: 0 20px;">
-                            <i style="font-size: 20px;"><strong>Disclaimer:</strong> This email, including any attachments, is intended solely for the designated recipient(s) and may contain confidential or
-                                 privileged information. Unauthorized access, distribution, or reliance on its content without our explicit written permission is strictly prohibited. 
-                                 If you have received this email in error, please delete all copies and notify the sender immediately, with a copy to info@skilledworkerscloud.co.uk.</i>
-                            <i style="font-size: 20px;">
-                                While <strong>Skilled Workers Cloud HRMS</strong> employs the latest virus protection measures, we strongly recommend conducting your own virus scan before opening any attachments.
-                                 <strong>SWC HRMS</strong> is not responsible for any loss or damage resulting from software viruses.
-                            </i>     
+                            <p style="font-size: 10px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2;">
+                                <i><strong>Disclaimer:</strong> This email, including any attachments, is intended solely for the designated recipient(s) and may contain confidential or
+                                    privileged information. Unauthorized access, distribution, or reliance on its content without our explicit written permission is strictly prohibited. 
+                                    If you have received this email in error, please delete all copies and notify the sender immediately, with a copy to info@skilledworkerscloud.co.uk.</i>
+                            </p>
+                            
+                            
+                            <p style="font-size: 10px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2;">
+                                <i>
+                                    While <strong>Skilled Workers Cloud HRMS</strong> employs the latest virus protection measures, we strongly recommend conducting your own virus scan before opening any attachments.
+                                     <strong>SWC HRMS</strong> is not responsible for any loss or damage resulting from software viruses.
+                                </i> 
+                            </p>
+                                
                         </td>
                     </tr>
 
@@ -119,7 +126,7 @@
 
                     <tr>
                         <td style="padding: 0 20px;">  
-                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 350px;"> 
+                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 150px;"> 
                         </td>
                     </tr>
 
@@ -128,7 +135,7 @@
                     </tr>
 
                     <tr>
-                        <td style="text-align: left; color: #333; font-size: 30px; padding: 0 20px;">
+                        <td style="text-align: left; color: #333; font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px;">
                             <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
                         </td>
                     </tr>
@@ -139,13 +146,13 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <p style="margin: 0 0 20px; font-size: 30px; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
+                            <p style="margin: 0 0 20px; font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; font-weight: bold; color: #0044cc;">SWC HRMS Team</p>
                         </td>
                     </tr>
 
                     <!-- Contact Info Section -->
                     <tr>
-                        <td style="color: #333; font-size: 30px; line-height: 1.8; padding: 0 20px;">
+                        <td style="color: #333; font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.8; padding: 0 20px;">
                             <!-- Email -->
                             <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/email.png" alt="Email"

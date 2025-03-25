@@ -45,7 +45,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
-				@if($user_type == 'employee')
+				{{-- @if($user_type == 'employee')
                     @foreach($sidebarItems['Leave Management'] as $rotaItem)
                         @if($rotaItem['submenu_name'] == 'Category' && $rotaItem['can_add'] == 1)
                             <a href="{{url('leave/new-leave-type')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Catagory</a>
@@ -53,7 +53,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     @endforeach
 				@elseif($user_type == 'employer')
 				<a href="{{url('leave/new-leave-type')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Catagory</a>
-				@endif
+				@endif --}}
 				{{-- <div class="view-icons">
 					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
 					<a href="{{url('organization/emplist')}}" class="list-view btn btn-link active"><i class="fa-solid fa-bars"></i></a>

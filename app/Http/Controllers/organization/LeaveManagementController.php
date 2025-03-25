@@ -130,6 +130,7 @@ class LeaveManagementController extends Controller
                     ->where("email", "=", $email)
                     ->first();
                 //return view("leave/manage-leave-type", $data);
+                //return view($this->_routePrefix . '.new-leave-type2',$data);
                 return view($this->_routePrefix . '.new-leave-type',$data);
             } else {
                 return redirect("/");
@@ -290,17 +291,11 @@ class LeaveManagementController extends Controller
         try {
             if (!empty(Session::get("emp_email"))) {
                 $reg = Session::get("emid");
-                $data["leave_type_rs"] = LeaveType::where(
-                    "emid",
-                    "=",
-                    $reg
-                )
-                    ->where("leave_type_status", "=", "active")
+                $data["leave_type_rs"] = LeaveType::where("leave_type_status", "=", "active")
+                    //->where("emid","=",$reg)
                     ->select("id", "leave_type_name")
                     ->get();
-                //dd($data["leave_type_rs"]);   
                 $data["employee_type_rs"] = EmployeeType::where('emid',$reg)->get();
-                //dd($data["employee_type_rs"]);
                 return view($this->_routePrefix . '.add-new-rule',$data);
                 //return view("leave/add-new-rule", $data);
             } else {

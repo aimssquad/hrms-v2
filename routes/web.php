@@ -19,6 +19,7 @@ use App\Http\Controllers\MobileMenuController;
 use App\Http\Controllers\Billing\BillingItemController;
 use App\Http\Controllers\Billing\BillingController;
 use App\Http\Controllers\Billing\InvoiceRuleController;
+use App\Http\Controllers\LeaveType2Controller;
 
 
 /*
@@ -5979,6 +5980,10 @@ Route::post('/save-organization-menu', [MobileMenuController::class, 'saveOrgani
 Route::get('/superadmin/menus', [MobileMenuController::class, 'menu'])->name('mobile-menus.menu');
 Route::get('/superadmin/menus/edit/{organization_id}', [MobileMenuController::class, 'menuEdit'])->name('menu.edit');
 Route::post('/superadmin/save-employee-menu', [MobileMenuController::class, 'saveEmployeeMenu'])->name('save.employee.menu');
+// Super admin leave type
+Route::resource('superadmin/leave-types', LeaveType2Controller::class);
+
+
 
 
 

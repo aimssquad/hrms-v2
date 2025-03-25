@@ -107,7 +107,7 @@
                        <div class="col-md-12">
                           <div class="card custom-card">
                              <div class="card-header">
-                                <h4 class="card-title"><i class="fas fa-align-justify"></i>Mobile Menu<span><a href="{{ url('/superadmin/mobile-menus/create') }}" data-toggle="tooltip" data-placement="bottom" title="Generate Bill" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
+                                <h4 class="card-title"><i class="fa fa-check"></i>Add Leave Type<span><a href="{{ route('leave-types.create') }}" data-toggle="tooltip" data-placement="bottom" title="Generate Bill" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span></h4>
                                 @if(Session::has('message'))
                                 <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
                                 @endif
@@ -118,45 +118,39 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Menu Name</th>
-                                                {{-- <th>Identifier</th>
-                                                <th>Type</th> --}}
-                                                <th>image</th>
-                                                <th>Status</th>
+                                                <th>Name</th>
+                                                <th>Alias</th>
+                                                <th>Color</th>
+                                                {{-- <th>Status</th> --}}
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($menus as $menu)
+                                            @foreach($leaveTypes as $leaveType)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $menu->menu_name }}</td>
-                                                {{-- <td>{{ $menu->identifier }}</td>
-                                                <td>{{ $menu->type }}</td> --}}
+                                                <td>{{ $leaveType->leave_type_name }}</td>
+                                                <td>{{ $leaveType->alies }}</td>
                                                 <td>
-                                                    @if (isset($menu) && $menu->image)
-                                                        <img src="{{ asset('storage/app/public/' . $menu->image) }}" alt="Menu Image" 
-                                                             style="height: 80px; width: 100px; border-radius: 50%; object-fit: cover;">
-                                                    @endif
-                                                </td>                                                
-                                                <td>{{ $menu->status }}</td>
+                                                    <span style="background-color: {{ $leaveType->color_code }}; padding: 5px 15px; border-radius: 3px;">
+                                                        {{ $leaveType->color_code }}
+                                                    </span>
+                                                </td>
+                                                {{-- <td>{{ $leaveType->leave_type_status ? 'Inactive' : 'Active' }}</td> --}}
                                                 <td class="drp">
                                                     <div class="dropdown">
                                                        <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                        Action
                                                        </button>
                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="{{ route('mobile-menus.edit', $menu->id) }}">
+                                                            <a class="dropdown-item" href="{{ route('leave-types.edit', $leaveType->id) }}">
                                                                 <i class="far fa-edit"></i>&nbsp; Edit
                                                             </a>
-                                                            <a class="dropdown-item" href="{{ route('mobile-menus.destroy', $menu->id) }}" onclick="return confirm('Are you sure?')">
-                                                                <i class="fas fa-trash"></i>&nbsp; Delete
-                                                            </a>
-                                                            {{-- <form action="{{ route('mobile-menus.destroy', $menu->id) }}" method="POST" style="display:inline;">
+                                                            <form action="{{ route('leave-types.destroy', $leaveType->id) }}" method="POST" style="display: inline;">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                                                            </form> --}}
+                                                                <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i>&nbsp;Delete</button>
+                                                            </form>
                                                        </div>
                                                     </div>
                                                 </td>

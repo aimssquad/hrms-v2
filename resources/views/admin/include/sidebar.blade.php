@@ -154,7 +154,7 @@
                      --}}
                      <li>
                         <a href="{{url('superadmin/view-sidebar-role-new')}}">
-                        <span class="sub-item">Side Bar Permission</span>
+                        <span class="sub-item">Sidebar Permission</span>
                         </a>
                      </li>
                      <li>
@@ -185,6 +185,11 @@
                      <li>
                         <a href="{{url('superadmin/message-center')}}">
                         <span class="sub-item">Message Center</span>
+                        </a>
+                     </li>
+                     <li>
+                        <a href="{{url('superadmin/leave-types')}}">
+                        <span class="sub-item">Leave Type</span>
                         </a>
                      </li>
                   </ul>
@@ -218,6 +223,7 @@
                         <span class="sub-item">Partner Employee Count</span>
                         </a>
                      </li>
+                     
                      {{-- 
                      <li>
                         <a href="{{url('superadmin/license-not-applied')}}">

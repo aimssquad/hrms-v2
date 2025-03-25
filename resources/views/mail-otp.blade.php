@@ -33,11 +33,11 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 30px; color: #333;">Hello <b>{{ $com_name }}</b>,</p>
-                            <p style="font-size: 30px; color: #333;">Here is your 6-digit OTP for verification:</p>
-                            <p style="font-size: 30px; color: #333;"><strong>OTP:</strong> {{ $otp}}</p>
-                            <p style="font-size: 30px; color: #333;">This OTP is valid for <strong>10 minutes.</strong> Please do not share it with anyone for security reasons.</p>
-                            <p style="font-size: 30px; color: #333;">If you did not request this, please ignore this email.</p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">Hello <b>{{ $com_name }}</b>,</p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">Here is your 6-digit OTP for verification:</p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;"><strong>OTP:</strong> {{ $otp}}</p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">This OTP is valid for <strong>10 minutes.</strong> Please do not share it with anyone for security reasons.</p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">If you did not request this, please ignore this email.</p>
                         </td>
                     </tr>
                     <tr>
