@@ -668,7 +668,7 @@ class LeaveController extends Controller
                     'holidays' => $holiday_rs,
                     'off_days' => $offDays,
                 ];
-
+                dd($calendarData);
                 function replaceNullWithEmpty($data) {
                     if (is_array($data)) {
                  
