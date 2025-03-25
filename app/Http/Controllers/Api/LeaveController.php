@@ -619,7 +619,8 @@ class LeaveController extends Controller
                     ->where('emid', $emid)
                     ->where('employee_id', $emplayeeId)
                     ->get();
-                if(empty($dutyEachEmployee)){
+                // Check Employee Roster Created OR Not    
+                if($dutyEachEmployee->isEmpty()){
                     $dynamicFlag = 1;
                     $data = [];
                     $message = "Employee roster Not created. Please create first employee Roster";
@@ -628,8 +629,7 @@ class LeaveController extends Controller
                         $dynamicFlag,
                         $data
                     );
-                }    
-                //dd($dutyEachEmployee);    
+                }     
                 $leaveApply = DB::table('leave_apply')
                     ->where('emid', $emid)
                     ->where('employee_id', $emplayeeId)
@@ -682,17 +682,17 @@ class LeaveController extends Controller
                 //dd($calendarData);
                 function replaceNullWithEmpty($data) {
                     if (is_array($data)) {
-                 
+                
                         foreach ($data as $key => $value) {
                             $data[$key] = replaceNullWithEmpty($value);
                         }
                     } elseif (is_object($data)) {
-                      
+                    
                         foreach ($data as $key => $value) {
                             $data->$key = replaceNullWithEmpty($value);
                         }
                     } elseif ($data === null) {
-              
+            
                         $data = "";
                     }
                     return $data;
@@ -707,6 +707,7 @@ class LeaveController extends Controller
                     $dynamicFlag,
                     $data
                 );
+                
             } else {
                 $dynamicFlag = 1;
                 $data = [];
