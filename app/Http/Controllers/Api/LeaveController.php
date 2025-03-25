@@ -613,7 +613,7 @@ class LeaveController extends Controller
                 $empDtl = auth()->user();
                 $emplayeeId = $empDtl->employee_id;
                 $emid = $empDtl->emid;
-
+                dd($empDtl);
                 // Retrieve Duty Roster
                 $dutyEachEmployee = DB::table('duty_roster')
                     ->where('emid', $emid)
@@ -668,7 +668,7 @@ class LeaveController extends Controller
                     'holidays' => $holiday_rs,
                     'off_days' => $offDays,
                 ];
-                dd($calendarData);
+                //dd($calendarData);
                 function replaceNullWithEmpty($data) {
                     if (is_array($data)) {
                  
