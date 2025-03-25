@@ -613,7 +613,7 @@ class LeaveController extends Controller
                 $empDtl = auth()->user();
                 $emplayeeId = $empDtl->employee_id;
                 $emid = $empDtl->emid;
-                dd($empDtl);
+                //dd($empDtl);
                 // Retrieve Duty Roster
                 $dutyEachEmployee = DB::table('duty_roster')
                     ->where('emid', $emid)
