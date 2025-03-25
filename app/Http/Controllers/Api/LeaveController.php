@@ -619,31 +619,42 @@ class LeaveController extends Controller
                     ->where('emid', $emid)
                     ->where('employee_id', $emplayeeId)
                     ->get();
+                if(empty($dutyEachEmployee)){
+                    $dynamicFlag = 1;
+                    $data = [];
+                    $message = "Employee roster Not created. Please create first employee Roster";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+                }    
+                //dd($dutyEachEmployee);    
                 $leaveApply = DB::table('leave_apply')
                     ->where('emid', $emid)
                     ->where('employee_id', $emplayeeId)
                     ->get();
-                // foreach ($leaveApply as $leave) {
-                //     // Get the leave_type record
-                //     $leaveType = DB::table('leave_type')
-                //                 ->where('id', $leave->leave_type)
-                //                 ->first();
+                foreach ($leaveApply as $leave) {
+                    // Get the leave_type record
+                    $leaveType = DB::table('leave_type')
+                                ->where('id', $leave->leave_type)
+                                ->first();
                     
-                //     // Set default color (change this to whatever default you want)
-                //     $defaultColor = '#e4ecf0';
+                    // Set default color (change this to whatever default you want)
+                    $defaultColor = '#e4ecf0';
                     
-                //     if ($leaveType) {
-                //         // Get the matching leave_type2 record
-                //         $leaveType2 = DB::table('leave_type2')
-                //                     ->where('leave_type_name', $leaveType->leave_type_name)
-                //                     ->first();
+                    if ($leaveType) {
+                        // Get the matching leave_type2 record
+                        $leaveType2 = DB::table('leave_type2')
+                                    ->where('leave_type_name', $leaveType->leave_type_name)
+                                    ->first();
                         
-                //         // Use the color from leave_type2 or fall back to default
-                //         $leave->color_code = $leaveType2 ? $leaveType2->color_code : $defaultColor;
-                //     } else {
-                //         $leave->color_code = $defaultColor;
-                //     }
-                // }
+                        // Use the color from leave_type2 or fall back to default
+                        $leave->color_code = $leaveType2 ? $leaveType2->color_code : $defaultColor;
+                    } else {
+                        $leave->color_code = $defaultColor;
+                    }
+                }
                 // Retrieve Holidays
                 $holiday_rs = Holiday::where("holiday.emid", "=", $emid)
                     ->select("holiday_type.name", "holiday.*")
