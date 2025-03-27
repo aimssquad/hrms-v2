@@ -528,6 +528,83 @@ class LeaveController extends Controller
         }
     }
 
+    // public function getAllLeaveBalance(Request $request)
+    // {
+    //     try {
+    //         if (auth()->check()) {
+    //             $empDtl = auth()->user();
+    //             $emplayeeId = $empDtl->employee_id;
+    //             $emid = $empDtl->emid;
+    //             $leaveTypes = LeaveType::join(
+    //                 "leave_allocation",
+    //                 "leave_type.id",
+    //                 "=",
+    //                 "leave_allocation.leave_type_id"
+    //             )
+    //             ->select(
+    //                 "leave_type.id",
+    //                 "leave_type.leave_type_name" 
+    //                 // "leave_allocation.id as lv_alloc_id",
+    //                 // "leave_allocation.month_yr"
+    //             )
+    //             ->where("leave_type.emid", "=", $emid)
+    //             ->where("leave_allocation.emid", "=", $emid)
+    //             ->where("leave_allocation.leave_in_hand", "!=", 0)
+    //             ->groupBy('leave_type.id')
+    //             ->get();
+            
+    //             $leaveBalances = [];
+                
+    //             foreach ($leaveTypes as $leaveType) {
+    //                 $leaveBalance = DB::table('leave_allocation')
+    //                     ->where('leave_type_id', '=', $leaveType->id)
+    //                     ->where('employee_code', '=', $emplayeeId)
+    //                     ->where('emid', '=', $emid)
+    //                     ->orderBy('id', 'DESC')
+    //                     ->select('id','leave_in_hand')
+    //                     ->first();
+    //                 if ($leaveBalance) {
+    //                     $leaveBalance->leave_type_name = $leaveType->leave_type_name;
+    //                     $leaveBalances[] = $leaveBalance;
+    //                 }
+    //             }
+    //             if($leaveBalances){
+    //                 //dd($leaveBalances);
+    //                 $dynamicFlag = 1;
+    //                 $data = $leaveBalances;
+    //                 $message = "Your all leave balance";
+    //                 return Helper::rjd(
+    //                     $message,
+    //                     $dynamicFlag,
+    //                     $data
+    //                 );  
+    //             } else {
+    //                 $dynamicFlag = 1;
+    //                 $data = [];
+    //                 $message = "You have no leave balance";
+    //                 return Helper::rjd(
+    //                     $message,
+    //                     $dynamicFlag,
+    //                     $data
+    //                 );
+    //             }
+    //         } else {
+    //             $dynamicFlag = 1;
+    //             $data=[];
+    //             $message = "Somthing Went Wrong";
+    //             return Helper::rjd(
+    //                 $message,
+    //                 $dynamicFlag,
+    //                 $data
+    //             );
+    //         }
+
+    //     } catch (Exception $e) {
+    //         return Helper::rj("Server Error.", 500);
+    //     }
+
+    // }
+
     public function getAllLeaveBalance(Request $request)
     {
         try {
@@ -535,24 +612,22 @@ class LeaveController extends Controller
                 $empDtl = auth()->user();
                 $emplayeeId = $empDtl->employee_id;
                 $emid = $empDtl->emid;
-                $leaveTypes = LeaveType::join(
-                    "leave_allocation",
-                    "leave_type.id",
-                    "=",
-                    "leave_allocation.leave_type_id"
-                )
-                ->select(
-                    "leave_type.id",
-                    "leave_type.leave_type_name" 
-                    // "leave_allocation.id as lv_alloc_id",
-                    // "leave_allocation.month_yr"
-                )
-                ->where("leave_type.emid", "=", $emid)
-                ->where("leave_allocation.emid", "=", $emid)
-                ->where("leave_allocation.leave_in_hand", "!=", 0)
-                ->groupBy('leave_type.id')
-                ->get();
-            
+                
+                // Modified query to join leave_type2
+                $leaveTypes = LeaveType::join("leave_allocation", "leave_type.id", "=", "leave_allocation.leave_type_id")
+                    ->leftJoin("leave_type2", "leave_type.leave_type_name", "=", "leave_type2.leave_type_name")
+                    ->select(
+                        "leave_type.id",
+                        "leave_type.leave_type_name",
+                        "leave_type2.color_code",  // Add color_code to selection
+                        DB::raw('COALESCE(leave_type2.color_code, "#3a87ad") as color_code') // Fallback to default color
+                    )
+                    ->where("leave_type.emid", "=", $emid)
+                    ->where("leave_allocation.emid", "=", $emid)
+                    ->where("leave_allocation.leave_in_hand", "!=", 0)
+                    ->groupBy('leave_type.id')
+                    ->get();
+                
                 $leaveBalances = [];
                 
                 foreach ($leaveTypes as $leaveType) {
@@ -561,15 +636,17 @@ class LeaveController extends Controller
                         ->where('employee_code', '=', $emplayeeId)
                         ->where('emid', '=', $emid)
                         ->orderBy('id', 'DESC')
-                        ->select('id','leave_in_hand')
+                        ->select('id', 'leave_in_hand')
                         ->first();
+                        
                     if ($leaveBalance) {
                         $leaveBalance->leave_type_name = $leaveType->leave_type_name;
+                        $leaveBalance->color_code = $leaveType->color_code;  // Add color code
                         $leaveBalances[] = $leaveBalance;
                     }
                 }
+                
                 if($leaveBalances){
-                    //dd($leaveBalances);
                     $dynamicFlag = 1;
                     $data = $leaveBalances;
                     $message = "Your all leave balance";

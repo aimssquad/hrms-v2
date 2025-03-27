@@ -12,7 +12,10 @@
  <thead>
      <tr>
          <th style="width:130px;">
-             <div style="border:2px solid #d00eff;"><img src="https://skilledworkerscloud.co.uk/hrms/img/logo.png" alt="" width="130px"></div>
+            <div style="border:2px solid #d00eff;">
+              {{-- <img src="https://skilledworkerscloud.co.uk/hrms/img/logo.png" alt="" width="130px"> --}}
+              {{-- <img src="{{ asset('storage/app/public/' . $com_logo) }}" alt="Organization Logo" width="130px"> --}}
+            </div>
          </th>
          <th style="text-align:right;">
              <p style="margin:0;font-size:15px">{{ $address }}<br />{{$addresssub}}</p>

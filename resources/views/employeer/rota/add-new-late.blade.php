@@ -61,7 +61,7 @@
                      <div class="col-md-3">
                         <div class=" form-group">
                            <label for="shift_code" class="col-form-label">Shift Code</label>
-                           <select  id="shift_code"  name="shift_code"class="select" required=""  style="">
+                           <select  id="shift_code"  name="shift_code" class="select" required=""   style="width: 100%; box-sizing: border-box;">
                               <option value="">&nbsp;</option>
                               @if(app('request')->input('id'))
                               @foreach($shiftc as $shiftcval)

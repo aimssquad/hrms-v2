@@ -703,10 +703,11 @@ class EmployeeCornerOrganisationController extends Controller
                 }
 
                 // dd($holiday_array);
-                return view(
-                    "employee-corner/apply-leave",
-                    compact("leave_type_rs", "employee", "holiday_array")
-                );
+                return view($this->_routePrefix . '.apply-leave',compact("leave_type_rs", "employee", "holiday_array"));
+                // return view(
+                //     "employee-corner/apply-leave",
+                //     compact("leave_type_rs", "employee", "holiday_array")
+                // );
             } else {
                 return redirect("/");
             }

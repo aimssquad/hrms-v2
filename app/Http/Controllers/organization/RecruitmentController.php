@@ -1693,7 +1693,6 @@ class RecruitmentController extends Controller
             $job = DB::table('candidate')->where('id', '=', $request->user_id)->first();
 
             $filename = $job->name . time() . '.pdf';
-
             $datap = ['com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country,
                 'date' => date('Y-m-d'), 'name' => $job->name, 'job_title' => $job->job_title, 'st_date' => date('Y-m-d', strtotime($request->date_jo)), 'em_name' => $job->name, 'em_pos' => $job->job_title];
             $pdf = Pdf::loadView('myPDF', $datap);

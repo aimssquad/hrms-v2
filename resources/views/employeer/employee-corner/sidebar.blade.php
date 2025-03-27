@@ -34,7 +34,7 @@
                 @endif --}}
 
                 {{-- Employee-specific Sidebar --}}
-                @if($user_type == "employee")
+                @if($user_type == "employee" || $user_type == "employer")
                     <li class="menu-title">
                         <span>Main</span>
                     </li>
@@ -51,6 +51,8 @@
                             <li><a href="{{ url('org-employee-corner/attendance-status') }}">Attendance Status</a></li>
                         </ul>
                     </li>
+                @endif
+                @if($user_type == "employee")    
                     @foreach ($sidebarItems as $moduleName => $submenus)
                         <li class="menu-title">
                             <span>{{ $moduleName }}</span>

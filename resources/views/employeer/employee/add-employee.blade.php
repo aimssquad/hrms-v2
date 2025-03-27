@@ -593,7 +593,7 @@
                                     <div class="col-md-4">
                                        <div class="form-group">
                                           <label for="parmenent_country" class="col-form-label">Country</label>
-                                          <select class="select"   name="emp_pr_country" id="parmenent_country">
+                                          <select class="form-control input-border-bottom"   name="emp_pr_country" id="parmenent_country">
                                              <option value="">&nbsp;</option>
                                              @foreach($currency_user as $currency_valu)
                                              <option value="{{trim($currency_valu->country)}}"   @if(trim($currency_valu->country)=='United Kingdom') selected  @endif>{{$currency_valu->country}}</option>
@@ -652,7 +652,7 @@
                                     <div class="col-md-3">
                                        <div class="form-group">
                                           <label for="selectFloatingLabelntp" class="col-form-label">Nationality</label>
-                                          <select class="select" id="selectFloatingLabelntp" name="pass_nat">
+                                          <select class="form-control input-border-bottom" id="selectFloatingLabelntp" name="pass_nat">
                                              <option value="">&nbsp;</option>
                                              @foreach($currency_user as $currency_valu)
                                              <option value="{{trim($currency_valu->country)}}" >{{$currency_valu->country}}</option>
@@ -734,7 +734,7 @@
                                     <div class="col-md-3">
                                        <div class="form-group">
                                           <label for="selectFloatingLabelntp" class="col-form-label">Nationality</label>
-                                          <select class="select" id="selectFloatingLabelntp"  name="visa_nat" >
+                                          <select class="form-control input-border-bottom" id="selectFloatingLabelntp"  name="visa_nat" >
                                              <option value="">&nbsp;</option>
                                              @foreach($currency_user as $currency_valu)
                                              <option value="{{trim($currency_valu->country)}}" >{{$currency_valu->country}}</option>
@@ -745,7 +745,7 @@
                                     <div class="col-md-3">
                                        <div class="form-group">
                                           <label for="selectFloatingLabel" class="col-form-label">Country of Residence</label>
-                                          <select class="select" id="selectFloatingLabel" name="country_residence">
+                                          <select class="form-control input-border-bottom" id="selectFloatingLabel" name="country_residence">
                                              <option value="">&nbsp;</option>
                                              @foreach($currency_user as $currency_valu)
                                              <option value="{{trim($currency_valu->country)}}" >{{$currency_valu->country}}</option>
@@ -884,7 +884,7 @@
                                     <div class="col-md-3">
                                        <div class="form-group">
                                           <label for="selectFloatingLabelntp" class="col-form-label">Nationality</label>
-                                          <select class="select" id="selectFloatingLabelntp"  name="euss_nation" >
+                                          <select class="form-control input-border-bottom" id="selectFloatingLabelntp"  name="euss_nation" >
                                              <option value="">&nbsp;</option>
                                              @foreach($currency_user as $currency_valu)
                                              <option value="{{trim($currency_valu->country)}}" >{{$currency_valu->country}}</option>
@@ -962,7 +962,7 @@
                                     <div class="col-md-3">
                                        <div class="form-group">
                                           <label for="selectFloatingLabelntp" class="col-form-label">Nationality</label>
-                                          <select class="select" id="selectFloatingLabelntp"  name="dbs_nation" >
+                                          <select class="form-control input-border-bottom" id="selectFloatingLabelntp"  name="dbs_nation" >
                                              <option value="">&nbsp;</option>
                                              @foreach($currency_user as $currency_valu)
                                              <option value="{{trim($currency_valu->country)}}"  >{{$currency_valu->country}}</option>
@@ -1029,7 +1029,7 @@
                                     <div class="col-md-3">
                                        <div class="form-group">
                                           <label for="selectFloatingLabelntp" class="col-form-label">Nationality</label>
-                                          <select class="select" id="selectFloatingLabelntp"  name="nat_nation" >
+                                          <select class="form-control input-border-bottom" id="selectFloatingLabelntp"  name="nat_nation" >
                                              <option value="">&nbsp;</option>
                                              @foreach($currency_user as $currency_valu)
                                              <option value="{{trim($currency_valu->country)}}" >{{$currency_valu->country}}</option>
@@ -1040,7 +1040,7 @@
                                     <div class="col-md-3">
                                        <div class="form-group">
                                           <label for="selectFloatingLabelntp" class="col-form-label">Country of Residence</label>
-                                          <select class="select" id="selectFloatingLabelntp"  name="nat_country_res" >
+                                          <select class="form-control input-border-bottom" id="selectFloatingLabelntp"  name="nat_country_res" >
                                              <option value="">&nbsp;</option>
                                              @foreach($currency_user as $currency_valu)
                                              <option value="{{trim($currency_valu->country)}}" >{{$currency_valu->country}}</option>
@@ -2599,4 +2599,5 @@
   </script>
 <script type="text/javascript" src="{{ asset('employeeassets/js/datepicker.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('employeeassets/js/datepicker.en.js')}}"></script>
+
 @endsection

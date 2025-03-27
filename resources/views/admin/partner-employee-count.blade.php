@@ -79,62 +79,62 @@
                                             <th>Active Employee Count</th>
                                             <th>Inactive Employee Count</th>
                                             <th>Created At</th>
-                                            {{-- <th>Action</th> --}}
+                                            <th>Show All</th>
                                         </tr>
                                     </thead>
+                                 
                                     <tbody>
-                                        @foreach ($subadmins as $key => $subadmin)
+                                        @php
+                                            $counter = 1;
+                                        @endphp
+                                        
+                                        @foreach ($subadmins as $subadmin)
                                             @if ($subadmin->organizations->isNotEmpty())
-                                                @foreach ($subadmin->organizations as $index => $organization)
-                                                    <tr>
-                                                        @if ($index === 0)
-                                                            <td rowspan="{{ $subadmin->organizations->count() }}">{{ $key + 1 }}</td>
-                                                            <td rowspan="{{ $subadmin->organizations->count() }}">
-                                                                {{ $subadmin->com_name ?? '' }}
-                                                            </td>
-                                                        @endif
-                                                        <td>{{ $organization->com_name }}</td>
-                                                        <td>{{ $organization->active_count ?? 0 }}</td>
-                                                        <td>{{ $organization->inactive_count ?? 0 }}</td>
-                                                        @if ($index === 0)
-                                                            <td rowspan="{{ $subadmin->organizations->count() }}">
-                                                                {{ \Carbon\Carbon::parse($subadmin->created_at)->format('d-M-Y') }}
-                                                            </td>
-                                                            {{-- <td rowspan="{{ $subadmin->organizations->count() }}" class="drp">
-                                                                <div class="dropdown">
-                                                                    <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        Action
-                                                                    </button>
-                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @foreach ($subadmin->organizations as $organization)
-                                                                            <a class="dropdown-item" href="{{ url('subadmin/view-sub-organization/' . $organization->org_code) }}" target="_blank">
-                                                                                <i class="fas fa-sticky-note"></i>&nbsp; View {{ $organization->com_name }}
-                                                                            </a>
-                                                                        @endforeach
-                                                                    </div>
-                                                                </div>
-                                                            </td>  --}}
-                                                        @endif
+                                                @if ($subadmin->organizations->count() > 1)
+
+                                                    <tr class="main-row" data-subadmin-id="{{ $subadmin->id }}">
+                                                        <td>{{ $counter++ }}</td>
+                                                        <td>
+                                                            {{ $subadmin->com_name ?? '' }}
+                                                           
+                                                        </td>
+                                                        <td>{{ $subadmin->organizations->first()->com_name }}</td>
+                                                        <td>{{ $subadmin->organizations->first()->active_count ?? 0 }}</td>
+                                                        <td>{{ $subadmin->organizations->first()->inactive_count ?? 0 }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($subadmin->organizations->first()->created_at)->format('m/d/y') }}</td>
+                                                        <td><button class="btn btn-sm btn-primary toggle-btn" data-target="{{ $subadmin->id }}">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button></td>
                                                     </tr>
-                                                @endforeach
+                                                    
+                                                    {{-- Hidden rows for other organizations --}}
+                                                    @foreach ($subadmin->organizations->slice(1) as $organization)
+                                                        <tr class="sub-row sub-row-{{ $subadmin->id }}" style="display: none;">
+                                                            <td></td>
+                                                            <td>{{ $subadmin->com_name ?? '' }}</td>
+                                                            <td>{{ $organization->com_name }}</td>
+                                                            <td>{{ $organization->active_count ?? 0 }}</td>
+                                                            <td>{{ $organization->inactive_count ?? 0 }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($organization->created_at)->format('m/d/y') }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                @else
+                                                    {{-- Single organization --}}
+                                                    <tr>
+                                                        <td>{{ $counter++ }}</td>
+                                                        <td>{{ $subadmin->com_name ?? '' }}</td>
+                                                        <td>{{ $subadmin->organizations->first()->com_name }}</td>
+                                                        <td>{{ $subadmin->organizations->first()->active_count ?? 0 }}</td>
+                                                        <td>{{ $subadmin->organizations->first()->inactive_count ?? 0 }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($subadmin->organizations->first()->created_at)->format('m/d/y') }}</td>
+                                                    </tr>
+                                                @endif
                                             @else
                                                 <tr>
-                                                    <td>{{ $key + 1 }}</td>
+                                                    <td>{{ $counter++ }}</td>
                                                     <td>{{ $subadmin->f_name ?? '' }} {{ $subadmin->l_name ?? '' }}</td>
                                                     <td colspan="3" class="text-center">No Organization Found</td>
-                                                    <td>{{ \Carbon\Carbon::parse($subadmin->created_at)->format('d-M-Y') }}</td>
-                                                    {{-- <td class="drp">
-                                                        <div class="dropdown">
-                                                            <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                Action
-                                                            </button>
-                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fas fa-sticky-note"></i>&nbsp; No Organization Available
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </td> --}}
+                                                    <td>{{ \Carbon\Carbon::parse($subadmin->created_at)->format('m/d/y') }}</td>
                                                 </tr>
                                             @endif
                                         @endforeach
@@ -213,5 +213,22 @@
          	});
          });
       </script>
+        <script>
+            $(document).ready(function() {
+                $('.toggle-btn').click(function() {
+                    const target = $(this).data('target');
+                    const icon = $(this).find('i');
+                    const rows = $(`.sub-row-${target}`);
+                    
+                    if (rows.is(':visible')) {
+                        rows.hide();
+                        icon.removeClass('fa-minus').addClass('fa-plus');
+                    } else {
+                        rows.show();
+                        icon.removeClass('fa-plus').addClass('fa-minus');
+                    }
+                });
+            });
+        </script>
    </body>
 </html>
