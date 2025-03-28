@@ -185,10 +185,10 @@
                                                     <label for="billing_mode" class="form-label fw-bold">Billing Mode</label>
                                                     <select class="form-control" id="billing_mode" name="billing_mode" >
                                                         <option value="">Select Billing Mode</option>
-                                                        <option value="monthly" {{ $rule->billing_mode == 'monthly' ? 'selected' : '' }}>monthly</option>
-                                                        <option value="quarterly" {{ $rule->billing_mode == 'quarterly' ? 'selected' : '' }}>Quarterly</option>
-                                                        <option value="half_yearly" {{ $rule->billing_mode == 'half_yearly' ? 'selected' : '' }}>Half Yearly</option>
-                                                        <option value="yearly" {{ $rule->billing_mode == 'yearly' ? 'selected' : '' }}>Yearly</option>
+                                                        <option value="Monthly" {{ $rule->billing_mode == 'Monthly' ? 'selected' : '' }}>monthly</option>
+                                                        <option value="Quarterly" {{ $rule->billing_mode == 'Quarterly' ? 'selected' : '' }}>Quarterly</option>
+                                                        <option value="Half_yearly" {{ $rule->billing_mode == 'Half_yearly' ? 'selected' : '' }}>Half Yearly</option>
+                                                        <option value="Annually" {{ $rule->billing_mode == 'Annually' ? 'selected' : '' }}>Annually</option>
                                                     </select>
                                                 </div>
                                             </div>

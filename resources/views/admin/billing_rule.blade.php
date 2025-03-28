@@ -234,10 +234,10 @@
                                                                     <label for="billing_mode" class="form-label fw-bold">Billing Mode</label>
                                                                     <select class="form-control select2" id="billing_mode" name="billing_mode" >
                                                                         <option value="">Select Billing Mode</option>
-                                                                        <option value="monthly">monthly</option>
-                                                                        <option value="quarterly">Quarterly</option>
-                                                                        <option value="half_yearly">Half Yearly</option>
-                                                                        <option value="yearly">Yearly</option>
+                                                                        <option value="Monthly">Monthly</option>
+                                                                        <option value="Quarterly">Quarterly</option>
+                                                                        <option value="Half_yearly">Half Yearly</option>
+                                                                        <option value="Annually">Annually</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
