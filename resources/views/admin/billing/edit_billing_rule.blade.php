@@ -246,34 +246,34 @@
 
     <script>
     // Initialize Select2
-    $(document).ready(function() {
-        $('.select2').select2({
-            placeholder: "Select an option",
-            allowClear: true
-        });
+    // $(document).ready(function() {
+    //     $('.select2').select2({
+    //         placeholder: "Select an option",
+    //         allowClear: true
+    //     });
 
-        // Initialize form sections based on current selection
-        const currentBillingType = $('#billing_for').val();
-        if (currentBillingType) {
-            toggleBillingSections(currentBillingType);
-        }
+    //     // Initialize form sections based on current selection
+    //     const currentBillingType = $('#billing_for').val();
+    //     if (currentBillingType) {
+    //         toggleBillingSections(currentBillingType);
+    //     }
 
-        // Form validation
-        (function () {
-            'use strict'
-            var forms = document.querySelectorAll('.needs-validation')
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })();
-    });
+    //     // Form validation
+    //     (function () {
+    //         'use strict'
+    //         var forms = document.querySelectorAll('.needs-validation')
+    //         Array.prototype.slice.call(forms)
+    //             .forEach(function (form) {
+    //                 form.addEventListener('submit', function (event) {
+    //                     if (!form.checkValidity()) {
+    //                         event.preventDefault()
+    //                         event.stopPropagation()
+    //                     }
+    //                     form.classList.add('was-validated')
+    //                 }, false)
+    //             })
+    //     })();
+    // });
 
     // Function to toggle between billing sections
     function toggleBillingSections(selectedValue) {
