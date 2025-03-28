@@ -12,10 +12,23 @@ use DB;
 
 class BillController extends Controller
 {
+    // public function billingList(Request $request){
+    //     $email = Session::get('empsu_email');
+    //     if(!empty($email)){
+    //         $billing_list = Subadmin_bill::with('billFor','company')->where('org_code', '')
+    //             ->orWhereNull('org_code')
+    //             ->get();
+    //         //dd($billing_list);    
+    //         return view ('admin/billing/new_billing_list',compact('billing_list'));
+    //     } else {
+    //         redirect('superadmin');
+    //     }
+    // }
+
     public function billingList(Request $request){
         $email = Session::get('empsu_email');
         if(!empty($email)){
-            $billing_list = Subadmin_bill::with('billFor','company')->where('org_code', '')
+            $billing_list = Subadmin_bill::with('company')->where('org_code', '')
                 ->orWhereNull('org_code')
                 ->get();
             //dd($billing_list);    
@@ -217,7 +230,7 @@ class BillController extends Controller
         if(!empty($email)){
             $bills = DB::table('subadmin_bills')->where('id', $id)->first();
             if (!$bills) {
-                return redirect()->back()->with('error', 'Billing rule not found.');
+                return redirect()->back()->with('error', 'Bill not found.');
             }
         
             return view('admin.billing.edit_billing_list', compact('bills'));
@@ -302,22 +315,32 @@ class BillController extends Controller
         $validatedData = $request->validate([
             'billing_type' => 'required|in:employer,sub-admin',
             'entity_id' => 'required|string|max:50',
-            'employee_charge' => 'nullable|numeric|min:0',
+            'billing_for' => 'required|in:Organisation Subscription,Number Of Employee',
+
+            'min_organizations' => 'nullable|integer|min:0',
             'max_organizations' => 'nullable|integer|min:0',
+            'organization_charge' => 'nullable|numeric',
+
             'min_employees' => 'nullable|integer|min:0',
             'max_employees' => 'nullable|integer|min:0',
-            'payment_date_range' => 'required|string',
+            'employee_charge' => 'nullable|numeric|min:0',
+            //'max_organizations' => 'nullable|integer|min:0',
+            
+            'billing_mode' => 'nullable|string',
+            'payment_date_from' => 'nullable',
+            'payment_date_to' => 'nullable',
+            //'payment_date_range' => 'required|string',
         ]);
-    
+        //dd($validatedData);
         // Check if a rule with the same entity_id and payment_date_range already exists
         $existingRule = BillingRule::where('entity_id', $validatedData['entity_id'])
-            ->where('payment_date_range', $validatedData['payment_date_range'])
+            //->where('payment_date_range', $validatedData['payment_date_range'])
             ->first();
     
         if ($existingRule) {
             // If a match is found, redirect back with an error message
             return redirect()->back()->withErrors([
-                'payment_date_range' => 'Payment date range already exists for this user id.'
+                'payment_date_range' => 'Rule already exists for this user id.'
             ]);
         }
     
@@ -325,11 +348,25 @@ class BillController extends Controller
         BillingRule::create([
             'type' => $validatedData['billing_type'],
             'entity_id' => $validatedData['entity_id'],
-            'employee_charge' => $validatedData['employee_charge'] ?? null,
+            'billing_for' => $validatedData['billing_for'] ?? null,
+
+            'min_organizations' => $validatedData['min_organizations'] ?? null,
             'max_organizations' => $validatedData['max_organizations'] ?? null,
+            'organization_charge' => $validatedData['organization_charge'] ?? null,
+
             'min_employees' => $validatedData['min_employees'] ?? null,
             'max_employees' => $validatedData['max_employees'] ?? null,
-            'payment_date_range' => $validatedData['payment_date_range'] ?? null,
+            'employee_charge' => $validatedData['employee_charge'] ?? null,
+
+            'billing_mode' => $validatedData['billing_mode'] ?? null,
+            'payment_date_from' => $validatedData['payment_date_from'] ?? null,
+            'payment_date_to' => $validatedData['payment_date_to'] ?? null,
+
+            // 'employee_charge' => $validatedData['employee_charge'] ?? null,
+            // 'max_organizations' => $validatedData['max_organizations'] ?? null,
+            // 'min_employees' => $validatedData['min_employees'] ?? null,
+            // 'max_employees' => $validatedData['max_employees'] ?? null,
+            // 'payment_date_range' => $validatedData['payment_date_range'] ?? null,
         ]);
     
         // Redirect with a success message
@@ -407,13 +444,30 @@ class BillController extends Controller
         if(!empty($email)){
             //dd($request->all());
             $validated = $request->validate([
-                'type' => 'required|string',
-                'entity_id' => 'required',
-                'employee_charge' => 'nullable|required',
-                'max_organizations' => 'nullable|numeric',
-                'min_employees' => 'nullable|required',
-                'max_employees' => 'nullable|required',
-                'payment_date_range' => 'nullable|string|max:50',
+                // 'type' => 'required|string',
+                // 'entity_id' => 'required',
+                // 'employee_charge' => 'nullable|required',
+                // 'max_organizations' => 'nullable|numeric',
+                // 'min_employees' => 'nullable|required',
+                // 'max_employees' => 'nullable|required',
+                // 'payment_date_range' => 'nullable|string|max:50',
+                'type' => 'required|in:employer,sub-admin',
+                'entity_id' => 'required|string|max:50',
+                'billing_for' => 'required|in:Organisation Subscription,Number Of Employee',
+
+                'min_organizations' => 'nullable|integer|min:0',
+                'max_organizations' => 'nullable|integer|min:0',
+                'organization_charge' => 'nullable|numeric',
+
+                'min_employees' => 'nullable|integer|min:0',
+                'max_employees' => 'nullable|integer|min:0',
+                'employee_charge' => 'nullable|numeric|min:0',
+                //'max_organizations' => 'nullable|integer|min:0',
+                
+                'billing_mode' => 'nullable|string',
+                'payment_date_from' => 'nullable',
+                'payment_date_to' => 'nullable',
+                
             ]);
             //dd($validated);
             DB::table('rule_table')->where('id', $id)->update($validated);
@@ -425,12 +479,34 @@ class BillController extends Controller
         
     }
 
+    // public function viewAdminInvoice(Request $request,$id){
+    //     $email = Session::get('empsu_email');
+    //     if(!empty($email)){
+    //        //dd($id);
+    //        //$data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
+    //        $data['bill'] = Subadmin_bill::with('billFor')->where('id',$id)->first();
+    //        //dd($data['bill']);
+    //        if($data['bill']->billing_type == 'employer'){
+    //             $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
+    //        } else {
+    //             $data['org_dtl'] = DB::table('sub_admin_registrations')->where('reg',$data['bill']->entity_id)->first();
+    //        }
+    //        //dd($data);
+    //        return view('admin.billing.invoice',$data);
+    //        //return view('new-bill-pdf',$data);
+    //     } else {
+    //         redirect('superadmin');
+    //     }
+    // }
+
     public function viewAdminInvoice(Request $request,$id){
         $email = Session::get('empsu_email');
         if(!empty($email)){
            //dd($id);
            //$data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
-           $data['bill'] = Subadmin_bill::with('billFor')->where('id',$id)->first();
+            $data['bill'] = Subadmin_bill::where('id',$id)
+                //->with('billFor')
+                ->first();
            //dd($data['bill']);
            if($data['bill']->billing_type == 'employer'){
                 $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();

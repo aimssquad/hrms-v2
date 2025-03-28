@@ -30,6 +30,7 @@
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/atlantis.min.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css')}}">
@@ -112,55 +113,158 @@
                                         <div class="card-header">
                                             <h3>Billing Rule</h3>
                                         </div>
+                                        @if(Session::has('message'))
+                                        <div class="alert alert-success" style="text-align:center;"><span
+                                                class="glyphicon glyphicon-ok"></span><em>
+                                                {{ Session::get('message') }}</em></div>
+                                        @endif
+                                        @if(Session::has('error'))
+                                        <div class="alert alert-danger" style="text-align:center;"><span
+                                                class="glyphicon glyphicon-ok"></span><em> {{ Session::get('error') }}</em>
+                                        </div>
+                                        @endif
                                         <div class="card-body">
-                                            <form action="{{url('superadmin/bill/rule/store')}}" method="POST">
+                                            <form action="{{url('superadmin/bill/rule/store')}}" method="POST" class="needs-validation" novalidate>
                                                 @csrf()
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label for="type" class="form-label">Billing Type</label>
-                                                        <select class="form-control input-border-bottom" id="billing_type" name="billing_type" required="" style="margin-top: 22px;" onchange="getBillingEntities(this.value);">
-                                                            <option value="">&nbsp;</option>
-                                                            <option value="employer">Organisation</option>
-                                                            <option value="sub-admin">Subadmin</option>
-                                                        </select>
+                                                <div class="card">
+                                                    <div class="card-header bg-primary text-white">
+                                                        <h5 class="mb-0">Billing Rule Configuration</h5>
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <label for="entity_id" class="form-label">Entity ID</label>
-                                                        <select class="form-control input-border-bottom" id="entity_id" name="entity_id" required="" style="margin-top: 22px;" onchange="getUserDetails(this.value);">
-                                                            <option value="">&nbsp;</option>
-                                                            <!-- Options will be dynamically loaded via AJAX -->
-                                                        </select>
+                                                    <div class="card-body">
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="billing_type" class="form-label fw-bold">Billing For</label>
+                                                                    <select class="form-control select2" id="billing_type" name="billing_type" required onchange="getBillingEntities(this.value);">
+                                                                        <option value="">Select Type</option>
+                                                                        <option value="employer">Organisation</option>
+                                                                        <option value="sub-admin">Subadmin</option>
+                                                                    </select>
+                                                                    <div class="invalid-feedback">Please select billing type</div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="entity_id" class="form-label fw-bold">Entity</label>
+                                                                    <select class="form-control select2" id="entity_id" name="entity_id" required onchange="getUserDetails(this.value);">
+                                                                        <option value="">Select Entity</option>
+                                                                        <!-- Options will be dynamically loaded via AJAX -->
+                                                                    </select>
+                                                                    <div class="invalid-feedback">Please select an entity</div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="billing_for" class="form-label fw-bold">Billing Type</label>
+                                                                    <select class="form-control select2" id="billing_for" name="billing_for" required onchange="toggleBillingSections(this.value);">
+                                                                        <option value="">Select Billing Type</option>
+                                                                        <option value="Organisation Subscription">Organisation Subscription</option>
+                                                                        <option value="Number Of Employee">Number Of Employee</option>
+                                                                    </select>
+                                                                    <div class="invalid-feedback">Please select billing category</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                            
+                                                        <!-- Organisation Subscription Section -->
+                                                        <div class="row mb-3" id="for_org_subscription" style="display: none;">
+                                                            <div class="col-md-12">
+                                                                <h6 class="border-bottom pb-2 text-primary">Organisation Subscription Settings</h6>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="min_organizations" class="form-label">Minimum Organization</label>
+                                                                    <input type="number" name="min_organizations" id="min_organizations" class="form-control" step="0.01" placeholder="Enter minimum">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4" id="max_org">
+                                                                <div class="form-group">
+                                                                    <label for="max_organizations" class="form-label">Max Organizations</label>
+                                                                    <input type="number" name="max_organizations" id="max_organizations" class="form-control" placeholder="Enter maximum">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="employee_charge" class="form-label">Organization Charge</label>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text">$</span>
+                                                                        <input type="number" name="organization_charge" id="organization_charge" class="form-control" step="0.01" placeholder="0.00">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                            
+                                                        <!-- Number of Employees Section -->
+                                                        <div class="row mb-3" id="for_num_of_emp" style="display: none;">
+                                                            <div class="col-md-12">
+                                                                <h6 class="border-bottom pb-2 text-primary">Employee-Based Settings</h6>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="min_employees" class="form-label">Min Employees</label>
+                                                                    <input type="number" name="min_employees" id="min_employees" class="form-control" placeholder="Enter minimum">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="max_employees" class="form-label">Max Employees</label>
+                                                                    <input type="number" name="max_employees" id="max_employees" class="form-control" placeholder="Enter maximum">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="employee_charge" class="form-label">Employee Charge</label>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text">$</span>
+                                                                        <input type="number" name="employee_charge" id="employee_charge" class="form-control" step="0.01" placeholder="0.00">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                            
+                                                        <!-- Payment Date Range -->
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-12">
+                                                                <h6 class="border-bottom pb-2 text-primary">Payment Schedule</h6>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="billing_mode" class="form-label fw-bold">Billing Mode</label>
+                                                                    <select class="form-control select2" id="billing_mode" name="billing_mode" >
+                                                                        <option value="">Select Billing Mode</option>
+                                                                        <option value="monthly">monthly</option>
+                                                                        <option value="quarterly">Quarterly</option>
+                                                                        <option value="half_yearly">Half Yearly</option>
+                                                                        <option value="yearly">Yearly</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="payment_date_from" class="form-label">Payment Day From</label>
+                                                                    <input type="date" name="payment_date_from" id="payment_date_from" class="form-control" step="1" min="1" max="31" placeholder="Day (1-31)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="payment_date_to" class="form-label">Payment Day To</label>
+                                                                    <input type="date" name="payment_date_to" id="payment_date_to" class="form-control" step="1" min="1" max="31" placeholder="Day (1-31)">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                  
-                                                    <div class="col-md-4">
-                                                        <label for="employee_charge" class="form-label">Employee Charge</label>
-                                                        <input type="number" name="employee_charge" id="employee_charge" class="form-control" step="0.01" style="margin-top: 22px;">
-                                                    </div>
-                                                    <div class="col-md-4" id="max_org">
-                                                        <label for="max_organizations" class="form-label">Max Organizations</label>
-                                                        <input type="number" name="max_organizations" id="max_organizations" class="form-control">
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="min_employees" class="form-label">Min Employees</label>
-                                                        <input type="number" name="min_employees" id="min_employees" class="form-control">
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="max_employees" class="form-label">Max Employees</label>
-                                                        <input type="number" name="max_employees" id="max_employees" class="form-control">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="payment_date_range" class="form-label">Payment Date Range</label>
-                                                        <input type="text" name="payment_date_range" id="payment_date_range" class="form-control" maxlength="50">
-                                                        @error('payment_date_range')
-                                                            <div class="text-danger">{{ $message }}</div>
-                                                        @enderror
+                                                    
+                                                    <div class="card-footer bg-light">
+                                                        <button type="submit" class="btn btn-primary px-4">
+                                                            <i class="fas fa-save me-2"></i> Save Rule
+                                                        </button>
+                                                        {{-- <button type="reset" class="btn btn-outline-secondary ms-2">
+                                                            <i class="fas fa-undo me-2"></i> Reset
+                                                        </button> --}}
                                                     </div>
                                                 </div>
-
-                                               
-                                                </br>
-                                                <!-- Submit Button -->
-                                                <button type="submit" class="btn btn-primary">Submit</button>
                                             </form>
                                         </div>
                                     </div>
@@ -189,6 +293,7 @@
     <script src="{{ asset('assets/js/plugin/datatables/datatables.min.js')}}"></script>
     <!-- Atlantis JS -->
     <script src="{{ asset('assets/js/atlantis.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Atlantis DEMO methods, don't include it in your project! -->
     <script src="{{ asset('assets/js/setting-demo2.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -248,6 +353,56 @@
             }
         }
     </script> --}}
+
+    <script>
+        
+        // Function to toggle between billing sections
+        function toggleBillingSections(selectedValue) {
+            const orgSubscriptionDiv = document.getElementById('for_org_subscription');
+            const numOfEmpDiv = document.getElementById('for_num_of_emp');
+            
+            if (selectedValue === 'Organisation Subscription') {
+                orgSubscriptionDiv.style.display = 'flex';
+                numOfEmpDiv.style.display = 'none';
+                
+                // Clear values in the hidden section
+                document.getElementById('min_employees').value = '';
+                document.getElementById('max_employees').value = '';
+                document.getElementById('employee_charge').value = '';
+            } 
+            else if (selectedValue === 'Number Of Employee') {
+                orgSubscriptionDiv.style.display = 'none';
+                numOfEmpDiv.style.display = 'flex';
+                
+                // Clear values in the hidden section
+                document.getElementById('min_organization').value = '';
+                document.getElementById('max_organizations').value = '';
+                document.getElementById('employee_charge').value = '';
+            }
+            else {
+                // If nothing selected, hide both
+                orgSubscriptionDiv.style.display = 'none';
+                numOfEmpDiv.style.display = 'none';
+            }
+        }
+        
+        // Initialize the form on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial state based on selected value (if any)
+            const billingForSelect = document.getElementById('billing_for');
+            if (billingForSelect.value) {
+                toggleBillingSections(billingForSelect.value);
+            }
+            
+            // Initialize other functions (select2, validation) as before
+            $('.select2').select2({
+                placeholder: "Select an option",
+                allowClear: true
+            });
+            
+            // Form validation code remains the same
+        });
+        </script>
  
 
 </body>

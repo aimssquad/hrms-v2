@@ -47,7 +47,7 @@
                          </div>
                         <div class="card-body">
                             <h4 class="card-title">
-                                <i class="far fa-building"></i>New Invoice <span><a href="{{ url('superadmin/add-billing2') }}" data-toggle="tooltip" data-placement="bottom" title="Create Invoice" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span><br>   
+                                <i class="far fa-building"></i>Invoice <span><a href="{{ url('superadmin/add-billing2') }}" data-toggle="tooltip" data-placement="bottom" title="Create Invoice" style="padding: 8px 0;"><img  style="width: 25px;" src="{{ asset('img/plus1.png')}}"></a></span><br>   
                              </h4>
                            <div class="table-responsive">
                             <table id="basic-datatables" class="display table table-striped table-hover" >
@@ -55,9 +55,9 @@
                                    <tr>
                                       <th>Sl.No.</th>
                                       <th>Invoice.No.</th>
-                                      <th>Billg For</th>
+                                      <th>Billg Item</th>
                                       <th>Billing Month</th>
-                                      <th>Billing Type</th>
+                                      <th>Billing To</th>
                                       <th>Entity Id</th>
                                       <th>Amount</th>
                                       <th>Total Employee</th>
@@ -78,8 +78,8 @@
                                    <tr>
                                       <td>{{$loop->iteration}}</td>
                                       <td><a href="{{ route('admin.billing.invoice', $billing->id) }}">{{$billing->invoice_no}}</a></td>
-                                      {{-- <td>{{$billing->bill_for}}</td> --}}
-                                      <td>{{$billing->billFor->item_name ?? 'NA'}}</td>
+                                      <td>{{$billing->bill_for ?? 'NA'}}</td>
+                                      {{-- <td>{{$billing->billFor->item_name ?? 'NA'}}</td> --}}
                                       <td>{{ \Carbon\Carbon::parse($billing->date)->format('d-m-Y')  ?? 'NA'}}</td>
                                       <td>{{$billing->billing_type  ?? 'NA'}}</td>
                                       <td>{{$billing->company->name  ?? 'NA'}}</td>

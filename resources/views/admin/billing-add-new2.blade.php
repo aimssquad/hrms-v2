@@ -33,6 +33,7 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css')}}">
+    <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     <style>
     .autocomplete {
         position: relative;
@@ -108,7 +109,7 @@
                         <div class="col-md-12">
                             <div class="card custom-card">
                                 <div class="card-header">
-                                    <h4 class="card-title"><i class="far fa-newspaper"></i> New Billing</h4>
+                                    <h4 class="card-title"><i class="far fa-newspaper"></i> New Invoice</h4>
                                     @if(Session::has('message'))
                                     <div class="alert alert-success" style="text-align:center;"><span
                                             class="glyphicon glyphicon-ok"></span><em>
@@ -126,9 +127,10 @@
                                         <div class="row form-group">
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="bill_for" class="placeholder">Billing For</label>
+                                                    <label for="bill_for" class="placeholder">Billing Item</label>
                                                     <select class="form-control input-border-bottom" id="bill_for" name="bill_for" required="" style="margin-top: 22px;">
                                                         <option value="">&nbsp;</option>
+                                                        <option value="HRMS Subscription">HRMS Subscription</option>
                                                         <option value="invoice for license applied">Invoice for license applied</option>
                                                         <option value="invoice for license granted">Invoice for license granted</option>
                                                         <option value="first invoice recruitment service">First invoice for recruitment service</option>
@@ -166,7 +168,7 @@
                                     
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="billing_type" class="placeholder">Billing Type</label>
+                                                    <label for="billing_type" class="placeholder">Billing To</label>
                                                     <select class="form-control input-border-bottom" id="billing_type" name="billing_type" required="" style="margin-top: 22px;" onchange="getBillingEntities(this.value);">
                                                         <option value="">&nbsp;</option>
                                                         <option value="employer">Organisation</option>
@@ -230,18 +232,23 @@
                                                 </div>
                                             </div>
                                             
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="vat" >Description</label>
-                                                    <input type="text" class="form-control" id="description" value="" name="description">
+                                                    {{-- <input type="text" class="form-control" id="description" value="" name="description"> --}}
+                                                    <textarea id="editor" name="description" style="margin-top:20px"></textarea>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="vat" >Remarks</label>
-                                                    <textarea class="form-control" id="remarks" name="remarks"></textarea>
+                                                    {{-- <textarea class="form-control" id="remarks" name="remarks"></textarea> --}}
+                                                    <textarea id="editor2" name="remarks" style="margin-top:20px"></textarea>
                                                 </div>
                                             </div>
+                                            {{-- <textarea id="editor" name="msg" style="margin-top:20px"> --}}
+          
+                                            {{-- </textarea> --}}
                                         {{-- </div>     --}}
                                             <div class="row">
                                                 <div class="col-md-4">
@@ -360,6 +367,8 @@
             }
         });
     </script>
+    <script>CKEDITOR.replace( 'editor' );</script>
+    <script>CKEDITOR.replace( 'editor2' );</script>
 
 </body>
 

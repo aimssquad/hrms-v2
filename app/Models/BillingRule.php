@@ -13,11 +13,20 @@ class BillingRule extends Model
         'type',
         'entity_id',
         'is_default',
-        'employee_charge',
+        'billing_for',
+
+        'min_organizations',
         'max_organizations',
+        'organization_charge',
+
         'min_employees',
         'max_employees',
-        'payment_date_range',
+        'employee_charge',
+        
+        'billing_mode',
+        'payment_date_from',
+        'payment_date_to',
+        //'payment_date_range',
         'org_code',
     ];
 }

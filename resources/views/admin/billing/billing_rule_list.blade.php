@@ -118,13 +118,17 @@
                                       <thead>
                                          <tr>
                                             <th>Sl.No.</th>
-                                            <th>Type</th>
+                                            <th>Billing For</th>
+                                            <th>Billing Type</th>
                                             <th>Company Name</th>
                                             <th>Employee Charge</th>
-                                            <th>Max Organization</th>
-                                            <th>Min Employee</th>
+                                            {{-- <th>Min Employee</th> --}}
                                             <th>Max Employee</th>
-                                            <th>Payment Date Range</th>
+                                            <th>Organization Charge</th>
+                                            {{-- <th>Min Organization</th> --}}
+                                            <th>Max Organization</th>
+                                            {{-- <th>Payment Date Range</th> --}}
+                                            <th>Billing Mode</th>
                                             <th>Action</th>
                                          </tr>
                                       </thead>
@@ -143,12 +147,16 @@
                                          <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $billing->type ?? 'NA' }}</td>
+                                            <td>{{ $billing->billing_for ?? 'NA' }}</td>
                                             <td>{{ $copany_name->com_name ?? 'DEFULT' }}</td>
                                             <td>{{ $billing->employee_charge ?? 'NA' }}</td>
-                                            <td>{{ $billing->max_organizations ?? 'NA' }}</td>
-                                            <td>{{ $billing->min_employees ?? 'NA' }}</td>
+                                            {{-- <td>{{ $billing->min_employees ?? 'NA' }}</td> --}}
                                             <td>{{ $billing->max_employees ?? 'NA' }}</td>
-                                            <td>{{ $billing->payment_date_range ?? 'NA' }}</td>
+                                            <td>{{ $billing->organization_charge ?? 'NA' }}</td>
+                                            {{-- <td>{{ $billing->min_organizations ?? 'NA' }}</td> --}}
+                                            <td>{{ $billing->max_organizations ?? 'NA' }}</td>
+                                            {{-- <td>{{ $billing->payment_date_range ?? 'NA' }}</td> --}}
+                                            <td>{{ $billing->billing_mode ?? 'NA' }}</td>
                                             <td class="drp">
                                                <div class="dropdown">
                                                   <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

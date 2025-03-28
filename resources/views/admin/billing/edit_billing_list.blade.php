@@ -108,7 +108,7 @@
                         <div class="col-md-12">
                             <div class="card custom-card">
                                 <div class="card-header">
-                                    <h4 class="card-title"><i class="far fa-newspaper"></i> New Billing</h4>
+                                    <h4 class="card-title"><i class="far fa-newspaper"></i> Edit Invoice</h4>
                                     @if(Session::has('message'))
                                     <div class="alert alert-success" style="text-align:center;"><span
                                             class="glyphicon glyphicon-ok"></span><em>
@@ -128,9 +128,10 @@
                                             <input type="text" name="invoice_no" value="{{$bills->invoice_no}}" hidden>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="bill_for" class="form-label">Billing For</label>
+                                                    <label for="bill_for" class="form-label">Billing Item</label>
                                                     <select class="form-control input-border-bottom" id="bill_for" name="bill_for" required>
                                                         <option value="">&nbsp;</option>
+                                                        <option value="HRMS Subscription" {{ old('bill_for', $bills->bill_for) == 'HRMS Subscription' ? 'selected' : '' }}>HRMS Subscription</option>
                                                         <option value="invoice for license applied" {{ old('bill_for', $bills->bill_for) == 'invoice for license applied' ? 'selected' : '' }}>Invoice for license applied</option>
                                                         <option value="invoice for license granted" {{ old('bill_for', $bills->bill_for) == 'invoice for license granted' ? 'selected' : '' }}>Invoice for license granted</option>
                                                         <option value="first invoice recruitment service" {{ old('bill_for', $bills->bill_for) == 'first invoice recruitment service' ? 'selected' : '' }}>First invoice for recruitment service</option>
@@ -154,7 +155,7 @@
                                             <!-- Hidden Billing Type -->
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="billing_type" class="placeholder">Billing Type</label>
+                                                    <label for="billing_type" class="placeholder">Billing To</label>
                                                     <input type="text" class="form-control" id="billing_type" name="billing_type" value="{{$bills->billing_type}}" readonly>
                                                 </div>
                                             </div>
@@ -214,16 +215,17 @@
                                             </div>
                     
                                             <!-- Description -->
-                                            <div class="col-md-4">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="description" class="form-label">Description</label>
-                                                    <input type="text" class="form-control" id="description" name="description" value="{{$bills->description}}">
+                                                    {{-- <input type="text" class="form-control" id="editor" name="description" value="{{$bills->description}}"> --}}
+                                                    <textarea class="form-control" id="editor"  name="remarks">{{$bills->description}}</textarea>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="vat" >Remarks</label>
-                                                    <textarea class="form-control" id="remarks"  name="remarks">{{ $bills->remarks }}</textarea>
+                                                    <textarea class="form-control" id="editor2"  name="remarks">{{ $bills->remarks }}</textarea>
                                                 </div>
                                             </div>
                     
@@ -265,6 +267,8 @@
     <script src="{{ asset('assets/js/plugin/datatables/datatables.min.js')}}"></script>
     <!-- Atlantis JS -->
     <script src="{{ asset('assets/js/atlantis.min.js')}}"></script>
+    <!-- CkEditor ---->
+    <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     <!-- Atlantis DEMO methods, don't include it in your project! -->
     <script src="{{ asset('assets/js/setting-demo2.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -319,7 +323,7 @@
         }
     </script>
 
-<script type="text/javascript">
+{{-- <script type="text/javascript">
     $(document).ready(function () {
     // Trigger calculation on input in VAT, Amount, or Discount Amount fields
     $('#vat, #amount, #discount_amount').on('input', function () {
@@ -346,7 +350,38 @@
         $('#total_amount').val(totalAmount.toFixed(2)); // Show two decimal places
     }
 });
+</script> --}}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Trigger calculation on input in VAT, Amount, or Discount Amount fields
+        $('#vat, #amount, #discount_amount').on('input', function () {
+            calculateTotalAmount();
+        });
+    
+        // Initial calculation on page load (in case values are pre-filled)
+        calculateTotalAmount();
+    
+        // Function to calculate the total amount
+        function calculateTotalAmount() {
+            // Get values from the fields
+            var amount = parseFloat($('#amount').val()) || 0; // Default to 0 if empty
+            var vat = parseFloat($('#vat').val()) || 0;      // Default to 0 if empty
+            var discount = parseFloat($('#discount_amount').val()) || 0; // Default to 0 if empty
+    
+            // Calculate VAT and apply discount
+            var totalAmount = (amount- discount) * (1 + vat / 100) ;
+    
+            // Ensure the total amount doesn't go below 0
+            totalAmount = Math.max(totalAmount, 0);
+    
+            // Update the total amount field
+            $('#total_amount').val(totalAmount.toFixed(2)); // Show two decimal places
+        }
+    });
 </script>
+<script>CKEDITOR.replace( 'editor' );</script>
+<script>CKEDITOR.replace( 'editor2' );</script>
 
     
 

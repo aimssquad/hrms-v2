@@ -27,7 +27,7 @@
     });
     </script>
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/favicon.png') }}">
+    {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/favicon.png') }}"> --}}
 		
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
@@ -149,9 +149,10 @@
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td class="d-none d-sm-table-cell">{{$bill->billFor->item_name}}</td>
+                                            <td class="d-none d-sm-table-cell">{{$bill->bill_for}}</td>
                                             <td>{{$bill->total_employee}}</td>
-                                            <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td>
+                                            {{-- <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td> --}}
+                                            <td></td>
                                             <td>{{$bill->amount}}</td>
                                             <td>{{$bill->discount_amount}}</td>
                                             {{-- <td class="text-end">{{$bill->total_amount}}</td> --}}
@@ -201,6 +202,11 @@
                                                                     @php
                                                                         $vat = $total*$bill->vat/100;
                                                                         echo $vat;
+                                                                    @endphp
+                                                                @else
+                                                                    @php
+                                                                    $vat = $bill->amount*$bill->vat/100;
+                                                                    echo $vat;
                                                                     @endphp
                                                                 @endif
                                                             </td>
