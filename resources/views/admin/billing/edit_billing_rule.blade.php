@@ -38,9 +38,9 @@
         border: none;
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
-    .card-header {
-        background: linear-gradient(87deg, #5ac3f3 0, #2dcecc 100%) !important;
-    }
+    /* .card-header {
+        background: linear-gradient(87deg, #1bb2f8 0, #5442f7 100%) !important;
+    } */
     .form-label {
         font-weight: 500;
         margin-bottom: 0.5rem;
@@ -122,7 +122,7 @@
                                         <!-- Organisation Subscription Section -->
                                         <div class="row mb-3" id="for_org_subscription" style="display: {{ $rule->billing_for == 'Organisation Subscription' ? 'flex' : 'none' }};">
                                             <div class="col-md-12">
-                                                <h6 class="section-title">Organisation Subscription Settings</h6>
+                                                
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
@@ -150,7 +150,7 @@
                                         <!-- Number of Employees Section -->
                                         <div class="row mb-3" id="for_num_of_emp" style="display: {{ $rule->billing_for == 'Number Of Employee' ? 'flex' : 'none' }};">
                                             <div class="col-md-12">
-                                                <h6 class="section-title">Employee-Based Settings</h6>
+                                                
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
@@ -178,7 +178,7 @@
                                         <!-- Payment Date Range -->
                                         <div class="row mb-3">
                                             <div class="col-md-12">
-                                                <h6 class="section-title">Payment Schedule</h6>
+                                                
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">

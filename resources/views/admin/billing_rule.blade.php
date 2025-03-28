@@ -99,14 +99,14 @@
         @include('admin.include.sidebar')
         <!-- End Sidebar -->
         <div class="main-panel">
-            <div class="page-header">
+            {{-- <div class="page-header">
 
-            </div>
+            </div> --}}
             <div class="content">
                 <div class="page-inner">
 
                     <div class="row">
-                        <div class="container mt-5">
+                        <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-md-12">
                                     <div class="card">
@@ -127,7 +127,7 @@
                                             <form action="{{url('superadmin/bill/rule/store')}}" method="POST" class="needs-validation" novalidate>
                                                 @csrf()
                                                 <div class="card">
-                                                    <div class="card-header bg-primary text-white">
+                                                    <div class="card-header text-white">
                                                         <h5 class="mb-0">Billing Rule Configuration</h5>
                                                     </div>
                                                     <div class="card-body">
@@ -171,7 +171,7 @@
                                                         <!-- Organisation Subscription Section -->
                                                         <div class="row mb-3" id="for_org_subscription" style="display: none;">
                                                             <div class="col-md-12">
-                                                                <h6 class="border-bottom pb-2 text-primary">Organisation Subscription Settings</h6>
+                                                               
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
@@ -199,7 +199,7 @@
                                                         <!-- Number of Employees Section -->
                                                         <div class="row mb-3" id="for_num_of_emp" style="display: none;">
                                                             <div class="col-md-12">
-                                                                <h6 class="border-bottom pb-2 text-primary">Employee-Based Settings</h6>
+                                                                
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
@@ -227,7 +227,7 @@
                                                         <!-- Payment Date Range -->
                                                         <div class="row mb-3">
                                                             <div class="col-md-12">
-                                                                <h6 class="border-bottom pb-2 text-primary">Payment Schedule</h6>
+                                                             
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
