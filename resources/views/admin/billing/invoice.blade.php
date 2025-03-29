@@ -52,206 +52,162 @@
    
 </head>
 
-<body>
-    <div class="wrapper">
-
-        @include('admin.include.header')
-        <!-- Sidebar -->
-
-        @include('admin.include.sidebar')
-        <!-- End Sidebar -->
-        <div class="main-panel">
-            <div class="page-header">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h3 class="page-title">Invoice</h3>
-                        {{-- <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Invoice</li>
-                        </ul> --}}
-                    </div>
-                    <div class="col-auto float-end ms-auto">
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-white">CSV</button>
-                            <button class="btn btn-white">PDF</button>
-                            <button class="btn btn-white"><i class="fa-solid fa-print fa-lg"></i> Print</button>
+<body id="pdf_download">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 m-b-20">
+                            <img src="{{ asset('img/logo.png') }}" class="inv-logo" alt="Logo">
+                            <ul class="list-unstyled">
+                                {{-- <li>{{ strtoupper($org_dtl->com_name) }}</li>
+                                <li>{{strtoupper($org_dtl->address2)}}</li> --}}
+                                
+                                {{-- <li>GST No:</li> --}}
+                            </ul>
+                        </div>
+                        <div class="col-sm-6 m-b-20">
+                            <div class="invoice-details">
+                                <h3 class="text-uppercase" style="text-align: justify;">Skilled Workers Cloud Ltd.</h3>
+                                <ul class="list-unstyled">
+                                    <li style="text-align: justify;"><span>G21,Unit 3,Triangle Centre</span></li>
+                                    <li style="text-align: justify;"><span>399,Uxbridge Road</span></li>
+                                    <li style="text-align: justify;"><span>UB1 3EJ,United Kingdom</span></li>
+                                    <li style="text-align: justify;">Mobile: <span>07467284718</span></li>
+                                    <li style="text-align: justify;">Email: <span>info@skilledworkerscloud.co.uk</span></li>
+                                    <li style="text-align: justify;">Website: <span><a href="https://skilledworkerscloud.co.uk/">https://skilledworkerscloud.co.uk/</a></span></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>    
-        <!-- /Page Header -->
-        
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-6 m-b-20">
-                                    <img src="{{ asset('img/logo.png') }}" class="inv-logo" alt="Logo">
-                                    <ul class="list-unstyled">
-                                        {{-- <li>{{ strtoupper($org_dtl->com_name) }}</li>
-                                        <li>{{strtoupper($org_dtl->address2)}}</li> --}}
-                                        
-                                        {{-- <li>GST No:</li> --}}
-                                    </ul>
-                                </div>
-                                <div class="col-sm-6 m-b-20">
-                                    <div class="invoice-details">
-                                        <h3 class="text-uppercase">Skilled Workers Cloud Ltd.</h3>
-                                        <ul class="list-unstyled">
-                                            <li><span>{{ strtoupper($org_dtl->address2 ?? 'NA') }}</span></li>
-                                            {{-- <li>{{strtoupper($org_dtl->city)}} {{strtoupper($org_dtl->road)}} {{strtoupper($org_dtl->zip)}}</li> --}}
-                                            {{-- <li>Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> --}} 
-                                            <li>Mobile: <span>07467284718</span></li>
-                                            <li>Email: <span>info@skilledworkerscloud.co.uk</span></li>
-                                            <li>Website: <span><a href="https://skilledworkerscloud.co.uk/">http://www.skilledworkerscloud.co.uk/</a></span></li>
-                                        </ul>
+                    <div>
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-7 col-xl-8 m-b-20">
+                            <h5>Invoice To: {{ strtoupper($com_name) }}</h5>
+                            <ul class="list-unstyled">
+                                <li><span>{{ strtoupper($f_name) }} {{ strtoupper($l_name) }}</span></li>
+                                <li>{{strtoupper($address)}}</li>
+                                <li>{{strtoupper($city)}}</li>
+                                <li>{{ strtoupper("$road $zip") }}</li>
+                                <li>{{strtoupper($p_no)}}</li>
+                                <li><a href="#">{{$email}}</a></li>
+                              
+                            </ul>
+                        </div>
+                        <div class="col-sm-6 col-lg-5 col-xl-4 m-b-20">
+                            <span class="text-muted">Invoice No: {{$invoice_no}}</span>
+                            <ul class="list-unstyled invoice-payment-details">
+                                <li>Invoice Date: <span>{{ isset($invoice_date) ? \Carbon\Carbon::parse($invoice_date)->format('d/m/Y') : 'NA' }}</span></li> 
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th class="d-none d-sm-table-cell">Item Name</th>
+                                    <th >Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Unit Price Excluding VAT</th>
+                                    <th>Discount</th>
+                                    <th class="text-end">TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td class="d-none d-sm-table-cell">{{$item}}</td>
+                                    <td></td>
+                                    {{-- <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td> --}}
+                                    <td></td>
+                                    <td>{{$amount}}</td>
+                                    <td>{{ $discount_amount ?? '0.00' }}</td>
+                                    {{-- <td class="text-end">{{$bill->total_amount}}</td> --}}
+                                    <td class="text-end">
+                                        @php
+                                            $subtotal = $discount_amount ? ($amount - $discount_amount) : $amount;
+                                            echo number_format($subtotal, 2);
+                                        @endphp
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="row invoice-payment">
+                            <div class="col-sm-7">
+                                <div class="m-b-20">
+                                    <div class="table-responsive no-border">
+                                        <table class="table mb-0">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Payment Method :</th>
+                                                    <td class="text-center">{{$payment_mode}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <hr>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6 col-lg-7 col-xl-8 m-b-20">
-                                    <h5>Bill To: {{ strtoupper($org_dtl->com_name ?? "NA") }}</h5>
-                                    <br>
-                                    <ul class="list-unstyled">
-                                        {{-- <li><h5><strong>{{ strtoupper($org_dtl->com_name) }}</strong></h5></li> --}}
-                                        <li><span>{{ strtoupper($org_dtl->f_name) }} {{ strtoupper($org_dtl->l_name) }}</span></li>
-                                        <li>{{strtoupper($org_dtl->address)}}</li>
-                                        <li>{{strtoupper($org_dtl->city)}}</li>
-                                        <li>{{strtoupper($org_dtl->road)}} {{strtoupper($org_dtl->zip)}}</li>
-                                        <li>{{strtoupper($org_dtl->p_no)}}</li>
-                                        <li><a href="#">{{$org_dtl->email}}</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-6 col-lg-5 col-xl-4 m-b-20">
-                                    <span class="text-muted">Invoice No: {{$bill->invoice_no}}</span>
-                                    <ul class="list-unstyled invoice-payment-details">
-                                        <li>Bill Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> 
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th class="d-none d-sm-table-cell">Item Name</th>
-                                            <th >Quantity</th>
-                                            <th>Unit Price</th>
-                                            <th>Unit Price Excluding VAT</th>
-                                            <th>Discount</th>
-                                            <th class="text-end">TOTAL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td class="d-none d-sm-table-cell">{{$bill->bill_for}}</td>
-                                            <td>{{$bill->total_employee}}</td>
-                                            {{-- <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td> --}}
-                                            <td></td>
-                                            <td>{{$bill->amount}}</td>
-                                            <td>{{$bill->discount_amount}}</td>
-                                            {{-- <td class="text-end">{{$bill->total_amount}}</td> --}}
-                                            <td class="text-end">
-                                                @if($bill->discount_amount !== null) 
-                                            
-                                                    @php
-                                                        $total = $bill->amount-$bill->discount_amount;
-                                                        echo $total;
-                                                    @endphp
-                                                @else 
-                                                    {{$bill->amount}}
+                            <div class="col-sm-5">
+                                <div class="m-b-20">
+                                    <div class="table-responsive no-border">
+                                        <table class="table mb-0">
+                                            @php
+                                                $vat_amount = $vat ? ($subtotal * $vat / 100) : 0;
+                                                $grand_total = $total_amount ?: ($subtotal + $vat_amount);
+                                            @endphp
+                                            <tbody>
+                                                @if($vat)
+                                                <tr>
+                                                    <th>Vat ({{$vat}} %):</th>
+                                                    <td></td>
+                                                    <td class="text-end">
+                                                        {{ number_format($vat_amount, 2) }}  
+                                                    </td>
+                                                </tr>
                                                 @endif
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div>
-                                <div class="row invoice-payment">
-                                    <div class="col-sm-7">
-                                        <div class="m-b-20">
-                                            <div class="table-responsive no-border">
-                                                <table class="table mb-0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>Payment Method :</th>
-                                                            <td class="text-center">{{$bill->payment_mode}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                                <tr>
+                                                    <th>Subtotal:</th>
+                                                    <td></td>
+                                                    <td class="text-end">
+                                                        {{ number_format($subtotal, 2) }}
+                                                    </td>
+                                                </tr>
+                                            
+                                                <tr>
+                                                    <th>Total Paid:</th>
+                                                    <td></td>
+                                                    <td class="text-end text-primary">
+                                                        <h5>
+                                                            {{ number_format($grand_total, 2) }}
+                                                        </h5>
+                                                    </td>
+                                                </tr>
+                                                {{-- <tr>
+                                                    <th>Due: <span class="text-regular"></span></th>
+                                                    <td></td>
+                                                    <td class="text-end"> {{ $bill->payment_status == 0 ? 'Due' : 'Paid' }}</td>
+                                                </tr> --}}
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="col-sm-5">
-                                        <div class="m-b-20">
-                                            <div class="table-responsive no-border">
-                                                <table class="table mb-0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>Vat ({{$bill->vat ?? ''}} %):</th>
-                                                            <td></td>
-                                                            {{-- <td class="text-end">{{ !empty($bill->discount_amount) ? $bill->discount_amount : 'NA' }}</td> --}}
-                                                            <td class="text-end">
-                                                                {{-- {{$bill->vat}} --}}
-                                                                @if($bill->discount_amount !== null) 
-                                                                    @php
-                                                                        $vat = $total*$bill->vat/100;
-                                                                        echo $vat;
-                                                                    @endphp
-                                                                @else
-                                                                    @php
-                                                                    $vat = $bill->amount*$bill->vat/100;
-                                                                    echo $vat;
-                                                                    @endphp
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Subtotal:</th>
-                                                            <td></td>
-                                                            <td class="text-end">
-                                                                @if($bill->total_amount==0)
-                                                                {{ !empty($bill->amount) ? $bill->amount : 'NA' }}
-                                                                @else
-                                                                    {{$bill->total_amount}}
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            <th>Total Paid:</th>
-                                                            <td></td>
-                                                            <td class="text-end text-primary"><h5>{{$bill->total_amount}}</h5></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Due: <span class="text-regular"></span></th>
-                                                            <td></td>
-                                                            <td class="text-end"> {{ $bill->payment_status == 0 ? 'Due' : 'Paid' }}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="invoice-info" style="text-align: center; margin-top: 20px;">
-                                    {{-- <img src="{{ asset('storage/uploads/1730006517_swch_logo (2).png') }}" 
-                                        alt="Logo" 
-                                        style="height: 100px; width: auto; display: inline-block;"><span>Copyright 2024 Skilled Workers Cloud Ltd. All Rights Reserved</span> --}}
                                 </div>
                             </div>
                         </div>
+                        {{-- <div class="invoice-info" style="text-align: center; margin-top: 20px;">
+                            <img src="{{ asset('storage/uploads/1730006517_swch_logo (2).png') }}" 
+                                alt="Logo" 
+                                style="height: 100px; width: auto; display: inline-block;"><span>Copyright 2024 Skilled Workers Cloud Ltd. All Rights Reserved</span>
+                        </div> --}}
                     </div>
                 </div>
             </div>
-            {{-- @include('admin.include.footer') --}}
         </div>
-
     </div>
     <!--   Core JS Files   -->
     <script src="{{ asset('assets/js/core/jquery.3.2.1.min.js')}}"></script>
@@ -271,6 +227,28 @@
     <!-- Atlantis DEMO methods, don't include it in your project! -->
     <script src="{{ asset('assets/js/setting-demo2.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create a script element to load the html2pdf library
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+            script.onload = function() {
+                // Configuration for PDF generation
+                const element = document.getElementById('pdf_download');
+                const opt = {
+                    margin: 10,
+                    filename: 'document.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                // Generate and download the PDF
+                html2pdf().set(opt).from(element).save();
+            };
+            document.head.appendChild(script);
+        });
+    </script> --}}
   
 
 </body>

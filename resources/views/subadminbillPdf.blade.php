@@ -52,7 +52,7 @@
    
 </head>
 
-<body>
+<body id="pdf_download">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -199,11 +199,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="invoice-info" style="text-align: center; margin-top: 20px;">
-                            {{-- <img src="{{ asset('storage/uploads/1730006517_swch_logo (2).png') }}" 
+                        {{-- <div class="invoice-info" style="text-align: center; margin-top: 20px;">
+                            <img src="{{ asset('storage/uploads/1730006517_swch_logo (2).png') }}" 
                                 alt="Logo" 
-                                style="height: 100px; width: auto; display: inline-block;"><span>Copyright 2024 Skilled Workers Cloud Ltd. All Rights Reserved</span> --}}
-                        </div>
+                                style="height: 100px; width: auto; display: inline-block;"><span>Copyright 2024 Skilled Workers Cloud Ltd. All Rights Reserved</span>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -227,6 +227,28 @@
     <!-- Atlantis DEMO methods, don't include it in your project! -->
     <script src="{{ asset('assets/js/setting-demo2.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create a script element to load the html2pdf library
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+            script.onload = function() {
+                // Configuration for PDF generation
+                const element = document.getElementById('pdf_download');
+                const opt = {
+                    margin: 10,
+                    filename: 'document.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                // Generate and download the PDF
+                html2pdf().set(opt).from(element).save();
+            };
+            document.head.appendChild(script);
+        });
+    </script>
   
 
 </body>

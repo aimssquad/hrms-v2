@@ -54,6 +54,7 @@ Route::get('/billing/delete/{id}', 'App\Http\Controllers\organization\BillContro
 Route::get('superadmin/billing/invoice/{id}', 'App\Http\Controllers\organization\BillController@viewAdminInvoice')->name('admin.billing.invoice');
 Route::get('superadmin/partner-org-notissued', 'App\Http\Controllers\organization\BillController@notIssuedBills')->name('partnerOrgNotissuedInvoice');
 Route::get('superadmin/invoice/mail/{id}', 'App\Http\Controllers\organization\BillController@invoiceMailSend')->name('admin.invoice.mail');
+Route::get('download-invoice-pdf/{id}', 'App\Http\Controllers\organization\BillController@downloadPdf')->name('admin.download-pdf');
 
 Route::get('superadmin/partner-billing-list', 'App\Http\Controllers\organization\BillController@partnerOrgInvoiceList')->name('partner.bills.list');
 Route::get('superadmin/partner-org-billing','App\Http\Controllers\organization\BillController@partnerOrgBilling')->name('superadmin.partner-org-billing');
