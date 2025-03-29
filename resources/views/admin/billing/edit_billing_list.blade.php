@@ -218,8 +218,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="description" class="form-label">Description</label>
-                                                    {{-- <input type="text" class="form-control" id="editor" name="description" value="{{$bills->description}}"> --}}
-                                                    <textarea class="form-control" id="editor"  name="remarks">{{$bills->description}}</textarea>
+                                                    <textarea class="form-control" id="editor"  name="description">{{$bills->description}}</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">

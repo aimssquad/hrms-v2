@@ -1,64 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Billing Invoice</title>
+    <title>Invoice Email</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
-<body style="font-family: Arial, sans-serif; margin: 0; padding: 5%; background-color: #f9f9f9;">
-    <div style="width: 100%; max-width: 550px; margin: 0 auto; background: #ffffff; border: 1px solid #dddddd; border-radius: 5px; overflow: hidden;">
-        <!-- Header Section -->
-        <div style="background-color: #FF902F; color: white; padding: 20px; text-align: center;">
-            <h1 style="margin: 0;">Invoice</h1>
-        </div>
 
-        <!-- Content Section -->
-        <div style="padding: 20px;">
-            <h2>Dear {{ $subadmin_name }},</h2>
-            <p style="margin: 10px 0; color: #555555;">We hope this email finds you well. Please find below the details of your recent billing:</p>
+<body style="font-family: 'Arial', 'Helvetica', 'Verdana', 'Tahoma', 'Geneva', sans-serif; margin: 0; padding: 0;">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600px" cellspacing="0" cellpadding="0" border="0"
+                    style="background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td>
+                            <table style="border-spacing: 0; padding: 0; margin: 0;">
+                                <tr>
+                                    <td width="25%" style="padding-left: 20px;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%">
+                                    </td>
+                                    <td width="60%" style="padding: 0;margin: 0;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-            <!-- Billing Details Table -->
-            <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
-                <tr>
-                    <th style="border: 1px solid #dddddd; padding: 8px; background-color: #f4f4f4;">Invoice Number</th>
-                    <td style="border: 1px solid #dddddd; padding: 8px;">{{ $Invoice_no }}</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #dddddd; padding: 8px; background-color: #f4f4f4;">Billing Date</th>
-                    <td style="border: 1px solid #dddddd; padding: 8px;">{{ $Billing_date }}</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #dddddd; padding: 8px; background-color: #f4f4f4;">Billing For</th>
-                    <td style="border: 1px solid #dddddd; padding: 8px;">{{ $Billing_for }}</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #dddddd; padding: 8px; background-color: #f4f4f4;">Organization Name</th>
-                    <td style="border: 1px solid #dddddd; padding: 8px;">{{ $organization_name }}</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #dddddd; padding: 8px; background-color: #f4f4f4;">Total Amount</th>
-                    <td style="border: 1px solid #dddddd; padding: 8px;">{{ $Total_amount }}</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #dddddd; padding: 8px; background-color: #f4f4f4;">VAT</th>
-                    <td style="border: 1px solid #dddddd; padding: 8px;">{{ $Vat }}%</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #dddddd; padding: 8px; background-color: #f4f4f4;">Discount</th>
-                    <td style="border: 1px solid #dddddd; padding: 8px;">{{ $Discount }}</td>
-                </tr>
-            </table>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 20px;">
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">Hello <b>{{ strtoupper($com_name) }}</b>,</p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">Thank you for your business with us! Your invoice ({{$invoice_no}}) is due for payment.</p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;"><strong>Invoice Details:</strong></p>
+                            <ul style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;">
+                                <li>Invoice Number:  {{$invoice_no}} </li>
+                                <li>Item:  {{$item}} </li>
+                                <li>Date Issued: {{$invoice_date}}</li>
+                                <li>Amount Due: {{ $total_amount }}</li>
+                                </ul>
+                            {{-- <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">
+                                <strong>Payment Description: </strong> {{$description}}
+                            </p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">
+                                <strong>Payment Remarks: </strong> {{$remarks}}
+                            </p> --}}
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">
+                                Please see the attached Invoice herewith the email.
+                            </p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">
+                                If you have made your payment within last 5 days please ignore this email. 
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
+                            </p>
+                        </td>
+                    </tr>
 
-            <p style="margin: 10px 0; color: #555555;">If you have any questions regarding this invoice, please feel free to contact us at {{ $subadmin_email }}</p>
+                    <tr>
+                        <td height="20"></td>
+                    </tr>
 
-            <p style="margin: 10px 0; color: #555555;">Thank you for your business!</p>
-        </div>
+                    <tr>
+                        <td style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px;">
+                            <p style="margin: 0;">Reach out anytime at <a
+                                    href="mailto: info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a> or
+                                call <a href="tel: +44 074 6728 4718">+44 074 6728 4718</a></p>
 
-        <!-- Footer Section -->
-        <div style="background-color: #FF902F; padding: 20px; text-align: center; font-size: 14px; color: #fcfbfb;">
-            <p>&copy; {{ $subadmin_name }} | All rights reserved.</p>
-            <p>{{ $subadmin_email }}</p>
-        </div>
-    </div>
+                            <p>Let’s get started on your journey toward efficient HR and compliance!</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td height="20"></td>
+                    </tr>
+
+
+                    <!-- Text Section -->
+
+                    <tr>
+                        <td style="padding: 0 20px;">
+                            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 150px;">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td height="30"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: left; color: #333; font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px;">
+                            <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td height="20"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 0 20px;">
+                            <p style="margin: 0 0 20px; font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; font-weight: bold; color: #0044cc;">SWC HRMS
+                                Team</p>
+                        </td>
+                    </tr>
+
+                    <!-- Contact Info Section -->
+                    <tr>
+                        <td style="color: #333; font-size: 16px; line-height: 1.8; padding: 0 20px;">
+                            <!-- Email -->
+                            <p style="margin: 5px 0;">
+                                <img src="https://ik.imagekit.io/oq9hcqjih/email.png" alt="Email"
+                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                <strong>Email:</strong>
+                                <a href="mailto:info@skilledworkerscloud.co.uk"
+                                    style="color: #0044cc; text-decoration: none;">info@skilledworkerscloud.co.uk</a>
+                            </p>
+                            <!-- Phone -->
+                            <p style="margin: 5px 0;">
+                                <img src="https://ik.imagekit.io/oq9hcqjih/phone-call.png" alt="Phone"
+                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                <strong>Phone:</strong> +44 074 6728 4718
+                            </p>
+                            <!-- Landline -->
+                            <p style="margin: 5px 0;">
+                                <img src="https://ik.imagekit.io/oq9hcqjih/telephone.png" alt="Landline"
+                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                <strong>Landline:</strong> +44 (0) 208 129 1655
+                            </p>
+                            <!-- Website -->
+                            <p style="margin: 5px 0;">
+                                <img src="https://ik.imagekit.io/oq9hcqjih/web.png" alt="Website"
+                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                <strong>Website:</strong>
+                                <a href="https://www.skilledworkerscloud.co.uk"
+                                    style="color: #0044cc; text-decoration: none;">www.skilledworkerscloud.co.uk</a>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="30"></td>
+                    </tr>
+                    <tr>
+                        <td width="100%">
+                            <table width="100%" style="border-spacing: 0; padding: 0; margin: 0;">
+                                <tr>
+                                    <td width="40%" style="background-color: #c2bbfd; padding: 0; margin: 0;">
+                                        <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%">
+                                    </td>
+                                    <td width="60%" style="background-color: #151831; padding: 0; margin: 0; color: #67839c; text-align: center; height: 50px;border-radius: 16px 0 0 0;">
+                                        powered by <a href="#" style="color: #67839c;" target="_blank">Skilled Workers Cloud</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
+
 </html>

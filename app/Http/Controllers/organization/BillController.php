@@ -4,6 +4,8 @@ namespace App\Http\Controllers\organization;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Mail;
 use App\Models\Bill;
 use App\Models\BillingRule;
 use App\Models\Subadmin_bill;
@@ -53,7 +55,9 @@ class BillController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
+        // return view('subadmin_mail');
+        // return view('subadminbillPdf');
+        // dd($request->all());
         $email = Session::get('empsu_email');
         if(!empty($email)){
             $validatedData = $request->validate([
@@ -63,7 +67,7 @@ class BillController extends Controller
                 'entity_id' => 'required',
                 'amount' => 'nullable|numeric',
                 'total_employee' => 'nullable|integer',
-                'vat' => 'nullable|numeric', // This is the VAT percentage
+                'vat' => 'nullable|numeric', 
                 'total_amount' => 'nullable|numeric',
                 'payment_mode' => 'required|string',
                 'description' => 'nullable|string',
@@ -82,22 +86,123 @@ class BillController extends Controller
             }
             // Generate the next invoice number
             $invoiceNumber = "SWC" . $pt . $monthYear . str_pad($nextInvoiceNumber, 2, '0', STR_PAD_LEFT);
-        
-            // Merge the generated invoice number with other data
-           
-                $dataToSave = array_merge($validatedData, [
-                    'invoice_no' => $invoiceNumber, // Add the invoice number to save
-                ]);
-           
-            //
-            //dd($dataToSave);
+            $dataToSave = array_merge($validatedData, [
+                'invoice_no' => $invoiceNumber, // Add the invoice number to save
+            ]);
+      
             // Save the data
             $bill = Subadmin_bill::create($dataToSave);
+            
+        //    if($request->billing_type == "sub-admin"){
+        //         $com_dtl = DB::table('sub_admin_registrations')->where('reg',$request->entity_id)->first();
+        //    } else {
+        //         $com_dtl = DB::table('registration')->where('reg',$request->entity_id)->first();
+        //    }
+        //    $data = array('com_name' => $com_dtl->com_name, 'f_name' => $com_dtl->f_name, 'l_name' => $com_dtl->l_name, 'p_no' => $com_dtl->p_no, 'email' => $com_dtl->email, 'address' => $com_dtl->address, 'country' => $com_dtl->country, 'city' => $com_dtl->city, 'zip' => $com_dtl->zip,
+        //     'invoice_no' => $invoiceNumber, 'amount' => $request->amount, 'item' => $request->bill_for, 'total_amount' => $request->total_amount, 'invoice_date' => $request->date,
+        //     'discount_amount' => $request->discount_amount, 'billing_type' => $request->billing_type, 'total_employee' => $request->total_employee, 'vat' => $request->vat, 'payment_mode' => $request->payment_mode,
+        //     'description' => $request->description, 'remarks' => $request->remarks);
+        //     return view('subadmin_mail',$data);
+        //    dd($data);
+            //----------------------
+            
+            // $datap = ['com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country,
+            //     'date' => date('Y-m-d'), 'name' => $job->name, 'job_title' => $job->job_title, 'st_date' => date('Y-m-d', strtotime($request->date_jo)), 'em_name' => $job->name, 'em_pos' => $job->job_title];
+            // $pdf = Pdf::loadView('subadminbillPdf', $datap);
+
+            // $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
+            // 'email' => $Roleempdata->email, 'msg' => $request->msg);
+            // $toemail = $request->email;
+            
+            // Mail::send('subadmin_mail', $data, function ($message) use ($toemail, $sub, $path) {
+            //     $message->to($toemail)->subject($sub);
+            //     foreach ($path as $filePath) {
+            //         $message->attach($filePath);
+            //     }
+            //     $message->from('noreply@skilledworkerscloud.co.uk');
+            // });
+            // //-----------------
             Session::flash('message', 'Bill submitted successfully. Invoice Number: ' . $invoiceNumber);
             return redirect('superadmin/billing-list');
         } else {
             redirect('superadmin');
         }
+    }
+
+
+
+    public function invoiceMailSend(Request $request, $id)
+    {
+        $email = Session::get('empsu_email');
+        if (empty($email)) {
+            return redirect('superadmin');
+        }
+        $invoiceData = Subadmin_bill::where('id', $id)->first();
+        if (!$invoiceData) {
+            return back()->with('error', 'Invoice not found');
+        }
+        // Get company details
+        $com_dtl = ($invoiceData->billing_type == "sub-admin")
+            ? DB::table('sub_admin_registrations')->where('reg', $invoiceData->entity_id)->first()
+            : DB::table('registration')->where('reg', $invoiceData->entity_id)->first();
+
+        if (!$com_dtl) {
+            return back()->with('error', 'Company details not found');
+        }
+        // Prepare data for PDF and email
+        $data = [
+            'com_name' => $com_dtl->com_name,
+            'f_name' => $com_dtl->f_name,
+            'l_name' => $com_dtl->l_name,
+            'p_no' => $com_dtl->p_no,
+            'email' => $com_dtl->email,
+            'address' => $com_dtl->address,
+            'country' => $com_dtl->country,
+            'city' => $com_dtl->city,
+            'zip' => $com_dtl->zip,
+            'road' => $com_dtl->road,
+            'invoice_no' => $invoiceData->invoice_no,
+            'amount' => $invoiceData->amount,
+            'item' => $invoiceData->bill_for,
+            'total_amount' => $invoiceData->total_amount,
+            'invoice_date' => $invoiceData->date,
+            'discount_amount' => $invoiceData->discount_amount,
+            'billing_type' => $invoiceData->billing_type,
+            'total_employee' => $invoiceData->total_employee,
+            'vat' => $invoiceData->vat,
+            'payment_mode' => $invoiceData->payment_mode,
+            'description' => $invoiceData->description,
+            'remarks' => $invoiceData->remarks
+        ];
+
+        // Generate PDF
+        $pdf = Pdf::loadView('subadminbillPdf', $data);
+        // $pdf->save(storage_path('temp/invoice_temp.pdf')); 
+        // dd('okk');
+        $invoice = $invoiceData->invoice_no;
+        // Email details
+        $toEmail = "sharmaranjanetc@gmail.com";
+        $subject = 'Invoice #' . $invoice . ' - ' . $com_dtl->com_name;
+        
+        // Send email with PDF attachment
+        Mail::send('subadmin_mail', $data, function ($message) use ($toEmail, $subject, $pdf, $invoice) {
+            $message->to($toEmail)
+                   ->subject($subject)
+                   ->from('infoswc@skilledworkerscloud.co.uk', 'Skilled Workers Cloud')
+                   ->attachData($pdf->output(), 'Invoice_'.$invoice.'.pdf', [
+                       'mime' => 'application/pdf',
+                   ]);
+        });
+
+        // Mail::send('subadmin_mail', $data, function ($message) use ($toEmail, $subject) {
+        //     $message->to($toEmail, 'skilledworkerscloud')->subject
+        //         ($subject);
+        //    // $message->attach($path);
+        //     $message->from('infoswc@skilledworkerscloud.co.uk', 'skilledworkerscloud');
+        // });
+          
+
+        return back()->with('message', 'Invoice email sent successfully');
     }
 
     // public function adminBillingPartnerOrg(Request $request){
@@ -255,10 +360,7 @@ class BillController extends Controller
 
     public function updateBilling(Request $request, $id)
     {
-        // Debugging
-        // dd('okk');
-        // dd($request->all());
-
+        //dd($request->all());
         // Validation for required fields
         $validated = $request->validate([
             'invoice_no' => 'required|string',
@@ -291,13 +393,9 @@ class BillController extends Controller
         $bill->description = $validated['description'];
         $bill->remarks = $validated['remarks'];
         $bill->updated_at = now();
-        //dd('After Update:', $bill);
         // Save the updated bill
         $bill->save();
-
-        // Flash success message
         Session::flash('message', 'Bill updated successfully.');
-
         // Redirect back to the billing list
         return redirect('superadmin/billing-list');
     }
