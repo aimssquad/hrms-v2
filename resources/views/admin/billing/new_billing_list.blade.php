@@ -5,7 +5,7 @@
       <link rel="icon" href="{{ asset('img/favicon.png')}}" type="image/x-icon"/>
       <title>SWCH</title>
       <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-      <link rel="icon" href="{{ asset('assets/img/icon.ico')}}" type="image/x-icon"/>
+      {{-- <link rel="icon" href="{{ asset('assets/img/icon.ico')}}" type="image/x-icon"/> --}}
       <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js')}}"></script>
       <script>
          WebFont.load({

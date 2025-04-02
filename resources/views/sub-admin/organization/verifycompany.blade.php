@@ -182,6 +182,9 @@ $pass = DB::Table('users')
                                                     <a class="dropdown-item" href="{{url('subadmin/edit-subchild-company/'.$company->reg)}}">
                                                         <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                     </a>
+                                                    <a class="dropdown-item" href="{{url('subadmin/organization/module-permission/'.$company->reg)}}">
+                                                        <i class="fa-solid fa-key"></i> Module Permission
+                                                    </a>
                                             </div>
                                         </div>
                                     </td>

@@ -5,7 +5,7 @@
       <link rel="icon" href="{{ asset('img/favicon.png')}}" type="image/x-icon"/>
       <title>SWCH</title>
       <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-      <link rel="icon" href="{{ asset('assets/img/icon.ico')}}" type="image/x-icon"/>
+      {{-- <link rel="icon" href="{{ asset('assets/img/icon.ico')}}" type="image/x-icon"/> --}}
       <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js')}}"></script>
       <script>
          WebFont.load({
@@ -160,6 +160,7 @@
                                                </button>
                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                   <a class="dropdown-item" href="{{url('subadmin/edit-sub-company/'.$company->id)}}"><i class="far fa-edit"></i>&nbsp; Edit</a>
+                                                  <a class="dropdown-item" href="{{url('subadmin/partner/modulepermission/'.$company->reg)}}"><i class="fas fa-key"></i>&nbsp; Module Permission</a>
                                                   <a class="dropdown-item" href="{{url('subadmin/view-sub-organization/'.$company->org_code)}}" target="_blank"><i class="fas fa-sticky-note"></i>&nbsp; View Organization</a>
                                                   <a download class="dropdown-item" href="{{url('superadmin/company-report/'.base64_encode($company->reg))}}"><i class="fas fa-download"></i>&nbsp; Download</a>
                                                </div>

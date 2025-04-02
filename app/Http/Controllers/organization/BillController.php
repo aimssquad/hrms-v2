@@ -133,7 +133,7 @@ class BillController extends Controller
 
     public function invoiceMailSend(Request $request, $id)
     {
-        // return view('mail-sendto-superadmin');
+        // return view('testing-mail-template');
         // dd();
         $email = Session::get('empsu_email');
         $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
@@ -181,32 +181,28 @@ class BillController extends Controller
             'remarks' => $invoiceData->remarks,
             'url' => $url
         ];
-        // return view('subadminbillPdf', $data);
-        // dd('okk');
         // Generate PDF
-        // $pdf = Pdf::loadView('subadminbillPdf', $data);
-        // $pdf->save(storage_path('temp/invoice_temp.pdf')); 
-       
+        $pdf = Pdf::loadView('subadminbillPdf', $data);
         $invoice = $invoiceData->invoice_no;
         // Email details
         $toEmail = $com_dtl->email;
         $subject = 'Payment Reminder: Invoice # '. $invoice .' – Due Soon! ' . $com_dtl->com_name;
         
         // Send email with PDF attachment
-        // Mail::send('subadmin_mail', $data, function ($message) use ($toEmail, $subject, $pdf, $invoice) {
-        //     $message->to($toEmail)
-        //            ->subject($subject)
-        //            ->from('infoswc@skilledworkerscloud.co.uk', 'Skilled Workers Cloud')
-        //            ->attachData($pdf->output(), 'Invoice_'.$invoice.'.pdf', [
-        //                'mime' => 'application/pdf',
-        //            ]);
-        // });
-
-        Mail::send('subadmin_mail', $data, function ($message) use ($toEmail, $subject) {
-            $message->to($toEmail, 'skilledworkerscloud')->subject
-                ($subject);
-            $message->from('infoswc@skilledworkerscloud.co.uk', 'skilledworkerscloud');
+        Mail::send('subadmin_mail', $data, function ($message) use ($toEmail, $subject, $pdf, $invoice) {
+            $message->to($toEmail)
+                   ->subject($subject)
+                   ->from('infoswc@skilledworkerscloud.co.uk', 'Skilled Workers Cloud')
+                   ->attachData($pdf->output(), 'Invoice_'.$invoice.'.pdf', [
+                       'mime' => 'application/pdf',
+                   ]);
         });
+       
+        // Mail::send('subadmin_mail', $data, function ($message) use ($toEmail, $subject) {
+        //     $message->to($toEmail, 'skilledworkerscloud')->subject
+        //         ($subject);
+        //     $message->from('infoswc@skilledworkerscloud.co.uk', 'skilledworkerscloud');
+        // });
         $data2 = [
             'com_name' => $com_dtl->com_name,
             'f_name' => $com_dtl->f_name,
@@ -223,7 +219,7 @@ class BillController extends Controller
         });
           
 
-        return back()->with('message', 'Invoice email sent successfully');
+        return back()->with('message', "($com_dtl->com_name) Invoice email sent successfully");
     }
     
     public function downloadPdf($id){
@@ -676,8 +672,8 @@ class BillController extends Controller
             'description' => $invoiceData->description,
             'remarks' => $invoiceData->remarks,
         ];
-        // return view('subadminbillPdf', $data);
-           return view('admin.billing.invoice',$data);
+           return view('subadminbillPdf', $data);
+           //return view('admin.billing.invoice',$data);
            //return view('new-bill-pdf',$data);
         } else {
             redirect('superadmin');

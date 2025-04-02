@@ -5905,9 +5905,15 @@ Route::get('subadmin/view-sub-organization/{comp_id}', 'App\Http\Controllers\Adm
 Route::get('subadmin/profile', 'App\Http\Controllers\SubadminController@profile');
 Route::get('subadmin/edit/profile/{id}', 'App\Http\Controllers\SubadminController@editProfile');
 Route::post('subadmin/update/profile', 'App\Http\Controllers\SubadminController@updateSubadminProfile');
+Route::get('subadmin/organization/module-permission/{id}', 'App\Http\Controllers\SubadminController@modulePermission')->name('partner.orgmodule.permission');
+Route::post('subadmin/organization/module-permission', 'App\Http\Controllers\SubadminController@saveModulePermission')->name('save.partner.orgmodule.permission');
+
 //-------------------------Superadmin --------------------
 Route::get('subadmin/edit-sub-company/{comp_id}', 'App\Http\Controllers\AdminController@viewSubAddCompany');
 Route::post('subadmin/editsubcompany', 'App\Http\Controllers\AdminController@saveSubCompany');
+
+Route::get('subadmin/partner/modulepermission/{id}', 'App\Http\Controllers\AdminController@viewPartnerPermission');
+Route::post('subadmin/partner/savepermission', 'App\Http\Controllers\AdminController@savePartnerPermission');
 
 Route::get('subadmin/partner-emmployee-count', 'App\Http\Controllers\AdminController@getPartnerEmployee');
 //--------------------------

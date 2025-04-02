@@ -321,6 +321,76 @@ class SubadminController extends Controller
         }   
     }
 
+    public function modulePermission(Request $request, $id)
+    {
+        
+        if (!empty(Session::get('empsu_email'))) { 
+            
+            $userType = Session::get('usersu_type');
+            //dd($userType);
+            if ($userType == 'sub-admin') {
+                //$data['module'] = DB::table('module')->get();
+                $data['module'] = DB::table('othorized_partner_module')
+                    ->join('module', 'othorized_partner_module.module_name', '=', 'module.id')
+                    ->select('module.*') // Select the module name and all partner module fields
+                    ->get();
+                $data['org_module'] = DB::table('othorized_organization_module')
+                                    ->where('employee_id', $id)
+                                    ->pluck('module_name')
+                                    ->toArray();
+                $data['org_id'] = $id;
+                //dd($data);
+                return view('sub-admin/permission/module-permission', $data);
+                //return view('admin/permission/permission', $data);
+            } else {
+                return redirect('/');  
+            }
+        } else {
+            return redirect('superadmin'); 
+        }
+    }
+
+    public function saveModulePermission(Request $request){
+        //dd('okk');
+        if (!empty(Session::get('empsu_email'))) { 
+            $userType = Session::get('usersu_type');
+            if ($userType == 'sub-admin') {
+                $request->validate([
+                    'employee_id' => 'required|string',
+                    'modules' => 'required|array',
+                ]);
+    
+                $employeeId = $request->input('employee_id');
+                $modules = $request->input('modules');
+    
+                // Delete existing records for the given employee ID
+                DB::table('othorized_organization_module')->where('employee_id', $employeeId)->delete();
+    
+                // Prepare the new data for insertion
+                $insertData = [];
+                foreach ($modules as $moduleId) {
+                    $insertData[] = [
+                        'employee_id' => $employeeId,
+                        'module_name' => $moduleId,  // Use $moduleId directly since it's a string
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+    
+                // Insert new records
+                DB::table('othorized_organization_module')->insert($insertData);
+                //Session::flash('message', 'Upload Successfully Saved.');
+                Session::flash('message', 'Permissions have been successfully updated.');
+                return redirect('superadmin/verify');
+                //dd('okk');
+            } else {
+                return redirect('/');  
+            }
+        } else {
+            return redirect('superadmin'); 
+        }
+    }
+
 
 
 

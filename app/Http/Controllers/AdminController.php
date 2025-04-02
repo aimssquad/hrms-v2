@@ -21561,6 +21561,67 @@ class AdminController extends Controller
             return redirect('superadmin'); 
         }
     }
+
+    public function viewPartnerPermission(Request $request, $id){
+        //dd($id);
+        if (!empty(Session::get('empsu_email'))) { 
+            $userType = Session::get('usersu_type');
+            if ($userType == 'admin') {
+                $data['module'] = DB::table('module')->get();
+                $data['org_module'] = DB::table('othorized_partner_module')
+                                    ->where('partner_id', $id)
+                                    ->pluck('module_name')
+                                    ->toArray();
+                $data['org_id'] = $id;
+                return view('admin/permission/partner-permission', $data);
+            } else {
+                return redirect('/');  
+            }
+        } else {
+            return redirect('superadmin'); 
+        }
+    }
+
+    public function savePartnerPermission(Request $request){
+        //dd($request->all());
+        if (!empty(Session::get('empsu_email'))) { 
+            $userType = Session::get('usersu_type');
+            if ($userType == 'admin') {
+                $request->validate([
+                    'partner_id' => 'required|string',
+                    'modules' => 'required|array',
+                ]);
+    
+                $partner_id = $request->input('partner_id');
+                $modules = $request->input('modules');
+    
+                // Delete existing records for the given employee ID
+                DB::table('othorized_partner_module')->where('partner_id', $partner_id)->delete();
+    
+                // Prepare the new data for insertion
+                $insertData = [];
+                foreach ($modules as $moduleId) {
+                    $insertData[] = [
+                        'partner_id' => $partner_id,
+                        'module_name' => $moduleId,  // Use $moduleId directly since it's a string
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+    
+                // Insert new records
+                DB::table('othorized_partner_module')->insert($insertData);
+                //Session::flash('message', 'Upload Successfully Saved.');
+                Session::flash('message', 'Permissions have been successfully updated.');
+                return redirect('subadmin/verify');
+                //dd('okk');
+            } else {
+                return redirect('/');  
+            }
+        } else {
+            return redirect('superadmin'); 
+        }
+    }
     
 
 
