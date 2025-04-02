@@ -56,7 +56,7 @@
             <td style="padding: 10px; border-bottom: 1px solid #eee;">{{$item}}</td>
             <td style="padding: 10px; text-align: center; border-bottom: 1px solid #eee;"></td>
             <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;"></td>
-            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;"></td>
+            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">{{$amount}}</td>
             <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">{{$discount_amount ?? '0.00'}}</td>
             <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">
                 @php
@@ -107,7 +107,7 @@
             <td colspan="3" style="border: none; padding: 10px; text-align: right;"></td>
         </tr>
         <tr>
-            <td colspan="7" style="height: 200px;"></td>
+            <td colspan="7" style="height: 100px;"></td>
         </tr>
         <tr>
             <td colspan="4" style="border: none; padding: 10px;"></td>
