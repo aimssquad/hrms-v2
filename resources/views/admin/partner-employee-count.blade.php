@@ -61,34 +61,11 @@
                         <div class="card custom-card">
                            <div class="card-header">
                               <h4 class="card-title">
-                                 <i class="far-fa-building"></i> Partner Organisation Employee Count    
+                                 <i class="fa fa-user"></i> Partner Organisation Employee Count    
                               </h4>
                               @if(Session::has('message'))
                               <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
                               @endif
-                           </div>
-                           <div class="card-body">
-                              {{-- <form  method="get" action="{{ url('superadmin/verify') }}" enctype="multipart/form-data" >
-                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                 <div class="row form-group">
-                                    <div class="col-md-5">
-                                       <div class=" form-group">
-                                          <label for="inputFloatingLabel-select-date"  class="placeholder">From Date</label>
-                                          <input id="start_date" value="<?php if (isset($start_date) && $start_date) {echo date('Y-m-d', strtotime($start_date));}?>"  name="start_date" type="date" class="form-control input-border-bottom">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                       <div class=" form-group">
-                                          <label for="inputFloatingLabel-select-date"  class="placeholder">To Date</label>
-                                          <input id="end_date" name="end_date" value="<?php if (isset($end_date) && $end_date) {echo date('Y-m-d', strtotime($end_date));}?>"  type="date" class="form-control input-border-bottom">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-2 btn-up">
-                                       <button class="btn btn-default" type="submit">Submit</button>
-                                       <a class="btn btn-primary" href="{{ url('superadmin/verify') }}">Reset</a>
-                                    </div>
-                                 </div>
-                              </form> --}}
                            </div>
                            <div class="card-body">
                               <div class="table-responsive">
