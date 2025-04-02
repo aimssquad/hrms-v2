@@ -22,13 +22,26 @@
       <!-- CSS Just for demo purpose, don't include it in your project -->
       <link rel="stylesheet" href="{{ asset('assets/css/demo.css')}}">
       <style>
-         .partner-header tr {
-             background-color: #649ce6;
+         .partner-header-row {
+             background-color: #2c3e50;
+             color: rgb(94, 154, 245);
              font-weight: bold;
          }
-         /* .partner-header td {
-             padding: 10px;
-         } */
+         .partner-details-row {
+             background-color: #f8f9fa;
+         }
+         .org-table {
+             margin-bottom: 0;
+         }
+         .org-table thead {
+             background-color: #e9ecef;
+         }
+         .toggle-orgs {
+             float: right;
+         }
+         .spacer-row {
+             background-color: transparent;
+         }
      </style>
    </head>
    <body>
@@ -80,56 +93,80 @@
                            <div class="card-body">
                               <div class="table-responsive">
                                  <table id="basic-datatables" class="display table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="7" class="text-center">Partner and Organization Details</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
-                                        @php
-                                            $counter = 1;
-                                        @endphp
-                                        
                                         @foreach ($subadmins as $subadmin)
-                                            <!-- Partner Information Row -->
-                                            <tr class="partner-header">
-                                                <th >Sl.No:</th>
-                                                <th colspan="2">Partner Name:</th>
-                                                <th >Partner Email:</th>
-                                                <th>Partner Phone:</th>
-                                                <th>Partner Website:</th>
+                                            <!-- Partner Information -->
+                                            <tr class="partner-header-row">
+                                                <td><strong>Sl.No</strong></td>
+                                                <td><strong>Partner Name:</strong></td>
+                                                <td><strong>Email:</strong></td>
+                                                <td><strong>Phone:</strong> </td>
+                                                <td><strong>Website:</strong> </td>
+                                                <td colspan="2"></td>
                                             </tr>
-                                            <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                <td colspan="2">{{ $subadmin->com_name ?? '' }}</td>
-                                                <td >{{ $subadmin->email ?? '' }}</td>
-                                                <td>{{ $subadmin->phone ?? '' }}</td>
-                                                <td>{{ $subadmin->website ?? '' }}</td>
+                                            <tr class="partner-details-row">
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td> {{ $subadmin->com_name ?? 'N/A' }}</td>
+                                                <td> {{ $subadmin->email ?? 'N/A' }}</td>
+                                                <td>{{ $subadmin->phone ?? 'N/A' }}</td>
+                                                <td>{{ $subadmin->website ?? 'N/A' }}</td>
+                                                <td colspan="2">
+                                                    @if($subadmin->organizations->isNotEmpty())
+                                                        <button class="btn btn-sm btn-primary toggle-orgs" data-partner-id="{{ $subadmin->id }}">
+                                                            <i class="fas fa-plus"></i> Show Organizations
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                
+                                            <!-- Organizations Section (hidden by default) -->
+                                            <tr class="org-section org-section-{{ $subadmin->id }}" style="display: none;">
+                                                <td colspan="7">
+                                                    <table class="table table-bordered org-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Organization Name</th>
+                                                                <th>Active Employees</th>
+                                                                <th>Inactive Employees</th>
+                                                                <th>Created At</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @forelse ($subadmin->organizations as $index => $organization)
+                                                                <tr>
+                                                                    <td>{{ $index + 1 }}</td>
+                                                                    <td>{{ $organization->com_name }}</td>
+                                                                    <td>{{ $organization->active_count ?? 0 }}</td>
+                                                                    <td>{{ $organization->inactive_count ?? 0 }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($organization->created_at)->format('m-d-Y') }}</td>
+                                                                    <td>
+                                                                        <span class="badge badge-success">Active</span>
+                                                                    </td>
+                                                                </tr>
+                                                            @empty
+                                                                <tr>
+                                                                    <td colspan="6" class="text-center">No organizations found</td>
+                                                                </tr>
+                                                            @endforelse
+                                                        </tbody>
+                                                    </table>
+                                                </td>
                                             </tr>
                                             
-                                            <!-- Organizations Header Row -->
-                                            <tr>
-                                                <th>Sl.No.</th>
-                                                <th colspan="2">Organization Name</th>
-                                                <th>Active Employee Count</th>
-                                                <th>Inactive Employee Count</th>
-                                                <th>Created At</th>
+                                            <!-- Spacer row between partners -->
+                                            <tr class="spacer-row">
+                                                <td colspan="7" style="height: 20px;"></td>
                                             </tr>
-                                            
-                                            @if ($subadmin->organizations->isNotEmpty())
-                                                @foreach ($subadmin->organizations as $index => $organization)
-                                                    <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td colspan="2">{{ $organization->com_name }}</td>
-                                                        <td>{{ $organization->active_count ?? 0 }}</td>
-                                                        <td>{{ $organization->inactive_count ?? 0 }}</td>
-                                                        <td>{{ \Carbon\Carbon::parse($organization->created_at)->format('m-d-Y') }}</td>
-                                                        
-                                                    </tr>
-                                                @endforeach
-                                            @else
-                                                <tr>
-                                                    <td colspan="7" class="text-center">No Organization Found</td>
-                                                </tr>
-                                            @endif
                                         @endforeach
                                     </tbody>
-                                </table>              
+                                </table>             
                               </div>
                            </div>
                         </div>
@@ -203,20 +240,21 @@
          	});
          });
       </script>
-       <script>
+      <script>
          $(document).ready(function() {
-             $('.toggle-btn').click(function() {
-                 var subadminId = $(this).data('target');
+             $('.toggle-orgs').click(function() {
+                 var partnerId = $(this).data('partner-id');
+                 var orgSection = $('.org-section-' + partnerId);
                  var icon = $(this).find('i');
                  
-                 if (icon.hasClass('fa-plus')) {
+                 if (orgSection.is(':hidden')) {
+                     orgSection.show();
                      icon.removeClass('fa-plus').addClass('fa-minus');
-                     // Show all rows for this partner
-                     $('tr[data-subadmin-id="' + subadminId + '"]').show();
+                     $(this).html('<i class="fas fa-minus"></i> Hide Organizations');
                  } else {
+                     orgSection.hide();
                      icon.removeClass('fa-minus').addClass('fa-plus');
-                     // Hide all but the first row for this partner
-                     $('tr.sub-row-' + subadminId).hide();
+                     $(this).html('<i class="fas fa-plus"></i> Show Organizations');
                  }
              });
          });
