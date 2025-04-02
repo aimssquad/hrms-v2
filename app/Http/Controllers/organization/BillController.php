@@ -55,9 +55,6 @@ class BillController extends Controller
 
     public function store(Request $request)
     {
-        // return view('subadmin_mail');
-        // return view('subadminbillPdf');
-        // dd($request->all());
         $email = Session::get('empsu_email');
         if(!empty($email)){
             $validatedData = $request->validate([
@@ -92,37 +89,7 @@ class BillController extends Controller
       
             // Save the data
             $bill = Subadmin_bill::create($dataToSave);
-            
-        //    if($request->billing_type == "sub-admin"){
-        //         $com_dtl = DB::table('sub_admin_registrations')->where('reg',$request->entity_id)->first();
-        //    } else {
-        //         $com_dtl = DB::table('registration')->where('reg',$request->entity_id)->first();
-        //    }
-        //    $data = array('com_name' => $com_dtl->com_name, 'f_name' => $com_dtl->f_name, 'l_name' => $com_dtl->l_name, 'p_no' => $com_dtl->p_no, 'email' => $com_dtl->email, 'address' => $com_dtl->address, 'country' => $com_dtl->country, 'city' => $com_dtl->city, 'zip' => $com_dtl->zip,
-        //     'invoice_no' => $invoiceNumber, 'amount' => $request->amount, 'item' => $request->bill_for, 'total_amount' => $request->total_amount, 'invoice_date' => $request->date,
-        //     'discount_amount' => $request->discount_amount, 'billing_type' => $request->billing_type, 'total_employee' => $request->total_employee, 'vat' => $request->vat, 'payment_mode' => $request->payment_mode,
-        //     'description' => $request->description, 'remarks' => $request->remarks);
-        //     return view('subadmin_mail',$data);
-        //    dd($data);
-            //----------------------
-            
-            // $datap = ['com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country,
-            //     'date' => date('Y-m-d'), 'name' => $job->name, 'job_title' => $job->job_title, 'st_date' => date('Y-m-d', strtotime($request->date_jo)), 'em_name' => $job->name, 'em_pos' => $job->job_title];
-            // $pdf = Pdf::loadView('subadminbillPdf', $datap);
-
-            // $data = array('name' => $Roleempdata->name, 'com_name' => $Roledata->com_name, 'p_no' => $Roleempdata->phone,
-            // 'email' => $Roleempdata->email, 'msg' => $request->msg);
-            // $toemail = $request->email;
-            
-            // Mail::send('subadmin_mail', $data, function ($message) use ($toemail, $sub, $path) {
-            //     $message->to($toemail)->subject($sub);
-            //     foreach ($path as $filePath) {
-            //         $message->attach($filePath);
-            //     }
-            //     $message->from('noreply@skilledworkerscloud.co.uk');
-            // });
-            // //-----------------
-            Session::flash('message', 'Bill submitted successfully. Invoice Number: ' . $invoiceNumber);
+            Session::flash('message', 'Bill created successfully. Invoice Number: ' . $invoiceNumber);
             return redirect('superadmin/billing-list');
         } else {
             redirect('superadmin');
@@ -133,8 +100,6 @@ class BillController extends Controller
 
     public function invoiceMailSend(Request $request, $id)
     {
-        // return view('testing-mail-template');
-        // dd();
         $email = Session::get('empsu_email');
         $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
         if (empty($email)) {
@@ -497,9 +462,8 @@ class BillController extends Controller
     
         if ($existingRule) {
             // If a match is found, redirect back with an error message
-            return redirect()->back()->withErrors([
-                'payment_date_range' => 'Rule already exists for this user id.'
-            ]);
+            Session::flash('error', 'Rule already exists for this user id.');
+            return redirect()->back();
         }
     
         // Save data to the database
@@ -529,7 +493,7 @@ class BillController extends Controller
     
         // Redirect with a success message
         Session::flash('message', 'Bill rule submitted successfully.');
-        return redirect()->back();
+        return redirect('superadmin/show-rule');
     }
 
     public function showRule(Request $request){
