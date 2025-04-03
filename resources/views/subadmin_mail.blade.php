@@ -42,17 +42,6 @@
                                 <li>Date Issued: {{$invoice_date}}</li>
                                 <li>Amount Due: {{ $total_amount }}</li>
                             </ul>
-                            {{-- <div style="text-align: center; margin: 20px 0;">
-                                <a href="{{$url}}"
-                                    style="text-decoration: none; color: #ffffff; background-color: #0044cc; padding: 10px 20px; border-radius: 5px; font-size: 16px;">👉
-                                    Download Invoice PDF</a>
-                            </div> --}}
-                            {{-- <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">
-                                <strong>Payment Description: </strong> {{$description}}
-                            </p>
-                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">
-                                <strong>Payment Remarks: </strong> {{$remarks}}
-                            </p> --}}
                             <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">
                                 Please see the attached Invoice herewith the email.
                             </p>
