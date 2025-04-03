@@ -44,6 +44,8 @@ class SubadminBillController extends Controller
 
     public function ruleStore(Request $request)
     {
+        Session::flash('error', 'We are working on It.');
+        return redirect()->back();
         // dd($request->all());
         // Validate incoming data
         $validatedData = $request->validate([
@@ -56,6 +58,7 @@ class SubadminBillController extends Controller
             'org_code' => 'required|string',
 
         ]);
+
         //dd($validatedData);
         // Check if a rule with the same entity_id and payment_date_range already exists
         $existingRule = BillingRule::where('entity_id', $validatedData['entity_id'])
@@ -151,7 +154,8 @@ class SubadminBillController extends Controller
 
     public function addbillng(Request $request)
     {
-        //dd('okk');
+        Session::flash('error', 'We are working on it.');
+        return redirect()->back();
         try {
             $email = Session::get('empsu_email');
             $userType = Session::get('usersu_type');

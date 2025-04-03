@@ -1,5 +1,5 @@
 @foreach($organization as $org)
-    {{$org->com_name}}
+    {{-- {{$org->com_name}} --}}
 @endforeach
 
 @extends('sub-admin.include.app')

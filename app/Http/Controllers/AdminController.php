@@ -21084,6 +21084,7 @@ class AdminController extends Controller
             $entities = DB::table('users as u')
                 ->join('registration as r', 'u.employee_id', '=', 'r.reg')
                 ->where('u.user_type', $billingType)
+                ->where('r.verify','approved')
                 ->whereNull('r.org_code')
                 ->select('u.id', 'u.employee_id', 'u.name', 'r.org_code', 'r.reg')
                 ->get();  
