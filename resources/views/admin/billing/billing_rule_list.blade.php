@@ -164,16 +164,12 @@
                                                   Action
                                                   </button>
                                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="{{ route('billing-rule.edit', $billing->id) }}">
+                                                    {{-- <a class="dropdown-item" href="{{ route('billing-rule.edit', $billing->id) }}">
                                                         <i class="far fa-edit"></i>&nbsp; Edit
-                                                    </a>
-                                                     {{-- <a class="dropdown-item text-danger" href="{{ route('billing-rule.delete', $billing->id) }}" onclick="return confirm('Are you sure you want to delete this record?');">
-                                                        <i class="fas fa-trash"></i>&nbsp; Delete
                                                     </a> --}}
-                                                     {{-- <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myModal"><i class="fas fa-eye"></i>&nbsp; View Invoice</a> 
-                                                     <a class="dropdown-item" target="_blank" href="#" ><i class="fas fa-eye"></i>&nbsp; Download Invoice</a>
-                                                     <a class="dropdown-item" href="#"><i class="fas fa-paper-plane"></i>&nbsp; Send Email</a>
-                                                     <a class="dropdown-item" href=""><i class="fa fa-comments"></i>&nbsp; Remarks</a> --}}
+                                                     <a class="dropdown-item text-danger" href="{{ route('billing-rule.delete', $billing->id) }}" onclick="return confirm('Are you sure you want to delete this record?');">
+                                                        <i class="fas fa-trash"></i>&nbsp; Delete
+                                                    </a>
                                                   </div>
                                                </div>
                                             </td>

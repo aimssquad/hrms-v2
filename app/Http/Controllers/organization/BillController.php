@@ -552,7 +552,7 @@ class BillController extends Controller
             if (!$rule) {
                 return redirect()->back()->with('error', 'Billing rule not found.');
             }
-        
+            //dd($rule);
             return view('admin.billing.edit_billing_rule', compact('rule'));
         } else {
             redirect('superadmin');
@@ -564,7 +564,7 @@ class BillController extends Controller
     {
         $email = Session::get('empsu_email');
         if(!empty($email)){
-            //dd($request->all());
+            //dd($id);
             $validated = $request->validate([
                
                 'type' => 'required|in:employer,sub-admin',
@@ -585,7 +585,7 @@ class BillController extends Controller
                 'payment_date_to' => 'nullable',
                 
             ]);
-            //dd($validated);
+            
             DB::table('rule_table')->where('id', $id)->update($validated);
             Session::flash('message', 'Record Update successfully.');
             return redirect('superadmin/show-rule');

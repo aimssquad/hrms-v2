@@ -87,7 +87,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="billing_type" class="form-label">Billing For</label>
-                                                    <select class="form-control " id="billing_type" name="type" required onchange="getBillingEntities(this.value);">
+                                                    <select class="form-control " id="billing_type" name="type" readonly onchange="getBillingEntities(this.value);">
                                                         <option value="">Select Type</option>
                                                         <option value="employer" {{ $rule->type == 'employer' ? 'selected' : '' }}>Organisation</option>
                                                         <option value="sub-admin" {{ $rule->type == 'sub-admin' ? 'selected' : '' }}>Subadmin</option>
@@ -95,14 +95,20 @@
                                                     <div class="invalid-feedback">Please select billing type</div>
                                                 </div>
                                             </div>
-                                            
+                                            @php
+                                                if($rule->type == 'sub-admin') {
+                                                    $name = DB::table('sub_admin_registrations')->where('reg',$rule->entity_id)->first();
+                                                } else {
+                                                    $name = DB::table('registration')->where('reg',$rule->entity_id)->first();
+                                                }
+                                            @endphp
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="entity_id" class="form-label">Entity</label>
                                                     <select class="form-control select2" id="entity_id" name="entity_id" required>
-                                                        <option value="{{ $rule->entity_id }}">{{ $rule->entity_name ?? $rule->entity_id }}</option>
+                                                        <option value="{{ $rule->entity_id }}">{{ $name->com_name }}</option>
+                                                        {{-- <option value="{{ $rule->entity_id }}">{{ $rule->entity_name ?? $rule->entity_id }}</option> --}}
                                                     </select>
-                                                    <div class="invalid-feedback">Please select an entity</div>
                                                 </div>
                                             </div>
                                             
@@ -185,7 +191,7 @@
                                                     <label for="billing_mode" class="form-label fw-bold">Billing Mode</label>
                                                     <select class="form-control" id="billing_mode" name="billing_mode" >
                                                         <option value="">Select Billing Mode</option>
-                                                        <option value="Monthly" {{ $rule->billing_mode == 'Monthly' ? 'selected' : '' }}>monthly</option>
+                                                        <option value="Monthly" {{ $rule->billing_mode == 'Monthly' ? 'selected' : '' }}>Monthly</option>
                                                         <option value="Quarterly" {{ $rule->billing_mode == 'Quarterly' ? 'selected' : '' }}>Quarterly</option>
                                                         <option value="Half_yearly" {{ $rule->billing_mode == 'Half_yearly' ? 'selected' : '' }}>Half Yearly</option>
                                                         <option value="Annually" {{ $rule->billing_mode == 'Annually' ? 'selected' : '' }}>Annually</option>
