@@ -454,7 +454,7 @@ class BillController extends Controller
             'payment_date_to' => 'nullable',
             //'payment_date_range' => 'required|string',
         ]);
-        dd($validatedData);
+        //dd($validatedData);
         // Check if a rule with the same entity_id and payment_date_range already exists
         $existingRule = BillingRule::where('entity_id', $validatedData['entity_id'])
             //->where('payment_date_range', $validatedData['payment_date_range'])
