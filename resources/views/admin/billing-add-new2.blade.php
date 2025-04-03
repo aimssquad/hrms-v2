@@ -286,6 +286,8 @@
     <script src="{{ asset('assets/js/plugin/datatables/datatables.min.js')}}"></script>
     <!-- Atlantis JS -->
     <script src="{{ asset('assets/js/atlantis.min.js')}}"></script>
+    <!----- CKEditor------->
+    <script src="https://cdn.ckeditor.com/4.25.1-lts/full/ckeditor.js"></script>
     <!-- Atlantis DEMO methods, don't include it in your project! -->
     <script src="{{ asset('assets/js/setting-demo2.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -365,6 +367,16 @@
                 // Update the total amount field
                 $('#total_amount').val(totalAmount.toFixed(2)); // Show two decimal places
             }
+        });
+    </script>
+    <script type="text/javascript">
+        CKEDITOR.on('instanceReady', function() {
+        console._warn = console.warn;
+        console.warn = function(msg) {
+            if (!msg.includes('not secure')) {
+                    console._warn.apply(console, arguments);
+                }
+            };
         });
     </script>
     <script>CKEDITOR.replace( 'editor' );</script>

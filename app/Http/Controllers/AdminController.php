@@ -21076,10 +21076,26 @@ class AdminController extends Controller
         //dd('okk');
         $billingType = $request->billing_type;
 
+        // if($billingType == 'employer'){
+        //     $entities = DB::table('registration')
+        //         ->where('verify','=','approved')
+        //         ->where('status', 'active')
+        //         ->where('org_code',null)
+        //         ->get(['id','reg', 'com_name']); 
+        // } else {
+        //      // Fetch active organizations or sub-admins based on billing type
+        //     $entities = DB::table('users')
+        //     ->where('user_type','=',$billingType)
+        //     ->where('status', 'active')
+        //     //->where('org_code',null)
+        //     ->get(['id','employee_id', 'name']); // Get the ID and name for the dropdown
+    
+        // }
         // Fetch active organizations or sub-admins based on billing type
         $entities = DB::table('users')
                         ->where('user_type','=',$billingType)
                         ->where('status', 'active')
+                        //->where('org_code',null)
                         ->get(['id','employee_id', 'name']); // Get the ID and name for the dropdown
         //dd($entities);
         return response()->json($entities);

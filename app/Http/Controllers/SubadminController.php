@@ -323,17 +323,21 @@ class SubadminController extends Controller
 
     public function modulePermission(Request $request, $id)
     {
-        
-        if (!empty(Session::get('empsu_email'))) { 
-            
+        $email = Session::get('empsu_email');
+        if (!empty($email)) {  
             $userType = Session::get('usersu_type');
-            //dd($userType);
+            $subAdminData = DB::table('sub_admin_registrations')->where('email',$email)->first();
+            $subadminId = $subAdminData->reg;
+            // $user_id = Session::get('employee_id');
+            // dd($user_id);
             if ($userType == 'sub-admin') {
                 //$data['module'] = DB::table('module')->get();
                 $data['module'] = DB::table('othorized_partner_module')
                     ->join('module', 'othorized_partner_module.module_name', '=', 'module.id')
+                    ->where('othorized_partner_module.partner_id', $subadminId)
                     ->select('module.*') // Select the module name and all partner module fields
                     ->get();
+                //dd($data['module']);    
                 $data['org_module'] = DB::table('othorized_organization_module')
                                     ->where('employee_id', $id)
                                     ->pluck('module_name')
