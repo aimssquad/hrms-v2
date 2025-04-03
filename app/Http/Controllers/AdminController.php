@@ -21143,34 +21143,54 @@ class AdminController extends Controller
                 ]);
             }
         } else {
-            // Direct employee count for non sub-admins
-            // $totalEmployee = DB::table('employee')
-            //     ->where('emid', $userId)
-            //     ->count();
-
             $amount = DB::table('rule_table')
                 ->where('entity_id', $userId)
-                ->value('employee_charge');
+                ->where('type', 'employer')
+                ->first();
             // Check if no record is found and use default entity_id    
             if ($amount === null) {
                 $amount = DB::table('rule_table')
                     ->where('entity_id', 'DEFULT')
                     ->where('type', 'employer')
                     ->value('employee_charge');
-            }    
-
+            }
+            //---------------
             if ($amount !== null) {
-                //$totalAmount = $amount * $totalEmployee;
-                return response()->json([
-                    'amount' => $amount,
-                    'total_employee' => $totalEmployee
-                ]);
+                if($amount->billing_for == "Organisation Subscription"){
+                    return response()->json([
+                        'amount' => $amount->organization_charge,
+                        //'total_employee' => $totalEmployee
+                    ]); 
+                } elseif($amount->billing_for == "Number Of Employee"){ 
+                    return response()->json([
+                        'amount' => $amount->employee_charge,
+                        //'total_employee' => $totalEmployee
+                    ]); 
+                } else {
+                    return response()->json([
+                        'amount' => 'No employee charge found',
+                        //'total_employee' => $totalEmployee
+                    ]);
+                }
             } else {
                 return response()->json([
-                    'message' => 'No employee charge found',
-                    'total_employee' => $totalEmployee
+                    'amount' => 'No Billing Rule Found',
                 ]);
             }
+            //------------    
+
+            // if ($amount !== null) {
+            //     //$totalAmount = $amount * $totalEmployee;
+            //     return response()->json([
+            //         'amount' => $amount,
+            //         'total_employee' => $totalEmployee
+            //     ]);
+            // } else {
+            //     return response()->json([
+            //         'message' => 'No employee charge found',
+            //         'total_employee' => $totalEmployee
+            //     ]);
+            // }
         }
     }
 
