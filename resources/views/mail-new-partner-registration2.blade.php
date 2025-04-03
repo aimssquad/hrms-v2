@@ -87,7 +87,7 @@
                     </tr>
 
                     <tr>
-                        <td style="font-size: 18px; padding: 0 20px;">
+                        <td style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px;">
                             
                             <p style="margin: 0; font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;">Our team is here to help at every step. Feel free to contact us for guidance or support at <a 
                                     href="mailto: info@skilledworkerscloud.co.uk"><strong>info@skilledworkerscloud.co.uk</strong></a> or
