@@ -141,7 +141,8 @@
                                                     //dd($copany_name->com_name);
                                                 } elseif($billing->type == 'employer') {
                                                     $copany_name = DB::table('registration')
-                                                    ->where('reg', $billing->company_id)->first();
+                                                    ->where('reg', $billing->entity_id)->first();
+                                                    //->where('reg', $billing->company_id)->first();
                                                 }
                                             @endphp
                                          <tr>
