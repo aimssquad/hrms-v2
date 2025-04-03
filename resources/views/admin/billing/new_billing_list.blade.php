@@ -69,7 +69,7 @@
                                       <th>Payment Mode</th>
                                       <th>Payment Id</th>
                                       <th>Payment Document</th>
-                                      <th>Description</th>
+                                      {{-- <th>Description</th> --}}
                                       <th>Action</th>
                                    </tr>
                                 </thead>
@@ -100,7 +100,7 @@
                                               NA
                                           @endif
                                       </td>
-                                      <td>{{$billing->description}}</td>
+                                      {{-- <td>{{$billing->description}}</td> --}}
                                       <td class="drp">
                                          <div class="dropdown">
                                             <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

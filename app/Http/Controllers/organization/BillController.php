@@ -14,18 +14,7 @@ use DB;
 
 class BillController extends Controller
 {
-    // public function billingList(Request $request){
-    //     $email = Session::get('empsu_email');
-    //     if(!empty($email)){
-    //         $billing_list = Subadmin_bill::with('billFor','company')->where('org_code', '')
-    //             ->orWhereNull('org_code')
-    //             ->get();
-    //         //dd($billing_list);    
-    //         return view ('admin/billing/new_billing_list',compact('billing_list'));
-    //     } else {
-    //         redirect('superadmin');
-    //     }
-    // }
+  
 
     public function billingList(Request $request){
         $email = Session::get('empsu_email');
