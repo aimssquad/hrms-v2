@@ -5925,9 +5925,11 @@ Route::get('sub-admin/billing-rule','App\Http\Controllers\organization\SubadminB
 Route::post('sub-admin/billing-rule', 'App\Http\Controllers\organization\SubadminBillController@ruleStore')->name('subadmin.rulesave');
 Route::get('/sub-admin/billing-rule/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@edit')->name('subadmin.billing-rule.edit');
 Route::post('/sub-admin/billing-rule/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@update')->name('subadmin.billing-rule.update');
+Route::get('/sub-admin/billing-rule/delete/{id}', 'App\Http\Controllers\organization\SubadminBillController@destroy')->name('subadmin.billing-rule.destroy');
 
 Route::get('sub-admin/billing-list', 'App\Http\Controllers\organization\SubadminBillController@billingList')->name('subadmin.bills.list');
 Route::get('superadmin/get-entity-details', 'App\Http\Controllers\organization\SubadminBillController@getEntityDetails');
+Route::get('subadmin/invoice-exist', 'App\Http\Controllers\organization\SubadminBillController@invoiceExist');
 Route::get('sub-admin/add-billing', 'App\Http\Controllers\organization\SubadminBillController@addbillng')->name('subadmin.addbilling');
 Route::post('sub-admin/bills/store', 'App\Http\Controllers\organization\SubadminBillController@store')->name('subadmin-bills.store');
 Route::get('/sub-admin/billing/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@editBill')->name('subadmin.billing.edit');

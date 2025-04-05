@@ -40,7 +40,12 @@
                                 <li>Invoice Number:  {{$invoice_no}} </li>
                                 <li>Item:  {{$item}} </li>
                                 <li>Date Issued: {{$invoice_date}}</li>
+                                @if($amount)
+                                <li>Amount Due: {{$amount}} </li>
+                                @else
                                 <li>Amount Due: {{ $total_amount }}</li>
+                                @endif
+                                
                             </ul>
                             <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">
                                 Please see the attached Invoice herewith the email.

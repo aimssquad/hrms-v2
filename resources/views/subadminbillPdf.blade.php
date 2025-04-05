@@ -91,7 +91,12 @@
                 
                 <div style="margin-top: 10px; font-size: 1.1em;">
                     <span style="margin-right: 20px;"><strong>Total Paid:</strong></span>
-                    <span style="color: #004AAD; font-weight: bold;">{{ number_format($grand_total, 2) }}</span>
+                    @if($amount)
+                        <span style="color: #004AAD; font-weight: bold;">{{ number_format($amount, 2) }}</span>
+                    @else
+                        <span style="color: #004AAD; font-weight: bold;">{{ number_format($grand_total, 2) }}</span>
+                    @endif
+                    
                 </div>
             </td>
         </tr>

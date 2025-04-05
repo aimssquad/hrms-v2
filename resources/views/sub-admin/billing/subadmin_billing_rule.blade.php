@@ -32,8 +32,9 @@
                 <form action="{{url('sub-admin/billing-rule')}}" method="POST">
                     @csrf()
                     <div class="row">
-                            <input type="text" name="type" value="employer" hidden>
-                            <input type="text" name="org_code" value="{{ $code->org_code }}" hidden>
+                            <input type="hidden" name="type" value="employer" >
+                            <input type="hidden" name="org_code" value="{{ $code->org_code }}" >
+                            <input type="hidden" name="billing_for" value="Number Of Employee" >
                         <div class="col-md-4">
                             <label for="entity_id" class="form-label">Entity ID</label>
                             <select class="form-control input-border-bottom" id="entity_id" name="entity_id" required="" style="margin-top: 10px;" onchange="getUserDetails(this.value);">
@@ -44,28 +45,51 @@
                                 @endforeach
                             </select>
                         </div>
-                      
-                        <div class="col-md-4">
-                            <label for="employee_charge" class="form-label">Employee Charge</label>
-                            <input type="number" name="employee_charge" id="employee_charge" class="form-control" step="0.01" style="margin-top: 10px;">
-                        </div>
-                        {{-- <div class="col-md-4" id="max_org">
-                            <label for="max_organizations" class="form-label">Max Organizations</label>
-                            <input type="number" name="max_organizations" id="max_organizations" class="form-control" style="margin-top: 10px;">
-                        </div> --}}
                         <div class="col-md-4">
                             <label for="min_employees" class="form-label">Min Employees</label>
                             <input type="number" name="min_employees" id="min_employees" class="form-control" style="margin-top: 10px;">
                         </div>
                         <div class="col-md-4">
                             <label for="max_employees" class="form-label">Max Employees</label>
-                            <input type="number" name="max_employees" id="max_employees" class="form-control">
+                            <input type="number" name="max_employees" id="max_employees" class="form-control" style="margin-top: 10px;">
                         </div>
-                        <div class="col-md-6">
-                            <label for="payment_date_range" class="form-label">Payment Date Range</label>
-                            <input type="text" name="payment_date_range" id="payment_date_range" class="form-control" maxlength="50">
-                            @error('payment_date_range')
-                                <div class="text-danger">{{ $message }}</div>
+                        <div class="col-md-4">
+                            <label for="employee_charge" class="form-label">Employee Charge</label>
+                            <input type="number" name="employee_charge" id="employee_charge" class="form-control" step="0.01" style="margin-top: 10px;">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="billing_mode" class="form-label">Billing Mode</label>
+                                <select class="select" id="billing_mode" name="billing_mode" >
+                                    <option value="">Select Billing Mode</option>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarterly">Quarterly</option>
+                                    <option value="Half_yearly">Half Yearly</option>
+                                    <option value="Annually">Annually</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="payment_date_from">From Date</label>
+                            <input type="date" class="form-control @error('payment_date_from') is-invalid @enderror" 
+                                   id="payment_date_from" name="payment_date_from" 
+                                   value="{{ old('payment_date_from', $request->payment_date_from ?? '') }}" required>
+                            @error('payment_date_from')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="payment_date_to">To Date</label>
+                            <input type="date" class="form-control @error('payment_date_to') is-invalid @enderror" 
+                                   id="payment_date_to" name="payment_date_to" 
+                                   value="{{ old('payment_date_to', $request->payment_date_to ?? '') }}" required>
+                            @error('payment_date_to')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
                     </div>

@@ -25,53 +25,27 @@
                 <h3>New Billing</h3>
             </div>
             <div class="card-body">
+                <div id="message" class="alert alert-info" style="display:none;"></div>
+                <div id="invoice_id" class="alert alert-danger" style="display:none;"></div>
                 <form action="{{url('sub-admin/bills/store')}}" method="post" enctype="multipart/form-data">
                     {{csrf_field()}}
+                    <input type="text" name="billing_type" value="employer" class="form-control" hidden>
                     <div class="row form-group">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="bill_for" class="form-label">Invoice For</label>
                                 <select class="select" id="bill_for" name="bill_for" required="" >
                                     <option value="">&nbsp;</option>
-                                    <option value="invoice for license applied">HRMS Subcriptions</option>
+                                    <option value="HRMS Subcriptions">HRMS Subcriptions</option>
                                     <option value="other">Other</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="date" class="form-label">Invoice Date</label>
-                                <input type="date" class="form-control" id="date"  name="date">
-                            </div>
-                        </div>
-                        <!--<div class="col-md-4">-->
-                        <!--    <div class="form-group">-->
-                        <!--        <label for="payment_mode" class="form-label">Billing Month</label>-->
-                        <!--        <select class="select" id="billing_month" name="billing_month" >-->
-                        <!--            <option value="January">January</option>-->
-                        <!--            <option value="February">February</option>-->
-                        <!--            <option value="March">March</option>-->
-                        <!--            <option value="April">April</option>-->
-                        <!--            <option value="May">May</option>-->
-                        <!--            <option value="June">June</option>-->
-                        <!--            <option value="July">July</option>-->
-                        <!--            <option value="August">August</option>-->
-                        <!--            <option value="September">September</option>-->
-                        <!--            <option value="October">October</option>-->
-                        <!--            <option value="November">November</option>-->
-                        <!--            <option value="December">December</option>-->
-                        <!--        </select>-->
-                        <!--    </div>-->
-                        <!--</div>-->
-                
-                                <input type="text" name="billing_type" value="employer" class="form-control" hidden>
-                             
-                      
                         <!-- Dynamic Dropdown for Organisation or Sub-admin -->
                         <div class="col-md-4" id="entity_dropdown">
                             <div class="form-group">
                                 <label for="entity_id" class="form-label">Select Organisation</label>
-                                <select class="select" id="entity_id" name="entity_id" required=""  onchange="fetchEntityDetails(this.value);">
+                                <select class="select" id="entity_id" name="entity_id" required=""  onchange="checkFields()">
                                     <option value="">&nbsp;</option>
                                     @foreach($organization as $org)
                                     <option value="{{$org->reg}}">{{$org->com_name}}</option>
@@ -80,7 +54,12 @@
                                 </select>
                             </div>
                         </div>
-                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="date" class="form-label">Invoice Date</label>
+                                <input type="date" class="form-control" id="date"  name="date" onchange="checkFields()">
+                            </div>
+                        </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -96,7 +75,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="vat" class="form-label">VAT</label>
+                                <label for="vat" class="form-label">VAT(%)</label>
                                 <input type="text" step="0.01" class="form-control" id="vat" value="" name="vat">
                             </div>
                         </div>
@@ -108,7 +87,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="entity_id" >Total Amount</label>
+                                <label for="entity_id" class="form-label">Total Amount</label>
                                 <input type="text" class="form-control" id="total_amount" name="total_amount" value=""readonly>
                             </div>
                         </div>
@@ -121,8 +100,15 @@
                                 </select>
                             </div>
                         </div>
-                        
-                        <div class="col-md-4">
+                        <div class="col-md-12">
+                            <label for="entity_id" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" style="margin-top:20px"></textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="entity_id" class="form-label">Remarks</label>
+                            <textarea class="form-control" id="remarks" name="remarks" style="margin-top:20px"></textarea>
+                        </div>
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="vat" >Description</label>
                                 <input type="text" class="form-control" id="description" value="" name="description">
@@ -133,7 +119,7 @@
                                 <label for="vat" >Remarks</label>
                                 <textarea class="form-control" id="remarks" name="remarks"></textarea>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>    
                     <br>
                     <div class="row">
@@ -152,24 +138,81 @@
 @endsection
 @section('script')
 <script type="text/javascript">
-    function fetchEntityDetails(entityId) {
-        if (!entityId) return; // Do nothing if no entity is selected.
-        //alert(entityId);
-        // Perform an AJAX request to fetch the data
+    // function fetchEntityDetails(entityId) {
+    //     const invoiceDate = document.getElementById('date').value;
+    //     if (!entityId) return; // Do nothing if no entity is selected.
+        
+    //     // Perform an AJAX request to fetch the data
+    //     $.ajax({
+    //         url: '{{ url("superadmin/get-entity-details") }}',
+    //         type: 'GET',
+    //         data: { entity_id: entityId },
+    //         success: function(response) {
+    //             // Update the form fields with the fetched data
+    //             $('#amount').val(response.amount || '');
+    //             $('#total_employee').val(response.total_employee || '');
+    //         },
+    //         error: function(xhr) {
+    //             console.error("Error fetching entity details:", xhr);
+    //         }
+    //     });
+    // }
+    function checkFields() {
+    const entityId = document.getElementById('entity_id').value;
+    const invoiceDate = document.getElementById('date').value;
+            
+        if (entityId && invoiceDate) {
+            fetchEntityDetails(entityId, invoiceDate);
+            fetchInvoiceExist(entityId, invoiceDate);
+        }
+    }
+
+    function fetchEntityDetails(entityId, invoiceDate) {
+        console.log("Entity:", entityId, "Date:", invoiceDate);
         $.ajax({
             url: '{{ url("superadmin/get-entity-details") }}',
             type: 'GET',
-            data: { entity_id: entityId },
+            data: { 
+                entity_id: entityId,
+                invoice_date: invoiceDate
+            },
             success: function(response) {
-                // Update the form fields with the fetched data
                 $('#amount').val(response.amount || '');
                 $('#total_employee').val(response.total_employee || '');
+                if (response.message) {
+                    $('#message').text(response.message).show();
+                } else {
+                    $('#message').hide();
+                }
             },
             error: function(xhr) {
-                console.error("Error fetching entity details:", xhr);
+                console.error("Error:", xhr.responseText);
             }
         });
     }
+
+    function fetchInvoiceExist(entityId, invoiceDate) {
+        console.log("Entity:", entityId, "Date:", invoiceDate);
+        $.ajax({
+            url: '{{ url("subadmin/invoice-exist") }}',
+            type: 'GET',
+            data: { 
+                entity_id: entityId,
+                invoice_date: invoiceDate
+            },
+            success: function(response) {
+                if (response.message) {
+                    $('#invoice_id').text(response.message).show();
+                } else {
+                    $('#invoice_id').hide();
+                }
+            },
+            error: function(xhr) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
+    }
+
 </script>
 <script type="text/javascript">
     // $(document).ready(function() {
@@ -216,5 +259,12 @@
         $('#total_amount').val(totalAmount.toFixed(2)); // Show two decimal places
     }
 });
+
+</script>
+<script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'description' );
+    CKEDITOR.replace( 'remarks' );
+
 </script>
 @endsection

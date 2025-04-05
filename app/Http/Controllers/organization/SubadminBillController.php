@@ -42,50 +42,115 @@ class SubadminBillController extends Controller
     }
 
 
+    // public function ruleStore(Request $request)
+    // {
+    //     // Session::flash('error', 'We are working on It.');
+    //     // return redirect()->back();
+    //     //dd($request->all());
+    //     // Validate incoming data
+    //     $validatedData = $request->validate([
+    //         'type' => 'required|in:employer,sub-admin',
+    //         'org_code' => 'required|string|max:20',
+    //         'billing_for' => 'required|in:Number Of Employee',
+    //         'entity_id' => 'required|string|max:20',
+    //         'min_employees' => 'required|integer|min:1|lt:max_employees',
+    //         'max_employees' => 'required|integer|min:1|gt:min_employees',
+    //         'employee_charge' => 'required|numeric|min:0',
+    //         'billing_mode' => 'required|in:Monthly,Yearly,Quarterly', // Added Quarterly if needed
+    //         'payment_date_from' => 'required|date|before_or_equal:payment_date_to',
+    //         'payment_date_to' => 'required|date|after_or_equal:payment_date_from',
+    //     ]);
+
+    //     //dd($validatedData);
+    //     // Check if a rule with the same entity_id and payment_date_range already exists
+    //     $existingRule = BillingRule::where('entity_id', $validatedData['entity_id'])
+    //         ->where('payment_date_range', $validatedData['payment_date_range'])
+    //         ->first();
+    
+    //     if ($existingRule) {
+    //         // If a match is found, redirect back with an error message
+    //         return redirect()->back()->withErrors([
+    //             'payment_date_range' => 'Payment date range already exists for this user id.'
+    //         ]);
+    //     }
+    
+    //     // Save data to the database
+    //     BillingRule::create([
+    //         'type' => $validatedData['type'],
+    //         'entity_id' => $validatedData['entity_id'],
+    //         'employee_charge' => $validatedData['employee_charge'] ?? null,
+    //         'min_employees' => $validatedData['min_employees'] ?? null,
+    //         'max_employees' => $validatedData['max_employees'] ?? null,
+    //         'payment_date_range' => $validatedData['payment_date_range'] ?? null,
+    //         'org_code' => $validatedData['org_code'] ?? null,
+    //     ]);
+    
+    //     // Redirect with a success message
+    //     Session::flash('message', 'Bill rule submitted successfully.');
+    //     return redirect('sub-admin/billing-rule-list');
+    // }
+
     public function ruleStore(Request $request)
     {
-        Session::flash('error', 'We are working on It.');
-        return redirect()->back();
-        // dd($request->all());
         // Validate incoming data
         $validatedData = $request->validate([
-            'type' => 'required|in:employer,sub-admin',
-            'entity_id' => 'required|string|max:50',
-            'employee_charge' => 'nullable|numeric|min:0',
-            'min_employees' => 'nullable|integer|min:0',
-            'max_employees' => 'nullable|integer|min:0',
-            'payment_date_range' => 'required|string',
-            'org_code' => 'required|string',
-
+            'type' => 'required|in:employer,sub-admin',  // Fixed typo (employer vs employer)
+            'org_code' => 'required|string|max:20',
+            'billing_for' => 'required|in:Number Of Employee',
+            'entity_id' => 'required|string|max:20',
+            'min_employees' => 'required|integer|min:1|lt:max_employees',
+            'max_employees' => 'required|integer|min:1|gt:min_employees',
+            'employee_charge' => 'required|numeric|min:0',
+            'billing_mode' => 'required|in:Monthly,Yearly,Quarterly',
+            'payment_date_from' => 'required|date|before_or_equal:payment_date_to',
+            'payment_date_to' => 'required|date|after_or_equal:payment_date_from',
         ]);
 
-        //dd($validatedData);
-        // Check if a rule with the same entity_id and payment_date_range already exists
-        $existingRule = BillingRule::where('entity_id', $validatedData['entity_id'])
-            ->where('payment_date_range', $validatedData['payment_date_range'])
-            ->first();
-    
-        if ($existingRule) {
-            // If a match is found, redirect back with an error message
-            return redirect()->back()->withErrors([
-                'payment_date_range' => 'Payment date range already exists for this user id.'
+        // Check for overlapping date ranges for the same entity
+        // STRICT OVERLAP CHECK - Blocks ANY dates within existing ranges
+        $conflictExists = BillingRule::where('entity_id', $validatedData['entity_id'])
+        ->where(function($query) use ($validatedData) {
+            $query->whereBetween('payment_date_from', [
+                    $validatedData['payment_date_from'], 
+                    $validatedData['payment_date_to']
+                ])
+                ->orWhereBetween('payment_date_to', [
+                    $validatedData['payment_date_from'], 
+                    $validatedData['payment_date_to']
+                ])
+                ->orWhere(function($q) use ($validatedData) {
+                    // Catches cases where new range wraps around existing
+                    $q->where('payment_date_from', '<', $validatedData['payment_date_from'])
+                    ->where('payment_date_to', '>', $validatedData['payment_date_to']);
+                });
+        })
+        ->exists();
+
+    if ($conflictExists) {
+        return redirect()->back()
+            ->withInput()
+            ->withErrors([
+                'payment_date_from' => 'This rule already exists for this organization during the selected month(s).',
+                'payment_date_to' => 'This rule already exists for this organization during the selected month(s).'
             ]);
-        }
-    
+    }
+
         // Save data to the database
         BillingRule::create([
             'type' => $validatedData['type'],
+            'billing_for' => $validatedData['billing_for'],
             'entity_id' => $validatedData['entity_id'],
-            'employee_charge' => $validatedData['employee_charge'] ?? null,
-            'min_employees' => $validatedData['min_employees'] ?? null,
-            'max_employees' => $validatedData['max_employees'] ?? null,
-            'payment_date_range' => $validatedData['payment_date_range'] ?? null,
-            'org_code' => $validatedData['org_code'] ?? null,
+            'employee_charge' => $validatedData['employee_charge'],
+            'min_employees' => $validatedData['min_employees'],
+            'max_employees' => $validatedData['max_employees'],
+            'billing_mode' => $validatedData['billing_mode'],
+            'payment_date_from' => $validatedData['payment_date_from'],
+            'payment_date_to' => $validatedData['payment_date_to'],  // Changed from payment_date_range
+            'org_code' => $validatedData['org_code'],
         ]);
-    
-        // Redirect with a success message
-        Session::flash('message', 'Bill rule submitted successfully.');
-        return redirect('sub-admin/billing-rule-list');
+
+        return redirect('sub-admin/billing-rule-list')
+            ->with('message', 'Billing rule submitted successfully.');
     }
 
     public function showRuleList(Request $request){
@@ -118,26 +183,116 @@ class SubadminBillController extends Controller
         
     }
 
+    // public function update(Request $request, $id)
+    // {
+    //     $email = Session::get('empsu_email');
+    //     if(!empty($email)){
+    //         //dd($request->all());
+    //         $validated = $request->validate([
+    //             'entity_id' => 'required',
+    //             'employee_charge' => 'nullable|required',
+    //             'min_employees' => 'nullable|required',
+    //             'max_employees' => 'nullable|required',
+    //             'payment_date_range' => 'nullable|string|max:50',
+    //         ]);
+    //         //dd($validated);
+    //         DB::table('rule_table')->where('id', $id)->update($validated);
+    //         Session::flash('message', 'Record Update successfully.');
+    //         return redirect('sub-admin/billing-rule-list');
+    //     } else {
+    //         redirect('superadmin');
+    //     }
+        
+    // }
+
+
+
     public function update(Request $request, $id)
     {
+        // Validate incoming data
+        //dd($request->all());
+        $validatedData = $request->validate([
+            'type' => 'required|in:employer,sub-admin',
+            // 'org_code' => 'required|string|max:20',
+            'billing_for' => 'required|in:Number Of Employee',
+            'entity_id' => 'required|string|max:20',
+            'min_employees' => 'required|integer|min:1|lt:max_employees',
+            'max_employees' => 'required|integer|min:1|gt:min_employees',
+            'employee_charge' => 'required|numeric|min:0',
+            'billing_mode' => 'required|in:Monthly,Quarterly,Half_yearly,Annually',
+            'payment_date_from' => 'required|date|before_or_equal:payment_date_to',
+            'payment_date_to' => 'required|date|after_or_equal:payment_date_from',
+        ]);
+
+        // Find the existing rule
+        $rule = BillingRule::findOrFail($id);
+
+        // Check for date range conflicts (excluding current record)
+        $conflictExists = BillingRule::where('entity_id', $validatedData['entity_id'])
+        ->where('id', '!=', $id) // Exclude current record
+        ->where(function($query) use ($validatedData) {
+            $query->where(function($q) use ($validatedData) {
+                // Case 1: New range starts within existing range
+                $q->where('payment_date_from', '<=', $validatedData['payment_date_from'])
+                  ->where('payment_date_to', '>=', $validatedData['payment_date_from']);
+            })->orWhere(function($q) use ($validatedData) {
+                // Case 2: New range ends within existing range
+                $q->where('payment_date_from', '<=', $validatedData['payment_date_to'])
+                  ->where('payment_date_to', '>=', $validatedData['payment_date_to']);
+            })->orWhere(function($q) use ($validatedData) {
+                // Case 3: New range completely wraps around existing range
+                $q->where('payment_date_from', '>=', $validatedData['payment_date_from'])
+                  ->where('payment_date_to', '<=', $validatedData['payment_date_to']);
+            })->orWhere(function($q) use ($validatedData) {
+                // Case 4: Existing range completely wraps around new range
+                $q->where('payment_date_from', '<', $validatedData['payment_date_from'])
+                  ->where('payment_date_to', '>', $validatedData['payment_date_to']);
+            });
+        })
+        ->exists();
+           dd($conflictExists); 
+
+        if ($conflictExists) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors([
+                    'payment_date_from' => 'A billing rule already exists for this entity that overlaps with the specified date range.',
+                    'payment_date_to' => 'A billing rule already exists for this entity that overlaps with the specified date range.'
+                ]);
+        }
+        dd('okk');
+        // Update the billing rule
+        DB::transaction(function() use ($rule, $validatedData) {
+            $rule->update([
+                'type' => $validatedData['type'],
+                'billing_for' => $validatedData['billing_for'],
+                'entity_id' => $validatedData['entity_id'],
+                'employee_charge' => $validatedData['employee_charge'],
+                'min_employees' => $validatedData['min_employees'],
+                'max_employees' => $validatedData['max_employees'],
+                'billing_mode' => $validatedData['billing_mode'],
+                'payment_date_from' => $validatedData['payment_date_from'],
+                'payment_date_to' => $validatedData['payment_date_to'],
+                'org_code' => $validatedData['org_code'],
+            ]);
+        });
+
+        return redirect()->route('subadmin.rulelist')
+            ->with('success', 'Billing rule updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        //dd('ok');
         $email = Session::get('empsu_email');
         if(!empty($email)){
-            //dd($request->all());
-            $validated = $request->validate([
-                'entity_id' => 'required',
-                'employee_charge' => 'nullable|required',
-                'min_employees' => 'nullable|required',
-                'max_employees' => 'nullable|required',
-                'payment_date_range' => 'nullable|string|max:50',
-            ]);
-            //dd($validated);
-            DB::table('rule_table')->where('id', $id)->update($validated);
-            Session::flash('message', 'Record Update successfully.');
-            return redirect('sub-admin/billing-rule-list');
+            $rule = BillingRule::findOrFail($id);
+            $rule->delete();
+            Session::flash('message', 'Record Deleted successfully.');
+            return redirect()->route('subadmin.rulelist');
         } else {
-            redirect('superadmin');
+            redirect('subadmin');
         }
-        
     }
 
     public function billingList(Request $request){
@@ -154,8 +309,8 @@ class SubadminBillController extends Controller
 
     public function addbillng(Request $request)
     {
-        Session::flash('error', 'We are working on it.');
-        return redirect()->back();
+        // Session::flash('error', 'We are working on it.');
+        // return redirect()->back();
         try {
             $email = Session::get('empsu_email');
             $userType = Session::get('usersu_type');
@@ -175,65 +330,123 @@ class SubadminBillController extends Controller
                 return view('sub-admin/billing/add_new_billing',$data);
 
             } else {
-                return redirect('superadmin');
+                return redirect('subadmin');
             }
         } catch (Exception $e) {
             throw new \App\Exceptions\AdminException($e->getMessage());
         }
     }
 
+    // public function getEntityDetails(Request $request)
+    // {
+    //     $entityId = $request->input('entity_id');
+    //     $email = Session::get('empsu_email');
+    //     $code = DB::table('sub_admin_registrations')->where('email',$email)->first();
+    //         // Direct employee count for non sub-admins
+    //         $totalEmployee = DB::table('employee')
+    //         ->where('emid', $entityId)
+    //         //->where('org_code',$code->org_code)
+    //         ->count();
+           
+    //         $amount = DB::table('rule_table')
+    //             ->where('entity_id', $entityId)
+    //             ->where('org_code',$code->org_code)
+    //             ->value('employee_charge');
+    //             //dd($amount);
+    //         if ($amount === null) {
+    //             $amount = DB::table('rule_table')
+    //                 ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
+    //                 ->where('type', 'employer')
+    //                 ->where('org_code',$code->org_code)
+    //                 ->value('employee_charge');
+    //         }    
+   
+    //         if ($amount !== null) {
+    //             $totalAmount = $amount * $totalEmployee;
+    //             return response()->json([
+    //                 'amount' => $totalAmount,
+    //                 'total_employee' => $totalEmployee
+    //             ]);
+    //         } else {
+    //             return response()->json([
+    //                 'message' => 'No employee charge found',
+    //                 'total_employee' => $totalEmployee
+    //             ]);
+    //         }
+    // }
     public function getEntityDetails(Request $request)
     {
         $entityId = $request->input('entity_id');
+        $invoiceDate = $request->input('invoice_date'); // Get the invoice date from request
         $email = Session::get('empsu_email');
-        $code = DB::table('sub_admin_registrations')->where('email',$email)->first();
-        //dd($entityId);
-        // // Fetch the amount from the rule_table
-        // $rule = DB::table('rule_table')->where('entity_id', $entityId)->first();
+        $code = DB::table('sub_admin_registrations')->where('email', $email)->first();
 
-        // // Count the total employees from the employee table
-        // $totalEmployees = DB::table('employees')->where('entity_id', $entityId)->count();
-
-        // // Return the data as JSON
-        // return response()->json([
-        //     'amount' => $rule->amount ?? null,
-        //     'total_employee' => $totalEmployees,
-        // ]);
-
-            // Direct employee count for non sub-admins
-            $totalEmployee = DB::table('employee')
+        // Direct employee count
+        $totalEmployee = DB::table('employee')
             ->where('emid', $entityId)
-            //->where('org_code',$code->org_code)
             ->count();
-            //dd($code->org_code);
+        
+        // First try to find a rule for the specific entity with date range check
+        $amount = DB::table('rule_table')
+            ->where('entity_id', $entityId)
+            ->where('org_code', $code->org_code)
+            ->where(function($query) use ($invoiceDate) {
+                $query->whereNull('payment_date_from') // Either no date range is set
+                    ->orWhere(function($q) use ($invoiceDate) {
+                        $q->where('payment_date_from', '<=', $invoiceDate) // Or invoice date is within range
+                        ->where('payment_date_to', '>=', $invoiceDate);
+                    });
+            })
+            ->value('employee_charge');
+
+        // If no specific rule found, try the DEFAULT rule with date range check
+        if ($amount === null) {
             $amount = DB::table('rule_table')
-                ->where('entity_id', $entityId)
-                ->where('org_code',$code->org_code)
+                ->where('entity_id', 'DEFULT')
+                ->where('type', 'employer')
+                ->where('org_code', $code->org_code)
+                ->where(function($query) use ($invoiceDate) {
+                    $query->whereNull('payment_date_from')
+                        ->orWhere(function($q) use ($invoiceDate) {
+                            $q->where('payment_date_from', '<=', $invoiceDate)
+                            ->where('payment_date_to', '>=', $invoiceDate);
+                        });
+                })
                 ->value('employee_charge');
-                //dd($amount);
-            if ($amount === null) {
-                //dd($code->org_code);
-                $amount = DB::table('rule_table')
-                    ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
-                    ->where('type', 'employer')
-                    ->where('org_code',$code->org_code)
-                    ->value('employee_charge');
-            }    
-            //
-            //
-            //dd($amount);
-            if ($amount !== null) {
-                $totalAmount = $amount * $totalEmployee;
-                return response()->json([
-                    'amount' => $totalAmount,
-                    'total_employee' => $totalEmployee
-                ]);
-            } else {
-                return response()->json([
-                    'message' => 'No employee charge found',
-                    'total_employee' => $totalEmployee
-                ]);
-            }
+        }
+        
+        if ($amount !== null) {
+            $totalAmount = $amount;
+            return response()->json([
+                'amount' => $totalAmount,
+                'total_employee' => $totalEmployee
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'No employee charge found for the selected date range because rule are not set',
+                'total_employee' => $totalEmployee
+            ]);
+        }
+    }
+
+    public function invoiceExist(Request $request){
+        $entityId = $request->input('entity_id');
+        $invoiceDate = $request->input('invoice_date'); // Get the invoice date from request
+        $email = Session::get('empsu_email');
+         // Check if invoice already exists for this month/year
+        $invoiceMonth = date('Y-m', strtotime($invoiceDate));
+        $existingInvoice = DB::table('subadmin_bills')
+            ->where('entity_id', $entityId)
+            // ->where('email', $email)
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$invoiceMonth])
+            ->first();
+
+        if ($existingInvoice) {
+            return response()->json([
+                'invoice_exists' => true,
+                'message' => 'Invoice already exists for ' . date('F Y', strtotime($invoiceDate))
+            ]);
+        }
     }
 
     public function store(Request $request)
@@ -254,11 +467,21 @@ class SubadminBillController extends Controller
                 'remarks' => 'nullable|string',
                 'date' => 'nullable|date',
             ]);
+            $invoiceMonth = date('Y-m', strtotime($request->date));
+            $existingInvoice = DB::table('subadmin_bills')
+                ->where('entity_id', $request->entity_id)
+                // ->where('email', $email)
+                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$invoiceMonth])
+                ->first();
+            if($existingInvoice){
+                Session::flash('message', 'This month invoice allready exist');
+                return redirect()->back();
+            }    
             //dd($validatedData);
             $date = $request->date;
             $pt = $request->billing_type == 'sub-admin' ? 'p' : '';
             $monthYear = date('mY', strtotime($request->date));
-            $subadmin_name = DB::table('sub_admin_registrations')->where('email',$email)->first();
+            $subadmin_name = DB::table('registration')->where('reg',$request->entity_id)->first();
             if ($subadmin_name && $subadmin_name->com_name) {
                 $firstThreeLetters = substr($subadmin_name->com_name, 0, 3); // Get the first three letters
                 $latter = $firstThreeLetters;
@@ -280,49 +503,49 @@ class SubadminBillController extends Controller
                 'org_code' => $subadmin_name->org_code // Add the invoice number to save
             ]);
             $bill = Subadmin_bill::create($dataToSave);
-                if($bill){
-                    $org_email = DB::table('registration')->where('reg',$request->entity_id)->first();
+                // if($bill){
+                //     $org_email = DB::table('registration')->where('reg',$request->entity_id)->first();
                     
-                    $toemail = $org_email->email;
-                    //dd($toemail);
-                    // Prepare data for the email template
-                    $mailData = [
-                        'subadmin_name' => $subadmin_name->com_name,
-                        'subadmin_email' => $subadmin_name->email,
-                        'organization_name' => $org_email->com_name,
-                        'Invoice_no' => $invoiceNumber,
-                        'Billing_date' => $request->date,
-                        'Billing_for' => $request->bill_for,
-                        'Total_amount' => $request->total_amount,
-                        'Vat' => $request->vat,
-                        'Discount' => $request->discount_amount,
-                    ];
-                    //pdf data
-                      // Generate or retrieve the PDF
-                    $pdf = PDF::loadView('subadminbillPdf', $mailData); // Use your own Blade template
-                    $pdfPath = storage_path('app/public/' . $invoiceNumber . '.pdf');
-                    $pdf->save($pdfPath);
+                //     $toemail = $org_email->email;
+                //     //dd($toemail);
+                //     // Prepare data for the email template
+                //     $mailData = [
+                //         'subadmin_name' => $subadmin_name->com_name,
+                //         'subadmin_email' => $subadmin_name->email,
+                //         'organization_name' => $org_email->com_name,
+                //         'Invoice_no' => $invoiceNumber,
+                //         'Billing_date' => $request->date,
+                //         'Billing_for' => $request->bill_for,
+                //         'Total_amount' => $request->total_amount,
+                //         'Vat' => $request->vat,
+                //         'Discount' => $request->discount_amount,
+                //     ];
+                //     //pdf data
+                //       // Generate or retrieve the PDF
+                //     $pdf = PDF::loadView('subadminbillPdf', $mailData); // Use your own Blade template
+                //     $pdfPath = storage_path('app/public/' . $invoiceNumber . '.pdf');
+                //     $pdf->save($pdfPath);
 
-                    // Send email with PDF attachment
-                    Mail::send('subadmin_mail', $mailData, function ($message) use ($toemail, $pdfPath) {
-                        $message->to($toemail, env('MAIL_FROM_NAME'))
-                                ->subject("Your Billing Invoice")
-                                ->attach($pdfPath, [
-                                    'as' => 'invoice.pdf',
-                                    'mime' => 'application/pdf',
-                                ]);
-                        $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-                    });
-                    //pdf data end
-                    //return view('subadmin_mail',$mailData);
-                    dd('okk');
-                    Mail::send('subadmin_mail', $mailData, function ($message) use ($toemail) {
-                        $message
-                            ->to($toemail, env('MAIL_FROM_NAME'))
-                            ->subject("Your Billing Invoice");
-                        $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-                    });
-                }    
+                //     // Send email with PDF attachment
+                //     Mail::send('subadmin_mail', $mailData, function ($message) use ($toemail, $pdfPath) {
+                //         $message->to($toemail, env('MAIL_FROM_NAME'))
+                //                 ->subject("Your Billing Invoice")
+                //                 ->attach($pdfPath, [
+                //                     'as' => 'invoice.pdf',
+                //                     'mime' => 'application/pdf',
+                //                 ]);
+                //         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+                //     });
+                //     //pdf data end
+                //     //return view('subadmin_mail',$mailData);
+                //     dd('okk');
+                //     Mail::send('subadmin_mail', $mailData, function ($message) use ($toemail) {
+                //         $message
+                //             ->to($toemail, env('MAIL_FROM_NAME'))
+                //             ->subject("Your Billing Invoice");
+                //         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+                //     });
+                // }    
             Session::flash('message', 'Bill submitted successfully. Invoice Number: ' . $invoiceNumber);
             return redirect('sub-admin/billing-list');
         } else {

@@ -72,7 +72,8 @@
                         {{-- <th>Max Organization</th> --}}
                         <th>Min Employee</th>
                         <th>Max Employee</th>
-                        <th>Payment Date Range</th>
+                        <th>Payment From Date</th>
+                        <th>Payment To Date</th>
                         <th>Action</th>
                       </tr>
                    </thead>
@@ -80,7 +81,7 @@
                         @foreach($billing_rule as $billing)
                             @php 
                                 $copany_name = DB::table('registration')
-                                    ->where('org_code', $billing->org_code)->first();
+                                    ->where('org_code', $billing->org_code)->where('reg',$billing->entity_id)->first();
                             @endphp
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -90,7 +91,8 @@
                                 {{-- <td>{{ $billing->max_organizations ?? 'NA' }}</td> --}}
                                 <td>{{ $billing->min_employees ?? 'NA' }}</td>
                                 <td>{{ $billing->max_employees ?? 'NA' }}</td>
-                                <td>{{ $billing->payment_date_range ?? 'NA' }}</td>
+                                <td>{{ $billing->payment_date_from ? \Carbon\Carbon::parse($billing->payment_date_from)->format('d M Y') : 'NA' }}</td>
+                                <td>{{ $billing->payment_date_to ? \Carbon\Carbon::parse($billing->payment_date_to)->format('d M Y') : 'NA' }}</td>
                                  <td class="text-end">
                                     <div class="dropdown dropdown-action">
                                        <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -100,9 +102,12 @@
                                           <a class="dropdown-item" href="{{ route('subadmin.billing-rule.edit', $billing->id) }}">
                                                 <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                           </a>
+                                          <a class="dropdown-item text-danger" href="{{ route('subadmin.billing-rule.destroy', $billing->id) }}" onclick="return confirm('Are you sure you want to delete this record?');">
+                                             <i class="fas fa-trash"></i>&nbsp; Delete
+                                         </a>
                                        </div>
                                     </div>
-                              </td>
+                                 </td>
                             </tr>
                         @endforeach
                    </tbody>
@@ -115,5 +120,9 @@
 <!-- /Page Content -->
 @endsection
 @section('script')
-
+<script>
+   function setDeleteAction(url) {
+       document.getElementById('deleteForm').action = url;
+   }
+   </script>
 @endsection
