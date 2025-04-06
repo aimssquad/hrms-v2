@@ -8,16 +8,10 @@
         <div class="row align-items-center">
             <div class="col">
                 <h3 class="page-title">Invoice</h3>
-                {{-- <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Invoice</li>
-                </ul> --}}
             </div>
             <div class="col-auto float-end ms-auto">
                 <div class="btn-group btn-group-sm">
-                    <button class="btn btn-white">CSV</button>
-                    <button class="btn btn-white" id="download-pdf">PDF</button>
-                    <button class="btn btn-white"><i class="fa-solid fa-print fa-lg"></i> Print</button>
+                    <button class="btn btn-white" id="download-pdf">Download PDF</button>   
                 </div>
             </div>
         </div>
@@ -44,25 +38,25 @@
                                 <div class="invoice-details">
                                     <h3 class="text-uppercase" style="white-space: nowrap; text-align: left;">{{ strtoupper($com_dtl->com_name) }}</h3>
                                     <ul class="list-unstyled" style="text-align: left;">
-                                        <li><span>{{strtoupper($com_dtl->address2)}}</span></li>
-                                        <li>{{strtoupper($com_dtl->city)}} {{strtoupper($com_dtl->road)}} {{strtoupper($com_dtl->zip)}}</li>
+                                        <li><span>{{strtoupper($com_dtl->address)}}</span></li>
+                                        <li>{{strtoupper("$com_dtl->city $com_dtl->road $com_dtl->zip")}} </li>
                                         {{-- <li>Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> --}} 
                                         <li>Mobile: <span>{{strtoupper($com_dtl->p_no)}}</span></li>
+                                        <li>Landline: <span>{{strtoupper($com_dtl->land)}}</span></li>
                                         <li>Email: <span>{{strtoupper($com_dtl->email)}}</span></li>
-                                        <li>Website: <span>April 25, 2019</span></li>
+                                        <li>Website: <span>{{strtoupper($com_dtl->website)}}</span></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <hr>
+                            {{-- <hr> --}}
                         </div>
                         <div class="row">
                             <div class="col-sm-6 col-lg-7 col-xl-8 m-b-20">
-                                <h5>Bill To: {{ !empty($org_dtl->com_name) ? strtoupper($org_dtl->com_name) : 'NA' }}</h5>
+                                <h5>Invoice To: {{ !empty($org_dtl->com_name) ? strtoupper($org_dtl->com_name) : 'NA' }}</h5>
                                 <br>
                                 <ul class="list-unstyled">
-                                    <li><h5><strong>{{ strtoupper($org_dtl->com_name) }}</strong></h5></li>
                                     <li><span>{{ strtoupper($org_dtl->f_name) }} {{ strtoupper($org_dtl->l_name) }}</span></li>
                                     <li>{{strtoupper($org_dtl->address)}}</li>
                                     <li>{{strtoupper($org_dtl->city)}}</li>
@@ -72,10 +66,11 @@
                                 </ul>
                             </div>
                             <div class="col-sm-6 col-lg-5 col-xl-4 m-b-20">
-                                <span class="text-muted" id="invoice-number">Invoice No: {{$bill->invoice_no}}</span>
                                 <ul class="list-unstyled invoice-payment-details">
-                                    <li>Bill Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> 
+                                    <li>Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> 
                                 </ul>
+                                <span class="text-muted" id="invoice-number">Invoice No: {{$bill->invoice_no}}</span>
+                               
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -83,40 +78,27 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th class="d-none d-sm-table-cell">Description</th>
+                                        <th class="d-none d-sm-table-cell">Item Name</th>
                                         <th >Quantity</th>
-                                        <th>Unit Price Excluding VAT</th>
                                         <th>Unit Price</th>
-                                        <th>VAT (%)</th>
-                                        <th class="text-end">TOTAL</th>
+                                        <th>Unit Price Exc.VAT</th>
+                                        <th>Discount</th>
+                                        <th class="text-end">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>1</td>
-                                        <td class="d-none d-sm-table-cell">{{$bill->description}}</td>
-                                        <td>2</td>
+                                        <td class="d-none d-sm-table-cell">{{$bill->bill_for}}</td>
+                                        <td >1</td>
+                                        <td></td>
                                         <td>{{$bill->amount}}</td>
-                                        <td>@php $perEmployee_charge = $bill->amount/$bill->total_employee; echo $perEmployee_charge; @endphp</td>
-                                        <td>{{$bill->vat}}</td>
-                                        {{-- @php 
-                                            if($bill->vat){
-                                                $vat = $bill->amount * $bill->vat/100;
-                                            }
-                                            
-
-                                        @endphp
-                                        <td class="text-end">@if($bill->vat) {{$bill->amount + $vat }} @else {{$bill->total_amount}} @endif</td> --}}
+                                        <td> {{$bill->discount_amount ?? '0.00'}} </td>
                                         <td class="text-end">
-                                            @if($bill->vat !== null) 
-                                        
-                                                @php
-                                                    $total = $bill->amount*$bill->vat/100;
-                                                    echo $total+$bill->amount;
-                                                @endphp
-                                            @else 
-                                                {{$bill->amount}}
-                                            @endif
+                                            @php
+                                                $subtotal = $bill->discount_amount ? ($bill->amount - $bill->discount_amount) : $bill->amount;
+                                                echo number_format($subtotal, 2);
+                                            @endphp
                                         </td>
                                     </tr>
                                 </tbody>
@@ -130,29 +112,35 @@
                                             <table class="table mb-0">
                                                 <tbody>
                                                     <tr>
-                                                        <th>Payment Method :</th>
-                                                        <td class="text-center">{{$bill->payment_mode}}</td>
+                                                        {{-- <th>Payment Method :</th>
+                                                        <td class="text-center">{{$bill->payment_mode}}</td> --}}
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
+                                @php
+                                    $vat_amount = $bill->vat ? ($subtotal * $bill->vat / 100) : 0;
+                                    $grand_total = $bill->total_amount;
+                                @endphp
                                 <div class="col-sm-5">
                                     <div class="m-b-20">
                                         <div class="table-responsive no-border">
                                             <table class="table mb-0">
                                                 <tbody>
                                                     <tr>
-                                                        <th>Discount:</th>
+                                                        <th>Vat({{$bill->vat ?? '0.00'}} %):</th>
                                                         <td></td>
                                                         {{-- <td class="text-end">{{ !empty($bill->discount_amount) ? $bill->discount_amount : 'NA' }}</td> --}}
-                                                        <td class="text-end">{{$bill->discount_amount}}</td>
+                                                        <td class="text-end">
+                                                            {{ number_format($vat_amount, 2) }}
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <th>Subtotal:</th>
                                                         <td></td>
-                                                        <td class="text-end">{{$bill->total_amount}}</td>
+                                                        <td class="text-end">{{ number_format($subtotal, 2) }}</td>
                                                     </tr>
                                                     {{-- <tr>
                                                         <th>Tax: <span class="text-regular">({{$bill->vat}} %)</span></th>
@@ -162,23 +150,53 @@
                                                     <tr>
                                                         <th>Total Paid:</th>
                                                         <td></td>
-                                                        <td class="text-end text-primary"><h5>{{$bill->total_amount}}</h5></td>
+                                                        @if(empty($bill->vat) && empty($bill->discount_amount))
+                                                            <td class="text-end text-primary"><h5>{{ number_format($bill->amount, 2) }}</h5></td>
+                                                        @else
+                                                            <td class="text-end text-primary"><h5>{{$bill->total_amount}}</h5></td>
+                                                        @endif
+                                                        
                                                     </tr>
-                                                    <tr>
+                                                    {{-- <tr>
                                                         <th>Due: <span class="text-regular"></span></th>
                                                         <td></td>
                                                         <td class="text-end"> {{ $bill->payment_status == 0 ? 'Due' : 'Paid' }}</td>
-                                                    </tr>
+                                                    </tr> --}}
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row invoice-payment">
+                                <div class="col-sm-12">
+                                    <div class="m-b-20">
+                                        <div class="table-responsive no-border">
+                                            <table class="table mb-0">
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="border:0;padding-bottom: 0px;">Payment Method : {{$bill->payment_mode}}</th>
+                                                        {{-- <td class="text-center">{{$bill->payment_mode}}</td> --}}
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="border:0;padding-top: 0px;">Disclaimer : <i>This is a system generated Invoice and does not
+                                                            require any signature or Stamp.
+                                                            </i></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="7" style="border:0; height: 45px;"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="7" style=" border:0; height: 45px;" class="text-end">Thank you for your customs !</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
                             <div class="invoice-info" style="text-align: center; margin-top: 20px;">
-                                {{-- <img src="{{ asset('storage/uploads/1730006517_swch_logo (2).png') }}" 
-                                    alt="Logo" 
-                                    style="height: 100px; width: auto; display: inline-block;"><span>Copyright 2024 Skilled Workers Cloud Ltd. All Rights Reserved</span> --}}
+                            <span>Website: <a href="{{strtoupper($com_dtl->website)}}">{{$com_dtl->website ?? ''}}</a></span>
                             </div>
                         </div>
                     </div>

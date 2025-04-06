@@ -114,6 +114,7 @@
                                               </a>
                                                @endif
                                                <a class="dropdown-item" href="{{ route('admin.billing.invoice', $billing->id) }}" target="_blank"><i class="fas fa-eye"></i>&nbsp; View Invoice</a> 
+                                               <a class="dropdown-item" href="{{ route('admin.invoice.download', $billing->id) }}"><i class="fas fa-download"></i>&nbsp; Download Invoice</a> 
                                                {{-- <a class="dropdown-item" target="_blank" href="#" ><i class="fas fa-eye"></i>&nbsp; Download Invoice</a> --}}
                                                <a class="dropdown-item" href="{{ route('admin.invoice.mail', $billing->id) }}"><i class="fas fa-paper-plane"></i>&nbsp; Send Email</a>
                                                <a class="dropdown-item" href=""><i class="fa fa-comments"></i>&nbsp; Remarks</a>

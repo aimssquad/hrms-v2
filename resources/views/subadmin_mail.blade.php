@@ -40,7 +40,7 @@
                                 <li>Invoice Number:  {{$invoice_no}} </li>
                                 <li>Item:  {{$item}} </li>
                                 <li>Date Issued: {{$invoice_date}}</li>
-                                @if(empty($vat) || empty($discount_amount))
+                                @if(empty($vat) && empty($discount_amount))
                                 <li>Amount Due: {{$amount}} </li>
                                 @else
                                 <li>Amount Due: {{ $total_amount }}</li>

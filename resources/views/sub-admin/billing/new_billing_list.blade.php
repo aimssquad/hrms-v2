@@ -130,9 +130,9 @@
                                  </a>
                                  <div class="dropdown-menu dropdown-menu-right">
                                     {{-- @if($billing->payment_status == 1) --}}
-                                       <a class="dropdown-item" href="{{ route('subadmin.billing.edit', $billing->id) }}">
+                                       {{-- <a class="dropdown-item" href="{{ route('subadmin.billing.edit', $billing->id) }}">
                                           <i class=" fas fa-pencil m-r-5"></i> Edit
-                                       </a>
+                                       </a> --}}
                                     {{-- @endif    --}}
                                        <a class="dropdown-item" href="{{ route('subadmin.billing.invoice', $billing->id) }}">
                                           <i class=" fas fa-eye m-r-5"></i> View Invoice

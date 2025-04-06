@@ -612,9 +612,9 @@ class SubadminBillController extends Controller
             $bill = Subadmin_bill::findOrFail($id);
             $bill->delete();
             Session::flash('message', 'Bill deleted successfully.');
-            return redirect('sub-admin/all-bills');
+            return redirect('sub-admin/billing-list');
         } else {
-            redirect('superadmin');
+            redirect('subadmin');
         }
     }
 
@@ -624,7 +624,7 @@ class SubadminBillController extends Controller
             $data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
             $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
             $data['com_dtl'] = DB::table('sub_admin_registrations')->where('org_code',$data['bill']->org_code)->first();
-            //dd('subadmin bills');
+            //dd($data['bill']);
             //return view('subadminbillPdf',$data);
             return view('sub-admin.billing.invoice',$data);
         } else {

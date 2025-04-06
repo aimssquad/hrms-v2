@@ -34,7 +34,7 @@
                 <a href="mailto:{{$email}}" style="text-decoration: none; color: #004AAD;">{{$email}}</a>
             </td>
             <td colspan="3" style="text-align: right; border: none; padding: 10px;">
-                <strong>Invoice Date:</strong> {{ isset($invoice_date) ? \Carbon\Carbon::parse($invoice_date)->format('d/m/Y') : 'NA' }}<br>
+                <strong>Date:</strong> {{ isset($invoice_date) ? \Carbon\Carbon::parse($invoice_date)->format('d/m/Y') : 'NA' }}<br>
                 <strong>Invoice No:</strong> {{$invoice_no}}
             </td>
         </tr>
@@ -42,13 +42,13 @@
         <tr><td colspan="7" style="height: 20px;"></td></tr>
 
         <tr style="background-color: #f5f5f5;">
-            <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">#</th>
-            <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Item Name</th>
-            <th style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">Quantity</th>
-            <th style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Unit Price</th>
-            <th style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Unit Price Excluding VAT</th>
-            <th style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Discount</th>
-            <th style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Total</th>
+            <th style="font-size:12px; padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">#</th>
+            <th style="font-size:12px; padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Item Name</th>
+            <th style="font-size:12px; padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">Quantity</th>
+            <th style="font-size:12px; padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Unit Price</th>
+            <th style="font-size:12px; padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Unit Price Exc.VAT</th>
+            <th style="font-size:12px; padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Discount</th>
+            <th style="font-size:12px; padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Total</th>
         </tr>
 
         <tr>
@@ -74,7 +74,7 @@
             <td colspan="3" style="border: none; padding: 10px; text-align: right;">
                 @php
                     $vat_amount = $vat ? ($subtotal * $vat / 100) : 0;
-                    $grand_total = $total_amount ?: ($subtotal + $vat_amount);
+                    $grand_total = $total_amount;
                 @endphp
                 
                 @if($vat)
@@ -91,7 +91,7 @@
                 
                 <div style="margin-top: 10px; font-size: 1.1em;">
                     <span style="margin-right: 20px;"><strong>Total Paid:</strong></span>
-                    @if(empty($vat) || empty($discount_amount))
+                    @if(empty($vat) && empty($discount_amount))
                         <span style="color: #004AAD; font-weight: bold;">{{ number_format($amount, 2) }}</span>
                     @else
                         <span style="color: #004AAD; font-weight: bold;">{{ number_format($grand_total, 2) }}</span>
@@ -106,20 +106,28 @@
         </tr>
 
         <tr>
-            <td colspan="4" style="border: none; padding: 10px;">
-                <strong>Payment Method:</strong> {{$payment_mode}}
+            <td colspan="7" style="border: none; padding: 10px;">
+                {{-- <strong>Payment Method:</strong> {{$payment_mode}}  --}}
+                <div style="display: block; margin-bottom: 8px;">
+                <strong>Payment Method:</strong> {{ $payment_mode }}
+                </div>
+                <i><strong>Disclaimer :</strong> This is a system generated Invoice and does not require any signature or Stamp.</i>
             </td>
-            <td colspan="3" style="border: none; padding: 10px; text-align: right;"></td>
+            
+            {{-- <td colspan="3" style="border: none; padding: 10px; text-align: right;"></td> --}}
         </tr>
         <tr>
             <td colspan="7" style="height: 100px;"></td>
         </tr>
         <tr>
             <td colspan="4" style="border: none; padding: 10px;"></td>
-            <td colspan="3" style="border: none; padding: 10px; text-align: right;"><i>Thank you for your customs !</i></td>
+            <td colspan="3" style="border: none; padding: 10px; text-align: right;">
+                {{-- <strong style="font-size:12px;">Disclaimer :-</strong> <i style="font-size:12px;">This is a system generated Invoice and does not require any signature or Stamp.</i><br> --}}
+                <i>Thank you for your customs !</i>
+            </td>
         </tr>
         <tr>
-            <td colspan="7" style="height: 100px;"></td>
+            <td colspan="7" style="height: 160px;"></td>
         </tr>
         <tr>
             <td colspan="7" style="border: none; text-align:center; padding: 10px;">

@@ -177,9 +177,9 @@ class BillController extends Controller
     }
     
     public function downloadPdf($id){
-        $decodedId = base64_decode($id);
-        //dd($decodedId);
-        $invoiceData = Subadmin_bill::where('id', $decodedId)->first();
+        //$decodedId = base64_decode($id);
+        //dd($id);
+        $invoiceData = Subadmin_bill::where('id', $id)->first();
         if (!$invoiceData) {
             return back()->with('error', 'Invoice not found');
         }
@@ -216,7 +216,9 @@ class BillController extends Controller
             'description' => $invoiceData->description,
             'remarks' => $invoiceData->remarks,
         ];
-        return view('subadminbillPdf', $data);
+        $pdf = Pdf::loadView('subadminbillPdf', $data);
+        return $pdf->download('invoice_'.$invoiceData->invoice_no.'.pdf');
+        //return view('subadminbillPdf', $data);
     }
 
     // public function adminBillingPartnerOrg(Request $request){
