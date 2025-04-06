@@ -34,7 +34,7 @@ class SubadminBillController extends Controller
         $data['code'] = DB::table('sub_admin_registrations')->where('email', $email)->first();
         //dd($data->org_code);
         if ($data['code']) {
-            $data['organization'] = DB::table('registration')->where('org_code', $data['code']->org_code)->get();
+            $data['organization'] = DB::table('registration')->where('verify','approved')->where('status','active')->where('org_code', $data['code']->org_code)->get();
         } else {
             $data['organization'] = [];
         }
@@ -324,6 +324,7 @@ class SubadminBillController extends Controller
                     }
                 }
                 $code = DB::table('sub_admin_registrations')->where('email',$email)->first();
+                //dd($code->org_code);
                 $data['organization'] = DB::table('registration')->where('org_code',$code->org_code)->where('verify','approved')->get();
                 //dd($data);
 

@@ -16,7 +16,8 @@
                 399 Uxbridge Road<br>
                 UB1 3EJ, United Kingdom<br>
                 Mobile/Whats app : 07467284718<br>
-                Landline : +44 074 6728 4718<br>
+                Landline : +44 0208 129 1655
+                <br>
                 Email: info@skilledworkerscloud.co.uk<br>
                 {{-- Website: <a href="https://skilledworkerscloud.co.uk/" style="text-decoration: none; color: #004AAD;">https://skilledworkerscloud.co.uk/</a> --}}
             </td>
@@ -26,16 +27,15 @@
 
         <tr>
             <td colspan="4" style="border: none; padding: 10px;">
-                <strong>Invoice To:</strong> {{ strtoupper($com_name) }}<br>
+                <strong>Invoice To:</strong> {{ strtoupper("$f_name $l_name") }}<br>
                 <strong>Address: </strong>{{ucfirst($address)}}<br>
                 {{ ucfirst("$city $road $zip") }}<br>
-                {{ ucfirst("$f_name $l_name") }}<br>
                 {{ucfirst($p_no)}}<br>
                 <a href="mailto:{{$email}}" style="text-decoration: none; color: #004AAD;">{{$email}}</a>
             </td>
             <td colspan="3" style="text-align: right; border: none; padding: 10px;">
-                <strong>Invoice No:</strong> {{$invoice_no}}<br>
-                <strong>Invoice Date:</strong> {{ isset($invoice_date) ? \Carbon\Carbon::parse($invoice_date)->format('d/m/Y') : 'NA' }}
+                <strong>Invoice Date:</strong> {{ isset($invoice_date) ? \Carbon\Carbon::parse($invoice_date)->format('d/m/Y') : 'NA' }}<br>
+                <strong>Invoice No:</strong> {{$invoice_no}}
             </td>
         </tr>
         
@@ -91,7 +91,7 @@
                 
                 <div style="margin-top: 10px; font-size: 1.1em;">
                     <span style="margin-right: 20px;"><strong>Total Paid:</strong></span>
-                    @if($amount)
+                    @if(empty($vat) || empty($discount_amount))
                         <span style="color: #004AAD; font-weight: bold;">{{ number_format($amount, 2) }}</span>
                     @else
                         <span style="color: #004AAD; font-weight: bold;">{{ number_format($grand_total, 2) }}</span>

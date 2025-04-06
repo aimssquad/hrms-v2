@@ -33,14 +33,14 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">Hello <b>{{ strtoupper($com_name) }}</b>,</p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">Hello <b>{{ strtoupper("$f_name $l_name") }}</b>,</p>
                             <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;">Thank you for your business with us! Your invoice ({{$invoice_no}}) is due for payment.</p>
                             <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; line-height: 1.2; color: #333;"><strong>Invoice Details:</strong></p>
                             <ul style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify;">
                                 <li>Invoice Number:  {{$invoice_no}} </li>
                                 <li>Item:  {{$item}} </li>
                                 <li>Date Issued: {{$invoice_date}}</li>
-                                @if($amount)
+                                @if(empty($vat) || empty($discount_amount))
                                 <li>Amount Due: {{$amount}} </li>
                                 @else
                                 <li>Amount Due: {{ $total_amount }}</li>
