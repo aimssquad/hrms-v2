@@ -5937,6 +5937,8 @@ Route::get('/sub-admin/billing/edit/{id}', 'App\Http\Controllers\organization\Su
 Route::post('sub-admin/bills/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@updateBilling')->name('sub-admin.billing.update');
 Route::get('/sub-admin/billing/delete/{id}', 'App\Http\Controllers\organization\SubadminBillController@destroyBilling')->name('subadmin.billing.delete');
 Route::get('/sub-admin/billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewInvoice')->name('subadmin.billing.invoice');
+Route::get('/sub-admin/download/pdf/{id}', 'App\Http\Controllers\organization\SubadminBillController@downloadPdf')->name('subadmin.download.pdf');
+Route::get('/sub-admin/invoice/mail/{id}', 'App\Http\Controllers\organization\SubadminBillController@invoiceMail')->name('subadmin.invoice.mail');
 //------------Own Bills
 Route::get('/sub-admin/all-bills','App\Http\Controllers\organization\SubadminBillController@viewBillList')->name('subadmin.allbills');
 Route::get('subadmin.billing.own_bill_edit/{id}','App\Http\Controllers\organization\SubadminBillController@subadminOwnBillEdit')->name('subadmin.billing.own_bill_edit');

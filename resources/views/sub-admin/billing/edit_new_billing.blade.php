@@ -1,5 +1,5 @@
 @extends('sub-admin.include.app')
-@section('title', 'Edit Billing')
+@section('title', 'Edit Invoice')
 @section('content')
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -7,10 +7,10 @@
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Edit Billing</h3>
+            <h3 class="page-title">Edit Invoice</h3>
             <ul class="breadcrumb">
                <li class="breadcrumb-item"><a href="{{url('superadmindasboard')}}">Home</a></li>
-               <li class="breadcrumb-item active">Edit Billing</li>
+               <li class="breadcrumb-item active">Edit Invoice</li>
             </ul>
          </div>
       </div>
@@ -21,15 +21,21 @@
       <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3>Edit Billing</h3>
+                <h3>Edit Invoice</h3>
             </div>
             <div class="card-body">
-                <form action="{{ url('sub-admin/bills/update/' . $bills->id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ url('sub-admin/bills/update/' . base64_encode($bills->id)) }}" method="post" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="row form-group">
                         <!-- Billing For Dropdown -->
-                        <input type="text" name="invoice_no" value="{{$bills->invoice_no}}" hidden>
                         <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="invoice-no" class="form-label">Invoice No</label>
+                                <input class="form-control" type="text" name="invoice_no" value="{{$bills->invoice_no}}" readonly>
+                            </div>        
+                        </div>
+                        
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="bill_for" class="form-label">Billing For</label>
                                 <select class="select" id="bill_for" name="bill_for" required>
@@ -41,13 +47,13 @@
                                     <option value="other" {{ old('bill_for', $bills->bill_for) == 'other' ? 'selected' : '' }}>Other</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         
                         <!-- Billing Month Dropdown -->
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="date">Invoice Date</label>
-                                <input type="date" class="form-control" id="date" name="date" value="{{ $bills->date ?? '' }}">
+                                <label for="date" class="form-label">Invoice Date</label>
+                                <input type="date" class="form-control" id="date" name="date" value="{{ $bills->date ?? '' }}" readonly>
                             </div>
                         </div>
                         
@@ -55,25 +61,25 @@
                       
 
                         <!-- Hidden Billing Type -->
-                        <input type="text" name="billing_type" value="employer" class="form-control" hidden>
+                        {{-- <input type="text" name="billing_type" value="employer" class="form-control" hidden> --}}
                         
                         <!-- Entity ID (Readonly) -->
                         <div class="col-md-4" id="entity_dropdown">
                             <div class="form-group">
                                 <label for="entity_id" class="form-label">Organisation</label>
-                                <input type="text" class="form-control" name="entity_id" value="{{$bills->entity_id}}" readonly>
+                                <input type="text" class="form-control" name="entity_id" value="{{$org_dtl->com_name}}" readonly>
                             </div>
                         </div>
                         
                         <!-- Amount (Readonly) -->
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="amount" class="form-label">Amount</label>
                                 <input type="text" class="form-control" id="amount" name="amount" value="{{$bills->amount}}" readonly>
                             </div>
                         </div>
                         
-                        <!-- Total Employees (Readonly) -->
+                       
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="total_employee" class="form-label">Total Employee</label>
@@ -81,7 +87,7 @@
                             </div>
                         </div>
                         
-                        <!-- VAT -->
+                       
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="vat" class="form-label">VAT</label>
@@ -99,7 +105,7 @@
                                 <label for="entity_id" >Total Amount</label>
                                 <input type="text" class="form-control" id="total_amount" name="total_amount" value="{{$bills->total_amount}}"readonly>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -110,9 +116,19 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="status" class="form-label">Payment Status</label>
+                                <select class="select" id="status" name="status" required>
+                                    {{-- <option value="1" {{ old('status', $bills->status) == '1' ? 'selected' : '' }}>Payment Due</option> --}}
+                                    <option value="2" {{ old('status', $bills->status) == '2' ? 'selected' : '' }}>Payment Pending</option>
+                                    <option value="3" {{ old('status', $bills->status) == '3' ? 'selected' : '' }}>Payment Done</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <!-- Description -->
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="description" class="form-label">Description</label>
                                 <input type="text" class="form-control" id="description" name="description" value="{{$bills->description}}">
@@ -123,6 +139,14 @@
                                 <label for="vat" >Remarks</label>
                                 <textarea class="form-control" id="remarks"  name="remarks">{{ $bills->remarks }}</textarea>
                             </div>
+                        </div> --}}
+                        <div class="col-md-12">
+                            <label for="entity_id" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" style="margin-top:20px">{{$bills->description}}</textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="entity_id" class="form-label">Remarks</label>
+                            <textarea class="form-control" id="remarks" name="remarks" style="margin-top:20px">{{ $bills->remarks }}</textarea>
                         </div>
 
                     </div>
@@ -205,5 +229,11 @@
         $('#total_amount').val(totalAmount.toFixed(2)); // Show two decimal places
     }
 });
+</script>
+<script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'description' );
+    CKEDITOR.replace( 'remarks' );
+
 </script>
 @endsection

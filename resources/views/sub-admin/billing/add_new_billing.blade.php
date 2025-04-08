@@ -179,6 +179,7 @@
             success: function(response) {
                 $('#amount').val(response.amount || '');
                 $('#total_employee').val(response.total_employee || '');
+                $('#rule_id').val(response.rule_id || '');
                 if (response.message) {
                     $('#message').text(response.message).show();
                 } else {

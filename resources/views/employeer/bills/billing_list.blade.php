@@ -67,17 +67,15 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                <tr>
                                   <th>Sl.No.</th>
                                   <th>Invoice.No.</th>
-                                  <th>Invoice For</th>
-                                  
-                                  {{-- <th>Billing Type</th> --}}
+                                  <th>Item Name</th>
                                   <th>Company Name</th>
                                   <th>Amount</th>
-                                  <th>Total Employee</th>
                                   <th>Vat(%)</th>
                                   <th>Discount Amount</th>
                                   <th>Total Amount</th>
                                   <th>Payment Mode</th>
                                   <th>Description</th>
+                                  <th>Remarks</th>
                                   <th>Payment Id</th>
                                   <th>Payment Document</th>
                                   <th>Payment Status</th>
@@ -102,12 +100,29 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                     @endphp
                                     <td>{{$data->com_name ?? 'NA'}}</td>
                                     <td>{{$billing->amount ?? 'NA'}}</td>
-                                    <td>{{$billing->total_employee ?? 'NA'}}</td>
+                                    {{-- <td>{{$billing->total_employee ?? 'NA'}}</td> --}}
                                     <td>{{$billing->vat ?? 'NA'}}</td>
                                     <td>{{$billing->discount_amount ?? 'NA'}}</td>
-                                    <td>{{$billing->total_amount ?? 'NA'}}</td>
+                                    @if(empty($billing->vat) || empty($billing->discount_amount))
+                                        <td>{{$billing->amount ?? 'NA'}}</td>
+                                    @else
+                                        <td>{{$billing->total_amount ?? 'NA'}}</td>
+                                    @endif
                                     <td>{{$billing->payment_mode ?? 'NA'}}</td>
-                                    <td>{{$billing->description ?? 'NA'}}</td>
+                                    <td title="{{ str_replace(["\r\n", "\n", "\r"], ' ', strip_tags($billing->description)) ?? 'NA' }}"> 
+                                        @if($billing->description)
+                                            {{ Str::limit(strip_tags($billing->description), 30, '...') }}
+                                        @else
+                                            NA
+                                        @endif
+                                    </td>
+                                    <td title="{{ str_replace(["\r\n", "\n", "\r"], ' ', strip_tags($billing->remarks)) ?? 'NA' }}"> 
+                                        @if($billing->remarks)
+                                            {{ Str::limit(strip_tags($billing->remarks), 30, '...') }}
+                                        @else
+                                            NA
+                                        @endif
+                                    </td>
                                     <td>{{$billing->payment_dtl ?? 'NA'}}</td>
                                     <td>
                                         @if ($billing->payment_document)
@@ -118,7 +133,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                     </td>
                                     <td>
                                         
-                                        @if($billing->status == 1) <span class="badge bg-inverse-warning">Due</span> @elseif($billing->status == 2) <span class="badge bg-inverse-info">Pending</span> @else <span class="badge bg-inverse-success">Paid</span> @endif
+                                        @if($billing->status == 1) <span class="badge bg-inverse-warning">Due</span> @elseif($billing->status == 2) <span class="badge bg-inverse-danger">Pending</span> @else <span class="badge bg-inverse-success">Paid</span> @endif
                                     {{-- {{$billing->remarks ?? 'NA'}} --}}
                                     </td>
                                    <td class="text-end">
@@ -127,26 +142,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                <i class="material-icons">more_vert</i>
                                          </a>
                                          <div class="dropdown-menu dropdown-menu-right">
-                                            {{-- @if($billing->payment_status == 1) --}}
-                                               {{-- <a class="dropdown-item" href="{{ route('subadmin.billing.edit', $billing->id) }}">
-                                                  <i class=" fas fa-pencil m-r-5"></i> Edit
-                                               </a> --}}
-                                            {{-- @endif    --}}
-                                               <a class="dropdown-item" href="{{ route('organization.billing.invoice', $billing->id) }}">
+                                          
+                                               {{-- <a class="dropdown-item" href="{{ route('organization.billing.invoice', base64_encode($billing->id)) }}">
                                                   <i class=" fas fa-eye m-r-5"></i> View Invoice
-                                               </a>
-                                               <a class="dropdown-item" href="{{ route('organization.billing.edit', $billing->id) }}">
+                                               </a> --}}
+                                               <a class="dropdown-item" href="{{ route('organization.billing.edit', base64_encode($billing->id)) }}">
                                                   <i class="fa-solid fas fa-pencil m-r-5"></i> edit
                                                </a>
-                                               {{-- <a class="dropdown-item" href="{{ route('subadmin.billing-rule.edit', $billing->id) }}">
-                                                  <i class="fas fa-download m-r-5"></i> Download Invoice
-                                               </a>
-                                               <a class="dropdown-item" href="{{ route('subadmin.billing-rule.edit', $billing->id) }}">
-                                                  <i class="fas fa-paper-plane m-r-5"></i> Send Email
-                                               </a>
-                                               <a class="dropdown-item" href="{{ route('subadmin.billing-rule.edit', $billing->id) }}">
-                                                  <i class="fa fa-comments m-r-5"></i> Remarks
-                                               </a> --}}
+                                              
                                          </div>
                                       </div>
                                    </td>

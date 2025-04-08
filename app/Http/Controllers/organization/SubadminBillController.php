@@ -8,9 +8,9 @@ use App\Models\Bill;
 use App\Models\Subadmin_bill;
 use App\Models\BillingRule;
 use Session;
-use PDF;
-use DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Mail;
+use DB;
 
 class SubadminBillController extends Controller
 {
@@ -399,7 +399,7 @@ class SubadminBillController extends Controller
                     });
             })
             ->value('employee_charge');
-
+        //dd($amount)    
         // If no specific rule found, try the DEFAULT rule with date range check
         if ($amount === null) {
             $amount = DB::table('rule_table')
@@ -555,15 +555,19 @@ class SubadminBillController extends Controller
     }
 
     public function editBill($id){
+        $id = base64_decode($id);
         //dd($id);
         $email = Session::get('empsu_email');
         if(!empty($email)){
-            $bills = DB::table('subadmin_bills')->where('id', $id)->first();
-            if (!$bills) {
-                return redirect()->back()->with('error', 'Billing rule not found.');
+            $data['bills'] = DB::table('subadmin_bills')->where('id', $id)->first();
+
+            if (!$data['bills']) {
+                return redirect()->back()->with('error', 'Invoice not found !');
             }
-        
-            return view('sub-admin.billing.edit_new_billing', compact('bills'));
+            
+            $data['org_dtl'] = DB::table('registration')->where('reg',$data['bills']->entity_id)->first();
+            //dd($data['org_dtl']->com_name);
+            return view('sub-admin.billing.edit_new_billing', $data);
         } else {
             redirect('superadmin');
         }
@@ -572,34 +576,25 @@ class SubadminBillController extends Controller
 
     public function updateBilling(Request $request, $id)
     {
+        $id = base64_decode($id);
+        //dd($id);
         $request->validate([
-            'bill_for' => 'required|string',
+            // 'bill_for' => 'required|string',
             //'billing_month' => 'required|string',
-            'amount' => 'required|numeric',
-            'total_employee' => 'required|numeric',
-            'vat' => 'nullable|numeric',
+            // 'amount' => 'required|numeric',
+            // 'total_employee' => 'required|numeric',
+            // 'vat' => 'nullable|numeric',
             'payment_mode' => 'required|string',
+            'status'    =>  'required|in:2,3',
             'description' => 'nullable|string',
             'remarks' => 'nullable|string',
         ]);
 
         $bill = Subadmin_bill::findOrFail($id);
-
-        $amount = $request->amount;
-        $vat = $request->vat ?? 0; 
-
-        $vat_amount = ($amount * $vat) / 100; 
-        $total_amount = $amount + $vat_amount;
-
-        $bill->bill_for = $request->bill_for;
-        $bill->amount = $amount;
-        $bill->total_employee = $request->total_employee;
-        $bill->vat = $vat;
-        $bill->discount_amount = $request->discount_amount;
-        $bill->total_amount = $request->total_amount;
         $bill->payment_mode = $request->payment_mode;
-        $bill->description = $request->description ?? $bill->description;
-        $bill->remarks = $request->remarks ?? $bill->remarks;
+        $bill->description = $request->description;
+        $bill->remarks = $request->remarks;
+        $bill->status = $request->status;
         $bill->save();
         Session::flash('message', 'Bill updated successfully. Invoice Number: ' . $bill->invoice_number);
         return redirect('sub-admin/billing-list');
@@ -614,22 +609,164 @@ class SubadminBillController extends Controller
             Session::flash('message', 'Bill deleted successfully.');
             return redirect('sub-admin/billing-list');
         } else {
-            redirect('subadmin');
+            return redirect('subadmin');
         }
     }
 
     public function viewInvoice(Request $request,$id){
+        $encripted_id = base64_decode($id);
         $email = Session::get('empsu_email');
         if(!empty($email)){
-            $data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
+            $data['bill'] = DB::table('subadmin_bills')->where('id',$encripted_id)->first();
             $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
             $data['com_dtl'] = DB::table('sub_admin_registrations')->where('org_code',$data['bill']->org_code)->first();
             //dd($data['bill']);
             //return view('subadminbillPdf',$data);
             return view('sub-admin.billing.invoice',$data);
         } else {
-            redirect('superadmin');
+            redirect('subadmin');
         } 
+    }
+
+    public function downloadPdf(Request $request, $id){
+        $encripted_id = base64_decode($id);
+        //dd($encripted_id);
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $bill = DB::table('subadmin_bills')->where('id',$encripted_id)->first();
+            $org_dtl = DB::table('registration')->where('reg',$bill->entity_id)->first();
+            $partner = DB::table('sub_admin_registrations')->where('org_code',$bill->org_code)->first();
+            //dd($partner);
+            $data = [
+                'invoice_no' => $bill->invoice_no,
+                'item'  =>  $bill->bill_for,
+                'invoice_date'  =>  $bill->date,
+                'discount_amount'   =>  $bill->discount_amount,
+                'vat'   =>  $bill->vat,
+                'billing_type' => $bill->billing_type,
+                'entity_id'  =>  $bill->entity_id,
+                'amount'  =>  $bill->amount,
+                'total_amount' => $bill->total_amount,
+                'payment_mode'  =>  $bill->payment_mode,
+                'description'  =>  $bill->description,
+                'payment_status'   =>  $bill->payment_status,
+                'org_code'   =>  $bill->org_code,
+                'remarks' => $bill->remarks,
+                
+                'org_com_name'   =>  $org_dtl->com_name,
+                'org_name' => "$org_dtl->f_name $org_dtl->l_name",
+                'org_email'   =>  $org_dtl->email,
+                'org_phone' => "$org_dtl->p_no",
+                'org_address'   =>  $org_dtl->address,
+                'org_country' => "$org_dtl->country",
+                'org_road' => "$org_dtl->road",
+                'org_city'   =>  $org_dtl->city,
+                'org_zip' => "$org_dtl->zip",
+
+                'p_logo' => $partner->logo,
+                'p_com_name' => $partner->com_name,
+                'p_name' => "$org_dtl->f_name $org_dtl->l_name",
+                'p_email' => $partner->email,
+                'p_phone' => $partner->p_no,
+                'p_address' => $partner->address,
+                'p_country' => $partner->country,
+                'p_road' => $partner->road,
+                'p_city' => $partner->city,
+                'p_zip' => $partner->zip,
+                'p_land' => $partner->land,
+                'p_website' => $partner->website,  
+            ];
+            //return view('orgBillPdf', $data);
+            $pdf = Pdf::loadView('orgInvoicePdf', $data);
+            return $pdf->download('invoice_'.$bill->invoice_no.'.pdf');
+        } else {
+            return redirect('subadmin');
+        }     
+    }
+
+    public function invoiceMail(Request $request, $id){
+        $encripted_id = base64_decode($id);
+        //dd($encripted_id);
+        $email = Session::get('empsu_email');
+        if(!empty($email)){
+            $bill = DB::table('subadmin_bills')->where('id',$encripted_id)->first();
+            $org_dtl = DB::table('registration')->where('reg',$bill->entity_id)->first();
+            $partner = DB::table('sub_admin_registrations')->where('org_code',$bill->org_code)->first();
+            //dd($partner);
+            $data = [
+                'invoice_no' => $bill->invoice_no,
+                'item'  =>  $bill->bill_for,
+                'invoice_date'  =>  $bill->date,
+                'discount_amount'   =>  $bill->discount_amount,
+                'vat'   =>  $bill->vat,
+                'billing_type' => $bill->billing_type,
+                'entity_id'  =>  $bill->entity_id,
+                'amount'  =>  $bill->amount,
+                'total_amount' => $bill->total_amount,
+                'payment_mode'  =>  $bill->payment_mode,
+                'description'  =>  $bill->description,
+                'payment_status'   =>  $bill->payment_status,
+                'org_code'   =>  $bill->org_code,
+                'remarks' => $bill->remarks,
+                
+                'org_com_name'   =>  $org_dtl->com_name,
+                'org_name' => "$org_dtl->f_name $org_dtl->l_name",
+                'org_email'   =>  $org_dtl->email,
+                'org_phone' => "$org_dtl->p_no",
+                'org_address'   =>  $org_dtl->address,
+                'org_country' => "$org_dtl->country",
+                'org_road' => "$org_dtl->road",
+                'org_city'   =>  $org_dtl->city,
+                'org_zip' => "$org_dtl->zip",
+
+                'p_logo' => $partner->logo,
+                'p_com_name' => $partner->com_name,
+                'p_name' => "$org_dtl->f_name $org_dtl->l_name",
+                'p_email' => $partner->email,
+                'p_phone' => $partner->p_no,
+                'p_address' => $partner->address,
+                'p_country' => $partner->country,
+                'p_road' => $partner->road,
+                'p_city' => $partner->city,
+                'p_zip' => $partner->zip,
+                'p_land' => $partner->land,
+                'p_website' => $partner->website  
+            ];
+            // Generate PDF
+            $pdf = Pdf::loadView('orgInvoicePdf', $data);
+            $invoice = $bill->invoice_no;
+            $toEmail = $org_dtl->email;
+            $subject = 'Payment Reminder: Invoice # '. $invoice .' – Due Soon! ' . $org_dtl->com_name;
+            // Partner To Organization Email send.
+            Mail::send('org-invoice-mail', $data, function ($message) use ($toEmail, $subject, $pdf, $invoice) {
+                $message->to($toEmail)
+                       ->subject($subject)
+                       ->from('infoswc@skilledworkerscloud.co.uk')
+                       ->attachData($pdf->output(), 'Invoice_'.$invoice.'.pdf', [
+                           'mime' => 'application/pdf',
+                       ]);
+            });
+
+            $data2 = [
+                'com_name' => $org_dtl->com_name,
+                'f_name' => $org_dtl->f_name,
+                'l_name' => $org_dtl->l_name,
+                'invoice_no' => $invoice,
+                'invoice_date' => $bill->date,
+                'p_com_name' => $partner->com_name,
+            ];
+            //return view('org-invoice-notify-mail', $data2);
+            $toemail = $partner->email;
+            Mail::send('org-invoice-notify-mail', $data2, function ($message) use ($toemail, $subject) {
+                $message->to($toemail)->subject($subject);
+               // $message->attach($path);
+                $message->from('infoswc@skilledworkerscloud.co.uk');
+            });   
+    
+            return back()->with('message', "($org_dtl->com_name) Invoice email sent successfully");
+        } else {
+            return redirect('subadmin');
+        }    
     }
     
     public function showBills(Request $request){
@@ -644,7 +781,7 @@ class SubadminBillController extends Controller
             //dd($data['bill']);
             return view('sub-admin.billing.invoice',$data);
         } else {
-            redirect('superadmin');
+            return redirect('subadmin');
         } 
     }
 

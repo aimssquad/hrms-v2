@@ -65,6 +65,7 @@ class OrganizationBillController extends Controller
     public function invoice(Request $request,$id){
         
         $email = Session::get('emp_email');
+        $id = base64_decode($id);
         //dd($email);
         if(!empty($email)){
             $data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
@@ -86,9 +87,8 @@ class OrganizationBillController extends Controller
     public function editInvoice(Request $request, $id){
         
         $email = Session::get('emp_email');
-        //dd($email);
-        if(!empty($email)){
-            
+        $id = base64_decode($id);
+        if(!empty($email)){     
             $bills = DB::table('subadmin_bills')->where('id', $id)->first();
             if (!$bills) {
                 return redirect()->back()->with('error', 'Billing rule not found.');

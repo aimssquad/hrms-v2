@@ -67,7 +67,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-5 col-xl-4 m-b-20">
                                 <ul class="list-unstyled invoice-payment-details">
-                                    <li>Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y') : 'NA' }}</span></li> 
+                                    <li>Date: <span>{{ isset($bill->created_at) ? \Carbon\Carbon::parse($bill->date)->format('d/m/Y') : 'NA' }}</span></li> 
                                 </ul>
                                 <span class="text-muted" id="invoice-number">Invoice No: {{$bill->invoice_no}}</span>
                                
