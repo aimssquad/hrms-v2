@@ -82,7 +82,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                           <div class="col-md-4">
                               <div class="form-group">
                                   <label for="payment_document" class="form-label">Payment Document</label>
-                                  <input type="file" class="form-control" id="payment_document" name="payment_document">
+                                  <input type="file" class="form-control" id="payment_document" name="payment_document" accept=".jpg,.jpeg,.png">
                                     @if(!empty($bills->payment_document))
                                         <div class="mt-2">
                                             <a href="{{ asset('storage/app/public/' . $bills->payment_document) }}" target="_blank" class="btn btn-link">
