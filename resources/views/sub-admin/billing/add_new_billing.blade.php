@@ -81,7 +81,7 @@
                         </div>
                          <div class="col-md-4">
                             <div class="form-group">
-                                <label for="vat" class="form-label">Discounted Amount</label>
+                                <label for="vat" class="form-label">Discounted Amount (Flat)</label>
                                 <input type="text" step="0.01" class="form-control" id="discount_amount" value="" name="discount_amount">
                             </div>
                         </div>
@@ -178,6 +178,7 @@
             },
             success: function(response) {
                 $('#amount').val(response.amount || '');
+                $('#total_amount').val(response.amount || '');
                 $('#total_employee').val(response.total_employee || '');
                 $('#rule_id').val(response.rule_id || '');
                 if (response.message) {

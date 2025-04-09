@@ -244,13 +244,23 @@
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label for="payment_date_from" class="form-label">Payment Day From</label>
-                                                                    <input type="date" name="payment_date_from" id="payment_date_from" class="form-control" step="1" min="1" max="31" placeholder="Day (1-31)">
+                                                                    <input type="date" name="payment_date_from" id="payment_date_from" class="form-control @error('payment_date_from') is-invalid @enderror" value="{{ old('payment_date_from', $request->payment_date_from ?? '') }}" step="1" min="1" max="31" placeholder="Day (1-31)">
+                                                                    @error('payment_date_from')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label for="payment_date_to" class="form-label">Payment Day To</label>
-                                                                    <input type="date" name="payment_date_to" id="payment_date_to" class="form-control" step="1" min="1" max="31" placeholder="Day (1-31)">
+                                                                    <input type="date" name="payment_date_to" id="payment_date_to" class="form-control @error('payment_date_to') is-invalid @enderror" value="{{ old('payment_date_to', $request->payment_date_to ?? '') }}" step="1" min="1" max="31" placeholder="Day (1-31)">
+                                                                    @error('payment_date_to')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
                                                                 </div>
                                                             </div>
                                                         </div>

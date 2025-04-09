@@ -126,14 +126,14 @@ class SubadminBillController extends Controller
         })
         ->exists();
 
-    if ($conflictExists) {
-        return redirect()->back()
-            ->withInput()
-            ->withErrors([
-                'payment_date_from' => 'This rule already exists for this organization during the selected month(s).',
-                'payment_date_to' => 'This rule already exists for this organization during the selected month(s).'
-            ]);
-    }
+        if ($conflictExists) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors([
+                    'payment_date_from' => 'This rule already exists for this organization during the selected month(s).',
+                    'payment_date_to' => 'This rule already exists for this organization during the selected month(s).'
+                ]);
+        }
 
         // Save data to the database
         BillingRule::create([

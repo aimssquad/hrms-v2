@@ -70,7 +70,7 @@
                           <th>Invoice.Date</th>
                           <th>Item Name</th>
                           <th>Company Name</th>
-                          <th>Amount</th>
+                          {{-- <th>Amount</th> --}}
                           {{-- <th>Total Employee</th> --}}
                           <th>Vat(%)</th>
                           <th>Discount Amount</th>
@@ -99,15 +99,15 @@
                             $data = DB::table('registration')->where('reg',$billing->entity_id)->first();
                           @endphp
                           <td>{{$data->com_name ?? 'NA'}}</td>
-                          <td>{{$billing->amount ?? 'NA'}}</td>
+                          {{-- <td>{{$billing->amount ?? 'NA'}}</td> --}}
                           <td>{{$billing->vat ?? 'NA'}}</td>
                           <td>{{$billing->discount_amount ?? 'NA'}}</td>
-                          {{-- <td>{{$billing->total_amount ?? 'NA'}}</td> --}}
-                           @if(empty($billing->vat) || empty($billing->discount_amount))
+                          <td>{{$billing->total_amount ?? 'NA'}}</td>
+                           {{-- @if(empty($billing->vat) || empty($billing->discount_amount))
                               <td>{{$billing->amount ?? 'NA'}}</td>
                            @else
                               <td>{{$billing->total_amount ?? 'NA'}}</td>
-                           @endif
+                           @endif --}}
                           <td>{{$billing->payment_mode ?? 'NA'}}</td>
                           <td title="{{ str_replace(["\r\n", "\n", "\r"], ' ', strip_tags($billing->description)) ?? 'NA' }}"> 
                               @if($billing->description)

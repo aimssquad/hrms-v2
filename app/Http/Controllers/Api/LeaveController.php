@@ -710,6 +710,7 @@ class LeaveController extends Controller
                 $leaveApply = DB::table('leave_apply')
                     ->where('emid', $emid)
                     ->where('employee_id', $emplayeeId)
+                    ->where('status','APPROVED')
                     ->get();
                 foreach ($leaveApply as $leave) {
                     // Get the leave_type record

@@ -447,14 +447,41 @@ class BillController extends Controller
         ]);
         //dd($validatedData);
         // Check if a rule with the same entity_id and payment_date_range already exists
-        $existingRule = BillingRule::where('entity_id', $validatedData['entity_id'])
-            //->where('payment_date_range', $validatedData['payment_date_range'])
-            ->first();
+        // $existingRule = BillingRule::where('entity_id', $validatedData['entity_id'])
+        //     //->where('payment_date_range', $validatedData['payment_date_range'])
+        //     ->first();
     
-        if ($existingRule) {
-            // If a match is found, redirect back with an error message
-            Session::flash('error', 'Rule already exists for this user id.');
-            return redirect()->back();
+        // if ($existingRule) {
+        //     // If a match is found, redirect back with an error message
+        //     Session::flash('error', 'Rule already exists for this user id.');
+        //     return redirect()->back();
+        // }
+
+        $conflictExists = BillingRule::where('entity_id', $validatedData['entity_id'])
+        ->where(function($query) use ($validatedData) {
+            $query->whereBetween('payment_date_from', [
+                    $validatedData['payment_date_from'], 
+                    $validatedData['payment_date_to']
+                ])
+                ->orWhereBetween('payment_date_to', [
+                    $validatedData['payment_date_from'], 
+                    $validatedData['payment_date_to']
+                ])
+                ->orWhere(function($q) use ($validatedData) {
+                    // Catches cases where new range wraps around existing
+                    $q->where('payment_date_from', '<', $validatedData['payment_date_from'])
+                    ->where('payment_date_to', '>', $validatedData['payment_date_to']);
+                });
+        })
+        ->exists();
+        //dd($conflictExists);
+        if ($conflictExists) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors([
+                    'payment_date_from' => 'This rule already exists for this organization during the selected month(s).',
+                    'payment_date_to' => 'This rule already exists for this organization during the selected month(s).'
+                ]);
         }
     
         // Save data to the database
@@ -490,7 +517,7 @@ class BillController extends Controller
     public function showRule(Request $request){
         $email = Session::get('empsu_email');
         if(!empty($email)){
-            $billing_rule = BillingRule::all();
+            $billing_rule = BillingRule::where('org_code',null)->get();
             return view ('admin/billing/billing_rule_list',compact('billing_rule'));
         } else {
             redirect('superadmin');
