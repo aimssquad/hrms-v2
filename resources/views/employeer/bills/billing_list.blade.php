@@ -126,7 +126,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                     <td>{{$billing->payment_dtl ?? 'NA'}}</td>
                                     <td>
                                         @if ($billing->payment_document)
-                                            <a href="{{ asset('storage/' . $billing->payment_document) }}" target="blank"><img src="{{ asset('storage/' . $billing->payment_document) }}" alt="Payment Document" style="width: 100px; height: auto;"></a>
+                                            <a href="{{ asset('storage/app/public/' . $billing->payment_document) }}" target="blank"><img src="{{ asset('storage/app/public/' . $billing->payment_document) }}" alt="Payment Document" style="width: 100px; height: auto;"></a>
                                         @else
                                             NA
                                         @endif
