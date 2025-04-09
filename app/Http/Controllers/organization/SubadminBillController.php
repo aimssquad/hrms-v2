@@ -633,10 +633,14 @@ class SubadminBillController extends Controller
         //dd($encripted_id);
         $email = Session::get('empsu_email');
         if(!empty($email)){
+            $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
             $bill = DB::table('subadmin_bills')->where('id',$encripted_id)->first();
             $org_dtl = DB::table('registration')->where('reg',$bill->entity_id)->first();
             $partner = DB::table('sub_admin_registrations')->where('org_code',$bill->org_code)->first();
             //dd($partner);
+            //dd($baseUrl.'/storage/app/public/'.$partner->logo);
+            $partner_logo = $baseUrl.'/storage/'.$partner->logo;
+            //dd($partner_logo);
             $data = [
                 'invoice_no' => $bill->invoice_no,
                 'item'  =>  $bill->bill_for,
@@ -664,6 +668,7 @@ class SubadminBillController extends Controller
                 'org_zip' => "$org_dtl->zip",
 
                 'p_logo' => $partner->logo,
+                'logo'  =>  $partner_logo,
                 'p_com_name' => $partner->com_name,
                 'p_name' => "$org_dtl->f_name $org_dtl->l_name",
                 'p_email' => $partner->email,
@@ -676,9 +681,11 @@ class SubadminBillController extends Controller
                 'p_land' => $partner->land,
                 'p_website' => $partner->website,  
             ];
-            //return view('orgBillPdf', $data);
+            // dd($data);
+            // return view('orgInvoicePdf', $data);
             $pdf = Pdf::loadView('orgInvoicePdf', $data);
             return $pdf->download('invoice_'.$bill->invoice_no.'.pdf');
+            
         } else {
             return redirect('subadmin');
         }     
