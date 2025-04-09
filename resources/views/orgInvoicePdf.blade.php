@@ -9,9 +9,10 @@
         <tr>
             <td colspan="3" style="border: none; padding: 10px;">
                 {{-- <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png?updatedAt=1733651934565" alt="Logo" style="height: 50px;"> --}}
-                {{-- @if($p_logo) --}}
+                {{-- <img src="{{asset('storage/app/public/'.$p_logo)}}" alt="Logo" style="height: 50px;"> --}}
+                {{-- @if($p_logo)
                 <img src="{{$logo}}" alt="Logo" style="height: 50px;">
-                {{-- @else 
+                @else 
                 <h1>{{ strtoupper($p_com_name) }}</h1>
                 @endif --}}
             </td>

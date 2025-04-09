@@ -338,43 +338,6 @@ class SubadminBillController extends Controller
         }
     }
 
-    // public function getEntityDetails(Request $request)
-    // {
-    //     $entityId = $request->input('entity_id');
-    //     $email = Session::get('empsu_email');
-    //     $code = DB::table('sub_admin_registrations')->where('email',$email)->first();
-    //         // Direct employee count for non sub-admins
-    //         $totalEmployee = DB::table('employee')
-    //         ->where('emid', $entityId)
-    //         //->where('org_code',$code->org_code)
-    //         ->count();
-           
-    //         $amount = DB::table('rule_table')
-    //             ->where('entity_id', $entityId)
-    //             ->where('org_code',$code->org_code)
-    //             ->value('employee_charge');
-    //             //dd($amount);
-    //         if ($amount === null) {
-    //             $amount = DB::table('rule_table')
-    //                 ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
-    //                 ->where('type', 'employer')
-    //                 ->where('org_code',$code->org_code)
-    //                 ->value('employee_charge');
-    //         }    
-   
-    //         if ($amount !== null) {
-    //             $totalAmount = $amount * $totalEmployee;
-    //             return response()->json([
-    //                 'amount' => $totalAmount,
-    //                 'total_employee' => $totalEmployee
-    //             ]);
-    //         } else {
-    //             return response()->json([
-    //                 'message' => 'No employee charge found',
-    //                 'total_employee' => $totalEmployee
-    //             ]);
-    //         }
-    // }
     public function getEntityDetails(Request $request)
     {
         $entityId = $request->input('entity_id');
@@ -503,50 +466,7 @@ class SubadminBillController extends Controller
                 'invoice_no' => $invoiceNumber,
                 'org_code' => $subadmin_name->org_code // Add the invoice number to save
             ]);
-            $bill = Subadmin_bill::create($dataToSave);
-                // if($bill){
-                //     $org_email = DB::table('registration')->where('reg',$request->entity_id)->first();
-                    
-                //     $toemail = $org_email->email;
-                //     //dd($toemail);
-                //     // Prepare data for the email template
-                //     $mailData = [
-                //         'subadmin_name' => $subadmin_name->com_name,
-                //         'subadmin_email' => $subadmin_name->email,
-                //         'organization_name' => $org_email->com_name,
-                //         'Invoice_no' => $invoiceNumber,
-                //         'Billing_date' => $request->date,
-                //         'Billing_for' => $request->bill_for,
-                //         'Total_amount' => $request->total_amount,
-                //         'Vat' => $request->vat,
-                //         'Discount' => $request->discount_amount,
-                //     ];
-                //     //pdf data
-                //       // Generate or retrieve the PDF
-                //     $pdf = PDF::loadView('subadminbillPdf', $mailData); // Use your own Blade template
-                //     $pdfPath = storage_path('app/public/' . $invoiceNumber . '.pdf');
-                //     $pdf->save($pdfPath);
-
-                //     // Send email with PDF attachment
-                //     Mail::send('subadmin_mail', $mailData, function ($message) use ($toemail, $pdfPath) {
-                //         $message->to($toemail, env('MAIL_FROM_NAME'))
-                //                 ->subject("Your Billing Invoice")
-                //                 ->attach($pdfPath, [
-                //                     'as' => 'invoice.pdf',
-                //                     'mime' => 'application/pdf',
-                //                 ]);
-                //         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-                //     });
-                //     //pdf data end
-                //     //return view('subadmin_mail',$mailData);
-                //     dd('okk');
-                //     Mail::send('subadmin_mail', $mailData, function ($message) use ($toemail) {
-                //         $message
-                //             ->to($toemail, env('MAIL_FROM_NAME'))
-                //             ->subject("Your Billing Invoice");
-                //         $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-                //     });
-                // }    
+            $bill = Subadmin_bill::create($dataToSave);   
             Session::flash('message', 'Bill submitted successfully. Invoice Number: ' . $invoiceNumber);
             return redirect('sub-admin/billing-list');
         } else {
@@ -682,7 +602,7 @@ class SubadminBillController extends Controller
                 'p_website' => $partner->website,  
             ];
             // dd($data);
-            // return view('orgInvoicePdf', $data);
+            //return view('orgInvoicePdf', $data);
             $pdf = Pdf::loadView('orgInvoicePdf', $data);
             return $pdf->download('invoice_'.$bill->invoice_no.'.pdf');
             

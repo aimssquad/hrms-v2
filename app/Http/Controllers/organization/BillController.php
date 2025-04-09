@@ -58,8 +58,21 @@ class BillController extends Controller
                 'payment_mode' => 'required|string',
                 'description' => 'nullable|string',
                 'remarks' => 'nullable|string',
-                'date' => 'nullable|date',
+                'date' => 'required|date',
             ]);
+            //-------------check invoice exist ---------------
+            $invoiceMonth = date('Y-m', strtotime($request->date));
+            $existingInvoice = DB::table('subadmin_bills')
+                ->where('entity_id', $request->entity_id)
+                // ->where('email', $email)
+                ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$invoiceMonth])
+                ->first();
+            if($existingInvoice){
+                Session::flash('error', 'This month invoice allready exist');
+                return redirect()->back();
+            } 
+            //dd($existingInvoice);
+            //---------------------------------------
             $pt = $request->billing_type == 'sub-admin' ? 'P' : '';
             $monthYear = date('mY', strtotime($request->date));
         
@@ -277,6 +290,150 @@ class BillController extends Controller
     //         redirect('superadmin');
     //     }
     // }
+    public function addbillng2()
+    {
+        try {
+            $email = Session::get('empsu_email');
+
+            $userType = Session::get('usersu_type');
+
+            if (!empty($email)) {
+
+                if ($userType == 'user') {
+                    $arrrole = Session::get('empsu_role');
+                    if (!in_array('4', $arrrole)) {
+                        throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
+                    }
+                } 
+                return View('admin/billing-add-new2');
+
+            } else {
+                return redirect('superadmin');
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\AdminException($e->getMessage());
+        }
+    }
+
+    public function getEntities(Request $request)
+    {
+        $billingType = $request->billing_type; 
+        if($billingType =='employer'){
+            $entities = DB::table('users as u')
+                ->join('registration as r', 'u.employee_id', '=', 'r.reg')
+                ->where('u.user_type', $billingType)
+                ->where('r.verify','approved')
+                ->whereNull('r.org_code')
+                ->select('u.id', 'u.employee_id', 'u.name', 'r.org_code', 'r.reg')
+                ->get();  
+        } else {
+            $entities = DB::table('users')
+                ->where('user_type','=',$billingType)
+                ->where('status', 'active')
+                ->get(['id','employee_id', 'name']);  
+        }
+        
+        return response()->json($entities);
+    }
+
+
+    public function getUserDetails(Request $request)
+    {
+        $invoiceDate = $request->billingMonth;
+        $billingType = $request->billingType;
+        $userId = $request->user_id;
+        //dd($invoiceDate,$billingType,$userId);
+        // if ($billingType == 'sub-admin') {
+            $amount = DB::table('rule_table')
+            ->where('entity_id', $userId )
+            ->where('type',$billingType)
+            ->where(function($query) use ($invoiceDate) {
+                $query->whereNull('payment_date_from') // Either no date range is set
+                    ->orWhere(function($q) use ($invoiceDate) {
+                        $q->where('payment_date_from', '<=', $invoiceDate) // Or invoice date is within range
+                        ->where('payment_date_to', '>=', $invoiceDate);
+                    });
+            })
+            ->first();
+            // Check if no record is found and use default entity_id
+            if ($amount === null) {
+                $amount = DB::table('rule_table')
+                    ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
+                    ->where('type', $billingType)
+                    ->where(function($query) use ($invoiceDate) {
+                        $query->whereNull('payment_date_from')
+                            ->orWhere(function($q) use ($invoiceDate) {
+                                $q->where('payment_date_from', '<=', $invoiceDate)
+                                ->where('payment_date_to', '>=', $invoiceDate);
+                            });
+                    })
+                    ->first();
+                //dd($amount);    
+            }
+            //dd($amount);
+            // Calculate the total amount if employee charge exists
+            if ($amount !== null) {
+                if($amount->billing_for == "Organisation Subscription"){
+                    return response()->json([
+                        'amount' => $amount->organization_charge,
+                        //'total_employee' => $totalEmployee
+                    ]); 
+                } elseif($amount->billing_for == "Number Of Employee"){ 
+                    return response()->json([
+                        'amount' => $amount->employee_charge,
+                        //'total_employee' => $totalEmployee
+                    ]); 
+                } else {
+                    return response()->json([
+                        'message' => 'No employee charge found because rule not set',
+                        //'total_employee' => $totalEmployee
+                    ]);
+                }
+            } else {
+                // return response()->json([
+                //     'amount' => 'No Billing Rule Found',
+                // ]);
+                return response()->json([
+                    'message' => 'No employee charge found for the selected date range because rule are not set',
+                ]);
+            }
+        // } else {
+        //     $amount = DB::table('rule_table')
+        //         ->where('entity_id', $userId)
+        //         ->where('type', 'employer')
+        //         ->first();
+        //     // Check if no record is found and use default entity_id    
+        //     if ($amount === null) {
+        //         $amount = DB::table('rule_table')
+        //             ->where('entity_id', 'DEFULT')
+        //             ->where('type', 'employer')
+        //             ->value('employee_charge');
+        //     }
+        //     //---------------
+        //     if ($amount !== null) {
+        //         if($amount->billing_for == "Organisation Subscription"){
+        //             return response()->json([
+        //                 'amount' => $amount->organization_charge,
+        //                 //'total_employee' => $totalEmployee
+        //             ]); 
+        //         } elseif($amount->billing_for == "Number Of Employee"){ 
+        //             return response()->json([
+        //                 'amount' => $amount->employee_charge,
+        //                 //'total_employee' => $totalEmployee
+        //             ]); 
+        //         } else {
+        //             return response()->json([
+        //                 'amount' => 'No employee charge found',
+        //                 //'total_employee' => $totalEmployee
+        //             ]);
+        //         }
+        //     } else {
+        //         return response()->json([
+        //             'amount' => 'No Billing Rule Found',
+        //         ]);
+        //     }
+        // }
+    }
 
     public function adminBillingPartnerOrg(Request $request)
     {

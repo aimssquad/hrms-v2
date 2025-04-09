@@ -41,10 +41,14 @@ Route::get('partner_email','App\Http\Controllers\LandingController@regPEmail');
 // new route
 //------------------------------- Billing 
 Route::get('leave_no', 'App\Http\Controllers\LeaveController@leaveNo');
-Route::get('superadmin/add-billing2', 'App\Http\Controllers\AdminController@addbillng2');
+//Route::get('superadmin/add-billing2', 'App\Http\Controllers\AdminController@addbillng2');
 Route::get('superadmin/add-billing3', 'App\Http\Controllers\AdminController@addbillng3');
-Route::get('/get-entities', 'App\Http\Controllers\AdminController@getEntities')->name('get.entities');
-Route::get('/get-user-details','App\Http\Controllers\AdminController@getUserDetails')->name('get.user.details');
+// Route::get('/get-entities', 'App\Http\Controllers\AdminController@getEntities')->name('get.entities');
+// Route::get('/get-user-details','App\Http\Controllers\AdminController@getUserDetails')->name('get.user.details');
+
+Route::get('superadmin/add-billing2', 'App\Http\Controllers\organization\BillController@addbillng2');
+Route::get('/get-entities', 'App\Http\Controllers\organization\BillController@getEntities')->name('get.entities');
+Route::get('/get-user-details','App\Http\Controllers\organization\BillController@getUserDetails')->name('get.user.details');
 Route::post('superadmin/bills/store', 'App\Http\Controllers\organization\BillController@store')->name('bills.store');
 Route::get('/superadmin/billing/edit/{id}', 'App\Http\Controllers\organization\BillController@editBill')->name('superadmin.billing.edit');
 Route::post('superadmin/bills/update/{id}', 'App\Http\Controllers\organization\BillController@updateBilling')->name('superadmin.billing.update');

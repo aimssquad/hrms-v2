@@ -120,8 +120,10 @@
                                             class="glyphicon glyphicon-ok"></span><em> {{ Session::get('error') }}</em>
                                     </div>
                                     @endif
+                                    
                                 </div>
                                 <div class="card-body">
+                                    <div id="invoice_id" class="alert alert-danger" style="display:none;"></div>
                                     <form action="{{url('superadmin/bills/store')}}" method="post" enctype="multipart/form-data">
                                         {{csrf_field()}}
                                         <div class="row form-group">
@@ -139,25 +141,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="payment_mode" class="placeholder">Billing Month</label>
-                                                    <select class="form-control input-border-bottom" id="billing_month" name="billing_month" style="margin-top: 22px;">
-                                                        <option value="January">January</option>
-                                                        <option value="February">February</option>
-                                                        <option value="March">March</option>
-                                                        <option value="April">April</option>
-                                                        <option value="May">May</option>
-                                                        <option value="June">June</option>
-                                                        <option value="July">July</option>
-                                                        <option value="August">August</option>
-                                                        <option value="September">September</option>
-                                                        <option value="October">October</option>
-                                                        <option value="November">November</option>
-                                                        <option value="December">December</option>
-                                                    </select>
-                                                </div>
-                                            </div> --}}
                                             
                                             <div class="col-md-4">
                                                 <div class="form-group">
@@ -194,15 +177,15 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="entity_id" >Amount</label>
-                                                    <input type="text" class="form-control" id="amount"  name="amount">
+                                                    <input type="text" class="form-control" id="amount"  name="amount" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            {{-- <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="total-employee" >Total Employee</label>
                                                     <input type="text" class="form-control" id="total_employee" value="" name="total_employee">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="vat" class="form-label">Discounted Amount</label>
@@ -318,7 +301,7 @@
 
         function getUserDetails(userId) {
             if (userId != '') {
-                let billingMonth = $('#billing_month').val();
+                let billingMonth = $('#date').val();
                 let billingType = $('#billing_type').val();
                 //alert(userId);
                 $.ajax({
@@ -331,8 +314,14 @@
                     success: function(data) {
                         // Populate the form fields with the data returned
                         $('#amount').val(data.amount);
-                        $('#total_employee').val(data.total_employee);
-                        console.log(data);
+                        $('#total_amount').val(data.amount);
+                        $('#total_employee').val(data.total_employee); 
+                        if (data.message) {
+                            $('#invoice_id').text(data.message).show();
+                        } else {
+                            $('#invoice_id').hide();
+                        }
+                        //console.log(data);
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -368,6 +357,7 @@
                 $('#total_amount').val(totalAmount.toFixed(2)); // Show two decimal places
             }
         });
+    
     </script>
     <script type="text/javascript">
         CKEDITOR.on('instanceReady', function() {

@@ -108,18 +108,6 @@
                             <label for="entity_id" class="form-label">Remarks</label>
                             <textarea class="form-control" id="remarks" name="remarks" style="margin-top:20px"></textarea>
                         </div>
-                        {{-- <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="vat" >Description</label>
-                                <input type="text" class="form-control" id="description" value="" name="description">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="vat" >Remarks</label>
-                                <textarea class="form-control" id="remarks" name="remarks"></textarea>
-                            </div>
-                        </div> --}}
                     </div>    
                     <br>
                     <div class="row">
@@ -138,25 +126,6 @@
 @endsection
 @section('script')
 <script type="text/javascript">
-    // function fetchEntityDetails(entityId) {
-    //     const invoiceDate = document.getElementById('date').value;
-    //     if (!entityId) return; // Do nothing if no entity is selected.
-        
-    //     // Perform an AJAX request to fetch the data
-    //     $.ajax({
-    //         url: '{{ url("superadmin/get-entity-details") }}',
-    //         type: 'GET',
-    //         data: { entity_id: entityId },
-    //         success: function(response) {
-    //             // Update the form fields with the fetched data
-    //             $('#amount').val(response.amount || '');
-    //             $('#total_employee').val(response.total_employee || '');
-    //         },
-    //         error: function(xhr) {
-    //             console.error("Error fetching entity details:", xhr);
-    //         }
-    //     });
-    // }
     function checkFields() {
     const entityId = document.getElementById('entity_id').value;
     const invoiceDate = document.getElementById('date').value;
@@ -216,24 +185,7 @@
     }
 
 </script>
-<script type="text/javascript">
-    // $(document).ready(function() {
-    //     // Event listener for when VAT or Amount is changed
-    //     $('#vat, #amount,discount_amount').on('input', function() {
-    //         // Get the values of amount and VAT
-    //         var amount = parseFloat($('#amount').val()) || 0;
-    //         var vat = parseFloat($('#vat').val()) || 0;
-    //          var discount_amount = parseFloat($('#discount_amount').val()) || 0;
-            
-    //         // Calculate the total amount (Amount * (1 + VAT))
-    //         var totalAmount = amount * (1 + vat / 100); // VAT is a percentage, so we divide by 100
-    //         var tamount = totalAmount-discount_amount;
-            
-    //         // Update the total amount field
-    //         $('#total_amount').val(tamount.toFixed(2)); // Show up to two decimal places
-    //     });
-    // });
-</script>
+
 <script type="text/javascript">
     $(document).ready(function () {
     // Trigger calculation on input in VAT, Amount, or Discount Amount fields

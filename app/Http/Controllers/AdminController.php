@@ -20997,7 +20997,7 @@ class AdminController extends Controller
                     return view('sub-admin/billing/billing-add-new', $data);
                 }   
                 //dd('okk'); 
-                return View('admin/billing-add-new2', $data);
+                return View('admin/billing-add-new2');
 
             } else {
                 return redirect('superadmin');
