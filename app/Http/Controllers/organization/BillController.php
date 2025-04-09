@@ -357,6 +357,7 @@ class BillController extends Controller
             ->first();
             // Check if no record is found and use default entity_id
             if ($amount === null) {
+                //dd('okk');
                 $amount = DB::table('rule_table')
                     ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
                     ->where('type', $billingType)
@@ -374,18 +375,21 @@ class BillController extends Controller
             // Calculate the total amount if employee charge exists
             if ($amount !== null) {
                 if($amount->billing_for == "Organisation Subscription"){
+                    //dd('subscription');
                     return response()->json([
                         'amount' => $amount->organization_charge,
                         //'total_employee' => $totalEmployee
                     ]); 
                 } elseif($amount->billing_for == "Number Of Employee"){ 
+                    //dd('number of employee');
                     return response()->json([
                         'amount' => $amount->employee_charge,
                         //'total_employee' => $totalEmployee
                     ]); 
                 } else {
+                    //dd('no charge');
                     return response()->json([
-                        'message' => 'No employee charge found because rule not set',
+                        'message' => 'No charge found because rule not set',
                         //'total_employee' => $totalEmployee
                     ]);
                 }
@@ -394,7 +398,7 @@ class BillController extends Controller
                 //     'amount' => 'No Billing Rule Found',
                 // ]);
                 return response()->json([
-                    'message' => 'No employee charge found for the selected date range because rule are not set',
+                    'message' => 'No data found',
                 ]);
             }
         // } else {
@@ -549,6 +553,7 @@ class BillController extends Controller
             'payment_mode' => 'nullable|string',
             'description' => 'nullable|string',
             'remarks' => 'nullable|string',
+            'status' => 'required|in:2,3',
         ]);
         //dd($validated);
         $bill = Subadmin_bill::findOrFail($id);
@@ -565,6 +570,7 @@ class BillController extends Controller
         $bill->payment_mode = $validated['payment_mode'];
         $bill->description = $validated['description'];
         $bill->remarks = $validated['remarks'];
+        $bill->status = $validated['status'];
         $bill->updated_at = now();
         // Save the updated bill
         $bill->save();

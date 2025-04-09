@@ -67,6 +67,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                <tr>
                                   <th>Sl.No.</th>
                                   <th>Invoice.No.</th>
+                                  <th>Invoice.Date.</th>
                                   <th>Item Name</th>
                                   <th>Company Name</th>
                                   <th>Amount</th>
@@ -90,10 +91,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                <tr>
                                     <td>{{$loop->iteration}}</td>
                                     <td>
-                                        <a class="atag_titel_main" href="{{ route('organization.billing.invoice', $billing->id) }}">
-                                            {{$billing->invoice_no}}
-                                        </a>    
+                                        {{$billing->invoice_no}}   
                                     </td>
+                                    <td>{{ \Carbon\Carbon::parse($billing->date)->format('d-m-Y')  ?? 'NA'}}</td>
                                     <td>{{$billing->bill_for}}</td>
                                     @php
                                         $data = DB::table('registration')->where('reg',$billing->entity_id)->first();

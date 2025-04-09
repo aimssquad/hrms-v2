@@ -145,7 +145,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="date">Invoice Date</label>
-                                                    <input type="date" class="form-control" id="date" name="date" value="{{ $bills->date ?? '' }}">
+                                                    <input type="date" class="form-control" id="date" name="date" value="{{ $bills->date ?? '' }}" readonly>
                                                 </div>
                                             </div>
                                             
@@ -177,12 +177,12 @@
                                             </div>
                                             
                                             <!-- Total Employees (Readonly) -->
-                                            <div class="col-md-4">
+                                            {{-- <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="total_employee" class="form-label">Total Employee</label>
                                                     <input type="text" class="form-control" id="total_employee" name="total_employee" value="{{$bills->total_employee}}" readonly>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             
                                             <!-- VAT -->
                                             <div class="col-md-4">
@@ -225,6 +225,16 @@
                                                 <div class="form-group">
                                                     <label for="vat" >Remarks</label>
                                                     <textarea class="form-control" id="editor2"  name="remarks">{{ $bills->remarks }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="status" >Payment Status</label>
+                                                    <select class="form-control input-border-bottom" id="status" name="status" required>
+                                                        <option value="1" {{ old('status', $bills->status) == 1 ? 'selected' : '' }}>Due</option>
+                                                        <option value="2" {{ old('status', $bills->status) == 2 ? 'selected' : '' }}>Pending</option>
+                                                        <option value="3" {{ old('status', $bills->status) == 3 ? 'selected' : '' }}>Done</option>
+                                                    </select>
                                                 </div>
                                             </div>
                     

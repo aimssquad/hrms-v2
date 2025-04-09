@@ -58,18 +58,19 @@
                                    <tr>
                                       <th>Sl.No.</th>
                                       <th>Invoice.No.</th>
-                                      <th>Billg Item</th>
-                                      <th>Billing Month</th>
+                                      <th>Invoice.Date.</th>
+                                      <th>Item</th>
                                       <th>Billing To</th>
                                       <th>Entity Id</th>
                                       <th>Amount</th>
-                                      <th>Total Employee</th>
+                                      {{-- <th>Total Employee</th> --}}
+                                      <th>Discount</th>
                                       <th>Vat</th>
                                       <th>Total Amount</th>
                                       <th>Payment Mode</th>
                                       <th>Payment Id</th>
                                       <th>Payment Document</th>
-                                      {{-- <th>Description</th> --}}
+                                      <th>Payment Status</th>
                                       <th>Action</th>
                                    </tr>
                                 </thead>
@@ -81,26 +82,34 @@
                                    <tr>
                                       <td>{{$loop->iteration}}</td>
                                       <td><a href="{{ route('admin.billing.invoice', $billing->id) }}">{{$billing->invoice_no}}</a></td>
-                                      <td>{{$billing->bill_for ?? 'NA'}}</td>
-                                      {{-- <td>{{$billing->billFor->item_name ?? 'NA'}}</td> --}}
                                       <td>{{ \Carbon\Carbon::parse($billing->date)->format('d-m-Y')  ?? 'NA'}}</td>
+                                      <td>{{$billing->bill_for ?? 'NA'}}</td>
                                       <td>{{$billing->billing_type  ?? 'NA'}}</td>
                                       <td>{{$billing->company->name  ?? 'NA'}}</td>
                                       {{-- <td>{{$billing->entity_id}}</td> --}}
                                       <td>{{$billing->amount  ?? 'NA'}}</td>
-                                      <td>{{$billing->total_employee  ?? 'NA'}}</td>
+                                      <td>{{$billing->discount_amount ?? 'NA'}}</td>
                                       <td>{{$billing->vat ?? 'NA'}}</td>
                                       <td>{{$billing->total_amount  ?? 'NA'}}</td>
                                       <td>{{$billing->payment_mode  ?? 'NA'}}</td>
                                       <td>{{$billing->payment_dtl ?? 'NA'}}</td>
                                       <td>
                                           @if ($billing->payment_document)
-                                              <a href="{{ asset('storage/' . $billing->payment_document) }}" target="blank"><img src="{{ asset('storage/' . $billing->payment_document) }}" alt="Payment Document" style="width: 100px; height: auto;"></a>
+                                              <a href="{{ asset('storage/app/public/' . $billing->payment_document) }}" target="blank"><img src="{{ asset('storage/app/public/' . $billing->payment_document) }}" alt="Payment Document" style="width: 100px; height: auto;"></a>
                                           @else
                                               NA
                                           @endif
                                       </td>
-                                      {{-- <td>{{$billing->description}}</td> --}}
+                                      <td>
+                                       @if ($billing->status == 1)
+                                       <span class="badge badge-danger">Due</span>
+                                       @elseif($billing->status == 2)
+                                       <span class="badge badge-info">Pending</span>
+                                       @else
+                                       <span class="badge badge-success">Paid</span>
+                                       @endif
+                                       </td>
+                                      </td>
                                       <td class="drp">
                                          <div class="dropdown">
                                             <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
