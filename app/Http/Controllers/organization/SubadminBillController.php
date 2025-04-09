@@ -639,7 +639,7 @@ class SubadminBillController extends Controller
             $partner = DB::table('sub_admin_registrations')->where('org_code',$bill->org_code)->first();
             //dd($partner);
             //dd($baseUrl.'/storage/app/public/'.$partner->logo);
-            $partner_logo = $baseUrl.'/storage/'.$partner->logo;
+            $partner_logo = $baseUrl.'/storage/app/public/'.$partner->logo;
             //dd($partner_logo);
             $data = [
                 'invoice_no' => $bill->invoice_no,
