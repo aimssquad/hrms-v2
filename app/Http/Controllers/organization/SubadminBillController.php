@@ -587,7 +587,7 @@ class SubadminBillController extends Controller
                 'org_city'   =>  $org_dtl->city,
                 'org_zip' => "$org_dtl->zip",
 
-                'logo'  =>  $partner_logo,
+                'p_logo'  =>  $partner_logo,
                 'p_com_name' => $partner->com_name,
                 'p_name' => "$org_dtl->f_name $org_dtl->l_name",
                 'p_email' => $partner->email,
