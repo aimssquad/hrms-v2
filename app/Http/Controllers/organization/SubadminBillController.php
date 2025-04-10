@@ -587,7 +587,7 @@ class SubadminBillController extends Controller
                 'org_city'   =>  $org_dtl->city,
                 'org_zip' => "$org_dtl->zip",
 
-                'p_logo'  =>  $partner_logo,
+                'p_logo'  =>  $partner->logo,
                 'p_com_name' => $partner->com_name,
                 'p_name' => "$org_dtl->f_name $org_dtl->l_name",
                 'p_email' => $partner->email,
@@ -600,7 +600,7 @@ class SubadminBillController extends Controller
                 'p_land' => $partner->land,
                 'p_website' => $partner->website,  
             ];
-            dd($data);
+            //dd($data);
             //return view('orgInvoicePdf', $data);
             $pdf = Pdf::loadView('orgInvoicePdf', $data);
             return $pdf->download('invoice_'.$bill->invoice_no.'.pdf');
