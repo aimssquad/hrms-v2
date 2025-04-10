@@ -90,6 +90,9 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
+                            @if($p_logo)
+                                <img src="{{asset('storage/app/public/'.$p_logo)}}" alt="Logo" style="width: 150px;">
+                            @endif    
                             {{-- <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" style="width: 150px;"> --}}
                         </td>
                     </tr>
