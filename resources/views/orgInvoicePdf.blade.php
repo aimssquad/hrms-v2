@@ -11,9 +11,9 @@
                 {{-- <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png?updatedAt=1733651934565" alt="Logo" style="height: 50px;"> --}}
                 @if($logo)
                     <img src="{{asset('storage/app/public/'.$p_logo)}}" alt="Logo" style="height: 50px;">
-                @endif
-                    <h1>{{ strtoupper($p_com_name) }}</h1>
                 @else
+                    <h1>{{ strtoupper($p_com_name) }}</h1>
+                @endif
                 
             </td>
             <td colspan="4" style="text-align: right; border: none; padding: 10px;">
