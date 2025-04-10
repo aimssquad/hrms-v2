@@ -600,7 +600,7 @@ class SubadminBillController extends Controller
                 'p_land' => $partner->land,
                 'p_website' => $partner->website,  
             ];
-            // dd($data);
+            dd($data);
             //return view('orgInvoicePdf', $data);
             $pdf = Pdf::loadView('orgInvoicePdf', $data);
             return $pdf->download('invoice_'.$bill->invoice_no.'.pdf');
