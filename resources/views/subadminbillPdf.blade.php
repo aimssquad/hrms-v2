@@ -2,140 +2,179 @@
 <html>
 <head>
     <title>Invoice</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            position: relative;
+            min-height: 100vh;
+        }
+        .content {
+            padding-bottom: 60px; /* Space for footer */
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            max-width: 700px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 10px;
+            padding: 5px 0;
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px;">
+<body style="margin: 0; padding: 15px; font-family: Arial, sans-serif; position: relative; min-height: 100vh;">
 
-    <table style="width: 100%; border-collapse: collapse; max-width: 900px; margin: auto;" align="center">
-        <tr>
-            <td colspan="3" style="border: none; padding: 10px;">
-                <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png?updatedAt=1733651934565" alt="Logo" style="height: 50px;">
-            </td>
-            <td colspan="4" style="text-align: right; border: none; padding: 10px;">
-                <strong style="font-size: 16px;">SKILLED WORKERS CLOUD LTD.</strong><br><br>
-                G21, Unit 3, Triangle Centre,<br>
-                399 Uxbridge Road<br>
-                UB1 3EJ, United Kingdom<br>
-                Mobile/Whats app : 07467284718<br>
-                Landline : +44 0208 129 1655
-                <br>
-                Email: info@skilledworkerscloud.co.uk<br>
-                {{-- Website: <a href="https://skilledworkerscloud.co.uk/" style="text-decoration: none; color: #004AAD;">https://skilledworkerscloud.co.uk/</a> --}}
-            </td>
-        </tr>
-        
-        <tr><td colspan="7" style="height: 20px;"></td></tr>
-
-        <tr>
-            <td colspan="4" style="border: none; padding: 10px;">
-                <strong>Invoice To:</strong> {{ strtoupper("$f_name $l_name") }}<br>
-                <strong>Address: </strong>{{ucfirst($address)}}<br>
-                {{ ucfirst("$city $road $zip") }}<br>
-                {{ucfirst($p_no)}}<br>
-                <a href="mailto:{{$email}}" style="text-decoration: none; color: #004AAD;">{{$email}}</a>
-            </td>
-            <td colspan="3" style="text-align: right; border: none; padding: 10px;">
-                <strong>Date:</strong> {{ isset($invoice_date) ? \Carbon\Carbon::parse($invoice_date)->format('d/m/Y') : 'NA' }}<br>
-                <strong>Invoice No:</strong> {{$invoice_no}}
-            </td>
-        </tr>
-        
-        <tr><td colspan="7" style="height: 20px;"></td></tr>
-
-        <tr style="background-color: #f5f5f5;">
-            <th style="font-size:12px; padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">#</th>
-            <th style="font-size:12px; padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Item Name</th>
-            <th style="font-size:12px; padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">Quantity</th>
-            <th style="font-size:12px; padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Unit Price</th>
-            <th style="font-size:12px; padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Unit Price Exc.VAT</th>
-            <th style="font-size:12px; padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Discount</th>
-            <th style="font-size:12px; padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Total</th>
-        </tr>
-
-        <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #eee;">1</td>
-            <td style="padding: 10px; border-bottom: 1px solid #eee;">{{$item}}</td>
-            <td style="padding: 10px; text-align: center; border-bottom: 1px solid #eee;"></td>
-            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;"></td>
-            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">{{$amount}}</td>
-            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">{{$discount_amount ?? '0.00'}}</td>
-            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">
-                @php
-                    $subtotal = $discount_amount ? ($amount - $discount_amount) : $amount;
-                    echo number_format($subtotal, 2);
-                @endphp
-            </td>
-        </tr>
-
-        <!-- Payment Summary Section -->
-        <tr>
-            <td colspan="4" style="border: none; padding: 10px;">
-               
-            </td>
-            <td colspan="3" style="border: none; padding: 10px; text-align: right;">
-                @php
-                    $vat_amount = $vat ? ($subtotal * $vat / 100) : 0;
-                    $grand_total = $total_amount;
-                @endphp
-                
-                @if($vat)
-                <div style="margin-bottom: 5px;">
-                    <span style="margin-right: 20px;"><strong>VAT ({{$vat}}%):</strong></span>
-                    <span>{{ number_format($vat_amount, 2) }}</span>
-                </div>
-                @endif
-                
-                <div style="margin-bottom: 5px;">
-                    <span style="margin-right: 20px;"><strong>Subtotal:</strong></span>
-                    <span>{{ number_format($subtotal, 2) }}</span>
-                </div>
-                
-                <div style="margin-top: 10px; font-size: 1.1em;">
-                    <span style="margin-right: 20px;"><strong>Total Paid:</strong></span>
-                    @if(empty($vat) && empty($discount_amount))
-                        <span style="color: #004AAD; font-weight: bold;">{{ number_format($amount, 2) }}</span>
-                    @else
-                        <span style="color: #004AAD; font-weight: bold;">{{ number_format($grand_total, 2) }}</span>
-                    @endif
-                    
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="7" style="height: 45px;"></td>
-        </tr>
-
-        <tr>
-            <td colspan="7" style="border: none; padding: 10px;">
-                {{-- <strong>Payment Method:</strong> {{$payment_mode}}  --}}
-                <div style="display: block; margin-bottom: 8px;">
-                <strong>Payment Method:</strong> {{ $payment_mode }}
-                </div>
-                <i><strong>Disclaimer :</strong> This is a system generated Invoice and does not require any signature or Stamp.</i>
-            </td>
+<div class="content" style="width: 100%; max-width: 700px; margin: 0 auto; padding-bottom: 60px;">
+    <!-- Header -->
+    <div style="margin-bottom: 15px;">
+        <div style="float: left; width: 40%;">
+            <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png?updatedAt=1733651934565" alt="Logo" style="height: 90px;">
+        </div>
+        <div style="float: right; width: 60%; text-align: right; line-height: 1.3; font-size: 16px;">
+            <strong style="font-size: 18px;">SKILLED WORKERS CLOUD LTD.</strong><br>
+            G21, Unit 3, Triangle Centre,<br>
+            399 Uxbridge Road, UB1 3EJ<br>
+            Landline: +44 0208 129 1655<br>
+            Mobile/WhatsApp: +44 (0)7467284718<br>
+            Email: <a href="mailto:info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div style='height:10px;'></div>
+    <!-- Blue Divider -->
+    <div style="height: 14px; background-color: #154377; margin: 15px 0;"></div>
+    <div style='height:10px;'></div>
+    <!-- Bill To and Invoice Details -->
+    <div style="margin-bottom: 15px;">
+        <div style="float: left; width: 60%; font-size: 16px;">
+            <strong>Invoice To:</strong><br>
+            {{ strtoupper("$f_name $l_name") }}<br>
+            {{ucfirst($address)}}<br>
+            {{ ucfirst("$city $road $zip") }}<br>
+            United Kingdom<br>
+            Mobile: {{ucfirst($p_no)}}
+        </div>
+        <div style="float: right; width: 40%; text-align: right; font-size: 16px;">
+            <strong>Date:</strong> {{ isset($invoice_date) ? \Carbon\Carbon::parse($invoice_date)->format('d F Y') : 'NA' }}
+            <br><strong>Invoice no:</strong> {{$invoice_no}}
             
-            {{-- <td colspan="3" style="border: none; padding: 10px; text-align: right;"></td> --}}
-        </tr>
-        <tr>
-            <td colspan="7" style="height: 100px;"></td>
-        </tr>
-        <tr>
-            <td colspan="4" style="border: none; padding: 10px;"></td>
-            <td colspan="3" style="border: none; padding: 10px; text-align: right;">
-                {{-- <strong style="font-size:12px;">Disclaimer :-</strong> <i style="font-size:12px;">This is a system generated Invoice and does not require any signature or Stamp.</i><br> --}}
-                <i>Thank you for your customs !</i>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="7" style="height: 160px;"></td>
-        </tr>
-        <tr>
-            <td colspan="7" style="border: none; text-align:center; padding: 10px;">
-                Website: <a href="https://skilledworkerscloud.co.uk/" style="text-decoration: none; color: #004AAD;">www.//skilledworkerscloud.co.uk/</a>
-            </td>
-           
-        </tr>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <!-- Items Table -->
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 16px;">
+        <thead>
+            <tr style="background-color: #f5f5f5;">
+                <th style="padding: 5px; text-align: left; border: 1px solid #ddd; width: 5%;">Sl. no</th>
+                <th style="padding: 5px; text-align: left; border: 1px solid #ddd; width: 35%;">Item Name</th>
+                <th style="padding: 5px; text-align: center; border: 1px solid #ddd; width: 8%;">Quantity</th>
+                <th style="padding: 5px; text-align: right; border: 1px solid #ddd; width: 12%;">Unit Price</th>
+                <th style="padding: 5px; text-align: right; border: 1px solid #ddd; width: 15%;">Unit Price Exc. VAT</th>
+                <th style="padding: 5px; text-align: right; border: 1px solid #ddd; width: 15%;">Discount</th>
+                <th style="padding: 5px; text-align: right; border: 1px solid #ddd; width: 10%;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 5px; ">1</td>
+                <td style="padding: 5px; ">{{$item}}</td>
+                <td style="padding: 5px; text-align: center; "></td>
+                <td style="padding: 5px; text-align: right; "></td>
+                <td style="padding: 5px; text-align: right; ">£{{number_format($amount, 2)}}</td>
+                <td style="padding: 5px; text-align: right; ">£{{number_format($discount_amount ?? 0, 2)}}</td>
+                @php
+                $subtotal = $discount_amount ? ($amount - $discount_amount) : $amount;
+                   // echo number_format($subtotal, 2);
+                @endphp
+                <td style="padding: 5px; text-align: right; ">£{{number_format($subtotal, 2)}}</td>
+            </tr>
+            @php
+                $vat_amount = $vat ? ($subtotal * $vat / 100) : 0;
+                $grand_total = $total_amount ?($subtotal + $vat_amount):$amount;
+            @endphp
+            @if($vat)
+            <tr>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; text-align: right; "><strong>VAT({{$vat}}%)</strong></td>
+                <td style="padding: 5px; text-align: right; ">£{{number_format($vat_amount, 2)}}</td>
+            </tr>
+            @endif
+            <tr>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px;  font-size: 12px;">Remarks: {{strip_tags($remarks ?? '')}}</td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; text-align: right; "><strong>Sub Total</strong></td>
+                <td style="padding: 5px; text-align: right; ">£{{number_format($subtotal, 2)}}</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; "></td>
+                <td style="padding: 5px; text-align: right; "><strong>Total Paid</strong></td>
+                <td style="padding: 5px; text-align: right; ">£{{number_format($grand_total, 2)}}</td>
+            </tr>
+            {{-- <tr>
+                <td style="padding: 5px; border: 1px solid #eee;"></td>
+                <td style="padding: 5px; border: 1px solid #eee;"></td>
+                <td style="padding: 5px; border: 1px solid #eee;"></td>
+                <td style="padding: 5px; border: 1px solid #eee;"></td>
+                <td style="padding: 5px; border: 1px solid #eee;"></td>
+                <td style="padding: 5px; text-align: right; border: 1px solid #eee;"><strong>Due</strong></td>
+                <td style="padding: 5px; text-align: right; border: 1px solid #eee;">NIL</td>
+            </tr> --}}
+        </tbody>
     </table>
+
+    <!-- Billing Details -->
+    <div style="margin-bottom: 10px; font-size: 16px;">
+        <h4 style="margin: 5px 0; font-size: 18px;">Billing Details</h4>
+        <div style="line-height: 1.5;">
+            <strong>Bank Name:</strong> Barclays Plc<br>
+            <strong>Account Name:</strong> Skilled Workers Cloud Ltd<br>
+            <strong>Sort Code:</strong> 20-41-50<br>
+            <strong>Account No.</strong> 7303 0849<br>
+            <strong>Payment Method:</strong> Online/Offline
+        </div>
+    </div>
+    <div style='height:40px;'></div>
+    <!-- Thank You -->
+    <div style="text-align: right; margin-bottom: 10px; font-style: italic; font-size: 16px;">
+        Thank you for your business!
+    </div>
+    <div style='height:100px;'></div>
+    <!-- Disclaimer -->
+    <div style="font-style: italic; font-size: 16px; margin-bottom: 25px;">
+        <strong>Disclaimer :</strong> This is a system generated Invoice and does not require any signature or Stamp.
+    </div>
+    
+    <!-- Blue Divider -->
+    <div style="height: 14px; background-color: #154377; margin: 10px 0;"></div>
+</div>
+<!-- Fixed Footer -->
+<div class="footer" style="position: absolute; bottom: 0; width: 100%; max-width: 700px; left: 50%; transform: translateX(-50%); text-align: center; font-size: 16px; padding: 5px 0;">
+   <b>Registered Office: G21, Unit 3, Triangle Centre, 399 Uxbridge Road UB1 3EJ</b><br>
+    Landline: +44 0208 129 1655 Mobile: +44 (0)7467284718<br>
+    Email: <a href="mailto:info@skilledworkerscloud.co.uk" style="color: #000080; text-decoration: none;">info@skilledworkerscloud.co.uk</a> 
+    Web: <a href="https://www.skilledworkerscloud.co.uk" style="color: #000080; text-decoration: none;">www.skilledworkerscloud.co.uk</a>
+</div>
 
 </body>
 </html>

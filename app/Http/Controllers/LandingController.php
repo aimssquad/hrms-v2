@@ -231,14 +231,19 @@ class LandingController extends Controller
                     //dd($data);
                     if(!empty($registrationData['org_code'])){
                         $org_code = $registrationData['org_code'];
-                        $partner_name = DB::table('sub_admin_registrations')->where('org_code',$org_code)->select('com_name')->first();
+                        $partner_name = DB::table('sub_admin_registrations')->where('org_code',$org_code)->select('com_name', 'email', 'logo', 'p_no', 'land', 'website')->first();
                         
                         $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
                         // Extract only the domain name and store it in a variable
                         $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
                         $baseUrl = $baseUrl."/hrms-v2";
                         $data = [
+                            "partner_logo" => $partner_name ? $partner_name->logo : 'N/A',
                             "partner_name" => $partner_name ? $partner_name->com_name : 'N/A',
+                            "partner_phone" => $partner_name ? $partner_name->p_no : 'N/A',
+                            "partner_land" => $partner_name ? $partner_name->land : 'N/A',
+                            "partner_email" => $partner_name ? $partner_name->email : 'N/A',
+                            "partner_website" => $partner_name ? $partner_name->website : 'N/A',
                             "user_type"=>$registrationData['subadmin'],
                             "org_code"=>$registrationData['org_code'],
                             "f_name" => $registrationData['f_name'],
@@ -250,7 +255,8 @@ class LandingController extends Controller
                             "web"  => $baseUrl,
                         ];
                        
-                        //$toemail = $registrationData['email'];
+                        // return view('mail-partner-organization-registration',$data);
+                        // $toemail = $registrationData['email'];
                         // Mail::send("mail-new-partner-registration", $data, function ($message) use ($toemail, $sub_comname) {
                         //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
                         //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
