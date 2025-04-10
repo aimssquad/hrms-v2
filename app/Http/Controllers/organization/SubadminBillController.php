@@ -540,7 +540,7 @@ class SubadminBillController extends Controller
             $data['bill'] = DB::table('subadmin_bills')->where('id',$encripted_id)->first();
             $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
             $data['com_dtl'] = DB::table('sub_admin_registrations')->where('org_code',$data['bill']->org_code)->first();
-            //dd($data['bill']);
+            //dd($data['org_dtl']);
             //return view('subadminbillPdf',$data);
             return view('sub-admin.billing.invoice',$data);
         } else {
@@ -587,7 +587,6 @@ class SubadminBillController extends Controller
                 'org_city'   =>  $org_dtl->city,
                 'org_zip' => "$org_dtl->zip",
 
-                'p_logo' => $partner->logo,
                 'logo'  =>  $partner_logo,
                 'p_com_name' => $partner->com_name,
                 'p_name' => "$org_dtl->f_name $org_dtl->l_name",
@@ -648,7 +647,7 @@ class SubadminBillController extends Controller
 
                 'p_logo' => $partner->logo,
                 'p_com_name' => $partner->com_name,
-                'p_name' => "$org_dtl->f_name $org_dtl->l_name",
+                'p_name' => "$partner->f_name $partner->l_name",
                 'p_email' => $partner->email,
                 'p_phone' => $partner->p_no,
                 'p_address' => $partner->address,

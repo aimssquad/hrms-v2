@@ -21,6 +21,11 @@
                                 <tr>
                                     <td width="25%" style="padding-left: 20px;">
                                         {{-- <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%"> --}}
+                                        @if($p_logo)
+                                            <img src="{{asset('storage/app/public/'.$logo)}}" alt="Logo" width="100%">
+                                        @else
+                                            <h1>{{ $p_com_name }}</h1>
+                                        @endif
                                     </td>
                                     <td width="60%" style="padding: 0;margin: 0;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%">

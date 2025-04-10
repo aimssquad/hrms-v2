@@ -25,8 +25,11 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6 m-b-20">
-                                {{-- <img src="{{ asset('storage/' . $org_dtl->logo) }}" class="inv-logo" alt="Logo"> --}}
-                                {{-- <img src="{{ $org_dtl->logo ? asset('storage/' . $org_dtl->logo) : asset('path/to/default-logo.png') }}" class="inv-logo" alt="Logo"> --}}
+                                @if($com_dtl->logo)
+                                    <img src="{{ asset('storage/app/public/' . $com_dtl->logo) }}" alt="Logo" class="inv-logo">
+                                @else
+                                    <h1>{{ strtoupper($com_dtl->com_name) }}</h1>
+                                @endif
                                 <ul class="list-unstyled">
                                     {{-- <li>{{ strtoupper($com_dtl->com_name) }}</li>
                                     <li>{{strtoupper($com_dtl->address2)}}</li> --}}
