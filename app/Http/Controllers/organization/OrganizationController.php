@@ -251,7 +251,7 @@ class OrganizationController extends Controller
             ->where('status', '=', 'active')
             ->where('email', '=', $email)
             ->first();
-         //dd($data['companies_rs']);
+         //dd($data);
          $pdf = Pdf::loadView('my-profile-pdf', $data);
          return $pdf->download('profile.pdf');
         //return view($this->_routePrefix . '.profile',$data);

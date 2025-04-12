@@ -24,8 +24,8 @@ tr:nth-child(even) {
  <thead>
   <tr>
     <th style="text-align: left;width: 10%;">
-        @if($Roledata->logo!='')  <img src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $Roledata->logo }}" alt="" width="130"/>@endif 
-        
+        {{-- @if($Roledata->logo!='')  <img src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $Roledata->logo }}" alt="" width="130"/>@endif  --}}
+        @if($Roledata->logo!='')  <img src="{{ asset('storage/app/public/'.$Roledata->logo) }}" alt="" width="130"/>@endif 
       </th>
 	<th style="width:90%"><h2 style="font-size: 30px;    margin-bottom: 0;">{{ $Roledata->com_name }}</h2>
 	 <p style="margin:0;font-size:15px"> @if($Roledata->address!=''){{ $Roledata->address }}@if($Roledata->address2!='null'), {{ $Roledata->address2 }}@endif @if($Roledata->road!='null') ,{{ $Roledata->road }} @endif <br />{{ $Roledata->city }},{{ $Roledata->zip }},{{ $Roledata->country }}@endif</p>
@@ -122,7 +122,8 @@ tr:nth-child(even) {
      <td>Logo</td>
      
       <td>
-          @if($Roledata->logo!='')<img src="https://workpermitcloud.co.uk/hrms/public/{{ $Roledata->logo }}" height="50px" width="50px"/>@endif </td>
+          @if($Roledata->logo!='')<img src="{{ asset('storage/app/public/'.$Roledata->logo) }}" height="50px" width="50px"/>@endif </td>
+          {{-- @if($Roledata->logo!='')<img src="https://workpermitcloud.co.uk/hrms/public/{{ $Roledata->logo }}" height="50px" width="50px"/>@endif </td> --}}
            </tr>
             <tr>
        <td style="text-align:center;">15</td>
