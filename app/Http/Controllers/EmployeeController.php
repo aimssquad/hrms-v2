@@ -3083,7 +3083,7 @@ class EmployeeController extends Controller
                 ->first();
 
             $datap = ["Roledata" => $Roledata, "employeedata" => $employeedata];
-
+            
             $pdf = PDF::loadView("mypdfemployee", $datap);
             return $pdf->download("employeereport.pdf");
         } else {

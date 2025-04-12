@@ -25,7 +25,8 @@
      <tr>
          <th width="130px;">
              <div style="border:2px solid #d897f0; margin-top:20px; width:130px;">
-        @if($Roledata->logo!='null')  <img src="https://skilledworkerscloud.co.uk/img/swch_logo.png" alt="" width="130"/>@endif 
+        @if($Roledata->logo != null)  <img src="{{ asset('storage/'.$Roledata->logo)}}" alt="" width="130"/>@endif 
+        {{-- <img src="https://skilledworkerscloud.co.uk/img/swch_logo.png" alt="" width="130"/> --}}
         </div>
          </th>
           <th style="text-align:right;">
