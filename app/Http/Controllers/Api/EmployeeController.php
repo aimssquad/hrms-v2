@@ -46,4 +46,50 @@ class EmployeeController extends Controller
         return Helper::rj("Server Error.", 500);
         }
     }
-}
+
+    public function getEmployeeBirthday(Request $request){
+        try{
+            if (!auth()->check()) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+           //dd('okk');
+           $emid = auth()->user()->emid;
+           //dd($emid);
+            $empBirthday = DB::table('employee')
+            ->where('emid', $emid)
+            ->whereMonth('emp_dob', date('m'))
+            ->whereDay('emp_dob', date('d'))
+            ->select('emp_fname','emp_mname','emp_lname','emp_department','emp_designation','emp_doj','emp_dob','emp_image','emid')
+            ->get();
+            if($empBirthday){
+                $empBirthday->transform(function ($item) {
+                    return collect($item)->map(function ($value) {
+                        return $value === null ? "" : $value;
+                    });
+                });
+                //dd($allEmployee);
+                $dynamicFlag = 1;
+                $data = $empBirthday;
+                $message = "All birthday employee current date.";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                ); 
+            } else {
+                $dynamicFlag = 1;
+                $data = [];
+                $message = "No employee birthday fond";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            }
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        }
+    }
+
+
+} //End class.
