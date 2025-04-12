@@ -61,7 +61,8 @@ class EmployeeController extends Controller
             ->whereDay('emp_dob', date('d'))
             ->select('emp_fname','emp_mname','emp_lname','emp_department','emp_designation','emp_doj','emp_dob','emp_image','emid')
             ->get();
-            if($empBirthday){
+            //dd($empBirthday);
+            if($empBirthday->isNotEmpty()){
                 $empBirthday->transform(function ($item) {
                     return collect($item)->map(function ($value) {
                         return $value === null ? "" : $value;
@@ -70,7 +71,7 @@ class EmployeeController extends Controller
                 //dd($allEmployee);
                 $dynamicFlag = 1;
                 $data = $empBirthday;
-                $message = "All birthday employee current date.";
+                $message = "All Employees with birthdays today.";
                 return Helper::rjd(
                     $message,
                     $dynamicFlag,
@@ -79,7 +80,7 @@ class EmployeeController extends Controller
             } else {
                 $dynamicFlag = 1;
                 $data = [];
-                $message = "No employee birthday fond";
+                $message = "No employees have birthdays today";
                 return Helper::rjd(
                     $message,
                     $dynamicFlag,
