@@ -82,10 +82,7 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3 employee-card" data-emp-name="{{ $employee->emp_fname.' '.$employee->emp_mname.' '.$employee->emp_lname }}">
             <div class="profile-widget">
                 <div class="profile-img">
-                    
-                    <a href="{{ asset('storage/app/public/'.$employee->emp_image) }}" class="avatar"><img src="{{ asset('storage/app/public/'.$employee->emp_image) }}" alt="User Image"></a>
-                    {{-- <a href="{{ asset('storage/app/public/'.$employee->emp_image) }}" class="avatar"><img src="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" alt="User Image"></a> --}}
-                    <!--<a href="profile.html" class="avatar"><img src="{{asset('assets/img/chadengle.jpg')}}" alt="User Image"></a>-->
+                    <a href="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" class="avatar"><img src="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" alt="User Image"></a>
                 </div>
                 <div class="dropdown profile-action">
                     <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>

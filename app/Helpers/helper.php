@@ -91,7 +91,7 @@ class Helper
     // For defult image
 
     public static function getImageUrl($imagePath, $defaultImage = 'storage/default_image.png') {
-        return !empty($imagePath) ? asset("storage/{$imagePath}") : asset($defaultImage);
+        return !empty($imagePath) ? asset("storage/app/public/{$imagePath}") : asset($defaultImage);
     }
     
 
