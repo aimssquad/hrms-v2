@@ -25,7 +25,7 @@
      <tr>
          <th width="130px;">
              <div style="border:2px solid #d897f0; margin-top:20px; width:130px;">
-        @if($Roledata->logo != null)  <img src="{{ asset('storage/'.$Roledata->logo)}}" alt="" width="130"/>@endif 
+        @if($Roledata->logo != null)  <img src="{{ asset('storage/app/public/'.$Roledata->logo)}}" alt="" width="130"/>@endif 
         {{-- <img src="https://skilledworkerscloud.co.uk/img/swch_logo.png" alt="" width="130"/> --}}
         </div>
          </th>
@@ -48,7 +48,7 @@
 <table style="width:100%;margin-top: 20px;">
     <tr style="background-color: #fff;">
     <td>
-          @if($employeedata->emp_image!='')<img src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ $employeedata->emp_image }}" style="height:100px;width:100px;border-radius:50%;"/>
+          @if($employeedata->emp_image!='')<img src="https://skilledworkerscloud.co.uk/hrms-v2/public/{{ asset('storage/app/public/'.$employeedata->emp_image) }}" style="height:100px;width:100px;border-radius:50%;"/>
           @else
           <img src="https://skilledworkerscloud.co.uk/hrms-v2/public/assets/img/user.png" style="height:80px;width:80px;border-radius:50%;"/> 
           @endif</td>
