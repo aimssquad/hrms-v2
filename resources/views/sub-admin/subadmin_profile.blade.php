@@ -99,8 +99,8 @@
          <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
             <ul class="nav nav-tabs nav-tabs-bottom">
                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Profile</a></li>
-               {{-- <li class="nav-item"><a href="#emp_assets" data-bs-toggle="tab" class="nav-link">Employee (RTI)</a></li>
-               <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Trading Hours</a></li> --}}
+               {{-- <li class="nav-item"><a href="#emp_assets" data-bs-toggle="tab" class="nav-link">Employee (RTI)</a></li> --}}
+               <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Trading Hours</a></li>
             </ul>
          </div>
       </div>
@@ -259,7 +259,7 @@
       </div>
       <!-- /Profile Info Tab -->
       <!-- Bank Statutory Tab -->
-      {{-- <div class="tab-pane fade" id="bank_statutory">
+      <div class="tab-pane fade" id="bank_statutory">
          <div class="card">
             <div class="card-body">
                <table class="table table-new custom-table mb-0 " >
@@ -275,57 +275,57 @@
                      <!-- Monday -->
                      <tr>
                         <td class="text-left">Monday</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->mon_status : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->mon_time : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->mon_close : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->mon_status : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->mon_time : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->mon_close : 'N/A' }}</td>
                      </tr>
                      <!-- Tuesday -->
                      <tr>
                         <td class="text-left">Tuesday</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->tue_status : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->tue_time : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->tue_close : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->tue_status : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->tue_time : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->tue_close : 'N/A' }}</td>
                      </tr>
                      <!-- Wednesday -->
                      <tr>
                         <td class="text-left">Wednesday</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->wed_status : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->wed_time : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->wed_close : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->wed_status : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->wed_time : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->wed_close : 'N/A' }}</td>
                      </tr>
                      <!-- Thursday -->
                      <tr>
                         <td class="text-left">Thursday</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->thu_status : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->thu_time : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->thu_close : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->thu_status : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->thu_time : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->thu_close : 'N/A' }}</td>
                      </tr>
                      <!-- Friday -->
                      <tr>
                         <td class="text-left">Friday</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->fri_status : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->fri_time : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->fri_close : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->fri_status : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->fri_time : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->fri_close : 'N/A' }}</td>
                      </tr>
                      <!-- Saturday -->
                      <tr>
                         <td class="text-left">Saturday</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->sat_status : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->sat_time : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->sat_close : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->sat_status : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->sat_time : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->sat_close : 'N/A' }}</td>
                      </tr>
                      <!-- Sunday -->
                      <tr>
                         <td class="text-left">Sunday</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->sun_status : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->sun_time : 'N/A' }}</td>
-                        <td class="text-center">{{ $Roledata ? $Roledata->sun_close : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->sun_status : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->sun_time : 'N/A' }}</td>
+                        <td class="text-center">{{ $companies_rs ? $companies_rs->sun_close : 'N/A' }}</td>
                      </tr>
                   </tbody>
                </table>
             </div>
          </div>
-      </div> --}}
+      </div>
    </div>
    <!-- /Bank Statutory Tab -->
    <!-- Assets -->

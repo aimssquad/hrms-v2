@@ -327,7 +327,8 @@ class DashboardController extends Controller
     }
 
     public function reportEmployeesexcelstaff(Request $request)
-    {
+    { 
+        //dd('okkkk');
         try {
             if (!empty(Session::get('emp_email'))) {
 

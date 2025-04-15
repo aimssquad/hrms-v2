@@ -1,3 +1,13 @@
+@php
+    $email = Session::get('empsu_email');
+    $subadmin_dtl = DB::table('sub_admin_registrations')->where('email',$email)->first();
+    //dd($subadmin_dtl);
+    if (!$subadmin_dtl) {
+        Session::flush();
+        header('Location: ' . url('/superadmin'));
+        exit(); 
+    }
+@endphp
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -41,5 +51,40 @@
                 </li>
             </ul>
         </div>
+        <div class="bg-white ps-2 pe-2 sidebar_bottom">
+            <div class="d-flex">
+                <p class="mt-2 mb-0">Powered By</p><div class="float-end ms-3">
+                    {{-- <img width="70px" src="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/swch_logo.png"/> --}}
+                    @if(!empty($subadmin_dtl->logo))
+                        <img src="{{asset('storage/app/public/' . $subadmin_dtl->logo)}}" alt="Logo" style="width: auto; height: 40px; object-fit: contain;">
+                    @else
+                        <img src="{{asset('assets/img/user.png')}}" alt="Company Logo" style="width: auto; height: 60px; object-fit: contain;"> 
+                    @endif
+                </div>
+            </div>
+            <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }}  | All Right Reserved |</p>
+        </div>
     </div>
 </div>
+
+<style>
+    .sidebar_bottom{
+        position:fixed;
+        width:250px;
+        bottom:0;
+        z-index:99;
+    }
+    .sidebar .sidebar-menu, .two-col-bar .sidebar-menu {
+    padding-bottom: 75px;
+}
+@media(max-width:991px){
+    .sidebar_bottom {
+    position: fixed;
+    width: 225px;
+    bottom: 0;
+}
+}
+</style>
+<!-- Two Col Sidebar -->
+@include('employeer.layout.side-settings')
+<!-- /Two Col Sidebar -->

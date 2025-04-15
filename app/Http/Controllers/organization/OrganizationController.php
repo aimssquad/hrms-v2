@@ -32,7 +32,7 @@ class OrganizationController extends Controller
         
         if (!empty($email)) {
             $user_type = Session::get("user_type");
-            
+            //dd($user_type);
             if ($user_type == "employer") {
                 //dd($user_type);
                 $data["Roledata"] = DB::table("registration")
@@ -88,7 +88,7 @@ class OrganizationController extends Controller
                 $data["Roledata"] = DB::table("users")
                     ->where("id", "=", $users_id)
                     ->first();
-                    //dd($data["Roledata"]);
+                //dd($users_id);
                 return view('employeer.employee-corner.dashboard', $data);
                 
             }
@@ -165,6 +165,7 @@ class OrganizationController extends Controller
                 ->where('status', '=', 'active')
                 ->where('email', '=', $email)
                 ->first();
+            //dd($data['companies_rs']);    
             return view($this->_routePrefix . '.employee-rti-link',$data);
         }else{
             return redirect('/');

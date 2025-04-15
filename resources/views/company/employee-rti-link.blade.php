@@ -82,15 +82,14 @@
 											
 											<tbody>
 											    <?php  
-											     $employee_or_rs = DB::table('company_employee')
-                      ->where('emid','=',$companies_rs->reg)
-                 ->get();
-											    
-											    $truplouii_id=1;
-$countwmploor= count($employee_or_rs)			;?>
-		@if ($countwmploor!=0)
-		@foreach($employee_or_rs as $empuprotgans)
-		
+													$employee_or_rs = DB::table('company_employee')
+														->where('emid','=',$companies_rs->reg)
+														->get();
+														$truplouii_id=1;
+														$countwmploor= count($employee_or_rs);
+												?>
+												@if ($countwmploor!=0)
+												@foreach($employee_or_rs as $empuprotgans)		
 					@if ($empuprotgans->name!='')								
 						<tr>
 							<td>{{$truplouii_id}}</td>
@@ -99,13 +98,7 @@ $countwmploor= count($employee_or_rs)			;?>
                               <td>{{ $empuprotgans->department }}</td>
                                 <td>{{ $empuprotgans->job_type }}</td>
                                   <td>{{ $empuprotgans->designation }}</td>
-                                <td>{{ $empuprotgans->immigration }}</td>
-                              
-                           
-                           
-                             
-                            
-                           
+                                <td>{{ $empuprotgans->immigration }}</td> 
 						</tr>
 						<?php $truplouii_id++;?>
 							@endif

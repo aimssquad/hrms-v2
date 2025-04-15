@@ -76,12 +76,12 @@ class LoginController extends Controller
             $checkuser = UserModel::join('employee', 'employee.emp_code', '=', 'users.employee_id')
                 ->where("employee_id", $user_id)
                 ->first();
-           $checkuser = json_decode(json_encode($checkuser), true);
-           foreach ($checkuser as $key => $value) {
-                if ($value === null) {
-                    $checkuser[$key] = "";
+            $checkuser = json_decode(json_encode($checkuser), true);
+            foreach ($checkuser as $key => $value) {
+                    if ($value === null) {
+                        $checkuser[$key] = "";
+                    }
                 }
-            }
            
             $dynamicFlag = 1;
             return Helper::rj(

@@ -1696,9 +1696,12 @@
 
                                                 <!-- Download Icon -->
                                                 @if($empuprs->docu_nat!='')
-                                                <a href="{{ asset('public/'.$empuprs->docu_nat) }}" target="_blank" download class="ms-auto text-warning download-btn-icon">
+                                                <a href="{{ asset('storage/app/public/'.$empuprs->docu_nat) }}" target="_blank" download class="ms-auto text-warning download-btn-icon">
                                                       <i class="fas fa-download"></i>
                                                 </a>
+                                                {{-- <a href="{{ asset('public/'.$empuprs->docu_nat) }}" target="_blank" download class="ms-auto text-warning download-btn-icon">
+                                                   <i class="fas fa-download"></i>
+                                             </a> --}}
                                                 @endif
                                              </div>
                                           </div>

@@ -193,7 +193,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Level 1 User </h3>
                             <div class="table-responsive">
-                                <table class="table table-nowrap">
+                                <table class="table table-nowrap" id="level1">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -232,7 +232,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Level 2 User </h3>
                             <div class="table-responsive">
-                                <table class="table table-nowrap">
+                                <table class="table table-nowrap" id="level2">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -273,79 +273,77 @@
         
         <!-- Bank Statutory Tab -->
         <div class="tab-pane fade" id="bank_statutory">
-          
-              <div class="card">
-    <div class="card-body">
-        <table class="table table-new custom-table mb-0 " >
-            <thead>
-                <tr>
-                    <th class="text-left font-weight-bold">Days</th>
-                    <th class="text-center font-weight-bold">Status</th>
-                    <th class="text-center font-weight-bold">Opening Time</th>
-                    <th class="text-center font-weight-bold">Closing Time</th>
-                </tr>
-            </thead>
-            <tbody style="background-color: #fff; color: #333;">
-                <!-- Monday -->
-                <tr>
-                    <td class="text-left">Monday</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->mon_status : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->mon_time : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->mon_close : 'N/A' }}</td>
-                </tr>
-                
-                <!-- Tuesday -->
-                <tr>
-                    <td class="text-left">Tuesday</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->tue_status : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->tue_time : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->tue_close : 'N/A' }}</td>
-                </tr>
-                
-                <!-- Wednesday -->
-                <tr>
-                    <td class="text-left">Wednesday</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->wed_status : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->wed_time : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->wed_close : 'N/A' }}</td>
-                </tr>
-                
-                <!-- Thursday -->
-                <tr>
-                    <td class="text-left">Thursday</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->thu_status : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->thu_time : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->thu_close : 'N/A' }}</td>
-                </tr>
-                
-                <!-- Friday -->
-                <tr>
-                    <td class="text-left">Friday</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->fri_status : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->fri_time : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->fri_close : 'N/A' }}</td>
-                </tr>
-                
-                <!-- Saturday -->
-                <tr>
-                    <td class="text-left">Saturday</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->sat_status : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->sat_time : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->sat_close : 'N/A' }}</td>
-                </tr>
-                
-                <!-- Sunday -->
-                <tr>
-                    <td class="text-left">Sunday</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->sun_status : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->sun_time : 'N/A' }}</td>
-                    <td class="text-center">{{ $Roledata ? $Roledata->sun_close : 'N/A' }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-new custom-table mb-0 " >
+                        <thead>
+                            <tr>
+                                <th class="text-left font-weight-bold">Days</th>
+                                <th class="text-center font-weight-bold">Status</th>
+                                <th class="text-center font-weight-bold">Opening Time</th>
+                                <th class="text-center font-weight-bold">Closing Time</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #fff; color: #333;">
+                            <!-- Monday -->
+                            <tr>
+                                <td class="text-left">Monday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->mon_status : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->mon_time : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->mon_close : 'N/A' }}</td>
+                            </tr>
+                            
+                            <!-- Tuesday -->
+                            <tr>
+                                <td class="text-left">Tuesday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->tue_status : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->tue_time : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->tue_close : 'N/A' }}</td>
+                            </tr>
+                            
+                            <!-- Wednesday -->
+                            <tr>
+                                <td class="text-left">Wednesday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->wed_status : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->wed_time : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->wed_close : 'N/A' }}</td>
+                            </tr>
+                            
+                            <!-- Thursday -->
+                            <tr>
+                                <td class="text-left">Thursday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->thu_status : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->thu_time : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->thu_close : 'N/A' }}</td>
+                            </tr>
+                            
+                            <!-- Friday -->
+                            <tr>
+                                <td class="text-left">Friday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->fri_status : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->fri_time : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->fri_close : 'N/A' }}</td>
+                            </tr>
+                            
+                            <!-- Saturday -->
+                            <tr>
+                                <td class="text-left">Saturday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->sat_status : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->sat_time : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->sat_close : 'N/A' }}</td>
+                            </tr>
+                            
+                            <!-- Sunday -->
+                            <tr>
+                                <td class="text-left">Sunday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->sun_status : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->sun_time : 'N/A' }}</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->sun_close : 'N/A' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         </div>
         <!-- /Bank Statutory Tab -->
@@ -1010,4 +1008,105 @@
 <!-- /Experience Modal -->
 
 
+@endsection
+
+@section('script')
+<script>
+       $(document).ready(function() {
+         $('#level1').DataTable({
+         });
+      
+         $('#multi-filter-select').DataTable( {
+             "pageLength": 5,
+             initComplete: function () {
+                 this.api().columns().every( function () {
+                     var column = this;
+                     var select = $('<select class="form-control"><option value=""></option></select>')
+                     .appendTo( $(column.footer()).empty() )
+                     .on( 'change', function () {
+                         var val = $.fn.dataTable.util.escapeRegex(
+                             $(this).val()
+                             );
+      
+                         column
+                         .search( val ? '^'+val+'$' : '', true, false )
+                         .draw();
+                     } );
+      
+                     column.data().unique().sort().each( function ( d, j ) {
+                         select.append( '<option value="'+d+'">'+d+'</option>' )
+                     } );
+                 } );
+             }
+         });
+      
+         // Add Row
+         $('#add-row').DataTable({
+             "pageLength": 5,
+         });
+      
+         var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+      
+         $('#addRowButton').click(function() {
+             $('#add-row').dataTable().fnAddData([
+                 $("#addName").val(),
+                 $("#addPosition").val(),
+                 $("#addOffice").val(),
+                 action
+                 ]);
+             $('#addRowModal').modal('hide');
+      
+         });
+     });
+
+
+     $(document).ready(function() {
+         $('#level2').DataTable({
+         });
+      
+         $('#multi-filter-select').DataTable( {
+             "pageLength": 5,
+             initComplete: function () {
+                 this.api().columns().every( function () {
+                     var column = this;
+                     var select = $('<select class="form-control"><option value=""></option></select>')
+                     .appendTo( $(column.footer()).empty() )
+                     .on( 'change', function () {
+                         var val = $.fn.dataTable.util.escapeRegex(
+                             $(this).val()
+                             );
+      
+                         column
+                         .search( val ? '^'+val+'$' : '', true, false )
+                         .draw();
+                     } );
+      
+                     column.data().unique().sort().each( function ( d, j ) {
+                         select.append( '<option value="'+d+'">'+d+'</option>' )
+                     } );
+                 } );
+             }
+         });
+      
+         // Add Row
+         $('#add-row').DataTable({
+             "pageLength": 5,
+         });
+      
+         var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+      
+         $('#addRowButton').click(function() {
+             $('#add-row').dataTable().fnAddData([
+                 $("#addName").val(),
+                 $("#addPosition").val(),
+                 $("#addOffice").val(),
+                 action
+                 ]);
+             $('#addRowModal').modal('hide');
+      
+         });
+     });
+   
+   
+</script>
 @endsection

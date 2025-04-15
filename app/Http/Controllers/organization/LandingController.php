@@ -228,19 +228,32 @@ class LandingController extends Controller
                 // ->where('email', '=', $emp_email)
                 // ->first();
 
-            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $reg)->where(function ($query) {
+            // $data['employee_rs'] = DB::table('employee')->where('emid', '=', $reg)->where(function ($query) {
 
-                $query->whereNull('employee.emp_status')
-                    ->orWhere('employee.emp_status', '!=', 'LEFT');
-            })->get();
+            //     $query->whereNull('employee.emp_status')
+            //         ->orWhere('employee.emp_status', '!=', 'LEFT');
+            // })->get();
+
+            $data['employee_rs'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
+                ->where('employee.emid', '=', $reg)
+                ->where('users.emid', '=', $reg)
+                ->where('users.status', '=', 'active')
+                ->where('users.user_type', '=', 'employee')
+                ->get();
             //dd($data);
             return view($this->_routePrefix . '.employees-list', $data);
             }else{
-                $data['employee_rs'] = DB::table('employee')->where('emid', '=', $reg)->where(function ($query) {
+                $data['employee_rs'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
+                    ->where('employee.emid', '=', $reg)
+                    ->where('users.emid', '=', $reg)
+                    ->where('users.status', '=', 'active')
+                    ->where('users.user_type', '=', 'employee')
+                    ->get();
+                // $data['employee_rs'] = DB::table('employee')->where('emid', '=', $reg)->where(function ($query) {
 
-                    $query->whereNull('employee.emp_status')
-                        ->orWhere('employee.emp_status', '!=', 'LEFT');
-                })->get();
+                //     $query->whereNull('employee.emp_status')
+                //         ->orWhere('employee.emp_status', '!=', 'LEFT');
+                // })->get();
 
                 // $Roledata = DB::table('users')->where('status', '=', 'active')
 

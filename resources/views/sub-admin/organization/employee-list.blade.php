@@ -112,7 +112,7 @@
                                 <td>{{ $employee->emp_department }}</td>
                                 <td>{{ $employee->emp_designation }}</td>
                                 <td>{{ $employee->emp_reporting_auth }}</td>
-                                <td>{{ $employee->emp_reporting_auth }}</td>
+                                <td>{{ "$employee->emp_pr_street_no, $employee->emp_pr_pincode, $employee->emp_pr_city, $employee->emp_pr_state, $employee->emp_pr_country" }}</td>
                                 <td>
                                     <div class="dropdown action-label">
                                         <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">

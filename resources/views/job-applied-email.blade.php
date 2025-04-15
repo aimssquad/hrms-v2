@@ -20,8 +20,7 @@
                             <table style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
                                     <td width="25%" style="padding-left: 20px;">
-                                        {{-- <p>Company Name: {{ $data['Roledata']->com_name ?? 'N/A' }}</p> --}}
-                                        <img src="{{ asset('storage/app/public' . $data['Roledata']->logo) }}" alt="Company Logo"  width="100%">
+                                        <img src="{{ asset('storage/app/public/' . $Roledata->logo) }}" alt="Company Logo"  width="100%">
                                         {{-- <img src="https://ik.imagekit.io/oq9hcqjih/main-logo.png" alt="" width="100%"> --}}
                                     </td>
                                     <td width="60%" style="padding: 0;margin: 0;">
@@ -35,8 +34,8 @@
                     <!-- Body -->
                     <tr>
                         <td style="padding: 20px;">
-                            <p style="font-size: 16px; color: #333;">Dear {{ $data['name'] }},</p>
-                            <p style="font-size: 16px; color: #333;">Thank you for taking the time to apply for {{ $data['pos'] }} (Job code: {{ $data['job_code'] }}). We appreciate your interest in our company. We are currently in the process of receiving applications for this position and will review your application soon. If you are shortlisted to continue to the interview process, we will be in contact with
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px; margin: 0; color: #333;">Dear {{ $name }},</p>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px; margin: 0; color: #333;">Thank you for taking the time to apply for {{ $pos }} (Job code: {{ $job_code }}). We appreciate your interest in our company. We are currently in the process of receiving applications for this position and will review your application soon. If you are shortlisted to continue to the interview process, we will be in contact with
                                 you.
                             </p>
 
@@ -70,7 +69,7 @@
 
                     <tr>
                         <td>
-                            <p style="font-size: 24px; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px; margin: 0;"><strong> Need assistance?</strong>
                             </p>
                         </td>
                     </tr>
@@ -80,10 +79,10 @@
                     </tr>
 
                     <tr>
-                        <td style="font-size: 18px; padding: 0 20px;">
+                        <td style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px; margin: 0;">
                             <p style="margin: 0;">Our team is here to help! Reach out anytime at <a
-                                    href="mailto: {{$data['Roledata']->email}}">{{$data['Roledata']->email}}</a> or
-                                call <a href="tel: +44 074 6728 4718">{{$data['Roledata']->p_no}}</a></p>
+                                    href="mailto: {{$Roledata->email}}">{{$Roledata->email}}</a> or
+                                call <a href="tel: +44 074 6728 4718">{{$Roledata->p_no}}</a></p>
 
                             <p>Let’s get started on your journey toward efficient HR and compliance!</p>
                         </td>
@@ -98,7 +97,7 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <img src="{{ asset('storage/app/public' . $data['Roledata']->logo) }}" alt="" style="width: 150px;">
+                            <img src="{{ asset('storage/app/public/' . $Roledata->logo) }}" alt="" style="width: 150px;">
                         </td>
                     </tr>
 
@@ -107,7 +106,7 @@
                     </tr>
 
                     <tr>
-                        <td style="text-align: left; color: #333; font-size: 20px; padding: 0 20px;">
+                        <td style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px; margin: 0; color: #333; ">
                             <p style="margin: 0 0 10px;"><strong>Kind regards,</strong></p>
                         </td>
                     </tr>
@@ -118,7 +117,7 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <p style="margin: 0 0 20px; font-size: 18px; font-weight: bold; color: #0044cc;">{{ $data['Roledata']->com_name }}
+                            <p style="margin: 0 0 20px; font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; padding: 0 20px; margin: 0; font-weight: bold; color: #0044cc;">{{ $Roledata->com_name }}
                                 Team</p>
                         </td>
                     </tr>
@@ -131,29 +130,33 @@
                                 <img src="https://ik.imagekit.io/oq9hcqjih/email.png" alt="Email"
                                     style="width: 24px; vertical-align: middle; margin-right: 5px;">
                                 <strong>Email:</strong>
-                                <a href="mailto:info@skilledworkerscloud.co.uk"
-                                    style="color: #0044cc; text-decoration: none;">{{ $data['Roledata']->email }}</a>
+                                <a href="mailto:{{ $Roledata->email }}"
+                                    style="color: #0044cc; text-decoration: none;">{{ $Roledata->email }}</a>
                             </p>
                             <!-- Phone -->
                             <p style="margin: 5px 0;">
                                 <img src="https://ik.imagekit.io/oq9hcqjih/phone-call.png" alt="Phone"
                                     style="width: 24px; vertical-align: middle; margin-right: 5px;">
-                                <strong>Phone:</strong> {{ $data['Roledata']->p_no }}
+                                <strong>Phone:</strong> {{ $Roledata->p_no }}
                             </p>
                             <!-- Landline -->
-                            <p style="margin: 5px 0;">
-                                <img src="https://ik.imagekit.io/oq9hcqjih/telephone.png" alt="Landline"
-                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
-                                <strong>Landline:</strong> {{  $data['Roledata']->land }}
-                            </p>
+                            @if($Roledata->land != '')
+                                <p style="margin: 5px 0;">
+                                    <img src="https://ik.imagekit.io/oq9hcqjih/telephone.png" alt="Landline"
+                                        style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                    <strong>Landline:</strong> {{  $Roledata->land }}
+                                </p>
+                            @endif
                             <!-- Website -->
-                            <p style="margin: 5px 0;">
-                                <img src="https://ik.imagekit.io/oq9hcqjih/web.png" alt="Website"
-                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
-                                <strong>Website:</strong>
-                                <a href="https://www.skilledworkerscloud.co.uk"
-                                    style="color: #0044cc; text-decoration: none;">{{ $data['Roledata']->website }}</a>
-                            </p>
+                            @if($Roledata->website != '')
+                                <p style="margin: 5px 0;">
+                                    <img src="https://ik.imagekit.io/oq9hcqjih/web.png" alt="Website"
+                                        style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                    <strong>Website:</strong>
+                                    <a href="{{ $Roledata->website }}"
+                                        style="color: #0044cc; text-decoration: none;">{{ $Roledata->website }}</a>
+                                </p>
+                            @endif
                         </td>
                     </tr>
                     <tr>
@@ -167,7 +170,7 @@
                                         <img src="https://ik.imagekit.io/oq9hcqjih/border-img-01.png" alt="" width="100%">
                                     </td>
                                     <td width="60%" style="background-color: #151831; padding: 0; margin: 0; color: #67839c; text-align: center; height: 50px;border-radius: 16px 0 0 0;">
-                                        powered by <a href="#" style="color: #67839c;" target="_blank">Skilled Workers Cloud</a>
+                                        powered by <a href="#" style="color: #67839c;" target="_blank">{{$Roledata->com_name}}</a>
                                     </td>
                                 </tr>
                             </table>

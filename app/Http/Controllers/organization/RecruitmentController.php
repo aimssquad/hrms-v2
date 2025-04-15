@@ -1161,6 +1161,7 @@ class RecruitmentController extends Controller
                     ->get();
                     // dd($data['candidate_rs']);
             }
+            //dd($data);
             return view($this->_routePrefix . '.candidate-list',$data);
             //return view('recruitment/candidate-list', $data);
         } else {
@@ -1182,32 +1183,32 @@ class RecruitmentController extends Controller
             $job = DB::table('candidate')->where('id', '=', base64_decode($send_id))->first();
             $job_d = DB::table('company_job')->where('id', '=', $job->job_id)->first();
 
-            $data = array('name' => $job->name, 'pos' => $job->job_title, 'job_code' => $job_d->job_code, 'Roledata' => $Roledata, 'job' => $job_d);
+            $data = array('name' => $job->name, 'pos' => $job->job_title, 'job_code' => $job_d->soc, 'Roledata' => $Roledata, 'job' => $job_d);
             //dd($data);
-            // return view('job-applied-email',compact('data'));
-            // dd('okk');
-            $toemail = $job->email;
-
+             //return view('job-applied-email',$data);
+            //  dd('okk');
+            //$toemail = $job->email;
+            $toemail = 'sharmaranjanetc@gmail.com';
             // Mail::send('mailjob', $data, function ($message) use ($toemail) {
             //     $message->to($toemail, 'Skillworkescloud')->subject
             //         ('Confirmation of Your Application ');
 
             //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
             // });
-            // Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
-            //     $message->to($toemail, 'Skillworkescloud')->subject
-            //         ('Confirmation of Your Application ');
+            Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
+                $message->to($toemail)->subject
+                    ('Confirmation of Your Application ');
 
-            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-            // });
-            $toemail = $Roledata->authemail;
+                $message->from('noreply@skilledworkerscloud.co.uk');
+            });
+            //$toemail = $Roledata->authemail;
+            $toemail = 'riashakarmakar71@gmail.com';
+            Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
+                $message->to($toemail)->subject
+                    ('Confirmation of Your Application ');
 
-            // Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
-            //     $message->to($toemail, 'Skillworkescloud')->subject
-            //         ('Confirmation of Your Application ');
-
-            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-            // });
+                $message->from('noreply@skilledworkerscloud.co.uk');
+            });
 
             Session::flash('message', 'Job Applied  send Successfully.');
 

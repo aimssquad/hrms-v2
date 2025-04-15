@@ -2,11 +2,12 @@
     $user_type = Session::get("user_type");
     $email = Session::get('emp_email');
     $users_id = Session::get("users_id");
-    //dd($email);
+    //dd($user_type,$email,$users_id);
     $company_details = DB::table('registration')
         ->where('email', '=', $email)
         ->first();
-    
+        $allSessionData = session()->all();
+    //dd($allSessionData);
     // if (!$company_details) {
     //     Session::flush();
     //     header('Location: ' . url('/'));
@@ -330,24 +331,45 @@
                     <span>{{ strtoupper($company_details->com_name ?? 'NA Company Name') }}</span>
                 </a>
             @endif
-           
+
+            <!-------------------- New Profile and Logout code-------------------->
             <div class="dropdown-menu">  
+                @if($user_type =='employee')     
+                    <a class="dropdown-item" href="{{url('org-employee-corner-organisation/user-profile')}}">My Profile</a>
+                @else
+                    <a class="dropdown-item" href="{{ route('organization.profile') }}">Organization Profile</a>
+                   
+                @endif
+                @if($user_type =='employee')
+                    {{-- <a class="dropdown-item" href="{{url('mainuesrLogout')}}">Logout</a> --}}
+                    <a class="dropdown-item" href="{{url('mainLogout')}}">Logout</a>
+                @else
+                    <a class="dropdown-item" href="{{url('mainLogout')}}">Logout</a>
+                   
+                @endif
+            </div>
+
+            <!------------------- End This code ---------------------------------->
+           
+            {{-- <div class="dropdown-menu">  
                 @if(Session::get('admin_userp_user_type')=='user')     
                     <a class="dropdown-item" href="{{url('org-employee-corner-organisation/user-profile')}}">My Profile</a>
                 @else
                     <a class="dropdown-item" href="{{ route('organization.profile') }}">Organization Profile</a>
+                   
                 @endif
                 @if(Session::get('admin_userp_user_type')=='user')
                     <a class="dropdown-item" href="{{url('mainuesrLogout')}}">Logout</a>
                 @else
                     <a class="dropdown-item" href="{{url('mainLogout')}}">Logout</a>
+                   
                 @endif
             </div>
             
                 <div class="dropdown-menu">  
                     <a class="dropdown-item" href="{{url('org-employee-corner-organisation/user-profile')}}">My Profile</a>
                     <a class="dropdown-item" href="{{url('mainLogout')}}">Logout</a>
-                </div>
+                </div> --}}
             
         </li>
     </ul>

@@ -349,6 +349,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                               <button class="text-fixed-white w-100 text-end position-absolute top-0 start-0 h-100" style="background: none !important; border: 0px;" type="submit">
                                  <i class="fa fa-arrow-right position-absolute" style="bottom: 20px; right: 20px"></i>
                               </button>
+                              {{-- <i class="fa fa-arrow-right position-absolute" style="bottom: 20px; right: 20px"></i> --}}
                            </form>
                         </div>
                      </div>

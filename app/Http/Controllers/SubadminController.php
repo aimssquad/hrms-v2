@@ -20,7 +20,7 @@ class SubadminController extends Controller
                 ->where('status', '=', 'active')
                 ->where('email', '=', $email)
                 ->first();
-          
+            //dd($data['companies_rs']);
             return view('sub-admin.subadmin_profile',$data);
 
         }else{

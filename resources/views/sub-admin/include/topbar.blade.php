@@ -13,7 +13,7 @@
         header('Location: ' . url('/superadmin'));
         exit(); 
     }
-   //dd($email);
+   //dd($subadmin_dtl);
 @endphp
 <!-- Header -->
 <div class="header">
@@ -48,7 +48,7 @@
     <ul class="nav user-menu">
 
         <!-- Search -->
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <div class="top-nav-search">
                 <a href="javascript:void(0);" class="responsive-search">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -58,7 +58,7 @@
                     <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
-        </li>
+        </li> --}}
         <!-- /Search -->
 
         <!-- Flag -->
@@ -306,7 +306,7 @@
             @endif
             @if($userType == "sub-admin")
                 <div class="dropdown-menu">  
-                    <a class="dropdown-item" href="{{url('superadmindasboard')}}">My Profile</a>
+                    <a class="dropdown-item" href="{{url('subadmin/profile')}}">My Profile</a>
                     <a class="dropdown-item" href="{{url('mainLogout')}}">Logout</a>
                 </div>
             @endif
