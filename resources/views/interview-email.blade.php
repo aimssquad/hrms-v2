@@ -20,7 +20,7 @@
                             <table style="border-spacing: 0; padding: 0; margin: 0;">
                                 <tr>
                                     <td width="25%" style="padding-left: 20px;">
-                                        <img src="{{ asset('storage/'.$Roledata->logo )}}" alt="" width="100%">
+                                        <img src="{{ asset('storage/app/public/'.$Roledata->logo )}}" alt="" width="100%">
                                     </td>
                                     <td width="60%" style="padding: 0;margin: 0;">
                                         <img src="https://ik.imagekit.io/oq9hcqjih/banner-02.png" alt="" width="100%">
@@ -107,7 +107,7 @@
 
                     <tr>
                         <td style="padding: 0 20px;">
-                            <img src="{{ asset('storage/'.$Roledata->logo )}}" alt="" style="width: 150px;">
+                            <img src="{{ asset('storage/app/public/'.$Roledata->logo )}}" alt="" style="width: 150px;">
                         </td>
                     </tr>
 
@@ -156,13 +156,15 @@
                                 <strong>Landline:</strong> {{$Roledata->land ?? 'N/A'}}
                             </p>
                             <!-- Website -->
-                            <p style="margin: 5px 0;">
-                                <img src="https://ik.imagekit.io/oq9hcqjih/web.png" alt="Website"
-                                    style="width: 24px; vertical-align: middle; margin-right: 5px;">
-                                <strong>Website:</strong>
-                                <a href="https://www.skilledworkerscloud.co.uk"
-                                    style="color: #0044cc; text-decoration: none;">{{$Roledata->website ?? 'N/A'}}</a>
-                            </p>
+                            @if($Roledata->website != '')
+                                <p style="margin: 5px 0;">
+                                    <img src="https://ik.imagekit.io/oq9hcqjih/web.png" alt="Website"
+                                        style="width: 24px; vertical-align: middle; margin-right: 5px;">
+                                    <strong>Website:</strong>
+                                    <a href="{{ $Roledata->website }}"
+                                        style="color: #0044cc; text-decoration: none;">{{$Roledata->website ?? 'N/A'}}</a>
+                                </p>
+                            @endif
                         </td>
                     </tr>
                     <tr>

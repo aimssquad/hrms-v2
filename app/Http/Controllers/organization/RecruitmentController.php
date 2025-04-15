@@ -1182,27 +1182,15 @@ class RecruitmentController extends Controller
             $fo = '';
             $job = DB::table('candidate')->where('id', '=', base64_decode($send_id))->first();
             $job_d = DB::table('company_job')->where('id', '=', $job->job_id)->first();
-
             $data = array('name' => $job->name, 'pos' => $job->job_title, 'job_code' => $job_d->soc, 'Roledata' => $Roledata, 'job' => $job_d);
-            //dd($data);
-             //return view('job-applied-email',$data);
-            //  dd('okk');
-            //$toemail = $job->email;
-            $toemail = 'sharmaranjanetc@gmail.com';
-            // Mail::send('mailjob', $data, function ($message) use ($toemail) {
-            //     $message->to($toemail, 'Skillworkescloud')->subject
-            //         ('Confirmation of Your Application ');
-
-            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-            // });
+            $toemail = $job->email;
             Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
                 $message->to($toemail)->subject
                     ('Confirmation of Your Application ');
 
                 $message->from('noreply@skilledworkerscloud.co.uk');
             });
-            //$toemail = $Roledata->authemail;
-            $toemail = 'riashakarmakar71@gmail.com';
+            $toemail = $Roledata->authemail;
             Mail::send('job-applied-email', $data, function ($message) use ($toemail) {
                 $message->to($toemail)->subject
                     ('Confirmation of Your Application ');
@@ -2138,36 +2126,28 @@ class RecruitmentController extends Controller
 
             //dd($job_history);
 
-            $dataup = array('name' => $job->name, 'pos' => $job->job_title, 'job_code' => $job_d->job_code, 'status' => $job->status,
+            $dataup = array('name' => $job->name, 'pos' => $job->job_title, 'job_code' => $job_d->soc, 'status' => $job->status,
                 'date' => date('Y-m-d', strtotime($job_history->date)), 'from_time' => $job->from_time, 'to_time' => $job->to_time,
                 'place' => $job->place, 'panel' => $job->panel, 'Roledata' => $Roledata, 'job_d' => $job_d);
-
+            // dd($Roledata->authemail);
             // return view('interview-email',$dataup);  
             //  dd($dataup);
-            if (isset($job->email) && $job->email != '' && $job->email != null) {
-
+            if (!empty($job->email)) {
                 $toemail = $job->email;
-                //$toemail = 'm.subhasish@gmail.com';
-
-                // Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
-                //     $message->to($toemail, 'Skillworkescloud')->subject
-                //         ('Interview Confirmation');
-
-                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                // });
+                $toemail = 'sharmaranjanetc@gmail.com';
+                Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
+                    $message->to($toemail)->subject('Interview Confirmation');
+                    $message->from('noreply@skilledworkerscloud.co.uk');
+                });
             }
 
-            if (isset($Roledata->authemail) && $Roledata->authemail != '' && $Roledata->authemail != null) {
-
+            if (!empty($Roledata->authemail)) {
                 $toemail = $Roledata->authemail;
-                //$toemail = 'm.subhasish@gmail.com';
-
-                // Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
-                //     $message->to($toemail, 'Skillworkescloud')->subject
-                //         ('Interview Confirmation');
-
-                //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skillworkescloud');
-                // });
+                $toemail = 'sharmaranjanetc@gmail.com';
+                Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
+                    $message->to($toemail)->subject('Interview Confirmation');
+                    $message->from('noreply@skilledworkerscloud.co.uk');
+                });
             }
 
             Session::flash('message', 'Job Interview  send Successfully.');
