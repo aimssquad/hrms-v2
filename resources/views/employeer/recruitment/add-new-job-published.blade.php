@@ -71,8 +71,9 @@
                        <div class="col-md-4">
                           <label for="title" class="col-form-label">Job Title</label>
                            <select id="title" class="form-control input-border-bottom" required="" name="title"  onchange="chngdepartmentdesp(this.value);">
-                                <option value="" <?php if($designation[0]->title==$designation[0]->title){?> selected="selected"<?php }?>><?php echo $designation[0]->title; ?></option>
-                             </select>
+                                 <option value="">select</option>
+                                 <option value="" <?php if($designation[0]->title==$designation[0]->title){?> selected="selected"<?php }?>><?php echo $designation[0]->title; ?></option>
+                           </select>
                           {{-- <input id="title" type="text"  name="title" class="form-control input-border-bottom" required=""  value="<?php //if(isset($_GET['id'])){  echo $designation[0]->title;  }?>{{ old('title') }}" 	<?php //if(isset($_GET['id'])){ echo 'readonly';}?>> --}}
                        </div>
                        <?php
