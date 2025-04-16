@@ -106,7 +106,7 @@ class SubadminController extends Controller
                     DB::table('sub_admin_registrations')->where('status', '=', 'active')->where('email', $email)->update($dataimg);
                 }
 
-                if ($request->has('sub_admin_registrations')) {
+                if ($request->has('key_proof')) {
 
                     $file1 = $request->file('key_proof');
                     $extension1 = $request->key_proof->extension();
