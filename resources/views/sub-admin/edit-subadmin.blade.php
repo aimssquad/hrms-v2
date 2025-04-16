@@ -318,7 +318,7 @@
                                  <div class="d-flex flex-row mb-3 border p-2 rounded-1">
                                     <div class="">
                                        @if($Roledata->key_proof!='')
-                                       <a href="{{  asset('storage/app/public/' .$Roledata->key_proof) }}" target="_blank">	<img src="{{  asset('storage/app/public/' .$Roledata->key_proof) }}" height="50px" width="50px"/></a>
+                                       <a href="{{  asset($Roledata->key_proof) }}" target="_blank">	<img src="{{ asset($Roledata->key_proof) }}" height="50px" width="50px"/></a>
                                        @endif
                                     </div>
                                     <div class=""><input type="file" class="form-control-file" id="exampleFormControlFile1"   name="key_proof" ></div>
