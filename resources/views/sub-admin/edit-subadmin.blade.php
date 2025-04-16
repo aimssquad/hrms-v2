@@ -161,6 +161,37 @@
                                  <input id="trad_other" type="text" class="form-control input-border-bottom" name="trad_other"  value="@if($Roledata->trad_other){{  $Roledata->trad_other }}@endif">
                               </div>
                            </div>
+                           
+                           <div class="col-md-6 flex-grow-1 form-group">
+                              <label for="exampleFormControlFile1" class="col-form-label">Your Logo</label>
+                              <div class="d-flex flex-row mb-3 border p-2 rounded">
+                                 <div class="">
+                                    @if($Roledata->logo!='')
+                                    <a href="#">	<img src="{{ asset('storage/app/public/' . $Roledata->logo) }}" height="50px" width="50px"/ alt="Logo"></a>
+                                    @endif
+                                 </div>
+                                 <div class="">
+                                    <input type="file" class="form-control-file" id="exampleFormControlFile1"  name="image" >
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-3">
+                              <div class="form-group">
+                                  <label for="password" class="col-form-label">Password</label>
+                                  <input id="password" type="text" class="form-control input-border-bottom"
+                                      name="password"
+                                      value="{{ old('password', $user->password) }}" 
+                                      placeholder="Pattern like this (Arun#843)"
+                                      required>
+                                  <span id="passwordError" class="text-danger"></span>
+                              </div>
+                           </div>
+                           <div class="col-md-3">
+                              <div class="form-group">
+                                  <label for="domain-name" class="col-form-label">Domain Name</label>
+                                  <input type="text" class="form-control input-border-bottom" name="domain_name" value="{{$Roledata->domain_name}}" placeholder="Domain Name">
+                              </div>
+                           </div>
                            <div class="col-md-6">
                               <div class="form-group">
                                  <label for="penlty_status" class="col-form-label">Did your organisation faced penalty (e.g., recruiting illegal employee) in last  3 years?    <span class="star">(*)</label>
@@ -176,36 +207,6 @@
                               <div class="form-group">
                                  <label for="penlty_other" class="col-form-label">Give Details </label>
                                  <input id="penlty_other" type="text" class="form-control input-border-bottom" name="penlty_other"  value="@if($Roledata->penlty_other){{  $Roledata->penlty_other }}@endif">
-                              </div>
-                           </div>
-                           <div class="col-md-3 flex-grow-1 form-group">
-                              <label for="exampleFormControlFile1" class="col-form-label">Your Logo</label>
-                              <div class="d-flex flex-row mb-3 border p-2 rounded">
-                                 <div class="">
-                                    @if($Roledata->logo!='')
-                                    <a href="#">	<img src="{{ asset('storage/app/public/' . $Roledata->logo) }}" height="50px" width="50px"/ alt="Logo"></a>
-                                    @endif
-                                 </div>
-                                 <div class="">
-                                    <input type="file" class="form-control-file" id="exampleFormControlFile1"  name="image" >
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-md-4">
-                              <div class="form-group">
-                                  <label for="password" class="col-form-label">Password</label>
-                                  <input id="password" type="text" class="form-control input-border-bottom"
-                                      name="password"
-                                      value="{{ old('password', $user->password) }}" 
-                                      placeholder="Pattern like this (Arun#843)"
-                                      required>
-                                  <span id="passwordError" class="text-danger"></span>
-                              </div>
-                           </div>
-                           <div class="col-md-4">
-                              <div class="form-group">
-                                  <label for="domain-name" class="col-form-label">Domain Name</label>
-                                  <input type="text" class="form-control input-border-bottom" name="domain_name" value="{{$Roledata->domain_name}}" placeholder="Domain Name">
                               </div>
                            </div>
                         </div>
@@ -235,13 +236,25 @@
                                  <input id="con_num" type="text" class="form-control input-border-bottom" required="" name="con_num"  value="{{ $Roledata->con_num}}">
                               </div>
                            </div>
-                           <div class="col-md-4 mb-2">
+                           <div class="col-md-6 mb-2">
                               <div class="form-group">
                                  <label for="authemail" class="col-form-label">Email  <span class="star">(*)</label>
                                  <input id="authemail" type="text" class="form-control input-border-bottom" required="" name="authemail"  value="{{ $Roledata->authemail}}">
                               </div>
                            </div>
-                           
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="exampleFormControlFile1" class="col-form-label mb-0 pb-0">Proof Of Id</label>
+                                 <div class="d-flex flex-row mb-3 border p-2 rounded-1">
+                                    <div class="">	
+                                       @if($Roledata->proof != '')
+                                          <a href="{{  asset('storage/app/public/' . $Roledata->proof) }}" target="_blank">	<img src="{{  asset('storage/app/public/' . $Roledata->proof) }}" alt="image" height="50px" width="50px"/></a>
+                                       @endif
+                                    </div>
+                                    <div class=""><input type="file" class="form-control-file" id="exampleFormControlFile1"   name="proof" ></div>
+                                 </div>
+                              </div>
+                           </div>
                            <div class="col-md-5">
                               <div class="form-group">
                                  <label for="bank_status" class="col-form-label">Do you have a history of Criminal conviction/Bankruptcy/Disqualification?    <span class="star">(*)</label>
@@ -253,20 +266,6 @@
                                  </select>
                               </div>
                            </div>
-                           
-                           <div class="col-md-3">
-                              <div class="form-group">
-                                 <label for="exampleFormControlFile1" class="col-form-label mb-0 pb-0">Proof Of Id</label>
-                                 <div class="d-flex flex-row mb-3 border p-2 rounded-1">
-                                    <div class="">	@if($Roledata->proof!='')
-                                       <a href="{{  asset('storage/app/public/' . $Roledata->proof) }}" target="_blank">	<img src="{{  asset('storage/app/public/' . $Roledata->proof) }}" height="50px" width="50px"/ alt="Details"></a>
-                                       @endif
-                                    </div>
-                                    <div class=""><input type="file" class="form-control-file" id="exampleFormControlFile1"   name="proof" ></div>
-                                 </div>
-                              </div>
-                           </div>
-                           
                            <div class="col-md-6 " id="criman_bank_new" <?php if ($Roledata->bank_status == 'Yes') {?> style="display:block;" <?php } else {?> style="display:none;" <?php }?>>
                               <div class="form-group">
                                  <label for="bank_other" class="col-form-label">Give Details </label>
@@ -318,7 +317,7 @@
                                  <div class="d-flex flex-row mb-3 border p-2 rounded-1">
                                     <div class="">
                                        @if($Roledata->key_proof!='')
-                                       <a href="{{  asset($Roledata->key_proof) }}" target="_blank">	<img src="{{ asset($Roledata->key_proof) }}" height="50px" width="50px"/></a>
+                                       <a href="{{  asset('storage/app/public/'.$Roledata->key_proof) }}" target="_blank">	<img src="{{ asset('storage/app/public/'.$Roledata->key_proof) }}" alt="image" height="50px" width="50px"/></a>
                                        @endif
                                     </div>
                                     <div class=""><input type="file" class="form-control-file" id="exampleFormControlFile1"   name="key_proof" ></div>
@@ -386,7 +385,7 @@
                                  <label for="exampleFormControlFile1" class="col-form-label mb-0 pb-0">Proof Of Id</label>
                                  <div class="border p-2 rounded-1">
                                  @if($Roledata->level_proof!='')
-                                 <a href="{{ asset($Roledata->level_proof) }}" target="_blank">	<img src="{{ asset($Roledata->level_proof) }}" height="50px" width="50px"/></a>
+                                 <a href="{{ asset('storage/app/public/'.$Roledata->level_proof) }}" target="_blank">	<img src="{{ asset('storage/app/public/'.$Roledata->level_proof) }}" alt="image" height="50px" width="50px"/></a>
                                  @endif
                                  <input type="file" class="form-control-file" id="exampleFormControlFile1"   name="level_proof" >
                                  </div>
