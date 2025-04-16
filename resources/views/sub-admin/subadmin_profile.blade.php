@@ -59,7 +59,7 @@
                               </li>
                               <li>
                                  <div class="title">Organization Email ID:</div>
-                                 <div class="text"><a href="#">{{ $Roledata->organ_email ?? '' }}</a></div>
+                                 <div class="text"><a href="#">{{ $companies_rs->organ_email ?? '' }}</a></div>
                               </li>
                               <li>
                                  <div class="title">Login Email ID:</div>
