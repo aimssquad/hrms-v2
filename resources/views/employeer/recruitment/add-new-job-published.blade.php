@@ -135,7 +135,7 @@
                                 <label for="other_doc_input_{{ $empuprs->id}}">Upload Document  </label>
                                 @endif
                                 @if($empuprs->scren!='')
-                                <a href="{{ asset('public/'.$empuprs->scren) }}" target="_blank" download  style="text-align: right;
+                                <a href="{{ asset('storage/app/public/'.$empuprs->scren) }}" target="_blank" download  style="text-align: right;
                                    float: right;
                                    position: relative;
                                    top: 23px;

@@ -977,11 +977,13 @@ class RecruitmentController extends Controller
 
             $data['department_rs'] = DB::Table('company_job_list')->where('emid', '=', $reg)->get();
             if (Input::get('id')) {
+                //dd(Input::get('id'));
                 $data['designation'] = DB::Table('job_post')
 
                     ->where('id', '=', Input::get('id'))
 
                     ->get();
+                //dd($data['designation']);    
                 return view($this->_routePrefix . '.add-new-job-published',$data);
                 //return view('recruitment/add-new-job-published', $data);
             } else {
@@ -1006,13 +1008,13 @@ class RecruitmentController extends Controller
 
                 ->where('email', '=', $email)
                 ->first();
-
+            //dd($request->all());
             if (Input::get('id')) {
-
+                //dd($request->all());
                 if (!empty($request->id_up_doc)) {
 
                     $tot_item_nat_edit = count($request->id_up_doc);
-
+                    //dd($request->id_up_doc);
                     foreach ($request->id_up_doc as $valuee) {
 
                         if ($request->has('scren_' . $valuee)) {
