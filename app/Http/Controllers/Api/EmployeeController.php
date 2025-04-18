@@ -59,7 +59,7 @@ class EmployeeController extends Controller
             ->where('emid', $emid)
             ->whereMonth('emp_dob', date('m'))
             ->whereDay('emp_dob', date('d'))
-            ->select('emp_fname','emp_mname','emp_lname','emp_department','emp_designation','emp_doj','emp_dob','emp_image','emid')
+            ->select('emp_fname','emp_mname','emp_lname','emp_department','emp_designation','emp_doj','emp_dob','emp_image','emid','emp_ps_phone')
             ->get();
             //dd($empBirthday);
             if($empBirthday->isNotEmpty()){
