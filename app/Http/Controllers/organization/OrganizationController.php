@@ -301,8 +301,27 @@ class OrganizationController extends Controller
         try {
             if (!empty(Session::get('emp_email'))) {
 
-                //dd($request->all());
+                
+
                 $email = Session::get('emp_email');
+
+                $validated = $request->validate([
+                    'latitude' => [
+                        'required',
+                        'numeric',
+                        'between:-90,90'  
+                    ],
+                    'longitude' => [
+                        'required',
+                        'numeric',
+                        'between:-180,180'
+                    ],
+                    'org_radious' => [
+                        'required',
+                        'numeric'
+                    ]
+                ]);
+                //dd($validated);
                 $password = $request->validate([
                     'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
                 ], [
@@ -482,6 +501,10 @@ class OrganizationController extends Controller
                     'sat_status' => $request->sat_status,
                     'sat_time' => $request->sat_time,
                     'sat_close' => $request->sat_close,
+
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                    'org_radious' => $request->org_radious,
 
                 );
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserModel;
+use App\Models\Registration;
 use Exception;
 use Illuminate\Http\Request;
 use Validator;
@@ -76,6 +77,11 @@ class LoginController extends Controller
             $checkuser = UserModel::join('employee', 'employee.emp_code', '=', 'users.employee_id')
                 ->where("employee_id", $user_id)
                 ->first();
+            //dd($checkuser);    
+            if($checkuser->emid != null){
+                $org_cordinate = Registration::where('reg',$checkuser->emid)->select('latitude','longitude','org_radious')->first();
+            }  
+           
             $checkuser = json_decode(json_encode($checkuser), true);
             foreach ($checkuser as $key => $value) {
                     if ($value === null) {

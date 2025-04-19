@@ -502,6 +502,37 @@
                                  </div>
                               </div>
                            </div>
+
+                           <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px;">Organisation Location</h3>
+                           <div class="row">
+                              <div class="col-md-3 mb-2">
+                                 <div class="form-group">
+                                     <label class="col-form-label">Your Location</label>
+                                     <button type="button" id="get-location-btn" class="btn btn-primary btn-block pb-2">
+                                         <i class="fas fa-location"></i>My Current Location
+                                     </button>
+                                 </div>
+                             </div>
+                              <div class="col-md-3 mb-2">
+                                 <div class="form-group">
+                                    <label for="latitude" style="width:100%" class="col-form-label">Latitude</label>
+                                    <input id="latitude" type="text" class="form-control input-border-bottom"  name="latitude" value="{{  $Roledata->latitude ?? '0.00'}}">
+                                 </div>
+                              </div>
+                             
+                              <div class="col-md-3 mb-2">
+                                 <div class="form-group">
+                                    <label for="longitude" class="col-form-label">Longitude</label>
+                                    <input id="longitude" type="text" class="form-control input-border-bottom"  name="longitude"  value="{{  $Roledata->longitude ?? '0.00'}}">
+                                 </div>
+                              </div>
+                              <div class="col-md-3 mb-2">
+                                 <div class="form-group">
+                                    <label for="org_radious" class="col-form-label">Organization Radius (Meter)</label>
+                                    <input id="org_radious" type="text" class="form-control input-border-bottom"  name="org_radious"  value="{{  $Roledata->org_radious ?? '0.00'}}">
+                                 </div>
+                              </div>
+                           </div>
                            <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px; ">Organisation Employee (According to latest RTI)</h3>
                            <div id="education_fieldbbs">
                               <?php $truplouii_id = 1;
@@ -2869,4 +2900,55 @@
        }
    });
 </script>
+<!------------------------- For Location js Code ------------->
+<script>
+   document.getElementById('get-location-btn').addEventListener('click', function() {
+      const status = document.createElement('p');
+      status.className = 'text-muted small mt-2';
+      this.parentNode.appendChild(status);
+      
+      status.textContent = "Locating...";
+      this.disabled = true;
+      
+      if (navigator.geolocation) {
+         navigator.geolocation.getCurrentPosition(
+               function(position) {
+                  // Success
+                  document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
+                  document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
+                  status.textContent = "Location found!";
+                  setTimeout(() => status.remove(), 2000);
+               },
+               function(error) {
+                  // Error Handling
+                  let errorMessage;
+                  switch(error.code) {
+                     case error.PERMISSION_DENIED:
+                           errorMessage = "You denied the location request.";
+                           break;
+                     case error.POSITION_UNAVAILABLE:
+                           errorMessage = "Location information unavailable.";
+                           break;
+                     case error.TIMEOUT:
+                           errorMessage = "Location request timed out.";
+                           break;
+                     default:
+                           errorMessage = "Unknown error occurred.";
+                  }
+                  status.textContent = "Error: " + errorMessage;
+                  this.disabled = false;
+               }.bind(this),
+               {
+                  enableHighAccuracy: true,  // GPS if available
+                  timeout: 10000,           // 10 seconds max
+                  maximumAge: 0             // Force fresh location
+               }
+         );
+      } else {
+         status.textContent = "Geolocation is not supported by your browser.";
+         this.disabled = false;
+      }
+   });
+</script>
+   
 @endsection
