@@ -516,20 +516,20 @@
                               <div class="col-md-3 mb-2">
                                  <div class="form-group">
                                     <label for="latitude" style="width:100%" class="col-form-label">Latitude</label>
-                                    <input id="latitude" type="text" class="form-control input-border-bottom"  name="latitude" value="{{  $Roledata->latitude ?? '0.00'}}">
+                                    <input id="latitude" type="text" class="form-control input-border-bottom"  name="latitude" value="{{  $Roledata->latitude ?? '0.00'}}" required>
                                  </div>
                               </div>
                              
                               <div class="col-md-3 mb-2">
                                  <div class="form-group">
                                     <label for="longitude" class="col-form-label">Longitude</label>
-                                    <input id="longitude" type="text" class="form-control input-border-bottom"  name="longitude"  value="{{  $Roledata->longitude ?? '0.00'}}">
+                                    <input id="longitude" type="text" class="form-control input-border-bottom"  name="longitude"  value="{{  $Roledata->longitude ?? '0.00'}}" required>
                                  </div>
                               </div>
                               <div class="col-md-3 mb-2">
                                  <div class="form-group">
                                     <label for="org_radious" class="col-form-label">Organization Radius (Meter)</label>
-                                    <input id="org_radious" type="text" class="form-control input-border-bottom"  name="org_radious"  value="{{  $Roledata->org_radious ?? '0.00'}}">
+                                    <input id="org_radious" type="text" class="form-control input-border-bottom"  name="org_radious"  value="{{  $Roledata->org_radious ?? '0.00'}}" required>
                                  </div>
                               </div>
                            </div>
