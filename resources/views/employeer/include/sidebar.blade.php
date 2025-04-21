@@ -278,6 +278,9 @@ function isActiveModule($moduleItems) {
                             <li class="{{ Request::is('organization/profile') ? 'noti-dot' : '' }}">
                                 <a href="{{ url('organization/profile') }}">Profile</a>
                             </li>
+                            <li class="{{ Request::is('organization/location') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('organization/location') }}">Branch Location</a>
+                            </li>
                             <li class="{{ Request::is('employees-according-to-rti') ? 'noti-dot' : '' }}">
                                 <a href="{{ url('employees-according-to-rti') }}">Employees (RTI)</a>
                             </li>

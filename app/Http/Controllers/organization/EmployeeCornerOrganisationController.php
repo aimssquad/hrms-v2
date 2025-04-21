@@ -792,7 +792,7 @@ class EmployeeCornerOrganisationController extends Controller
                     ];
                 }
 
-                //dd($leave_type_rs);
+                //dd($holiday_array);
                 // return view(
                 //     "employee-corner/apply-leave",
                 //     compact("leave_type_rs", "employee", "holiday_array")

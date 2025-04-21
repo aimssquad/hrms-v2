@@ -4,6 +4,9 @@ namespace App\Http\Controllers\organization;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserModel;
+use App\Models\Holiday;
+use App\Models\Branch_location;
+use App\Models\RotaEmployee;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Mail;
@@ -88,7 +91,15 @@ class OrganizationController extends Controller
                 $data["Roledata"] = DB::table("users")
                     ->where("id", "=", $users_id)
                     ->first();
-                //dd($users_id);
+                $emid = $data["Roledata"]->emid;      
+                $data['holidays'] = Holiday::join('holiday_type', 'holiday_type.id', '=', 'holiday.holiday_type')
+                    ->where('holiday.emid', $emid)
+                    ->whereMonth('holiday.from_date', date('m'))
+                    ->whereYear('holiday.from_date', date('Y'))
+                    ->select('holiday.*', 'holiday_type.name')
+                    ->get();
+                //$data['work_report'] = RotaEmployee::where('emid',$emid)->get();    
+                //dd($data['work_report']);
                 return view('employeer.employee-corner.dashboard', $data);
                 
             }
@@ -305,22 +316,22 @@ class OrganizationController extends Controller
 
                 $email = Session::get('emp_email');
 
-                $validated = $request->validate([
-                    'latitude' => [
-                        'required',
-                        'numeric',
-                        'between:-90,90'  
-                    ],
-                    'longitude' => [
-                        'required',
-                        'numeric',
-                        'between:-180,180'
-                    ],
-                    'org_radious' => [
-                        'required',
-                        'numeric'
-                    ]
-                ]);
+                // $validated = $request->validate([
+                //     'latitude' => [
+                //         'required',
+                //         'numeric',
+                //         'between:-90,90'  
+                //     ],
+                //     'longitude' => [
+                //         'required',
+                //         'numeric',
+                //         'between:-180,180'
+                //     ],
+                //     'org_radious' => [
+                //         'required',
+                //         'numeric'
+                //     ]
+                // ]);
                 //dd($validated);
                 $password = $request->validate([
                     'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
@@ -502,9 +513,9 @@ class OrganizationController extends Controller
                     'sat_time' => $request->sat_time,
                     'sat_close' => $request->sat_close,
 
-                    'latitude' => $request->latitude,
-                    'longitude' => $request->longitude,
-                    'org_radious' => $request->org_radious,
+                    // 'latitude' => $request->latitude,
+                    // 'longitude' => $request->longitude,
+                    // 'org_radious' => $request->org_radious,
 
                 );
 
@@ -806,6 +817,140 @@ class OrganizationController extends Controller
             throw new Exception($e->getMessage());
         }
 
+    }
+
+    public function index(){
+        $email = Session::get("emp_email");
+        if(!empty($email)){
+            $emid = Session::get("emid");
+            $branches = Branch_location::where('emid',$emid)->get();
+            //return view('branch-locations.index', compact('branches'));
+            return view($this->_routePrefix . '.branch-location', compact('branches'));
+        } else {
+            return redirect('/');
+        }
+      
+    }
+
+    public function create(){
+        $email = Session::get("emp_email");
+        if(!empty($email)){
+            return view($this->_routePrefix .'.add-branch');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function store(Request $request){
+        $email = Session::get("emp_email");
+        //dd($request->all());
+        if(!empty($email)){
+            $emid = Session::get("emid");
+            $validated = $request->validate([
+                'branch_name' => 'required|string|max:255',
+                'attendance_process' => 'required|string|max:255',
+                'branch_location' => 'required|string|max:255',
+                'latitude' => 'nullable|numeric',
+                'longitude' => 'nullable|numeric',
+                'radius' => 'nullable|numeric|min:0',
+                
+            ]);
+            $validated['emid'] = $emid;
+            $validated['status'] = 1;
+            //dd($validated);
+
+            Branch_location::create($validated);
+            Session::flash('message', 'Organisation branch location created successfully.');
+            return redirect()->route('branch.location');
+        } else {
+            return redirect('/');
+        }
+          
+    }
+
+    public function changeStatus(Request $request, $id){
+        $email = Session::get("emp_email");
+        if(!empty($email)){
+            $decodeId = base64_decode($id);
+            $branch = Branch_location::find($decodeId);
+            if($branch){
+                $branch->update([
+                    'status' => $branch->status == 1 ? 0 : 1
+                ]);
+                Session::flash('message', 'Status update successfully.');
+                return redirect()->back();
+            } else {
+                Session::flash('error', 'Data not found.');
+                return redirect()->back();
+            }
+        } else {
+            return redirect('/');
+        }
+        
+    }
+
+    public function edit(Request $request, $id){
+        $email = Session::get("emp_email");
+        //dd($email);
+        if(!empty($email)){
+            $decodeId = base64_decode($id);
+            $location = Branch_location::where('id',$decodeId)->first();
+            if($location){
+                return view($this->_routePrefix .'.add-branch',compact('location'));
+            } else {
+                Session::flash('error', 'Data not found !');
+                return redirect('organization/location');
+            }
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function locationUpdate(Request $request, $id){
+        $email = Session::get("emp_email");
+        if(empty($email)){
+            return redirect('/');
+        }
+         $validated = $request->validate([
+            'branch_name' => 'required|string|max:255',
+            'attendance_process' => 'required|string|max:255',
+            'branch_location' => 'required|string|max:255',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'radius' => 'nullable|numeric|min:0',
+        ]);
+        //dd($validated);
+        $branch = Branch_location::findOrFail($id);
+        
+        $branch->update([
+            'branch_name' => $validated['branch_name'],
+            'attendance_process' => $validated['attendance_process'],
+            'branch_location' => $validated['branch_location'],
+            'latitude' => $validated['latitude'],
+            'longitude' => $validated['longitude'],
+            'radius' => $validated['radius'],
+            'updated_at' => now()
+        ]);
+
+        Session::flash('message', 'Branch location updated successfully.');
+        return redirect()->route('branch.location');
+    }
+
+    public function locationDelete(Request $request, $id){
+        $email = Session::get("emp_email");
+        if(empty($email)){
+            return redirect('/');
+        }
+        $decodeId = base64_decode($id);
+        $location = Branch_location::findOrFail($decodeId);
+        if($location){
+            $location->delete();
+            Session::flash('message', 'Data delete Successfully .');
+            return redirect()->route('branch.location');
+        }
+        Session::flash('error', 'Data not found !');
+        return redirect()->route('branch.location');
+        
     }
 
 

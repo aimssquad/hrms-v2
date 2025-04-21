@@ -47,12 +47,6 @@ return $output;
             @elseif($user_type == 'employer')
             <a href="{{ url('org-recruitment/add-job-post') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job Posting</a>
             @endif
-            {{-- 
-            <div class="view-icons">
-               <a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
-               <a href="{{url('organization/emplist')}}" class="list-view btn btn-link active"><i class="fa-solid fa-bars"></i></a>
-            </div>
-            --}}
          </div>
       </div>
    </div>

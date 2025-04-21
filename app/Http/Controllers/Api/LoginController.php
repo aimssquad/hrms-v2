@@ -78,9 +78,9 @@ class LoginController extends Controller
                 ->where("employee_id", $user_id)
                 ->first();
             //dd($checkuser);    
-            if($checkuser->emid != null){
-                $org_cordinate = Registration::where('reg',$checkuser->emid)->select('latitude','longitude','org_radious')->first();
-            }  
+            // if($checkuser->emid != null){
+            //     $org_cordinate = Registration::where('reg',$checkuser->emid)->select('latitude','longitude','org_radious')->first();
+            // }  
            
             $checkuser = json_decode(json_encode($checkuser), true);
             foreach ($checkuser as $key => $value) {

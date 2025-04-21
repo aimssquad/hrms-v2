@@ -34,7 +34,7 @@
                            </div>
                            <div class="col-md-6">
                               <div class="pay-slip-heading">
-                                 <h4 class="card-title holiday"><a style="color: #4e9d05;" href="{{ url('org-employee-corner/holiday') }}" target="_blank"><i class="far fa-calendar-alt calender-icon"></i>Holiday Calender</a></h4>
+                                 <h4 class="card-title holiday"><a style="color: #fca503;" href="{{ url('org-employee-corner/holiday') }}" target="_blank"><i class="far fa-calendar-alt calender-icon"></i>Holiday Calender</a></h4>
                               </div>
                            </div>
                         </div>

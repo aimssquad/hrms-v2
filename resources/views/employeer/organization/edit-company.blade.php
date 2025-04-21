@@ -503,7 +503,7 @@
                               </div>
                            </div>
 
-                           <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px;">Organisation Location</h3>
+                           {{-- <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px;">Organisation Location</h3>
                            <div class="row">
                               <div class="col-md-3 mb-2">
                                  <div class="form-group">
@@ -532,7 +532,7 @@
                                     <input id="org_radious" type="text" class="form-control input-border-bottom"  name="org_radious"  value="{{  $Roledata->org_radious ?? '0.00'}}" required>
                                  </div>
                               </div>
-                           </div>
+                           </div> --}}
                            <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px; ">Organisation Employee (According to latest RTI)</h3>
                            <div id="education_fieldbbs">
                               <?php $truplouii_id = 1;

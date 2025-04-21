@@ -154,6 +154,13 @@ Route::get('/key-contact', [OrganizationController::class, 'keyContact'])->name(
 Route::get('/level-1-user', [OrganizationController::class, 'level1User'])->name('level1.user');
 Route::get('/level-2-user', [OrganizationController::class, 'level2User'])->name('level2.user');
 Route::get('org-company-profile/pdf', [OrganizationController::class, 'pdf']);
+Route::get('organization/location', [OrganizationController::class, 'index'])->name('branch.location');
+Route::get('organization/location-status/{location}', [OrganizationController::class, 'changeStatus'])->name('change.status');
+Route::get('organization/add-location', [OrganizationController::class, 'create'])->name('add.location');
+Route::post('organization/save-location', [OrganizationController::class, 'store'])->name('save.location');
+Route::get('organization/edit-location/{id}', [OrganizationController::class, 'edit'])->name('edit.location');
+Route::put('organization/update-location/{id}', [OrganizationController::class, 'locationUpdate'])->name('update.location');
+Route::get('organization/delete-location/{id}', [OrganizationController::class, 'locationDelete'])->name('delete.location');
 
 
 // billing for organization and subadmin  
