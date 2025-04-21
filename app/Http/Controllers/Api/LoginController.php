@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\UserModel;
 use App\Models\Registration;
+use App\Models\Branch_location;
 use Exception;
 use Illuminate\Http\Request;
 use Validator;
@@ -78,10 +79,20 @@ class LoginController extends Controller
                 ->where("employee_id", $user_id)
                 ->first();
             //dd($checkuser);    
-            // if($checkuser->emid != null){
-            //     $org_cordinate = Registration::where('reg',$checkuser->emid)->select('latitude','longitude','org_radious')->first();
-            // }  
-           
+            
+            $org_cordinate = Branch_location::where('emid',$checkuser->emid)->select('latitude','longitude','radius')->first();
+            if($org_cordinate != null){
+                //return Helper::rj("organization not found.", 0);
+                $checkuser['latitude']  = $org_cordinate->latitude;
+                $checkuser['longitude'] = $org_cordinate->longitude;
+                $checkuser['radius']    = $org_cordinate->radius;  
+            } else {
+                $checkuser['latitude']  = '';
+                $checkuser['longitude'] = '';
+                $checkuser['radius']    = ''; 
+            }
+            
+            //dd($checkuser);
             $checkuser = json_decode(json_encode($checkuser), true);
             foreach ($checkuser as $key => $value) {
                     if ($value === null) {

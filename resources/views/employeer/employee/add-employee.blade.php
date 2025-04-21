@@ -250,6 +250,17 @@
                                           <input id="inputFloatingLabel10" type="text" class="form-control input-border-bottom" name="job_loc" >
                                        </div>
                                     </div>
+                                    {{-- <div class="col-md-4">
+                                       <div class="form-group">
+                                          <label for="inputFloatingLabel10" class="col-form-label">Branch Office</label>
+                                          <select class="select" id="" name="branch_id" >
+                                             <option value="">&nbsp;</option>
+                                             @foreach($office_branchs as $branch)
+                                             <option value="{{$branch->id}}"> {{$branch->branch_name}}</option>
+                                             @endforeach
+                                          </select>
+                                       </div>
+                                    </div> --}}
                                  </div>
                                  <div class="row">
                                     <div class="col-md-4 form-group">

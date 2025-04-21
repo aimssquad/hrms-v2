@@ -39,9 +39,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('leave-calendar',[LeaveController::class, 'getLeaveCalendar']);
     
     Route::get('employee-birthday',[EmployeeController::class, 'getEmployeeBirthday']);
-    
-    Route::get('show_daily_attendance',[AttendanceController::class, 'showDailyAttendance']);
     Route::post('employee','App\Http\Controllers\Api\EmployeeController@editEmployee');
+
+    Route::get('show_daily_attendance',[AttendanceController::class, 'showDailyAttendance']);
+    Route::get('get_branch',[AttendanceController::class, 'getBranch']);
+    Route::post('creat-temp-attendance',[AttendanceController::class, 'createTempAttendance']);
+   
 });
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {  

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
+use App\Models\Branch_location;
 use Mail;
 use Session;
 use Validator;
@@ -237,6 +238,7 @@ class EmployeeController extends Controller
                     $emp_code = $rest . (count($emp_totcof) + 1);
                 }
                 // dd($Roledata->reg);
+
                 $data['employee_code'] = $emp_code;
                 $data['currency_user'] = DB::table('currencies')->orderBy('country', 'asc')->get();
                 $data['department'] = DB::table('department')->where('emid', '=', $reg)->where('department_status', '=', 'active')->get();
@@ -256,8 +258,11 @@ class EmployeeController extends Controller
                 $data['tax_master'] = DB::table('tax_master')->where('emid', '=', $reg)->get();
 
                 $data['employeelists'] = DB::table('employee')->where('emid', '=', $reg)->get();
+                //-----------add branch name--
+                //$data['office_branchs'] = Branch_location::select('branch_name','id')->where('emid',$reg)->get();
                 //echo "<pre>";print_r($data['states']);exit;
                 //return view('employee/add-employee', $data);
+                //dd($data['office_branch'] );
                 return view($this->_routePrefix . '.add-employee',$data);
             }
 

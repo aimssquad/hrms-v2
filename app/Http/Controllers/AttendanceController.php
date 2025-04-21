@@ -6490,4 +6490,9 @@ $duty_hours = $hours . ":" . $minutes;
             return redirect('/');
         }
     }
-}
+
+ 
+
+
+
+} // End Class
