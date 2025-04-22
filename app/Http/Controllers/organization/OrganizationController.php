@@ -823,8 +823,9 @@ class OrganizationController extends Controller
         $email = Session::get("emp_email");
         if(!empty($email)){
             $emid = Session::get("emid");
-            $branches = Branch_location::where('emid',$emid)->get();
-            //return view('branch-locations.index', compact('branches'));
+            $branches = Branch_location::where('emid',$emid)
+                //->where('status',1)
+                ->get();
             return view($this->_routePrefix . '.branch-location', compact('branches'));
         } else {
             return redirect('/');
@@ -857,7 +858,11 @@ class OrganizationController extends Controller
             ]);
             $validated['emid'] = $emid;
             $validated['status'] = 1;
-            //dd($validated);
+            $dataExist = Branch_location::where('emid',$emid)->first();
+            if($dataExist){
+                Session::flash('error', 'Organisation branch location allready exist.');
+                return redirect()->route('branch.location');
+            }
 
             Branch_location::create($validated);
             Session::flash('message', 'Organisation branch location created successfully.');
