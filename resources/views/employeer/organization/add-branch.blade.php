@@ -87,14 +87,14 @@
                                     </div>
                                   
                                     
-                                    <div class="col-md-3 mb-2">
+                                    {{-- <div class="col-md-3 mb-2">
                                         <div class="form-group">
                                             <label class="col-form-label">My Coordinate</label>
                                             <button type="button" id="get-location-btn" class="btn btn-primary btn-block pb-2 form-control">
                                                 <i class="fas fa-location"></i>My Coordinate
                                             </button>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     
                                     <div class="col-md-3 mb-2">
                                         <div class="form-group">
@@ -141,54 +141,55 @@
 </div> --}}
 @endsection
 @section('script')
-<script>
-    document.getElementById('get-location-btn').addEventListener('click', function() {
-       const status = document.createElement('p');
-       status.className = 'text-muted small mt-2';
-       this.parentNode.appendChild(status);
-       
-       status.textContent = "Locating...";
-       this.disabled = true;
-       
-       if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-                function(position) {
-                   // Success
-                   document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
-                   document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
-                   status.textContent = "Location found!";
-                   setTimeout(() => status.remove(), 2000);
-                },
-                function(error) {
-                   // Error Handling
-                   let errorMessage;
-                   switch(error.code) {
-                      case error.PERMISSION_DENIED:
-                            errorMessage = "You denied the location request.";
-                            break;
-                      case error.POSITION_UNAVAILABLE:
-                            errorMessage = "Location information unavailable.";
-                            break;
-                      case error.TIMEOUT:
-                            errorMessage = "Location request timed out.";
-                            break;
-                      default:
-                            errorMessage = "Unknown error occurred.";
-                   }
-                   status.textContent = "Error: " + errorMessage;
-                   this.disabled = false;
-                }.bind(this),
-                {
-                   enableHighAccuracy: true,  // GPS if available
-                   timeout: 10000,           // 10 seconds max
-                   maximumAge: 0             // Force fresh location
-                }
-          );
-       } else {
-          status.textContent = "Geolocation is not supported by your browser.";
-          this.disabled = false;
-       }
-    });
- </script>
+    {{-- <script>
+        document.getElementById('get-location-btn').addEventListener('click', function() {
+        const status = document.createElement('p');
+        status.className = 'text-muted small mt-2';
+        this.parentNode.appendChild(status);
+        
+        status.textContent = "Locating...";
+        this.disabled = true;
+        
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                    // Success
+                    document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
+                    document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
+                    status.textContent = "Location found!";
+                    setTimeout(() => status.remove(), 2000);
+                    },
+                    function(error) {
+                    // Error Handling
+                    let errorMessage;
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                                errorMessage = "You denied the location request.";
+                                break;
+                        case error.POSITION_UNAVAILABLE:
+                                errorMessage = "Location information unavailable.";
+                                break;
+                        case error.TIMEOUT:
+                                errorMessage = "Location request timed out.";
+                                break;
+                        default:
+                                errorMessage = "Unknown error occurred.";
+                    }
+                    status.textContent = "Error: " + errorMessage;
+                    this.disabled = false;
+                    }.bind(this),
+                    {
+                    enableHighAccuracy: true,  // GPS if available
+                    timeout: 10000,           // 10 seconds max
+                    maximumAge: 0             // Force fresh location
+                    }
+            );
+        } else {
+            status.textContent = "Geolocation is not supported by your browser.";
+            this.disabled = false;
+        }
+        });
+    </script> --}}
+   
 @endsection
 
