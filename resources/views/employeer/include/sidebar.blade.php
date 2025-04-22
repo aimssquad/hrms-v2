@@ -412,8 +412,8 @@ function isActiveModule($moduleItems) {
                     @endif
                 </div>
             </div>
-            {{-- <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} SWCH - HRMS | All Right Reserved |</p> --}}
-            <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} HRMS | All Right Reserved |</p>
+            <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} SWCH - HRMS | All Right Reserved |</p>
+            {{-- <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} HRMS | All Right Reserved |</p> --}}
         </div>
     </div>
 </div>
