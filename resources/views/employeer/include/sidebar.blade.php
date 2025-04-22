@@ -394,17 +394,26 @@ function isActiveModule($moduleItems) {
                         </li>
                     @endforeach
                 @endif
-            </ul>
-
-            
-            
-            
+            </ul> 
         </div>
+        @php
+            $email = Session::get('emp_email');
+            $company_details = DB::table('registration')
+                ->where('email', '=', $email)
+                ->first();
+        @endphp
         <div class="bg-white ps-2 pe-2 sidebar_bottom">
             <div class="d-flex">
-                <p class="mt-2 mb-0">Powered By</p><div class="float-end ms-3"><img width="70px" src="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/swch_logo.png"/></div>
+                <p class="mt-2 mb-0">Powered By</p>
+                <div class="float-end ms-3">
+                    {{-- <img width="70px" src="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/swch_logo.png"/> --}}
+                    @if(!empty($company_details->logo))
+                    <img width="70px" src="{{asset('storage/app/public/' . $company_details->logo)}}"/>
+                    @endif
+                </div>
             </div>
-            <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} SWCH - HRMS | All Right Reserved |</p>
+            {{-- <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} SWCH - HRMS | All Right Reserved |</p> --}}
+            <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} HRMS | All Right Reserved |</p>
         </div>
     </div>
 </div>

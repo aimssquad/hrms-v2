@@ -41,196 +41,195 @@ return $output;
    {{-- @include('layout.message') --}}
    @include('employeer.layout.message')
    <div class="row">
-    <div class="col-md-12">
-       <div class="card custom-card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-             <h4 class="card-title"><i class="fa fa-briefcase" aria-hidden="true" style="color:#FF902F;"></i>&nbsp;Employee Roster</h4>
-          </div>
-          <div class="card-body">
-             <form  method="post" action="{{ url('rota-org/add-duty-roster') }}" enctype="multipart/form-data" >
-                {{csrf_field()}}
-                <div class="row form-group">
-                   <div class="col-md-4">
-                      <div class=" form-group">
-                         <label for="inputFloatingLabel-grade" class="col-form-label"> Select Department</label>
-                         <select class="select" id="selectFloatingLabel" name="department" required="" onchange="chngdepartment(this.value);">
-                            <option value="">&nbsp;</option>
-                            @foreach($departs as $dept)
-                            <option value='{{ $dept->id }}' <?php  if(app('request')->input('id')){ if($shift_management->department==$dept->id){ echo 'selected'; } } ?> >{{ $dept->department_name }}</option>
-                            @endforeach
-                         </select>
-                      </div>
-                   </div>
-                   <div class="col-md-4">
-                      <div class="form-group">
-                         <label for="designation" class="col-form-label"> Select Designation </label>
-                         <select class="select" id="designation"  name="designation" required="" onchange="chngdepartmentshift();">
-                            <option value="">&nbsp;</option>
-                         </select>
-                      </div>
-                   </div>
-                   <div class="col-md-4">
-                      <div class=" form-group">		
-                         <label for="employee_code" class="col-form-label">Employee Code</label>
-                         <select id="employee_code" type="text" class="select"  name="employee_code">
-                         ?></select>
-                      </div>
-                   </div>
-                   <div class="col-md-4">
-                      <div class="form-group">
-                         <label for="inputFloatingLabel-select-date" class="col-form-label" > From Date </label>
-                         <input type="date" class="form-control input-border-bottom" name="start_date" id="inputFloatingLabel-select-date" required=""  style="margin-top: 16px;">
-                      </div>
-                   </div>
-                   <div class="col-md-4">
-                      <div class="form-group">
-                         <label for="inputFloatingLabel-select-date" class="col-form-label" > To Date </label>
-                         <input type="date" class="form-control input-border-bottom " name="end_date" id="inputFloatingLabel-select-date" required=""  style="margin-top: 16px;">
-                      </div>
-                   </div>
-                </div>
-                <br>
-                <div class="row form-group">
-                   <div class="col-md-4">
-                      <div class="sub-reset-btn">	
-                         <a href="#">	
-                         <button class="btn btn-primary" type="submit">View Schedule</button></a>
-                      </div>
-                   </div>
-                </div>
-             </form>
-          </div>
-       </div>
-    </div>
- </div>
+      <div class="col-md-12">
+         <div class="card custom-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+               <h4 class="card-title"><i class="fa fa-briefcase" aria-hidden="true" style="color:#FF902F;"></i>&nbsp;Employee Roster</h4>
+            </div>
+            <div class="card-body">
+               <form  method="post" action="{{ url('rota-org/add-duty-roster') }}" enctype="multipart/form-data" >
+                  {{csrf_field()}}
+                  <div class="row form-group">
+                     <div class="col-md-4">
+                        <div class=" form-group">
+                           <label for="inputFloatingLabel-grade" class="col-form-label"> Select Department</label>
+                           <select class="select" id="selectFloatingLabel" name="department" required="" onchange="chngdepartment(this.value);">
+                              <option value="">&nbsp;</option>
+                              @foreach($departs as $dept)
+                              <option value='{{ $dept->id }}' <?php  if(app('request')->input('id')){ if($shift_management->department==$dept->id){ echo 'selected'; } } ?> >{{ $dept->department_name }}</option>
+                              @endforeach
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="form-group">
+                           <label for="designation" class="col-form-label"> Select Designation </label>
+                           <select class="select" id="designation"  name="designation" required="" onchange="chngdepartmentshift();">
+                              <option value="">&nbsp;</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class=" form-group">		
+                           <label for="employee_code" class="col-form-label">Employee Code</label>
+                           <select id="employee_code" type="text" class="select"  name="employee_code">
+                           ?></select>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="form-group">
+                           <label for="inputFloatingLabel-select-date" class="col-form-label" > From Date </label>
+                           <input type="date" class="form-control input-border-bottom" name="start_date" id="inputFloatingLabel-select-date" required=""  style="margin-top: 16px;">
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="form-group">
+                           <label for="inputFloatingLabel-select-date" class="col-form-label" > To Date </label>
+                           <input type="date" class="form-control input-border-bottom " name="end_date" id="inputFloatingLabel-select-date" required=""  style="margin-top: 16px;">
+                        </div>
+                     </div>
+                  </div>
+                  <br>
+                  <div class="row form-group">
+                     <div class="col-md-4">
+                        <div class="sub-reset-btn">	
+                           <a href="#">	
+                           <button class="btn btn-primary" type="submit">View Schedule</button></a>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
    <!-- /Page Header -->
    <div class="row">
-    <div class="col-md-12">
-       <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-             <h4 class="card-title">Shift Schedule</h4>
-             <div>
-               <!-- Excel Link -->
-               {{-- <a href="path_to_excel_export"  class="btn-download btn-download-excel me-0" >
-                   Export to Excel
-               </a> --}}
-               
-               <!-- PDF Link -->
-               {{-- <a href="path_to_pdf_export" class="btn-download btn-download-pdf" style="margin-right: 10px;">
-                   Export to PDF
-               </a> --}}
-           </div>
-             @if(isset($department) ? $department : '')
-                   <form  method="post" action="{{ url('rota/duty-roster-report') }}" enctype="multipart/form-data" >
-                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                       <input  value="{{ isset($employee_code) ? $employee_code : '' }}"  name="employee_code" type="hidden" class="form-control input-border-bottom" required="" >
-                       <input  value="{{ isset($department) ? $department : '' }}"  name="department" type="hidden" class="form-control input-border-bottom" required="" >    
-                       <input  value="{{ isset($designation) ? $designation : '' }}"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
-                       <input  value="{{ isset($start_date) ? $start_date : '' }}"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
-                       <input  value="{{ isset($end_date) ? $end_date : '' }}"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                       <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn-download btn-download-pdf" style="background:none !important;margin-top: -30px;float:right;" type="submit"></button>    
-                   </form>
-               @endif
-               
-               @if(isset($department) ? $department : '')
-                   <form  method="post" action="{{ url('rota/duty-roster-report-excel') }}" enctype="multipart/form-data" >
-                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                       <input  value="{{ isset($employee_code) ? $employee_code : '' }}"  name="employee_code" type="hidden" class="form-control input-border-bottom" required="" >
-                       <input  value="{{ isset($department) ? $department : '' }}"  name="department" type="hidden" class="form-control input-border-bottom" required="" >    
-                       <input  value="{{ isset($designation) ? $designation : '' }}"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
-                       <input  value="{{ isset($start_date) ? $start_date : '' }}"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
-                       <input  value="{{ isset($end_date) ? $end_date : '' }}"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                       <button data-toggle="tooltip" data-placement="bottom" title="Download excel"  class="btn-download btn-download-excel me-0" style="background:none !important;margin-top: -30px;float:right;margin-right: 15px;" type="submit"></button>    
-                   </form>
-               @endif
-          </div>
-          <div class="col-auto float-end ms-auto">
-            @if($user_type == 'employee')
-            @foreach($sidebarItems['Rota'] as $rotaItem)
+      <div class="col-md-12">
+         <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+               <h4 class="card-title">Shift Schedule</h4>
+               <div class="row">
+                  <div class="col-auto">
+                     @if(isset($department) ? $department : '')
+                        <form  method="post" action="{{ url('rota/duty-roster-report') }}" enctype="multipart/form-data" >
+                           <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                           <input  value="{{ isset($employee_code) ? $employee_code : '' }}"  name="employee_code" type="hidden" class="form-control input-border-bottom" required="" >
+                           <input  value="{{ isset($department) ? $department : '' }}"  name="department" type="hidden" class="form-control input-border-bottom" required="" >    
+                           <input  value="{{ isset($designation) ? $designation : '' }}"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
+                           <input  value="{{ isset($start_date) ? $start_date : '' }}"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
+                           <input  value="{{ isset($end_date) ? $end_date : '' }}"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
+                           <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn-download btn-download-pdf"  type="submit">Export to PDF</button>   
+                        </form>
+                     @endif
+                  </div>
+                  <div class="col-auto">
+                     @if(isset($department) ? $department : '')
+                        <form  method="post" action="{{ url('rota/duty-roster-report-excel') }}" enctype="multipart/form-data" >
+                           <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                           <input  value="{{ isset($employee_code) ? $employee_code : '' }}"  name="employee_code" type="hidden" class="form-control input-border-bottom" required="" >
+                           <input  value="{{ isset($department) ? $department : '' }}"  name="department" type="hidden" class="form-control input-border-bottom" required="" >    
+                           <input  value="{{ isset($designation) ? $designation : '' }}"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
+                           <input  value="{{ isset($start_date) ? $start_date : '' }}"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
+                           <input  value="{{ isset($end_date) ? $end_date : '' }}"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
+                           <button data-toggle="tooltip" data-placement="bottom" title="Download excel"  class="btn-download btn-download-excel me-0"  type="submit">Export to Excel</button>    
+                        </form>
+                     @endif
+                  </div>
+               </div>
+            </div>
+            <div class="col-auto float-end ms-auto">
+               @if($user_type == 'employee')
+               @foreach($sidebarItems['Rota'] as $rotaItem)
                @if($rotaItem['submenu_name'] == 'Employee Roster' && $rotaItem['can_edit'] == 1)
                <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Employee Roster(Employee wise)"
-                     style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
-                     <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>Add Employee Roster(Department wise)</a>
+                  style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
+               <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>Add Employee Roster(Department wise)</a>
                @endif
-            @endforeach
-            @elseif($user_type == 'employer')
-            <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Employee Roster(Employee wise)"
-                   style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
-                   <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>Add Employee Roster(Department wise)</a>
-            @endif
-            {{-- <div class="view-icons"> --}}
-                {{-- <a href="{{url('organization/employeeee')}}" class="btn add-btn"><i class="la la-plus"></i>Add Duty Roster(Department wise)</a> --}}
-            {{-- </div> --}}
-        </div>
-          <div class="card-body">
-             {{-- <div class="add-shift">
-                <a href="{{ url('rota/add-employee-duty') }}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Duty Roster(Employee wise)"
-                   style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
-                <a href="{{ url('rota/add-department-duty') }}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Duty Roster(Department wise)" style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/plus1.png')}}"></a>
-             </div> --}}
-             <div class="table-responsive">
-                <table id="basic-datatables" class="display table table-striped table-hover" >
-                   <thead>
-                      <tr>
-                         <th>Department</th>
-                         <th>Designation</th>
-                         <th>Employee Name</th>
-                         <th>Shift Code</th>
-                         <th>Work In Time</th>
-                         <th>Work Out Time</th>
-                         <th>Break Time From</th>
-                         <th>Break Time  To</th>
-                         <th>From Date</th>
-                         <th>To Date</th>
-                      </tr>
-                   </thead>
-                   <tbody>
-                      <?php
-                         if(isset($result) && $result!=''  ){
-                             print_r($result); 
-                         }?>
-                   </tbody>
-                </table>
-             </div>
-          </div>
-       </div>
-    </div>
- </div>
+               @endforeach
+               @elseif($user_type == 'employer')
+               <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Employee Roster(Employee wise)"
+                  style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
+               <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>Add Employee Roster(Department wise)</a>
+               @endif
+               {{-- 
+               <div class="view-icons"> --}}
+                  {{-- <a href="{{url('organization/employeeee')}}" class="btn add-btn"><i class="la la-plus"></i>Add Duty Roster(Department wise)</a> --}}
+                  {{-- 
+               </div>
+               --}}
+            </div>
+            <div class="card-body">
+               {{-- 
+               <div class="add-shift">
+                  <a href="{{ url('rota/add-employee-duty') }}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Duty Roster(Employee wise)"
+                     style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
+                  <a href="{{ url('rota/add-department-duty') }}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Duty Roster(Department wise)" style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/plus1.png')}}"></a>
+               </div>
+               --}}
+               <div class="table-responsive">
+                  <table id="basic-datatables" class="display table table-striped table-hover" >
+                     <thead>
+                        <tr>
+                           <th>Department</th>
+                           <th>Designation</th>
+                           <th>Employee Name</th>
+                           <th>Shift Code</th>
+                           <th>Work In Time</th>
+                           <th>Work Out Time</th>
+                           <th>Break Time From</th>
+                           <th>Break Time  To</th>
+                           <th>From Date</th>
+                           <th>To Date</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <?php
+                           if(isset($result) && $result!=''  ){
+                               print_r($result); 
+                           }?>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
 <!-- /Page Content -->
 @endsection
 @section('script')
 <script>
-    function confirmDelete(url) {
-        if (confirm("Are you sure you want to delete this holiday type?")) {
-            window.location.href = url;
-        }
-    }
-
-        function chngdepartmentshift(){  
-            var degId= $('#designation option:selected').text();
-            $.ajax({
-                type:'GET',
-                url:'{{url('pis/getEmployeedailyattandeaneshightById')}}/'+degId,
-                        cache: false,
-                success: function(response){
-                    document.getElementById("employee_code").innerHTML = response;
-                }
-            });
-        }
-        function chngdepartment(empid){
-       
-            $.ajax({
-                type:'GET',
-                url:'{{url('pis/getEmployeedesigByshiftId')}}/'+empid,
-                        cache: false,
-                success: function(response){
-                    
-                    
-                    document.getElementById("designation").innerHTML = response;
-                }
-            });
-        }
-    
+   function confirmDelete(url) {
+       if (confirm("Are you sure you want to delete this holiday type?")) {
+           window.location.href = url;
+       }
+   }
+   
+       function chngdepartmentshift(){  
+           var degId= $('#designation option:selected').text();
+           $.ajax({
+               type:'GET',
+               url:'{{url('pis/getEmployeedailyattandeaneshightById')}}/'+degId,
+                       cache: false,
+               success: function(response){
+                   document.getElementById("employee_code").innerHTML = response;
+               }
+           });
+       }
+       function chngdepartment(empid){
+      
+           $.ajax({
+               type:'GET',
+               url:'{{url('pis/getEmployeedesigByshiftId')}}/'+empid,
+                       cache: false,
+               success: function(response){
+                   
+                   
+                   document.getElementById("designation").innerHTML = response;
+               }
+           });
+       }
+   
 </script>
 @endsection
