@@ -408,7 +408,7 @@ function isActiveModule($moduleItems) {
                 <div class="float-end ms-3">
                     {{-- <img width="70px" src="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/swch_logo.png"/> --}}
                     @if(!empty($company_details->logo))
-                    <img width="70px" src="{{asset('storage/app/public/' . $company_details->logo)}}"/>
+                    <img src="{{ asset('storage/' . $company_details->logo) }}" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" />
                     @endif
                 </div>
             </div>
