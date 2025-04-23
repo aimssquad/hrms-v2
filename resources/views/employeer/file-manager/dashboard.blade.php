@@ -35,45 +35,47 @@
                         <div class="row">
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">File Devision</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $file_devision_count ?? 0 }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('file-management/file-devision-list') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('file-management/file-devision-list') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">File Devision</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count">{{ $file_devision_count ?? 0 }}</span>
+                                                <i class="fa fa-arrow-circle-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">File Manager</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $file_manager_count ?? 0 }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('file-management/fileManagmentList') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('file-management/fileManagmentList') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">File Manager</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count">{{ $file_manager_count ?? 0 }}</span>
+                                                <i class="fa fa-arrow-circle-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                         </div>
                     </div>
@@ -98,8 +100,8 @@
                                    <input type="hidden" name="filename" id="filename">
                                    {{-- put the value - that is your file name --}}
                                    <input type="hidden" id="filenameInput" value="File-Manager-List">
-                                   <button type="submit" class="btn btn-success btn-sm">
-                                       <i class="fas fa-file-excel"></i> Export to Excel
+                                   <button type="submit" class="btn-download btn-download-excel">
+                                        Export to Excel
                                    </button>
                                </form>
                            </div>
@@ -109,8 +111,8 @@
                                  <input type="hidden" name="data" id="pdfData">
                                  <input type="hidden" name="headings" id="pdfHeadings">
                                  <input type="hidden" name="filename" id="pdfFilename">
-                                 <button type="submit" class="btn btn-info btn-sm">
-                                     <i class="fas fa-file-pdf"></i> Export to PDF
+                                 <button type="submit" class="btn-download btn-download-pdf">
+                                      Export to PDF
                                  </button>
                              </form>
                            </div>

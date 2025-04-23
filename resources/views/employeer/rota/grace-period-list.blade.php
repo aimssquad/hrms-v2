@@ -38,11 +38,14 @@ return $output;
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
-            @foreach($sidebarItems as $value)
-            @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 48)
-            <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allowance Period</a>
-            @endif
-            @endforeach
+               @if(isset($sidebarItems['Rota']))
+                  @foreach($sidebarItems['Rota'] as $rotaItem)
+                     @if($rotaItem['submenu_name'] == 'Shift Planning' && $rotaItem['can_add'] == 1)
+                        <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allowance Period</a>
+                        @break
+                     @endif
+                  @endforeach
+               @endif
             @elseif($user_type == 'employer')
             <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allowance Period</a>
             @endif
@@ -73,9 +76,9 @@ return $output;
                           <input type="hidden" name="filename" id="filename">
                           {{-- put the value - that is your file name --}}
                           <input type="hidden" id="filenameInput" value="Allowance-period">
-                          <button type="submit" class="btn btn-success btn-sm">
-                              <i class="fas fa-file-excel"></i> Export to Excel
-                          </button>
+                          <button type="submit" class="btn-download btn-download-excel me-0">
+                              Export to Excel
+                        </button>
                       </form>
                   </div>
                   <div class="col-auto">
@@ -84,9 +87,9 @@ return $output;
                         <input type="hidden" name="data" id="pdfData">
                         <input type="hidden" name="headings" id="pdfHeadings">
                         <input type="hidden" name="filename" id="pdfFilename">
-                        <button type="submit" class="btn btn-info btn-sm">
-                            <i class="fas fa-file-pdf"></i> Export to PDF
-                        </button>
+                        <button type="submit" class="btn-download btn-download-pdf">
+                           Export to PDF
+                      </button>
                     </form>
                   </div>
               </div>
@@ -124,7 +127,8 @@ return $output;
                         <tr>
                            <td>{{ $employee_depers->department_name }}</td>
                            <td>{{ $employee_desigrs->designation_name }}</td>
-                           <!--<td>{{ $employee_shift->shift_code }} ( {{ $employee_shift->shift_des }}  )</td>-->
+                           {{-- <td>{{ $employee_shift->shift_code }}  {{ $employee_shift->shift_des }} </td> --}}
+                            
                            <td>{{ date('h:i a',strtotime($candidate->time_in)) }}</td>
                            <td>{{ date('h:i a',strtotime($candidate->grace_time)) }}</td>
                            <td class="text-end">
@@ -134,13 +138,13 @@ return $output;
                                  </a>
                                  <div class="dropdown-menu dropdown-menu-right">
                                     @if($user_type == 'employee')
-                                    @foreach($sidebarItems as $value)
-                                    @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-                                    <a class="dropdown-item" href="{{url('rota-org/add-grace-period/')}}?id={{$candidate->id}}">
-                                    <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                    </a>
-                                    @endif
-                                    @endforeach
+                                       @foreach($sidebarItems['Rota'] as $rotaItem)
+                                          @if($rotaItem['submenu_name'] == 'Shift Planning' && $rotaItem['can_add'] == 1)
+                                          <a class="dropdown-item" href="{{url('rota-org/add-grace-period/')}}?id={{$candidate->id}}">
+                                          <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                          </a>
+                                          @endif
+                                       @endforeach
                                     @elseif($user_type == 'employer')
                                     <a class="dropdown-item" href="{{url('rota-org/add-grace-period/')}}?id={{$candidate->id}}">
                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit

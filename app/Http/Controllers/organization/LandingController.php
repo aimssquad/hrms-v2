@@ -33,9 +33,21 @@ class LandingController extends Controller
     public function employeeDashboard(Request $request){
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
-            $Roledata = DB::table('registration')->where('status', '=', 'active')
-                ->where('email', '=', $email)
-                ->first();
+            $user_type = Session::get("user_type");
+            if($user_type == "employee"){     
+                $emid = \App\Helpers\Helper::getEmidFromSidebarItems();
+                $Roledata = Registration::where("status", "=", "active")
+                    ->where("reg", "=", $emid)
+                    ->first();
+                    //dd($Roledata);
+            } else{
+                $Roledata = Registration::where("status", "=", "active")
+                ->where("email", "=", $email)
+                ->first();   
+            }
+            // $Roledata = DB::table('registration')->where('status', '=', 'active')
+            //     ->where('email', '=', $email)
+            //     ->first();
             //$data["employee_count"] = DB::table('employee')->where("emid","=",$Roledata->reg)->where('emp_status','!=','LEFT')->count();
              $data['employee_count'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
                 ->where('employee.emid', '=', $Roledata->reg)
@@ -556,26 +568,40 @@ class LandingController extends Controller
             ->where("status", "=", "active")
             ->where("user_type", "!=", "admin")
             ->first();
-
         if (!empty($Employee)) {
-            $Roledata = DB::table("users")
-
+            $checkuser = DB::table('registration')->where('email',$Employee->email)->first();
+            if($checkuser->org_code == null){
+                $base_url = env('BASE_URL');
+                $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url ];
+                $toemail = $request->email;
+                Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
+                    $message
+                        ->to($toemail, env('MAIL_FROM_NAME'))
+                        ->subject("Forgot  Password ");
+                    $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                });
+    
+                Session::flash("message", "Mail sent successfully.");
+                return redirect("forgot-password");
+            } else {
+                $Roledata = DB::table("users")
                 ->where("employee_id", "=", $Employee->emid)
                 ->where("status", "=", "active")
                 ->first();
-            $base_url = env('BASE_URL');
+                $base_url = env('BASE_URL');
+                $data = ["pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url ];
+                $toemail = $request->email;
+                Mail::send("mailforgot", $data, function ($message) use ($toemail) {
+                    $message
+                        ->to($toemail, env('MAIL_FROM_NAME'))
+                        ->subject("Forgot  Password ");
+                    $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                });
 
-            $data = ["pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url ];
-            $toemail = $request->email;
-            Mail::send("mailforgot", $data, function ($message) use ($toemail) {
-                $message
-                    ->to($toemail, env('MAIL_FROM_NAME'))
-                    ->subject("Forgot  Password ");
-                $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
-            });
-
-            Session::flash("message", "Mail sent successfully.");
-            return redirect("forgot-password");
+                Session::flash("message", "Mail sent successfully.");
+                return redirect("forgot-password");
+            }
+           
         } else {
             Session::flash("error", "Your email id was wrong!!");
             return redirect("forgot-password");

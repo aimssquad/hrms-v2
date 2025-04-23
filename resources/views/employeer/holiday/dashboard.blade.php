@@ -35,45 +35,47 @@
                         <div class="row">
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Category</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $holiday_type_count ?? 0 }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('organization/holiday-type') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('organization/holiday-type') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Category</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count">{{ $holiday_type_count ?? 0 }}</span>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Record</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $holiday_list_count ?? 0 }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('organization/holiday-list') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('organization/holiday-list') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Record</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count">{{ $holiday_list_count ?? 0 }}</span>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                         </div>
                     </div>

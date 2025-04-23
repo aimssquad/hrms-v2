@@ -7,28 +7,7 @@ $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 @endphp
 @section('content')
-@php
-	function my_simple_crypt( $string, $action = 'encrypt' ) {
-		// you may change these values to your own
-		$secret_key = 'bopt_saltlake_kolkata_secret_key';
-		$secret_iv = 'bopt_saltlake_kolkata_secret_iv';
-	
-		$output = false;
-		$encrypt_method = "AES-256-CBC";
-		$key = hash( 'sha256', $secret_key );
-		$iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
-	
-		if( $action == 'encrypt' ) {
-			$output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
-		}
-		else if( $action == 'decrypt' ){
-			$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
-		}
-	
-		return $output;
-	}
 
-@endphp
 
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -39,7 +18,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 				<h3 class="page-title">Hr Support File List</h3>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('hr-support/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('hr-support/dashboard-new')}}">Dashboard</a></li>
 					<li class="breadcrumb-item active">Hr Support File List</li>
 				</ul>
 			</div>
@@ -63,7 +42,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                <input type="hidden" name="filename" id="filename">
                                {{-- put the value - that is your file name --}}
                                <input type="hidden" id="filenameInput" value="Hr-Support-File-List">
-                               <button type="submit" class="btn btn-success btn-sm">
+                               <button type="submit" class="btn-download-excel btn-download">
                                    <i class="fas fa-file-excel"></i> Export to Excel
                                </button>
                            </form>
@@ -74,7 +53,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                              <input type="hidden" name="data" id="pdfData">
                              <input type="hidden" name="headings" id="pdfHeadings">
                              <input type="hidden" name="filename" id="pdfFilename">
-                             <button type="submit" class="btn btn-info btn-sm">
+                             <button type="submit" class="btn-download-pdf btn-download">
                                  <i class="fas fa-file-pdf"></i> Export to PDF
                              </button>
                          </form>

@@ -1,7 +1,4 @@
-
-
-
- {!!html_entity_decode($msg)!!}
+{!!html_entity_decode($msg)!!}
  
    <p>  Thanks & Regards</p>
  

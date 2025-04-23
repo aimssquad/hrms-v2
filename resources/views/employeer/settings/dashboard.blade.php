@@ -29,167 +29,157 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row g-4">
                             <!-- Buttons -->
                              <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-bank" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Add Organisation Bank</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/vw-cmp-bank')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/vw-cmp-bank') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-bank modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Add Organisation Bank</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                            <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-bank" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Add Employee Bank</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/vw-emp-bank')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/vw-emp-bank') }}" class="modern-card-link">
+                                    <div class="modern-card border-0">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-bank modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Add Employee Bank</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                            <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-sitemap" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Add New Department</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/add-new-department')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/add-new-department') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-sitemap modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Add New Department</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                            <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-id-badge" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Add New Dsignation</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/designation')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/designation') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-id-badge modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Add New Designation</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                            <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-users" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Add New Employee Type</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/employee-type')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/employee-type') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-users modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Add New Employee Type</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                            <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-user" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Add Employee Mode Type</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/add-mode-emp')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/add-mode-emp') }}" class="modern-card-link">
+                                    <div class="modern-card border-0">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-user modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Add Employee Mode Type</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                            <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="fa fa-braille" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Add Employee Master Type</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/add-new-type')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/add-new-type') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Add Employee Master Type</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                            <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="fa fa-braille" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Add Education Master Type</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/add-new-education')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/add-new-education') }}" class="modern-card-link">
+                                    <div class="modern-card border-0">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Add Education Master Type</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                            <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                             
                             <!--<div class="col-md-4 col-6 mb-4">-->
@@ -255,132 +245,135 @@
                             
                         </div>
 
-                        <div class="row">
+                        <hr class="my-4">
+
+                        <div class="row g-4 ">
 
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="fa fa-braille" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Total Department</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $department_count }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/vw-department')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/vw-department') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Total Department</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <span></span>
+                                            <div class="modern-arrow">
+                                                <div class="employee-count">{{ $department_count }}</div>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="fa fa-braille" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Total Designation</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $designation_count }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/vw-designation')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/vw-designation') }}" class="modern-card-link">
+                                    <div class="modern-card border-0">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Total Designation</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <span></span>
+                                            <div class="modern-arrow">
+                                                <div class="employee-count">{{ $designation_count }}</div>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="fa fa-braille" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Total Employee Type</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $employee_type_count }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/vw-type')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/vw-type') }}" class="modern-card-link">
+                                    <div class="modern-card border-0">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Total Employee Type</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <span></span>
+                                            <div class="modern-arrow">
+                                                <div class="employee-count">{{ $employee_type_count }}</div>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
 
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="fa fa-braille" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Total Employee Mode</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $employee_mode_count }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/vw-mode-type')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/vw-mode-type') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Total Employee Mode</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <span></span>
+                                            <div class="modern-arrow">
+                                                <div class="employee-count">{{ $employee_mode_count }}</div>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
+
                             </div>
 
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="fa fa-braille" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Total Employee Master</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $employee_master_count}}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/vw-type')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                            <a href="{{ url('org-settings/vw-type') }}" class="modern-card-link">
+                            <div class="modern-card border-0">
+                                <div class="modern-card-header">
+                                    <div class="modern_icon_wrapper">
+                                        <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                    </div>
+                                    <h4 class="modern-card-title">Total Employee Master</h4>
+                                </div>
+                                <div class="modern-card-body">
+                                    <span></span>
+                                    <div class="modern-arrow">
+                                        <div class="employee-count">{{ $employee_master_count }}</div>
+                                        <i class="fa fa-arrow-right"></i>
                                     </div>
                                 </div>
                             </div>
+                        </a>
+
+                            </div>
 
                             <div class="col-xl-4">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="fa fa-braille" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Total Education Master</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{ $education_count }}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{url('org-settings/vw-education')}}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('org-settings/vw-education') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Total Education Master</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <span></span>
+                                            <div class="modern-arrow">
+                                                <div class="employee-count">{{ $employee_master_count }}</div>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                             
                            

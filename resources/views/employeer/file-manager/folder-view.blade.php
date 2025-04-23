@@ -42,15 +42,17 @@
             <div class="card custom-card">
                 <div class="card-header">
                     <h4 class="card-title"><i class="far fa-folder" aria-hidden="true"
-                            style="color:#10277f;"></i>&nbsp;Add Folder<span>
+                            style="color:#f80606;"></i>&nbsp;Add Folder<span>
                     </h4>
                 </div>
                 <div class="card-body">
-                    @foreach($file_image as $item)
+                   <div class="add_folder_main_wrapper">
+                   @foreach($file_image as $item)
                     <a href="{{url('org-fileManagment/file-add/'.$item->id)}}" class="mb-2"><img src="{{asset('filemanagment/folder.png')}}" style="width:50px; border-radius:10px">
-                    <p><?php echo $item->folder_name ?> </p>
+                    <p class="file_name"><?php echo $item->folder_name ?> </p>
                        </a>
                     @endforeach
+                   </div>
                 </div>
             </div>
         </div>

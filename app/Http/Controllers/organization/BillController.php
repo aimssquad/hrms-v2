@@ -15,8 +15,8 @@ class BillController extends Controller
     public function billingList(Request $request){
         $email = Session::get('empsu_email');
         if(!empty($email)){
-            $billing_list = Subadmin_bill::where('sub_code', '')
-                ->orWhereNull('sub_code')
+            $billing_list = Subadmin_bill::where('org_code', '')
+                ->orWhereNull('org_code')
                 ->get();
             return view ('admin/billing/new_billing_list',compact('billing_list'));
         } else {
@@ -276,7 +276,8 @@ class BillController extends Controller
         $email = Session::get('empsu_email');
         if(!empty($email)){
            //dd($id);
-           $data['bill'] = DB::table('bills')->where('id',$id)->first();
+           $data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
+           //dd($data['bill']);
            if($data['bill']->billing_type == 'employer'){
                 $data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
            } else {

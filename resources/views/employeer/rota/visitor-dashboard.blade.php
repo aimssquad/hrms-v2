@@ -29,24 +29,25 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="fa fa-users rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Total No Of Visitors</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12">{{$visitor_count}}</div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('rota-org/visitor-regis') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('rota-org/visitor-regis') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa fa-users modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Total No Of Visitors</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="employee-count">{{ $visitor_count }}</span>
+                                                <i class="fa fa-arrow-circle-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+
                             </div>
                         </div>
                     </div>

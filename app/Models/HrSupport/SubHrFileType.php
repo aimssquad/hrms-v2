@@ -23,4 +23,16 @@ class SubHrFileType extends Model
     {
         return $this->belongsTo(HrSupportFileType::class, 'type_id');
     }
+
+     // Many-to-One relationship with HrSupportFileType
+     public function hrSupportFileType()
+     {
+         return $this->belongsTo(HrSupportFileType::class, 'type_id');
+     }
+ 
+     // One-to-Many relationship with HrSupportFile
+     public function hrSupportFiles()
+     {
+         return $this->hasMany(HrSupportFile::class, 'sub_type_id');
+     }
 }

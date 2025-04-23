@@ -23,5 +23,8 @@ class Subadmin_bill extends Model
         'org_code',
         'remarks',
         'date',
+        'payment_dtl',
+        'payment_document',
+        'status',
     ];
 }

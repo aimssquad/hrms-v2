@@ -60,8 +60,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                            <input type="hidden" name="filename" id="filename">
                            {{-- put the value - that is your file name --}}
                            <input type="hidden" id="filenameInput" value="Short-listing">
-                           <button type="submit" class="btn btn-success btn-sm">
-                               <i class="fas fa-file-excel"></i> Export to Excel
+                           <button type="submit" class="btn-download btn-download-excel me-0">
+                                Export to Excel
                            </button>
                        </form>
                    </div>
@@ -71,8 +71,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                          <input type="hidden" name="data" id="pdfData">
                          <input type="hidden" name="headings" id="pdfHeadings">
                          <input type="hidden" name="filename" id="pdfFilename">
-                         <button type="submit" class="btn btn-info btn-sm">
-                             <i class="fas fa-file-pdf"></i> Export to PDF
+                         <button type="submit" class="btn-download btn-download-pdf">
+                             Export to PDF
                          </button>
                      </form>
                    </div>
@@ -139,8 +139,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                       <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                       <div class="dropdown-menu dropdown-menu-right">
                                           @if($user_type == 'employee')
-                                              @foreach($sidebarItems as $value)
-                                                  @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
+                                          @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                          @if($rotaItem['submenu_name'] == 'Short listing' && $rotaItem['can_edit'] == 1)
                                                       <a class="dropdown-item" href="{{url('org-recruitment/edit-short-listing/'.base64_encode($candidate->id))}}">
                                                           <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                       </a>
@@ -152,8 +152,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                               </a>
                                           @endif
                                           @if($user_type == 'employee')
-                                              @foreach($sidebarItems as $value)
-                                                  @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
+                                          @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                          @if($rotaItem['submenu_name'] == 'Short listing' && $rotaItem['can_edit'] == 1)
                                                       <a class="dropdown-item" href="{{asset('public/'.$candidate->resume)}}" download>
                                                           <i class="fa fa-arrow-circle-down m-r-5"></i> Downlode
                                                       </a>

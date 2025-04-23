@@ -275,7 +275,7 @@ class EmployeeController extends Controller
                 ->where('email', '=', $email)
                 ->first();
             $data['payment_wedes_rs'] = DB::table('payment_type_wedes')->where('emid', '=', $Roledata->reg)->get();
-
+            //dd($data['Roledata']);
             $id = $request->get('q');
             if ($id) {
                 //dd($id);

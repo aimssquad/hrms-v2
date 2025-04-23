@@ -35,24 +35,24 @@
                         <div class="row">
 
                             <div class="col-xl-4 col-md-6 col-sm-12">
-                                <div class="card border-0">
-                                    <div class="alert alert-primary border border-primary mb-0 p-3">
-                                        <div class="d-flex align-items-start">
-                                            <div class="text-primary w-100">
-                                                <i class="la la-dashboard rota-icon-size-fixed"></i>
-                                                <div class="fw-semibold d-flex justify-content-between text-card-size-fixed">Leave Application List</div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
-                                                    <div class="fs-12">
-                                                        <a href="{{ url('leaveapprover/leave-request') }}" class="text-primary fw-semibold">
-                                                            <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i> View all
-                                                        </a>
-                                                    </div>
+                                <a href="{{ url('leaveapprover/leave-request') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="la la-dashboard modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title">Leave Application List</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status">
                                                 </div>
+                                                <div class="modern-arrow">
+                                                <span class="application-count opacity-0"></span>
+                                                <i class="fa fa-arrow-right"></i>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div>

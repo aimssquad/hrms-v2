@@ -8,28 +8,7 @@ $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 @endphp
 @section('content')
-@php
-	function my_simple_crypt( $string, $action = 'encrypt' ) {
-		// you may change these values to your own
-		$secret_key = 'bopt_saltlake_kolkata_secret_key';
-		$secret_iv = 'bopt_saltlake_kolkata_secret_iv';
-	
-		$output = false;
-		$encrypt_method = "AES-256-CBC";
-		$key = hash( 'sha256', $secret_key );
-		$iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
-	
-		if( $action == 'encrypt' ) {
-			$output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
-		}
-		else if( $action == 'decrypt' ){
-			$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
-		}
-	
-		return $output;
-	}
 
-@endphp
 
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -45,11 +24,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                        </a>
                     </li>
                     <li class="breadcrumb-item">
-                       <a href="{{ route('hr-support.dashboard') }}">Hr Support</a>
+                       <a href="{{ route('hr-support.dashboard-new') }}">Hr Support</a>
                     </li>
-                    <li class="breadcrumb-item">
+                    {{-- <li class="breadcrumb-item">
                        <a href="{{ isset($data->type->id) ? route('supportfile.show', ['id' => $data->type->id]) : '#' }}">{{$data->type->type}}</a>
-                    </li>
+                    </li> --}}
                     <li class="breadcrumb-item active">
                        <a href="#">{{$data->title}}</a>
                     </li>
@@ -65,31 +44,65 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         <div class="col-md-12">
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="card-title"><i class="far fa-briefcase" aria-hidden="true"
-                            style="color:#f7a01f;"></i> {{$data->title}}
+                    <h4 class="card-title"> {{$data->title}}
                     </h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-8">
-                            <h1 class="colorfixed">{{$data->title}}</h1>
+                            {!! $data->small_description !!}
                             {!! $data->description !!}
+
+                            <h3 class="mb-3">Download Template</h3>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Description</th>
+                                        <th>PDF</th>
+                                        <th>DOC</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Loop through each document -->
+                                    @foreach ($data->hrsupportDoc as $doc)
+                                        <tr>
+                                            <td>{{ $doc->name ?? 'N/A' }}</td>
+                                            <td class="decription_td_hr_support"><p>{{ $doc->document_description ?? 'No description' }}</p></td>
+                                            
+                                            <!-- PDF Link -->
+                                            <td>
+                                                @if (!empty($doc->pdf))
+                                                    <a href="{{ asset('storage/app/public/' . $doc->pdf) }}" 
+                                                       class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-sticky-note" data-bs-toggle="tooltip" title="View PDF"></i></a>
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                        
+                                            <!-- DOC Link -->
+                                            <td>
+                                                @if (!empty($doc->doc))
+                                                    <a href="{{ asset('storage/app/public/' . $doc->doc) }}" 
+                                                       class="btn btn-primary btn-sm" download><i class="fa fa-arrow-circle-down" data-bs-toggle="tooltip" title="Download DOC"></i></a>
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                         <div class="col-md-4">
-                            <h3>Download Template</h3>
-                            @if ($data->pdf !='')
-                                <a href="{{ asset('storage/app/public/hrsupport/pdf/' . $data->pdf) }}" class="btn btn-primary" target="_blank" >View PDF</a>
-                            @endif
-                            @if ($data->doc !='')
-                                <a href="{{ asset('storage/app/public/hrsupport/doc/' . $data->doc) }}" class="btn btn-secondary" target="_blank" download>Download DOC</a>
-                            @endif
+                            
 
-                            <h3 style="margin-top: 20px;"><u>Related Templates</u></h3>
+                            <h3 style="margin-top: 20px;" class="mb-3"><u>Related Templates</u></h3>
                             <ul>
                                 @if(!empty($relatedFiles))
                                     @foreach($relatedFiles as $relatedFile)
                                         @if($relatedFile->id != $data->id)
-                                            <a href="{{ isset($relatedFile->id) ? route('support-file.details', ['id' => $relatedFile->id]) : '#' }}" class="special-link" style="color: black;"><li style="color: black;font-size:15px;">{{ $relatedFile->title }}</li></a>
+                                            <a href="{{ isset($relatedFile->id) ? route('support-file.details', ['id' => $relatedFile->id]) : '#' }}" class="special-link"><li class="extra_ul_li">{{ $relatedFile->title }}</li></a>
                                         @endif
                                     @endforeach
                                 @else

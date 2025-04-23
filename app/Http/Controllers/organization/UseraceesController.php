@@ -16,8 +16,9 @@ use Exception;
 use App\Models\Registration;
 use App\Models\Employee;
 use App\Models\UserModel;
-use App\Models\module;
+use App\Models\module; // model ar name kohono choto hate hoi akta sadharan ethick - ata kothai dakha dada aita aage chilos
 use App\Models\RoleAuthorization;
+use App\Models\EmployeePermission;
 
 class UseraceesController extends Controller
 {
@@ -524,6 +525,179 @@ class UseraceesController extends Controller
             throw new Exception($e->getMessage());
         }
     }
+
+    public function getEmployee(Request $request){
+        if (!empty(Session::get("emp_email"))) {
+            $email = Session::get("emp_email");
+            $Roledata = Registration::where("status", "=", "active")
+                    ->where("email", "=", $email)
+                    ->first();
+
+            $data["users"] = UserModel::join(
+                "employee",
+                "users.employee_id",
+                "=",
+                "employee.emp_code"
+            )
+
+                ->where("employee.emid", "=", $Roledata->reg)
+                ->where("users.emid", "=", $Roledata->reg)
+                ->select("users.*","employee.*")
+                ->where("users.user_type", "=", "employee")
+                ->get();
+            //dd($data);    
+            return view('employeer.user-access.employee-permission',$data);
+        } else {
+            return redirect("/");
+        }
+    }
+
+    public function employeePermission(Request $request,$id){
+        if (!empty(Session::get("emp_email"))) {
+            $email = Session::get("emp_email");
+            $Roledata = Registration::where("status", "=", "active")
+                    ->where("email", "=", $email)
+                    ->first();
+            $data["users"] = UserModel::join(
+                "employee",
+                "users.employee_id",
+                "=",
+                "employee.emp_code"
+            )
+
+                ->where("employee.emid", "=", $Roledata->reg)
+                ->where("users.emid", "=", $Roledata->reg)
+                ->select("users.*")
+                ->where("users.user_type", "=", "employee")
+                ->get();
+            $data['employee_id'] = $id;   
+            $data['submenu'] = DB::table('sub_menu')->get();    
+            $data["module"] = module::get();    
+            $data['menu'] = Module::with('subMenus')->get();
+            $data['permission'] = EmployeePermission::select('submenu_id', 'can_add', 'can_edit', 'can_delete', 'can_export', 'can_import')
+            ->where('employee_id', $id)
+            ->get(); 
+            //dd($data['permission']);
+            //return view('employeer.user-access.employee-permission',$data);
+            return view('employeer.user-access.premission',$data);
+        } else {
+            return redirect("/");
+        }
+    }
+
+    // public function createPermission(Request $request){
+    //     //dd($request->all());
+    //     if (!empty(Session::get("emp_email"))) {
+    //         $email = Session::get("emp_email");
+    //         $organization = Registration::where("status", "=", "active")
+    //                 ->where("email", "=", $email)
+    //                 ->first();
+    //        //dd($organization->reg);
+    //        $request->validate([
+    //             'employee_id' => 'required|string',
+    //             'modules' => 'required|array',
+    //         ]);
+    
+    //         $orgId = $organization->reg; 
+    //         $employeeId = $request->input('employee_id');
+    //         $modules = $request->input('modules');
+    //         $permissionsData = [];
+        
+    //         foreach ($modules as $moduleIndex => $module) {
+    //             $moduleName = $module['module_name'] ?? null;
+        
+    //             if (isset($module['submenus'])) {
+    //                 foreach ($module['submenus'] as $submenuId => $submenu) {
+    //                     $permissionsData[] = [
+    //                         'org_id' => $orgId,
+    //                         'employee_id' => $employeeId,
+    //                         'module_name' => $moduleName,
+    //                         // 'submenu_name' => $submenu['submenu_name'] ?? null,
+    //                         'submenu_id' => $submenuId,
+    //                         'can_add' => $submenu['add'] ?? 0,
+    //                         'can_edit' => $submenu['edit'] ?? 0,
+    //                         'can_delete' => $submenu['delete'] ?? 0,
+    //                         'can_export' => $submenu['export'] ?? 0,
+    //                         'can_import' => $submenu['import'] ?? 0,
+    //                         'created_at' => now(),
+    //                         'updated_at' => now(),
+    //                     ];
+    //                 }
+    //             }
+    //         }
+    //         if (!empty($permissionsData)) {
+    //             DB::table('employee_permissions')->insert($permissionsData);
+    //         }
+    //         session()->flash('message', 'Permissions has been created successfully');
+    //         return redirect('user-access/emp');
+    //     } else {
+    //         return redirect("/");
+    //     } 
+    // }
+
+
+    public function createPermission(Request $request)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $email = Session::get("emp_email");
+            $organization = Registration::where("status", "=", "active")
+                    ->where("email", "=", $email)
+                    ->first();
+
+            $request->validate([
+                'employee_id' => 'required|string',
+                'modules' => 'required|array',
+            ]);
+
+            $orgId = $organization->reg;
+            $employeeId = $request->input('employee_id');
+            $modules = $request->input('modules');
+
+            foreach ($modules as $moduleIndex => $module) {
+                $moduleName = $module['module_name'] ?? null;
+
+                if (isset($module['submenus'])) {
+                    foreach ($module['submenus'] as $submenuId => $submenu) {
+                        // Check if the record exists
+                        $existingPermission = DB::table('employee_permissions')
+                            ->where('employee_id', $employeeId)
+                            ->where('submenu_id', $submenuId)
+                            ->first();
+
+                        $permissionData = [
+                            'org_id' => $orgId,
+                            'employee_id' => $employeeId,
+                            'module_name' => $moduleName,
+                            'submenu_id' => $submenuId,
+                            'can_add' => $submenu['add'] ?? 0,
+                            'can_edit' => $submenu['edit'] ?? 0,
+                            'can_delete' => $submenu['delete'] ?? 0,
+                            'can_export' => $submenu['export'] ?? 0,
+                            'can_import' => $submenu['import'] ?? 0,
+                            'updated_at' => now(),
+                        ];
+
+                        if ($existingPermission) {
+                            // Update the existing record
+                            DB::table('employee_permissions')
+                                ->where('id', $existingPermission->id)
+                                ->update($permissionData);
+                        } else {
+                            // Insert a new record
+                            $permissionData['created_at'] = now();
+                            DB::table('employee_permissions')->insert($permissionData);
+                        }
+                    }
+                }
+            }
+
+            session()->flash('message', 'Permissions have been successfully updated.');
+            return redirect('user-access/emp');
+        } else {
+            return redirect("/");
+        }
+    }
+
 
 
 

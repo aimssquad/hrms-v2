@@ -2,28 +2,31 @@
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul class="sidebar-vertical">
-                <li class="menu-title"> 
+                {{-- <li class="menu-title"> 
                     <span>Main</span>
-                </li>
+                </li> --}}
                 <li class="submenu">
-                    <a href="#"><i class="la la-dashcube"></i> <span> Sub Admin Dashboard</span> <span class="menu-arrow"></span></a>
+                    <a href="#"><i class="la la-home"></i> <span> Partner Details</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{{url('superadmindasboard')}}">Sub Admin Dashboard</a></li>
+                        <li><a href="{{url('superadmindasboard')}}">Dashboard</a></li>
+                        <li><a href="{{url('subadmin/profile')}}">Profile</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="#"><i class="la la-cube"></i> <span> Organisation</span> <span class="menu-arrow"></span></a>
+                    <a href="#"><i class="la la-building"></i> <span> Organisation</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{{url('superadmin/active')}}">Active Organisation</a></li>
+                        {{-- <li><a href="{{url('superadmin/active')}}">Active Organisation</a></li> --}}
+                        <li><a href="{{url('superadmin/verify')}}">Active Organisation</a></li>
                         <li><a href="{{url('superadmin/notverify')}}">Not Approved Organisation</a></li>
-                        <li><a href="{{url('superadmin/verify')}}">Approved Organisation</a></li>
+                        <li><a href="{{url('subadmin/organization-employee')}}">Total Organization Employee</a></li>
+                        {{-- <li><a href="{{url('superadmin/verify')}}">Approved Organisation</a></li> --}}
                     </ul>
                 </li>
-                <li class="menu-title"> 
+                {{-- <li class="menu-title"> 
                     <span>Billing</span>
-                </li>
+                </li> --}}
                 <li class="submenu">
-                    <a href="#" class="noti-dot"><i class="la la-user"></i> <span> Billing</span> <span class="menu-arrow"></span></a>
+                    <a href="#" class="noti-dot"><i class="las la-money-bill-wave-alt"></i> <span> Billing</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="{{url('superadmin/taxforbill')}}">Tax Master</a></li>
                         <!--<li><a href="{{url('superadmin/billing')}}">Billing</a></li>-->

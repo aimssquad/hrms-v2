@@ -37,31 +37,43 @@
     
     <div class="row staff-grid-row">
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget ">
-                <div class="">
-                    <a href="{{url('recruitment/job_list')}}" class=""><i class="fa fa-list" data-bs-toggle="tooltip" title="view"></i></a>
+            <a href="{{url('recruitment/job_list')}}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-list modern-icon" data-bs-toggle="tooltip" title="view"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Job List</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $job_list_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('recruitment/job_list')}}">Job List</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('recruitment/job_list')}}">{{ $job_list_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class=" ">
-                    <a href="{{url('recruitment/job_posting')}}" class=""><i class="fa fa-pencil-alt" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('recruitment/job_posting') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-pencil-alt modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Job Posting</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $job_posting_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('recruitment/job_posting')}}">Job Posting</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('recruitment/job_posting')}}">{{ $job_posting_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class=" ">
-                    <a href="{{url('recruitment/job_published')}}" class=""><i class="fa fa-external-link-alt" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('recruitment/job_published') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-external-link-alt modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Job Posting (External)</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $company_job_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('recruitment/job_published')}}">Job Posting (External)</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('recruitment/job_published')}}">{{ $company_job_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
         <!--<div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">-->
         <!--    <div class="profile-widget">-->
@@ -77,85 +89,120 @@
         
         
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class="">
-                    <a href="{{url('org-recruitment/candidate')}}" class=""><i class="fa fa-briefcase" data-bs-toggle="tooltip" title="view"></i></a>
+            <a href="{{ url('org-recruitment/candidate') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-briefcase modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Job Applied</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $applied_candidate_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/candidate')}}">Job Applied</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/candidate')}}">{{ $applied_candidate_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class=" ">
-                    <a href="{{url('org-recruitment/short-listing')}}" class=""><i class="fa fa-user-check" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('org-recruitment/short-listing') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-user-check modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Shortlisted</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $shortlisted_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/short-listing')}}">Shortlisted</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/short-listing')}}">{{ $shortlisted_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class="">
-                    <a href="{{url('org-recruitment/interview')}}" class=""><i class="fa fa-comments" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('org-recruitment/interview') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-comments modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Interview</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $interview_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/interview')}}">Interview</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/interview')}}">{{ $interview_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class=" ">
-                    <a href="{{url('org-recruitment/hired')}}" class=""><i class="fa fa-user-plus" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('org-recruitment/hired') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-user-plus modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Hired</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $hired_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/hired')}}">Hired</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/hired')}}">{{ $hired_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class=" ">
-                    <a href="{{url('org-recruitment/offer-letter')}}" class=""><i class="fa fa-envelope-open" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('org-recruitment/offer-letter') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-envelope-open modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Offer Letter</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $offer_letter_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/offer-letter')}}">Offer Letter</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/offer-letter')}}">{{ $offer_letter_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class=" ">
-                    <a href="{{url('org-recruitment/search')}}" class=""><i class="fa fa-magnifying-glass" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('org-recruitment/search') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-magnifying-glass modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Search</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/search')}}">Search</a></h4>
-                <!--<h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/search')}}">{{ $rejected_count ?? 0 }}</a></h4>-->
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class=" ">
-                    <a href="{{url('org-recruitment/status-search')}}" class=""><i class="fa fa-search-plus" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('org-recruitment/status-search') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-search-plus modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Status Search</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/status-search')}}">Status Search</a></h4>
-                <!--<h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="">{{ $rejected_count ?? 0 }}</a></h4>-->
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class=" ">
-                    <a href="{{url('org-recruitment/reject')}}" class=""><i class="fa fa-times-circle" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('org-recruitment/reject') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-times-circle modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Rejected</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $rejected_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/reject')}}">Rejected</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="">{{ $rejected_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
+
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
-            <div class="profile-widget">
-                <div class=" ">
-                    <a href="{{url('org-recruitment/reject')}}" class=""><i class="fa fa-envelope" data-bs-toggle="tooltip" title="View"></i></a>
+            <a href="{{ url('org-recruitment/reject') }}">
+                <div class="profile-widget modern-card">
+                    <div class="position-relative z-1">
+                        <div class="modern_icon_wrapper me-0">
+                            <i class="fa fa-envelope modern-icon" data-bs-toggle="tooltip" title="View"></i>
+                        </div>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis">Message Center</h4>
+                        <h4 class="employee-count m-t-10 mb-0 text-ellipsis">{{ $msg_count ?? 0 }}</h4>
+                    </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{url('org-recruitment/reject')}}">Message Center</a></h4>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="">{{ $msg_count ?? 0 }}</a></h4>
-            </div>
+            </a>
         </div>
               
     </div>

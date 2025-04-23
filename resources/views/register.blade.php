@@ -239,6 +239,21 @@
                               <div class="error" style="color:red;">{{ $errors->first('con_password') }}</div>
                               @endif
                            </div>
+
+                            <div class="input-block mb-2">
+                                <input class="form-check-input" type="checkbox" id="termsAgreement1">
+                                <label class="form-check-label" for="termsAgreement1">
+                                    I confirm that I have read the Privacy Policy and I agree to the website Terms of Use and License Agreement
+                                </label>
+                                <div id="terms1" style="color:red;"></div>
+                            </div>
+                            <div class="input-block mb-2">
+                                <input class="form-check-input" type="checkbox" id="termsAgreement2">
+                                <label class="form-check-label" for="termsAgreement2">
+                                    I understand that they do not, in any way, replace immigration advice
+                                </label>
+                                <div id="terms2" style="color:red;"></div>
+                            </div>
                            <div class="input-block mb-2 text-center">
                               <button class="btn btn-primary account-btn d-block w-100" type="submit">Register</button>
                            </div>
@@ -536,5 +551,23 @@
                 });
             });
         </script>
+        <script>
+            document.querySelector('form').addEventListener('submit', function(event) {
+                const termsAgreement1 = document.getElementById('termsAgreement1');
+                const termsAgreement2 = document.getElementById('termsAgreement2');
+                const termsError = document.getElementById('terms2');
+        
+                // Clear any previous error messages
+                termsError.textContent = '';
+        
+                // Check if both checkboxes are checked
+                if (!termsAgreement1.checked || !termsAgreement2.checked) {
+                    // Display error message
+                    termsError.textContent = 'You must agree to both the Privacy Policy and Terms of Use before submitting.';
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+        </script>
+        
    </body>
 </html>

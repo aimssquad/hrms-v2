@@ -2,16 +2,16 @@
     $user_type = Session::get("user_type");
     $email = Session::get('emp_email');
     $users_id = Session::get("users_id");
-    //dd($user_type);
+    //dd($email);
     $company_details = DB::table('registration')
         ->where('email', '=', $email)
         ->first();
-    //dd($company_details); 
-    /*if (!$company_details) {
-        Session::flush();
-        header('Location: ' . url('/'));
-        exit(); 
-    }*/
+    
+    // if (!$company_details) {
+    //     Session::flush();
+    //     header('Location: ' . url('/'));
+    //     exit(); 
+    // }
 @endphp
 <!-- Header -->
 <div class="header">
@@ -26,10 +26,13 @@
     <!--        @endif-->
     <!--    </a>-->
     <!--</div>-->
-    <div class="header-left" style="width: 250px; height: 59px;">
+    
+    <div class="header-left">
         <a href="{{ url('organization/employerdashboard') }}" class="logo" style="display: block; width: 100%; height: 100%;">
             @if(!empty($company_details->logo))
-            <img src="{{asset('storage/app/public/' . $company_details->logo)}}" alt="Company Logo" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="{{asset('storage/app/public/' . $company_details->logo)}}" alt="Company Logo" style="width: auto; height: 40px; object-fit: contain;">
+
+            <!-- <img src="{{asset('storage/app/public/' . $company_details->logo)}}" alt="Company Logo" style="width: 100%; height: 100%; object-fit: cover;"> -->
             @endif
         </a>
     </div>

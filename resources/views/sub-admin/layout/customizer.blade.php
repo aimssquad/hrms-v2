@@ -302,9 +302,9 @@
             <div class="col-6">
                 <button type="button" class="btn btn-light w-100 bor-rad-50" id="reset-layout">Reset</button>
             </div>
-            <div class="col-6">
+            {{-- <div class="col-6">
                 <a href="https://themeforest.net/item/smarthr-bootstrap-admin-panel-template/21153150" target="_blank" class="btn btn-primary w-100 bor-rad-50">Buy Now</a>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

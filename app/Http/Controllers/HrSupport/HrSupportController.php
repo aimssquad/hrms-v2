@@ -12,7 +12,9 @@ use Session;
 use Validator;
 use App\Models\HrSupport\HrSupportFileType;
 use App\Models\HrSupport\HrSupportFile;
-use App\Models\HrSupport\SubHrFileType;
+use App\Models\HrSupport\SubHrFileType; 
+use App\Models\HrSupportDtlDoc;
+use Illuminate\Support\Facades\Storage;
 
 class HrSupportController extends Controller
 {
@@ -142,7 +144,9 @@ class HrSupportController extends Controller
         try {
             $email = Session::get('empsu_email');
             if (!empty($email)) {
-                $data['data'] = HrSupportFile::with('type')->get();
+                //$data['data'] = HrSupportFile::with('type')->get();
+                $data['data'] = HrSupportFile::with(['type', 'subType'])->get();
+                // dd($data);
                 return View('admin/hr-support-file', $data);
             } else {
                 return redirect('superadmin');
@@ -164,114 +168,36 @@ class HrSupportController extends Controller
             throw new \App\Exceptions\AdminException($e->getMessage());
         }
     }
-    // public function editHrSupportFile($id)
-    // {
-    //     try {
-    //         $email = Session::get('empsu_email');
-    //         if (!empty($email)) {
-    //             $data['user'] = HrSupportFile::with('type')->findOrFail($id);
-    //             $data['type'] = HrSupportFileType::all();
-    //             //dd($data['type']);
-    //             return view('admin/add-hr-file-support',$data);
-    //         } else {
-    //             return redirect('superadmin');
-    //         }
-    //     } catch (Exception $e) {
-    //         throw new \App\Exceptions\AdminException($e->getMessage());
-    //     }
-    // }
-    public function editHrSupportFile($id)
-    {
-        try {
-            $email = Session::get('empsu_email');
-            if (!empty($email)) {
-                // Fetch the main record along with type and sub type
-                $data['user'] = HrSupportFile::with(['type', 'subType'])->findOrFail($id);
 
-                // Fetch all types for the dropdown
-                $data['type'] = HrSupportFileType::all();
-
-                // Fetch all sub types based on the selected type
-                $data['subTypes'] = SubHrFileType::where('type_id', $data['user']->type_id)->get();
-
-                return view('admin/add-hr-file-support', $data);
-            } else {
-                return redirect('superadmin');
-            }
-        } catch (Exception $e) {
-            throw new \App\Exceptions\AdminException($e->getMessage());
-        }
-    }
-
-    public function storeOrUpdateHrSupportFile(Request $request)
-    {
-        //dd($request->all());
-        try {
-            $email = Session::get('empsu_email');
-            if (!empty($email)) {
-                // If editing an existing record, find the record by ID
-                if ($request->has('id')) {
-                    $hrSupportFile = HrSupportFile::findOrFail($request->id);
-                } else {
-                    // If creating a new record, create a new instance
-                    $hrSupportFile = new HrSupportFile;
-                }
-
-                // Update or set the attributes
-                $hrSupportFile->type_id = $request->input('type_id');
-                $hrSupportFile->sub_type_id = $request->input('sub_type_id');
-                $hrSupportFile->title = $request->input('title');
-                $hrSupportFile->description = $request->input('description');
-                $hrSupportFile->small_description = $request->input('smalldescription');
-                $hrSupportFile->status = $request->input('status', 'active');
-
-                // Handle file uploads
-                if ($request->hasFile('pdf')) {
-                    $pdfFileName = $request->file('pdf')->getClientOriginalName();
-                    $request->file('pdf')->storeAs('public/hrsupport/pdf', $pdfFileName);
-                    $hrSupportFile->pdf = $pdfFileName;
-                }
-
-                if ($request->hasFile('doc')) {
-                    $docFileName = $request->file('doc')->getClientOriginalName();
-                    $request->file('doc')->storeAs('public/hrsupport/doc', $docFileName);
-                    $hrSupportFile->doc = $docFileName;
-                }
-                //dd($hrSupportFile);
-                // Save the record
-                $hrSupportFile->save();
-
-                // Redirect back with success message
-                Session::flash('message', 'Hr Support File ' . (isset($request->id) ? 'updated' : 'added') . ' successfully.');
-                return redirect('superadmin/hr-support-files');
-            } else {
-                return redirect('superadmin');
-            }
-        } catch (Exception $e) {
-            // Handle exceptions
-            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
-        }
-    }
 
     public function getHrSupportFile($id){
         $hrSupportFile = HrSupportFile::findOrFail($id);
         return response()->json($hrSupportFile );
     }
-    public function deleteHrSupportFile($id){
+   
+
+    public function deleteHrSupportFile($id)
+    {
         try {
             $email = Session::get('empsu_email');
             if (!empty($email)) {
+                DB::beginTransaction();
                 $hrSupportFile = HrSupportFile::findOrFail($id);
-                $hrSupportFile->delete();
+                HrSupportDtlDoc::where('support_id', $hrSupportFile->id)->delete();
+                $data = HrSupportFile::where('id',$id)->delete();
+                DB::commit();
                 Session::flash('message', 'HR Support File deleted successfully.');
                 return redirect()->back();
             } else {
                 return redirect('superadmin');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            DB::rollBack();
             throw new \App\Exceptions\AdminException($e->getMessage());
         }
     }
+
+
 
     public function viewdashboard(Request $request){
         $email = Session::get('emp_email');
@@ -448,6 +374,194 @@ class HrSupportController extends Controller
             return redirect('superadmin')->with('error', $e->getMessage());
         }
     }
+
+
+    public function storeOrUpdateHrSupportFile(Request $request)
+    {
+        // Log the incoming request for debugging
+        \Log::info('Incoming Request:', $request->all());
+        //dd($request->all());
+        $validated = $request->validate([
+            'type_id' => 'required|integer',
+            'sub_type_id' => 'required|integer',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'smalldescription' => 'required|string',
+            'file_names' => 'required|array',
+            'document_desc' => 'required|array',
+            'pdf_files' => 'required|array',
+            'pdf_files.*' => 'file|mimes:pdf|max:2048',
+            'doc_files' => 'required|array',
+            'doc_files.*' => 'file|mimes:doc,docx|max:2048',
+        ]);
+        //dd($validated);
+
+        DB::beginTransaction();
+        try {
+            // Save the main record
+            $supportFile = HrSupportFile::create([
+                'type_id' => $request->type_id,
+                'sub_type_id' => $request->sub_type_id,
+                'title' => $request->title,
+                'small_description' => $request->smalldescription,
+                'description' => $request->description,
+                'status' => 1,
+            ]);
+
+            \Log::info('HrSupportFile created with ID: ' . $supportFile->id);
+
+            foreach ($request->file_names as $index => $name) {
+                if (isset($request->pdf_files[$index]) && isset($request->doc_files[$index]) && isset($request->document_desc[$index])) {
+                    // Log the file names for debugging
+                    \Log::info('File Index: ' . $index . ', Name: ' . $name);
+
+                    $pdfPath = $request->pdf_files[$index]->store('pdfs', 'public');
+                    $docPath = $request->doc_files[$index]->store('docs', 'public');
+
+                    HrSupportDtlDoc::create([
+                        'support_id' => $supportFile->id,
+                        'name' => $name,
+                        'document_description' => $request->document_desc[$index],
+                        'pdf' => $pdfPath,
+                        'doc' => $docPath,
+                    ]);
+                } else {
+                    \Log::warning('Missing file or description for index: ' . $index);
+                }
+            }
+
+            DB::commit();
+            Session::flash('message', 'Record added successfully.');
+            return redirect('superadmin/hr-support-files');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error adding HR Support File: ' . $e->getMessage());
+            Session::flash('error', 'Something went wrong while saving the record.');
+            return redirect('superadmin/hr-support-files');
+        }
+    }
+
+ 
+    public function editHrSupportFile($id)
+    {
+        try {
+            $email = Session::get('empsu_email');
+            if (!empty($email)) {
+                // Fetch the main record along with type, sub type, and related documents
+                $data['user'] = HrSupportFile::with(['type', 'subType', 'hrsupportDoc'])->findOrFail($id);
+
+                // Fetch all types for the dropdown
+                $data['type'] = HrSupportFileType::all();
+
+                // Fetch all sub types based on the selected type
+                $data['subTypes'] = SubHrFileType::where('type_id', $data['user']->type_id)->get();
+
+                return view('admin/edit-hr-file-support', $data);
+            } else {
+                return redirect('superadmin');
+            }
+        } catch (Exception $e) {
+            throw new \App\Exceptions\AdminException($e->getMessage());
+        }
+    }
+
+
+    public function updateHrSupportFile(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'type_id' => 'required|integer',
+            'sub_type_id' => 'required|integer',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'smalldescription' => 'required|string',
+            'file_names' => 'required|array',
+            'document_desc' => 'array',
+            'pdf_files.*' => 'nullable|file|mimes:pdf|max:2048',
+            'doc_files.*' => 'nullable|file|mimes:doc,docx|max:2048',
+
+        ]);
+ 
+        try {
+            DB::beginTransaction();
+
+            // Update main record
+            $supportFile = HrSupportFile::findOrFail($id);
+            $supportFile->update([
+                'type_id' => $validated['type_id'],
+                'sub_type_id' => $validated['sub_type_id'],
+                'title' => $validated['title'],
+                'small_description' => $validated['smalldescription'],
+                'description' => $validated['description'],
+            ]);
+
+            // Handle file updates and new uploads
+            if ($request->has('removed_files')) {
+                HrSupportDtlDoc::whereIn('id', $request->removed_files)->delete();
+            }
+
+            foreach ($request->file_names as $index => $name) {
+                $docId = $request->doc_ids[$index] ?? null;
+                $pdfPath = $request->pdf_files[$index] ?? null;
+                $docPath = $request->doc_files[$index] ?? null;
+
+                if ($docId) {
+                    // Update existing document
+                    $doc = HrSupportDtlDoc::find($docId);
+                    $doc->update([
+                        'name' => $name,
+                        'document_description' => $validated['document_desc'][$index],
+                        'pdf' => $pdfPath ? $pdfPath->store('pdfs', 'public') : $doc->pdf,
+                        'doc' => $docPath ? $docPath->store('docs', 'public') : $doc->doc,
+                    ]);
+                } else {
+                    // Add new document
+                    HrSupportDtlDoc::create([
+                        'support_id' => $supportFile->id,
+                        'name' => $name,
+                        'document_description' => $validated['document_desc'][$index],
+                        'pdf' => $pdfPath ? $pdfPath->store('pdfs', 'public') : null,
+                        'doc' => $docPath ? $docPath->store('docs', 'public') : null,
+                    ]);
+                }
+            }
+
+            DB::commit();
+            Session::flash('message', 'Record update successfully.');
+            return redirect('superadmin/hr-support-files');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error updating HR Support File:', ['message' => $e->getMessage()]);
+            Session::flash('message', 'Record update successfully.');
+            return back();
+        }
+    }
+
+
+
+
+
+    public function deleteDynamicHrFile(Request $request)
+    {
+        $docId = $request->id;
+        try {
+            $document = HrSupportDtlDoc::findOrFail($docId);
+            // Delete the PDF file if it exists
+            if ($document->pdf && Storage::disk('public')->exists($document->pdf)) {
+                Storage::disk('public')->delete($document->pdf);
+            }
+            // Delete the DOC file if it exists
+            if ($document->doc && Storage::disk('public')->exists($document->doc)) {
+                Storage::disk('public')->delete($document->doc);
+            }
+            // Delete the record from the database
+            $document->delete();
+            return response()->json(['success' => true, 'message' => 'Document and associated files deleted successfully.']);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to delete the document.']);
+        }
+    }
+
+
 
     
 

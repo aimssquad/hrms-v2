@@ -1360,7 +1360,19 @@ class AdminController extends Controller
                     $data['total_amount'] = DB::table('subadmin_bills')->where('org_code',$data['org_code']->org_code)->sum('total_amount');
                     $data['pending_amount'] = DB::table('subadmin_bills')->where('org_code',$data['org_code']->org_code)->where('payment_status',0)->sum('total_amount'); 
                     $data['receving_amount'] = DB::table('subadmin_bills')->where('org_code',$data['org_code']->org_code)->where('payment_status',1)->sum('total_amount');
-
+                    $data['total_active_organization'] = DB::table('registration')->where('org_code',$data['org_code']->org_code)->where('status','active')->where('verify','approved')->get();
+                    $data['total_inactive_organization'] = DB::table('registration')->where('org_code',$data['org_code']->org_code)->where('status','active')->where('verify','not approved')->get();
+                    // Extract all 'reg' values
+                    $regValues = $data['total_active_organization']->pluck('reg')->toArray();
+                    $data['total_employee_count'] = DB::table('employee')
+                        ->whereIn('emid', $regValues)
+                        ->where('verify_status','approved')
+                        ->count();
+                    $data['total_inactive_employee_count'] = DB::table('employee')
+                        ->whereIn('emid', $regValues)
+                        ->where('verify_status','not approved')
+                        ->count();    
+                    //dd($data['total_employee_count']);
                     return view('sub-admin.dashboard', $data);
                 }
                 return View('admin/dashboard', $data);
@@ -5627,6 +5639,7 @@ class AdminController extends Controller
 
     public function saveCompany(Request $request)
     {
+        
         try {
             $email = Session::get('empsu_email');
             $userType = Session::get('usersu_type');
@@ -5646,9 +5659,11 @@ class AdminController extends Controller
 
                     DB::table('registration')->where('reg', $request->reg)->update($data);
                 }
+                // dd($request->all());
                 if ($request->status == 'active' && $request->verify == 'approved' && $request->licence == 'yes') {
                     //dd($request->all());
                     $data = array('f_name' => $request->f_name, 'l_name' => $request->l_name, 'com_name' => $request->com_name, 'p_no' => $request->p_no, 'email' => $request->email, 'pass' => $request->pass);
+                    //dd($data);
                     $toemail = $request->email;
                     Mail::send('mailorupli', $data, function ($message) use ($toemail) {
                         $message->to($toemail, 'skilledworkerscloud')->subject
@@ -5664,14 +5679,14 @@ class AdminController extends Controller
                     );
                     DB::table('registration')->where('reg', $request->reg)->update($data);
                 } else {
-
+                    
                     $data = array(
                         'status' => $request->status,
                         'verify' => $request->verify,
                         'licence' => $request->licence,
                         'license_type' => $request->license_type,
                     );
-
+                    //dd($data);
                     DB::table('registration')->where('reg', $request->reg)->update($data);
                 }
 
@@ -5681,9 +5696,9 @@ class AdminController extends Controller
                 );
 
                 DB::table('users')->where('employee_id', $request->reg)->update($datau);
-
+                //dd($request->reg);
                 $exits = DB::table('users')->where('employee_id', $request->reg)->first();
-
+                //dd($exits);
                 if ($request->status == 'inactive') {
 
                     $datau = array(
@@ -19725,8 +19740,7 @@ class AdminController extends Controller
                 }
 
                 $data['Roledata'] = DB::table('registration')
-
-                    ->where('id', '=', $comp_id)
+                    ->where('reg', '=', $comp_id)
                     ->first();
                 $data['cuurenci_master'] = DB::table('currencies')->get();
                 $data['nat_or_master'] = DB::table('nat_or')->get();
@@ -19739,7 +19753,7 @@ class AdminController extends Controller
                     ->get();
 
                 $this->addAdminLog(3, 'Organisation - Edit form opened for company code: ' . $data['Roledata']->reg);
-                //dd('ooooo');
+                //dd($data);
                     return View('sub-admin/organization/edit-sub-company', $data);  
            
                 //return View('admin/edit-sub-company', $data);
@@ -21089,7 +21103,7 @@ class AdminController extends Controller
             if ($amount === null) {
                 $amount = DB::table('rule_table')
                     ->where('entity_id', 'DEFULT') // Replace 'default' with your actual default entity_id value
-                    ->where('type', 'sub-admin')
+                    ->where('type', 'employer')
                     ->value('employee_charge');
             }    
 
@@ -21107,6 +21121,47 @@ class AdminController extends Controller
             }
         }
     }
+
+    public function subadminindex(Request $request)
+    {
+        try {
+            //dd('okk');
+            return view('sub-admin/index');
+
+        } catch (Exception $e) {
+            throw new \App\Exceptions\AdminException($e->getMessage());
+        }
+    }
+
+    public function subadminLogin (Request $request){
+        // Validate the request
+        $request->validate([
+            'email' => 'required|email',
+            'psw' => 'required|string',
+        ]);
+
+        $Employee = DB::table('users')->where('email', '=', $request->email)
+            ->where('password', '=', $request->psw)
+            ->where('status', '=', 'active')
+            ->whereIn('user_type', ['admin', 'sub-admin'])
+            ->first();
+        if (!empty($Employee)) {
+            Session::put('empsu_name', $Employee->name);
+            Session::put('empsu_email', $request->email);
+            Session::put('usersu_type', $Employee->user_type);
+            Session::put('users_id', $Employee->id);
+            Session::put('empsu_pass', $request->psw);
+            $data = DB::table('sub_admin_registrations')->where('email','=',$request->email)->where('status','=','active')->first();
+            $organization_code =  $data->org_code;
+            Session::put('org_code', $organization_code);
+            return redirect()->intended('superadmindasboard');
+        } else {
+            return redirect()->back()->withErrors(['login_error' => 'Invalid email or password'])->withInput();
+            //return redirect('subadmin');
+        }
+    }
+
+
 
 
 

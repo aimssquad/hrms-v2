@@ -5,7 +5,7 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
-
+//dd($sidebarItems);
 @endphp
 @section('content')
 @php
@@ -46,11 +46,15 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
-				@foreach($sidebarItems as $value)
-				@if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 44)
-				<a href="{{ url('org-recruitment/add-job-list') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job List</a>
-				@endif
-				@endforeach
+                {{-- @php dd('okk'); @endphp --}}
+                @if(isset($sidebarItems['Recruitment']))
+                    @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                        @if($rotaItem['submenu_name'] == 'Job List' && $rotaItem['can_add'] == 1)
+                            <a href="{{ url('org-recruitment/add-job-list') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job List</a>
+                            @break
+                            @endif
+                        @endforeach
+                    @endif  
 				@elseif($user_type == 'employer')
 				<a href="{{ url('org-recruitment/add-job-list') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job List</a>
 				@endif
@@ -79,8 +83,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                <input type="hidden" name="filename" id="filename">
                                {{-- put the value - that is your file name --}}
                                <input type="hidden" id="filenameInput" value="Job-list">
-                               <button type="submit" class="btn btn-success btn-sm">
-                                   <i class="fas fa-file-excel"></i> Export to Excel
+                               <button type="submit" class="btn-download btn-download-excel me-0">
+                                 Export to Excel
                                </button>
                            </form>
                        </div>
@@ -90,8 +94,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                              <input type="hidden" name="data" id="pdfData">
                              <input type="hidden" name="headings" id="pdfHeadings">
                              <input type="hidden" name="filename" id="pdfFilename">
-                             <button type="submit" class="btn btn-info btn-sm">
-                                 <i class="fas fa-file-pdf"></i> Export to PDF
+                             <button type="submit" class="btn-download btn-download-pdf">
+                                 Export to PDF
                              </button>
                          </form>
                        </div>
@@ -121,8 +125,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     @if($user_type == 'employee')
-                                                        @foreach($sidebarItems as $value)
-                                                            @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 35)
+                                                        @foreach($sidebarItems['Recruitment'] as $rotaItem)
+                                                            @if($rotaItem['submenu_name'] == 'Job List' && $rotaItem['can_edit'] == 1)
                                                                 <a class="dropdown-item" href="{{url('org-recruitment/add-job-list/')}}?id={{$recruitment_job->id}}">
                                                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                                 </a>

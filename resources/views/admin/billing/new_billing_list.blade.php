@@ -128,6 +128,8 @@
                                             <th>Vat</th>
                                             <th>Total Amount</th>
                                             <th>Payment Mode</th>
+                                            <th>Payment Id</th>
+                                            <th>Payment Document</th>
                                             <th>Description</th>
                                             <th>Action</th>
                                          </tr>
@@ -149,6 +151,14 @@
                                             <td>{{$billing->vat}}</td>
                                             <td>{{$billing->total_amount}}</td>
                                             <td>{{$billing->payment_mode}}</td>
+                                            <td>{{$billing->payment_dtl ?? 'NA'}}</td>
+                                            <td>
+                                                @if ($billing->payment_document)
+                                                    <a href="{{ asset('storage/' . $billing->payment_document) }}" target="blank"><img src="{{ asset('storage/' . $billing->payment_document) }}" alt="Payment Document" style="width: 100px; height: auto;"></a>
+                                                @else
+                                                    NA
+                                                @endif
+                                            </td>
                                             <td>{{$billing->description}}</td>
                                             <td class="drp">
                                                <div class="dropdown">

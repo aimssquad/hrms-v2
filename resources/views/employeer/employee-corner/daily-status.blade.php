@@ -42,11 +42,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 					<li class="breadcrumb-item active" style="color:#ff902f"> Attendance Status</li>
 				</ul>
 			</div>
-			<div class="col-auto float-end ms-auto">
+			{{-- <div class="col-auto float-end ms-auto">
 				@if($user_type !== 'employer')
 				<a href="{{url('org-employee-corner/add-work-update')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Daily Work Update </a>
 				@endif
-			</div>
+			</div> --}}
 		</div>
 	</div>
 	<!-- /Page Header -->

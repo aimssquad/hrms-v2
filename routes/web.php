@@ -14,6 +14,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\organization\OrganizationController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Notice\NoticeController;
 
 
 /*
@@ -27,9 +28,9 @@ use App\Http\Controllers\AdminController;
 |
  */
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+Route::get('register-email', function () {
+    return view('register-email');
+});
 
 // new route
 //------------------------------- Billing 
@@ -51,30 +52,13 @@ Route::get('/billing-rule/edit/{id}', 'App\Http\Controllers\organization\BillCon
 Route::post('/billing-rule/update/{id}', 'App\Http\Controllers\organization\BillController@update')->name('billing-rule.update');
 Route::get('/billing-rule/delete/{id}', 'App\Http\Controllers\organization\BillController@destroyBillingRule')->name('billing-rule.delete');
 //------------------------------- Billing End----------------------------------
-//-------------------------------------Sub Admin Billing---------------------------------------
-Route::get('sub-admin/billing/dashboard','App\Http\Controllers\organization\SubadminBillController@dashboard')->name('subadmin.billing.dashboard');
 
-Route::get('sub-admin/billing-rule-list','App\Http\Controllers\organization\SubadminBillController@showRuleList')->name('subadmin.rulelist');
-Route::get('sub-admin/billing-rule','App\Http\Controllers\organization\SubadminBillController@showRule')->name('subadmin.rule');
-Route::post('sub-admin/billing-rule', 'App\Http\Controllers\organization\SubadminBillController@ruleStore')->name('subadmin.rulesave');
-Route::get('/sub-admin/billing-rule/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@edit')->name('subadmin.billing-rule.edit');
-Route::post('/sub-admin/billing-rule/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@update')->name('subadmin.billing-rule.update');
-
-Route::get('sub-admin/billing-list', 'App\Http\Controllers\organization\SubadminBillController@billingList')->name('subadmin.bills.list');
-Route::get('superadmin/get-entity-details', 'App\Http\Controllers\organization\SubadminBillController@getEntityDetails');
-Route::get('sub-admin/add-billing', 'App\Http\Controllers\organization\SubadminBillController@addbillng')->name('subadmin.addbilling');
-Route::post('sub-admin/bills/store', 'App\Http\Controllers\organization\SubadminBillController@store')->name('subadmin-bills.store');
-Route::get('/sub-admin/billing/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@editBill')->name('subadmin.billing.edit');
-Route::post('sub-admin/bills/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@updateBilling')->name('sub-admin.billing.update');
-Route::get('/sub-admin/billing/delete/{id}', 'App\Http\Controllers\organization\SubadminBillController@destroyBilling')->name('subadmin.billing.delete');
-Route::get('/sub-admin/billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewInvoice')->name('subadmin.billing.invoice');
-//------------Own Bills
-Route::get('/sub-admin/all-bills','App\Http\Controllers\organization\SubadminBillController@viewBillList')->name('subadmin.allbills');
-
-//-------------------------------------End Sub Admin Billing---------------------------------------
 //---------------------------------------Organization  Billing ------------------------------------------
+Route::get('organization/billing/dashboard','App\Http\Controllers\organization\OrganizationBillController@orgDashboard')->name('organization.bill-dashboard');
 Route::get('organization/billing-show','App\Http\Controllers\organization\OrganizationBillController@orgBill')->name('organization.bill-show');
 Route::get('/organization/billing/view/{id}', 'App\Http\Controllers\organization\OrganizationBillController@invoice')->name('organization.billing.invoice');
+Route::get('/organization/billing/edit/{id}', 'App\Http\Controllers\organization\OrganizationBillController@editInvoice')->name('organization.billing.edit');
+Route::post('/organization/payment/update/{id}', 'App\Http\Controllers\organization\OrganizationBillController@paymentUpdate');
 ///--------------------------------------End Organization  Billing --------------------------------------
 
 //---------------------------------------------Login And Registration Slide image Video --------------------------
@@ -323,14 +307,21 @@ Route::post('org-employee-corner/attendance-status', 'App\Http\Controllers\organ
 
 Route::get('org-employee-corner/leave-apply', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewapplyleaveapplication');
 Route::post('org-employee-corner/leave-apply', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@saveApplyLeaveData');
+
+// Route::get('org-employee-corner/addemployee', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewAddEmployee');
 // ----------------------------------------- End Employee Corner ---------------------------------------------
 
 //-------------------------------------------- Hr Support ---------------------------------------------------
 Route::get('hr-support/dashboard', 'App\Http\Controllers\organization\HrSupportController@viewdashboard')->name('hr-support.dashboard');
+Route::get('hr-support/dashboard-new', 'App\Http\Controllers\organization\HrSupportController@viewdashboardnew')->name('hr-support.dashboard-new');
 Route::get('hr-support/support-file/{id}', 'App\Http\Controllers\organization\HrSupportController@supportFile')->name('support-file.show');
 Route::get('hr-support/support-file-details/{id}', 'App\Http\Controllers\organization\HrSupportController@supportFileDetails')->name('support-file.details');
 
 //-------------------------------------------- End Hr Support -----------------------------------------------
+
+//-------------------------------------------- Notices --------------------------------
+
+
 
 //--------------------------------------------- User Access -----------------------------------------------
 Route::get('user-access-role/dashboard', 'App\Http\Controllers\organization\UseraceesController@dashboard')->name('user-access/dashboard');
@@ -343,6 +334,11 @@ Route::get('user-access-role/view-users-role', 'App\Http\Controllers\organizatio
 Route::get('user-access-role/user-role', 'App\Http\Controllers\organization\UseraceesController@viewUserAccessRightsForm');
 Route::post('user-access-role/user-role', 'App\Http\Controllers\organization\UseraceesController@UserAccessRightsFormAuth');
 Route::get('user-accessrole/view-users-role/{role_authorization_id}', 'App\Http\Controllers\organization\UseraceesController@deleteUserAccess');
+
+Route::get('user-access/emp', 'App\Http\Controllers\organization\UseraceesController@getEmployee')->name('get_emp'); 
+Route::get('user-access/emp-permission/{id}', 'App\Http\Controllers\organization\UseraceesController@employeePermission')->name('employeepermission'); 
+Route::post('user-access/emp-permission', 'App\Http\Controllers\organization\UseraceesController@createPermission');
+//Route::get('user-access/permission-list', 'App\Http\Controllers\organization\UseraceesController@createPermission');
 //---------------------------------------------- End User Access ---------------------------------------
 
 //----------------------------------------------- Settings ---------------------------------------------
@@ -496,8 +492,10 @@ Route::get('org-dashboard-employees', 'App\Http\Controllers\organization\Dashboa
 Route::get('org-dashboard-migrant-employees', 'App\Http\Controllers\organization\DashboardController@getEmployeesmigrant');
 Route::get('org-dashboard-right-works', 'App\Http\Controllers\organization\DashboardController@getEmployeesright');
 Route::get('org-add-right-works-by-datecheck', 'App\Http\Controllers\organization\DashboardController@addEmployeesrightByDate');
+Route::post('org-add-right-works-by-date', 'App\Http\Controllers\organization\DashboardController@saveEmployeesrightByDate');
 Route::get('org-dashboard/key-contact', 'App\Http\Controllers\organization\DashboardController@getCompaniesofficerkey');
 Route::get('org-dashboard/sponsor-management-dossier', 'App\Http\Controllers\organization\DashboardController@getEmployeesdossier');
+Route::get('org-dashboard/sponsor-management-dossier-new', 'App\Http\Controllers\DossierController@getEmployeesdossier');
 Route::get('org-dashboard/message-center', 'App\Http\Controllers\organization\DashboardController@viewmsgcen');
 Route::post('org-document/staff-report-excel', 'App\Http\Controllers\organization\DashboardController@reportEmployeesexcelstaff');
 Route::get('org-dashboard/absent-report', 'App\Http\Controllers\organization\DashboardController@viewattendanabsent');
@@ -508,6 +506,9 @@ Route::get('org-dashboard/contract-agreement', 'App\Http\Controllers\organizatio
 Route::post('org-dashboard/contract-agreement', 'App\Http\Controllers\organization\DashboardController@saveemployeeagreement');
 Route::get('org-dashboard/org-contract-agreement-edit/{agreement_id}', 'App\Http\Controllers\organization\DashboardController@viewemployeeagreementdit');
 Route::get('org-dashboard/org-contract-word/{agreement_id}', 'App\Http\Controllers\organization\DashboardController@msword');
+Route::post('org-add-right-works', 'App\Http\Controllers\organization\DashboardController@saveEmployeesright');
+Route::get('org-dashboard/edit-work-view/{send_id}', 'App\Http\Controllers\organization\DashboardController@viewsendcandidatedetailsworkedit');
+Route::post('org-edit-right-works', 'App\Http\Controllers\organization\DashboardController@saveEmployeesrightedit');
 
 //-----------------------------------------End Sponsor Compliance --------------------------------------------------------
 
@@ -578,6 +579,13 @@ Route::post('org-recruitment/add-message-centre', 'App\Http\Controllers\organiza
 
 
 //-----------------------------End Recruitment Section -------------------------------------------------------------
+//-------------------------------Start Notice-------------------------------------------------------------
+Route::get('notice/org-notice', 'App\Http\Controllers\organization\NoticeController@index')->name('org.notice');
+Route::get('notice/add-notice', 'App\Http\Controllers\organization\NoticeController@create')->name('add.notice');
+Route::post('notice/add-notice', 'App\Http\Controllers\organization\NoticeController@store')->name('stor.notice');
+Route::get('notice/edit-notice/{id}', 'App\Http\Controllers\organization\NoticeController@edit')->name('edit.notice');
+Route::post('/notice/update/{id}', 'App\Http\Controllers\organization\NoticeController@update')->name('update.notice');
+Route::get('notice/delete-notice/{id}', 'App\Http\Controllers\organization\NoticeController@destroy')->name('delete.notice');
 #####################################################Sub-admin###############################################
 Route::get('sub-admin/dashboard', [AdminController::class, 'hh'])->name('sub-admin.dashboard');
 ######################################################################################
@@ -719,6 +727,9 @@ Route::post('superadmin/add-hr-support-file', 'App\Http\Controllers\HrSupport\Hr
 Route::get('superadmin/edit-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@editHrSupportFile')->name('edit-hr-support-file');
 Route::get('superadmin/delete-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@deleteHrSupportFile')->name('delete-hr-support-file');
 Route::get('superadmin/get-hr-support-file/{id}', 'App\Http\Controllers\HrSupport\HrSupportController@getHrSupportFile');
+Route::post('superadmin/update-hr-support-file/{id}','App\Http\Controllers\HrSupport\HrSupportController@updateHrSupportFile');
+Route::post('/delete-dynamic-hrfile-row', 'App\Http\Controllers\HrSupport\HrSupportController@deleteDynamicHrFile')->name('delete.hrfile-document');
+
 
 Route::get('superadmin/sub/add-hr-support-file-type-List', 'App\Http\Controllers\HrSupport\HrSupportController@addSubHrSupportFileList');
 Route::get('superadmin/sub/add-hr-support-file-type', 'App\Http\Controllers\HrSupport\HrSupportController@addSubHrSupportFile');
@@ -736,6 +747,20 @@ Route::get('hrsupport/support-file-details/{id}', 'App\Http\Controllers\HrSuppor
 
 
 //******* Hr File Supprot End *********//
+
+
+//******* Routes with  notices start *********//
+Route::prefix('superadmin/notices')->group(function () {
+    Route::get('/', [NoticeController::class, 'index'])->name('notices.index'); // List all notices
+    Route::get('/create', [NoticeController::class, 'create'])->name('notices.create'); // Show form to create notice
+    Route::post('/', [NoticeController::class, 'store'])->name('notices.store'); // Store a new notice
+    Route::get('/{id}', [NoticeController::class, 'show'])->name('notices.show'); // Show a specific notice
+    Route::get('/{id}/edit', [NoticeController::class, 'edit'])->name('notices.edit'); // Show form to edit a notice
+    Route::put('/{id}', [NoticeController::class, 'update'])->name('notices.update'); // Update a specific notice
+    Route::delete('/{id}', [NoticeController::class, 'destroy'])->name('notices.destroy'); // Delete a specific notice
+});
+
+
 
 
 //******* Routes with  attendance start *********//
@@ -3514,71 +3539,49 @@ Route::get('settings/get-add-row-mic/{row}', function ($row) {
 });
 
 Route::get('settings/get-add-row-item-edu/{row}', function ($row) {
-
-    $row = $row + 1;
-
     $result = '
-				  <div class="itemslotedu" id="' . $row . '">
-				  <div class="row " >
-				  <div class="col-md-4">
-
-		<div class="form-group">
-	<label for="inputFloatingLabel-jobt" class="col-form-label">Job Title</label>
-		<input id="inputFloatingLabel-jobt" type="text" class="form-control input-border-bottom"  name="job_name[]">
-
-	</div>
-	</div>
-	<div class="col-md-4">
-
-		<div class="form-group">
-	    <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
-		<input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]">
-	</div>
-	</div>
-	<div class="col-md-4">
-
-		<div class="form-group">
-		    <label for="inputFloatingLabel-jobe" class="col-form-label">End Date </label>
-		<input id="inputFloatingLabel-jobe" type="date" class="form-control input-border-bottom" name="job_end_date[]">
-
-	</div>
-	</div>
-		</div>
-
-		          <div class="row">
-				  <div class="col-md-4">
-<div class="form-group">
-   <label for="selectFloatingLabelexp" class="col-form-label">Year of Experience</label>
-<select class="form-control input-border-bottom" id="selectFloatingLabelexp"  name="exp[]">
-<option value="">&nbsp;</option>';
+    <div class="itemslotedu" id="' . $row . '">
+        <div class="row">
+            <div class="col-md-4 mb-2">
+                <div class="form-group">
+                    <label for="inputFloatingLabel-jobs" class="col-form-label">Start Date</label>
+                    <input id="inputFloatingLabel-jobs" type="date" class="form-control input-border-bottom" name="job_start_date[]">
+                </div>
+            </div>
+            <div class="col-md-4 mb-2">
+                <div class="form-group">
+                    <label for="inputFloatingLabel-jobe" class="col-form-label">End Date</label>
+                    <input id="inputFloatingLabel-jobe" type="date" class="form-control input-border-bottom" name="job_end_date[]">
+                </div>
+            </div>
+            <div class="col-md-4 mb-2">
+                <div class="form-group">
+                    <label for="selectFloatingLabelexp" class="col-form-label">Year of Experience</label>
+                    <select class="form-control input-border-bottom" id="selectFloatingLabelexp" name="exp[]">
+                        <option value="">&nbsp;</option>';
     for ($i = 0; $i <= 10; $i++) {
-        $result .= '
-<option value="' . $i . '">' . $i . '</option>';
-
+        $result .= '<option value="' . $i . '">' . $i . '</option>';
     }
-
     $result .= '
-</select>
-
-</div>
-</div><div class="col-md-6">
-
-				  <div class="form-group">
-<label for="inputFloatingLabel-jobs" class="col-form-label">Job Description</label>
-	<textarea id="inputFloatingLabel-jobs"  rows="5" class="form-control"  style="height:135px !important;resize:none;"  name="des[]"> </textarea>
-
-</div>
-</div>
-
-
-
-
-<div class="col-md-2" style="margin-top:27px;">
-<button class="btn-success" type="button"  id="addedu' . $row . '" onClick="addnewrowedu(' . $row . ')" data-id="' . $row . '"><i class="fas fa-plus"></i> </button>
- <button class="btn-danger deleteButtonedu" type="button" id="deledu' . $row . '"  onClick="delRowedu(' . $row . ')"> <i class="fas fa-minus"></i> </button>
-</div>
-</div>
-	</div></br>';
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <div class="form-group">
+                    <label for="inputFloatingLabel-jobs" class="col-form-label">Job Description</label>
+                    <textarea id="inputFloatingLabel-jobs" rows="5" class="form-control" style="height:135px !important;resize:none;" name="des[]"></textarea>
+                </div>
+            </div>
+            <div class="col-md-2" style="margin-top:27px;">
+                <button class="btn btn-success" type="button" id="addedu' . $row . '" onClick="addnewrowedu(' . $row . ')" data-id="' . $row . '">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button class="btn btn-danger deleteButtonedu" type="button" id="deledu' . $row . '" onClick="delRowedu(' . $row . ')">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+    </div><br>';
     echo $result;
 });
 
@@ -5730,23 +5733,23 @@ Route::get('pis/getcompanycountryById/{empid}', function ($empid) {
 
 Route::get('pis/getjobpostByIdlkkk/{empid}', function ($empid) {
 
-    $email = Session::get('emp_email');
+    // $email = Session::get('emp_email');
 
-    $Roledata = DB::table('registration')
-        ->where('status', '=', 'active')
-        ->where('email', '=', $email)
-        ->first();
+    // $Roledata = DB::table('registration')
+    //     ->where('status', '=', 'active')
+    //     ->where('email', '=', $email)
+    //     ->first();
 
     $desig_rs = DB::table('company_job_list')
 
         ->where('soc', '=', $empid)
-        ->where('emid', '=', $Roledata->reg)
+        ->where('emid', '=', Session::get('emid'))
         ->first();
 
     $employee_rs = DB::table('company_job_list')
 
         ->where('soc', '=', $desig_rs->soc)
-        ->where('emid', '=', $Roledata->reg)
+        ->where('emid', '=', Session::get('emid'))
         ->get();
         // dd($employee_rs);
     $result = '';
@@ -5825,12 +5828,66 @@ Route::get('subadmin/verify', 'App\Http\Controllers\AdminController@VerfySubadmi
 Route::get('subadmin/edit-subchild-company/{comp_id}', 'App\Http\Controllers\AdminController@viewSubChildCompany');
 Route::post('subadmin/editsub-child-company', 'App\Http\Controllers\AdminController@saveSubChildCompany');
 Route::get('subadmin/view-sub-organization/{comp_id}', 'App\Http\Controllers\AdminController@viewSubOrganization');
-
+Route::get('subadmin/profile', 'App\Http\Controllers\SubadminController@profile');
+Route::get('subadmin/edit/profile/{id}', 'App\Http\Controllers\SubadminController@editProfile');
+Route::post('subadmin/update/profile', 'App\Http\Controllers\SubadminController@updateSubadminProfile');
 //-------------------------Superadmin --------------------
 Route::get('subadmin/edit-sub-company/{comp_id}', 'App\Http\Controllers\AdminController@viewSubAddCompany');
 Route::post('subadmin/editsubcompany', 'App\Http\Controllers\AdminController@saveSubCompany');
 //--------------------------
+//-------------------------------------Sub Admin Billing---------------------------------------
+Route::get('sub-admin/billing/dashboard','App\Http\Controllers\organization\SubadminBillController@dashboard')->name('subadmin.billing.dashboard');
+
+Route::get('sub-admin/billing-rule-list','App\Http\Controllers\organization\SubadminBillController@showRuleList')->name('subadmin.rulelist');
+Route::get('sub-admin/billing-rule','App\Http\Controllers\organization\SubadminBillController@showRule')->name('subadmin.rule');
+Route::post('sub-admin/billing-rule', 'App\Http\Controllers\organization\SubadminBillController@ruleStore')->name('subadmin.rulesave');
+Route::get('/sub-admin/billing-rule/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@edit')->name('subadmin.billing-rule.edit');
+Route::post('/sub-admin/billing-rule/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@update')->name('subadmin.billing-rule.update');
+
+Route::get('sub-admin/billing-list', 'App\Http\Controllers\organization\SubadminBillController@billingList')->name('subadmin.bills.list');
+Route::get('superadmin/get-entity-details', 'App\Http\Controllers\organization\SubadminBillController@getEntityDetails');
+Route::get('sub-admin/add-billing', 'App\Http\Controllers\organization\SubadminBillController@addbillng')->name('subadmin.addbilling');
+Route::post('sub-admin/bills/store', 'App\Http\Controllers\organization\SubadminBillController@store')->name('subadmin-bills.store');
+Route::get('/sub-admin/billing/edit/{id}', 'App\Http\Controllers\organization\SubadminBillController@editBill')->name('subadmin.billing.edit');
+Route::post('sub-admin/bills/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@updateBilling')->name('sub-admin.billing.update');
+Route::get('/sub-admin/billing/delete/{id}', 'App\Http\Controllers\organization\SubadminBillController@destroyBilling')->name('subadmin.billing.delete');
+Route::get('/sub-admin/billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewInvoice')->name('subadmin.billing.invoice');
+//------------Own Bills
+Route::get('/sub-admin/all-bills','App\Http\Controllers\organization\SubadminBillController@viewBillList')->name('subadmin.allbills');
+Route::get('subadmin.billing.own_bill_edit/{id}','App\Http\Controllers\organization\SubadminBillController@subadminOwnBillEdit')->name('subadmin.billing.own_bill_edit');
+Route::post('/subadmin/payment/update/{id}', 'App\Http\Controllers\organization\SubadminBillController@subadminOwnBillUpdate');
+Route::get('/sub-admin/own_billing/view/{id}', 'App\Http\Controllers\organization\SubadminBillController@viewOwnInvoice')->name('subadmin.own_billing.invoice');
+
+
+Route::get('/subadmin-own-invoice/download/{id}', 'App\Http\Controllers\organization\SubadminBillController@downloadSubInvoice')->name('invoice.download');
+
+//-------------------------------------End Sub Admin Billing---------------------------------------
 
 
 // Ajax Route ------------------------------------------------------------
 Route::get('pis/getEmployeedailyattandeaneshightByIdnewr/{empid}','App\Http\Controllers\AjaxController@getEmpCode');
+
+// Superadmin Dossier
+Route::get('superadmin/sponsor-dossier-list','App\Http\Controllers\DossierController@sponsorDossierList')->name('superadmin.sponsor-dossier-list');
+Route::get('superadmin/sponsor-dossier-add','App\Http\Controllers\DossierController@sponsorDossierAdd')->name('superadmin.sponsor-dossier-add');
+Route::post('superadmin/dossiers', 'App\Http\Controllers\DossierController@store')->name('dossiers.store');
+Route::get('superadmin/dossiers/{id}/edit', 'App\Http\Controllers\DossierController@edit')->name('dossiers.edit');
+Route::put('superadmin/dossiers/{id}', 'App\Http\Controllers\DossierController@update')->name('dossiers.update');
+Route::get('superadmin/dossiers/{id}', 'App\Http\Controllers\DossierController@destroy')->name('dossiers.destroy');
+
+Route::get('superadmin/dossiers2', 'App\Http\Controllers\DossierController@index')->name('dossiers2.index');
+Route::get('superadmin/sponsor-dossier-lavel2','App\Http\Controllers\DossierController@dossir2')->name('dossier2');
+Route::post('superadmin/dossiers2', 'App\Http\Controllers\DossierController@dossier2Save')->name('dossiers2.store');
+Route::get('superadmin/dossiers2/{id}/edit', 'App\Http\Controllers\DossierController@editDossier2')->name('dossier.edit-dossier2');
+Route::put('superadmin/dossiers2/{id}', 'App\Http\Controllers\DossierController@updateDossier2')->name('dossiers2.update');
+
+Route::get('superadmin/dossiers3', 'App\Http\Controllers\DossierController@dossier3List')->name('dossiers3.list');
+Route::get('superadmin/dossiers3view', 'App\Http\Controllers\DossierController@dossier3view')->name('dossiers3.view');
+Route::get('superadmin/get-dossier2-by-dossier', 'App\Http\Controllers\DossierController@getDossier2ByDossier')->name('get.dossier2.by.dossier');
+Route::post('superadmin/dossiers3save', 'App\Http\Controllers\DossierController@dossier3Save')->name('dossiers3.save');
+Route::get('superadmin/dossiers3/{id}/edit', 'App\Http\Controllers\DossierController@editDossier3')->name('dossier.edit-dossier3');
+Route::put('superadmin/dossiers3update/{id}', 'App\Http\Controllers\DossierController@updateDossier3')->name('dossier.update-dossier3');
+Route::get('subadmin', 'App\Http\Controllers\AdminController@subadminindex');
+Route::post('subadmin-login','App\Http\Controllers\AdminController@subadminLogin');
+Route::get('subadmin/organization-employee', 'App\Http\Controllers\SubadminController@allOrganizationEmployee');
+

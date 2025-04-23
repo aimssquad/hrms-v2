@@ -3,6 +3,7 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
+//dd($sidebarItems);
 @endphp
 @section('content')
 @php
@@ -39,8 +40,8 @@ return $output;
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
-            @foreach($sidebarItems as $value)
-            @if($value['rights'] == 'Add' && $value['module_name'] == 2 && $value['menu'] == 44)
+            @foreach($sidebarItems['Recruitment'] as $rotaItem)
+            @if($rotaItem['submenu_name'] == 'Message Center' && $rotaItem['can_add'] == 1)
             <a href="{{ url('org-recruitment/add-message-centre') }}" class="btn add-btn"><i class="fas fa-paper-plane"></i> Send Message</a>
             @endif
             @endforeach
@@ -67,9 +68,9 @@ return $output;
                        <input type="hidden" name="filename" id="filename">
                        {{-- put the value - that is your file name --}}
                        <input type="hidden" id="filenameInput" value="Message-center">
-                       <button type="submit" class="btn btn-success btn-sm">
-                           <i class="fas fa-file-excel"></i> Export to Excel
-                       </button>
+                       <button type="submit" class="btn-download btn-download-excel me-0">
+                           Export to Excel
+                     </button>
                    </form>
                </div>
                <div class="col-auto">
@@ -78,8 +79,8 @@ return $output;
                      <input type="hidden" name="data" id="pdfData">
                      <input type="hidden" name="headings" id="pdfHeadings">
                      <input type="hidden" name="filename" id="pdfFilename">
-                     <button type="submit" class="btn btn-info btn-sm">
-                         <i class="fas fa-file-pdf"></i> Export to PDF
+                     <button type="submit" class="btn-download btn-download-pdf">
+                           Export to PDF
                      </button>
                  </form>
                </div>

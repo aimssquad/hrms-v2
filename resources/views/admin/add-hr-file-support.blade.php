@@ -70,48 +70,54 @@
                                             <div class="col-md-9">
                                                 <div class="form-group">
                                                     <label for="description" class="placeholder">Short Description</label>
-                                                    <textarea id="description" name="description" class="form-control input-border-bottom" required>{{ isset($user) ? $user->small_description : '' }}</textarea>
-                                                </div>
+                                                    <textarea id="smalldescription" name="smalldescription" class="form-control input-border-bottom" required >{{ isset($user) ? $user->small_description : '' }}</textarea>
+                                                </div> 
                                             </div>
                                             <div class="col-md-9">
                                                 <div class="form-group">
                                                     <label for="description" class="placeholder">Long Description</label>
-                                                    <textarea id="description" name="smalldescription" rows="30" class="form-control input-border-bottom" required>{{ isset($user) ? $user->description : '' }}</textarea>
+                                                    <textarea id="description" name="description" rows="30" class="form-control input-border-bottom" required >{{ isset($user) ? $user->description : '' }}</textarea>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="status" class="placeholder">Upload Pdf</label>
-                                                    <input type="file" class="form-control" name="pdf" accept=".pdf">
-                                                    @if(isset($user) && $user->pdf)
-                                                        <p>Current PDF: <a href="{{ asset('storage/app/public/hrsupport/pdf/' . $user->pdf) }}" target="_blank">{{ $user->pdf }}</a></p>
-                                                    @endif
+                                           
+                                        <div id="file-container">
+                                            <div class="row file-section">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>File Name</label>
+                                                        <input type="text" class="form-control" name="file_names[]" required>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="status" class="placeholder">Upload Doc</label>
-                                                    <input type="file" class="form-control" name="doc" accept=".doc,.docx">
-                                                    @if(isset($user) && $user->doc)
-                                                         <p>Current DOC: <a href="{{ asset('storage/app/public/hrsupport/doc/' . $user->doc) }}" target="_blank">{{ $user->doc }}</a></p>
-                                                    @endif
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Document Description</label>
+                                                        <input type="text" class="form-control" name="document_desc[]" required>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="status" class="placeholder">Status</label>
-                                                    <select id="status" name="status" class="form-control input-border-bottom" required>
-                                                        <option value="active" {{ (isset($user) && $user->status == 'active') ? 'selected' : '' }}>Active</option>
-                                                        <option value="inactive" {{ (isset($user) && $user->status == 'inactive') ? 'selected' : '' }}>Inactive</option>
-                                                    </select>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Upload Pdf</label>
+                                                        <input type="file" class="form-control" name="pdf_files[]" accept=".pdf" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Upload Doc</label>
+                                                        <input type="file" class="form-control" name="doc_files[]" accept=".doc,.docx">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 text-right">
+                                                    <button type="button" class="btn btn-success-new btn-sm add-file-section " style="margin-bottom:0px; margin-right:5px;"><i class="fa fa-plus"></i></button>
+                                                    <button type="button" class="btn btn-danger-new btn-sm remove-file-section"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-md-12">
-                                                <button type="submit" class="btn btn-default">Submit</button>
+                                                <button type="submit" class="btn btn-default ml-3">Submit</button>
                                             </div>
                                         </div>
+                                    
                                     </form>
                                 </div>
                             </div>
@@ -165,6 +171,30 @@
                 }
             });
         });
+    </script>
+    <script>
+                         $(document).ready(function () {
+                // Add new file upload section
+                $(document).on('click', '.add-file-section', function () {
+                    const newSection = $(this)
+                        .closest('.file-section') // Find the closest file-section div
+                        .clone(true) // Clone the entire section
+                        .find('input')
+                        .val('') // Clear input values
+                        .end();
+                    $('#file-container').append(newSection); // Append the cloned section
+                });
+
+                // Remove a file upload section
+                $(document).on('click', '.remove-file-section', function () {
+                    if ($('.file-section').length > 1) {
+                        $(this).closest('.file-section').remove(); // Remove the specific section
+                    } else {
+                        alert('At least one file section must remain.');
+                    }
+                });
+            });
+
     </script>
 </body>
 </html>

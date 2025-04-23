@@ -1,19 +1,26 @@
 @php
-    $sidebarItems = \App\Helpers\Helper::getSidebarItems();
-    $user_type = Session::get("user_type");
+    $sidebarItems = \App\Helpers\Helper::getSidebarItems(); 
     //dd($sidebarItems);
+    $user_type = Session::get("user_type");
         $modules = [
-           1 => [
-            'title' => 'Organization',
-            'icon' => 'las la-hotel',
-            'route' => 'organization.home', // Set the main module route here
+        //    1 => [
+        //     'title' => 'Organization',
+        //     'icon' => 'las la-hotel',
+        //     'route' => 'organization.home', // Set the main module route here
+        //     'items' => [
+        //         ['route' => 'organization.profile', 'label' => 'Profile'],
+        //         ['route' => 'employees.rti', 'label' => 'Employees (RTI)'],
+        //         ['route' => 'authorizing.officer', 'label' => 'Authorizing Officer'],
+        //         ['route' => 'key.contact', 'label' => 'Key Contact'],
+        //         ['route' => 'level1.user', 'label' => 'Level 1 User'],
+        //         ['route' => 'level2.user', 'label' => 'Level 2 User'],
+        //         ['url' => 'org-dashboarddetails', 'label' => 'Sponsor Compliances'],
+        //     ]
+        // ],
+        1 => [
+            'title' => 'Sponsor Compliances',
+            'icon' => 'las la-donate',
             'items' => [
-                ['route' => 'organization.profile', 'label' => 'Profile'],
-                ['route' => 'employees.rti', 'label' => 'Employees (RTI)'],
-                ['route' => 'authorizing.officer', 'label' => 'Authorizing Officer'],
-                ['route' => 'key.contact', 'label' => 'Key Contact'],
-                ['route' => 'level1.user', 'label' => 'Level 1 User'],
-                ['route' => 'level2.user', 'label' => 'Level 2 User'],
                 ['url' => 'org-dashboarddetails', 'label' => 'Sponsor Compliances'],
             ]
         ],
@@ -147,7 +154,7 @@
                     ['url' => 'org-settings/vw-education', 'label' => 'Education Master'],
                    // ['url' => 'org-settings/vw-department', 'label' => 'Department'],
                    // ['url' => 'org-settings/vw-designation', 'label' => 'Designation'],
-                    ['url' => 'org-settings/vw-employee-type', 'label' => 'Employment Type'],
+                    // ['url' => 'org-settings/vw-employee-type', 'label' => 'Employment Type'],
                     ['url' => 'org-settings/vw-paygroup', 'label' => 'Pay Group'],
                     ['url' => 'org-settings/vw-annualpay', 'label' => 'Annual Pay'],
                     ['url' => 'org-settings/vw-bank-sortcode', 'label' => 'Bank Shortcode'],
@@ -163,13 +170,15 @@
             'items' => [
                 ['url' => 'user-access-role/dashboard', 'label' => 'Dashboard'],
                 ['url' => 'user-access-role/vw-users', 'label' => 'User Settings'],
-                ['url' => 'user-access-role/view-users-role', 'label' => 'Access Roles'],
+                // ['url' => 'user-access-role/view-users-role', 'label' => 'Access Roles'],
+                ['url' => 'user-access/emp', 'label' => 'Access Roles'],
             ]
         ],
         13 => [
             'title' => 'Billing',
             'icon' => 'las la-donate',
             'items' => [
+                ['url' => 'organization/billing/dashboard', 'label' => 'Dashboard'],
                 ['url' => 'organization/billing-show', 'label' => 'Invoice'],
                 ['url' => '#', 'label' => 'Payment Receipt'],
             ]
@@ -187,18 +196,19 @@
             'title' => 'Hr Support',
             'icon' => 'las la-american-sign-language-interpreting',
             'items' => [
-                ['url' => 'hr-support/dashboard', 'label' => 'Dashboard'],
+                ['url' => 'hr-support/dashboard-new', 'label' => 'Dashboard'],
             ]
         ],
 
-        /*16 => [
+        16 => [
             'title' => 'Organogram Chart',
             'icon' => 'la la-user',
             'items' => [
+                ['url' => '#', 'label' => 'Dashboard'],
                 ['url' => '#', 'label' => 'Level'],
                 ['url' => '#', 'label' => 'Organisation Hierarchy'],
             ]
-        ],*/
+        ],
 
         17 => [
             'title' => 'Change Of Circumstances',
@@ -225,6 +235,13 @@
                 ['url' => 'rota-org/visitor-regis', 'label' => 'Visitor List'],
             ]
         ],
+        24 => [
+            'title' => 'Notice',
+            'icon' => 'las la-bullhorn',
+            'items' => [
+                ['url' => 'notice/org-notice', 'label' => 'Notice'],
+            ]
+        ],
         
     ];
 // Function to check if any module item matches the current URL
@@ -247,6 +264,33 @@ function isActiveModule($moduleItems) {
         
           <ul class="sidebar-vertical">
                 @if($user_type == "employer")
+                    <li class="submenu">
+                        <a href="#" ><i class="la la-building"></i> <span> Organization</span> <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li class="{{ Request::is('organization/profile') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('organization/profile') }}">Profile</a>
+                            </li>
+                            <li class="{{ Request::is('employees-according-to-rti') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('employees-according-to-rti') }}">Employees (RTI)</a>
+                            </li>
+                            <li class="{{ Request::is('authorizing-officer') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('authorizing-officer') }}">Authorizing Officer</a>
+                            </li>
+                            <li class="{{ Request::is('key-contact') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('key-contact') }}">Key Contact</a>
+                            </li>
+                            <li class="{{ Request::is('level-1-user') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('level-1-user') }}">Level 1 User</a>
+                            </li>
+                            <li class="{{ Request::is('level-2-user') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('level-2-user') }}">Level 2 User</a>
+                            </li>
+                            {{-- <li class="{{ Request::is('org-dashboarddetails') ? 'noti-dot' : '' }}">
+                                <a href="{{ url('org-dashboarddetails') }}">Sponsor Compliances</a>
+                            </li> --}}
+                        </ul>
+                    </li>
+                
                     @foreach($sidebarItems as $array_role)
                         @php
                             $module_id = $array_role['module_name'];
@@ -283,7 +327,7 @@ function isActiveModule($moduleItems) {
                         @endif
                     @endforeach
                 @else
-                    @foreach($sidebarItems as $array_role)
+                    {{-- @foreach($sidebarItems as $array_role)
                         @php
                             $module_id = $array_role['module_name'];
                             $isActive = isset($modules[$module_id]) ? isActiveModule($modules[$module_id]['items']) : false;
@@ -317,7 +361,27 @@ function isActiveModule($moduleItems) {
                                 </ul>
                             </li>
                         @endif
-                    @endforeach        
+                    @endforeach         --}}
+                    @foreach ($sidebarItems as $moduleName => $submenus)
+                        <li class="menu-title">
+                            <span>{{ $moduleName }}</span>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="la la-cube"></i> 
+                                <span>{{ $moduleName }}</span> 
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                @foreach ($submenus as $submenu)
+                                    <li>
+                                        <a href="{{ url($submenu['submenu_url']) }}">
+                                            {{ $submenu['submenu_name'] }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
                 @endif
             </ul>
 
