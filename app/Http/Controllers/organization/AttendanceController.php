@@ -861,7 +861,7 @@ class AttendanceController extends Controller
 
             //     ->where('email', '=', $email)
             //     ->first();
-
+            //dd($request->designation);
             $employee_code = $request->employee_code;
             $department = $request->department;
             $designation = $request->designation;
@@ -877,7 +877,7 @@ class AttendanceController extends Controller
                 ->where('id', '=', $department)
                 ->where('emid', '=', $reg)
                 ->first();
-
+            //dd($employee_depers);
             if (date('m', strtotime($end_date)) != date('m', strtotime($start_date))) {
                 Session::flash('message', 'Month are not same');
                 return redirect('attendance-management/attendance-report');
@@ -1021,8 +1021,9 @@ class AttendanceController extends Controller
                             }
 
                         }
-                        //dd($offg);
+                        // dd($offg);
                     }
+                    //dd($offg);
                     // dd($join_date . '--' . $new_f);
                     if ($join_date <= $new_f) {
 
@@ -1126,6 +1127,7 @@ class AttendanceController extends Controller
 						                            </tr>';
 
                                     $fh++;
+                                //dd($data['result']);    
                                 } else {
                                     //dd(in_array(date('l', strtotime($new_f)), $offg));
                                     if (in_array(date('l', strtotime($new_f)), $offg)) {
@@ -1151,7 +1153,7 @@ class AttendanceController extends Controller
 						                            </tr>';
 
                                             $fh++;
-
+                                        //dd($data['result']);    
                                         } else if ($join_date == $new_f) {
 
                                             $month_entrynew = DB::table('attandence')->where('month', '=', date('m/Y', strtotime($start_date)))->where('date', '=', $new_f)->where('employee_code', '=', $job_details->emp_code)->where('emid', '=', $reg)->get();
@@ -1196,7 +1198,6 @@ class AttendanceController extends Controller
                                                     $fh++;
                                                 }
                                             }
-
                                         } else {
                                             //dd($employee_attendence);
                                             $data['result'] .= '<tr>
@@ -1248,7 +1249,7 @@ class AttendanceController extends Controller
                                         } else {
 
                                             $month_entrynew = DB::table('attandence')->where('month', '=', date('m/Y', strtotime($start_date)))->where('date', '=', $new_f)->where('employee_code', '=', $job_details->emp_code)->where('emid', '=', $reg)->get();
-                                            //dd($month_entrynew);
+                                            //dd(count($month_entrynew));
                                             if (count($month_entrynew) != 0) {
                                                 foreach ($month_entrynew as $month_entry) {
 
@@ -1287,7 +1288,9 @@ class AttendanceController extends Controller
 						                            </tr>';
 
                                                     $fh++;
+                                                    
                                                 }
+                                                
                                             }
 
                                         }
@@ -1299,7 +1302,6 @@ class AttendanceController extends Controller
 
                     }
                 }
-
             }
             //dd($data['result']);
             $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $reg)->where('employee_type_status', '=', 'Active')->get();

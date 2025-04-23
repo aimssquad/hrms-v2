@@ -44,6 +44,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('show_daily_attendance',[AttendanceController::class, 'showDailyAttendance']);
     Route::get('get_branch',[AttendanceController::class, 'getBranch']);
     Route::post('creat-temp-attendance',[AttendanceController::class, 'createTempAttendance']);
+    Route::post('show-attendance',[AttendanceController::class, 'showAttendance']);
    
 });
 
