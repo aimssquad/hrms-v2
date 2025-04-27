@@ -568,26 +568,6 @@ class AttendanceController extends Controller
                                                 $minutes = ($difference % 60);
                                                 $minutes = str_pad($minutes,2,"0",STR_PAD_LEFT);
                                                 $duty_hours = $hours . ":" . $minutes;
-                                                //dd($employee_attendence->emp_code);
-                                                // $data['result'] .= '<tr>
-                                                //     <input type="hidden" class="form-control" readonly="" name="employee_code" value="' . $employee_attendence->emp_code . '">
-                                                //         <input type="hidden" class="form-control" readonly="" name="employee_name" value="' . $employee_attendence->emp_fname . ' ' . $employee_attendence->emp_mname . ' ' . $employee_attendence->emp_lname . '">
-                                                //     <input type="hidden" class="form-control" readonly="" name="month[]" value="' . date('m/Y', strtotime($start_date)) . '">
-                                                //     <input type="hidden" class="form-control" readonly="" name="date[]" value="' . $new_f . '">
-
-                                                //     <input type="hidden" class="form-control" readonly="" name="time_in_location[]" value="NA">
-                                                //     <input type="hidden" class="form-control" readonly="" name="time_out_location[]" value="NA">
-
-                                                //     <td>' . $fh . '</td>
-                                                //     <td>' . $employee_attendence->emp_code . '</td>
-                                                //     <td>' . $employee_attendence->emp_fname . ' ' . $employee_attendence->emp_mname . ' ' . $employee_attendence->emp_lname . '</td>
-                                                //     <td>' . date('d/m/Y', strtotime($new_f)).'<br>('.date('l', strtotime($new_f)) . ')</td>
-                                                //     <td><input type="time" class="form-control" id="time_in'.$fh.'" data-id="'.$fh.'"  name="time_in[]" value="' . $shift_auth->time_in . '" onblur="setDutyHours('.$fh.')"></td>
-                                                //     <td>NA</td>
-                                                //     <td><input type="time" class="form-control" id="time_out'.$fh.'" data-id="'.$fh.'" name="time_out[]" value="' . $shift_auth->time_out . '" onblur="setDutyHours('.$fh.')"></td>
-                                                //     <td>NA</td>
-                                                //     <td><input type="text" class="form-control" readonly="" name="duty_hours[]" id="duty_hours'.$fh.'" data-id="'.$fh.'"  value="' . $duty_hours . '"></td>
-                                                // </tr>';
                                                 $response['data'][] = [
                                                     'employee_code' => $employee_attendence->emp_code,
                                                     'employee_name' => $employee_attendence->emp_fname . ' ' . $employee_attendence->emp_mname . ' ' . $employee_attendence->emp_lname,
@@ -595,7 +575,7 @@ class AttendanceController extends Controller
                                                     'date' => $new_f,
                                                     'time_in_location' => 'NA',
                                                     'time_out_location' => 'NA',
-                                                    'display_date' => date('d/m/Y', strtotime($new_f)) . '<br>(' . date('l', strtotime($new_f)) . ')',
+                                                    'display_date' => date('d/m/Y', strtotime($new_f)) . '(' . date('l', strtotime($new_f)) . ')',
                                                     'time_in' => $shift_auth->time_in,
                                                     //'time_in_location_display' => 'NA',
                                                     'time_out' => $shift_auth->time_out,
@@ -619,8 +599,8 @@ class AttendanceController extends Controller
 
                     }
 
-                    $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $emid)->where('employee_type_status', '=', 'Active')->get();
-                    $data['departs'] = DB::table('department')->where('emid', '=', $emid)->get();
+                    // $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $emid)->where('employee_type_status', '=', 'Active')->get();
+                    // $data['departs'] = DB::table('department')->where('emid', '=', $emid)->get();
                     if ($gu > 0) {
                         //Session::flash('message', 'Attendance Data already exits');
                         $dynamicFlag = 1;
