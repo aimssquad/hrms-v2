@@ -355,14 +355,6 @@ class AttendanceController extends Controller
                     ->first();
                 $shift_id = $emp_roster->id;
                 $shift_code = $emp_roster->shift_code;
-                // $emp_shift = DB::table('shift_management')->where('')   
-                //dd($department, $designation, $department_id, $designation_id, $shift_id,$employee_id);
-                // $Roledata = DB::table('registration')->where('status', '=', 'active')
-                //     ->where('reg', '=', $emid)
-                //     ->first();
-                // $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-                //     ->where('reg', '=', $emid)
-                //     ->first();
 
                 $data['result'] = '';
 
@@ -599,10 +591,7 @@ class AttendanceController extends Controller
 
                     }
 
-                    // $data['employee_type_rs'] = DB::table('employee_type')->where('emid', '=', $emid)->where('employee_type_status', '=', 'Active')->get();
-                    // $data['departs'] = DB::table('department')->where('emid', '=', $emid)->get();
                     if ($gu > 0) {
-                        //Session::flash('message', 'Attendance Data already exits');
                         $dynamicFlag = 1;
                         $data=[];
                         $message = "Attendance Data already exits.";
@@ -612,7 +601,6 @@ class AttendanceController extends Controller
                             $data
                         );
                     }
-                    //return response()->json($response);
 
                     $dynamicFlag = 1;
                     $data=$response;
@@ -622,8 +610,6 @@ class AttendanceController extends Controller
                         $dynamicFlag,
                         $data
                     );
-                    //return view($this->_routePrefix . '.genarate-list',$data);
-                    //return view('attendance/genarate-list', $data);
                 }
             } else {
                 $dynamicFlag = 1;
