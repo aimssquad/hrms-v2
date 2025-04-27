@@ -132,9 +132,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                           ->first();
                                     if($candidate->shift_code !=''){
                                        $employee_shift=DB::table('shift_management')
-                                         ->where('shift_management.id', '=',  $candidate->shift_code)
+                                         ->where('id', '=',  $candidate->shift_code)
                                         ->first();
-                                    
+                                        //dd($employee_shift);
                                     }else{
                                         $employee_shift=[];
                                     }

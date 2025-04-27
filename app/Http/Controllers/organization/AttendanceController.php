@@ -522,7 +522,7 @@ class AttendanceController extends Controller
     public function saveGenerate(Request $request)
     {
         if (!empty(Session::get('emp_email'))) {
-
+            //dd($request->all());
             //print_r($request->all()); exit;
             $i = 0;
             $email = Session::get('emp_email');
