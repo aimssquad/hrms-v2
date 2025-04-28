@@ -60,7 +60,7 @@ class RotaController extends Controller
             ->where("status", "=", "active")
             ->where("reg", "=", base64_decode($career_id))
             ->first();
-
+        //dd($data);
         return View("rota/application", $data);
     }
 
