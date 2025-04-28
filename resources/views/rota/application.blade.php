@@ -100,7 +100,7 @@ h1:after, h1:before, h2:after, h2:before {content: "";}
 								<div class="col-md-12 job-apply">
 								<form action="{{url("visitor")}}" method="post" enctype="multipart/form-data">
 			 {{csrf_field()}}
-								<input id="reg" type="hidden"  name="reg" class="form-control input-border-bottom" required="" value="<?php   echo $role->reg;  ?>" >
+								<input id="reg" type="text"  name="reg" class="form-control input-border-bottom" required="" value="<?php   echo $role->reg;  ?>" >
 				
 								 <div class="row form-group">
 								

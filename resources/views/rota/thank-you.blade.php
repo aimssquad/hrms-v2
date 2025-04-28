@@ -64,7 +64,9 @@ h1:after, h1:before, h2:after, h2:before {content: "";}
 	  <div class="row">
 	     <div class="col-md-12">
 		    <div class="text-center logo">
-			   <h1>	<img src="{{ asset('img/logo.png')}}" alt=""></h1>
+			   <h1>	
+          {{-- <img src="{{ asset('img/logo.png')}}" alt=""> --}}
+        </h1>
 			</div>
 		 </div>
 	  </div>
