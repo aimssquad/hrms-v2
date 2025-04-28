@@ -119,25 +119,19 @@ return $output;
                                     @if($user_type == 'employee')
                                     @foreach($sidebarItems as $value)
                                     @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-                                    <a class="dropdown-item" href="{{url('org-settings/edit-ifsc/'.$entry->ifsc_no)}}">
+                                    <a class="dropdown-item" href="{{url('org-settings/edit-ifsc/'.base64_encode($entry->ifsc_no))}}">
                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                     </a>
                                     @endif
                                     @endforeach
                                     @elseif($user_type == 'employer')
-                                    <a class="dropdown-item" href="{{url('org-settings/edit-ifsc/'.$entry->ifsc_no)}}">
+                                    <a class="dropdown-item" href="{{url('org-settings/edit-ifsc/'.base64_encode($entry->ifsc_no))}}">
                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                     </a>
+                                    <a class="dropdown-item" href="{{url('org-settings/delete-ifsc/'.base64_encode($entry->ifsc_no))}}" onclick="return confirm('Are you sure you want to delete this Access?');">
+                                       <i class="fa-regular fa-trash-can m-r-5"></i> Delete
+                                    </a>
                                     @endif
-                                    {{-- @if($user_type == 'employee')
-                                    @foreach($sidebarItems as $value)
-                                    @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-                                    <a class="dropdown-item" href='{{url("user-accessrole/view-users-role/$role->id")}}' onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
-                                    @endif
-                                    @endforeach
-                                    @elseif($user_type == 'employer')
-                                    <a class="dropdown-item" href='{{url("user-accessrole/view-users-role/$role->id")}}' onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
-                                    @endif --}}
                                  </div>
                               </div>
                            </td>

@@ -804,21 +804,22 @@ class SettingController extends Controller
 
     public function getIfsc()
     {
-        $data['enteries'] = DB::table('ifsc_master')->get();
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $emid = Session::get('emid');
+        $data['enteries'] = DB::table('ifsc_master')->where('emid',$emid)->get();
         return view($this->_routePrefix . '.ifsc', $data);
         //return view('settings/ifsc', $data);
     }
 
     public function viewAddNewIfsc(Request $request)
-    {
+    { 
         try {
             if (!empty(Session::get('emp_email'))) {
                 $email = Session::get('emp_email');
 
-                $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
-
-                    ->where('email', '=', $email)
-                    ->first();
                 if ($request->id) {
                     $dt = DB::table('ifsc_master')->where('id', '=', $request->id)->where('grade_status', '=', 'active')->get();
                     if (count($dt) > 0) {
@@ -830,7 +831,7 @@ class SettingController extends Controller
                     }
 
                 } else {
-                    return view($this->_routePrefix . '.add-new-ifsc', $data);
+                    return view($this->_routePrefix . '.add-new-ifsc');
                 }
             } else {
                 return redirect('/');
@@ -843,32 +844,50 @@ class SettingController extends Controller
 
     public function saveIfscData(Request $request)
     {
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $emid = Session::get('emid');
+        //dd($emid);
         $request->validate([
             'ifsc_code' => 'required|string|max:11',
             'bank_name' => 'required|string|max:255',
             'bank_address' => 'required|string|max:500',
         ]);
-        $email = Session::get('emp_email');
-        $Roledata = DB::table('registration')->where('status', '=', 'active')->where('email', '=', $email)->first();
         $data = [
             'ifsc_code' => $request->ifsc_code,
             'bank_name' => $request->bank_name,
             'bank_address' => $request->bank_address,
+            'emid' => $emid,
         ];
         DB::table('ifsc_master')->insert($data);
         Session::flash('message', 'IFSC added successfully.');
         return redirect('org-settings/vw-ifsc');
     }
 
-    public function editviewAddNewIfsc($id)
+    public function editviewAddNewIfsc(Request $request, $id)
     {
-        $data['enteries'] = DB::table('ifsc_master')->where('ifsc_no',$id)->first();
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $emid = Session::get('emid');
+        $id = base64_decode($id);
+
+        $data['enteries'] = DB::table('ifsc_master')->where('ifsc_no',$id)->where('emid',$emid)->first();
         return view($this->_routePrefix . '.edit-ifsc', $data);
        
         //return view('settings/edit-ifsc', $data);
     }
 
     public function updatesaveIfscData(Request $request){
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $emid = Session::get('emid');
+
         $request->validate([
             'ifsc_code' => 'required|string|max:11',
             'bank_name' => 'required|string|max:255',
@@ -878,10 +897,30 @@ class SettingController extends Controller
             "ifsc_code"=>$request->ifsc_code,
             "bank_name"=>$request->bank_name,
             "bank_address"=>$request->bank_address,
+            "emid" => $emid,
         );
         DB::table('ifsc_master')->where('ifsc_no',$request->ifsc_id)->update($arrayValue);
         Session::flash('message', 'Ifsc Details Update Successfully saved.');
         return redirect('org-settings/vw-ifsc');
+    }
+
+    public function deleteIfsc(Request $request, $id){
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $id = base64_decode($id);
+        $emid = Session::get('emid');
+        $ifsc = DB::table('ifsc_master')->where('ifsc_no',$id)->where('emid',$emid)->first();
+        if(!$ifsc){
+            Session::flash('error', 'Data not found !');
+            return redirect()->back();
+        }
+        //dd($ifsc);
+        DB::table('ifsc_master')->where('ifsc_no', $id)->where('emid', $emid)->delete();
+        Session::flash('message', 'Ifsc details deleted successfully.');
+        return redirect('org-settings/vw-ifsc');
+
     }
 
     public function getReligion()

@@ -427,6 +427,7 @@ Route::get('org-settings/add-new-ifsc', 'App\Http\Controllers\organization\Setti
 Route::post('org-settings/add-new-ifsc', 'App\Http\Controllers\organization\SettingController@saveIfscData');
 Route::get('org-settings/edit-ifsc/{id}','App\Http\Controllers\organization\SettingController@editviewAddNewIfsc');
 Route::post('org-settings/update-ifsc','App\Http\Controllers\organization\SettingController@updatesaveIfscData');
+Route::get('org-settings/delete-ifsc/{id}', 'App\Http\Controllers\organization\SettingController@deleteIfsc');
 
 //----------------------------------------------- Caste Master---------------------------------------------------------
 Route::get('org-settings/vw-caste', 'App\Http\Controllers\organization\SettingController@getCaste');
