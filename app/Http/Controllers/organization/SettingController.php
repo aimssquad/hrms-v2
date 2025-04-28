@@ -87,6 +87,11 @@ class SettingController extends Controller
     }
 
     public function getempBank(){
+        //dd(session()->all());
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
         $data['bank_rs'] = Bank::getMasterAndBank();
         return view($this->_routePrefix . '.emp_bank_details',$data);
        // return view("settings/emp_bank_details",compact('bank_rs'));

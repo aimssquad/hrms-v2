@@ -28,7 +28,7 @@ class LeaveController extends Controller
                 $toDate = $request->to_date;
                 $employeeId = auth()->user()->employee_id;
                 $query = LeaveApply::with('leaveType')
-                    ->where('employee_id', $employeeId);
+                    ->where('employee_id', $employeeId)->orderBy('id', 'desc');
                 $totalMaxNo = leaveAllocation::where('employee_code', $employeeId)->sum('max_no');
                 $totalLeaveInHand = leaveAllocation::where('employee_code', $employeeId)->sum('leave_in_hand');
                 $leaveBalance = $totalMaxNo - $totalLeaveInHand;
