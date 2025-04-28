@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Edit Organisation Bank')
+@section('title', 'Edit Organization Bank')
 @section('content')
 <div class="main-panel">
 <div class="content">
@@ -9,11 +9,11 @@
             <ul class="breadcrumb">
                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
                <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
-               <li class="breadcrumb-item active"> Edit Organisation Bank</li>
+               <li class="breadcrumb-item active"> Edit Organization Bank</li>
            </ul>
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="la la-bank" style="color:#ffa318;"></i> Edit Organisation Bank</h4>
+                  <h4 class="card-title"><i class="la la-bank" style="color:#ffa318;"></i> Edit Organization Bank</h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">

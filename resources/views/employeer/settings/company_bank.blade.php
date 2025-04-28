@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Add Organisation Bank')
+@section('title', 'Organization Bank')
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -36,22 +36,22 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Add Organisation Bank</h3>
+				<h3 class="page-title">Organization Bank</h3>
 				<ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
 					<li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Settings Dashboard</a></li>
-					<li class="breadcrumb-item active">Add Organisation Bank</li>
+					<li class="breadcrumb-item active">Organization Bank</li>
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
 				@foreach($sidebarItems as $value)
 				@if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-				<a href="{{ url('org-settings/add-company-bank') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Organisation Bank</a>
+				<a href="{{ url('org-settings/add-company-bank') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Organization Bank</a>
 				@endif
 				@endforeach
 				@elseif($user_type == 'employer')
-				<a href="{{ url('org-settings/add-company-bank') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i>Add Organisation Bank</a>
+				<a href="{{ url('org-settings/add-company-bank') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Organization Bank</a>
 				@endif
 				{{-- <div class="view-icons">
 					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
@@ -67,7 +67,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="fas fa-bank" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Add Organisation Bank
+                        <i class="fas fa-bank" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Organization Bank
                     </h4>
                     <div class="row">
                         <div class="col-auto">
