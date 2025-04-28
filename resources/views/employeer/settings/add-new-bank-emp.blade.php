@@ -60,11 +60,17 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                        <label for="inputFloatingLabel" class="col-form-label">Enter Account number </label>
+                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="account_number" placeholder="Enter Your MICR Code">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
                                         <label for="inputFloatingLabel" class="col-form-label">Status</label>
                                         <select class="select" name="status">
                                             <option>Status</option>
                                             <option value="active">Active</option>
-                                            <option value="inactive">InActive</option>
+                                            <option value="inactive">Inactive</option>
                                         </select>
                                         <!-- <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="status" > -->
                                         </div>

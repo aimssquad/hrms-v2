@@ -159,36 +159,46 @@ class SettingController extends Controller
             return redirect('/');
         }
         $data['bank_rs'] = Bank::getMasterAndBank();
+        //dd($data['bank_rs']);
         return view($this->_routePrefix . '.emp_bank_details',$data);
        // return view("settings/emp_bank_details",compact('bank_rs'));
     }
 
     public function addempBankAdd(){
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
         $data['MastersbankName'] = Bank::getMastersBank();
         return view($this->_routePrefix . '.add-new-bank-emp',$data);
         //return view("settings/add-new-bank-emp",$data);
     }
 
     public function addempbankDetails(Request $request) {
-        // Validate the incoming request
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $emid = Session::get('emid');
+        //dd($emid);
         $request->validate([
             'bank_name' => 'required',
             'branch_name' => 'nullable|string|max:255',
             'ifsc_code' => 'nullable|string|max:255',
             'swift_code' => 'nullable|string|max:255',
+            'account_number' => 'nullable|string|max:255',
             'status' => 'required|in:active,inactive',
         ]);
-        //dd($request->all());
-        // Create a new bank record using the Bank model
+       
         $bank = new Bank([
             'bank_name' => $request->bank_name,
             'branch_name' => $request->branch_name,
             'ifsc_code' => $request->ifsc_code,
-            'swift_code' => $request->swift_code,  // Assuming you meant to map swift_code to micr_code
+            'swift_code' => $request->swift_code, 
+            'account_number' => $request->account_number,
             'bank_status' => $request->status,
+            'emid' => $emid,
         ]);
-    
-        // Save the record to the database
         $bank->save();
     
         // Flash success message and redirect
@@ -196,18 +206,25 @@ class SettingController extends Controller
         return redirect('org-settings/vw-emp-bank');
     }
 
-    public function empbankedit($id){
-        $bankid = $id;
+    public function empbankedit(Request $request, $id){
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+
+        $bankid = base64_decode($id);
         $data['bankdetails'] = Bank::where('id', $bankid)->get()->toArray();
         $data['MastersbankName'] = Bank::getMastersBank();
         return view($this->_routePrefix . '.updateempbank',$data);
-        //return view("settings/updateempbank",$data);
     }
 
   
 
     public function empBankDetailsupdate(Request $request){
-        
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
         if (is_numeric($request->branch_name) == 1) {
             Session::flash('error', 'Branch Name Should not be numeric.');
             return redirect('org-settings/vw-emp-bank');
@@ -219,13 +236,34 @@ class SettingController extends Controller
             'ifsc_code' => $request->ifsc_code,
             'swift_code' => $request->swift_code,
             'bank_status' => $request->bank_status,
+            'account_number' => $request->account_number,
             'created_at' => date('Y-m-d h:i:s'),
             'updated_at' => date('Y-m-d h:i:s'),
-            // 'bank_status' => $request->des_status,
         );
+        // dd($data);
         Bank::where('id', $request->bankid)->update($data);
-        Session::flash('message', 'Employee Bank Information Successfully Update.');
+        Session::flash('message', 'Employee Bank Information Successfully Updated.');
         return redirect('org-settings/vw-emp-bank');
+    }
+
+    public function empBankDelete(Request $request, $id){
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $id = base64_decode($id);
+        //dd($id);
+        $banks = Bank::find($id);
+        if(!$banks){
+            Session::flash('error', 'Data are not exist !');
+            return redirect()->back();
+        }
+
+        $banks->delete();
+        Session::flash('message', 'Data delete Successfully !');
+        return redirect('org-settings/vw-emp-bank');
+
+
     }
 
     public function getCaste()

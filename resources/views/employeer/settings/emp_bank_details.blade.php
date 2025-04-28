@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Add Employee Bank')
+@section('title', 'Employee Bank')
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -36,11 +36,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Add Employee Bank</h3>
+				<h3 class="page-title">Employee Bank</h3>
 				<ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
 					<li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}"> Settings Dashboard</a></li>
-					<li class="breadcrumb-item active">Add Employee Bank</li>
+					<li class="breadcrumb-item active">Employee Bank</li>
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
@@ -67,7 +67,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="fas fa-bank" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Add Employee Bank
+                        <i class="fas fa-bank" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Employee Bank
                     </h4>
                     <div class="row">
                         <div class="col-auto">
@@ -106,6 +106,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                     <th>Bank Branch</th>
                                     <th>IFSC Code</th>
                                     <th>MICR Code</th>
+                                    <th>Account Number</th>
                                     <th>Status</th>
                                     <th>Action</th>
                               </tr>
@@ -118,6 +119,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                     <td>{{ $bank->branch_name }}</td>
                                                     <td>{{ $bank->ifsc_code }}</td>
                                                     <td>{{ $bank->swift_code }}</td>
+                                                    <td>{{ $bank->account_number }}</td>
                                                     <td>{{ $bank->bank_status }}</td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
@@ -134,8 +136,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                             @endif
                                                         @endforeach
                                                     @elseif($user_type == 'employer')
-                                                        <a class="dropdown-item" href="{{url('org-settings/emp-bank-edit/'.$bank->id)}}">
+                                                        <a class="dropdown-item" href="{{url('org-settings/emp-bank-edit/'.base64_encode($bank->id))}}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                        </a>
+                                                        <a class="dropdown-item" href="{{url('org-settings/emp-bank-delete/'.base64_encode($bank->id))}}" onclick="return confirm('Are you sure you want to delete this Record ?');">
+                                                            <i class="fa-solid fa-trash-can m-r-5"></i> Delete
                                                         </a>
                                                     @endif
                                                     {{-- @if($user_type == 'employee')

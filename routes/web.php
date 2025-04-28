@@ -420,6 +420,7 @@ Route::get('org-settings/add-emp-bank', 'App\Http\Controllers\organization\Setti
 Route::post('org-settings/add-new-emp-bank-details', 'App\Http\Controllers\organization\SettingController@addempbankDetails');
 Route::get('org-settings/emp-bank-edit/{id}', 'App\Http\Controllers\organization\SettingController@empbankedit');
 Route::post('org-settings/update-emp-bank-details', 'App\Http\Controllers\organization\SettingController@empBankDetailsupdate');
+Route::get('org-settings/emp-bank-delete/{id}', 'App\Http\Controllers\organization\SettingController@empBankDelete');
 //-----------------------------------------------Ifsc Master-------------------------------------------------------
 Route::get('org-settings/vw-ifsc', 'App\Http\Controllers\organization\SettingController@getIfsc');
 Route::get('org-settings/add-new-ifsc', 'App\Http\Controllers\organization\SettingController@viewAddNewIfsc');

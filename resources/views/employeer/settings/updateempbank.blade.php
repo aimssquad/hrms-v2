@@ -63,7 +63,7 @@
                                    @endif
                                </div>
                            </div>
-                           <div class="row form-group">
+                            <div class="row form-group">
                                <div class="col-md-4">
                                    <label class="col-form-label">Enter MICR Code </label>
                                    <input type="text"   id="swift_code" name="swift_code" class="form-control" value="{{ (isset($bankdetails[0]['swift_code']) && !empty($bankdetails[0]['swift_code']))?$bankdetails[0]['swift_code']:old('swift_code')}}">
@@ -71,10 +71,18 @@
                                    <div class="error" style="color:red;">{{ $errors->first('swift_code') }}</div>
                                    @endif
                                </div>
+                               <div class="col-md-4">
+                                <label class="col-form-label">Enter Account number </label>
+                                <input type="text"   id="account_number" name="account_number" class="form-control" value="{{ (isset($bankdetails[0]['account_number']) && !empty($bankdetails[0]['account_number']))?$bankdetails[0]['account_number']:old('account_number')}}">
+                                @if ($errors->has('account_number'))
+                                <div class="error" style="color:red;">{{ $errors->first('account_number') }}</div>
+                                @endif
+                            </div>
+                             
                           
                                
                            <div class="col-md-4">
-                                   <label class="col-form-label">Enter Account number <span>(*)</span></label>
+                                   <label class="col-form-label">Status <span>(*)</span></label>
                                    <select class="select" name="bank_status">
                                           
                                            <option value="active" <?php if($bankdetails['0']['bank_status']=='active'){?> selected="selected"<?php }?>>Active</option>
@@ -87,7 +95,7 @@
                            </div>
                            <br>
                                 <div class="row form-group">
-                                   <div class="col-md-2"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                   <div class="col-md-2"><button type="submit" class="btn btn-primary">Update</button></div>
                                 </div>
                           </div>
                           </form>

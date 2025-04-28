@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Masters;
+use Session;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -8,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bank extends Model
 {
     protected $primaryKey='id';
-	protected $fillable=['id', 'bank_name', 'branch_name', 'ifsc_code', 'swift_code', 'updated_at', 'created_at','bank_status','account_number'];
+	protected $fillable=['id', 'bank_name', 'branch_name', 'ifsc_code', 'swift_code', 'updated_at', 'created_at','bank_status','account_number','emid'];
     
     public static function getMastersBank()
     {
@@ -22,7 +23,9 @@ class Bank extends Model
 
     public static function getMasterAndBank()
     {
+        $emid = Session::get('emid');
         $bankMasters = Bank::leftJoin('bank_masters', 'banks.bank_name', '=', 'bank_masters.id')
+            ->where('banks.emid',$emid)
             ->select('bank_masters.master_bank_name', 'banks.*')
             ->get();
 
