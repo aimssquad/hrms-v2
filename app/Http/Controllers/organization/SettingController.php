@@ -43,46 +43,112 @@ class SettingController extends Controller
     }
 
     public function getCompanyBank(){
-        $data['grades']=DB::table('company-bank-master')->get();
+        $email = Session::get('emp_email');
+        if(!empty($email)){
+            $emid = Session::get('emid');
+            $data['grades']=DB::table('company-bank-master')->where('emid',$emid)->get();
         return view($this->_routePrefix . '.company_bank',$data);
-        //return view("settings/company_bank",$data);
+        } else {
+            return redirect('/');
+        }
     }
 
     public function addComapnyBankAdd(){
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
         return view($this->_routePrefix . '.add-new-bank-comapny');
-        //return view("settings/add-new-bank-comapny");
     }
 
-    public function addcmpbankDetails(){
+    public function addcmpbankDetails(Request $request){
+        //dd($request->all());
+      
+        $emid = Session::get('emid');
+        $validator = Validator::make($_POST, [
+            'bankname' => 'required|string|max:255',
+            'bankbranch' => 'required|string|max:255',
+            'ifsccode' => 'required|string|max:20',
+            'micrcode' => 'required|string|max:20',
+            'status' => 'required|in:active,inactive',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
         $dataArray=[
-            "bankname"=>$_POST['bankname'],
-            "bankbranch"=>$_POST['bankbranch'],
-            "ifsccode"=>$_POST['ifsccode'],
-            "micrcode"=>$_POST['micrcode'],
-            "status"=>$_POST['status'],
+            "bankname"=>$request->bankname,
+            "bankbranch"=>$request->bankbranch,
+            "ifsccode"=>$request->ifsccode,
+            "micrcode"=>$request->micrcode,
+            "emid" => $emid,
+            "status"=>$request->status,
         ];
         DB::table('company-bank-master')->insert($dataArray);
         Session::flash('message', 'Company Bank Information Successfully Add.');
         return redirect('org-settings/vw-cmp-bank');
     }
 
-    public function cmpbankedit($id){
-        $data['bank']=DB::table('company-bank-master')->where("id",$id)->get();
-        // dd($data['bank']);
+    public function cmpbankedit(Request $request, $id){
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $id = base64_decode($id);
+        $data['bank']=DB::table('company-bank-master')->where("id",$id)->first();
+        if(empty($data['bank'])){
+            Session::flash('error', 'Something went wrong.'); 
+            return redirect()->back();
+        }
         return view($this->_routePrefix . '.updatecmpbank',$data);
-        //return view("settings/updatecmpbank",$data);
     }
 
-    public function cmpBankDetailsupdate(){
+    public function cmpBankDetailsupdate(Request $request){
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $validator = Validator::make($_POST, [
+            'bankname' => 'required|string|max:255',
+            'bankbranch' => 'required|string|max:255',
+            'ifsccode' => 'required|string|max:20',
+            'micrcode' => 'required|string|max:20',
+            'status' => 'required|in:active,inactive',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $id = $request->id;
+        $emid = Session::get('emid');
         $dataArray=[
-            "bankname"=>$_POST['bankname'],
-            "bankbranch"=>$_POST['bankbranch'],
-            "ifsccode"=>$_POST['ifsccode'],
-            "micrcode"=>$_POST['micrcode'],
-            "status"=>$_POST['status'],
+            "bankname"=>$request->bankname,
+            "bankbranch"=>$request->bankbranch,
+            "ifsccode"=>$request->ifsccode,
+            "micrcode"=>$request->micrcode,
+            "emid" => $emid,
+            "status"=>$request->status,
         ];
-        DB::table('company-bank-master')->where("id",$_POST['id'])->update($dataArray);
+        DB::table('company-bank-master')->where("id",$id)->update($dataArray);
         Session::flash('message', 'Company Bank Information Successfully Update.');
+        return redirect('org-settings/vw-cmp-bank');
+    }
+
+    public function cmpBankDelete(Request $request, $id){
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $id = base64_decode($id);
+        $deleteData = DB::table('company-bank-master')->where('id',$id)->delete();
+        if(!$deleteData){
+            Session::flash('error', 'somthings went wrong !');
+            return redirect()->back();
+        }
+        Session::flash('message', 'Company Bank Information Successfully Deleted.');
         return redirect('org-settings/vw-cmp-bank');
     }
 
@@ -137,6 +203,8 @@ class SettingController extends Controller
         return view($this->_routePrefix . '.updateempbank',$data);
         //return view("settings/updateempbank",$data);
     }
+
+  
 
     public function empBankDetailsupdate(Request $request){
         

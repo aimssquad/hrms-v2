@@ -27,24 +27,36 @@
                                     <div class="form-group">
                                        <label for="inputFloatingLabel" class="col-form-label">Bank Name</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankname" placeholder="Enter Your Company Name" required>
+                                       @error('bankname')
+                                          <div class="invalid-feedback d-block">{{ $message }}</div>
+                                       @enderror
                                     </div>
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label for="inputFloatingLabel" class="col-form-label">Bank Branch</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankbranch" placeholder="Enter Your Branch Name" required>
+                                       @error('bankbranch')
+                                          <div class="invalid-feedback d-block">{{ $message }}</div>
+                                       @enderror
                                     </div>
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label for="inputFloatingLabel" class="col-form-label">IFSC Code</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="ifsccode" placeholder="Enter Your IFSC Code" required>
+                                       @error('micrcode')
+                                          <div class="invalid-feedback d-block">{{ $message }}</div>
+                                       @enderror
                                     </div>
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
                                        <label for="inputFloatingLabel" class="col-form-label">MICR Code</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="micrcode" placeholder="Enter Your MICR Code" required>
+                                       @error('micrcode')
+                                          <div class="invalid-feedback d-block">{{ $message }}</div>
+                                       @enderror
                                     </div>
                                  </div>
                                  <div class="col-md-4">
@@ -53,8 +65,11 @@
                                        <select class="select" name="status" required>
                                           <option>Status</option>
                                           <option value="active">Active</option>
-                                          <option value="inActive">inActive</option>
+                                          <option value="inactive">inactive</option>
                                        </select>
+                                       @error('status')
+                                          <div class="invalid-feedback d-block">{{ $message }}</div>
+                                       @enderror
                                        <!-- <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="status" > -->
                                     </div>
                                  </div>

@@ -413,6 +413,7 @@ Route::get('org-settings/add-company-bank', 'App\Http\Controllers\organization\S
 Route::post('org-settings/add-new-bank-details', 'App\Http\Controllers\organization\SettingController@addcmpbankDetails');
 Route::get('org-settings/comapny-bank-edit/{id}', 'App\Http\Controllers\organization\SettingController@cmpbankedit');
 Route::post('org-settings/update-cmp-bank-details', 'App\Http\Controllers\organization\SettingController@cmpBankDetailsupdate');
+Route::get('org-settings/delete-cmp-bank-details/{id}', 'App\Http\Controllers\organization\SettingController@cmpBankDelete');
 // Employee Bank 
 Route::get('org-settings/vw-emp-bank', 'App\Http\Controllers\organization\SettingController@getempBank');
 Route::get('org-settings/add-emp-bank', 'App\Http\Controllers\organization\SettingController@addempBankAdd');

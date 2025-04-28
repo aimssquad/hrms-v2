@@ -114,11 +114,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                 @foreach($grades as $grade)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{ $grade->bankname }}</td>
-                                        <td>{{ $grade->bankbranch }}</td>
+                                        <td>{{ strtoupper($grade->bankname) }}</td>
+                                        <td>{{ strtoupper($grade->bankbranch) }}</td>
                                         <td>{{ $grade->ifsccode }}</td>
                                         <td>{{ $grade->micrcode}}</td>
-                                        <td>{{ $grade->status}}</td>
+                                        <td>{{ strtoupper($grade->status) }}</td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -128,14 +128,17 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                     @if($user_type == 'employee')
                                                         @foreach($sidebarItems as $value)
                                                             @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-                                                                <a class="dropdown-item" href="{{url('org-settings/comapny-bank-edit/'.$grade->id)}}">
+                                                                <a class="dropdown-item" href="{{ url('org-settings/comapny-bank-edit/'.base64_encode($grade->id)) }}">
                                                                     <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                                 </a>
                                                             @endif
                                                         @endforeach
                                                     @elseif($user_type == 'employer')
-                                                        <a class="dropdown-item" href="{{url('org-settings/comapny-bank-edit/'.$grade->id)}}">
+                                                        <a class="dropdown-item" href="{{ url('org-settings/comapny-bank-edit/'.base64_encode($grade->id)) }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                        </a>
+                                                        <a class="dropdown-item" href="{{ url('org-settings/delete-cmp-bank-details/'.base64_encode($grade->id)) }}" onclick="return confirm('Are you sure you want to delete this record?')">
+                                                            <i class="fa-solid fa-trash-can m-r-5"></i> Delete
                                                         </a>
                                                     @endif
                                                     {{-- @if($user_type == 'employee')

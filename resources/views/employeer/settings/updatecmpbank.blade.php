@@ -25,37 +25,52 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <input type="hidden" name="id" value="<?php print_r($bank['0']->id) ?>">
+                                        <input type="hidden" name="id" value="{{ $bank->id }}">
                                         <label for="inputFloatingLabel" class="col-form-label">Bank Name</label>
-                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankname" value="<?php print_r($bank['0']->bankname) ?>">
+                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankname" value="<?php print_r($bank->bankname) ?>" required>
+                                          @error('bankname')
+                                             <div class="invalid-feedback d-block">{{ $message }}</div>
+                                          @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                         <label for="inputFloatingLabel" class="col-form-label">Bank Branch</label>
-                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankbranch" value="<?php print_r($bank['0']->bankbranch) ?>">
+                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankbranch" value="{{ $bank->bankbranch }}" required>
+                                        @error('bankbranch')
+                                          <div class="invalid-feedback d-block">{{ $message }}</div>
+                                       @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                         <label for="inputFloatingLabel" class="col-form-label">IFSC Code</label>
-                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="ifsccode" value="<?php print_r($bank['0']->ifsccode) ?>">
+                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="ifsccode" value="{{ $bank->ifsccode }}" required>
+                                       @error('ifsccode')
+                                          <div class="invalid-feedback d-block">{{ $message }}</div>
+                                       @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                         <label for="inputFloatingLabel" class="col-form-label">MICR Code</label>
-                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="micrcode" value="<?php print_r($bank['0']->micrcode) ?>">
+                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="micrcode" value="{{ $bank->micrcode }}" required>
+                                        @error('micrcode')
+                                          <div class="invalid-feedback d-block">{{ $message }}</div>
+                                       @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                         <label for="inputFloatingLabel" class="col-form-label">Status</label>
-                                        <select class="select" name="status">
+                                        <select class="select" name="status" required>
                                                 <option value="">Status</option>
-                                                <option value="active" {{ $bank[0]->status == 'active' ? 'selected' : '' }}>Active</option>
-                                                <option value="inActive" {{ $bank[0]->status == 'inActive' ? 'selected' : '' }}>Inactive</option>
+                                                <option value="active" {{ $bank->status == 'active' ? 'selected' : '' }}>Active</option>
+                                                <option value="inactive" {{ $bank->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
                                             </select>
+                                            @error('status')
+                                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                             @enderror
                                         
                                         <!-- <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="status" > -->
                                         </div>
