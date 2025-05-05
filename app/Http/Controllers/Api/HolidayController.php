@@ -20,9 +20,10 @@ class HolidayController extends Controller
                 $emid = auth()->user()->emid;
                 $holidayType = Holiday2Type::where('emid',$emid)
                     ->where('status',1)
-                ->select(['id','holiday_type_name'])
-                ->get();
-                if(empty($holidayType)){
+                    ->select(['id','holiday_type_name'])
+                    ->get();
+                //dd($holidayType);    
+                if($holidayTypes->isEmpty()){
                     $dynamicFlag = 1;
                     $data=[];
                     $message = "No holiday type found";
