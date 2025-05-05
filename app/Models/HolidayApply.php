@@ -13,6 +13,8 @@ class HolidayApply extends Model
     protected $fillable = [
         'holiday_type2_id',
         'employee_id',
+        'emp_reporting_auth_name',
+        'emp_reporting_auth_id',
         'holiday_types',
         'form_date',
         'no_of_days',

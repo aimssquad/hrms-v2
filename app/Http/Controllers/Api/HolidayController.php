@@ -68,6 +68,11 @@ class HolidayController extends Controller
             if (auth()->check()) {
                 $employeeId = auth()->user()->employee_id;
                 $emid = auth()->user()->emid;
+                $auth_id = DB::table('employee')->where('emp_code',$employeeId)->where('emid',$emid)->select('emp_reporting_auth')->first();
+                $authId = $auth_id->emp_reporting_auth;
+                $authName = DB::table('users')->where('employee_id',$authId)->select('name')->first();
+                $auth_name = $authName->name;
+
                 $validated = $request->validate([
                     'holiday_type2_id' => 'required|exists:holiday2types,id',
                     'holiday_types' => 'required|in:days,hour',
@@ -79,6 +84,8 @@ class HolidayController extends Controller
                 $holidayData = [
                     'employee_id' => $employeeId,
                     'holiday_type2_id' => $validated['holiday_type2_id'],
+                    'emp_reporting_auth_name' => $auth_name,
+                    'emp_reporting_auth_id' => $authId,
                     'apply_date' => now(),
                     'holiday_types' => $validated['holiday_types'],
                     'form_date' => $validated['form_date'],
@@ -155,6 +162,55 @@ class HolidayController extends Controller
                         $dynamicFlag,
                         $data
                     );
+            }     
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        } 
+    }
+
+    public function applyHolidayList(){
+        try{
+            if (auth()->check()) {
+                //dd();
+                $employeeId = auth()->user()->employee_id;
+                $emid = auth()->user()->emid;
+                $holidayApply = Holiday2Type::where("holiday2types.emid", "=", $emid)
+                ->where("users.status","active")
+                ->select("holiday2types.holiday_type_name", "users.name", "holiday_apply.*")
+                ->join(
+                    "holiday_apply",
+                    "holiday_apply.holiday_type2_id",
+                    "=",
+                    "holiday2types.id"
+                )->join("users",
+                "users.employee_id","=","holiday_apply.employee_id")
+                ->get();
+             
+                if($holidayApply->isEmpty()){
+                    $dynamicFlag = 1;
+                    $data=[];
+                    $message = "Data not found";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+                }   
+                    
+                $holidayApply->transform(function ($item) {
+                    return collect($item)->map(function ($value) {
+                        return $value === null ? "" : $value;
+                    });
+                });
+                //dd($holidayApply);
+                $dynamicFlag = 1;
+                $data = $holidayApply;
+                $message = "Successfully get holiday Apply data";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
             }     
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);
