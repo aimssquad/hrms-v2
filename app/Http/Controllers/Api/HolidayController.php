@@ -175,6 +175,7 @@ class HolidayController extends Controller
                 $employeeId = auth()->user()->employee_id;
                 $emid = auth()->user()->emid;
                 $holidayApply = Holiday2Type::where("holiday2types.emid", "=", $emid)
+                ->where('holiday_apply.employee_id', $employeeId)
                 ->where("users.status","active")
                 ->select("holiday2types.holiday_type_name", "users.name", "holiday_apply.*")
                 ->join(
@@ -182,7 +183,9 @@ class HolidayController extends Controller
                     "holiday_apply.holiday_type2_id",
                     "=",
                     "holiday2types.id"
-                )->get();
+                )->join("users",
+                "users.employee_id","=","holiday_apply.employee_id")
+                ->get();
              
                 if($holidayApply->isEmpty()){
                     $dynamicFlag = 1;
