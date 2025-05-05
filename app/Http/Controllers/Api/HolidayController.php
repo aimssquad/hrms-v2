@@ -23,7 +23,7 @@ class HolidayController extends Controller
                     ->select(['id','holiday_type_name'])
                     ->get();
                 //dd($holidayType);    
-                if($holidayTypes->isEmpty()){
+                if($holidayType->isEmpty()){
                     $dynamicFlag = 1;
                     $data=[];
                     $message = "No holiday type found";
