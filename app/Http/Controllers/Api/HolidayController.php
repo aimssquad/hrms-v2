@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Holiday2Type;
 use App\Models\HolidayApply;
+use App\Models\Holiday;
 use App\Helpers\Api\Helper;
 use Validator;
 use Exception;
@@ -113,6 +114,51 @@ class HolidayController extends Controller
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);
         }  
+    }
+
+    public function nationalHoliday(){
+        try{
+            if (auth()->check()) {
+                $employeeId = auth()->user()->employee_id;
+                $emid = auth()->user()->emid;
+                $holidays = Holiday::where("holiday.emid", "=", $emid)
+                    ->select("holiday_type.name", "holiday.*")
+                    ->join(
+                        "holiday_type",
+                        "holiday.holiday_type",
+                        "=",
+                        "holiday_type.id"
+                    )->get();
+                
+                if($holidays->isEmpty()){
+                    $dynamicFlag = 1;
+                    $data=[];
+                    $message = "No holidays found";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+                }  
+
+                $holidays->transform(function ($item) {
+                    return collect($item)->map(function ($value) {
+                        return $value === null ? "" : $value;
+                    });
+                });
+
+                $dynamicFlag = 1;
+                    $data=$holidays;
+                    $message = "all  holidays";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+            }     
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        } 
     }
 
 

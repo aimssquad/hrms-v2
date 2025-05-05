@@ -55,7 +55,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('mobile-menu',[MobileMenuController::class, 'getMobileMenu']);
 });
 
-Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {  
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
+    Route::post('holiday-list', [HolidayController::class, 'nationalHoliday']); 
     Route::get('holiday-type',[HolidayController::class, 'getHolidayType']);
     Route::post('holiday-apply', [HolidayController::class, 'applyHoliday']);
 });
