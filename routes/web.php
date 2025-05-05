@@ -20,6 +20,7 @@ use App\Http\Controllers\Billing\BillingItemController;
 use App\Http\Controllers\Billing\BillingController;
 use App\Http\Controllers\Billing\InvoiceRuleController;
 use App\Http\Controllers\LeaveType2Controller;
+use App\Http\Controllers\organization\HolidayController;
 
 
 /*
@@ -199,6 +200,26 @@ Route::get('organization/add-holiday-type', 'App\Http\Controllers\organization\H
 Route::post('organization/add-holiday-type', 'App\Http\Controllers\organization\HolidayController@saveHolidayTypeData');
 Route::get('organization/add-holiday-type/{holiday_id}', 'App\Http\Controllers\organization\HolidayController@getHolidayTypeDtl');
 Route::get('organization/delete-holiday-type/{holiday_id}', 'App\Http\Controllers\organization\HolidayController@deleteHolidayType');
+
+// Route::get('organization/type',[HolidayController::class, 'holidaTypeList'])->name('holiday.type');
+Route::prefix('organization/holiday-types')->group(function () {
+    Route::get('/', [HolidayController::class, 'holidayTypeList'])->name('holiday.types.index');
+    Route::get('/create', [HolidayController::class, 'createHolidayType'])->name('holiday.types.create');
+    Route::post('/', [HolidayController::class, 'storeHolidayType'])->name('holiday.types.store');
+    Route::get('/{id}/edit', [HolidayController::class, 'editHolidayType'])->name('holiday.types.edit');
+    Route::put('/{id}', [HolidayController::class, 'updateHolidayType'])->name('holiday.types.update');
+    Route::get('/{id}', [HolidayController::class, 'destroyHolidayType'])->name('holiday.types.destroy');
+    Route::post('/{id}/toggle-status', [HolidayController::class, 'toggleStatus'])->name('holiday.types.toggle-status');
+});
+
+Route::prefix('organization/holiday-applications')->group(function () {
+    Route::get('/', [HolidayController::class, 'holidayindex'])->name('holiday.applications.index');
+    Route::get('/create', [HolidayController::class, 'holidaycreate'])->name('holiday.applications.create');
+    Route::post('/', [HolidayController::class, 'holidaystore'])->name('holiday.applications.store');
+    Route::get('/{id}/edit', [HolidayController::class, 'holidayedit'])->name('holiday.applications.edit');
+    Route::put('/{id}', [HolidayController::class, 'holidayupdate'])->name('holiday.applications.update');
+    Route::get('/{id}', [HolidayController::class, 'holidaydestroy'])->name('holiday.applications.destroy');
+});
 //----------------------------- End Holiday List ---------------------------------
 
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\LeaveController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\MobileMenuController;
 use App\Http\Controllers\Api\AttendanceController;
+use App\Http\Controllers\Api\HolidayController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -54,5 +55,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('mobile-menu',[MobileMenuController::class, 'getMobileMenu']);
 });
 
-
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {  
+    Route::get('holiday-type',[HolidayController::class, 'getHolidayType']);
+    Route::post('holiday-apply', [HolidayController::class, 'applyHoliday']);
+});
 

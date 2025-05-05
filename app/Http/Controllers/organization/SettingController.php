@@ -584,7 +584,13 @@ class SettingController extends Controller
     
     public function getPincode()
     {
-        $data['enteries'] = DB::table('pin_code_master')->get();
+        $email = Session::get('emp_email');
+        if(empty($email)){
+            return redirect('/');
+        }
+        $emid = Session::get('emid');
+
+        $data['enteries'] = DB::table('pin_code_master')->where('emid',$emid)->get();
         return view($this->_routePrefix . '.pincode',$data);
         //return view('settings/pincode', $data);
     }

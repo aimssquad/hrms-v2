@@ -46,4 +46,8 @@ class User extends Authenticatable
     // public function rule2Tables() {
     //     return $this->hasMany(Rule2Table::class, 'entity_id', 'employee_id');
     // }
+    public function holidayApplications()
+    {
+        return $this->hasMany(HolidayApply::class, 'employee_id', 'employee_id');
+    }
 }

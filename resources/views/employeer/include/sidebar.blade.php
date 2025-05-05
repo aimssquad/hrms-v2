@@ -112,6 +112,8 @@
                 ['url' => 'orgaization/holiday-dashboard', 'label' => 'Dashboard'],
                 ['url' => 'organization/holiday-type', 'label' => 'Category'],
                 ['url' => 'organization/holiday-list', 'label' => 'Record'],
+                ['url' => 'organization/holiday-types/', 'label' => 'Holiday Type'],
+                ['url' => 'organization/holiday-applications/', 'label' => 'Holiday Apply'],
             ]
         ],
         9 => [

@@ -10,8 +10,12 @@ use Mail;
 use Session;
 use Validator;
 use view;
+use App\Models\User;
+use App\Models\Employee;
 use App\Models\Registration;
 use App\Models\HolidayType;
+use App\Models\Holiday2Type;
+use App\Models\HolidayApply;
 use App\Models\Holiday;
 use Exception;
 
@@ -395,4 +399,271 @@ class HolidayController extends Controller
         }
     }
 
-}
+    public function holidayTypeList()
+    {
+        //dd('ok');
+        if (!empty(Session::get("emp_email"))) {
+            $emid = Session::get("emid");
+            $holidayTypes = Holiday2Type::where('emid',$emid)->get();
+            //dd($holidayTypes);
+            return view($this->_routePrefix . '.index',compact('holidayTypes'));
+            //return view('holiday-types.index', compact('holidayTypes'));
+        } else {
+            return rdirect('/');
+        }
+    }
+
+    public function createHolidayType()
+    {   //dd('okk');
+        if (!empty(Session::get("emp_email"))) {
+            return view($this->_routePrefix . '.create');
+            //return view('holiday-types.create');
+        } else {
+            return redirect('/');
+        }    
+    }
+
+    public function storeHolidayType(Request $request)
+    {
+        if (!empty(Session::get("emp_email"))) {
+             //dd($request->all());
+            $emid = Session::get("emid");
+            $validated = $request->validate([
+                'holiday_type_name' => 'required|string|max:100',
+                'status' => 'sometimes|boolean'
+            ]);
+            $validated['emid']= $emid;
+            //dd($validated);
+            Holiday2Type::create($validated);
+            Session::flash("message","Holiday Type Information Successfully Saved.");
+            return redirect()->route('holiday.types.index');
+        } else {
+            return regirect('/');
+        }                 
+    }
+
+    public function editHolidayType($id)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $id = base64_decode($id);
+            $holidayType = Holiday2Type::findOrFail($id);
+            return view($this->_routePrefix . '.edit', compact('holidayType'));
+            //return view('holiday-types.edit', compact('holidayType'));
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function updateHolidayType(Request $request, $id)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $validated = $request->validate([
+                'holiday_type_name' => 'required|string|max:100',
+                //'emid' => 'nullable|string|max:50',
+                'status' => 'sometimes|boolean'
+            ]);
+            $emid = Session::get("emid");
+            $validated['emid'] = $emid;
+            //dd($validated);
+            $holidayType = Holiday2Type::findOrFail($id);
+            //dd($validated);
+            $holidayType->update($validated);
+            Session::flash("message","Holiday Type Information Successfully updated.");
+            return redirect()->route('holiday.types.index');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function destroyHolidayType($id)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $emid = Session::get("emid");
+            $id = base64_decode($id);
+            $holiday_type_id_exist = DB::table('holiday_apply')->where('holiday_type2_id',$id)->where('emid',$emid)->first();
+            if($holiday_type_id_exist){
+                Session::flash("error","Holiday allready apply for this holiday type !");   
+                return redirect()->route('holiday.types.index');   
+            }
+            $holidayType = Holiday2Type::findOrFail($id);
+            $holidayType->delete();
+            Session::flash("message","Holiday Type Information Successfully deleted.");   
+            return redirect()->route('holiday.types.index');
+        } else {
+            return redirect('/');
+        }                 
+    }
+
+    public function toggleStatus($id)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $holidayType = Holiday2Type::findOrFail($id);
+            $holidayType->status = !$holidayType->status;
+            $holidayType->save();
+            Session::flash("message","Status updated successfully."); 
+            return back();
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function holidayindex()
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $emid = Session::get("emid");
+            
+            $applications = HolidayApply::with(['employee', 'holidayType'])
+                ->where('emid', $emid)
+                ->orderBy('apply_date', 'desc')
+                ->get();
+            
+                return view($this->_routePrefix . '.holiday-apply-index', compact('applications'));
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function holidaycreate()
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $emid = Session::get("emid");
+            $holidayTypes = Holiday2Type::where('status', 1)->where('emid',$emid)->get();
+            $activeEmployees = User::where('emid',$emid)->where('status','active')->get();
+            return view($this->_routePrefix . '.holiday-apply-create', compact('holidayTypes','activeEmployees'));
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function holidaystore(Request $request)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $emid = Session::get("emid");
+            // Validate the request data
+            $validated = $request->validate([
+                'holiday_type2_id' => 'required|exists:holiday2types,id',
+                'employee_id' => 'required|exists:users,employee_id',
+                'holiday_types' => 'required|in:days,hour',
+                'form_date' => 'required|date',
+                'no_of_days' => 'nullable|string',
+                'hour' => 'nullable|string'
+            ]);
+            $holidayData = [
+                'employee_id' => $validated['employee_id'],
+                'holiday_type2_id' => $validated['holiday_type2_id'],
+                'apply_date' => now(),
+                'holiday_types' => $validated['holiday_types'],
+                'form_date' => $validated['form_date'],
+                'emid' => $emid,
+                'status' => 1,
+            ];
+            if ($request->holiday_types === 'days') {
+                $holidayData['no_of_days'] = $validated['no_of_days'];
+                $holidayData['hour'] = null;
+            } else {
+                $holidayData['hour'] = $validated['hour'];
+                $holidayData['no_of_days'] = null;
+            }
+            HolidayApply::create($holidayData);
+            Session::flash("message","Holiday application submitted successfully."); 
+            return redirect()->route('holiday.applications.index');
+        } else {
+            return redirect('/');
+        }                
+    }
+
+    public function holidayedit($id)
+    { 
+        if (!empty(Session::get("emp_email"))) {
+            $emid = Session::get("emid");
+            $application = HolidayApply::where('id', $id)
+                            ->where('emid', $emid)
+                            ->firstOrFail();
+         
+            $holidayTypes = Holiday2Type::where('status', 1)
+                            ->where('emid', $emid)
+                            ->get();
+            
+            $activeEmployees = User::where('emid', $emid)
+                            ->where('status', 'active')
+                            ->get();
+
+            return view($this->_routePrefix . '.holiday-apply-edit', compact('application', 'holidayTypes', 'activeEmployees'));
+            //return view('holiday-apply-edit', compact('application', 'holidayTypes', 'activeEmployees'));
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function holidayupdate(Request $request, $id)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $emid = Session::get("emid");
+            
+            // Validate the request data
+            $validated = $request->validate([
+                'holiday_type2_id' => 'required|exists:holiday2types,id',
+                'employee_id' => 'required|exists:users,employee_id',
+                'holiday_types' => 'required|in:days,hour',
+                'form_date' => 'required|date',
+                'no_of_days' => 'nullable|string',
+                'hour' => 'nullable|string'
+            ]);
+            
+            // Find the application
+            $application = HolidayApply::where('id', $id)
+                            ->where('emid', $emid)
+                            ->firstOrFail();
+            
+            // Prepare update data
+            $updateData = [
+                'employee_id' => $validated['employee_id'],
+                'holiday_type2_id' => $validated['holiday_type2_id'],
+                'holiday_types' => $validated['holiday_types'],
+                'form_date' => $validated['form_date'],
+                'updated_at' => now(),
+            ];
+            
+            // Set day or hour values
+            if ($request->holiday_types === 'days') {
+                $updateData['no_of_days'] = $validated['no_of_days'];
+                $updateData['hour'] = null;
+            } else {
+                $updateData['hour'] = $validated['hour'];
+                $updateData['no_of_days'] = null;
+            }
+            
+            // Update the record
+            $application->update($updateData);
+            
+            Session::flash("message", "Holiday application updated successfully."); 
+            return redirect()->route('holiday.applications.index');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function holidaydestroy($id)
+    {
+        //dd($id);
+        if (!empty(Session::get("emp_email"))) {
+            $emid = Session::get("emid");
+            
+            $application = HolidayApply::where('id', $id)
+                            ->where('emid', $emid)
+                            ->firstOrFail();
+            
+            $application->delete();
+            
+            Session::flash("message", "Holiday application deleted successfully.");
+            return redirect()->route('holiday.applications.index');
+        } else {
+            return redirect('/');
+        }
+    }
+
+
+
+
+
+} //end class
