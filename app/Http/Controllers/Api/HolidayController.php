@@ -182,9 +182,7 @@ class HolidayController extends Controller
                     "holiday_apply.holiday_type2_id",
                     "=",
                     "holiday2types.id"
-                )->join("users",
-                "users.employee_id","=","holiday_apply.employee_id")
-                ->get();
+                )->get();
              
                 if($holidayApply->isEmpty()){
                     $dynamicFlag = 1;
