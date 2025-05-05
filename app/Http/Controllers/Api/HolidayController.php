@@ -22,6 +22,16 @@ class HolidayController extends Controller
                     ->where('status',1)
                 ->select(['id','holiday_type_name'])
                 ->get();
+                if(empty($holidayType)){
+                    $dynamicFlag = 1;
+                    $data=[];
+                    $message = "No holiday type found";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+                }
                 $holidayType->transform(function ($item) {
                     return collect($item)->map(function ($value) {
                         return $value === null ? "" : $value;

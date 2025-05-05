@@ -405,9 +405,8 @@ class HolidayController extends Controller
         if (!empty(Session::get("emp_email"))) {
             $emid = Session::get("emid");
             $holidayTypes = Holiday2Type::where('emid',$emid)->get();
-            //dd($holidayTypes);
+           
             return view($this->_routePrefix . '.index',compact('holidayTypes'));
-            //return view('holiday-types.index', compact('holidayTypes'));
         } else {
             return rdirect('/');
         }
