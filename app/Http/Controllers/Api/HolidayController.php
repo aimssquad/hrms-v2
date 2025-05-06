@@ -90,7 +90,7 @@ class HolidayController extends Controller
                     'holiday_types' => $validated['holiday_types'],
                     'form_date' => $validated['form_date'],
                     'emid' => $emid,
-                    'status' => 1,
+                    'status' => 'pending',
                 ];
                 if ($request->holiday_types === 'days') {
                     $holidayData['no_of_days'] = $validated['no_of_days'];
@@ -162,6 +162,15 @@ class HolidayController extends Controller
                         $dynamicFlag,
                         $data
                     );
+            } else {
+                $dynamicFlag = 1;
+                $data=[];
+                $message = "Somthing Went Wrong";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
             }     
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);
@@ -212,7 +221,118 @@ class HolidayController extends Controller
                     $dynamicFlag,
                     $data
                 );
-            }     
+            }  else {
+                $dynamicFlag = 1;
+                $data=[];
+                $message = "Somthing Went Wrong";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            }    
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        } 
+    }
+
+    public function holidayCalender(){
+        try{
+            if (auth()->check()) {
+                $employeeId = auth()->user()->employee_id;
+                $emid = auth()->user()->emid;
+                //dd($employeeId);
+                $dutyEachEmployee = DB::table('duty_roster')
+                    ->where('emid', $emid)
+                    ->where('employee_id', $employeeId)
+                    ->orderBy('id','desc')
+                    ->get();
+                //dd($dutyEachEmployee);
+                // Check Employee Roster Created OR Not    
+                if($dutyEachEmployee->isEmpty()){
+                    $dynamicFlag = 1;
+                    $data = [];
+                    $message = "Employee roster Not created. Please create first employee Roster";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+                } 
+                $holidayApply = Holiday2Type::where("holiday2types.emid", "=", $emid)
+                    ->where('holiday_apply.employee_id', $employeeId)
+                   
+                    ->select("holiday2types.holiday_type_name", "holiday_apply.*")
+                    ->join(
+                        "holiday_apply",
+                        "holiday_apply.holiday_type2_id",
+                        "=",
+                        "holiday2types.id"
+                    )
+                    ->get();
+                //dd($holidayApply);    
+                  // Retrieve Holidays
+                $nationalHoliday = Holiday::where("holiday.emid", "=", $emid)
+                    ->select("holiday_type.name", "holiday.*")
+                    ->join(
+                        "holiday_type",
+                        "holiday.holiday_type",
+                        "=",
+                        "holiday_type.id"
+                    )
+                    ->get();
+
+                // Retrieve Off Days
+                $offDays = DB::table('offday')
+                    ->where('emid', $emid)
+                    ->where('shift_code', $dutyEachEmployee[0]->shift_code)
+                    ->get();
+
+                // Combine data into calendarData
+                $calendarData = [
+                    'duty_roster' => $dutyEachEmployee,
+                    'holiday_apply' => $holidayApply,
+                    'national_holiday' => $nationalHoliday,
+                    'off_days' => $offDays,
+                ];
+                //dd($calendarData);
+                function replaceNullWithEmpty($data) {
+                    if (is_array($data)) {
+                
+                        foreach ($data as $key => $value) {
+                            $data[$key] = replaceNullWithEmpty($value);
+                        }
+                    } elseif (is_object($data)) {
+                    
+                        foreach ($data as $key => $value) {
+                            $data->$key = replaceNullWithEmpty($value);
+                        }
+                    } elseif ($data === null) {
+            
+                        $data = "";
+                    }
+                    return $data;
+                }
+                $calendarData = replaceNullWithEmpty($calendarData);
+                $dynamicFlag = 1;
+                $data = $calendarData;
+                $message = "Employee holiday calender";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+
+            }else {
+                $dynamicFlag = 1;
+                $data=[];
+                $message = "Somthing Went Wrong";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            } 
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);
         } 

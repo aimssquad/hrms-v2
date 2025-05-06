@@ -60,5 +60,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('holiday-type',[HolidayController::class, 'getHolidayType']);
     Route::post('holiday-apply', [HolidayController::class, 'applyHoliday']);
     Route::get('holiday-apply-list', [HolidayController::class, 'applyHolidayList']);
+    Route::get('holiday-calender', [HolidayController::class, 'holidayCalender']);
 });
 
