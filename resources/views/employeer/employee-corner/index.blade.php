@@ -45,11 +45,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
-                    @foreach($sidebarItems['Holiday Management'] as $rotaItem)
-                        @if($rotaItem['submenu_name'] == 'Category' && $rotaItem['can_add'] == 1)
+                    {{-- @foreach($sidebarItems['Holiday Management'] as $rotaItem)
+                        @if($rotaItem['submenu_name'] == 'Category' && $rotaItem['can_add'] == 1) --}}
                             <a href="{{ route('employee.holiday.apply') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Holiday Apply</a>
-                        @endif
-                    @endforeach
+                        {{-- @endif
+                    @endforeach --}}
 				@elseif($user_type == 'employer')
 				    <a href="{{ route('employee.holiday.apply') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Holiday Apply</a>
 				@endif
