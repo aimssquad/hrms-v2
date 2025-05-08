@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Holiday Apply')
+@section('title', 'Edit Holiday Apply')
 @section('content')
 <div class="main-panel">
 <div class="content">
@@ -9,11 +9,11 @@
             <ul class="breadcrumb">
                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
                <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">Holiday Dashboard</a></li>
-               <li class="breadcrumb-item active">Holiday Apply</li>
+               <li class="breadcrumb-item active">Edit Holiday Apply</li>
             </ul>
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="far fa-user"></i>  Holiday Apply</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i>  Edit Holiday Apply</h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">
@@ -23,7 +23,8 @@
                             <form action="{{ route('holiday.applications.update', $application->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                
+                                <input type="hidden" name="emp_reporting_auth_name" value="{{$application->emp_reporting_auth_name}}" >
+                                <input type="hidden" name="emp_reporting_auth_id" value="{{$application->emp_reporting_auth_id}}" >
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -42,14 +43,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="employee_id">Employee</label>
-                                            <select name="employee_id" id="employee_id" class="select" required>
-                                                <option value="">Select Employee</option>
-                                                @foreach($activeEmployees as $employee)
-                                                    <option value="{{ $employee->employee_id }}" {{ $application->employee_id == $employee->employee_id ? 'selected' : '' }}>
-                                                        {{ $employee->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <input type="hidden" class="form-control" name="employee_id" value="{{$application->employee_id}}" >
+                                            <input type="text" class="form-control"  value="{{ $activeEmployees->name }}" readonly>
                                         </div>
                                     </div>
                                     
@@ -90,6 +85,17 @@
                                                 <input type="number" class="form-control" id="hour" name="hour" 
                                                        min="1" step="1" value="{{ $application->hour }}">
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select class="select" name="status" id="status">
+                                                <option value="">Select Status</option>
+                                                <option value="pending" {{ $application->status == "pending" ? 'selected' : '' }}>Pending</option>
+                                                <option value="cancel" {{ $application->status == "cancel" ? 'selected' : '' }}>Cancel</option>
+                                                <option value="approved" {{ $application->status == "approved" ? 'selected' : '' }}>Approved</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

@@ -8,10 +8,9 @@
          <div class="col-md-12">
             <ul class="breadcrumb">
                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">Holiday Dashboard</a></li>
+               {{-- <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">Holiday Dashboard</a></li> --}}
                <li class="breadcrumb-item active">Holiday Apply</li>
             </ul>
-            @include('employeer.layout.message')
             <div class="card custom-card">
                <div class="card-header">
                   <h4 class="card-title"><i class="far fa-user"></i>  Holiday Apply</h4>
@@ -21,7 +20,7 @@
                      <!--form panels-->
                      <div class="row">
                         <div class="col-12 col-lg-12 m-auto">
-                            <form action="{{ route('holiday.applications.store') }}" method="POST">
+                            <form action="{{ route('employee.holiday.store') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-4">
@@ -35,7 +34,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    {{-- <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="employee_id">Employee</label>
                                             <select name="employee_id" id="employee_id" class="select" required>
@@ -45,7 +44,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Leave Type</label><br>
@@ -61,7 +60,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="form_date">Date</label>
+                                            <label for="form_date">From Date</label>
                                             <input type="date" class="form-control" id="form_date" name="form_date" required
                                                 min="{{ date('Y-m-d') }}">
                                         </div>
@@ -83,7 +82,6 @@
                                 </div>
                                 <br/>
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="{{ route('holiday.applications.index') }}" class="btn btn-secondary">Cancel</a>
                             </form>                        
                         </div>
                   </div>

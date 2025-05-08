@@ -392,6 +392,10 @@ Route::post('org-employee-corner/attendance-status', 'App\Http\Controllers\organ
 Route::get('org-employee-corner/leave-apply', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewapplyleaveapplication');
 Route::post('org-employee-corner/leave-apply', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@saveApplyLeaveData');
 
+Route::get('org-employee-corner/holiday-list', "App\Http\Controllers\organization\EmployeeCornerOrganisationController@holidayList")->name('employee.holiday.list');
+Route::get('org-employee-corner/holiday-apply', "App\Http\Controllers\organization\EmployeeCornerOrganisationController@holidayCreate")->name('employee.holiday.apply');
+Route::post('org-employee-corner/holiday-apply', "App\Http\Controllers\organization\EmployeeCornerOrganisationController@holidayStore")->name('employee.holiday.store');
+
 // Route::get('org-employee-corner/addemployee', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewAddEmployee');
 // ----------------------------------------- End Employee Corner ---------------------------------------------
 

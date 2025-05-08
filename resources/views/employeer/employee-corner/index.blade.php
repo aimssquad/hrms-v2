@@ -47,11 +47,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 				@if($user_type == 'employee')
                     @foreach($sidebarItems['Holiday Management'] as $rotaItem)
                         @if($rotaItem['submenu_name'] == 'Category' && $rotaItem['can_add'] == 1)
-                            <a href="{{ route('holiday.applications.create') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Holiday Apply</a>
+                            <a href="{{ route('employee.holiday.apply') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Holiday Apply</a>
                         @endif
                     @endforeach
 				@elseif($user_type == 'employer')
-				    <a href="{{ route('holiday.applications.create') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Holiday Apply</a>
+				    <a href="{{ route('employee.holiday.apply') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Holiday Apply</a>
 				@endif
 				{{-- <div class="view-icons">
 					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
@@ -103,11 +103,12 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                 <tr>
                                     <th>ID</th>
                                     <th>Employee name</th>
+                                    <th>Holiday Sanction Othority</th>
                                     <th>Holiday Type</th>
                                     <th>Apply Date</th>
                                     <th>Duration</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    {{-- <th>Actions</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,12 +122,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                 N/A
                                             @endif
                                         </td>
+                                        <td> {{ $application->emp_reporting_auth_name ?? 'NA' }} </td>
                                         <td>
-                                            @if($application->holidayType)
-                                                {{ $application->holidayType->holiday_type_name }}
-                                            @else
-                                                N/A
-                                            @endif
+                                            {{ $application->holidayType->holiday_type_name ?? 'NA' }} 
                                         </td>
                                         <td>
                                             {{ \Carbon\Carbon::parse($application->form_date)->format('d M Y') }}
@@ -147,19 +145,22 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                             @else 
                                                 <span class="badge badge-success"> {{ strtoupper($application->status) }} </span>
                                             @endif
+                                            
                                         </td>
-                                        <td class="text-end">
+                                        {{-- <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="material-icons">more_vert</i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     @if($user_type == 'employee')
-                                                        @if(Session::get("employee_id") == $application->emp_reporting_auth_id)
-                                                            <a class="dropdown-item" href="{{ route('holiday.applications.edit', $application->id) }}">
-                                                                <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                                            </a>
-                                                        @endif
+                                                        @foreach($sidebarItems['Holiday Management'] as $rotaItem)
+                                                            @if($rotaItem['submenu_name'] == 'Category' && $rotaItem['can_edit'] == 1)
+                                                                <a class="dropdown-item" href="{{ route('holiday.applications.edit', $application->id) }}">
+                                                                    <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                                </a>
+                                                            @endif
+                                                        @endforeach
                                                     @elseif($user_type == 'employer')
                                                         <a class="dropdown-item" href="{{ route('holiday.applications.edit', $application->id) }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
@@ -180,7 +181,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                     @endif
                                                 </div>
                                             </div>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                     
                                 @endforeach

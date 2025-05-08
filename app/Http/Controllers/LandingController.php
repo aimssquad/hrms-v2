@@ -1089,7 +1089,7 @@ class LandingController extends Controller
                          
                         if (!empty($Roledata)) {
                             //dd($Roledata); 
-                            Session::put("employee_id", $request->employee_id);
+                            Session::put("employee_id", $Employee->employee_id);
                             Session::put("emp_email", $Roledata->email);
                             Session::put("user_email", $request->email);
                             Session::put("user_type", $Employee->user_type);

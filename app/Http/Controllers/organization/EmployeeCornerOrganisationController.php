@@ -25,6 +25,9 @@ use App\Models\EmployeeType;
 use App\Models\LeaveType;
 use App\Models\LeaveRule;
 use App\Models\Holiday;
+use App\Models\HolidayApply;
+use App\Models\Holiday2Type;
+use App\Models\User;
 use App\Models\EmployeePersonalRecord;
 use App\Models\ExperienceRecords;
 use App\Models\ProfessionalRecords;
@@ -1130,6 +1133,102 @@ class EmployeeCornerOrganisationController extends Controller
 
     //     //return view('pis/employee-master')->with(['company'=>$company,'employee'=>$employee_type]);
     // }
+
+
+    public function holidayList(){
+        //dd('okk');
+        if (!empty(Session::get("emp_email"))) {
+            $user_type = Session::get("user_type"); 
+            $employee_id = Session::get("employee_id"); 
+            //dd($employee_id);
+            $emid = Session::get("emid");
+            if($user_type == "employee"){
+                $applications = HolidayApply::with(['employee', 'holidayType'])
+                ->where('employee_id',$employee_id)
+                ->where('emid', $emid)
+                ->orderBy('apply_date', 'desc')
+                ->get();
+                //dd($applications);
+                return view($this->_routePrefix . '.index', compact('applications'));
+            }
+            //dd($user_type, $emid);
+            $applications = HolidayApply::with(['employee', 'holidayType'])
+                ->where('emid', $emid)
+                ->orderBy('apply_date', 'desc')
+                ->get();
+            
+                return view($this->_routePrefix . '.index', compact('applications'));
+            
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function holidayCreate()
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $user_type = Session::get("user_type"); 
+            $employee_id = Session::get("employee_id"); 
+
+            $emid = Session::get("emid");
+            $holidayTypes = Holiday2Type::where('status', 1)->where('emid',$emid)->get();
+            $activeEmployees = User::where('emid',$emid)->where('status','active')->get();
+            return view($this->_routePrefix . '.holiday-create', compact('holidayTypes','activeEmployees'));
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function holidayStore(Request $request)
+    {
+        if (!empty(Session::get("emp_email"))) {
+            $email = Session::get("emp_email");
+
+            $emid = Session::get("emid");
+            $employee_id = Session::get("employee_id"); 
+             $reportingOth = DB::table('employee')->where('emp_ps_email',$email)->where('emp_code',$employee_id)->select('emp_reporting_auth')->first();
+             if(empty($reportingOth)){
+                Session::flash("error","Reporting authority not assign."); 
+                return redirect()->back();
+             }
+             $repAuthId = $reportingOth->emp_reporting_auth;
+             $repAuth = DB::table('users')->where('employee_id',$repAuthId)->select('name')->first();
+             $reporting_auth_name = $repAuth->name;   
+             
+            // Validate the request data
+            $validated = $request->validate([
+                'holiday_type2_id' => 'required|exists:holiday2types,id',
+                //'employee_id' => 'required|exists:users,employee_id',
+                'holiday_types' => 'required|in:days,hour',
+                'form_date' => 'required|date',
+                'no_of_days' => 'nullable|string',
+                'hour' => 'nullable|string'
+            ]);
+            $holidayData = [
+                'employee_id' => $employee_id,
+                'emp_reporting_auth_name'  => $reporting_auth_name,
+                'emp_reporting_auth_id' => $repAuthId,
+                'holiday_type2_id' => $validated['holiday_type2_id'],
+                'apply_date' => now(),
+                'holiday_types' => $validated['holiday_types'],
+                'form_date' => $validated['form_date'],
+                'emid' => $emid,
+                'status' => "pending",
+            ];
+            if ($request->holiday_types === 'days') {
+                $holidayData['no_of_days'] = $validated['no_of_days'];
+                $holidayData['hour'] = null;
+            } else {
+                $holidayData['hour'] = $validated['hour'];
+                $holidayData['no_of_days'] = null;
+            }
+            HolidayApply::create($holidayData);
+            Session::flash("message","Holiday application submitted successfully."); 
+            return redirect()->route('employee.holiday.list');
+        } else {
+            return redirect('/');
+        }                
+    }
 
 
 

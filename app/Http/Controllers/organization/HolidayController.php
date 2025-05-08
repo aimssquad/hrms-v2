@@ -510,12 +510,22 @@ class HolidayController extends Controller
     {
         if (!empty(Session::get("emp_email"))) {
             $emid = Session::get("emid");
-            
-            $applications = HolidayApply::with(['employee', 'holidayType'])
-                ->where('emid', $emid)
+            // $employee_id = Session::get("employee_id");
+            // dd($employee_id);
+            // $applications = HolidayApply::with(['employee', 'holidayType'])
+            //     ->where('emid', $emid)
+            //     ->orderBy('apply_date', 'desc')
+            //     ->get();
+                $applications = HolidayApply::with([
+                    'employee' => function($query) use ($emid) {
+                        $query->where('emid', $emid);  // Constrain the employee relation
+                    },
+                    'holidayType'
+                ])
+                ->where('emid', $emid)  // Constrain main HolidayApply records
                 ->orderBy('apply_date', 'desc')
                 ->get();
-            
+          
                 return view($this->_routePrefix . '.holiday-apply-index', compact('applications'));
         } else {
             return redirect('/');
@@ -538,6 +548,19 @@ class HolidayController extends Controller
     {
         if (!empty(Session::get("emp_email"))) {
             $emid = Session::get("emid");
+            $userType = Session::get("user_type");
+            //dd($request->all());
+            if($userType == 'employer'){
+                $employeeDtl = DB::table('employee')->where('emid',$emid)->where('emp_code',$request->employee_id)->select('emp_reporting_auth')->first();
+                if (!$employeeDtl || empty($employeeDtl->emp_reporting_auth)) {
+                    Session::flash("error", "Employee not found or reporting authority not assigned.");
+                    return redirect()->back(); 
+                }
+                $empReportingAuthId = $employeeDtl->emp_reporting_auth;
+                $auth_name = DB::table('users')->where('employee_id',$empReportingAuthId)->where('emid',$emid)->select('name')->first();
+                $empReportingAuthName = $auth_name->name;
+            }
+            
             // Validate the request data
             $validated = $request->validate([
                 'holiday_type2_id' => 'required|exists:holiday2types,id',
@@ -550,11 +573,13 @@ class HolidayController extends Controller
             $holidayData = [
                 'employee_id' => $validated['employee_id'],
                 'holiday_type2_id' => $validated['holiday_type2_id'],
+                'emp_reporting_auth_name' => $empReportingAuthName,
+                'emp_reporting_auth_id' => $empReportingAuthId,
                 'apply_date' => now(),
                 'holiday_types' => $validated['holiday_types'],
                 'form_date' => $validated['form_date'],
                 'emid' => $emid,
-                'status' => 1,
+                'status' => 'approved',
             ];
             if ($request->holiday_types === 'days') {
                 $holidayData['no_of_days'] = $validated['no_of_days'];
@@ -583,10 +608,10 @@ class HolidayController extends Controller
                             ->where('emid', $emid)
                             ->get();
             
-            $activeEmployees = User::where('emid', $emid)
+            $activeEmployees = User::where('employee_id', $application->employee_id)
                             ->where('status', 'active')
-                            ->get();
-
+                            ->first();
+            //dd($activeEmployees);
             return view($this->_routePrefix . '.holiday-apply-edit', compact('application', 'holidayTypes', 'activeEmployees'));
             //return view('holiday-apply-edit', compact('application', 'holidayTypes', 'activeEmployees'));
         } else {
@@ -598,17 +623,20 @@ class HolidayController extends Controller
     {
         if (!empty(Session::get("emp_email"))) {
             $emid = Session::get("emid");
-            
+            //dd($request->all());
             // Validate the request data
             $validated = $request->validate([
                 'holiday_type2_id' => 'required|exists:holiday2types,id',
                 'employee_id' => 'required|exists:users,employee_id',
+                'emp_reporting_auth_name' => 'required|string',
+                'emp_reporting_auth_id' => 'required|string',
                 'holiday_types' => 'required|in:days,hour',
                 'form_date' => 'required|date',
                 'no_of_days' => 'nullable|string',
-                'hour' => 'nullable|string'
+                'hour' => 'nullable|string',
+                'status' => 'required|in:approved,cancel,pending'
             ]);
-            
+            //dd($validated);
             // Find the application
             $application = HolidayApply::where('id', $id)
                             ->where('emid', $emid)
@@ -621,8 +649,11 @@ class HolidayController extends Controller
                 'holiday_types' => $validated['holiday_types'],
                 'form_date' => $validated['form_date'],
                 'updated_at' => now(),
+                'emp_reporting_auth_name' =>  $validated['emp_reporting_auth_name'],
+                'emp_reporting_auth_id' =>  $validated['emp_reporting_auth_id'],
+                'status' =>  $validated['status']
             ];
-            
+            //dd($updateData);
             // Set day or hour values
             if ($request->holiday_types === 'days') {
                 $updateData['no_of_days'] = $validated['no_of_days'];
