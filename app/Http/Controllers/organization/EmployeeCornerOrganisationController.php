@@ -1156,7 +1156,6 @@ class EmployeeCornerOrganisationController extends Controller
                 ->where('emid', $emid)
                 ->orderBy('apply_date', 'desc')
                 ->get();
-            
                 return view($this->_routePrefix . '.index', compact('applications'));
             
         } else {
