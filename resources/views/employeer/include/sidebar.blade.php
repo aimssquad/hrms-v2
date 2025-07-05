@@ -409,7 +409,7 @@ function isActiveModule($moduleItems) {
                 <p class="mt-2 mb-0">Powered By</p>
                 <div class="float-end ms-3">
                     @if($company_details->org_code == '')
-                        <img width="70px" src="{{asset('assets/img/swch_logo.png')}}" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" />
+                        <img width="70px" src="{{asset('assets/img/sponicHr-logo.png')}}" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" />
                         {{-- <img width="70px" src="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/swch_logo.png" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" /> --}}
                     @else
                         @if($company_details->org_code != '')
