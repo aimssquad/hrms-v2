@@ -408,13 +408,26 @@ function isActiveModule($moduleItems) {
             <div class="d-flex">
                 <p class="mt-2 mb-0">Powered By</p>
                 <div class="float-end ms-3">
-                    {{-- <img width="70px" src="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/swch_logo.png"/> --}}
-                    @if(!empty($company_details->logo))
-                    <img src="{{ asset('storage/app/public/' . $company_details->logo) }}" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" />
+                    @if($company_details->org_code == '')
+                        <img width="70px" src="{{asset('assets/img/swch_logo.png')}}" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" />
+                        {{-- <img width="70px" src="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/swch_logo.png" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" /> --}}
+                    @else
+                        @if($company_details->org_code != '')
+                            @php
+                                $sub_details = DB::table('sub_admin_registrations')
+                                    ->where('org_code', '=', $company_details->org_code)
+                                    ->select('logo')
+                                    ->first();
+                            @endphp  
+                            @if(!empty($sub_details->logo))
+                                <img src="{{ asset('storage/app/public/' . $sub_details->logo) }}" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" />
+                            @endif      
+                        @endif
+                        
                     @endif
                 </div>
             </div>
-            <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} SWCH - HRMS | All Right Reserved |</p>
+            <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} SWC - SponicHR | All Rights Reserved |</p>
             {{-- <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} HRMS | All Right Reserved |</p> --}}
         </div>
     </div>

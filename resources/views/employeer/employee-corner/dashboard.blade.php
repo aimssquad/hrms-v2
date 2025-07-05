@@ -65,6 +65,7 @@
 					</a>
 				</div>
 			</div>
+			@if($Roledata->user_type == "employee")
 			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
 				<div class="card dash-widget overflow-visible">
 					<a href="{{ url('org-employee-corner/leave-apply') }}">
@@ -84,6 +85,7 @@
 					</a>
 				</div>
 			</div>
+			@endif
 			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
 				<div class="card dash-widget overflow-visible">
 					<a href="{{ url('org-employee-corner/attendance-status') }}">
@@ -198,7 +200,7 @@
 										@if($holidays)
 										@foreach($holidays as $holiday) 
 										<h6>{{strtoupper($holiday->name) }}</h6>
-										@if($holiday->from_date)  {{-- Check if date exists --}}
+										@if($holiday->from_date)  
 											<p class="holiday-date">
 												{{ \Carbon\Carbon::parse($holiday->from_date)->format('d M Y') }}
 											</p>

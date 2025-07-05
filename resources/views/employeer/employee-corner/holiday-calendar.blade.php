@@ -97,7 +97,7 @@ span.fc-icon.fc-icon-chevron-right:after {
             ?>
             @foreach($holidays as $holiday)
                         {
-                            title: '{{ $holiday->holiday_descripion }}',
+                            title: '{{ $holiday->name }}',
                             start: '{{ $holiday->from_date }}',
                             end: '{{ $holiday->to_date }}',
                             

@@ -200,6 +200,13 @@ class EmployeeCornerOrganisationController extends Controller
                 ->whereDate("leave_apply.from_date", ">=", $first_day_this_year)
                 ->whereDate("leave_apply.to_date", "<=", $last_day_this_year)
                 ->get();
+
+            $data['holidays'] = Holiday::join('holiday_type', 'holiday_type.id', '=', 'holiday.holiday_type')
+                    ->where('holiday.emid', $users->emid)
+                    ->whereMonth('holiday.from_date', date('m'))
+                    ->whereYear('holiday.from_date', date('Y'))
+                    ->select('holiday.*', 'holiday_type.name')
+                    ->get();    
                
             return view($this->_routePrefix . '.dashboard',$data);
             //return View("employee-corner-organisation/dashboard", $data);
@@ -279,6 +286,36 @@ class EmployeeCornerOrganisationController extends Controller
         }
     }
 
+    // public function viewdetaholiday()
+    // {
+    //     if (!empty(Session::get("emp_email"))) {
+    //         $user_id = Session::get("users_id");
+    //         $users = DB::table("users")
+    //             ->where("id", "=", $user_id)
+    //             ->first();
+    //         // $holidays = DB::table("holiday")
+
+    //         //     ->where("emid", "=", $users->emid)
+    //         //     ->get();
+    //             //-------------- new code
+    //         $holidays = Holiday::where("holiday.emid", "=", $users->emid)
+    //         ->select("holiday_type.name", "holiday.*")
+    //         ->join(
+    //             "holiday_type",
+    //             "holiday.holiday_type",
+    //             "=",
+    //             "holiday_type.id"
+    //         )
+    //         ->get();  
+    //         //dd($holidays);
+    //         //return view($this->_routePrefix . '.calender',compact("holidays"));
+    //         return view($this->_routePrefix . '.holiday-calendar',compact("holidays"));
+        
+    //     } else {
+    //         return redirect("/");
+    //     }
+    // }
+
     public function viewdetaholiday()
     {
         if (!empty(Session::get("emp_email"))) {
@@ -286,26 +323,78 @@ class EmployeeCornerOrganisationController extends Controller
             $users = DB::table("users")
                 ->where("id", "=", $user_id)
                 ->first();
-            // $holidays = DB::table("holiday")
-
-            //     ->where("emid", "=", $users->emid)
-            //     ->get();
-                //-------------- new code
+                
             $holidays = Holiday::where("holiday.emid", "=", $users->emid)
-            ->select("holiday_type.name", "holiday.*")
-            ->join(
-                "holiday_type",
-                "holiday.holiday_type",
-                "=",
-                "holiday_type.id"
-            )
-            ->get();  
-            //return view($this->_routePrefix . '.calender',compact("holidays"));
-            return view($this->_routePrefix . '.holiday-calendar',compact("holidays"));
-            // return view(
-            //     "employee-corner/holiday-calendar",
-            //     compact("holidays")
-            // );
+                ->select("holiday_type.name", "holiday.*")
+                ->join("holiday_type", "holiday.holiday_type", "=", "holiday_type.id")
+                ->get();
+                
+            // Get current year and month from request or use current
+            $year = request()->input('year', date('Y'));
+            $month = request()->input('month', date('m'));
+            
+            // Calculate previous and next month/year
+            $prevMonth = $month == 1 ? 12 : $month - 1;
+            $prevYear = $month == 1 ? $year - 1 : $year;
+            $nextMonth = $month == 12 ? 1 : $month + 1;
+            $nextYear = $month == 12 ? $year + 1 : $year;
+            
+            // Get month name
+            $monthName = date('F', mktime(0, 0, 0, $month, 1, $year));
+            
+            // Get number of days in month
+            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+            
+            // Get first day of month
+            $firstDay = date('w', strtotime("$year-$month-01"));
+            
+            // Current date for highlighting
+            $currentDate = date('Y-m-d');
+            $currentYear = date('Y');
+            $currentMonth = date('m');
+            $currentDay = date('j');
+            
+            // Prepare weeks array
+            $weeks = [];
+            $dayCount = 1;
+            
+            // Build calendar weeks
+            for ($i = 0; $i < 6; $i++) {
+                $week = [];
+                
+                // Fill week with days
+                for ($j = 0; $j < 7; $j++) {
+                    if (($i === 0 && $j < $firstDay) || $dayCount > $daysInMonth) {
+                        $week[] = ['day' => '', 'date' => null];
+                    } else {
+                        $date = sprintf("%04d-%02d-%02d", $year, $month, $dayCount);
+                        $isCurrentDate = ($year == $currentYear && $month == $currentMonth && $dayCount == $currentDay);
+                        $week[] = ['day' => $dayCount, 'date' => $date, 'isCurrentDate' => $isCurrentDate];
+                        $dayCount++;
+                    }
+                }
+                
+                $weeks[] = $week;
+                
+                // Stop if we've processed all days
+                if ($dayCount > $daysInMonth) {
+                    break;
+                }
+            }
+            
+            return view($this->_routePrefix . '.holiday-calendar2', compact(
+                "holidays", 
+                "year", 
+                "month", 
+                "monthName", 
+                "weeks",
+                "prevYear",
+                "prevMonth",
+                "nextYear",
+                "nextMonth",
+                "currentDate"
+            ));
+            
         } else {
             return redirect("/");
         }
@@ -637,6 +726,7 @@ class EmployeeCornerOrganisationController extends Controller
         if($user_type=="employer"){
             if (!empty(Session::get("emp_email"))) {
                 $user_id = Session::get("users_id");
+                //dd($user_id);
                 $users = UserModel::where("id", "=", $user_id)->first();
                 // dd($users);
                 $employee = Employee::where("emid", "=", $users->employee_id)
@@ -705,7 +795,7 @@ class EmployeeCornerOrganisationController extends Controller
                     ];
                 }
 
-                // dd($holiday_array);
+                //dd($employee);
                 return view($this->_routePrefix . '.apply-leave',compact("leave_type_rs", "employee", "holiday_array"));
                 // return view(
                 //     "employee-corner/apply-leave",

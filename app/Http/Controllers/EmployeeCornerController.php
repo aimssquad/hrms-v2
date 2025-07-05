@@ -331,101 +331,101 @@ class EmployeeCornerController extends Controller
         $user_type = Session::get("user_type");
         
         if($user_type=="employer"){
-             if (!empty(Session::get("emp_email"))) {
-            $user_id = Session::get("users_id");
+            if (!empty(Session::get("emp_email"))) {
+                $user_id = Session::get("users_id");
+                
+                $users = UserModel::where("id", "=", $user_id)->first();
+                // dd($users);
+                $employee = Employee::where("emid", "=", $users->employee_id)
+                    ->orwhere("emid", "=", $users->emid)
+                    ->first();
+                // dd($employee);
             
-            $users = UserModel::where("id", "=", $user_id)->first();
-            // dd($users);
-            $employee = Employee::where("emid", "=", $users->employee_id)
-                ->orwhere("emid", "=", $users->emid)
-                ->first();
-            // dd($employee);
-           
-            $leave_type_rs = LeaveType::join(
-                "leave_allocation",
-                "leave_type.id",
-                "=",
-                "leave_allocation.leave_type_id"
-            )
-
-                ->select(
-                    "leave_type.*",
-                    "leave_allocation.id as lv_alloc_id",
-                    "leave_allocation.month_yr"
-                )
-                ->where("leave_type.emid", "=", $users->employee_id)
-                ->where(
-                    "leave_allocation.emid",
+                $leave_type_rs = LeaveType::join(
+                    "leave_allocation",
+                    "leave_type.id",
                     "=",
-                    $users->employee_id
+                    "leave_allocation.leave_type_id"
                 )
-                ->where("leave_allocation.emid", "=", $users->employee_id)
 
-                ->where("leave_allocation.leave_in_hand", "!=", 0)
-                ->get();
-                // dd($leave_type_rs);
+                    ->select(
+                        "leave_type.*",
+                        "leave_allocation.id as lv_alloc_id",
+                        "leave_allocation.month_yr"
+                    )
+                    ->where("leave_type.emid", "=", $users->employee_id)
+                    ->where(
+                        "leave_allocation.emid",
+                        "=",
+                        $users->employee_id
+                    )
+                    ->where("leave_allocation.emid", "=", $users->employee_id)
 
-            // dd($users->employee_id);
+                    ->where("leave_allocation.leave_in_hand", "!=", 0)
+                    ->get();
+                    // dd($leave_type_rs);
 
-            $holiday_rs = Holiday::where("emid", "=", $users->employee_id)
-                ->select("from_date", "to_date", "day", "holiday_type")
-                ->get();
-            // dd($holiday_rs);
+                // dd($users->employee_id);
 
-            $holidays = [];
-            $holiday_type = [];
-            $holiday_array = [];
-            foreach ($holiday_rs as $holiday) {
-                if ($holiday->day > "1") {
-                    $from_date = $holiday->from_date;
-                    $to_date = $holiday->to_date;
+                $holiday_rs = Holiday::where("emid", "=", $users->employee_id)
+                    ->select("from_date", "to_date", "day", "holiday_type")
+                    ->get();
+                // dd($holiday_rs);
 
-                    $date1 = date("d-m-Y", strtotime($from_date));
-                    $date2 = date("d-m-Y", strtotime($to_date));
-                    // dd($date1);
-                    // Declare an empty array
-                    // $holiday_array = array();
+                $holidays = [];
+                $holiday_type = [];
+                $holiday_array = [];
+                foreach ($holiday_rs as $holiday) {
+                    if ($holiday->day > "1") {
+                        $from_date = $holiday->from_date;
+                        $to_date = $holiday->to_date;
 
-                    // Use strtotime function
-                    $variable1 = strtotime($date1);
-                    $variable2 = strtotime($date2);
+                        $date1 = date("d-m-Y", strtotime($from_date));
+                        $date2 = date("d-m-Y", strtotime($to_date));
+                        // dd($date1);
+                        // Declare an empty array
+                        // $holiday_array = array();
 
-                    // Use for loop to store dates into array
-                    // 86400 sec = 24 hrs = 60*60*24 = 1 day
-                    for (
-                        $currentDate = $variable1;
-                        $currentDate <= $variable2;
-                        $currentDate += 86400
-                    ) {
-                        $Store = date("Y-m-d", $currentDate);
+                        // Use strtotime function
+                        $variable1 = strtotime($date1);
+                        $variable2 = strtotime($date2);
 
+                        // Use for loop to store dates into array
+                        // 86400 sec = 24 hrs = 60*60*24 = 1 day
+                        for (
+                            $currentDate = $variable1;
+                            $currentDate <= $variable2;
+                            $currentDate += 86400
+                        ) {
+                            $Store = date("Y-m-d", $currentDate);
+
+                            $holidays[] = $Store;
+                            $holiday_type[] = $holiday->holiday_type;
+                        }
+
+                        // Display the dates in array format
+                    } elseif ($holiday->day == "1") {
+                        $Store = $holiday->from_date;
                         $holidays[] = $Store;
                         $holiday_type[] = $holiday->holiday_type;
                     }
 
-                    // Display the dates in array format
-                } elseif ($holiday->day == "1") {
-                    $Store = $holiday->from_date;
-                    $holidays[] = $Store;
-                    $holiday_type[] = $holiday->holiday_type;
+                    $holiday_array = [
+                        "holidays" => $holidays,
+                        "holiday_type" => $holiday_type,
+                    ];
                 }
 
-                $holiday_array = [
-                    "holidays" => $holidays,
-                    "holiday_type" => $holiday_type,
-                ];
+                // dd($holiday_array);
+                return view(
+                    "employee-corner/apply-leave",
+                    compact("leave_type_rs", "employee", "holiday_array")
+                );
+            } else {
+                return redirect("/");
             }
-
-            // dd($holiday_array);
-            return view(
-                "employee-corner/apply-leave",
-                compact("leave_type_rs", "employee", "holiday_array")
-            );
-        } else {
-            return redirect("/");
-        }
         }else{
-              if (!empty(Session::get("emp_email"))) {
+            if (!empty(Session::get("emp_email"))) {
             $user_id = Session::get("users_id");
             
             $users = UserModel::where("email", "=", $user_email)->first();

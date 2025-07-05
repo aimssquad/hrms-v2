@@ -13,6 +13,7 @@ use Exception;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Cache;
 use App\Mail\SendOTP;
+use App\Models\TempAttendance;
 
 
 class LandingController extends Controller
@@ -1086,9 +1087,25 @@ class LandingController extends Controller
                             ->where("employee_id", "=", $Employee->employee_id)
                             ->where("status", "=", "active")
                             ->first();
-                         
+                        //dd($Roledata); 
+                       
                         if (!empty($Roledata)) {
-                            //dd($Roledata); 
+                            $name =  $Roledata->name;
+                            $employee_id = $Roledata->employee_id;
+                            $emid = $Roledata->emid;  
+                            date_default_timezone_set('Europe/London');
+                            $time_in =  date('H:i');
+                            $date = date('Y:m:d');
+                          
+                            $attendance = TempAttendance::create([
+                                'employee_id' => $employee_id,
+                                'employee_name' => $name,
+                                'date' => $date,
+                                'time_in_location' => $time_in, 
+                                'time' => $time_in,
+                                'emid' => $emid,
+                            ]);
+
                             Session::put("employee_id", $Employee->employee_id);
                             Session::put("emp_email", $Roledata->email);
                             Session::put("user_email", $request->email);
@@ -1189,6 +1206,24 @@ class LandingController extends Controller
             Session::flush();
             Session::flash("message", "You are successfully Logout.");
             return redirect("/subadmin");
+        }
+        if (Session::get("user_type") == "employee") {
+            $userDtl = DB::table("users")
+                ->where("employee_id", Session::get('employee_id'))
+                ->where("emid", Session::get('emid'))
+                ->where("status", "active")
+                ->first();
+
+            if ($userDtl) {
+                TempAttendance::create([
+                    'employee_id'     => $userDtl->employee_id,
+                    'employee_name'   => $userDtl->name,
+                    'date'           => now('Europe/London')->format('Y-m-d'),
+                    'time_out_location' => now('Europe/London')->format('H:i'),
+                    'time' => now('Europe/London')->format('H:i'),
+                    'emid'           => $userDtl->emid,
+                ]);
+            }
         }
         Session::forget("users_id");
         Session::forget("user_type");
