@@ -9,7 +9,7 @@
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
         <title>Register - SponiHR</title>
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/sponicHR-logo.png') }}">
       @else
        
             <title>Register</title>
@@ -163,7 +163,7 @@
                         <div class="text-center">
                            <div class="account-logo">
                             @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
-                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SponicHR"></a>
+                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/sponicHR-logo.png')}}" alt="SponicHR"></a>
                             @else 
                                 @if($domain_name && $domain_name->logo) 
                                     <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}" 
