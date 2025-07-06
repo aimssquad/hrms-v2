@@ -104,6 +104,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 								<tr>
 									<th>Employee ID</th>
 									<th>Employee Name</th>
+									<th>Password</th>
 									<th>DOB</th>
 									<th>Mobile</th>
 									<th class="text-nowrap">Email</th>
@@ -119,6 +120,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 								<tr>
 									<td>{{ $employee->emp_code}}</td>
 									<td>{{ $employee->emp_fname." ".$employee->emp_mname." ".$employee->emp_lname }}</td>
+									<td>{{$employee->password}}</td>
 									<td>@if( $employee->emp_dob!='1970-01-01' &&  $employee->emp_dob!=''  &&  $employee->emp_dob!='E11') {{ date('d/m/Y',strtotime($employee->emp_dob)) }} @elseif($employee->emp_dob=='E11')   {{ date('d/m/Y',strtotime($employee->emp_dob)) }}  @endif</td>
 									<td>{{ $employee->emp_ps_phone }}</td>
 									<td>{{ $employee->emp_ps_email }}</td>
