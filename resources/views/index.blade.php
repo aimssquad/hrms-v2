@@ -17,12 +17,12 @@
       <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
    
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
-        <title>Login - SWCH</title>
+        <title>Login - SponicHR</title>
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/sponicHR-logo.png') }}">
       @else
      
-        <title>Login</title>
+        <title>Login - SponicHR</title>
       
 
         <!-- Favicon -->
@@ -174,7 +174,7 @@
                                 </div>
                                 <div class="login_banner_text">
                                     <h2>Your UKVI Compliance Partner</h2>
-                                    <p>Easily manage right-to-work checks and sponsorship compliance. Our HRMS helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
+                                    <p>Easily manage right-to-work checks and sponsorship compliance. Our SponicHR helps you navigate UKVI regulations, ensuring your business stays compliant and secure.</p>
                                 </div>
                             </div>
                             @endif
@@ -196,14 +196,14 @@
                         <div class="text-center">
                            <div class="account-logo">
                             @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
-                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
+                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/sponicHr-logo.png')}}" alt="SponicHR"></a>
                             @else 
                                 @if($domain_name && $domain_name->logo) 
                                     <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}" 
                                         style="width: auto; height: 75px; object-fit: contain;">
                                     </a>
                                 @else
-                                    <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/logo2.png')}}" alt="SWCH"></a>
+                                    <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/logo2.png')}}" alt="SponicHR"></a>
                                 @endif
                             @endif  
                            </div>

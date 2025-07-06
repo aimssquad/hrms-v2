@@ -402,33 +402,46 @@ function isActiveModule($moduleItems) {
             $email = Session::get('emp_email');
             $company_details = DB::table('registration')
                 ->where('email', '=', $email)
-                ->first();
+                ->first(); 
         @endphp
+       
+
         <div class="bg-white ps-2 pe-2 sidebar_bottom">
-            <div class="d-flex">
-                <p class="mt-2 mb-0">Powered By</p>
-                <div class="float-end ms-3">
-                    @if($company_details->org_code == '')
-                        <img width="70px" src="{{asset('assets/img/sponicHr-logo.png')}}" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" />
-                        {{-- <img width="70px" src="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/swch_logo.png" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" /> --}}
-                    @else
-                        @if($company_details->org_code != '')
-                            @php
-                                $sub_details = DB::table('sub_admin_registrations')
-                                    ->where('org_code', '=', $company_details->org_code)
-                                    ->select('logo')
-                                    ->first();
-                            @endphp  
-                            @if(!empty($sub_details->logo))
-                                <img src="{{ asset('storage/app/public/' . $sub_details->logo) }}" style="width:60px; height:30px; object-fit:fill; display:inline-block; padding-top: 5px;" />
-                            @endif      
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Left Side: Developed By -->
+                <div class="d-flex align-items-center">
+                    <a href="https://sponichr.com/"><img width="60px" src="{{ asset('assets/img/sponicHr-logo.png') }}" style="height:30px; object-fit:fill; display:inline-block;" /></a>
+                    <p class="mt-2 mb-0 ms-2" style="font-size: 14px; font-weight: 600; color:#262626;">Developed By</p>
+                </div>
+
+                <!-- Right Side: Powered By -->
+                <div class="d-flex align-items-center">
+                    <div class="">
+                        @if($company_details->org_code == '')
+                            <a href="https://skilledworkerscloud.co.uk/"><img width="73px" src="{{ asset('assets/img/swch_logo.png') }}" style="height:35px; object-fit:fill; display:inline-block;" /></a>
+                        @else
+                            @if($company_details->org_code != '')
+                                @php
+                                    $sub_details = DB::table('sub_admin_registrations')
+                                        ->where('org_code', '=', $company_details->org_code)
+                                        ->select('logo')
+                                        ->first();
+                                @endphp  
+                                @if(!empty($sub_details->logo))
+                                    <img src="{{ asset('storage/app/public/' . $sub_details->logo) }}" style="width:60px; height:30px; object-fit:fill; display:inline-block;" />
+                                @endif      
+                            @endif
                         @endif
-                        
-                    @endif
+                    </div>
                 </div>
             </div>
-            <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} SWC - SponicHR | All Rights Reserved |</p>
-            {{-- <p class="text-dark pb-1" style="font-size:10px;">© {{ date('Y') }} HRMS | All Right Reserved |</p> --}}
+            
+            <!-- Copyright in next row with justified alignment -->
+            <div class="d-flex justify-content-between mt-1">
+                <p class="text-dark mb-0 pb-1" style="font-size:10px; width:100%; text-align:justify; text-align-last:justify;">
+                    © {{ date('Y') }} SWC - SponicHR | All Rights Reserved |
+                </p>
+            </div>
         </div>
     </div>
 </div>

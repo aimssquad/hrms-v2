@@ -7,7 +7,7 @@
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
-        <title>Register - SWCH</title>
+        <title>Register - SponiHR</title>
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
       @else
@@ -163,14 +163,14 @@
                         <div class="text-center">
                            <div class="account-logo">
                             @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
-                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SWCH"></a>
+                                <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/swc-logo-new.png')}}" alt="SponicHR"></a>
                             @else 
                                 @if($domain_name && $domain_name->logo) 
                                     <a href="{{ asset('storage/app/public/' . $domain_name->logo) }} "><img src="{{ asset('storage/app/public/' . $domain_name->logo) }}" alt="{{$domain_name->com_name}}" 
                                         style="width: auto; height: 75px; object-fit: contain;">
                                     </a>
                                 @else
-                                    <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/logo2.png')}}" alt="SWCH"></a>
+                                    <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/logo2.png')}}" alt="SponicHR"></a>
                                 @endif
                             @endif  
                               
