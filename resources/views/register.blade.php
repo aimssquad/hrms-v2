@@ -9,7 +9,7 @@
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
         <title>Register - SponiHR</title>
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/sponicHR-logo.png') }}">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/sponicHr-logo.png') }}">
       @else
        
             <title>Register</title>
