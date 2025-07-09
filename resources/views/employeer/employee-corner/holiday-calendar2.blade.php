@@ -86,10 +86,10 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3 class="page-title">Holiday Calendar</h3>
+                    <h3 class="page-title" style="color:#ff902f">Holiday Calendar</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Holiday Calendar</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}" style="color:#ff902f">Dashboard</a></li>
+                        <li class="breadcrumb-item active" style="color:#ff902f">Holiday Calendar</li>
                     </ul>
                 </div>
             </div>

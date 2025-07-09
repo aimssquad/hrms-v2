@@ -5,10 +5,10 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3 class="page-title">Leave Apply</h3>
+                    <h3 class="page-title" style="color:#ff902f">Leave Apply</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Leave Apply</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}" style="color:#ff902f">Dashboard</a></li>
+                        <li class="breadcrumb-item active" style="color:#ff902f">Leave Apply</li>
                     </ul>
                 </div>
             </div>

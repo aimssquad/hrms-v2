@@ -63,10 +63,10 @@ span.fc-icon.fc-icon-chevron-right:after {
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3 class="page-title">Holiday Calender</h3>
+                    <h3 class="page-title" style="color:#ff902f">Holiday Calender</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Holiday Calender</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}" style="color:#ff902f">Dashboard</a></li>
+                        <li class="breadcrumb-item active" style="color:#ff902f">Holiday Calender</li>
                     </ul>
                 </div>
             </div>

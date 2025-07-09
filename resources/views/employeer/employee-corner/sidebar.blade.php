@@ -35,19 +35,20 @@
 
                 {{-- Employee-specific Sidebar --}}
                 @if($user_type == "employee" || $user_type == "employer")
-                    <li class="menu-title">
+                    {{-- <li class="menu-title">
                         <span>Main</span>
-                    </li>
+                    </li> --}}
                     <li class="submenu">
                         <a href="#"><i class="la la-cube"></i> 
-                            <span>Employee Access Value</span> 
+                            <span>Employee Dashboard</span> 
                             <span class="menu-arrow"></span>
                         </a>
                         <ul>
+                            <li><a href="{{ url('organization/employerdashboard') }}">Dashboard</a></li>
                             <li><a href="{{ url('org-employee-corner-organisation/user-profile') }}">View Profile</a></li>
                             <li><a href="{{ url('org-employee-corner/holiday') }}">Holiday Calendar</a></li>
                             @if($user_type == "employee")
-                            <li><a href="{{ url('org-employee-corner/holiday-list') }}">Holiday Apply</a></li>
+                            {{-- <li><a href="{{ url('org-employee-corner/holiday-list') }}">Holiday Apply</a></li> --}}
                             @endif
                             <li><a href="{{ url('org-employee-corner/work-update') }}">Daily Work Update</a></li>
                             @if($user_type == "employee")

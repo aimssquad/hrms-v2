@@ -106,122 +106,133 @@
 				</div>
 			</div>
 		</div>
-        <div class="row">
+       <div class="row">
 			<div class="col-xxl-8 col-lg-12 col-md-12">
 				<div class="row">
-
-				<!-- Employee Details -->
-				<div class="col-lg-6 col-md-12">
-					{{-- <div class="card employee-welcome-card flex-fill">
-						<div class="card-body">
-							<div class="welcome-info">
-								<div class="welcome-content">
-									<h4>Welcome Back, Darlee</h4>
-									<p>You have <span>4 meetings</span> today,</p>
+					<!-- Statistics Section -->
+					<div class="col-md-6">
+						<div class="card flex-fill">
+							<div class="card-body">
+								<div class="statistic-header">
+									<h4>Statistics</h4>
+									<div class="dropdown statistic-dropdown">
+										<a class="dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);">
+											Today
+										</a>
+										<div class="dropdown-menu dropdown-menu-end">
+											<a href="javascript:void(0);" class="dropdown-item">
+												Week
+											</a>
+											<a href="javascript:void(0);" class="dropdown-item">
+												Month
+											</a>
+											<a href="javascript:void(0);" class="dropdown-item">
+												Year
+											</a>
+										</div>
+									</div>
 								</div>
-								<div class="welcome-img">
-									<img src="assets/img/avatar/avatar-19.jpg" class="img-fluid" alt="User">
+								<div class="clock-in-info">
+									<div class="clock-in-content">
+										<p>Work Time</p>
+										<h4>6 Hrs : 54 Min</h4>
+									</div>
+									<div class="clock-in-btn">
+										<a href="javascript:void(0);" class="btn btn-primary">
+											<img src="assets/img/icons/clock-in.svg" alt="Icon"> Clock-In
+										</a>
+									</div>
 								</div>
-							</div>
-							<div class="welcome-btn">
-								<a href="{{url('org-employee-corner-organisation/user-profile')}}" class="btn">View Profile</a>
-							</div>
-						</div>
-					</div> --}}
-					<div class="card flex-fill">
-						<div class="card-body">
-							<div class="statistic-header">
-								<h4>Statistics</h4>
-								<div class="dropdown statistic-dropdown">
-									<a class="dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);">
-										Today
+								<div class="clock-in-list">
+									<ul class="nav">
+										<li>
+											<p>Remaining</p>
+											<h6>2 Hrs 36 Min</h6>
+										</li>
+										<li>
+											<p>Overtime</p>
+											<h6>0 Hrs 00 Min</h6>
+										</li>
+										<li>
+											<p>Break</p>
+											<h6>1 Hrs 20 Min</h6>
+										</li>
+									</ul>
+								</div>
+								<div class="view-attendance">
+									<a href="attendance.html">
+										View Attendance <i class="fe fe-arrow-right-circle"></i>
 									</a>
-									<div class="dropdown-menu dropdown-menu-end">
-										<a href="javascript:void(0);" class="dropdown-item">
-											Week
-										</a>
-										<a href="javascript:void(0);" class="dropdown-item">
-											Month
-										</a>
-										<a href="javascript:void(0);" class="dropdown-item">
-											Year
-										</a>
-									</div>
-								</div>
-							</div>
-							<div class="clock-in-info">
-								<div class="clock-in-content">
-									<p>Work Time</p>
-									<h4>6 Hrs : 54 Min</h4>
-								</div>
-								<div class="clock-in-btn">
-									<a href="javascript:void(0);" class="btn btn-primary">
-										<img src="assets/img/icons/clock-in.svg" alt="Icon"> Clock-In
-									</a>
-								</div>
-							</div>
-							<div class="clock-in-list">
-								<ul class="nav">
-									<li>
-										<p>Remaining</p>
-										<h6>2 Hrs 36 Min</h6>
-									</li>
-									<li>
-										<p>Overtime</p>
-										<h6>0 Hrs 00 Min</h6>
-									</li>
-									<li>
-										<p>Break</p>
-										<h6>1 Hrs 20 Min</h6>
-									</li>
-								</ul>
-							</div>
-							<div class="view-attendance">
-								<a href="attendance.html">
-									View Attendance <i class="fe fe-arrow-right-circle"></i>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- /Employee Details -->
-
-				<!-- Attendance & Leaves -->
-				<div class="col-lg-6 col-md-12">
-					<div class="card info-card flex-fill">
-						<div class="card-body">
-							<h4>This Month Holidays</h4>
-							<div class="holiday-details">
-								<div class="holiday-calendar">
-									<div class="holiday-calendar-icon" style="max-height: 60px; width:60px;">
-										<img src="{{ asset('assets/img/holiday.jpg') }}" alt="Holiday image">
-									</div>
-									<div class="holiday-calendar-content">
-										@if($holidays)
-										@foreach($holidays as $holiday) 
-										<h6>{{strtoupper($holiday->name) }}</h6>
-										@if($holiday->from_date)  
-											<p class="holiday-date">
-												{{ \Carbon\Carbon::parse($holiday->from_date)->format('d M Y') }}
-											</p>
-										@else
-											<p class="text-warning">Date not specified</p>
-										@endif
-										@endforeach
-										@else
-										<h6>This month have no holiday</h6>
-										@endif
-									</div>
-								</div>
-								<div class="holiday-btn">
-									<a href="{{url('org-employee-corner/holiday')}}" class="btn">View All</a>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!-- /Attendance & Leaves -->
+					<!-- /Statistics Section -->
 
+					<!-- Notice Section -->
+					<div class="col-md-6">
+						<div class="card info-card flex-fill">
+							<div class="card-body">
+								<h4>This Month Holidays</h4>
+								<div class="holiday-details">
+									<div class="holiday-calendar">
+										<div class="holiday-calendar-icon" style="max-height: 60px; width:60px;">
+											<img src="{{ asset('assets/img/holiday.jpg') }}" alt="Holiday image">
+										</div>
+										<div class="holiday-calendar-content">
+											@if($holidays)
+												@foreach($holidays as $holiday) 
+												<h6>{{strtoupper($holiday->name) }}</h6>
+												@if($holiday->from_date)  
+													<p class="holiday-date">
+														{{ \Carbon\Carbon::parse($holiday->from_date)->format('d M Y') }}
+													</p>
+												@else
+													<p class="text-warning">Date not specified</p>
+												@endif
+												@endforeach
+											@else
+												<h6>This month have no holiday</h6>
+											@endif
+										</div>
+									</div>
+									<div class="holiday-btn">
+										<a href="{{url('org-employee-corner/holiday')}}" class="btn">View All</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card flex-fill">
+							<div class="card-body">
+								<div class="statistic-header">
+									<h4>Important</h4>
+								</div>
+								<div class="notification-tab">
+									<ul class="nav nav-tabs">
+										<li>
+											<a href="#" class="active" data-bs-toggle="tab" data-bs-target="#notification_tab">
+												<i class="la la-bell"></i> Notifications
+											</a>
+										</li>
+									</ul>
+									<div class="tab-content">
+										<div class="tab-pane active" id="notification_tab">
+											<div class="employee-noti-content" style="max-height: 380px; overflow-y: auto;">
+												<ul class="employee-notification-list">
+													<!-- Notice content would go here -->
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Holiday Section (below Notice) -->
+						
+					</div>
+					<!-- /Notice & Holiday Section -->
 				</div>
 			</div>
 		</div>

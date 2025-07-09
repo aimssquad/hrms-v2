@@ -1,149 +1,161 @@
 @extends('employeer.employee-corner.main')
 @section('title', 'Daily Work Update')
 @section('content')
-<div class="main-panel">
-   <div class="content">
-      <div class="page-inner">
-         <div class="row">
-            <div class="col-md-12">
-               <div class="card custom-card">
-                  <div class="card-header">
-                     <h4 class="card-title"><i class="far fa-user"></i> Daily Work Update</h4>
-                  </div>
-                  <div class="card-body">
-                     <div class="multisteps-form">
-                        @if(Session::has('message'))										
-                        <div class="alert alert-success" style="text-align:center;">{{ Session::get('message') }}</div>
-                        @endif
-                        <!--form panels-->
-                        <div class="row">
-                            <div class="col-12 col-lg-12 m-auto">
-                                <form method="post" action="{{ url('org-employee-corner/task-update') }}" enctype="multipart/form-data">
-                                    {{csrf_field()}}
-                                    <input type="hidden" name="workId" value="{{$work_data->id}}">
-                                    <input type="hidden" name="reg" value="{{$work_data->emid}}">
-                                    <input type="hidden" name="employee_code" value="{{$work_data->employee_id}}">
-                                    <div class="row form-group">
-                                        <div class="col-md-3">
-
-                                            <div class="form-group">
-                                                <label for="date" class="col-form-label"
-                                                    style="margin-top:-12px;">Date</label>
-                                                <input id="date" type="date"
-                                                    class="form-control input-border-bottom" name="date" required
-                                                    min="{{date('Y-m-d')}}" value="{{date('Y-m-d')}}" readonly>
-
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-md-3">
-
-                                            <div class="form-group">
-                                                <label for="in_time" class="col-form-label"> From Time</label>
-                                                <!--<input id="in_time" type="time"-->
-                                                <!--    class="form-control input-border-bottom" name="in_time" value="{{$work_data->in_time}}"-->
-                                                <!--    onchange="checktime();">-->
-                                                <input id="out_time" type="time" class="form-control input-border-bottom" name="in_time" value="{{ isset($work_data->in_time) ? date('H:i', strtotime($work_data->in_time)) : '' }}" onchange="checktime();">
-
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-3">
-
-                                            <div class="form-group">
-                                                <label for="out_time" class="col-form-label"> To Time</label>
-                                                <!--<input id="out_time" type="time"-->
-                                                <!--    class="form-control input-border-bottom" name="out_time" value="{{$work_data->out_time}}"-->
-                                                <!--     onchange="checktime();">-->
-                                                <input id="out_time" type="time" class="form-control input-border-bottom" name="out_time" value="{{ isset($work_data->out_time) ? date('H:i', strtotime($work_data->out_time)) : '' }}" onchange="checktime();">
-
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-3">
-
-                                            <div class="form-group">
-                                                <label for="w_hours" class="col-form-label" style="margin-top:-12px;">
-                                                    Time (Hours)</label>
-                                                <input id="w_hours" type="number" step="any"
-                                                    class="form-control input-border-bottom" name="w_hours"
-                                                    value="{{$work_data->w_hours}}">
-
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-6">
-
-                                            <div class="form-group">
-                                                <label for="w_min" class="col-form-label" style="margin-top:-12px;">
-                                                    Time (Minutes)</label>
-                                                <input id="w_min" type="number" step="any"
-                                                    class="form-control input-border-bottom" name="w_min" value="{{$work_data->w_min}}">
-
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-6">
-
-                                            <div class="form-group">
-                                                <label for="w_min" class="col-form-label"
-                                                    style="margin-top:-12px;">Upload file</label>
-                                                <input id="file" type="file" accept="image/*;capture=camera"
-                                                    class="form-control input-border-bottom" name="file"
-                                                    onchange="Filevalidationproimge()">
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-md-12">
-
-                                            <div class="form-group">
-                                                <label for="w_min" class="col-form-label" style="margin-top:12px;">
-                                                    Work Update</label>
-                                                <textarea class="form-control input-border-bottom" name="remarks"
-                                                    required>{{$work_data->remarks}}</textarea>
-
-
-                                            </div>
-
-                                        </div>
-                                        <?php if($employee_type=="employer"){?>
-                                        <div class="col-md-12">
-
-                                            <div class="form-group">
-                                                <label for="w_min" class="col-form-label" style="margin-top:12px;">
-                                                    Work comment</label>
-                                                <textarea class="form-control input-border-bottom" name="cmd"
-                                                    required>{{$work_data->cmd}}</textarea>
-
-
-                                            </div>
-
-                                        </div>
-                                        <?php } ?>
-
-                                    </div>
-                                    <br>
-                                    <div class="row form-group">
-                                        <div class="col-md-12">
-
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+<div class="content container-fluid pb-0">
+    <div class="page-header">
+		<div class="row align-items-center">
+			<div class="col">
+				<h3 class="page-title" style="color:#ff902f"> Daily Work Update</h3>
+				<ul class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}" style="color:#ff902f">Dashboard</a></li>
+					<li class="breadcrumb-item active" style="color:#ff902f"> Daily Work Update</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- /Page Header -->
+    @if(Session::has('message'))										
+        <div class="alert alert-success" style="text-align:center;">{{ Session::get('message') }}</div>
+    @endif
+    <div class="row">
+    <div class="col-md-12">
+        <div class="card custom-card">
+            <div class="card-header">
+                <h4 class="card-title" style="color:#ff902f"><i class="far fa-user"></i> Daily Work Update</h4>
             </div>
-         </div>
-      </div>
-   </div>
+            <div class="card-body">
+                <div class="multisteps-form">
+                @if(Session::has('message'))										
+                <div class="alert alert-success" style="text-align:center;">{{ Session::get('message') }}</div>
+                @endif
+                <!--form panels-->
+                <div class="row">
+                    <div class="col-12 col-lg-12 m-auto">
+                        <form method="post" action="{{ url('org-employee-corner/task-update') }}" enctype="multipart/form-data">
+                            {{csrf_field()}}
+                            <input type="hidden" name="workId" value="{{$work_data->id}}">
+                            <input type="hidden" name="reg" value="{{$work_data->emid}}">
+                            <input type="hidden" name="employee_code" value="{{$work_data->employee_id}}">
+                            <div class="row form-group">
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <label for="date" class="col-form-label"
+                                            style="margin-top:-12px;">Date</label>
+                                        <input id="date" type="date"
+                                            class="form-control input-border-bottom" name="date" required
+                                            min="{{date('Y-m-d')}}" value="{{date('Y-m-d')}}" readonly>
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <label for="in_time" class="col-form-label"> From Time</label>
+                                        <!--<input id="in_time" type="time"-->
+                                        <!--    class="form-control input-border-bottom" name="in_time" value="{{$work_data->in_time}}"-->
+                                        <!--    onchange="checktime();">-->
+                                        <input id="out_time" type="time" class="form-control input-border-bottom" name="in_time" value="{{ isset($work_data->in_time) ? date('H:i', strtotime($work_data->in_time)) : '' }}" onchange="checktime();">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <label for="out_time" class="col-form-label"> To Time</label>
+                                        <!--<input id="out_time" type="time"-->
+                                        <!--    class="form-control input-border-bottom" name="out_time" value="{{$work_data->out_time}}"-->
+                                        <!--     onchange="checktime();">-->
+                                        <input id="out_time" type="time" class="form-control input-border-bottom" name="out_time" value="{{ isset($work_data->out_time) ? date('H:i', strtotime($work_data->out_time)) : '' }}" onchange="checktime();">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <label for="w_hours" class="col-form-label" style="margin-top:-12px;">
+                                            Time (Hours)</label>
+                                        <input id="w_hours" type="number" step="any"
+                                            class="form-control input-border-bottom" name="w_hours"
+                                            value="{{$work_data->w_hours}}">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="w_min" class="col-form-label" style="margin-top:-12px;">
+                                            Time (Minutes)</label>
+                                        <input id="w_min" type="number" step="any"
+                                            class="form-control input-border-bottom" name="w_min" value="{{$work_data->w_min}}">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="w_min" class="col-form-label"
+                                            style="margin-top:-12px;">Upload file</label>
+                                        <input id="file" type="file" accept="image/*;capture=camera"
+                                            class="form-control input-border-bottom" name="file"
+                                            onchange="Filevalidationproimge()">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label for="w_min" class="col-form-label" style="margin-top:12px;">
+                                            Work Update</label>
+                                        <textarea class="form-control input-border-bottom" name="remarks"
+                                            required>{{$work_data->remarks}}</textarea>
+
+
+                                    </div>
+
+                                </div>
+                                <?php if($employee_type=="employer"){?>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label for="w_min" class="col-form-label" style="margin-top:12px;">
+                                            Work comment</label>
+                                        <textarea class="form-control input-border-bottom" name="cmd"
+                                            required>{{$work_data->cmd}}</textarea>
+
+
+                                    </div>
+
+                                </div>
+                                <?php } ?>
+
+                            </div>
+                            <br>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+  
 </div>
 @endsection
 @section('script')

@@ -36,15 +36,15 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title"> Daily Work Update</h3>
+				<h3 class="page-title" style="color:#ff902f"> Daily Work Update</h3>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Dashboard</a></li>
-					<li class="breadcrumb-item active"> Daily Work Update</li>
+					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}" style="color:#ff902f">Dashboard</a></li>
+					<li class="breadcrumb-item active" style="color:#ff902f"> Daily Work Update</li>
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type !== 'employer')
-				<a href="{{url('org-employee-corner/add-work-update')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Daily Work Update </a>
+				<a href="{{url('org-employee-corner/add-work-update')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i>Daily Work Update </a>
 				@endif
 			</div>
 		</div>
@@ -57,8 +57,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 		<div class="col-md-12">
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="card-title">
-                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Daily Work Update
+                    <h4 class="card-title" style="color:#ffa318;">
+                        <i class="far fa-file" aria-hidden="true" ></i>&nbsp;Daily Work Update
                     </h4>
                     <div class="row">
                         <div class="col-auto">
