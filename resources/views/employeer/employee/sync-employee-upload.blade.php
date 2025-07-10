@@ -113,7 +113,7 @@
                                  <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-upload mr-2"></i> Import Data
                                  </button>
-                                 <a href="{{ asset('bulk-employee-csv/employee_import_sample.csv') }}" 
+                                 <a href="{{ url('/bulk-employee-csv/bulk_employee_entry.csv') }}" 
                                     class="btn btn-link"
                                     download="employee_import_sample.csv"
                                     target="_blank">
