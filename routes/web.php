@@ -179,6 +179,10 @@ Route::post('organization/view-add-employee', 'App\Http\Controllers\organization
 Route::get('organization/employee_active', 'App\Http\Controllers\organization\LandingController@employeeActive')->name('organization/employee_active');
 Route::get('organization/employeeInactive', 'App\Http\Controllers\organization\LandingController@employeeInactive')->name('organization/employee_inactive');
 
+// bulk employee insert 
+Route::get('organization/employee/sync-employee-upload', 'App\Http\Controllers\organization\EmployeeController@bulkEmployeeUpload')->name('employees.import.form');
+Route::post('organization/employee/save-sync-employee', 'App\Http\Controllers\organization\EmployeeController@import')->name('employees.import');
+
 Route::get('organization/add_employee', 'App\Http\Controllers\organization\LandingController@addEmployee')->name('new_employeee_new');
 //Route::post('organization/save-employee', 'App\Http\Controllers\EmployeeController@saveEmployee');
 Route::get('organization/example', 'App\Http\Controllers\organization\EmployeeController@example');

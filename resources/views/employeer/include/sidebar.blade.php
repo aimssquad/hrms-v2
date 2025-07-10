@@ -50,6 +50,7 @@
             'items' => [
                 ['url' => 'organization/employee/employerdashboard', 'label' => 'Dashboard'],
                 ['url' => 'organization/employeeee', 'label' => 'Employees'],
+                ['url' => 'organization/employee/sync-employee-upload', 'label' => 'Sync Bulk Employees'],
                 ['url' => 'organization/inactiveEmployee', 'label' => 'Inactive Employees'],
                 ['url' => 'org-settings/vw-department', 'label' => 'Department'],
                 ['url' => 'org-settings/vw-designation', 'label' => 'Designation'],

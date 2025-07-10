@@ -71,6 +71,8 @@ class LandingController extends Controller
             return redirect('/');
         }
     }
+
+
     
     public function inactiveEmployee(Request $request)
     { //dd('ok');

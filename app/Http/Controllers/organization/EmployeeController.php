@@ -12,6 +12,7 @@ use Session;
 use Validator;
 use view;
 use Exception;
+use Illuminate\Support\Str;
 
 class EmployeeController extends Controller
 {
@@ -1819,6 +1820,158 @@ class EmployeeController extends Controller
         </div>
             </div></br>';
             echo $result;
+    }
+
+
+    public function bulkEmployeeUpload(){
+        if (!empty(Session::get('emp_email'))) {
+            $email = Session::get('emp_email');
+            $organizationDtl = DB::table('registration')->where('email',$email)->first();
+            return view('employeer/employee/sync-employee-upload',compact('organizationDtl'));
+        } else {
+            return redirect("/"); 
+        }    
+    }
+
+    public function import(Request $request)
+    {
+        if (!empty(Session::get('emp_email'))) {
+            $validator = Validator::make($request->all(), [
+                'emid' => 'required|string|max:255',
+                'organization_name' => 'required|string|min:3', // Add organization name input
+                'csv_file' => 'required|file|mimetypes:text/csv,text/plain|max:2048'
+            ]);
+            
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            $file = $request->file('csv_file');
+            $emid = $request->input('emid');
+            $orgName = strtoupper(substr($request->input('organization_name'), 0, 3)); // Get first 3 letters
+            $now = now();
+            
+            // Get the highest existing employee code number
+            $lastEmployee = DB::table('employee')
+                ->where('emp_code', 'like', $orgName.'%')
+                ->orderBy('emp_code', 'desc')
+                ->first();
+            // dd($lastEmployee);
+            $lastNumber = $lastEmployee 
+                ? intval(substr($lastEmployee->emp_code, strlen($orgName)))
+                : 0;
+            
+            // Process CSV
+            $csvData = array_map(function($line) {
+                return str_getcsv(trim($line));
+            }, file($file->getPathname()));
+
+            $headers = array_map('strtolower', $csvData[0]);
+            array_shift($csvData);
+
+            $imported = 0;
+            $errors = [];
+            //;
+            foreach ($csvData as $index => $row) {
+                DB::beginTransaction();
+                
+                try {
+                    if (count($row) !== count($headers)) {
+                        throw new \Exception("Column count doesn't match header count");
+                    }
+
+                    $data = array_combine($headers, $row);
+                    
+                    // Validate required fields
+                    $requiredFields = ['emp_fname', 'emp_lname', 'emp_ps_email'];
+                    foreach ($requiredFields as $field) {
+                        if (empty($data[$field])) {
+                            throw new \Exception("Missing required field: {$field}");
+                        }
+                    }
+
+                    // Generate sequential employee code
+                    $empCode = $orgName . ($lastNumber + $index + 1);
+                    
+                    // Generate 4-digit password
+                    $password = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+                    //dd($password);
+                    // Insert into users table
+                    $userId = DB::table('users')->insertGetId([
+                        'employee_id' => $empCode,
+                        'name' => trim($data['emp_fname'] . ' ' . $data['emp_lname']),
+                        'email' => $data['emp_ps_email'],
+                        'password' => $password,
+                        'user_type' => 'employee',
+                        'status' => 'active',
+                        'emid' => $emid,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
+
+                    if (!$userId) {
+                        throw new \Exception("Failed to insert user record");
+                    }
+
+                    // Insert into employee table
+                    $employeeId = DB::table('employee')->insertGetId([
+                        'emid' => $emid,
+                        'emp_code' => $empCode,
+                        'emp_fname' => $data['emp_fname'],
+                        'emp_lname' => $data['emp_lname'],
+                        'emp_ps_email' => $data['emp_ps_email'],
+                        'emp_ps_phone' => $data['emp_ps_phone'] ?? null,
+                        'emp_religion' => $data['emp_religion'] ?? null,
+                        'status' => 'active',
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
+
+                    if (!$employeeId) {
+                        throw new \Exception("Failed to insert employee record");
+                    }
+
+                    // Insert into change_circumstances_history
+                    $historyInserted = DB::table('change_circumstances_history')->insert([
+                        'employee_id' => $employeeId,
+                        'change_type' => 'initial_import',
+                        'previous_data' => null,
+                        'new_data' => json_encode([
+                            'emp_code' => $empCode,
+                            'emp_fname' => $data['emp_fname'],
+                            'emp_lname' => $data['emp_lname'],
+                            'emp_ps_email' => $data['emp_ps_email'],
+                            'emp_ps_phone' => $data['emp_ps_phone'] ?? null,
+                            'emp_religion' => $data['emp_religion'] ?? null,
+                        ]),
+                        'changed_by' => 'system_import',
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
+
+                    if (!$historyInserted) {
+                        throw new \Exception("Failed to insert history record");
+                    }
+
+                    // ... rest of your insert code ...
+                    
+                    DB::commit();
+                    $imported++;
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    $errors[] = "Row " . ($index + 1) . ": " . $e->getMessage();
+                    continue;
+                }
+            }
+
+            // ... rest of your return code ...
+            Session::flash('message', 'Bulk employee created successfuly.');
+            return redirect()->route('employees.import.form');
+        } else {
+            return redirect("/"); 
+        } 
     }
 
 
