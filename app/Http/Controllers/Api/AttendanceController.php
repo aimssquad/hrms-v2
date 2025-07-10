@@ -100,6 +100,73 @@ class AttendanceController extends Controller
         }        
     }
 
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'employee_code' => 'required|string',
+            'employee_name' => 'nullable|string',
+            'date' => 'required|date',
+            'time' => 'required', // Time sent from mobile
+            'location' => 'nullable|string',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'device_id' => 'nullable|string',
+            'location_accuracy' => 'nullable|numeric',
+            'is_location_mocked' => 'nullable|boolean',
+            'photo_proof' => 'nullable|string',
+            'punch_type' => 'nullable|string',
+            'remarks' => 'nullable|string',
+        ]);
+        // dd('pllll');
+        $attendance = TempAttendance::where('employee_code', $validated['employee_code'])
+            ->where('date', $validated['date'])
+            ->first();
+
+        if (!$attendance) {
+            // First punch => Login
+            $data = [
+                'employee_code' => $validated['employee_code'],
+                'employee_name' => $validated['employee_name'] ?? '',
+                'date' => $validated['date'],
+                'time_in' => $validated['time'],
+                'time_in_location' => $validated['location'] ?? '',
+                'time_in_latitude' => $validated['latitude'] ?? null,
+                'time_in_longitude' => $validated['longitude'] ?? null,
+                'device_id' => $validated['device_id'] ?? null,
+                'location_accuracy' => $validated['location_accuracy'] ?? null,
+                'is_location_mocked' => $validated['is_location_mocked'] ?? 0,
+                'photo_proof' => $validated['photo_proof'] ?? '',
+                'punch_type' => $validated['punch_type'] ?? 'GPS',
+                'remarks' => $validated['remarks'] ?? '',
+                'month' => substr($validated['date'], 0, 7),
+                'punch_status' => 'IN',
+            ];
+
+            $created = TempAttendance::create($data);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Login recorded successfully.',
+                'data' => $created
+            ]);
+        } else {
+            // Second punch => Logout
+            $attendance->update([
+                'time_out' => $validated['time'],
+                'time_out_location' => $validated['location'] ?? '',
+                'time_out_latitude' => $validated['latitude'] ?? null,
+                'time_out_longitude' => $validated['longitude'] ?? null,
+                'punch_status' => 'OUT',
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Logout recorded successfully.',
+                'data' => $attendance
+            ]);
+        }
+    }
+
     public function showAttendance(Request $request)
     { 
         //dd('okk');

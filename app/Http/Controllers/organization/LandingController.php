@@ -176,20 +176,14 @@ class LandingController extends Controller
 
                 ->where('email', '=', $emp_email)
                 ->first();
-
-            // $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->where(function ($query) {
-
-            //     $query->whereNull('employee.emp_status')
-            //         ->orWhere('employee.emp_status', '!=', 'LEFT');
-            // })->get();
-            $data['employee_rs'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
-                ->where('employee.emid', '=', $Roledata->reg)
-                ->where('users.emid', '=', $Roledata->reg)
-                ->where('users.status', '=', 'active')
-                ->where('users.user_type', '=', 'employee')
-                ->get();
-            //dd($data);
-            return view($this->_routePrefix . '.employees', $data);
+                $data['employee_rs'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
+                    ->where('employee.emid', '=', $Roledata->reg)
+                    ->where('users.emid', '=', $Roledata->reg)
+                    ->where('users.status', '=', 'active')
+                    ->where('users.user_type', '=', 'employee')
+                    ->get();
+                //dd($data);
+                return view($this->_routePrefix . '.employees', $data);
             }else{
                 //dd($reg);
                 $data['employee_rs'] = DB::table('users')->join('employee', 'users.employee_id', '=', 'employee.emp_code')
@@ -198,17 +192,6 @@ class LandingController extends Controller
                 ->where('users.status', '=', 'active')
                 ->where('users.user_type', '=', 'employee')
                 ->get();
-            //     dd('okk');
-            //     $Roledata = DB::table('users')->where('status', '=', 'active')
-
-            //     ->where('email', '=', $emp_email)
-            //     ->first();
-            // //   dd($Roledata);
-            // $data['employee_rs'] = DB::table('employee')->where('emp_code', '=', $Roledata->employee_id)->where(function ($query) {
-            //     $query->whereNull('employee.emp_status')
-            //         ->orWhere('employee.emp_status', '!=', 'LEFT');
-            // })->get();
-            //dd($data);
             return view($this->_routePrefix . '.employees', $data);
             }
 
@@ -217,6 +200,131 @@ class LandingController extends Controller
         }
         //return view($this->_routePrefix . '.employees'); 
     }
+
+    // employee card with search filter
+    // public function allempcard(Request $request)
+    // {
+    //     if (!empty(Session::get('emp_email'))) {
+    //         $email = Session::get('emp_email');
+    //         $user_email = Session::get('user_email');
+    //         $reg = Session::get('emid');
+    //         $user_type = Session::get('user_type');
+    //         $arrayEmail = [];
+            
+    //         if ($user_type === "employer") {
+    //             $email = Session::get('emp_email');
+    //             array_push($arrayEmail, $email);
+    //         } else {
+    //             $user_email = Session::get('user_email');
+    //             array_push($arrayEmail, $user_email);
+    //         }
+            
+    //         $emp_email = implode(", ", $arrayEmail);
+            
+    //         if ($user_type === "employer") {
+    //             $Roledata = DB::table('registration')
+    //                 ->where('status', '=', 'active')
+    //                 ->where('email', '=', $emp_email)
+    //                 ->first();
+                    
+    //             $query = DB::table('users')
+    //                 ->join('employee', 'users.employee_id', '=', 'employee.emp_code')
+    //                 ->where('employee.emid', '=', $Roledata->reg)
+    //                 ->where('users.emid', '=', $Roledata->reg)
+    //                 ->where('users.status', '=', 'active')
+    //                 ->where('users.user_type', '=', 'employee');
+                    
+    //             // Add search functionality
+    //             if ($request->has('search')) {
+    //                 $search = $request->search;
+    //                 $query->where(function($q) use ($search) {
+    //                     $q->where('employee.emp_fname', 'like', "%$search%")
+    //                     ->orWhere('employee.emp_lname', 'like', "%$search%")
+    //                     ->orWhere('employee.emp_code', 'like', "%$search%");
+    //                 });
+    //             }
+                
+    //             $data['employee_rs'] = $query->paginate(20);
+    //             return view($this->_routePrefix . '.employees', $data);
+    //         } else {
+    //             $query = DB::table('users')
+    //                 ->join('employee', 'users.employee_id', '=', 'employee.emp_code')
+    //                 ->where('employee.emid', '=', $reg)
+    //                 ->where('users.emid', '=', $reg)
+    //                 ->where('users.status', '=', 'active')
+    //                 ->where('users.user_type', '=', 'employee');
+                    
+    //             // Add search functionality
+    //             if ($request->has('search')) {
+    //                 $search = $request->search;
+    //                 $query->where(function($q) use ($search) {
+    //                     $q->where('employee.emp_fname', 'like', "%$search%")
+    //                     ->orWhere('employee.emp_lname', 'like', "%$search%")
+    //                     ->orWhere('employee.emp_code', 'like', "%$search%");
+    //                 });
+    //             }
+                
+    //             $data['employee_rs'] = $query->paginate(20);
+    //             return view($this->_routePrefix . '.employees', $data);
+    //         }
+    //     } else {
+    //         return redirect('/');
+    //     }
+    // }
+
+    // public function allempcard()
+    // {
+    //     if (!empty(Session::get('emp_email'))) {
+    //         $email = Session::get('emp_email');
+    //         $user_email = Session::get('user_email');
+    //         $reg = Session::get('emid');
+    //         $user_type = Session::get('user_type');
+    //         $arrayEmail = [];
+            
+    //         if ($user_type === "employer") {
+    //             $email = Session::get('emp_email');
+    //             array_push($arrayEmail, $email);
+    //         } else {
+    //             $user_email = Session::get('user_email');
+    //             array_push($arrayEmail, $user_email);
+    //         }
+            
+    //         $emp_email = implode(", ", $arrayEmail);
+            
+    //         if ($user_type === "employer") {
+    //             $Roledata = DB::table('registration')
+    //                 ->where('status', '=', 'active')
+    //                 ->where('email', '=', $emp_email)
+    //                 ->first();
+                    
+    //             $data['employee_rs'] = DB::table('users')
+    //                 ->join('employee', 'users.employee_id', '=', 'employee.emp_code')
+    //                 ->where('employee.emid', '=', $Roledata->reg)
+    //                 ->where('users.emid', '=', $Roledata->reg)
+    //                 ->where('users.status', '=', 'active')
+    //                 ->where('users.user_type', '=', 'employee')
+    //                 ->orderBy('users.id', 'asc') // or any other column you want to sort by
+    //                 ->take(20) // Limit to 20 records
+    //                 ->get();
+                    
+    //             return view($this->_routePrefix . '.employees', $data);
+    //         } else {
+    //             $data['employee_rs'] = DB::table('users')
+    //                 ->join('employee', 'users.employee_id', '=', 'employee.emp_code')
+    //                 ->where('employee.emid', '=', $reg)
+    //                 ->where('users.emid', '=', $reg)
+    //                 ->where('users.status', '=', 'active')
+    //                 ->where('users.user_type', '=', 'employee')
+    //                 ->orderBy('users.id', 'asc') // or any other column you want to sort by
+    //                 ->take(20) // Limit to 20 records
+    //                 ->get();
+                    
+    //             return view($this->_routePrefix . '.employees', $data);
+    //         }
+    //     } else {
+    //         return redirect('/');
+    //     }
+    // }
 
     public function allEmpList(){ //dd('ok');
 

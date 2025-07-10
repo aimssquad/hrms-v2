@@ -43,7 +43,7 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
             <div class="col-auto float-end ms-auto">
                 <a href="{{url('organization/view-add-employee')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Employee</a>
                 <div class="view-icons">
-                    <a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
+                    <a href="{{url('organization/employee')}}" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
                     <a href="{{url('organization/emplist')}}" class="list-view btn btn-link"><i class="fa-solid fa-bars"></i></a>
                 </div>
             </div>

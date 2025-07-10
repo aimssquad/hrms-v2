@@ -170,7 +170,7 @@ Route::get('billing/list', 'App\Http\Controllers\organization\BillController@ind
 
 // Employee  
 Route::get('organization/employee/employerdashboard', 'App\Http\Controllers\organization\LandingController@employeeDashboard')->name('organization.employee.dashboard');
-Route::get('organization/employeeee', 'App\Http\Controllers\organization\LandingController@allempcard')->name('organization/employee-card');
+Route::get('organization/employee', 'App\Http\Controllers\organization\LandingController@allempcard')->name('organization/employee-card');
 Route::get('organization/emplist', 'App\Http\Controllers\organization\LandingController@allEmpList')->name('organization/emp-list');
 Route::get('organization/inactiveEmployee','App\Http\Controllers\organization\LandingController@inactiveEmployee')->name('organization.inactive-employee');
 Route::get('organization/view-add-employee', 'App\Http\Controllers\organization\EmployeeController@viewAddEmployee')->name('organization/view-add-employee');
