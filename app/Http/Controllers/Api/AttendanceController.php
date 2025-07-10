@@ -748,7 +748,7 @@ class AttendanceController extends Controller
                     'punch_status' => 'IN',
                     'emid' => $emid
                 ];
-                dd($data);
+                //dd($data);
                 $created = TempAttendance::create($data);
 
                 return response()->json([
