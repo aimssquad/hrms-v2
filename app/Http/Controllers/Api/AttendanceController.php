@@ -16,6 +16,7 @@ use DB;
 use DateTime;
 use DatePeriod;
 use DateInterval;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -694,129 +695,255 @@ class AttendanceController extends Controller
     }
 
 
+    // public function store(Request $request)
+    // {
+    //     if (auth()->check()) {
+
+    //         dd(auth()->user());
+    //         $emid = auth()->user()->emid; 
+    //         $employee_code = auth()->user()->employee_id;
+    //         $employee_name = auth()->user()->name;
+            
+    //         $validated = $request->validate([
+    //             // 'employee_code' => 'required|string',
+    //             // 'employee_name' => 'nullable|string',
+    //             'date' => 'required|date',
+    //             'time' => 'required',
+    //             'location' => 'nullable|string',
+    //             'latitude' => 'nullable|numeric',
+    //             'longitude' => 'nullable|numeric',
+    //             'device_id' => 'nullable|string',
+    //             'location_accuracy' => 'nullable|numeric',
+    //             'is_location_mocked' => 'nullable|boolean',
+    //             'photo_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Update validation for image
+    //             'punch_type' => 'nullable|string',
+    //             'remarks' => 'nullable|string',
+    //         ]);
+            
+    //         // Handle image upload
+    //         $photoProofPath = null;
+    //         if ($request->hasFile('photo_proof')) {
+    //             $photoProofPath = $request->file('photo_proof')->store('temp-attendance', 'public');
+    //         } elseif ($request->filled('photo_proof')) {
+    //             // If photo_proof comes as base64 string (from mobile)
+    //             $photoProofPath = $this->storeBase64Image($request->photo_proof);
+    //         }
+
+    //         $attendance = TempAttendance::where('employee_code', $employee_code)
+    //             ->where('date', $validated['date'])
+    //             ->first();
+
+    //         if (!$attendance) {
+    //             // First punch => Login
+    //             $data = [
+    //                 'employee_code' => $employee_code,
+    //                 'employee_name' => $employee_name ?? '',
+    //                 'date' => $validated['date'],
+    //                 'time_in' => $validated['time'],
+    //                 'time_in_location' => $validated['location'] ?? '',
+    //                 'time_in_latitude' => $validated['latitude'] ?? null,
+    //                 'time_in_longitude' => $validated['longitude'] ?? null,
+    //                 'device_id' => $validated['device_id'] ?? null,
+    //                 'location_accuracy' => $validated['location_accuracy'] ?? null,
+    //                 'is_location_mocked' => $validated['is_location_mocked'] ?? 0,
+    //                 'photo_proof' => $photoProofPath, // Store the path instead of raw data
+    //                 'punch_type' => $validated['punch_type'] ?? 'GPS',
+    //                 'remarks' => $validated['remarks'] ?? '',
+    //                 'month' => substr($validated['date'], 0, 7),
+    //                 'punch_status' => 'IN',
+    //                 'emid' => $emid
+    //             ];
+    //             //dd($data);
+    //             $created = TempAttendance::create($data);
+
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'message' => 'Login recorded successfully.',
+    //                 'data' => $created
+    //             ]);
+    //         } else {
+    //             // Second punch => Logout
+    //             $updateData = [
+    //                 'time_out' => $validated['time'],
+    //                 'time_out_location' => $validated['location'] ?? '',
+    //                 'time_out_latitude' => $validated['latitude'] ?? null,
+    //                 'time_out_longitude' => $validated['longitude'] ?? null,
+    //                 'duty_hours' => $duty_hours,
+    //                 'punch_status' => 'OUT',
+    //             ];
+
+    //             // Only update photo_proof if provided for logout
+    //             if ($photoProofPath) {
+    //                 $updateData['photo_proof_out'] = $photoProofPath;
+    //             }
+
+    //             $attendance->update($updateData);
+
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'message' => 'Logout recorded successfully.',
+    //                 'data' => $attendance
+    //             ]);
+    //         }
+    //     } else {
+    //         $dynamicFlag = 1;
+    //         $data=[];
+    //         $message = "Somthing Went Wrong";
+    //         return Helper::rjd(
+    //             $message,
+    //             $dynamicFlag,
+    //             $data
+    //         );
+    //     }    
+    // }
+
+    // /**
+    //  * Store base64 image to temp-attendance folder
+    //  */
+    // protected function storeBase64Image($base64String)
+    // {
+    //     try {
+    //         // Extract the base64 data and extension
+    //         @list($type, $fileData) = explode(';', $base64String);
+    //         @list(, $fileData) = explode(',', $fileData); 
+    //         $extension = explode('/', $type)[1];
+            
+    //         // Validate extension
+    //         if (!in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
+    //             throw new \Exception('Invalid image type');
+    //         }
+            
+    //         // Generate unique filename
+    //         $fileName = uniqid().'.'.$extension;
+    //         $destinationPath = storage_path('app/public/temp-attendance/');
+            
+    //         // Ensure directory exists
+    //         if (!file_exists($destinationPath)) {
+    //             mkdir($destinationPath, 0755, true);
+    //         }
+            
+    //         // Save the file
+    //         file_put_contents($destinationPath.$fileName, base64_decode($fileData));
+            
+    //         return 'temp-attendance/'.$fileName;
+    //     } catch (\Exception $e) {
+    //         \Log::error('Failed to store base64 image: '.$e->getMessage());
+    //         return null;
+    //     }
+    // }
+
     public function store(Request $request)
     {
-        if (auth()->check()) {
-            $emid = auth()->user()->emid; 
-            
-            $validated = $request->validate([
-                'employee_code' => 'required|string',
-                'employee_name' => 'nullable|string',
-                'date' => 'required|date',
-                'time' => 'required',
-                'location' => 'nullable|string',
-                'latitude' => 'nullable|numeric',
-                'longitude' => 'nullable|numeric',
-                'device_id' => 'nullable|string',
-                'location_accuracy' => 'nullable|numeric',
-                'is_location_mocked' => 'nullable|boolean',
-                'photo_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Update validation for image
-                'punch_type' => 'nullable|string',
-                'remarks' => 'nullable|string',
+        if (!auth()->check()) {
+            return Helper::rjd("Something Went Wrong", 1, []);
+        }
+
+        $user = auth()->user();
+        $emid = $user->emid; 
+        $employee_code = $user->employee_id;
+        $employee_name = $user->name;
+        
+        $validated = $request->validate([
+            'date' => 'required|date',
+            'time' => 'required',
+            'location' => 'nullable|string',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'device_id' => 'nullable|string',
+            'location_accuracy' => 'nullable|numeric',
+            'is_location_mocked' => 'nullable|boolean',
+            'photo_proof' => 'nullable|sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'punch_type' => 'nullable|string',
+            'remarks' => 'nullable|string',
+        ]);
+        
+        // Handle image upload if provided
+        $photoProofPath = null;
+        if ($request->hasFile('photo_proof')) {
+            $photoProofPath = $request->file('photo_proof')->store('temp-attendance', 'public');
+        } elseif ($request->filled('photo_proof')) {
+            $photoProofPath = $this->storeBase64Image($request->photo_proof);
+        }
+
+        $attendance = TempAttendance::where('employee_code', $employee_code)
+            ->where('date', $validated['date'])
+            ->first();
+
+        if (!$attendance) {
+            // First punch => Login
+            $data = [
+                'employee_code' => $employee_code,
+                'employee_name' => $employee_name ?? '',
+                'date' => $validated['date'],
+                'time_in' => $validated['time'],
+                'time_in_location' => $validated['location'] ?? '',
+                'time_in_latitude' => $validated['latitude'] ?? null,
+                'time_in_longitude' => $validated['longitude'] ?? null,
+                'device_id' => $validated['device_id'] ?? null,
+                'location_accuracy' => $validated['location_accuracy'] ?? null,
+                'is_location_mocked' => $validated['is_location_mocked'] ?? 0,
+                'photo_proof' => $photoProofPath,
+                'punch_type' => $validated['punch_type'] ?? 'Manual',
+                'remarks' => $validated['remarks'] ?? '',
+                'month' => substr($validated['date'], 0, 7),
+                'punch_status' => 'IN',
+                'emid' => $emid
+            ];
+
+            $created = TempAttendance::create($data);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Login recorded successfully.',
+                'data' => $created
             ]);
-            
-            // Handle image upload
-            $photoProofPath = null;
-            if ($request->hasFile('photo_proof')) {
-                $photoProofPath = $request->file('photo_proof')->store('temp-attendance', 'public');
-            } elseif ($request->filled('photo_proof')) {
-                // If photo_proof comes as base64 string (from mobile)
-                $photoProofPath = $this->storeBase64Image($request->photo_proof);
-            }
-
-            $attendance = TempAttendance::where('employee_code', $validated['employee_code'])
-                ->where('date', $validated['date'])
-                ->first();
-
-            if (!$attendance) {
-                // First punch => Login
-                $data = [
-                    'employee_code' => $validated['employee_code'],
-                    'employee_name' => $validated['employee_name'] ?? '',
-                    'date' => $validated['date'],
-                    'time_in' => $validated['time'],
-                    'time_in_location' => $validated['location'] ?? '',
-                    'time_in_latitude' => $validated['latitude'] ?? null,
-                    'time_in_longitude' => $validated['longitude'] ?? null,
-                    'device_id' => $validated['device_id'] ?? null,
-                    'location_accuracy' => $validated['location_accuracy'] ?? null,
-                    'is_location_mocked' => $validated['is_location_mocked'] ?? 0,
-                    'photo_proof' => $photoProofPath, // Store the path instead of raw data
-                    'punch_type' => $validated['punch_type'] ?? 'GPS',
-                    'remarks' => $validated['remarks'] ?? '',
-                    'month' => substr($validated['date'], 0, 7),
-                    'punch_status' => 'IN',
-                    'emid' => $emid
-                ];
-                //dd($data);
-                $created = TempAttendance::create($data);
-
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Login recorded successfully.',
-                    'data' => $created
-                ]);
-            } else {
-                // Second punch => Logout
-                $updateData = [
-                    'time_out' => $validated['time'],
-                    'time_out_location' => $validated['location'] ?? '',
-                    'time_out_latitude' => $validated['latitude'] ?? null,
-                    'time_out_longitude' => $validated['longitude'] ?? null,
-                    'punch_status' => 'OUT',
-                ];
-
-                // Only update photo_proof if provided for logout
-                if ($photoProofPath) {
-                    $updateData['photo_proof_out'] = $photoProofPath;
-                }
-
-                $attendance->update($updateData);
-
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Logout recorded successfully.',
-                    'data' => $attendance
-                ]);
-            }
         } else {
-            $dynamicFlag = 1;
-            $data=[];
-            $message = "Somthing Went Wrong";
-            return Helper::rjd(
-                $message,
-                $dynamicFlag,
-                $data
-            );
-        }    
+            // Second punch => Logout
+            $timeIn = Carbon::parse($attendance->time_in);
+            $timeOut = Carbon::parse($validated['time']);
+            $dutyHours = $timeIn->diffInHours($timeOut) . ':' . $timeIn->diff($timeOut)->format('%I');
+            
+            $updateData = [
+                'time_out' => $validated['time'],
+                'time_out_location' => $validated['location'] ?? '',
+                'time_out_latitude' => $validated['latitude'] ?? null,
+                'time_out_longitude' => $validated['longitude'] ?? null,
+                'duty_hours' => $dutyHours,
+                'punch_status' => 'OUT',
+            ];
+
+            if ($photoProofPath) {
+                $updateData['photo_proof_out'] = $photoProofPath;
+            }
+
+            $attendance->update($updateData);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Logout recorded successfully.',
+                'data' => $attendance
+            ]);
+        }
     }
 
-    /**
-     * Store base64 image to temp-attendance folder
-     */
     protected function storeBase64Image($base64String)
     {
         try {
-            // Extract the base64 data and extension
             @list($type, $fileData) = explode(';', $base64String);
             @list(, $fileData) = explode(',', $fileData); 
             $extension = explode('/', $type)[1];
             
-            // Validate extension
             if (!in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
                 throw new \Exception('Invalid image type');
             }
             
-            // Generate unique filename
             $fileName = uniqid().'.'.$extension;
             $destinationPath = storage_path('app/public/temp-attendance/');
             
-            // Ensure directory exists
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
             
-            // Save the file
             file_put_contents($destinationPath.$fileName, base64_decode($fileData));
             
             return 'temp-attendance/'.$fileName;
