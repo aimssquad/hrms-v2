@@ -21,6 +21,8 @@ use App\Http\Controllers\Billing\BillingController;
 use App\Http\Controllers\Billing\InvoiceRuleController;
 use App\Http\Controllers\LeaveType2Controller;
 use App\Http\Controllers\organization\HolidayController;
+use App\Http\Controllers\Attendance\EmployeeAttendancePermission;
+use App\Http\Controllers\OrgAttenPermissionController;
 
 
 /*
@@ -6039,6 +6041,14 @@ Route::post('/superadmin/save-employee-menu', [MobileMenuController::class, 'sav
 // Super admin leave type
 Route::resource('superadmin/leave-types', LeaveType2Controller::class);
 
+// employee attendance Punch type Permission
+Route::get('org/employee-attendance',[EmployeeAttendancePermission::class, 'index']);
+Route::post('org/employee-attendance',[EmployeeAttendancePermission::class, 'save']);
+
+// organization attendance Punch type Permission
+Route::get('/superadmin/org-attendance-permission',[OrgAttenPermissionController::class, 'index']);
+Route::get('/superadmin/org-atten-permission/{id}',[OrgAttenPermissionController::class, 'viewPermission'])->name('org.attendance.permissoin');
+Route::post('/superadmin/save-atten-permission', [OrgAttenPermissionController::class, 'saveEmpAttenPermission'])->name('save.emp-atten.permission');
 
 
 

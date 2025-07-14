@@ -251,6 +251,7 @@
             'icon' => 'las la-mobile',
             'items' => [
                 ['url' => 'org/mobile-menu', 'label' => 'Mobile Menu'],
+                ['url' => 'org/employee-attendance', 'label' => 'Employee Attendance Permission'],
             ]
         ],
         

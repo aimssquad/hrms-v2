@@ -839,10 +839,10 @@ class AttendanceController extends Controller
         }
 
         $user = auth()->user();
+        //dd($user);
         $emid = $user->emid; 
         $employee_code = $user->employee_id;
         $employee_name = $user->name;
-        
         $validated = $request->validate([
             'date' => 'required|date',
             'time' => 'required',

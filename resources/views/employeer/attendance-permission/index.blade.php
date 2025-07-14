@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Mobile Menu')
+@section('title', 'Attendance Permission')
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -37,11 +37,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Mobile Menu</h3>
+				<h3 class="page-title">Attendance Permission</h3>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
                     {{-- <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">Dashboard</a></li> --}}
-					<li class="breadcrumb-item active">Mobile Menu</li>
+					<li class="breadcrumb-item active">Attendance Permission</li>
 				</ul>
 			</div>
             @include('employeer.layout.message')
@@ -83,59 +83,59 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     </div>
                  </div>
                 <div class="card-body">
-                    <form action="{{ route('save.organization.menu') }}" method="POST">
-                        @csrf <!-- CSRF Token for security -->
+                   <form action="" method="POST">
+                        @csrf
+
+                        <div class="col-md-4">
+                            <label class="col-form-label">Attendance Permission</label>
+                            <select name="punch_type" class="form-control">
+                                <option value="">Select</option>
+                                @foreach($punch_type as $type)
+                                    <option value="{{ $type->punch_type_name }}">{{ $type->punch_type_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <br>
+
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered custom-table" style="border: 1px solid rgb(204, 200, 200);">
+                            <table class="table table-striped table-bordered custom-table">
                                 <thead>
                                     <tr>
-                                        <th width="50">#</th>
-                                        <th>Module Permission</th>
+                                        <th width="50">
+                                            <input type="checkbox" id="all_check" class="checkmark">
+                                        </th>
+                                        <th>Employee Name</th>
+                                        <th>Attendance Type</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach($menus as $menu)
-                                        <tr>
-                                            <td class="text-center">
-                                                <label class="custom_check">
-                                                    <input type="checkbox" name="menu_ids[]" value="{{ $menu->id }}"
-                                                        {{ in_array($menu->id, $assignedMenus) ? 'checked' : '' }}>													
-                                                    <span class="checkmark"></span>
-                                                </label>																
-                                            </td>
-                                            <td>{{ $menu->menu_name ?? 'N/A' }}</td>
-                                        </tr>
-                                    @endforeach --}}
-                                    @foreach($menus as $menu)
-                                        <tr>
-                                            <td class="text-center">
-                                                <label class="custom_check">
-                                                    <input type="checkbox" name="menu_ids[]" value="{{ $menu->menu_id }}"
-                                                        {{ in_array($menu->menu_id, $assignedMenus) ? 'checked' : '' }}>													
-                                                    <span class="checkmark"></span>
-                                                </label>																
-                                            </td>
-                                            <td>{{ $menu->menu->menu_name ?? 'N/A' }}</td> {{-- Fetch menu_name from related MobileMenu --}}
-                                        </tr>
-                                    @endforeach
-
+                                    @foreach($employee as $emp)
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="emp_code[]" value="{{ $emp->emp_code }}" id="checkmark" class="emp-checkbox">
+                                    </td>
+                                    <td>{{ $emp->emp_fname }} {{ $emp->emp_lname }}</td>
+                                    <td> 
+                                        @if($emp->punch_type)
+                                            <span class="badge badge-info">{{ $emp->punch_type }}</span>
+                                        @else
+                                            <span class="badge badge-warning">{{$emp->default_punch_type}}</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
                                 </tbody>
                             </table>
                         </div>
-                    
-                        <div class="col-md-6">
-                            <label class="col-form-label">Select</label>
-                            <select name="status" class="select">
-                                <option value="">Select</option>
-                                <option value="0" {{ isset($status) && $status == 0 ? 'selected' : '' }}>Active</option>
-                                <option value="1" {{ isset($status) && $status == 1 ? 'selected' : '' }}>Inactive</option>
-                            </select>
-                        </div>
+
                         <br>
+
                         <div class="col-md-6">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
+
                     
                        
                 </div>
@@ -156,6 +156,16 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             window.location.href = url;
         }
     }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    document.getElementById('all_check').addEventListener('change', function () {
+        const isChecked = this.checked;
+        document.querySelectorAll('.emp-checkbox').forEach(function (checkbox) {
+            checkbox.checked = isChecked;
+        });
+    });
 </script>
 
 @endsection

@@ -125,7 +125,7 @@
             <li class="nav-item">
                <a data-toggle="collapse" href="#sidebarLayouts">
                   <i class="fas fa-building"></i>
-                  <p>Organisation </p>
+                  <p>Organisation</p>
                   <span class="caret"></span>
                </a>
                <div class="collapse" id="sidebarLayouts">
@@ -160,6 +160,11 @@
                      <li>
                         <a href="{{url('/superadmin/menus')}}">
                         <span class="sub-item">Organization Mobile Menu</span>
+                        </a>
+                     </li>
+                     <li>
+                        <a href="{{url('/superadmin/org-attendance-permission')}}">
+                        <span class="sub-item">Organization Employee Attendance Permission</span>
                         </a>
                      </li>
                      <li>

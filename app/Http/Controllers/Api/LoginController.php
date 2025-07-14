@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\UserModel;
 use App\Models\Registration;
 use App\Models\Branch_location;
+use App\Models\Attendance\AttendancePermission;
 use Exception;
 use Illuminate\Http\Request;
 use Validator;
@@ -92,7 +93,27 @@ class LoginController extends Controller
                 $checkuser['radius']    = ''; 
             }
             
-            //dd($checkuser);
+            $attendance_type = AttendancePermission::where('emp_code', $user_id)->first();
+            if($attendance_type != null){
+                $employee['attendance_type'] = $attendance_type->punch_type;
+                if($employee['attendance_type'] !=""){
+                    $checkuser['punch_type'] = $attendance_type->punch_type;
+                } else {
+                    $checkuser['punch_type'] = $attendance_type->default_punch_type;
+                }
+            } else {
+                $punch_type = DB::table('org_attendance_permissions AS oap')
+                ->join('emp_punch_type_masters AS ptm', 'ptm.id', '=', 'oap.default_punch_type_id')
+                ->where('oap.emid', $user->emid)
+                ->select('ptm.id', 'ptm.punch_type_name')
+                ->first();
+                if($punch_type !=null){
+                    $checkuser['punch_type'] = $punch_type->punch_type_name;
+                }  
+            }
+          
+
+            //dd($punch_type->punch_type_name);
             $checkuser = json_decode(json_encode($checkuser), true);
             foreach ($checkuser as $key => $value) {
                     if ($value === null) {
