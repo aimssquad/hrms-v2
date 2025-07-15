@@ -330,6 +330,46 @@
                     </div>
                 </div>
             @endif
+            <div class="col-md-7 d-flex">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title"><i style="color:#ff902f" class="fa fa-location"></i>Share Code Details</h3>
+                        <ul class="personal-info">
+                            @if($employee->share_code!='')
+                                <li>
+                                    <div class="title">Share Code :</div>
+                                    <div class="text">{{$employee->share_code}}</div>
+                                </li>
+                            @endif
+                            @if($employee->share_code_used_by!='')
+                                <li>
+                                    <div class="title">Share Code Used By :</div>
+                                    <div class="text">{{ date('d/m/Y', strtotime($employee->share_code_used_by)) }}</div>
+                                </li>
+                            @endif
+                            @if($employee->share_date_check!='')
+                                <li>
+                                    <div class="title">Date Of Check :</div>
+                                    <div class="text">{{ date('d/m/Y', strtotime($employee->share_date_check)) }}</div>
+                                </li>
+                            @endif
+                            @if($employee->share_issue_date!='')
+                                <li>
+                                    <div class="title">Share Code Issue Date :</div>
+                                    <div class="text">{{ date('d/m/Y', strtotime($employee->share_issue_date)) }}</div>
+                                </li>
+                            @endif
+                            @if($employee->share_expiry_date!='')
+                                <li>
+                                    <div class="title">Share Code Expiry Date :</div>
+                                    <div class="text">{{ date('d/m/Y', strtotime($employee->share_expiry_date)) }}</div>
+                                </li>
+                            @endif
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>    
 @endsection

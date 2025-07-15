@@ -235,7 +235,7 @@ class EmployeeCornerOrganisationController extends Controller
             $data["employee"] = Employee::where("emp_code", "=", $users->employee_id)
                 ->where("emid", "=", $users->emid)
                 ->first();
-               
+            //dd($data["employee"]);   
             $data["employee_pay_structure"] = EmployeePayStructure::where("employee_code", "=", $users->employee_id)
                 // ->where("emid", "=", $users->emid)
                 ->first();

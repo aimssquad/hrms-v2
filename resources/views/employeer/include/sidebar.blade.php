@@ -56,6 +56,7 @@
                 ['url' => 'org-settings/vw-designation', 'label' => 'Designation'],
                 ['url' => 'org-settings/vw-employee-type', 'label' => 'Type of Employment'],
                 ['url' => 'organization/allShifts', 'label' => 'All Shifts'],
+
             ]
         ],
         4 => [
@@ -82,6 +83,8 @@
                 ['url' => 'attendance-management/attendance-report', 'label' => 'Attendance Record'],
                 ['url' => 'attendance-management/process-attendance', 'label' => 'Execute Attendence'],
                 ['url' => 'attendance-management/absent-report', 'label' => 'Absentee Record'],
+                ['url' => 'org/employee-attendance', 'label' => 'Employee Attendance Permission'],
+                
             ]
         ],
         6 => [
@@ -244,6 +247,7 @@
             'icon' => 'las la-bullhorn',
             'items' => [
                 ['url' => 'notice/org-notice', 'label' => 'Notice'],
+                
             ]
         ],
         25 => [
@@ -251,7 +255,8 @@
             'icon' => 'las la-mobile',
             'items' => [
                 ['url' => 'org/mobile-menu', 'label' => 'Mobile Menu'],
-                ['url' => 'org/employee-attendance', 'label' => 'Employee Attendance Permission'],
+                //['url' => 'org/employee-attendance', 'label' => 'Employee Attendance Permission'],
+               
             ]
         ],
         

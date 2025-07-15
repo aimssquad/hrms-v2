@@ -402,7 +402,7 @@ Route::get('org-employee-corner/holiday-list', "App\Http\Controllers\organizatio
 Route::get('org-employee-corner/holiday-apply', "App\Http\Controllers\organization\EmployeeCornerOrganisationController@holidayCreate")->name('employee.holiday.apply');
 Route::post('org-employee-corner/holiday-apply', "App\Http\Controllers\organization\EmployeeCornerOrganisationController@holidayStore")->name('employee.holiday.store');
 
-// Route::get('org-employee-corner/addemployee', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewAddEmployee');
+//Route::get('org-employee-corner/addemployee', 'App\Http\Controllers\organization\EmployeeCornerOrganisationController@viewAddEmployee');
 // ----------------------------------------- End Employee Corner ---------------------------------------------
 
 //-------------------------------------------- Hr Support ---------------------------------------------------
