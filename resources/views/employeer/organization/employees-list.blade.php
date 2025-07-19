@@ -34,7 +34,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
 	<!-- Page Header -->
-	<div class="page-header">
+	{{-- <div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
 				<h3 class="page-title">Employee</h3>
@@ -60,7 +60,44 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --}}
+	<div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Employees</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">Employee Dashboard</a></li>
+                    <li class="breadcrumb-item active">Employee List</li>
+                </ul>
+            </div>
+            <div class="col-auto float-end ms-auto">
+                <!-- Search Form - Moved to right side -->
+                <form method="GET" action="{{ url()->current() }}" class="d-inline-flex me-3">
+                    <div class="input-group search-form">
+                        <input type="text" name="search" id="searchEmployeeName" 
+                               class="form-control" 
+                               value="{{ request('search') }}" 
+                               placeholder="Search by name or code">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        @if(request('search'))
+                            <a href="{{ url()->current() }}" class="btn btn-secondary">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        @endif
+                    </div>
+                </form>
+                
+                <a href="{{url('organization/view-add-employee')}}" class="btn add-btn me-2"><i class="fa-solid fa-plus"></i> Add Employee</a>
+                <div class="view-icons">
+                    <a href="{{url('organization/employee')}}" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
+                    <a href="{{url('organization/emplist')}}" class="list-view btn btn-link"><i class="fa-solid fa-bars"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
 	<!-- /Page Header -->
 	@include('employeer.layout.message')
 	<div class="row">
@@ -99,7 +136,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 				 </div>
 				<div class="card-body">
 					<div class="table-responsive">
-						<table class="table table-striped custom-table" id="basic-datatables">
+						<table class="table table-striped custom-table" >
 							<thead>
 								<tr>
 									<th>Employee ID</th>
@@ -172,6 +209,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 								@endforeach
 							</tbody>
 						</table>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="pagination-container">
+									{{ $employee_rs->appends(request()->query())->onEachSide(1)->links('pagination::bootstrap-4') }}
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -198,5 +242,70 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         return confirm("Are you sure you want to inactive this employee?");
     }
 </script>
+<style>
+	/* .pagination {
+    display: none !important;
+} */
+</style>
+<style>
+    /* Custom Pagination Styles */
+    .pagination-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .pagination .page-item {
+        margin: 0 3px;
+    }
+    
+    .pagination .page-link {
+        color: #fc9003;
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        transition: all 0.3s;
+    }
+    
+    .pagination .page-item.active .page-link {
+        background-color: #fc9003;
+        border-color: #fc9003;
+        color: white;
+    }
+    
+    .pagination .page-link:hover {
+        background-color: #f1f1f1;
+        border-color: #ddd;
+    }
+    
+    /* Make arrow icons more compact */
+    .pagination .page-item:first-child .page-link,
+    .pagination .page-item:last-child .page-link {
+        padding: 6px 10px;
+    }
+    
+    /* Hide text labels and show only arrows */
+    .pagination .page-item:first-child .page-link span:not(.sr-only),
+    .pagination .page-item:last-child .page-link span:not(.sr-only) {
+        display: none;
+    }
+    
+    .pagination .page-item:first-child .page-link::before {
+        content: "←";
+    }
+    
+    .pagination .page-item:last-child .page-link::after {
+        content: "→";
+    }
+</style>
 
 @endsection

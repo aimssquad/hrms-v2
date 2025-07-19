@@ -4,28 +4,27 @@
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
-//$defult_image =\App\Helpers\Helper::getImageUrl($employee->emp_image);
-//dd( $defult_image);
+
 function my_simple_crypt( $string, $action = 'encrypt' ) {
-		// you may change these values to your own
-		$secret_key = 'bopt_saltlake_kolkata_secret_key';
-		$secret_iv = 'bopt_saltlake_kolkata_secret_iv';
-	
-		$output = false;
-		$encrypt_method = "AES-256-CBC";
-		$key = hash( 'sha256', $secret_key );
-		$iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
-	
-		if( $action == 'encrypt' ) {
-			$output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
-		}
-		else if( $action == 'decrypt' ){
-			$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
-		}
-	
-		return $output;
-	}
+    $secret_key = 'bopt_saltlake_kolkata_secret_key';
+    $secret_iv = 'bopt_saltlake_kolkata_secret_iv';
+
+    $output = false;
+    $encrypt_method = "AES-256-CBC";
+    $key = hash( 'sha256', $secret_key );
+    $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+
+    if( $action == 'encrypt' ) {
+        $output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
+    }
+    else if( $action == 'decrypt' ){
+        $output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
+    }
+
+    return $output;
+}
 @endphp
+
 @section('content')
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -36,12 +35,30 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
                 <h3 class="page-title">Employees</h3>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-					<li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">Employee Dashboard</a></li>
-					<li class="breadcrumb-item active">Employee List</li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">Employee Dashboard</a></li>
+                    <li class="breadcrumb-item active">Employee List</li>
                 </ul>
             </div>
             <div class="col-auto float-end ms-auto">
-                <a href="{{url('organization/view-add-employee')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Employee</a>
+                <!-- Search Form - Moved to right side -->
+                <form method="GET" action="{{ url()->current() }}" class="d-inline-flex me-3">
+                    <div class="input-group search-form">
+                        <input type="text" name="search" id="searchEmployeeName" 
+                               class="form-control" 
+                               value="{{ request('search') }}" 
+                               placeholder="Search by name or code">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        @if(request('search'))
+                            <a href="{{ url()->current() }}" class="btn btn-secondary">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        @endif
+                    </div>
+                </form>
+                
+                <a href="{{url('organization/view-add-employee')}}" class="btn add-btn me-2"><i class="fa-solid fa-plus"></i> Add Employee</a>
                 <div class="view-icons">
                     <a href="{{url('organization/employee')}}" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
                     <a href="{{url('organization/emplist')}}" class="list-view btn btn-link"><i class="fa-solid fa-bars"></i></a>
@@ -52,123 +69,229 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
     <!-- /Page Header -->
 
     <!-- Search Filter -->
-    <div class="row filter-row">
-        <div class="col-sm-6 col-md-3">
-            <div class="input-block mb-3 form-focus">
-                <!-- Empty for future additional filters -->
+    {{-- <form method="GET" action="{{ url()->current() }}">
+        <div class="row filter-row">
+            <div class="col-sm-6 col-md-3">
+                <div class="input-block mb-3 form-focus">
+                    <input type="text" name="search" id="searchEmployeeName" class="form-control floating" value="{{ request('search') }}" placeholder="Search by name or code">
+                    <label class="focus-label">Employee Name/Code</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <button type="submit" class="btn btn-success btn-block"> Search </button>
             </div>
         </div>
-        <div class="col-sm-6 col-md-3">
-            <div class="input-block mb-3 form-focus">
-                <!-- Empty for future additional filters -->
-            </div>
+    </form> --}}
+    {{-- <form method="GET" action="{{ url()->current() }}" class="d-inline-flex align-items-center">
+        <div class="input-group">
+            <input type="text" name="search" id="searchEmployeeName" 
+                    class="form-control floating-search" 
+                    value="{{ request('search') }}" 
+                    placeholder="Search by name or code"
+                    style="width: 200px;">
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-search"></i>
+            </button>
+            @if(request('search'))
+                <a href="{{ url()->current() }}" class="btn btn-secondary">
+                    <i class="fa fa-times"></i>
+                </a>
+            @endif
         </div>
-        <div class="col-sm-6 col-md-3">
-            <div class="input-block mb-3 form-focus select-focus">
-                <!-- Empty for future additional filters -->
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-3">
-            <div class="input-block mb-3 form-focus">
-                <input type="text" id="searchEmployeeName" class="form-control floating" onkeyup="searchEmployee()">
-                <label class="focus-label">Employee Name</label>
-            </div>
-        </div>
-    </div>
+    </form> --}}
     <!-- /Search Filter -->
 
     <div class="row staff-grid-row" id="employeeGrid">
-        @foreach($employee_rs as $employee)
-        <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3 employee-card" data-emp-name="{{ $employee->emp_fname.' '.$employee->emp_mname.' '.$employee->emp_lname }}">
+        @forelse($employee_rs as $employee)
+        <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3 employee-card" data-emp-name="{{ $employee->emp_fname.' '.$employee->emp_mname.' '.$employee->emp_lname }}" data-emp-code="{{ $employee->emp_code }}">
             <div class="profile-widget">
                 <div class="profile-img">
-                    <a href="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" class="avatar"><img src="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" alt="User Image"></a>
+                    <a href="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" class="avatar">
+                        <img src="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" alt="User Image">
+                    </a>
                 </div>
                 <div class="dropdown profile-action">
-                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                    </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         @if($user_type == 'employee')
                             @foreach($sidebarItems['Employee Administration'] as $rotaItem)
                                 @if($rotaItem['submenu_name'] == 'Employees' && $rotaItem['can_edit'] == 1)
-                                <a class="dropdown-item" href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
+                                <a class="dropdown-item" href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}">
+                                    <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                </a>
                                 @endif
                             @endforeach
                         @elseif($user_type == 'employer')
-                        <a class="dropdown-item" href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
+                        <a class="dropdown-item" href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}">
+                            <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                        </a>
                         @endif
                         
                         @if($user_type == 'employer')
-                            <a class="dropdown-item" href="{{ url('organization/employeeInactive') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}" onclick="return confirmActivation();"><i class="fa-solid fa-trash-can m-r-5"></i> Inactive</a>
+                            <a class="dropdown-item" href="{{ url('organization/employeeInactive') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}" onclick="return confirmActivation();">
+                                <i class="fa-solid fa-trash-can m-r-5"></i> Inactive
+                            </a>
                         @endif
                         
-                       	@if($user_type == 'employee')
-                           @foreach($sidebarItems['Employee Administration'] as $rotaItem)
-                                @if($rotaItem['submenu_name'] == 'Employees' && $rotaItem['can_edit'] == 1)
-								<a class="dropdown-item" href="{{ url('employee-add/employee-report/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}" ><i class="fas fa-file-pdf m-r-5"></i> Downlode PDF</a>
-								@endif
-							@endforeach
-						@elseif($user_type == 'employer')
-						<a class="dropdown-item" href="{{ url('employee-add/employee-report/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}"><i class="fas fa-file-pdf m-r-5"></i> Downlode PDF</a>
-						@endif
-						
-						@if($user_type == 'employee')
+                        @if($user_type == 'employee')
                             @foreach($sidebarItems['Employee Administration'] as $rotaItem)
                                 @if($rotaItem['submenu_name'] == 'Employees' && $rotaItem['can_edit'] == 1)
-								<a class="dropdown-item" href="{{ url('employee-add/employee-report-excel/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}" ><i class="fas fa-file-excel m-r-5"></i> Downlode Excel</a>
-								@endif
-							@endforeach
-						@elseif($user_type == 'employer')
-						<a class="dropdown-item" href="{{ url('employee-add/employee-report-excel/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}"><i class="fas fa-file-excel m-r-5"></i> Downlode Excel</a>
-						@endif
+                                <a class="dropdown-item" href="{{ url('employee-add/employee-report/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}">
+                                    <i class="fas fa-file-pdf m-r-5"></i> Download PDF
+                                </a>
+                                @endif
+                            @endforeach
+                        @elseif($user_type == 'employer')
+                        <a class="dropdown-item" href="{{ url('employee-add/employee-report/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}">
+                            <i class="fas fa-file-pdf m-r-5"></i> Download PDF
+                        </a>
+                        @endif
+                        
+                        @if($user_type == 'employee')
+                            @foreach($sidebarItems['Employee Administration'] as $rotaItem)
+                                @if($rotaItem['submenu_name'] == 'Employees' && $rotaItem['can_edit'] == 1)
+                                <a class="dropdown-item" href="{{ url('employee-add/employee-report-excel/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}">
+                                    <i class="fas fa-file-excel m-r-5"></i> Download Excel
+                                </a>
+                                @endif
+                            @endforeach
+                        @elseif($user_type == 'employer')
+                        <a class="dropdown-item" href="{{ url('employee-add/employee-report-excel/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}">
+                            <i class="fas fa-file-excel m-r-5"></i> Download Excel
+                        </a>
+                        @endif
                     </div>
                 </div>
-                <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}">{{ $employee->emp_fname.' '.$employee->emp_mname.' '.$employee->emp_lname }}</a></h4>
-                <div class="small text-muted">{{$employee->emp_designation ?? 'NA'}}</div>
+                <h4 class="user-name m-t-10 mb-0 text-ellipsis">
+                    <a href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}">
+                        {{ $employee->emp_fname.' '.$employee->emp_mname.' '.$employee->emp_lname }}
+                    </a>
+                </h4>
+                <div class="small text-muted">{{ $employee->emp_designation ?? 'NA' }}</div>
+                <div class="small text-muted">{{ $employee->emp_code }}</div>
             </div>
         </div>
-        @endforeach
+        @empty
+        <div class="col-12">
+            <div class="alert alert-info">No employees found.</div>
+        </div>
+        @endforelse
+    </div>
+
+    <!-- Pagination -->
+    {{-- <div class="row">
+        <div class="col-md-12">
+            <div class="pagination-container">
+                {{ $employee_rs->appends(request()->query())->links() }}
+            </div>
+        </div>
+    </div> --}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pagination-container">
+                {{ $employee_rs->appends(request()->query())->onEachSide(1)->links('pagination::bootstrap-4') }}
+            </div>
+        </div>
     </div>
 </div>
 <!-- /Page Content -->
-
 @endsection
 
 @section('script')
-{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
-
 <script>
+    // Client-side search function (optional - works on currently loaded page only)
     function searchEmployee() {
-        var inputName = document.getElementById('searchEmployeeName').value.toLowerCase();
-        var employees = document.getElementsByClassName('employee-card');
-        var searchTerms = inputName.split(" ");
-
-        for (var i = 0; i < employees.length; i++) {
-            var empName = employees[i].getAttribute('data-emp-name').toLowerCase();
-            var match = true;
-
-            for (var j = 0; j < searchTerms.length; j++) {
-                if (!empName.includes(searchTerms[j])) {
-                    match = false;
-                    break;
-                }
-            }
-
-            if (match) {
-                employees[i].style.display = "";
+        var input = document.getElementById('searchEmployeeName').value.toLowerCase();
+        var cards = document.getElementsByClassName('employee-card');
+        
+        for (var i = 0; i < cards.length; i++) {
+            var name = cards[i].getAttribute('data-emp-name').toLowerCase();
+            var code = cards[i].getAttribute('data-emp-code').toLowerCase();
+            
+            if (name.includes(input) || code.includes(input)) {
+                cards[i].style.display = "";
             } else {
-                employees[i].style.display = "none";
+                cards[i].style.display = "none";
             }
         }
+        
+        // Hide pagination during client-side search
+        document.querySelector('.pagination-container').style.display = input ? 'none' : 'block';
     }
 
-
-    function confirmDelete(url) {
-        if (confirm("Are you sure you want to delete this holiday type?")) {
-            window.location.href = url;
+    // Initialize search on page load if there's a search term
+    document.addEventListener('DOMContentLoaded', function() {
+        var searchInput = document.getElementById('searchEmployeeName');
+        if (searchInput.value) {
+            searchEmployee();
         }
-    }
+        
+        // Add event listener for search input
+        searchInput.addEventListener('keyup', searchEmployee);
+    });
+
     function confirmActivation() {
         return confirm("Are you sure you want to inactive this employee?");
     }
 </script>
+
+<style>
+    /* Optional: Add some styling for pagination */
+    .pagination-container {
+        margin-top: 20px;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #55ce63;
+        border-color: #55ce63;
+    }
+    .pagination .page-link {
+        color: #55ce63;
+    }
+</style>
+<style>
+    /* Custom Pagination Styles */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    .pagination .page-item {
+        margin: 0 3px;
+    }
+    
+    .pagination .page-link {
+        color: #55ce63;
+        border: 1px solid #dee2e6;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+    }
+    
+    .pagination .page-item.active .page-link {
+        background-color: #55ce63;
+        border-color: #55ce63;
+        color: white;
+    }
+    
+    .pagination .page-link:hover {
+        background-color: #f1f1f1;
+    }
+    
+    /* Make arrow icons smaller */
+    .pagination .page-link .fa {
+        font-size: 12px;
+    }
+    
+    /* Specifically target the arrow links */
+    .pagination .page-item:first-child .page-link,
+    .pagination .page-item:last-child .page-link {
+        padding: 6px 10px;
+    }
+
+    
+</style>
+
 @endsection
