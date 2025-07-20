@@ -46,7 +46,7 @@ class EmployeeController extends Controller
             //dd($data['payment_wedes_rs']);
             $id = $request->get('q');
             if ($id) {
-                dd($id);
+                //dd($id);
                 function my_simple_crypt($string, $action = 'encrypt')
                 {
                     // you may change these values to your own
@@ -69,7 +69,7 @@ class EmployeeController extends Controller
                 ///
                 //$encrypted = my_simple_crypt( 'Hello World!', 'encrypt' );
                 $decrypted_id = my_simple_crypt($id, 'decrypt');
-                //dd($decrypted_id);
+                dd($decrypted_id);
                 $data['employee_rs'] = DB::table('employee')
                     ->join('employee_pay_structure', 'employee.emp_code', '=', 'employee_pay_structure.employee_code')
                     ->where('employee.emp_code', '=', $decrypted_id)
