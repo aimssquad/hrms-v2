@@ -45,7 +45,7 @@ class EmployeeController extends Controller
 
             $id = $request->get('q');
             if ($id) {
-                //dd($reg);
+                dd($id);
                 function my_simple_crypt($string, $action = 'encrypt')
                 {
                     // you may change these values to your own
