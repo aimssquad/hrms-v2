@@ -32,6 +32,7 @@ class EmployeeController extends Controller
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $reg = Session::get('emid');
+            dd($email, $reg);
             // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
             //     ->where('email', '=', $email)
