@@ -2043,39 +2043,39 @@ class EmployeeController extends Controller
                     $password = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
                     // Insert into users table
-                    // $userId = DB::table('users')->insertGetId([
-                    //     'employee_id' => $empCode,
-                    //     'name' => trim($data['emp_fname'] . ' ' . $data['emp_lname']),
-                    //     'email' => $data['emp_ps_email'],
-                    //     'password' => $password,
-                    //     'user_type' => 'employee',
-                    //     'status' => 'active',
-                    //     'emid' => $emid,
-                    //     'created_at' => $now,
-                    //     'updated_at' => $now,
-                    // ]);
+                    $userId = DB::table('users')->insertGetId([
+                        'employee_id' => $empCode,
+                        'name' => trim($data['emp_fname'] . ' ' . $data['emp_lname']),
+                        'email' => $data['emp_ps_email'],
+                        'password' => $password,
+                        'user_type' => 'employee',
+                        'status' => 'active',
+                        'emid' => $emid,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
 
-                    // if (!$userId) {
-                    //     throw new \Exception("Failed to insert user record");
-                    // }
+                    if (!$userId) {
+                        throw new \Exception("Failed to insert user record");
+                    }
 
                     // Insert into employee table
-                    // $employeeId = DB::table('employee')->insertGetId([
-                    //     'emid' => $emid,
-                    //     'emp_code' => $empCode,
-                    //     'emp_fname' => $data['emp_fname'],
-                    //     'emp_lname' => $data['emp_lname'],
-                    //     'emp_ps_email' => $data['emp_ps_email'],
-                    //     'emp_ps_phone' => $data['emp_ps_phone'] ?? null,
-                    //     'emp_religion' => $data['emp_religion'] ?? null,
-                    //     'status' => 'active',
-                    //     'created_at' => $now,
-                    //     'updated_at' => $now,
-                    // ]);
+                    $employeeId = DB::table('employee')->insertGetId([
+                        'emid' => $emid,
+                        'emp_code' => $empCode,
+                        'emp_fname' => $data['emp_fname'],
+                        'emp_lname' => $data['emp_lname'],
+                        'emp_ps_email' => $data['emp_ps_email'],
+                        'emp_ps_phone' => $data['emp_ps_phone'] ?? null,
+                        'emp_religion' => $data['emp_religion'] ?? null,
+                        'status' => 'active',
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
 
-                    // if (!$employeeId) {
-                    //     throw new \Exception("Failed to insert employee record");
-                    // }
+                    if (!$employeeId) {
+                        throw new \Exception("Failed to insert employee record");
+                    }
                     
                     // Insert into change_circumstances_history
                     $historyInserted = DB::table('change_circumstances_history')->insert([
