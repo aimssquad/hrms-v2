@@ -32,7 +32,6 @@ class EmployeeController extends Controller
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $reg = Session::get('emid');
-            
             // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
             //     ->where('email', '=', $email)
@@ -43,10 +42,10 @@ class EmployeeController extends Controller
             //     ->where('email', '=', $email)
             //     ->first();
             $data['payment_wedes_rs'] = DB::table('payment_type_wedes')->where('emid', '=', $reg)->get();
-            //dd($data['payment_wedes_rs']);
+
             $id = $request->get('q');
             if ($id) {
-                //dd($id);
+                //dd($reg);
                 function my_simple_crypt($string, $action = 'encrypt')
                 {
                     // you may change these values to your own
@@ -148,7 +147,7 @@ class EmployeeController extends Controller
                 } else {
                     $data['employee_pin_rs'] = "<option value=''>&nbsp;</option>";
                 }
-                dd($data);
+                //dd($data);
                 // return view('employee/edit-employee', $data);
                 return view($this->_routePrefix . '.edit-employee',$data);
 
@@ -1834,15 +1833,163 @@ class EmployeeController extends Controller
         }    
     }
 
+    // public function import(Request $request)
+    // {
+    //     if (!empty(Session::get('emp_email'))) {
+    //         $validator = Validator::make($request->all(), [
+    //             'emid' => 'required|string|max:255',
+    //             'organization_name' => 'required|string|min:3', // Add organization name input
+    //             'csv_file' => 'required|file|mimetypes:text/csv,text/plain|max:2048'
+    //         ]);
+            
+    //         if ($validator->fails()) {
+    //             return redirect()->back()
+    //                 ->withErrors($validator)
+    //                 ->withInput();
+    //         }
+
+    //         $file = $request->file('csv_file');
+    //         $emid = $request->input('emid');
+    //         $orgName = strtoupper(substr($request->input('organization_name'), 0, 3)); // Get first 3 letters
+    //         $now = now();
+            
+    //         // Get the highest existing employee code number
+    //         $lastEmployee = DB::table('employee')
+    //             ->where('emp_code', 'like', $orgName.'%')
+    //             ->orderBy('emp_code', 'desc')
+    //             ->first();
+    //         // dd($lastEmployee);
+    //         $lastNumber = $lastEmployee 
+    //             ? intval(substr($lastEmployee->emp_code, strlen($orgName)))
+    //             : 0;
+            
+    //         // Process CSV
+    //         $csvData = array_map(function($line) {
+    //             return str_getcsv(trim($line));
+    //         }, file($file->getPathname()));
+
+    //         $headers = array_map('strtolower', $csvData[0]);
+    //         array_shift($csvData);
+
+    //         $imported = 0;
+    //         $errors = [];
+    //         //;
+    //         foreach ($csvData as $index => $row) {
+    //             DB::beginTransaction();
+                
+    //             try {
+    //                 if (count($row) !== count($headers)) {
+    //                     throw new \Exception("Column count doesn't match header count");
+    //                 }
+
+    //                 $data = array_combine($headers, $row);
+                    
+    //                 // Validate required fields
+    //                 $requiredFields = ['emp_fname', 'emp_lname', 'emp_ps_email'];
+    //                 foreach ($requiredFields as $field) {
+    //                     if (empty($data[$field])) {
+    //                         throw new \Exception("Missing required field: {$field}");
+    //                     }
+    //                 }
+
+    //                 // Generate sequential employee code
+    //                 $empCode = $orgName . ($lastNumber + $index + 1);
+                    
+    //                 // Generate 4-digit password
+    //                 $password = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+    //                 //dd($password);
+    //                 // Insert into users table
+    //                 $userId = DB::table('users')->insertGetId([
+    //                     'employee_id' => $empCode,
+    //                     'name' => trim($data['emp_fname'] . ' ' . $data['emp_lname']),
+    //                     'email' => $data['emp_ps_email'],
+    //                     'password' => $password,
+    //                     'user_type' => 'employee',
+    //                     'status' => 'active',
+    //                     'emid' => $emid,
+    //                     'created_at' => $now,
+    //                     'updated_at' => $now,
+    //                 ]);
+
+    //                 if (!$userId) {
+    //                     throw new \Exception("Failed to insert user record");
+    //                 }
+
+    //                 // Insert into employee table
+    //                 $employeeId = DB::table('employee')->insertGetId([
+    //                     'emid' => $emid,
+    //                     'emp_code' => $empCode,
+    //                     'emp_fname' => $data['emp_fname'],
+    //                     'emp_lname' => $data['emp_lname'],
+    //                     'emp_ps_email' => $data['emp_ps_email'],
+    //                     'emp_ps_phone' => $data['emp_ps_phone'] ?? null,
+    //                     'emp_religion' => $data['emp_religion'] ?? null,
+    //                     'status' => 'active',
+    //                     'created_at' => $now,
+    //                     'updated_at' => $now,
+    //                 ]);
+
+    //                 if (!$employeeId) {
+    //                     throw new \Exception("Failed to insert employee record");
+    //                 }
+
+    //                 // Insert into change_circumstances_history
+    //                 $historyInserted = DB::table('change_circumstances_history')->insertGetId([
+    //                     'emid' => $emid,
+    //                     'emp_code' => $empCode,
+    //                     'emp_fname' => $data['emp_fname'],
+    //                     'emp_lname' => $data['emp_lname'],
+    //                     'emp_ps_email' => $data['emp_ps_email'],
+    //                     'emp_ps_phone' => $data['emp_ps_phone'] ?? null,
+    //                     'emp_religion' => $data['emp_religion'] ?? null,
+    //                     'status' => 'active',
+    //                     'created_at' => $now,
+    //                     'updated_at' => $now,
+    //                 ]);
+
+    //                 if (!$historyInserted) {
+    //                     throw new \Exception("Failed to insert history record");
+    //                 }
+
+    //                 $payStructure = DB::table('employee_pay_structure')->insert([
+    //                     'emid' => $emid,
+    //                     'employee_code' => $empCode,
+    //                     'created_at' => $now,
+    //                     'updated_at' => $now,
+    //                 ]);
+
+    //                 if (!$payStructure) {
+    //                     throw new \Exception("Failed to insert Pay structure record");
+    //                 }
+
+    //                 // ... rest of your insert code ...
+                    
+    //                 DB::commit();
+    //                 $imported++;
+    //             } catch (\Exception $e) {
+    //                 DB::rollBack();
+    //                 $errors[] = "Row " . ($index + 1) . ": " . $e->getMessage();
+    //                 continue;
+    //             }
+    //         }
+
+    //         // ... rest of your return code ...
+    //         Session::flash('message', 'Bulk employee created successfuly.');
+    //         return redirect()->route('employees.import.form');
+    //     } else {
+    //         return redirect("/"); 
+    //     } 
+    // }
+
     public function import(Request $request)
     {
         if (!empty(Session::get('emp_email'))) {
             $validator = Validator::make($request->all(), [
                 'emid' => 'required|string|max:255',
-                'organization_name' => 'required|string|min:3', // Add organization name input
+                'organization_name' => 'required|string|min:3',
                 'csv_file' => 'required|file|mimetypes:text/csv,text/plain|max:2048'
             ]);
-            
+            //dd($validator);
             if ($validator->fails()) {
                 return redirect()->back()
                     ->withErrors($validator)
@@ -1851,7 +1998,7 @@ class EmployeeController extends Controller
 
             $file = $request->file('csv_file');
             $emid = $request->input('emid');
-            $orgName = strtoupper(substr($request->input('organization_name'), 0, 3)); // Get first 3 letters
+            $orgName = strtoupper(substr($request->input('organization_name'), 0, 3));
             $now = now();
             
             // Get the highest existing employee code number
@@ -1859,28 +2006,24 @@ class EmployeeController extends Controller
                 ->where('emp_code', 'like', $orgName.'%')
                 ->orderBy('emp_code', 'desc')
                 ->first();
-            // dd($lastEmployee);
+                
             $lastNumber = $lastEmployee 
                 ? intval(substr($lastEmployee->emp_code, strlen($orgName)))
                 : 0;
             
             // Process CSV
-            $csvData = array_map(function($line) {
-                return str_getcsv(trim($line));
-            }, file($file->getPathname()));
-
-            $headers = array_map('strtolower', $csvData[0]);
-            array_shift($csvData);
+            $csvData = array_map('str_getcsv', file($file->getPathname()));
+            $headers = array_map('strtolower', array_shift($csvData));
 
             $imported = 0;
             $errors = [];
-            //;
+            
             foreach ($csvData as $index => $row) {
                 DB::beginTransaction();
                 
                 try {
                     if (count($row) !== count($headers)) {
-                        throw new \Exception("Column count doesn't match header count");
+                        throw new \Exception("Column count doesn't match header count on row ".($index+1));
                     }
 
                     $data = array_combine($headers, $row);
@@ -1889,7 +2032,7 @@ class EmployeeController extends Controller
                     $requiredFields = ['emp_fname', 'emp_lname', 'emp_ps_email'];
                     foreach ($requiredFields as $field) {
                         if (empty($data[$field])) {
-                            throw new \Exception("Missing required field: {$field}");
+                            throw new \Exception("Missing required field: {$field} on row ".($index+1));
                         }
                     }
 
@@ -1898,26 +2041,44 @@ class EmployeeController extends Controller
                     
                     // Generate 4-digit password
                     $password = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
-                    //dd($password);
-                    // Insert into users table
-                    $userId = DB::table('users')->insertGetId([
-                        'employee_id' => $empCode,
-                        'name' => trim($data['emp_fname'] . ' ' . $data['emp_lname']),
-                        'email' => $data['emp_ps_email'],
-                        'password' => $password,
-                        'user_type' => 'employee',
-                        'status' => 'active',
-                        'emid' => $emid,
-                        'created_at' => $now,
-                        'updated_at' => $now,
-                    ]);
 
-                    if (!$userId) {
-                        throw new \Exception("Failed to insert user record");
-                    }
+                    // Insert into users table
+                    // $userId = DB::table('users')->insertGetId([
+                    //     'employee_id' => $empCode,
+                    //     'name' => trim($data['emp_fname'] . ' ' . $data['emp_lname']),
+                    //     'email' => $data['emp_ps_email'],
+                    //     'password' => $password,
+                    //     'user_type' => 'employee',
+                    //     'status' => 'active',
+                    //     'emid' => $emid,
+                    //     'created_at' => $now,
+                    //     'updated_at' => $now,
+                    // ]);
+
+                    // if (!$userId) {
+                    //     throw new \Exception("Failed to insert user record");
+                    // }
 
                     // Insert into employee table
-                    $employeeId = DB::table('employee')->insertGetId([
+                    // $employeeId = DB::table('employee')->insertGetId([
+                    //     'emid' => $emid,
+                    //     'emp_code' => $empCode,
+                    //     'emp_fname' => $data['emp_fname'],
+                    //     'emp_lname' => $data['emp_lname'],
+                    //     'emp_ps_email' => $data['emp_ps_email'],
+                    //     'emp_ps_phone' => $data['emp_ps_phone'] ?? null,
+                    //     'emp_religion' => $data['emp_religion'] ?? null,
+                    //     'status' => 'active',
+                    //     'created_at' => $now,
+                    //     'updated_at' => $now,
+                    // ]);
+
+                    // if (!$employeeId) {
+                    //     throw new \Exception("Failed to insert employee record");
+                    // }
+                    
+                    // Insert into change_circumstances_history
+                    $historyInserted = DB::table('change_circumstances_history')->insert([
                         'emid' => $emid,
                         'emp_code' => $empCode,
                         'emp_fname' => $data['emp_fname'],
@@ -1926,49 +2087,41 @@ class EmployeeController extends Controller
                         'emp_ps_phone' => $data['emp_ps_phone'] ?? null,
                         'emp_religion' => $data['emp_religion'] ?? null,
                         'status' => 'active',
-                        'created_at' => $now,
-                        'updated_at' => $now,
+                        'date_change' => $now->format('Y-m-d'),
                     ]);
-
-                    if (!$employeeId) {
-                        throw new \Exception("Failed to insert employee record");
-                    }
-
-                    // Insert into change_circumstances_history
-                    $historyInserted = DB::table('change_circumstances_history')->insert([
-                        'employee_id' => $employeeId,
-                        'change_type' => 'initial_import',
-                        'previous_data' => null,
-                        'new_data' => json_encode([
-                            'emp_code' => $empCode,
-                            'emp_fname' => $data['emp_fname'],
-                            'emp_lname' => $data['emp_lname'],
-                            'emp_ps_email' => $data['emp_ps_email'],
-                            'emp_ps_phone' => $data['emp_ps_phone'] ?? null,
-                            'emp_religion' => $data['emp_religion'] ?? null,
-                        ]),
-                        'changed_by' => 'system_import',
-                        'created_at' => $now,
-                        'updated_at' => $now,
-                    ]);
-
+                    
                     if (!$historyInserted) {
                         throw new \Exception("Failed to insert history record");
                     }
-
-                    // ... rest of your insert code ...
+                   
+                    $payStructure = DB::table('employee_pay_structure')->insert([
+                        'emid' => $emid,
+                        'employee_code' => $empCode,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
+                    
+                    if (!$payStructure) {
+                        throw new \Exception("Failed to insert Pay structure record");
+                    }
                     
                     DB::commit();
                     $imported++;
                 } catch (\Exception $e) {
                     DB::rollBack();
-                    $errors[] = "Row " . ($index + 1) . ": " . $e->getMessage();
-                    continue;
+                    $errorMsg = "Row ".($index+1).": ".$e->getMessage();
+                    $errors[] = $errorMsg;
+                    \Log::error($errorMsg);
                 }
             }
 
-            // ... rest of your return code ...
-            Session::flash('message', 'Bulk employee created successfuly.');
+            if (!empty($errors)) {
+                return redirect()->back()
+                    ->with('import_errors', $errors)
+                    ->with('imported_count', $imported);
+            }
+
+            Session::flash('message', "Successfully imported $imported employees");
             return redirect()->route('employees.import.form');
         } else {
             return redirect("/"); 
