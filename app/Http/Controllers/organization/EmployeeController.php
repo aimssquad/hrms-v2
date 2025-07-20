@@ -32,7 +32,7 @@ class EmployeeController extends Controller
         if (!empty(Session::get('emp_email'))) {
             $email = Session::get('emp_email');
             $reg = Session::get('emid');
-            dd($email, $reg);
+            
             // $Roledata = DB::table('registration')->where('status', '=', 'active')
 
             //     ->where('email', '=', $email)
@@ -43,7 +43,7 @@ class EmployeeController extends Controller
             //     ->where('email', '=', $email)
             //     ->first();
             $data['payment_wedes_rs'] = DB::table('payment_type_wedes')->where('emid', '=', $reg)->get();
-
+            dd($data['payment_wedes_rs']);
             $id = $request->get('q');
             if ($id) {
                 dd($id);
