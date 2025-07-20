@@ -69,7 +69,7 @@ class EmployeeController extends Controller
                 ///
                 //$encrypted = my_simple_crypt( 'Hello World!', 'encrypt' );
                 $decrypted_id = my_simple_crypt($id, 'decrypt');
-                dd($decrypted_id);
+                //dd($decrypted_id);
                 $data['employee_rs'] = DB::table('employee')
                     ->join('employee_pay_structure', 'employee.emp_code', '=', 'employee_pay_structure.employee_code')
                     ->where('employee.emp_code', '=', $decrypted_id)
@@ -148,7 +148,7 @@ class EmployeeController extends Controller
                 } else {
                     $data['employee_pin_rs'] = "<option value=''>&nbsp;</option>";
                 }
-                //dd($data);
+                dd($data);
                 // return view('employee/edit-employee', $data);
                 return view($this->_routePrefix . '.edit-employee',$data);
 
