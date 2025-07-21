@@ -43,19 +43,20 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
                 <!-- Search Form - Moved to right side -->
                 <form method="GET" action="{{ url()->current() }}" class="d-inline-flex me-3">
                     <div class="input-group search-form">
-                        <input type="text" name="search" id="searchEmployeeName" 
-                               class="form-control" 
-                               value="{{ request('search') }}" 
-                               placeholder="Search by name or code">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        @if(request('search'))
-                            <a href="{{ url()->current() }}" class="btn btn-secondary">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        @endif
-                    </div>
+						<input type="text" name="search" id="searchEmployeeName" 
+							class="form-control" 
+							value="{{ request('search') }}" 
+							placeholder="Search by name or code"
+							autocomplete="off">
+						<button type="button" class="btn btn-primary" id="searchButton">
+							<i class="fa fa-search"></i>
+						</button>
+						@if(request('search'))
+							<a href="{{ url()->current() }}" class="btn btn-secondary" id="clearSearch">
+								<i class="fa fa-times"></i>
+							</a>
+						@endif
+					</div>
                 </form>
                 
                 <a href="{{url('organization/view-add-employee')}}" class="btn add-btn me-2"><i class="fa-solid fa-plus"></i> Add Employee</a>
@@ -293,5 +294,75 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
 
     
 </style>
+
+<script>
+	$(document).ready(function() {
+		// Debounce function to limit how often the search executes
+		function debounce(func, wait, immediate) {
+			var timeout;
+			return function() {
+				var context = this, args = arguments;
+				var later = function() {
+					timeout = null;
+					if (!immediate) func.apply(context, args);
+				};
+				var callNow = immediate && !timeout;
+				clearTimeout(timeout);
+				timeout = setTimeout(later, wait);
+				if (callNow) func.apply(context, args);
+			};
+		}
+
+		// Search function
+		function performSearch() {
+			var searchTerm = $('#searchEmployeeName').val();
+			var url = "{{ url()->current() }}";
+			
+			// Show loading indicator
+			$('.table-responsive').html('<div class="text-center py-5"><i class="fas fa-spinner fa-spin fa-2x"></i></div>');
+			
+			$.ajax({
+				url: url,
+				type: "GET",
+				data: { search: searchTerm },
+				success: function(response) {
+					// Extract just the table HTML from the response
+					var tableHtml = $(response).find('.table-responsive').html();
+					$('.table-responsive').html(tableHtml);
+					
+					// Reinitialize any necessary plugins or event handlers
+					initializeTableEvents();
+				},
+				error: function(xhr) {
+					console.log(xhr.responseText);
+					$('.table-responsive').html('<div class="text-center py-5 text-danger">Error loading data</div>');
+				}
+			});
+		}
+
+		// Initialize table events (dropdowns, etc.)
+		function initializeTableEvents() {
+			// Reinitialize any dropdowns or other interactive elements here
+			$('.dropdown-toggle').dropdown();
+		}
+
+		// Set up event handlers
+		$('#searchEmployeeName').on('keyup', debounce(function() {
+			performSearch();
+		}, 300));
+
+		$('#searchButton').on('click', function() {
+			performSearch();
+		});
+
+		$('#clearSearch').on('click', function() {
+			$('#searchEmployeeName').val('');
+			performSearch();
+		});
+
+		// Initialize on page load
+		initializeTableEvents();
+	});
+</script>
 
 @endsection

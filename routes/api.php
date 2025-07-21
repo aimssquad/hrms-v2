@@ -7,16 +7,7 @@ use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\MobileMenuController;
 use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\HolidayController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -45,8 +36,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('show_daily_attendance',[AttendanceController::class, 'showDailyAttendance']);
     Route::get('get_branch',[AttendanceController::class, 'getBranch']);
 
-    Route::post('creat-temp-attendance',[AttendanceController::class, 'createTempAttendance']);
-    Route::post('show-attendance',[AttendanceController::class, 'showAttendance']);
+    // Route::post('creat-temp-attendance',[AttendanceController::class, 'createTempAttendance']);
+    // Route::post('show-attendance',[AttendanceController::class, 'showAttendance']);
 
     Route::post('create-monthy-attendance',[AttendanceController::class, 'createMonthlyAttendance']);
    
@@ -54,6 +45,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {  
     Route::post('creat-attendance',[AttendanceController::class, 'store']);
+    Route::post('show-attendance',[AttendanceController::class, 'showEmpAttendance']);
 });
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {  

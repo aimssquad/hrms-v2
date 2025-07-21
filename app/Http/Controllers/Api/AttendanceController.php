@@ -101,73 +101,6 @@ class AttendanceController extends Controller
         }        
     }
 
-    // public function store(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'employee_code' => 'required|string',
-    //         'employee_name' => 'nullable|string',
-    //         'date' => 'required|date',
-    //         'time' => 'required', // Time sent from mobile
-    //         'location' => 'nullable|string',
-    //         'latitude' => 'nullable|numeric',
-    //         'longitude' => 'nullable|numeric',
-    //         'device_id' => 'nullable|string',
-    //         'location_accuracy' => 'nullable|numeric',
-    //         'is_location_mocked' => 'nullable|boolean',
-    //         'photo_proof' => 'nullable|string',
-    //         'punch_type' => 'nullable|string',
-    //         'remarks' => 'nullable|string',
-    //     ]);
-    //     // dd('pllll');
-    //     $attendance = TempAttendance::where('employee_code', $validated['employee_code'])
-    //         ->where('date', $validated['date'])
-    //         ->first();
-
-    //     if (!$attendance) {
-    //         // First punch => Login
-    //         $data = [
-    //             'employee_code' => $validated['employee_code'],
-    //             'employee_name' => $validated['employee_name'] ?? '',
-    //             'date' => $validated['date'],
-    //             'time_in' => $validated['time'],
-    //             'time_in_location' => $validated['location'] ?? '',
-    //             'time_in_latitude' => $validated['latitude'] ?? null,
-    //             'time_in_longitude' => $validated['longitude'] ?? null,
-    //             'device_id' => $validated['device_id'] ?? null,
-    //             'location_accuracy' => $validated['location_accuracy'] ?? null,
-    //             'is_location_mocked' => $validated['is_location_mocked'] ?? 0,
-    //             'photo_proof' => $validated['photo_proof'] ?? '',
-    //             'punch_type' => $validated['punch_type'] ?? 'GPS',
-    //             'remarks' => $validated['remarks'] ?? '',
-    //             'month' => substr($validated['date'], 0, 7),
-    //             'punch_status' => 'IN',
-    //         ];
-
-    //         $created = TempAttendance::create($data);
-
-    //         return response()->json([
-    //             'status' => true,
-    //             'message' => 'Login recorded successfully.',
-    //             'data' => $created
-    //         ]);
-    //     } else {
-    //         // Second punch => Logout
-    //         $attendance->update([
-    //             'time_out' => $validated['time'],
-    //             'time_out_location' => $validated['location'] ?? '',
-    //             'time_out_latitude' => $validated['latitude'] ?? null,
-    //             'time_out_longitude' => $validated['longitude'] ?? null,
-    //             'punch_status' => 'OUT',
-    //         ]);
-
-    //         return response()->json([
-    //             'status' => true,
-    //             'message' => 'Logout recorded successfully.',
-    //             'data' => $attendance
-    //         ]);
-    //     }
-    // }
-
     public function showAttendance(Request $request)
     { 
         //dd('okk');
@@ -695,143 +628,6 @@ class AttendanceController extends Controller
     }
 
 
-    // public function store(Request $request)
-    // {
-    //     if (auth()->check()) {
-
-    //         dd(auth()->user());
-    //         $emid = auth()->user()->emid; 
-    //         $employee_code = auth()->user()->employee_id;
-    //         $employee_name = auth()->user()->name;
-            
-    //         $validated = $request->validate([
-    //             // 'employee_code' => 'required|string',
-    //             // 'employee_name' => 'nullable|string',
-    //             'date' => 'required|date',
-    //             'time' => 'required',
-    //             'location' => 'nullable|string',
-    //             'latitude' => 'nullable|numeric',
-    //             'longitude' => 'nullable|numeric',
-    //             'device_id' => 'nullable|string',
-    //             'location_accuracy' => 'nullable|numeric',
-    //             'is_location_mocked' => 'nullable|boolean',
-    //             'photo_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Update validation for image
-    //             'punch_type' => 'nullable|string',
-    //             'remarks' => 'nullable|string',
-    //         ]);
-            
-    //         // Handle image upload
-    //         $photoProofPath = null;
-    //         if ($request->hasFile('photo_proof')) {
-    //             $photoProofPath = $request->file('photo_proof')->store('temp-attendance', 'public');
-    //         } elseif ($request->filled('photo_proof')) {
-    //             // If photo_proof comes as base64 string (from mobile)
-    //             $photoProofPath = $this->storeBase64Image($request->photo_proof);
-    //         }
-
-    //         $attendance = TempAttendance::where('employee_code', $employee_code)
-    //             ->where('date', $validated['date'])
-    //             ->first();
-
-    //         if (!$attendance) {
-    //             // First punch => Login
-    //             $data = [
-    //                 'employee_code' => $employee_code,
-    //                 'employee_name' => $employee_name ?? '',
-    //                 'date' => $validated['date'],
-    //                 'time_in' => $validated['time'],
-    //                 'time_in_location' => $validated['location'] ?? '',
-    //                 'time_in_latitude' => $validated['latitude'] ?? null,
-    //                 'time_in_longitude' => $validated['longitude'] ?? null,
-    //                 'device_id' => $validated['device_id'] ?? null,
-    //                 'location_accuracy' => $validated['location_accuracy'] ?? null,
-    //                 'is_location_mocked' => $validated['is_location_mocked'] ?? 0,
-    //                 'photo_proof' => $photoProofPath, // Store the path instead of raw data
-    //                 'punch_type' => $validated['punch_type'] ?? 'GPS',
-    //                 'remarks' => $validated['remarks'] ?? '',
-    //                 'month' => substr($validated['date'], 0, 7),
-    //                 'punch_status' => 'IN',
-    //                 'emid' => $emid
-    //             ];
-    //             //dd($data);
-    //             $created = TempAttendance::create($data);
-
-    //             return response()->json([
-    //                 'status' => true,
-    //                 'message' => 'Login recorded successfully.',
-    //                 'data' => $created
-    //             ]);
-    //         } else {
-    //             // Second punch => Logout
-    //             $updateData = [
-    //                 'time_out' => $validated['time'],
-    //                 'time_out_location' => $validated['location'] ?? '',
-    //                 'time_out_latitude' => $validated['latitude'] ?? null,
-    //                 'time_out_longitude' => $validated['longitude'] ?? null,
-    //                 'duty_hours' => $duty_hours,
-    //                 'punch_status' => 'OUT',
-    //             ];
-
-    //             // Only update photo_proof if provided for logout
-    //             if ($photoProofPath) {
-    //                 $updateData['photo_proof_out'] = $photoProofPath;
-    //             }
-
-    //             $attendance->update($updateData);
-
-    //             return response()->json([
-    //                 'status' => true,
-    //                 'message' => 'Logout recorded successfully.',
-    //                 'data' => $attendance
-    //             ]);
-    //         }
-    //     } else {
-    //         $dynamicFlag = 1;
-    //         $data=[];
-    //         $message = "Somthing Went Wrong";
-    //         return Helper::rjd(
-    //             $message,
-    //             $dynamicFlag,
-    //             $data
-    //         );
-    //     }    
-    // }
-
-    // /**
-    //  * Store base64 image to temp-attendance folder
-    //  */
-    // protected function storeBase64Image($base64String)
-    // {
-    //     try {
-    //         // Extract the base64 data and extension
-    //         @list($type, $fileData) = explode(';', $base64String);
-    //         @list(, $fileData) = explode(',', $fileData); 
-    //         $extension = explode('/', $type)[1];
-            
-    //         // Validate extension
-    //         if (!in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
-    //             throw new \Exception('Invalid image type');
-    //         }
-            
-    //         // Generate unique filename
-    //         $fileName = uniqid().'.'.$extension;
-    //         $destinationPath = storage_path('app/public/temp-attendance/');
-            
-    //         // Ensure directory exists
-    //         if (!file_exists($destinationPath)) {
-    //             mkdir($destinationPath, 0755, true);
-    //         }
-            
-    //         // Save the file
-    //         file_put_contents($destinationPath.$fileName, base64_decode($fileData));
-            
-    //         return 'temp-attendance/'.$fileName;
-    //     } catch (\Exception $e) {
-    //         \Log::error('Failed to store base64 image: '.$e->getMessage());
-    //         return null;
-    //     }
-    // }
-
     public function store(Request $request)
     {
         if (!auth()->check()) {
@@ -952,6 +748,96 @@ class AttendanceController extends Controller
             return null;
         }
     }
+
+    // public function showEmpAttendance(Request $request){
+    //     try {
+    //         if (auth()->check()) {
+    //             $employee_id = auth()->user()->employee_id;
+    //             $employee_name = auth()->user()->name;
+    //             $emid = auth()->user()->emid;
+    //             $allAttendance = TempAttendance::where('employee_code',$employee_id)->where('emid',$emid)->get();
+    //             dd($allAttendance);
+
+    //         }
+    //     } catch (Exception $e) {
+    //     return Helper::rj("Server Error.", 500);
+    //     }         
+    // }
+
+    public function showEmpAttendance(Request $request) {
+        try {
+            if (auth()->check()) {
+                $validated = $request->validate([
+                    'from_date' => 'nullable|date_format:Y-m-d',
+                    'to_date' => 'nullable|date_format:Y-m-d'
+                ]);
+                //dd(auth()->user());
+                $employee_id = auth()->user()->employee_id;
+                $emid = auth()->user()->emid;
+                
+                // Base query
+                $query = TempAttendance::where('employee_code', $employee_id)
+                                    ->where('emid', $emid)
+                                    ->orderBy('date', 'desc');
+
+                // Apply date range filter if provided
+                if (!empty($validated['from_date']) && !empty($validated['to_date'])) {
+                    $query->whereBetween('date', [$validated['from_date'], $validated['to_date']]);
+                } 
+                // Apply single date filter if only from_date is provided
+                elseif (!empty($validated['from_date'])) {
+                    $query->where('date', '>=', $validated['from_date']);
+                }
+                // Apply single date filter if only to_date is provided
+                elseif (!empty($validated['to_date'])) {
+                    $query->where('date', '<=', $validated['to_date']);
+                }
+                // If no date filters, get last 7 records
+                else {
+                    $query->limit(7);
+                }
+
+                $attendance = $query->get();
+
+                if($attendance->isEmpty()){
+                    $dynamicFlag = 1;
+                    $data=[];
+                    $message = "Attendance  not found";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+                }
+
+
+                $attendance->transform(function ($item) {
+                    return collect($item)->map(function ($value) {
+                        return $value === null ? "" : $value;
+                    });
+                });
+
+                $dynamicFlag = 1;
+                $data=$attendance;
+                $message = "Data get successfully";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+
+                //return Helper::rj("Attendance data", 200, $attendance);
+            }
+        // } catch (\Illuminate\Validation\ValidationException $e) {
+        //     return Helper::rj("Invalid date format. Please use YYYY-MM-DD format.", 400);
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        }         
+    }
+
+
+
+    
 
 
 

@@ -369,6 +369,8 @@ class LandingController extends Controller
     //     //return view($this->_routePrefix . '.employees'); 
     // }
 
+    
+
     public function allEmpList(Request $request)
     {
         if (!empty(Session::get('emp_email'))) {
@@ -404,6 +406,7 @@ class LandingController extends Controller
                 // Add search functionality
                 if ($request->has('search')) {
                     $search = $request->search;
+                    
                     $query->where(function($q) use ($search) {
                         $q->where('employee.emp_fname', 'like', "%$search%")
                         ->orWhere('employee.emp_lname', 'like', "%$search%")
