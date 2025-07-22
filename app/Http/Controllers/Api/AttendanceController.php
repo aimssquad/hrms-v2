@@ -826,13 +826,57 @@ class AttendanceController extends Controller
                     $data
                 );
 
-                //return Helper::rj("Attendance data", 200, $attendance);
             }
-        // } catch (\Illuminate\Validation\ValidationException $e) {
-        //     return Helper::rj("Invalid date format. Please use YYYY-MM-DD format.", 400);
+        
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);
         }         
+    }
+
+
+
+    public function showEmpAttendanceStatus(Request $request) {
+        try {
+            if (auth()->check()) {
+                $employee_id = auth()->user()->employee_id;
+                $emid = auth()->user()->emid;
+                $date = date('Y-m-d');
+                //dd($date);
+                // Base query
+                $attendance = TempAttendance::where('employee_code', $employee_id)
+                                    ->where('emid', $emid)
+                                    ->where('date', $date)
+                                    ->first();
+
+                if (!$attendance) {
+                    $dynamicFlag = 1;
+                    $data = [];
+                    $message = "Attendance not found";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+                }
+
+                // Transform null values to empty strings
+                $attendance = collect($attendance)->map(function ($value) {
+                    return $value === null ? "" : $value;
+                });
+
+                $dynamicFlag = 1;
+                $data = $attendance;
+                $message = "Data get successfully";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            }
+        
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        }   
     }
 
 
