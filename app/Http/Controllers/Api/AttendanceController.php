@@ -835,13 +835,57 @@ class AttendanceController extends Controller
 
 
 
+    // public function showEmpAttendanceStatus(Request $request) {
+    //     try {
+    //         if (auth()->check()) {
+    //             $employee_id = auth()->user()->employee_id;
+    //             $emid = auth()->user()->emid;
+    //             $date = date('Y-m-d');
+    //             //dd($date);
+    //             // Base query
+    //             $attendance = TempAttendance::where('employee_code', $employee_id)
+    //                                 ->where('emid', $emid)
+    //                                 ->where('date', $date)
+    //                                 ->first();
+
+    //             if (!$attendance) {
+    //                 $dynamicFlag = 1;
+    //                 $data = [];
+    //                 $message = "Attendance not found";
+    //                 return Helper::rjd(
+    //                     $message,
+    //                     $dynamicFlag,
+    //                     $data
+    //                 );
+    //             }
+
+    //             // Transform null values to empty strings
+    //             $attendance = collect($attendance)->map(function ($value) {
+    //                 return $value === null ? "" : $value;
+    //             });
+    //             //dd($attendance);
+    //             $dynamicFlag = 1;
+    //             $data['attendanceData'] = $attendance;
+    //             $message = "Data get successfully";
+    //             return Helper::rjd(
+    //                 $message,
+    //                 $dynamicFlag,
+    //                 $data
+    //             );
+    //         }
+        
+    //     } catch (Exception $e) {
+    //         return Helper::rj("Server Error.", 500);
+    //     }   
+    // }
+
     public function showEmpAttendanceStatus(Request $request) {
         try {
             if (auth()->check()) {
                 $employee_id = auth()->user()->employee_id;
                 $emid = auth()->user()->emid;
                 $date = date('Y-m-d');
-                //dd($date);
+                
                 // Base query
                 $attendance = TempAttendance::where('employee_code', $employee_id)
                                     ->where('emid', $emid)
@@ -850,7 +894,7 @@ class AttendanceController extends Controller
 
                 if (!$attendance) {
                     $dynamicFlag = 1;
-                    $data = [];
+                    $data = []; // Empty array
                     $message = "Attendance not found";
                     return Helper::rjd(
                         $message,
@@ -859,13 +903,14 @@ class AttendanceController extends Controller
                     );
                 }
 
-                // Transform null values to empty strings
-                $attendance = collect($attendance)->map(function ($value) {
+                // Convert the single model to array and replace nulls with empty strings
+                $attendanceArray = $attendance->toArray();
+                $cleanedAttendance = array_map(function($value) {
                     return $value === null ? "" : $value;
-                });
+                }, $attendanceArray);
 
                 $dynamicFlag = 1;
-                $data = $attendance;
+                $data = [$cleanedAttendance]; // Wrap in array to make it a list
                 $message = "Data get successfully";
                 return Helper::rjd(
                     $message,
