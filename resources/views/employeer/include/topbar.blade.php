@@ -79,12 +79,12 @@
 
         <!-- Flag -->
         <li class="nav-item dropdown has-arrow flag-nav">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+            {{-- <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                 <img src="{{asset('assets/img/flags/us.png')}}" alt="Flag" height="20"> <span>English</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="{{asset('assets/img/flags/us.png')}}" alt="Flag" height="16"> English
+                    <img src="{{asset('assets/img/flags/us.png')}}" alt="Flag" height="16"> English kkk
                 </a>
                 <a href="javascript:void(0);" class="dropdown-item">
                     <img src="{{asset('assets/img/flags/fr.png')}}" alt="Flag" height="16"> French
@@ -95,7 +95,19 @@
                 <a href="javascript:void(0);" class="dropdown-item">
                     <img src="{{asset('assets/img/flags/de.png')}}" alt="Flag" height="16"> German
                 </a>
-            </div>
+                
+            </div> --}}
+            <select class="form-select changeLang">
+                <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>English</option>
+                <option value="bn" {{ session()->get('locale') == 'bn' ? 'selected' : '' }}>Bengali</option>
+                <option value="hi" {{ session()->get('locale') == 'hi' ? 'selected' : '' }}>Hindi</option>
+                <option value="ar" {{ session()->get('locale') == 'ar' ? 'selected' : '' }}>Arabic</option>
+                <option value="or" {{ session()->get('locale') == 'or' ? 'selected' : '' }}>Oromo</option>
+                <option value="am" {{ session()->get('locale') == 'am' ? 'selected' : '' }}>Amharic</option>
+                <option value="fr" {{ session()->get('locale') == 'fr' ? 'selected' : '' }}>France</option>
+                <option value="es" {{ session()->get('locale') == 'es' ? 'selected' : '' }}>Spanish</option>
+
+            </select>
         </li>
         <!-- /Flag -->
 

@@ -21492,9 +21492,103 @@ class AdminController extends Controller
             return redirect('superadmin'); 
         }
     }
+
+    // public function allOrganisationFilter(Request $request){
+    //     $email = Session::get('empsu_email');
+    //     $userType = Session::get('usersu_type');
+
+    //     if ($userType == 'user') {
+    //         $arrrole = Session::get('empsu_role');
+    //         if (!in_array('4', $arrrole)) {
+    //             throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
+    //         }
+    //     }
+
+    //     $allData = DB::table('registration')->where ('status', 1)->update(['status' => 0]);
+
+
+    // }
+
+    public function allOrganisationFilter(Request $request)
+    {
+        try {
+            // Check user authorization
+            //$this->authorizeAccess();
+            
+            $query = DB::table('registration as r')
+                ->leftJoin('sub_admin_registrations as s', 'r.org_code', '=', 's.org_code')
+                ->select(
+                    'r.id',
+                    'r.com_name',
+                    'r.domain_name',
+                    'r.email',
+                    'r.status',
+                    'r.verify',
+                    'r.org_code',
+                    'r.created_at',
+                    's.f_name as subadmin_first_name',
+                    's.l_name as subadmin_last_name',
+                    's.email as subadmin_email'
+                );
+            
+            // Apply filters
+            if ($request->has('status') && $request->status != '') {
+                $query->where('r.status', $request->status);
+            }
+            
+            if ($request->has('verify') && $request->verify != '') {
+                $query->where('r.verify', $request->verify);
+            }
+
+            if ($request->has('com_name') && $request->com_name != '') {
+                $query->where('r.com_name', 'like', '%' . $request->com_name . '%');
+            }
+
+            if ($request->has('email') && $request->email != '') {
+                $query->where('r.email', 'like', '%' . $request->email . '%');
+            }
+            dd('okkk');
+            $organizations = $query->orderBy('r.id', 'desc')->paginate(10);
+
+            dd($organizations);
+            return view('organizations.index', compact('organizations'));
+
+        } catch (\Exception $e) {
+            dd('mo');
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    // private function authorizeAccess()
+    // {
+    //     $userType = Session::get('usersu_type');
+        
+    //     if ($userType == 'user') {
+    //         $arrrole = Session::get('empsu_role');
+    //         if (!in_array('4', $arrrole)) {
+    //             throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
+    //         }
+    //     }
+    // }
     
 
+    // $filter = $request->filter_name;
+    //     if($filter == 'active'){
+    //         $column_name = "status";
+    //     }
+    //     if($filter == 'inactive'){
+    //         $column_name = "status";
+    //     }
 
+    //     if($filter == 'not approved'){
+    //         $column_name = "verify";
+    //     }
+    //     if($filter == 'approved'){
+    //         $column_name = "verify";
+    //     }
+
+    //     $com_name = $request->com_name;
+    //     $email = $request->email;
 
 
 

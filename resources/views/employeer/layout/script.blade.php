@@ -45,7 +45,7 @@
 <!-- Custom JS -->
 <script src="{{ asset('frontend/assets/js/app.js') }}"></script>
 
-<script>
+<script type="text/javascript">
   $(document).ready(function() {
     $('#basic-datatables').DataTable({
         "pageLength": 100, 
@@ -141,6 +141,22 @@ $('#exportPDFForm').on('submit', function(e) {
       $('#pdfFilename').val(filename + '_' + today + '.pdf');
       $(this).off('submit').submit();
    });
+
+//    <script type="text/javascript">
+
+    
+
+    var url = "{{ route('changeLang') }}";
+
+    
+
+    $(".changeLang").change(function(){
+
+        window.location.href = url + "?lang="+ $(this).val();
+
+    });
+
+    
 
 
 </script>

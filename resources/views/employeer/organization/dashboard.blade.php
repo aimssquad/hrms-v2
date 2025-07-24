@@ -16,10 +16,14 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3 class="page-title">Welcome {{ ucwords($Roledata->com_name ?? "NA")}}!</h3>
+                    <h3 class="page-title">
+                        {{GoogleTranslate::trans('Welcome', app()->getLocale())}}
+                        {{ GoogleTranslate::trans(ucwords($Roledata->com_name ?? "NA") , app()->getLocale())}}!
+                    </h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item active">
-                            Dashboard
+                            {{GoogleTranslate::trans('Dashboard', app()->getLocale())}}
+                            
                         </li>
                     </ul>
                 </div>
@@ -67,12 +71,12 @@
                     <a href="{{url('org-settings/vw-department')}}">
                         <div class="card-body">
                             <div class="dash-widget-info">
-                                <span>Total Departments</span>
-                                <h3>{{$department_count ?? 0 }}</h3>
+                                <span>{{GoogleTranslate::trans('Total Departments', app()->getLocale())}}</span>
+                                <h3>{{GoogleTranslate::trans($department_count ?? 0 , app()->getLocale())}}</h3>
                             </div>
                             <span class="dash-widget-icon"><i class="fa-solid fa-cubes"></i></span>
                             <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
-                                <span>View</span><i class="fa-solid fa-arrow-right"></i>
+                                <span><span>{{GoogleTranslate::trans('View', app()->getLocale())}}</span></span><i class="fa-solid fa-arrow-right"></i>
                             </div>
                         </div>
                     </a>
@@ -83,12 +87,12 @@
                     <a href="{{url('org-dashboard-migrant-employees')}}">
                         <div class="card-body">
                             <div class="dash-widget-info">
-                                <span>Migrants Employees</span>
-                                <h3>{{$migrant_emp_count ?? 0}}</h3>
+                                <span>{{GoogleTranslate::trans('Migrants Employees', app()->getLocale())}}</span>
+                                <h3>{{GoogleTranslate::trans($migrant_emp_count ?? 0, app()->getLocale())}}</h3>
                             </div>
                             <span class="dash-widget-icon"><i class="fa-solid fa-dollar-sign"></i></span>
                             <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
-                                <span>View</span><i class="fa-solid fa-arrow-right"></i>
+                                <span>{{GoogleTranslate::trans('View', app()->getLocale())}}</span><i class="fa-solid fa-arrow-right"></i>
                             </div>
                         </div>
                     </a>
@@ -99,12 +103,12 @@
                     <a href="{{url('recruitment/job_list')}}">
                         <div class="card-body">
                             <div class="dash-widget-info">
-                                <span>Total Job Types</span>
-                                <h3>{{$job_type_count ?? 0 }}</h3>
+                                <span>{{GoogleTranslate::trans('Total Job Types', app()->getLocale())}}</span>
+                                <h3>{{GoogleTranslate::trans($job_type_count ?? 0, app()->getLocale())}}</h3>
                             </div>
                             <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
                             <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
-                                <span>View</span><i class="fa-solid fa-arrow-right"></i>
+                                <span>{{GoogleTranslate::trans('View', app()->getLocale())}}</span><i class="fa-solid fa-arrow-right"></i>
                             </div>
                         </div>
                     </a>
@@ -116,12 +120,12 @@
                     <a href="{{url('billing/list')}}">
                         <div class="card-body">
                             <div class="dash-widget-info">
-                                <span>Billing</span>
-                                <h3>750</h3>
+                                <span>{{GoogleTranslate::trans('Billing', app()->getLocale())}}</span>
+                                <h3>{{GoogleTranslate::trans('750', app()->getLocale())}}</h3>
                             </div>
                             <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
                             <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
-                                <span>View</span><i class="fa-solid fa-arrow-right"></i>
+                                <span>{{GoogleTranslate::trans('View', app()->getLocale())}}</span><i class="fa-solid fa-arrow-right"></i>
                             </div>
                         </div>
                     </a>
@@ -175,11 +179,11 @@
                                         <i class="fa fa-user-edit "></i>
                                     </div>
                                     <div class="img-box-text">
-                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Profile</div>
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">{{GoogleTranslate::trans('Profile', app()->getLocale())}}</div>
                                         <div class="d-flex align-items-center">
                                             <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
                                             <div class="fs-12 edit_profile">
-                                                Edit <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i>
+                                                {{GoogleTranslate::trans('Edit', app()->getLocale())}} <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="fa fa-arrow-circle-right" data-bs-original-title="fa fa-arrow-circle-right"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -210,11 +214,11 @@
                                         <i class="fa fa-users"></i>
                                     </div>
                                     <div class="img-box-text">
-                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Employees (RTI)</div>
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">{{GoogleTranslate::trans('Employees (RTI)', app()->getLocale())}}</div>
                                         <div class="d-flex align-items-center">
                                             <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
                                             <div class="fs-12 edit_profile">
-                                                <span>View all</span>
+                                                <span>{{GoogleTranslate::trans('View all', app()->getLocale())}}</span>
                                                 <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
                                             </div>
                                         </div>
@@ -246,11 +250,11 @@
                                         <i class="fa fa-user-tie"></i>
                                     </div>
                                     <div class="img-box-text">
-                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Authorizing Officer</div>
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">{{GoogleTranslate::trans('Authorizing Officer', app()->getLocale())}}</div>
                                         <div class="d-flex align-items-center">
                                             <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
                                             <div class="fs-12 edit_profile">
-                                                <span>View all</span>
+                                                <span>{{GoogleTranslate::trans('View all', app()->getLocale())}}</span>
                                                 <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
                                             </div>
                                         </div>
@@ -282,11 +286,11 @@
                                         <i class="fa fa-id-badge"></i>
                                     </div>
                                     <div class="img-box-text">
-                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Key Contact</div>
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">{{GoogleTranslate::trans('Key Contact', app()->getLocale())}}</div>
                                         <div class="d-flex align-items-center">
                                             <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
                                             <div class="fs-12 edit_profile">
-                                                <span>View all</span>
+                                                <span>{{GoogleTranslate::trans('View all', app()->getLocale())}}</span>
                                                 <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
                                             </div>
                                         </div>
@@ -318,11 +322,11 @@
                                         <i class="fa fa-user-shield"></i>
                                     </div>
                                     <div class="img-box-text">
-                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Level 1 User</div>
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1"> {{GoogleTranslate::trans('Level 1 User', app()->getLocale())}}</div>
                                         <div class="d-flex align-items-center">
                                             <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
                                             <div class="fs-12 edit_profile">
-                                                <span>View all</span>
+                                                <span>{{GoogleTranslate::trans('View all', app()->getLocale())}}</span>
                                                 <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
                                             </div>
                                         </div>
@@ -354,11 +358,11 @@
                                         <i class="fa fa-user-cog"></i>
                                     </div>
                                     <div class="img-box-text">
-                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Level 2 User</div>
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1"> {{GoogleTranslate::trans('Level 2 User', app()->getLocale())}}</div>
                                         <div class="d-flex align-items-center">
                                             <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
                                             <div class="fs-12 edit_profile">
-                                                <span>View all</span>
+                                                <span>{{GoogleTranslate::trans('View all', app()->getLocale())}}</span>
                                                 <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
                                             </div>
                                         </div>
@@ -390,11 +394,11 @@
                                         <i class="fa fa-check-circle"></i>
                                     </div>
                                     <div class="img-box-text">
-                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1">Sponsor Compliance</div>
+                                        <div class="fw-semibold d-flex text-card-size-fixed mb-1"> {{GoogleTranslate::trans('Sponsor Compliance', app()->getLocale())}}</div>
                                         <div class="d-flex align-items-center">
                                             <div class="fs-12 op-8 mb-1 text-card-size-fixed fixed-12"></div>
                                             <div class="fs-12 edit_profile">
-                                                <span>View all</span>
+                                                <span> {{GoogleTranslate::trans('View all', app()->getLocale())}}</span>
                                                 <i class="fa fa-arrow-circle-right fixed-card" data-bs-toggle="tooltip" aria-label="View all" data-bs-original-title="View all"></i>
                                             </div>
                                         </div>
@@ -413,11 +417,12 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-9 col-md-12">
                                     <div class="employee-month-details">
-                                        <h4>Birthday Employee</h4>
-                                        <p>We are proud to celebrate your birthday today!</p>
+                                        
+                                        <h4> {{GoogleTranslate::trans('Birthday Employee', app()->getLocale())}}</h4>
+                                        <p> {{GoogleTranslate::trans('We are proud to celebrate your birthday today!', app()->getLocale())}}</p>
                                     </div>
                                     <div class="employee-month-content">
-                                        <h6>Happy Birthday, 
+                                        <h6> {{GoogleTranslate::trans('Happy Birthday,', app()->getLocale())}} 
                                             @foreach($employee_birth as $emp)
                                                 {{ $emp->emp_fname }} {{ $emp->emp_lname }}@if(!$loop->last), @endif
                                             @endforeach
@@ -446,8 +451,10 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-9 col-md-12">
                                     <div class="employee-month-details">
-                                        <h4>Birthday Employee</h4>
-                                        <p>No birthdays today.</p>
+                                        <h4>{{ GoogleTranslate::trans('Birthday Employee', app()->getLocale()) }}</h4>
+                                        <p>{{ GoogleTranslate::trans('No birthdays today.', app()->getLocale()) }}</p>
+                                        {{-- <h4>Birthday Employee</h4> --}}
+                                        {{-- <p>No birthdays today.</p> --}}
                                     </div>
                                 </div>
                             </div>
@@ -462,7 +469,7 @@
                 <div class="card flex-fill">
                     <div class="card-body">
                         <div class="statistic-header">
-                            <h4>Important</h4>
+                            <h4>{{GoogleTranslate::trans('Important', app()->getLocale())}}</h4>
                             {{-- <div class="important-notification">
                                 <a href="#">
                                     View All <i class="fe fe-arrow-right-circle"></i>
@@ -473,7 +480,7 @@
                             <ul class="nav nav-tabs">
                                 <li>
                                     <a href="#" class="active" data-bs-toggle="tab" data-bs-target="#notification_tab">
-                                        <i class="la la-bell"></i> Notifications
+                                        <i class="la la-bell"></i> {{GoogleTranslate::trans('Notifications', app()->getLocale())}}
                                     </a>
                                 </li>
                             </ul>
@@ -489,12 +496,12 @@
                                                             <span class="badge-soft-danger rounded-circle">{{ $notice->title }}</span>
                                                         </a> --}}
                                                         <a href="{{ asset('storage/' . $notice->image) }}" target="_blank">
-                                                            <span class="badge-soft-danger rounded-circle">{{ $notice->title }}</span>
+                                                            <span class="badge-soft-danger rounded-circle">{{ GoogleTranslate::trans($notice->title, app()->getLocale()) }}</span>
                                                         </a>
                                                     </div>
                                                     <div class="employee-notification-content">
                                                         <h6>
-                                                            <a href="#">{{ strip_tags($notice->description) }}</a>
+                                                            <a href="#">{{ GoogleTranslate::trans(strip_tags($notice->description) , app()->getLocale())}}</a>
                                                         </h6>
                                                         <ul class="nav">
                                                             <li>{{ \Carbon\Carbon::parse($notice->start_date)->format('d-m-Y') }}</li>

@@ -23,6 +23,7 @@ use App\Http\Controllers\LeaveType2Controller;
 use App\Http\Controllers\organization\HolidayController;
 use App\Http\Controllers\Attendance\EmployeeAttendancePermission;
 use App\Http\Controllers\OrgAttenPermissionController;
+use App\Http\Controllers\LangController;
 
 
 /*
@@ -2587,6 +2588,8 @@ Route::post('superadmin/view-cos', 'App\Http\Controllers\AdminController@saveemp
 Route::get('superadmin/active', 'App\Http\Controllers\AdminController@getCompaniesactive');
 Route::post('superadmin/active-export', 'App\Http\Controllers\AdminController@getCompaniesactive_export');
 //Route::post('superadmin/search-hrhome-excel', 'AdminController@savereportroDatahrhomeemexcel');
+
+Route::get('superadmin/all-grganization-filter', 'App\Http\Controllers\AdminController@allOrganisationFilter');
 
 Route::get('superadmin/inactive', 'App\Http\Controllers\AdminController@getCompaniesinactive');
 
@@ -6049,6 +6052,10 @@ Route::post('org/employee-attendance',[EmployeeAttendancePermission::class, 'sav
 Route::get('/superadmin/org-attendance-permission',[OrgAttenPermissionController::class, 'index']);
 Route::get('/superadmin/org-atten-permission/{id}',[OrgAttenPermissionController::class, 'viewPermission'])->name('org.attendance.permissoin');
 Route::post('/superadmin/save-atten-permission', [OrgAttenPermissionController::class, 'saveEmpAttenPermission'])->name('save.emp-atten.permission');
+
+
+// language change route
+Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
 
 
 

@@ -473,6 +473,8 @@ function isActiveModule($moduleItems) {
 }
 }
 </style>
+
 <!-- Two Col Sidebar -->
 @include('employeer.layout.side-settings')
 <!-- /Two Col Sidebar -->
+

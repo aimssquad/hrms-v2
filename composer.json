@@ -16,7 +16,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
-        "psr/log": "^1.0"
+        "psr/log": "^1.0",
+        "stichoza/google-translate-php": "^5.3"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

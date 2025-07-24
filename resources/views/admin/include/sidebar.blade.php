@@ -123,6 +123,12 @@
                </div>
             </li>
             <li class="nav-item">
+               <a href="{{url('/superadmin/all-grganization-filter')}}">
+                  <i class="fas fa-filter"></i>
+                  <p>All organisation Filter</p>
+               </a>
+            </li>
+            <li class="nav-item">
                <a data-toggle="collapse" href="#sidebarLayouts">
                   <i class="fas fa-building"></i>
                   <p>Organisation</p>
