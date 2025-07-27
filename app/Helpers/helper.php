@@ -4,6 +4,8 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Stichoza\GoogleTranslate\GoogleTranslate;
+use Illuminate\Support\Facades\Cache;
 
 class Helper
 {
@@ -93,6 +95,20 @@ class Helper
     public static function getImageUrl($imagePath, $defaultImage = 'storage/default_image.png') {
         return !empty($imagePath) ? asset("storage/app/public/{$imagePath}") : asset($defaultImage);
     }
+
+    public static function cachedTrans($text, $locale = null)
+    {
+        $locale = $locale ?? app()->getLocale();
+        $cacheKey = "trans_{$locale}_" . md5($text);
+
+        return Cache::rememberForever($cacheKey, function () use ($text, $locale) {
+            return GoogleTranslate::trans($text, $locale);
+        });
+    }
+    
+
+
+
     
 
 

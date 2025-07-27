@@ -16,245 +16,246 @@
         //         ['route' => 'level2.user', 'label' => 'Level 2 User'],
         //         ['url' => 'org-dashboarddetails', 'label' => 'Sponsor Compliances'],
         //     ]
-        // ],
+        // ],  {{\App\Helpers\Helper::cachedTrans('Organization', app()->getLocale())}}
         1 => [
-            'title' => 'Sponsor Compliances',
+            'title' => \App\Helpers\Helper::cachedTrans('Sponsor Compliances'),
+            //GoogleTranslate::trans('Sponsor Compliances', app()->getLocale()),
             'icon' => 'las la-donate',
             'items' => [
-                ['url' => 'org-dashboarddetails', 'label' => 'Sponsor Compliances'],
+                ['url' => 'org-dashboarddetails', 'label' => \App\Helpers\Helper::cachedTrans('Sponsor Compliances'),],
             ]
         ],
         2 => [
-            'title' => 'Recruitment',
+            'title' => \App\Helpers\Helper::cachedTrans('Recruitment'),
             'icon' => 'las la-clone',
             'route' => 'recruitment.dashboard',
             'items' => [
-                ['route' => 'recruitment.dashboard', 'label' => 'Dashboard'],
-                ['route' => 'recruitment.job-list', 'label' => 'Job List'],
-                ['route' => 'recruitment.job-posting', 'label' => 'Job Posting'],
-                ['route' => 'recruitment.job-published', 'label' => 'Job Published'],
-                ['url' => 'org-recruitment/candidate', 'label' => 'Job Applied'],
-                ['url' => 'org-recruitment/short-listing', 'label' => 'Short listing'],
-                ['url' => 'org-recruitment/interview', 'label' => 'Interview'],
-                ['url' => 'org-recruitment/hired', 'label' => 'Hired'],
-                ['url' => 'org-recruitment/offer-letter', 'label' => 'Generate Offer Letter'],
-                ['url' => 'org-recruitment/search', 'label' => 'Search'],
-                ['url' => 'org-recruitment/status-search', 'label' => 'Status Search'],
-                ['url' => 'org-recruitment/reject', 'label' => 'Rejected'],
-                ['url' => 'org-recruitment/message-centre', 'label' => 'Message Center'],
+                ['route' => 'recruitment.dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['route' => 'recruitment.job-list', 'label' => \App\Helpers\Helper::cachedTrans('Job List'),],
+                ['route' => 'recruitment.job-posting', 'label' => \App\Helpers\Helper::cachedTrans('Job Posting'),],
+                ['route' => 'recruitment.job-published', 'label' => \App\Helpers\Helper::cachedTrans('Job Published'),],
+                ['url' => 'org-recruitment/candidate', 'label' => \App\Helpers\Helper::cachedTrans('Job Applied'),],
+                ['url' => 'org-recruitment/short-listing', 'label' => \App\Helpers\Helper::cachedTrans('Short listing'),],
+                ['url' => 'org-recruitment/interview', 'label' => \App\Helpers\Helper::cachedTrans('Interview'),],
+                ['url' => 'org-recruitment/hired', 'label' => \App\Helpers\Helper::cachedTrans('Hired'),],
+                ['url' => 'org-recruitment/offer-letter', 'label' => \App\Helpers\Helper::cachedTrans('Generate Offer Letter'),],
+                ['url' => 'org-recruitment/search', 'label' => \App\Helpers\Helper::cachedTrans('Search'),],
+                ['url' => 'org-recruitment/status-search', 'label' => \App\Helpers\Helper::cachedTrans('Status Search'),],
+                ['url' => 'org-recruitment/reject', 'label' => \App\Helpers\Helper::cachedTrans('Rejected'),],
+                ['url' => 'org-recruitment/message-centre', 'label' => \App\Helpers\Helper::cachedTrans('Message Center'),],
             ]
         ],
         3 => [
-            'title' => 'Employee Administration',
+            'title' => \App\Helpers\Helper::cachedTrans('Employee Administration'),
             'icon' => 'la la-users',
             'items' => [
-                ['url' => 'organization/employee/employerdashboard', 'label' => 'Dashboard'],
-                ['url' => 'organization/employee', 'label' => 'Employees'],
-                ['url' => 'organization/employee/sync-employee-upload', 'label' => 'Sync Bulk Employees'],
-                ['url' => 'organization/inactiveEmployee', 'label' => 'Inactive Employees'],
-                ['url' => 'org-settings/vw-department', 'label' => 'Department'],
-                ['url' => 'org-settings/vw-designation', 'label' => 'Designation'],
-                ['url' => 'org-settings/vw-employee-type', 'label' => 'Type of Employment'],
-                ['url' => 'organization/allShifts', 'label' => 'All Shifts'],
+                ['url' => 'organization/employee/employerdashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'organization/employee', 'label' =>  \App\Helpers\Helper::cachedTrans('Employees'),],
+                ['url' => 'organization/employee/sync-employee-upload', 'label' => \App\Helpers\Helper::cachedTrans('Sync Bulk Employees'),],
+                ['url' => 'organization/inactiveEmployee', 'label' =>  \App\Helpers\Helper::cachedTrans('Inactive Employees'),],
+                ['url' => 'org-settings/vw-department', 'label' =>  \App\Helpers\Helper::cachedTrans('Department'),],
+                ['url' => 'org-settings/vw-designation', 'label' =>  \App\Helpers\Helper::cachedTrans('Designation'),],
+                ['url' => 'org-settings/vw-employee-type', 'label' =>  \App\Helpers\Helper::cachedTrans('Type of Employment'),],
+                ['url' => 'organization/allShifts', 'label' =>  \App\Helpers\Helper::cachedTrans('All Shifts'),],
 
             ]
         ],
         4 => [
-            'title' => 'Rota',
+            'title' => \App\Helpers\Helper::cachedTrans('Rota'),
             'icon' => 'las la-calendar',
             'items' => [
-                ['url' => 'rota-org/dashboard', 'label' => 'Dashboard'],
-                ['url' => 'rota-org/shift-management', 'label' => 'Shift Planning'],
-                ['url' => 'rota-org/late-policy', 'label' => 'Late Policy'],
-                ['url' => 'rota-org/offday', 'label' => 'Leave Day'],
-                ['url' => 'rota-org/grace-period', 'label' => 'Allowance Period'],
-                ['url' => 'rota-org/duty-roster', 'label' => 'Employee Roster'],
+                ['url' => 'rota-org/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'rota-org/shift-management', 'label' =>  \App\Helpers\Helper::cachedTrans('Shift Planning'),],
+                ['url' => 'rota-org/late-policy', 'label' =>   \App\Helpers\Helper::cachedTrans('Late Policy'),],
+                ['url' => 'rota-org/offday', 'label' =>   \App\Helpers\Helper::cachedTrans('Leave Day'),],
+                ['url' => 'rota-org/grace-period', 'label' =>   \App\Helpers\Helper::cachedTrans('Allowance Period'),],
+                ['url' => 'rota-org/duty-roster', 'label' =>   \App\Helpers\Helper::cachedTrans('Employee Roster'),],
             ]
         ],
        
         5 => [
-            'title' => 'Attendance',
+            'title' => \App\Helpers\Helper::cachedTrans('Attendance'),
             'icon' => 'las la-tachometer-alt',
             'items' => [
-                ['url' => 'attendance-management/dashboard', 'label' => 'Dashboard'],
-                ['url' => 'attendance-management/upload-data', 'label' => 'Sync'],
-                ['url' => 'attendance-management/generate-data', 'label' => 'Generate Attendance'],
-                ['url' => 'attendance-management/daily-attendance', 'label' => 'Daily Log'],
-                ['url' => 'attendance-management/attendance-report', 'label' => 'Attendance Record'],
-                ['url' => 'attendance-management/process-attendance', 'label' => 'Execute Attendence'],
-                ['url' => 'attendance-management/absent-report', 'label' => 'Absentee Record'],
-                ['url' => 'org/employee-attendance', 'label' => 'Employee Attendance Permission'],
+                ['url' => 'attendance-management/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'attendance-management/upload-data', 'label' => \App\Helpers\Helper::cachedTrans('Sync'),], 
+                ['url' => 'attendance-management/generate-data', 'label' =>  \App\Helpers\Helper::cachedTrans('Generate Attendance'),],
+                ['url' => 'attendance-management/daily-attendance', 'label' =>  \App\Helpers\Helper::cachedTrans('Daily Log'),],
+                ['url' => 'attendance-management/attendance-report', 'label' =>  \App\Helpers\Helper::cachedTrans('Attendance Record'),],
+                ['url' => 'attendance-management/process-attendance', 'label' =>  \App\Helpers\Helper::cachedTrans('Execute Attendence'),],
+                ['url' => 'attendance-management/absent-report', 'label' =>  \App\Helpers\Helper::cachedTrans('Absentee Record'),],
+                ['url' => 'org/employee-attendance', 'label' =>  \App\Helpers\Helper::cachedTrans('Employee Attendance Permission'),],
                 
             ]
         ],
         6 => [
-            'title' => 'Leave Handling',
+            'title' => \App\Helpers\Helper::cachedTrans('Leave Handling'),
             'icon' => 'las la-clipboard-list',
             'items' => [
-                ['url' => 'leave/dashboard', 'label' => 'Dashboard'],
-                ['url' => 'leave/leave-type-listing', 'label' => 'Category'],
-                ['url' => 'leave/leave-rule-listing', 'label' => 'Policy'],
-                ['url' => 'leave/leave-allocation-listing', 'label' => 'Allocation'],
-                ['url' => 'leave/leave-balance', 'label' => 'Leave Accrued'],
-                ['url' => 'leave/leave-report', 'label' => 'Leave Record'],
-                ['url' => 'leave/leave-report-employee', 'label' => 'Record EE Wise'],
+                ['url' => 'leave/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'leave/leave-type-listing', 'label' =>    \App\Helpers\Helper::cachedTrans('Category'),],
+                ['url' => 'leave/leave-rule-listing', 'label' =>    \App\Helpers\Helper::cachedTrans('Policy'),],
+                ['url' => 'leave/leave-allocation-listing', 'label' =>    \App\Helpers\Helper::cachedTrans('Allocation'),],
+                ['url' => 'leave/leave-balance', 'label' =>   \App\Helpers\Helper::cachedTrans('Leave Accrued'),],
+                ['url' => 'leave/leave-report', 'label' =>   \App\Helpers\Helper::cachedTrans('Leave Record'),],
+                ['url' => 'leave/leave-report-employee', 'label' =>  \App\Helpers\Helper::cachedTrans('Record EE Wise'),],
             ]
         ],
         7 => [
-            'title' => 'Leave Authosizer',
+            'title' => \App\Helpers\Helper::cachedTrans('Leave Authosizer'),
             'icon' => 'lab la-confluence',
             'items' => [
-                ['url' => 'leaveapprover/leave-dashboard', 'label' => 'Dashboard'],
-                ['url' => 'leaveapprover/leave-request', 'label' => 'Leave Application list'],
+                ['url' => 'leaveapprover/leave-dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'leaveapprover/leave-request', 'label' => \App\Helpers\Helper::cachedTrans('Leave Application list'),],
             ]
         ],
 
         8 => [
-            'title' => 'Holiday Handling',
+            'title' => \App\Helpers\Helper::cachedTrans('Holiday Handling'),
             'icon' => 'lab la-blackberry',
             'items' => [
-                ['url' => 'orgaization/holiday-dashboard', 'label' => 'Dashboard'],
-                ['url' => 'organization/holiday-type', 'label' => 'Category'],
-                ['url' => 'organization/holiday-list', 'label' => 'Record'],
-                ['url' => 'organization/holiday-types/', 'label' => 'Holiday Type'],
-                ['url' => 'organization/holiday-applications/', 'label' => 'Holiday Apply'],
+                ['url' => 'orgaization/holiday-dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'organization/holiday-type', 'label' =>     \App\Helpers\Helper::cachedTrans('Category'),],
+                ['url' => 'organization/holiday-list', 'label' =>     \App\Helpers\Helper::cachedTrans('Record'),],
+                ['url' => 'organization/holiday-types/', 'label' =>   \App\Helpers\Helper::cachedTrans('Holiday Type'),],
+                ['url' => 'organization/holiday-applications/', 'label' =>  \App\Helpers\Helper::cachedTrans('Holiday Apply'),],
             ]
         ],
         9 => [
-            'title' => 'Task Control',
+            'title' => \App\Helpers\Helper::cachedTrans('Task Control'),
             'icon' => 'las la-tasks',
             'items' => [
-                ['url' => 'org-task-management/dashboard', 'label' => 'Dashboard'],
-                ['url' => 'org-task-management/projects', 'label' => 'Project Directory'],
-                ['url' => 'org-task-management/create-project', 'label' => 'New Project'],
+                ['url' => 'org-task-management/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'org-task-management/projects', 'label' =>   \App\Helpers\Helper::cachedTrans('Project Directory'),],
+                ['url' => 'org-task-management/create-project', 'label' =>   \App\Helpers\Helper::cachedTrans('New Project'),],
             ]
         ],
         10 => [
-            'title' => 'Performance Control',
+            'title' => \App\Helpers\Helper::cachedTrans('Performance Control'),
             'icon' => 'las la-certificate',
             'items' => [
-                ['url' => 'org-performances/dashboard', 'label' => 'Dashboard'],
-                ['url' => 'org-performances', 'label' => 'Appraisal Request List'],
-                ['url' => 'org-performances/request', 'label' => 'Create Request'],
+                ['url' => 'org-performances/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'org-performances', 'label' =>    \App\Helpers\Helper::cachedTrans('Appraisal Request List'),],
+                ['url' => 'org-performances/request', 'label' =>    \App\Helpers\Helper::cachedTrans('Create Request'),],
             ]
         ],
 
         11 => [
-            'title' => 'Settings',
+            'title' => \App\Helpers\Helper::cachedTrans('Settings'),
             'icon' => 'las la-cogs',
             'items' => [
-                ['url' => 'organization/settings-dashboard', 'label' => 'Dashboard'],
+                ['url' => 'organization/settings-dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
                 ['submenu' => 'Bank Master', 'children' => [
-                    ['url' => 'org-settings/vw-cmp-bank', 'label' => 'Add Organisation Bank'],
-                    ['url' => 'org-settings/vw-emp-bank', 'label' => 'Add Employee Bank'],
-                    ['url' => 'org-settings/vw-ifsc', 'label' => 'IFSC Record'],
+                    ['url' => 'org-settings/vw-cmp-bank', 'label' =>    \App\Helpers\Helper::cachedTrans('Add Organisation Bank'),],
+                    ['url' => 'org-settings/vw-emp-bank', 'label' =>    \App\Helpers\Helper::cachedTrans('Add Employee Bank'),],
+                    ['url' => 'org-settings/vw-ifsc', 'label' =>    \App\Helpers\Helper::cachedTrans('IFSC Record'),],
                 ]],
                 ['submenu' => 'HCM Settings', 'children' => [
                    // ['url' => 'org-settings/vw-caste', 'label' => 'Caste Master'],
                    // ['url' => 'org-settings/vw-subcast', 'label' => 'Sub Cast'],
                    // ['url' => 'org-settings/vw-class', 'label' => 'Class Master'],
-                    ['url' => 'org-settings/vw-pincode', 'label' => 'Pincode Master'],
-                    ['url' => 'org-settings/vw-type', 'label' => 'Employee Type Master'],
-                    ['url' => 'org-settings/vw-mode-type', 'label' => 'Mode Of Employee'],
-                    ['url' => 'org-settings/vw-religion', 'label' => 'Religion Master'],
-                    ['url' => 'org-settings/vw-education', 'label' => 'Education Master'],
+                    ['url' => 'org-settings/vw-pincode', 'label' =>    \App\Helpers\Helper::cachedTrans('Pincode Master'),],
+                    ['url' => 'org-settings/vw-type', 'label' =>    \App\Helpers\Helper::cachedTrans('Employee Type Master'),],
+                    ['url' => 'org-settings/vw-mode-type', 'label' =>    \App\Helpers\Helper::cachedTrans('Mode Of Employee'),],
+                    ['url' => 'org-settings/vw-religion', 'label' =>    \App\Helpers\Helper::cachedTrans('Religion Master'),],
+                    ['url' => 'org-settings/vw-education', 'label' =>    \App\Helpers\Helper::cachedTrans('Education Master'),],
                    // ['url' => 'org-settings/vw-department', 'label' => 'Department'],
                    // ['url' => 'org-settings/vw-designation', 'label' => 'Designation'],
                     // ['url' => 'org-settings/vw-employee-type', 'label' => 'Employment Type'],
-                    ['url' => 'org-settings/vw-paygroup', 'label' => 'Pay Group'],
-                    ['url' => 'org-settings/vw-annualpay', 'label' => 'Annual Pay'],
-                    ['url' => 'org-settings/vw-bank-sortcode', 'label' => 'Bank Shortcode'],
-                    ['url' => 'org-settings/vw-pay-type', 'label' => 'Payment Type'],
-                    ['url' => 'org-settings/vw-wedgespay-type', 'label' => 'Salary Pay Mode'],
-                    ['url' => 'org-settings/vw-tax', 'label' => 'Tax Master'],
+                    ['url' => 'org-settings/vw-paygroup', 'label' =>     \App\Helpers\Helper::cachedTrans('Pay Group'),],
+                    ['url' => 'org-settings/vw-annualpay', 'label' =>     \App\Helpers\Helper::cachedTrans('Annual Pay'),],
+                    ['url' => 'org-settings/vw-bank-sortcode', 'label' =>     \App\Helpers\Helper::cachedTrans('Bank Shortcode'),],
+                    ['url' => 'org-settings/vw-pay-type', 'label' =>     \App\Helpers\Helper::cachedTrans('Payment Type'),],
+                    ['url' => 'org-settings/vw-wedgespay-type', 'label' =>     \App\Helpers\Helper::cachedTrans('Salary Pay Mode'),],
+                    ['url' => 'org-settings/vw-tax', 'label' =>     \App\Helpers\Helper::cachedTrans('Tax Master'),],
                 ]],
             ]
         ],
         12 => [
-            'title' => 'User Permissions',
+            'title' => \App\Helpers\Helper::cachedTrans('User Permissions'),
             'icon' => 'las la-universal-access',
             'items' => [
-                ['url' => 'user-access-role/dashboard', 'label' => 'Dashboard'],
-                ['url' => 'user-access-role/vw-users', 'label' => 'User Settings'],
+                ['url' => 'user-access-role/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'user-access-role/vw-users', 'label' => \App\Helpers\Helper::cachedTrans('User Settings'),],
                 // ['url' => 'user-access-role/view-users-role', 'label' => 'Access Roles'],
-                ['url' => 'user-access/emp', 'label' => 'Access Roles'],
+                ['url' => 'user-access/emp', 'label' => \App\Helpers\Helper::cachedTrans('Access Roles'),],
                 // ['url' => 'user-access/role', 'label' => 'Role'],
             ]
         ],
         13 => [
-            'title' => 'Billing',
+            'title' => \App\Helpers\Helper::cachedTrans('Billing'),
             'icon' => 'las la-donate',
             'items' => [
-                ['url' => 'organization/billing/dashboard', 'label' => 'Dashboard'],
-                ['url' => 'organization/billing-show', 'label' => 'Invoice'],
-                ['url' => '#', 'label' => 'Payment Receipt'],
+                ['url' => 'organization/billing/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'organization/billing-show', 'label' =>  \App\Helpers\Helper::cachedTrans('Invoice'),],
+                ['url' => '#', 'label' =>  \App\Helpers\Helper::cachedTrans('Payment Receipt'),],
             ]
         ], 
         14 => [
-            'title' => 'File Manager',
+            'title' => \App\Helpers\Helper::cachedTrans('File Manager'),
             'icon' => 'las la-file',
             'items' => [
-                ['url' => 'file-management/dashboard', 'label' => 'Dashboard'],
-                ['url' => 'file-management/file-devision-list', 'label' => 'Division'],
-                ['url' => 'file-management/fileManagmentList', 'label' => 'Manager'],
+                ['url' => 'file-management/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'file-management/file-devision-list', 'label' =>    \App\Helpers\Helper::cachedTrans('Division'),],
+                ['url' => 'file-management/fileManagmentList', 'label' =>    \App\Helpers\Helper::cachedTrans('Manager'),],
             ]
         ],
         15 => [
-            'title' => 'Hr Support',
+            'title' => \App\Helpers\Helper::cachedTrans('Hr Support'),
             'icon' => 'las la-american-sign-language-interpreting',
             'items' => [
-                ['url' => 'hr-support/dashboard-new', 'label' => 'Dashboard'],
+                ['url' => 'hr-support/dashboard-new', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
             ]
         ],
 
         16 => [
-            'title' => 'Organogram Chart',
+            'title' => \App\Helpers\Helper::cachedTrans('Organogram Chart'),
             'icon' => 'la la-user',
             'items' => [
-                ['url' => '#', 'label' => 'Dashboard'],
-                ['url' => '#', 'label' => 'Level'],
-                ['url' => '#', 'label' => 'Organisation Hierarchy'],
+                ['url' => '#', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => '#', 'label' => \App\Helpers\Helper::cachedTrans('Level'),],
+                ['url' => '#', 'label' => \App\Helpers\Helper::cachedTrans('Organisation Hierarchy'),],
             ]
         ],
 
         17 => [
-            'title' => 'Change Of Circumstances',
+            'title' => \App\Helpers\Helper::cachedTrans('Change Of Circumstances'),
             'icon' => 'la la-user',
             'items' => [
-                ['url' => 'organization/circumstances', 'label' => 'Dashboard'],
-                ['url' => 'org-employee/change-of-circumstances-add', 'label' => 'Change Notification List'],
-                ['url' => 'org-dashboard/change-of-circumstances', 'label' => 'COC- Report'],
+                ['url' => 'organization/circumstances', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'org-employee/change-of-circumstances-add', 'label' =>      \App\Helpers\Helper::cachedTrans('Change Notification List'),],
+                ['url' => 'org-dashboard/change-of-circumstances', 'label' =>      \App\Helpers\Helper::cachedTrans('COC- Report'),],
             ]
         ],
         18 => [
-            'title' => 'Employee Hub',
+            'title' => \App\Helpers\Helper::cachedTrans('Employee Hub'),
             'icon' => 'las la-clone',
             'items' => [
-                ['url' => 'org-user-check-employee', 'label' => 'Login Corner'],
+                ['url' => 'org-user-check-employee', 'label' =>  \App\Helpers\Helper::cachedTrans('Login Corner'),],
             ]
         ],
         19 => [
-            'title' => 'Visitor Register',
+            'title' => \App\Helpers\Helper::cachedTrans('Visitor Register'),
             'icon' => 'las la-book',
             'items' => [
-                ['url' => 'rota-org/visitor-dashboard', 'label' => 'Dashboard'],
-                ['url' => 'rota-org/visitor-link', 'label' => 'Sign Up Link'],
-                ['url' => 'rota-org/visitor-regis', 'label' => 'Visitor List'],
+                ['url' => 'rota-org/visitor-dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'rota-org/visitor-link', 'label' =>   \App\Helpers\Helper::cachedTrans('Sign Up Link'),],
+                ['url' => 'rota-org/visitor-regis', 'label' =>  \App\Helpers\Helper::cachedTrans('Visitor List'),],
             ]
         ],
         24 => [
-            'title' => 'Notice',
+            'title' => \App\Helpers\Helper::cachedTrans('Notice'),
             'icon' => 'las la-bullhorn',
             'items' => [
-                ['url' => 'notice/org-notice', 'label' => 'Notice'],
+                ['url' => 'notice/org-notice', 'label' => \App\Helpers\Helper::cachedTrans('Notice'),],
                 
             ]
         ],
         25 => [
-            'title' => 'Mobile Menu',
+            'title' => \App\Helpers\Helper::cachedTrans('Mobile Menu'),
             'icon' => 'las la-mobile',
             'items' => [
-                ['url' => 'org/mobile-menu', 'label' => 'Mobile Menu'],
+                ['url' => 'org/mobile-menu', 'label' => \App\Helpers\Helper::cachedTrans('Mobile Menu'),],
                 //['url' => 'org/employee-attendance', 'label' => 'Employee Attendance Permission'],
                
             ]
@@ -282,28 +283,28 @@ function isActiveModule($moduleItems) {
           <ul class="sidebar-vertical">
                 @if($user_type == "employer")
                     <li class="submenu">
-                        <a href="#" ><i class="la la-building"></i> <span> Organization</span> <span class="menu-arrow"></span></a>
+                        <a href="#" ><i class="la la-building"></i> <span>  {{\App\Helpers\Helper::cachedTrans('Organization', app()->getLocale())}}</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li class="{{ Request::is('organization/profile') ? 'noti-dot' : '' }}">
-                                <a href="{{ url('organization/profile') }}">Profile</a>
+                                <a href="{{ url('organization/profile') }}">{{\App\Helpers\Helper::cachedTrans('Profile', app()->getLocale())}}</a>
                             </li>
                             <li class="{{ Request::is('organization/location') ? 'noti-dot' : '' }}">
-                                <a href="{{ url('organization/location') }}">Branch Location</a>
+                                <a href="{{ url('organization/location') }}"> {{\App\Helpers\Helper::cachedTrans('Branch Location', app()->getLocale())}}</a>
                             </li>
                             <li class="{{ Request::is('employees-according-to-rti') ? 'noti-dot' : '' }}">
-                                <a href="{{ url('employees-according-to-rti') }}">Employees (RTI)</a>
+                                <a href="{{ url('employees-according-to-rti') }}">{{\App\Helpers\Helper::cachedTrans('Employees (RTI)', app()->getLocale())}}</a>
                             </li>
                             <li class="{{ Request::is('authorizing-officer') ? 'noti-dot' : '' }}">
-                                <a href="{{ url('authorizing-officer') }}">Authorizing Officer</a>
+                                <a href="{{ url('authorizing-officer') }}">{{\App\Helpers\Helper::cachedTrans('Authorizing Officer', app()->getLocale())}}</a>
                             </li>
                             <li class="{{ Request::is('key-contact') ? 'noti-dot' : '' }}">
-                                <a href="{{ url('key-contact') }}">Key Contact</a>
+                                <a href="{{ url('key-contact') }}">{{\App\Helpers\Helper::cachedTrans('Key Contact', app()->getLocale())}}</a>
                             </li>
                             <li class="{{ Request::is('level-1-user') ? 'noti-dot' : '' }}">
-                                <a href="{{ url('level-1-user') }}">Level 1 User</a>
+                                <a href="{{ url('level-1-user') }}">{{\App\Helpers\Helper::cachedTrans('Level 1 User', app()->getLocale())}}</a>
                             </li>
                             <li class="{{ Request::is('level-2-user') ? 'noti-dot' : '' }}">
-                                <a href="{{ url('level-2-user') }}">Level 2 User</a>
+                                <a href="{{ url('level-2-user') }}">{{\App\Helpers\Helper::cachedTrans('Level 2 User', app()->getLocale())}}</a>
                             </li>
                             {{-- <li class="{{ Request::is('org-dashboarddetails') ? 'noti-dot' : '' }}">
                                 <a href="{{ url('org-dashboarddetails') }}">Sponsor Compliances</a>

@@ -689,6 +689,7 @@ class AttendanceController extends Controller
             $created = TempAttendance::create($data);
 
             return response()->json([
+                'flag' => 1,
                 'status' => true,
                 'message' => 'Login recorded successfully.',
                 'data' => $created
@@ -715,6 +716,7 @@ class AttendanceController extends Controller
             $attendance->update($updateData);
 
             return response()->json([
+                'flag' => 1,
                 'status' => true,
                 'message' => 'Logout recorded successfully.',
                 'data' => $attendance
