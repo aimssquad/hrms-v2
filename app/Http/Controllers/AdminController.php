@@ -21651,125 +21651,97 @@ class AdminController extends Controller
     // }
 
     public function allOrganisationFilter(Request $request) {
-    $email = Session::get('empsu_email');
-    $userType = Session::get('usersu_type');
+        //dd($request->status);
+        $email = Session::get('empsu_email');
+        $userType = Session::get('usersu_type');
 
-    if ($userType == 'user') {
-        $arrrole = Session::get('empsu_role');
-        if (!in_array('4', $arrrole)) {
-            throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
-        }
-    }
-
-    // Start building the query
-    $query = DB::table('registration');
-
-    // Remove the hardcoded filters and replace with dynamic ones
-    if ($request->has('status') && $request->status != '') {
-        $query->where('status', $request->status);
-    } else {
-        // Default filter if none selected (optional)
-        $query->where('status', 'active');
-    }
-
-    if ($request->has('verify') && $request->verify != '') {
-        $query->where('verify', $request->verify);
-    } else {
-        // Default filter if none selected (optional)
-        $query->where('verify', 'approved');
-    }
-
-    // Apply search filters if they exist in the request
-    if ($request->has('search')) {
-        $searchTerm = $request->input('search');
-        $query->where(function($q) use ($searchTerm) {
-            $q->where('com_name', 'like', '%'.$searchTerm.'%')
-              ->orWhere('email', 'like', '%'.$searchTerm.'%');
-        });
-    }
-
-    // Get the filtered organizations
-    $organizations = $query->get();
-
-    // Prepare the result array
-    $result = [];
-
-    foreach ($organizations as $org) {
-        $orgData = [
-            'id' => $org->id,
-            'org_com_name' => $org->com_name,
-            'org_name' => $org->f_name . ' ' . $org->l_name,
-            'org_email' => $org->email,
-            'org_password' => $org->pass,
-            'org_phone' => $org->p_no,
-            'org_address' => $org->address,
-            'org_city' => $org->city,
-            'org_code' => $org->org_code,
-            'org_status' => $org->status,
-            'org_verify' => $org->verify,
-            'sub_admins' => []
-        ];
-
-        // If organization has org_code, find sub-admins
-        if (!empty($org->org_code)) {
-            $subAdmins = DB::table('sub_admin_registrations')
-                ->where('org_code', $org->org_code)
-                ->where('status', 'active')
-                ->where('verify', 'approved')
-                ->get();
-
-            foreach ($subAdmins as $subAdmin) {
-                $orgData['sub_admins'][] = [
-                    'sub_com_name' => $subAdmin->com_name,
-                    'sub_name' => $subAdmin->f_name . ' ' . $subAdmin->l_name,
-                    'sub_email' => $subAdmin->email,
-                    'sub_status' => $subAdmin->status,
-                    'sub_verify' => $subAdmin->verify
-                ];
+        if ($userType == 'user') {
+            $arrrole = Session::get('empsu_role');
+            if (!in_array('4', $arrrole)) {
+                throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
             }
         }
 
-        $result[] = $orgData;
-    }
+        // Start building the query
+        $query = DB::table('registration');
 
-    return view('admin.orgnization_filter', [
-        'result' => $result,
-        'filters' => $request->all() // Pass filters back to view to maintain selections
-    ]);
-}
+        // Remove the hardcoded filters and replace with dynamic ones
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        } else {
+            // Default filter if none selected (optional)
+            $query->where('status', 'active');
+        }
+
+        if ($request->has('verify') && $request->verify != '') {
+            $query->where('verify', $request->verify);
+        } else {
+            // Default filter if none selected (optional)
+            $query->where('verify', 'approved');
+        }
+
+        // Apply search filters if they exist in the request
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('com_name', 'like', '%'.$searchTerm.'%')
+                ->orWhere('email', 'like', '%'.$searchTerm.'%');
+            });
+        }
+
+        //$organizations = $query->toSql();
+        $organizations = $query->get();
+
+        // Prepare the result array
+        $result = [];
+
+        foreach ($organizations as $org) {
+            $orgData = [
+                'id' => $org->id,
+                'org_com_name' => $org->com_name,
+                'org_name' => $org->f_name . ' ' . $org->l_name,
+                'org_email' => $org->email,
+                'org_password' => $org->pass,
+                'org_phone' => $org->p_no,
+                'org_address' => $org->address,
+                'org_city' => $org->city,
+                'org_code' => $org->org_code,
+                'org_status' => $org->status,
+                'org_verify' => $org->verify,
+                'sub_admins' => []
+            ];
+
+            // If organization has org_code, find sub-admins
+            if (!empty($org->org_code)) {
+                $subAdmins = DB::table('sub_admin_registrations')
+                    ->where('org_code', $org->org_code)
+                    ->where('status', 'active')
+                    ->where('verify', 'approved')
+                    ->get();
+
+                foreach ($subAdmins as $subAdmin) {
+                    $orgData['sub_admins'][] = [
+                        'sub_com_name' => $subAdmin->com_name,
+                        'sub_name' => $subAdmin->f_name . ' ' . $subAdmin->l_name,
+                        'sub_email' => $subAdmin->email,
+                        'sub_status' => $subAdmin->status,
+                        'sub_verify' => $subAdmin->verify
+                    ];
+                }
+            }
+
+            $result[] = $orgData;
+        }
+
+        return view('admin.orgnization_filter', [
+            'result' => $result,
+            'filters' => $request->all() // Pass filters back to view to maintain selections
+        ]);
+    }
 
  
 
-    // private function authorizeAccess()
-    // {
-    //     $userType = Session::get('usersu_type');
-        
-    //     if ($userType == 'user') {
-    //         $arrrole = Session::get('empsu_role');
-    //         if (!in_array('4', $arrrole)) {
-    //             throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
-    //         }
-    //     }
-    // }
     
-
-    // $filter = $request->filter_name;
-    //     if($filter == 'active'){
-    //         $column_name = "status";
-    //     }
-    //     if($filter == 'inactive'){
-    //         $column_name = "status";
-    //     }
-
-    //     if($filter == 'not approved'){
-    //         $column_name = "verify";
-    //     }
-    //     if($filter == 'approved'){
-    //         $column_name = "verify";
-    //     }
-
-    //     $com_name = $request->com_name;
-    //     $email = $request->email;
 
 
 

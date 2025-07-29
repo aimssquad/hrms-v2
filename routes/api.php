@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\MobileMenuController;
 use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\HolidayController;
+use App\Http\Controllers\Api\BreakTimeController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -47,6 +48,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::post('creat-attendance',[AttendanceController::class, 'store']);
     Route::post('show-attendance',[AttendanceController::class, 'showEmpAttendance']);
     Route::get('attendance-status',[AttendanceController::class, 'showEmpAttendanceStatus']);
+    Route::post('creat-break',[BreakTimeController::class, 'store']);
+
 });
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {  

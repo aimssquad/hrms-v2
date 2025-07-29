@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\RotaEmployee;
 use App\Models\Registration;
 use App\Models\Employee;
+use App\Models\BreakTimes;
 use App\Models\Branch_location;
 use App\Models\TempAttendance;
 use App\Helpers\Api\Helper;
@@ -699,12 +700,30 @@ class AttendanceController extends Controller
             $timeIn = Carbon::parse($attendance->time_in);
             $timeOut = Carbon::parse($validated['time']);
             $dutyHours = $timeIn->diffInHours($timeOut) . ':' . $timeIn->diff($timeOut)->format('%I');
-            
+
+            $totalBreakMinutes = BreakTimes::where('emid', $emid)
+                ->where('employee_code', $employee_code)
+                ->where('date', $validated['date'])
+                ->sum('total_break_time');
+
+            // Convert minutes to HH:MM:SS format
+            if ($totalBreakMinutes) {
+                $hours = floor($totalBreakMinutes / 60);
+                $minutes = $totalBreakMinutes % 60;
+                $seconds = 0; // Add seconds if needed
+                
+                $totalBreak = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
+            } else {
+                $totalBreak = '00:00:00';
+            }
+
+            //dd($totalBreak);
             $updateData = [
                 'time_out' => $validated['time'],
                 'time_out_location' => $validated['location'] ?? '',
                 'time_out_latitude' => $validated['latitude'] ?? null,
                 'time_out_longitude' => $validated['longitude'] ?? null,
+                'break_hours' => $totalBreak,
                 'duty_hours' => $dutyHours,
                 'punch_status' => 'OUT',
             ];

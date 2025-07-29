@@ -9,7 +9,7 @@ class TempAttendance extends Model
 {
     use HasFactory;
     protected $table = 'temp_attandences';
-   protected $fillable = [
+    protected $fillable = [
         'employee_code',
         'employee_name',
         'date',
@@ -31,5 +31,6 @@ class TempAttendance extends Model
         'punch_type',
 	    'punch_status',
         'remarks',
+        'break_hours',
     ];
 }
