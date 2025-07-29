@@ -49,6 +49,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::post('show-attendance',[AttendanceController::class, 'showEmpAttendance']);
     Route::get('attendance-status',[AttendanceController::class, 'showEmpAttendanceStatus']);
     Route::post('creat-break',[BreakTimeController::class, 'store']);
+    Route::get('break-status',[BreakTimeController::class, 'breakStatus']);
 
 });
 

@@ -38,7 +38,7 @@ class BreakTimeController extends Controller
             'break_device_id' => 'nullable|string',
             'punch_type' => 'nullable|string|in:GPS,QR,FaceID,Manual',
             'remarks' => 'nullable|string',
-            'punch_status' =>'required|string'
+            //'punch_status' =>'required|string'
         ]);
 
         // Find the most recent break record for this employee (regardless of status)
@@ -110,6 +110,53 @@ class BreakTimeController extends Controller
                 ]);
             }
         }
+    }
+
+    public function breakStatus(){
+        //dd('okk');
+        if (!auth()->check()) {
+            return Helper::rjd("Unauthorized access", 0, []);
+        }
+
+        $user = auth()->user();
+        $emid = $user->emid; 
+        $employee_code = $user->employee_id;
+        $employee_name = $user->name;
+        $date = "2025-07-30";
+        //$date = date('Y-m-d');
+        
+        // $break = BreakTimes::where('emid',$emid)->where('employee_code',$employee_code)->where('date',$date)->orderBy('date',desc)->first();
+        $break = BreakTimes::where('emid', $emid)
+            ->where('employee_code', $employee_code)
+            ->where('date', $date)
+            ->latest()      
+            ->first();
+        //dd($break);
+        if(!$break){
+              $dynamicFlag = 1;
+                    $data = []; // Empty array
+                    $message = "break data not found";
+                    return Helper::rjd(
+                        $message,
+                        $dynamicFlag,
+                        $data
+                    );
+        }
+
+        $breakArray = $break->toArray();
+        $breakAttendance = array_map(function($value) {
+            return $value === null ? "" : $value;
+        }, $breakArray);
+
+        $dynamicFlag = 1;
+        $data = [$breakAttendance]; // Wrap in array to make it a list
+        $message = "break data get successfully";
+        return Helper::rjd(
+            $message,
+            $dynamicFlag,
+            $data
+        );
+
     }
 
 
