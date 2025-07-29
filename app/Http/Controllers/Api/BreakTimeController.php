@@ -122,8 +122,7 @@ class BreakTimeController extends Controller
         $emid = $user->emid; 
         $employee_code = $user->employee_id;
         $employee_name = $user->name;
-        $date = "2025-07-30";
-        //$date = date('Y-m-d');
+        $date = date('Y-m-d');
         
         // $break = BreakTimes::where('emid',$emid)->where('employee_code',$employee_code)->where('date',$date)->orderBy('date',desc)->first();
         $break = BreakTimes::where('emid', $emid)
