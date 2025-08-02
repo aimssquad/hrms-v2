@@ -6059,8 +6059,7 @@ Route::post('/superadmin/save-atten-permission', [OrgAttenPermissionController::
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
 
 // Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-Route::post('/posts', 'App\Http\Controllers\Post\PostController@store')
-     ->name('posts.store');
+Route::post('/posts', 'App\Http\Controllers\Post\PostController@store')->name('posts.store');
 
 Route::post('comments', 'App\Http\Controllers\Post\PostController@storeComment')->name('comment.store');
 
