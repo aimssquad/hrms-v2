@@ -136,7 +136,6 @@ class OrganizationController extends Controller
                         'employee_code' => $post->employee_code,
                         'title' => $post->title,
                         'image_path' => $post->image_path ? asset("storage/".$post->image_path) : null,
-                        'video_path' => $post->video_path,
                         'created_at' => $post->created_at,
                         'updated_at' => $post->updated_at,
                         'employee_name' => trim($post->first_name . ' ' . $post->last_name),
