@@ -16,7 +16,7 @@ class PostController extends Controller
         // Validate the request
         $validator = Validator::make($request->all(), [
             'content' => 'required|string|max:2000',
-            'post_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,doc,docx,mp4,mov,avi|max:10480' // 10MB max
+            'post_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,mp4,mov,avi|max:10480' // 10MB max
         ]);
 
         if ($validator->fails()) {
