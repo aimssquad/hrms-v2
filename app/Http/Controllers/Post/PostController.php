@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post\Post;
+use App\Models\Post\PostComment;
 use App\Models\User;
+use App\Models\Post\PostLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class PostController extends Controller
 {
@@ -68,4 +71,116 @@ class PostController extends Controller
             return back();
         }
     }
+
+    public function storeComment(Request $request)
+    {
+        //dd('okk');
+
+        $request->validate([
+            'post_id' => 'required|exists:post,id',
+            'comment_text' => 'required|string|max:1000',
+        ]);
+        
+        $email = Session::get('emp_email');
+        $userData = User::where('email', $email)
+                      ->where('status', 'active')
+                      ->firstOrFail();
+        
+        $comment = PostComment::create([
+            'post_id' => $request->post_id,
+            'emid' => $userData->emid, // Assuming this matches your user table
+            'employee_code' => $userData->employee_id,
+            'comment_text' => $request->comment_text
+        ]);
+        
+        // return response()->json([
+        //     'success' => true,
+        //     'comment' => $comment
+        //     'commenter' => [
+        //         'employee_name' => $user->employee_name,
+        //         'employee_image' => $user->employee_image,
+        //         'designation' => $user->designation
+        //     ]
+        // ]);
+
+           // Get commenter details from employee table
+        $commenter = DB::table('employee')
+            ->where('emid', $userData->emid)
+            ->where('emp_code', $userData->employee_id)
+            ->where('status', 'active')
+            ->select(
+                DB::raw("CONCAT(emp_fname, ' ', emp_lname) as employee_name"),
+                'emp_image as employee_image',
+                'emp_designation as designation'
+            )
+            ->first();
+        //dd($commenter);        
+        return response()->json([
+            'success' => true,
+            'comment' => $comment,
+            'commenter' => [
+                'employee_name' => $commenter->employee_name ?? 'Unknown',
+                'employee_image' => $commenter->employee_image 
+                    ? asset("storage/".$commenter->employee_image) 
+                    : asset('default_avatar.jpg'),
+                'designation' => $commenter->designation ?? ''
+            ]
+        ]);
+
+
+    }
+
+
+    public function toggleLike(Request $request, $postId)
+    {
+        // Get authenticated user
+        $email = Session::get('emp_email');
+        $user = User::where('email', $email)
+                  ->where('status', 'active')
+                  ->firstOrFail();
+
+        try {
+            // Check if like already exists
+            $existingLike = PostLike::where('post_id', $postId)
+                                  ->where('emid', $user->emid)
+                                  ->where('employee_code', $user->employee_id)
+                                  ->first();
+
+            if ($existingLike) {
+                // Unlike the post
+                $existingLike->delete();
+                $action = 'unliked';
+            } else {
+                // Like the post
+                PostLike::create([
+                    'post_id' => $postId,
+                    'emid' => $user->emid,
+                    'employee_code' => $user->employee_id
+                ]);
+                $action = 'liked';
+            }
+
+            // Get updated like count
+            $likesCount = PostLike::where('post_id', $postId)->count();
+
+            return response()->json([
+                'success' => true,
+                'action' => $action,
+                'likes_count' => $likesCount
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Like error: '.$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to process like'
+            ], 500);
+        }
+    }
+
+
+
+
+
+
 }

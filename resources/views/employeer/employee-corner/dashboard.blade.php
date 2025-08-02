@@ -729,7 +729,7 @@
 										<!-- Post Header -->
 										<div class="post-header">
 											<div class="user-info">
-												<img src="{{ $post->employee_image ? asset($post->employee_image) : 'https://randomuser.me/api/portraits/men/1.jpg' }}" alt="{{ $post->employee_name }}" class="post-avatar">
+												<img src="{{ $post->employee_image ? asset($post->employee_image) : asset('user.png') }}" alt="{{ $post->employee_name }}" class="post-avatar">
 												<div class="user-details">
 													<h5 class="post-username">{{ $post->employee_name }}</h5>
 													<small class="post-timestamp">{{ $post->time_ago }}</small>
@@ -762,19 +762,24 @@
 													<span class="like-count-badge">
 														<i class="fas fa-thumbs-up"></i>
 													</span>
-													<span>0</span>
+													<span>{{ $post->likes_count }}</span>
 												</div>
 												<div class="comments-count">
-													<span>0 comments</span>
+													<span>{{ $post->comments_count }} comment{{ $post->comments_count != 1 ? 's' : '' }}</span>
 												</div>
 											</div>
 										</div>
 
 										<!-- Action Buttons -->
 										<div class="post-actions">
-											<button class="btn-action like-btn" data-post-id="{{ $post->id }}">
+											{{-- <button class="btn-action like-btn" data-post-id="{{ $post->id }}">
 												<i class="far fa-thumbs-up"></i>
 												Like
+											</button> --}}
+											<button class="btn-action like-btn {{ $post->is_liked ? 'liked' : '' }}" 
+													data-post-id="{{ $post->id }}">
+												<i class="{{ $post->is_liked ? 'fas' : 'far' }} fa-thumbs-up"></i>
+												{{ $post->is_liked ? 'Liked' : 'Like' }}
 											</button>
 											<button class="btn-action comment-toggle-btn">
 												<i class="fas fa-comment"></i>
@@ -785,37 +790,33 @@
 										<!-- Comments Section (Initially hidden) -->
 										<div class="post-comments">
 											<!-- Comments will be loaded here dynamically -->
-											<div class="comment-item">
-												<img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Jane Smith" class="comment-avatar">
-												<div class="comment-bubble">
-													<div class="comment-header">
-														<h6 class="comment-username">Jane Smith</h6>
-														<small class="comment-time">2 hours ago</small>
+											@foreach($post->comments as $comment)
+												<div class="comment-item">
+													<img src="{{ $post->employee_image ? asset($post->employee_image) : asset('assets/img/user.png') }}" 
+														alt="{{ $post->employee_name }}" 
+														class="comment-avatar">
+													<div class="comment-bubble">
+														<div class="comment-header">
+															<h6 class="comment-username">{{ $comment->commenter_name }}</h6>
+															<small class="comment-time">{{ $comment->time_ago }}</small>
+														</div>
+														<p class="comment-text">{{ $comment->comment_text }}</p>
 													</div>
-													<p class="comment-text">Looks amazing! Which trail did you take?</p>
 												</div>
-											</div>
-											
-											<div class="comment-item">
-												<img src="https://randomuser.me/api/portraits/men/2.jpg" alt="Mike Johnson" class="comment-avatar">
-												<div class="comment-bubble">
-													<div class="comment-header">
-														<h6 class="comment-username">Mike Johnson</h6>
-														<small class="comment-time">1 hour ago</small>
-													</div>
-													<p class="comment-text">I was there last weekend! The sunset is incredible from that viewpoint.</p>
-												</div>
-											</div>
+											@endforeach
 										</div>
 
 										<!-- Add Comment -->
 										<div class="add-comment">
-											<img src="{{ auth()->user()->avatar ?? asset('default_avatar.jpg') }}" alt="You" class="comment-avatar">
-											<div class="comment-form">
-												<input type="text" placeholder="Write a comment..." class="comment-input" 
-													data-post-id="{{ $post->id }}">
-												<button class="comment-post-btn" data-post-id="{{ $post->id }}">Post</button>
-											</div>
+											<img src="{{asset('assets/img/user.png')}}" alt="You" class="comment-avatar">
+											<form class="comment-form" data-post-id="{{ $post->id }}">
+												@csrf
+												<div class="comment-form">
+													<input type="hidden" name="post_id" value="{{ $post->id }}">
+													<input type="text" placeholder="Write a comment..." class="comment-input" name="comment_text" required>
+													<button type="submit" class="comment-post-btn">Post</button>
+												</div>
+											</form>
 										</div>
 									</div>
 									@endforeach
@@ -870,7 +871,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		{{-- <div class="row">
 			<div class="col-xxl-8 col-lg-12 col-md-12">
 				<div class="row">
 					<div class="col-md-6">
@@ -932,11 +933,11 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --}}
 		
     </div>    
 @endsection
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		// Toggle comments
@@ -967,7 +968,7 @@
 				// Update like count (example)
 				const likeCount = this.closest('.post-card').querySelector('.likes-count span:last-child');
 				const currentCount = parseInt(likeCount.textContent);
-				likeCount.textContent = this.classList.contains('liked') ? currentCount + 1 : currentCount - 1;
+				//likeCount.textContent = this.classList.contains('liked') ? currentCount + 1 : currentCount - 1;
 			});
 		});
 	});
@@ -1063,34 +1064,110 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+
+
+
+
 <script>
-	document.getElementById('submitPostBtn').addEventListener('click', function() {
-		const formData = new FormData(document.getElementById('postForm'));
+	$(document).ready(function() {
+		// Handle comment form submission
+		//alert('okk');
+		$('.comment-form').on('submit', function(e) {
+			e.preventDefault();
+			//alert('okkkk');
+			const form = $(this);
+			const postId = form.data('post-id');
+			const commentText = form.find('[name="comment_text"]').val().trim();
+			
+			if (!commentText) return;
+			
+			// Show loading state
+			const submitBtn = form.find('.comment-post-btn');
+			submitBtn.prop('disabled', true).text('Posting...');
+			
+			$.ajax({
+				url: '/comments',
+				method: 'POST',
+				data: form.serialize(),
+				success: function(response) {
+					if (response.success) {
+						// Clear the input
+						form.find('[name="comment_text"]').val('');
+						
+						// Append the new comment to the comments section
+						const commentsSection = form.closest('.post-card').find('.post-comments');
+						
+						// Create new comment HTML
+						const newComment = `
+							<div class="comment-item">
+								<img src="${response.commenter.employee_image || 'https://randomuser.me/api/portraits/men/1.jpg'}" 
+									alt="${response.commenter.employee_name}" class="comment-avatar">
+								<div class="comment-bubble">
+									<div class="comment-header">
+										<h6 class="comment-username">${response.commenter.employee_name}</h6>
+										<small class="comment-time">Just now</small>
+									</div>
+									<p class="comment-text">${response.comment.comment_text}</p>
+								</div>
+							</div>
+						`;
+						
+						// Append the new comment
+						commentsSection.append(newComment);
+						
+						// Update comment count
+						const commentsCount = commentsSection.find('.comment-item').length;
+						form.closest('.post-card').find('.comments-count span').text(commentsCount + ' comment' + (commentsCount !== 1 ? 's' : ''));
+					}
+				},
+				error: function(xhr) {
+					console.error('Error:', xhr.responseText);
+					alert('Failed to post comment. Please try again.');
+				},
+				complete: function() {
+					submitBtn.prop('disabled', false).text('Post');
+				}
+			});
+		});
+	});
+
+
+	//like functionality
+	$(document).on('click', '.like-btn', function() {
+		const button = $(this);
+		const postId = button.data('post-id');
 		
-		fetch('/posts', {
+		$.ajax({
+			url: '/posts/' + postId + '/like',
 			method: 'POST',
-			body: formData,
 			headers: {
-				'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-				'Accept': 'application/json'
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			beforeSend: function() {
+				button.prop('disabled', true);
+			},
+			success: function(response) {
+				if (response.success) {
+					// Update like count and button state
+					const likeCount = button.closest('.post-actions').siblings('.post-stats').find('.likes-count span:last');
+					const currentCount = parseInt(likeCount.text()) || 0;
+					
+					if (response.action === 'liked') {
+						likeCount.text(currentCount + 1);
+						button.html('<i class="fas fa-thumbs-up"></i> Liked');
+					} else {
+						likeCount.text(Math.max(0, currentCount - 1));
+						button.html('<i class="far fa-thumbs-up"></i> Like');
+					}
+				}
+			},
+			error: function(xhr) {
+				console.error('Like error:', xhr.responseText);
+				alert('Failed to process like. Please try again.');
+			},
+			complete: function() {
+				button.prop('disabled', false);
 			}
-		})
-		.then(response => {
-			if (!response.ok) {
-				return response.json().then(err => { throw err; });
-			}
-			return response.json();
-		})
-		.then(data => {
-			if (data.success) {
-				// Success handling
-			} else {
-				alert(data.message);
-			}
-		})
-		.catch(error => {
-			console.error('Error:', error);
-			alert(error.message || 'An error occurred');
 		});
 	});
 </script>
