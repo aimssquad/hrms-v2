@@ -40,11 +40,7 @@ class PostController extends Controller
             
             // Handle file upload
             if ($request->hasFile('post_file')) {
-                //dd('okk');
                 $file = $request->file('post_file');
-                //$fileType = $file->getClientMimeType();
-                
-                // Store in storage/app/public/employee-post
                 $filePath = $file->store('employee-post', 'public');
             }
             //dd($filePath);
@@ -53,8 +49,6 @@ class PostController extends Controller
                 'emid' => $userData->emid,
                 'employee_code' => $userData->employee_id,
                 'title' => $request->content,
-                // 'file_path' => $filePath,
-                // 'file_type' => $fileType,
                 'image_path'=> $filePath,
             ]);
 

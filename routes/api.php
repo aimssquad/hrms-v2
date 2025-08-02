@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\MobileMenuController;
 use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\HolidayController;
 use App\Http\Controllers\Api\BreakTimeController;
+use App\Http\Controllers\Api\PostController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -63,5 +64,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::post('holiday-apply', [HolidayController::class, 'applyHoliday']);
     Route::get('holiday-apply-list', [HolidayController::class, 'applyHolidayList']);
     Route::get('holiday-calender', [HolidayController::class, 'holidayCalender']);
+});
+
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {  
+    Route::post('emp-post',[PostController::class, 'savePost']);
 });
 

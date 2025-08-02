@@ -1086,7 +1086,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			submitBtn.prop('disabled', true).text('Posting...');
 			
 			$.ajax({
-				url: '/comments',
+				//url: '/comments',
+				url:'{{url('comments')}}',
 				method: 'POST',
 				data: form.serialize(),
 				success: function(response) {
@@ -1136,16 +1137,28 @@ document.addEventListener('DOMContentLoaded', function() {
 	$(document).on('click', '.like-btn', function() {
 		const button = $(this);
 		const postId = button.data('post-id');
+		  const token = $('meta[name="csrf-token"]').attr('content');
+    
+			// Validate elements exist
+			if (!token) {
+				console.error('CSRF token not found');
+				return;
+			}
 		
 		$.ajax({
-			url: '/posts/' + postId + '/like',
+		
+			url: `{{ url('posts') }}/${postId}/like`,
 			method: 'POST',
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			},
+			// headers: {
+			// 	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			// },
+			  headers: {
+					'X-CSRF-TOKEN': token
+				},
 			beforeSend: function() {
 				button.prop('disabled', true);
-			},
+			}, 
+			cache: false,
 			success: function(response) {
 				if (response.success) {
 					// Update like count and button state
