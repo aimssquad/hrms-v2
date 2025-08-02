@@ -102,157 +102,88 @@ class OrganizationController extends Controller
                     ->whereYear('holiday.from_date', date('Y'))
                     ->select('holiday.*', 'holiday_type.name')
                     ->get();
-             
+            
+                $user = User::where('email', $usemail)
+                        ->where('status', 'active')
+                        ->firstOrFail();
 
-            // $data['posts'] = DB::table('post')
-            //         ->join('employee', function($join) {
-            //             $join->on('employee.emid', '=', 'post.emid')
-            //                 ->on('employee.emp_code', '=', 'post.employee_code');
-            //         })
-            //         ->where('employee.status', 'active')
-            //         ->orderBy('post.created_at', 'desc')
-            //         ->select(
-            //             'post.*',
-            //             'employee.emp_fname as first_name',
-            //             'employee.emp_lname as last_name',
-            //             'employee.emp_image as employee_image',
-            //             'employee.emp_designation as designation'
-            //         )
-            //         ->get();
-
-            //     // Format the data for display and add comments
-            //     $data['posts']->transform(function ($post) {
-            //         // Get comments for this post with employee details
-            //         $comments = DB::table('post_comments')
-            //             ->join('employee', function($join) {
-            //                 $join->on('employee.emid', '=', 'post_comments.emid')
-            //                     ->on('employee.emp_code', '=', 'post_comments.employee_code');
-            //             })
-            //             ->where('post_comments.post_id', $post->id)
-            //             ->where('employee.status', 'active')
-            //             ->orderBy('post_comments.created_at', 'asc')
-            //             ->select(
-            //                 'post_comments.*',
-            //                 'employee.emp_fname as commenter_first_name',
-            //                 'employee.emp_lname as commenter_last_name',
-            //                 'employee.emp_image as commenter_image',
-            //                 'employee.emp_designation as commenter_designation'
-            //             )
-            //             ->get()
-            //             ->map(function ($comment) {
-            //                 return (object)[
-            //                     'id' => $comment->id,
-            //                     'comment_text' => $comment->comment_text,
-            //                     'created_at' => $comment->created_at,
-            //                     'commenter_name' => trim($comment->commenter_first_name . ' ' . $comment->commenter_last_name),
-            //                     'commenter_image' => $comment->commenter_image 
-            //                         ? asset("storage/".$comment->commenter_image) 
-            //                         : asset('default_avatar.jpg'),
-            //                     'commenter_designation' => $comment->commenter_designation,
-            //                     'time_ago' => \Carbon\Carbon::parse($comment->created_at)->diffForHumans()
-            //                 ];
-            //             });
-
-            //         return (object)[
-            //             'id' => $post->id,
-            //             'emid' => $post->emid,
-            //             'employee_code' => $post->employee_code,
-            //             'title' => $post->title,
-            //             'image_path' => $post->image_path ? asset("storage/".$post->image_path) : null,
-            //             'created_at' => $post->created_at,
-            //             'updated_at' => $post->updated_at,
-            //             'employee_name' => trim($post->first_name . ' ' . $post->last_name),
-            //             'employee_image' => $post->employee_image ? asset("storage/".$post->employee_image) : asset('default_avatar.jpg'),
-            //             'designation' => $post->designation,
-            //             'time_ago' => \Carbon\Carbon::parse($post->created_at)->diffForHumans(),
-            //             'comments' => $comments,
-            //             'comments_count' => $comments->count()
-            //         ];
-            //     });
-
-            //     return view('employeer.employee-corner.dashboard', $data);
-            //$email = Session::get('emp_email');
-            $user = User::where('email', $usemail)
-                    ->where('status', 'active')
-                    ->firstOrFail();
-
-            $data['posts'] = DB::table('post')
-                ->join('employee', function($join) {
-                    $join->on('employee.emid', '=', 'post.emid')
-                        ->on('employee.emp_code', '=', 'post.employee_code');
-                })
-                ->leftJoin('post_likes', function($join) use ($user) {
-                    $join->on('post_likes.post_id', '=', 'post.id')
-                        ->where('post_likes.emid', $user->emid)
-                        ->where('post_likes.employee_code', $user->employee_id);
-                })
-                ->where('employee.status', 'active')
-                ->orderBy('post.created_at', 'desc')
-                ->select(
-                    'post.*',
-                    'employee.emp_fname as first_name',
-                    'employee.emp_lname as last_name',
-                    'employee.emp_image as employee_image',
-                    'employee.emp_designation as designation',
-                    DB::raw('(SELECT COUNT(*) FROM post_likes WHERE post_likes.post_id = post.id) as likes_count'),
-                    DB::raw('CASE WHEN post_likes.id IS NOT NULL THEN 1 ELSE 0 END as is_liked')
-                )
-                ->get();
-
-            // Format the data for display
-            $data['posts']->transform(function ($post) use ($user) {
-                // Get comments for this post with employee details
-                $comments = DB::table('post_comments')
+                $data['posts'] = DB::table('post')
                     ->join('employee', function($join) {
-                        $join->on('employee.emid', '=', 'post_comments.emid')
-                            ->on('employee.emp_code', '=', 'post_comments.employee_code');
+                        $join->on('employee.emid', '=', 'post.emid')
+                            ->on('employee.emp_code', '=', 'post.employee_code');
                     })
-                    ->where('post_comments.post_id', $post->id)
+                    ->leftJoin('post_likes', function($join) use ($user) {
+                        $join->on('post_likes.post_id', '=', 'post.id')
+                            ->where('post_likes.emid', $user->emid)
+                            ->where('post_likes.employee_code', $user->employee_id);
+                    })
                     ->where('employee.status', 'active')
-                    ->orderBy('post_comments.created_at', 'asc')
+                    ->orderBy('post.created_at', 'desc')
                     ->select(
-                        'post_comments.*',
-                        'employee.emp_fname as commenter_first_name',
-                        'employee.emp_lname as commenter_last_name',
-                        'employee.emp_image as commenter_image',
-                        'employee.emp_designation as commenter_designation'
+                        'post.*',
+                        'employee.emp_fname as first_name',
+                        'employee.emp_lname as last_name',
+                        'employee.emp_image as employee_image',
+                        'employee.emp_designation as designation',
+                        DB::raw('(SELECT COUNT(*) FROM post_likes WHERE post_likes.post_id = post.id) as likes_count'),
+                        DB::raw('CASE WHEN post_likes.id IS NOT NULL THEN 1 ELSE 0 END as is_liked')
                     )
-                    ->get()
-                    ->map(function ($comment) {
-                        return (object)[
-                            'id' => $comment->id,
-                            'comment_text' => $comment->comment_text,
-                            'created_at' => $comment->created_at,
-                            'commenter_name' => trim($comment->commenter_first_name . ' ' . $comment->commenter_last_name),
-                            'commenter_image' => $comment->commenter_image 
-                                ? asset("storage/app/public/".$comment->commenter_image) 
-                                : asset('assets/img/user.png'),
-                            'commenter_designation' => $comment->commenter_designation,
-                            'time_ago' => \Carbon\Carbon::parse($comment->created_at)->diffForHumans()
-                        ];
-                    });
+                    ->get();
 
-                return (object)[
-                    'id' => $post->id,
-                    'emid' => $post->emid,
-                    'employee_code' => $post->employee_code,
-                    'title' => $post->title,
-                    'image_path' => $post->image_path ? asset("storage/app/public/".$post->image_path) : null,
-                    'created_at' => $post->created_at,
-                    'updated_at' => $post->updated_at,
-                    'employee_name' => trim($post->first_name . ' ' . $post->last_name),
-                    'employee_image' => $post->employee_image ? asset("storage/app/public/".$post->employee_image) : asset('assets/img/user.png'),
-                    'designation' => $post->designation,
-                    'time_ago' => \Carbon\Carbon::parse($post->created_at)->diffForHumans(),
-                    'comments' => $comments,
-                    'comments_count' => $comments->count(),
-                    'likes_count' => $post->likes_count ?? 0,
-                    'is_liked' => $post->is_liked ?? false
-                ];
-            });
+                // Format the data for display
+                $data['posts']->transform(function ($post) use ($user) {
+                    // Get comments for this post with employee details
+                    $comments = DB::table('post_comments')
+                        ->join('employee', function($join) {
+                            $join->on('employee.emid', '=', 'post_comments.emid')
+                                ->on('employee.emp_code', '=', 'post_comments.employee_code');
+                        })
+                        ->where('post_comments.post_id', $post->id)
+                        ->where('employee.status', 'active')
+                        ->orderBy('post_comments.created_at', 'asc')
+                        ->select(
+                            'post_comments.*',
+                            'employee.emp_fname as commenter_first_name',
+                            'employee.emp_lname as commenter_last_name',
+                            'employee.emp_image as commenter_image',
+                            'employee.emp_designation as commenter_designation'
+                        )
+                        ->get()
+                        ->map(function ($comment) {
+                            return (object)[
+                                'id' => $comment->id,
+                                'comment_text' => $comment->comment_text,
+                                'created_at' => $comment->created_at,
+                                'commenter_name' => trim($comment->commenter_first_name . ' ' . $comment->commenter_last_name),
+                                'commenter_image' => $comment->commenter_image 
+                                    ? asset("storage/app/public/".$comment->commenter_image) 
+                                    : asset('assets/img/user.png'),
+                                'commenter_designation' => $comment->commenter_designation,
+                                'time_ago' => \Carbon\Carbon::parse($comment->created_at)->diffForHumans()
+                            ];
+                        });
 
-            return view('employeer.employee-corner.dashboard', $data);
-                
+                    return (object)[
+                        'id' => $post->id,
+                        'emid' => $post->emid,
+                        'employee_code' => $post->employee_code,
+                        'title' => $post->title,
+                        'image_path' => $post->image_path ? asset("storage/app/public/".$post->image_path) : null,
+                        'created_at' => $post->created_at,
+                        'updated_at' => $post->updated_at,
+                        'employee_name' => trim($post->first_name . ' ' . $post->last_name),
+                        'employee_image' => $post->employee_image ? asset("storage/app/public/".$post->employee_image) : asset('assets/img/user.png'),
+                        'designation' => $post->designation,
+                        'time_ago' => \Carbon\Carbon::parse($post->created_at)->diffForHumans(),
+                        'comments' => $comments,
+                        'comments_count' => $comments->count(),
+                        'likes_count' => $post->likes_count ?? 0,
+                        'is_liked' => $post->is_liked ?? false
+                    ];
+                });
+
+                return view('employeer.employee-corner.dashboard', $data);
+                    
             }
             //dd($data);
             return view($this->_routePrefix . '.dashboard', $data);
