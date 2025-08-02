@@ -115,7 +115,7 @@ class PostController extends Controller
             'commenter' => [
                 'employee_name' => $commenter->employee_name ?? 'Unknown',
                 'employee_image' => $commenter->employee_image 
-                    ? asset("storage/".$commenter->employee_image) 
+                    ? asset("storage/app/public/".$commenter->employee_image) 
                     : asset('default_avatar.jpg'),
                 'designation' => $commenter->designation ?? ''
             ]

@@ -162,7 +162,7 @@ class OrganizationController extends Controller
                                 'time_ago' => \Carbon\Carbon::parse($comment->created_at)->diffForHumans()
                             ];
                         });
-
+                        
                     return (object)[
                         'id' => $post->id,
                         'emid' => $post->emid,
@@ -181,7 +181,7 @@ class OrganizationController extends Controller
                         'is_liked' => $post->is_liked ?? false
                     ];
                 });
-
+                //dd($data['posts']);
                 return view('employeer.employee-corner.dashboard', $data);
                     
             }
