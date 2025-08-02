@@ -3222,7 +3222,7 @@ class DashboardController extends Controller
                     ->where('department_name', '=', $emjob->emp_department)
                     ->where('emid', '=', $Roledata->reg)
                     ->first();
-                dd($emjob->emp_designation);
+                //dd($emjob->emp_designation);
                 $employee_desigrs = DB::table('designation')
                     ->where('designation_name', '=', $emjob->emp_designation)
                     ->where('department_code', '=', $employee_depers->id)

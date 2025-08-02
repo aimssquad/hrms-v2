@@ -7,6 +7,8 @@ use App\Models\UserModel;
 use App\Models\Holiday;
 use App\Models\Branch_location;
 use App\Models\RotaEmployee;
+use App\Models\Post\Post;
+use App\Models\Employee;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Mail;
@@ -98,8 +100,53 @@ class OrganizationController extends Controller
                     ->whereYear('holiday.from_date', date('Y'))
                     ->select('holiday.*', 'holiday_type.name')
                     ->get();
-                //$data['work_report'] = RotaEmployee::where('emid',$emid)->get();    
-                //dd($data['work_report']);
+                // $data['post'] = Post::where('emid',$emid)->get();
+                // dd($data['post']);    
+                // //$data['work_report'] = RotaEmployee::where('emid',$emid)->get();    
+                // //dd($data['work_report']);
+                // return view('employeer.employee-corner.dashboard', $data);
+
+
+
+
+
+
+                // Get all posts with employee details
+               $data['posts'] = DB::table('post')
+                    ->join('employee', function($join) {
+                        $join->on('employee.emid', '=', 'post.emid')
+                            ->on('employee.emp_code', '=', 'post.employee_code'); // Match both IDs
+                    })
+                    ->where('employee.status', 'active')
+                    ->orderBy('post.created_at', 'desc')
+                    ->select(
+                        'post.*',
+                        'employee.emp_fname as first_name',
+                        'employee.emp_lname as last_name',
+                        'employee.emp_image as employee_image',
+                        'employee.emp_designation as designation'
+                    )
+                    ->get();
+
+                // Format the data for display
+                $data['posts']->transform(function ($post) {
+                    return (object)[
+                        'id' => $post->id,
+                        'emid' => $post->emid,
+                        'employee_code' => $post->employee_code,
+                        'title' => $post->title,
+                        'image_path' => $post->image_path ? asset("storage/".$post->image_path) : null,
+                        'video_path' => $post->video_path,
+                        'created_at' => $post->created_at,
+                        'updated_at' => $post->updated_at,
+                        'employee_name' => trim($post->first_name . ' ' . $post->last_name),
+                        'employee_image' => $post->employee_image ? asset("storage/".$post->employee_image) : asset('default_avatar.jpg'),
+                        'designation' => $post->designation,
+                        'time_ago' => \Carbon\Carbon::parse($post->created_at)->diffForHumans()
+                    ];
+                });
+
+                //dd($data['posts']);
                 return view('employeer.employee-corner.dashboard', $data);
                 
             }

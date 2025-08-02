@@ -24,6 +24,7 @@ use App\Http\Controllers\organization\HolidayController;
 use App\Http\Controllers\Attendance\EmployeeAttendancePermission;
 use App\Http\Controllers\OrgAttenPermissionController;
 use App\Http\Controllers\LangController;
+use App\Http\Controllers\Post\PostController;
 
 
 /*
@@ -6056,6 +6057,10 @@ Route::post('/superadmin/save-atten-permission', [OrgAttenPermissionController::
 
 // language change route
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
+
+// Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+Route::post('/posts', 'App\Http\Controllers\Post\PostController@store')
+     ->name('posts.store');
 
 
 

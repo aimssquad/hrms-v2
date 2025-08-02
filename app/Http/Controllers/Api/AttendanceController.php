@@ -682,7 +682,7 @@ class AttendanceController extends Controller
                 'photo_proof' => $photoProofPath,
                 'punch_type' => $validated['punch_type'] ?? 'Manual',
                 'remarks' => $validated['remarks'] ?? '',
-                'month' => substr($validated['date'], 0, 7),
+                'month' => Carbon::parse($validated['date'])->format('Y-m'),
                 'punch_status' => 'IN',
                 'emid' => $emid
             ];
@@ -856,49 +856,7 @@ class AttendanceController extends Controller
 
 
 
-    // public function showEmpAttendanceStatus(Request $request) {
-    //     try {
-    //         if (auth()->check()) {
-    //             $employee_id = auth()->user()->employee_id;
-    //             $emid = auth()->user()->emid;
-    //             $date = date('Y-m-d');
-    //             //dd($date);
-    //             // Base query
-    //             $attendance = TempAttendance::where('employee_code', $employee_id)
-    //                                 ->where('emid', $emid)
-    //                                 ->where('date', $date)
-    //                                 ->first();
-
-    //             if (!$attendance) {
-    //                 $dynamicFlag = 1;
-    //                 $data = [];
-    //                 $message = "Attendance not found";
-    //                 return Helper::rjd(
-    //                     $message,
-    //                     $dynamicFlag,
-    //                     $data
-    //                 );
-    //             }
-
-    //             // Transform null values to empty strings
-    //             $attendance = collect($attendance)->map(function ($value) {
-    //                 return $value === null ? "" : $value;
-    //             });
-    //             //dd($attendance);
-    //             $dynamicFlag = 1;
-    //             $data['attendanceData'] = $attendance;
-    //             $message = "Data get successfully";
-    //             return Helper::rjd(
-    //                 $message,
-    //                 $dynamicFlag,
-    //                 $data
-    //             );
-    //         }
-        
-    //     } catch (Exception $e) {
-    //         return Helper::rj("Server Error.", 500);
-    //     }   
-    // }
+    
 
     public function showEmpAttendanceStatus(Request $request) {
         try {
