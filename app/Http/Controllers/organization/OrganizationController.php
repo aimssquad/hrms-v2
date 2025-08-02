@@ -135,11 +135,11 @@ class OrganizationController extends Controller
                         'emid' => $post->emid,
                         'employee_code' => $post->employee_code,
                         'title' => $post->title,
-                        'image_path' => $post->image_path ? asset("storage/".$post->image_path) : null,
+                        'image_path' => $post->image_path ? asset("storage/app/public/".$post->image_path) : null,
                         'created_at' => $post->created_at,
                         'updated_at' => $post->updated_at,
                         'employee_name' => trim($post->first_name . ' ' . $post->last_name),
-                        'employee_image' => $post->employee_image ? asset("storage/".$post->employee_image) : asset('default_avatar.jpg'),
+                        'employee_image' => $post->employee_image ? asset("storage/app/public/".$post->employee_image) : asset('default_avatar.jpg'),
                         'designation' => $post->designation,
                         'time_ago' => \Carbon\Carbon::parse($post->created_at)->diffForHumans()
                     ];
