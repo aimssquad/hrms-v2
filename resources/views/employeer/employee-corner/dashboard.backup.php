@@ -331,72 +331,6 @@
 	.post-card.active .post-comments {
 		display: block;
 	}
-
-	/*--------------- Edit and delete button css -------------*/
-	.post-options-container {
-		position: relative;
-		display: inline-block;
-	}
-
-	.post-options {
-		background: none;
-		border: none;
-		color: #666;
-		cursor: pointer;
-		padding: 5px 10px;
-		font-size: 16px;
-	}
-
-	.post-options:hover {
-		color: #333;
-	}
-
-	.options-dropdown {
-		display: none;
-		position: absolute;
-		right: 0;
-		background-color: #fff;
-		min-width: 120px;
-		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-		border-radius: 4px;
-		z-index: 1;
-		padding: 5px 0;
-	}
-
-	.options-dropdown button {
-		width: 100%;
-		text-align: left;
-		padding: 8px 16px;
-		background: none;
-		border: none;
-		color: #333;
-		cursor: pointer;
-		font-size: 14px;
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
-
-	.options-dropdown button:hover {
-		background-color: #f5f5f5;
-	}
-
-	.options-dropdown button i {
-		width: 16px;
-		text-align: center;
-	}
-
-	.show-dropdown {
-		display: block;
-	}
-	.edit-post-btn i {
-		color: #46a1f7; /* Green icon */
-	}
-
-	.delete-post-btn i {
-		color: #fa5305; /* Red icon */
-	}
-	/*--------------- End Edit and delete button css -------------*/
 </style>
 @section('content')
     <div class="content container-fluid pb-0">
@@ -786,7 +720,7 @@
 										</a>
 									</div>
 								</div>
-								
+
 								<!-- Scrollable Content -->
 								<div class="post-scroll-container" id="post-scroll-container">
 									@foreach($posts as $post)
@@ -802,30 +736,9 @@
 													<small class="post-designation">{{ $post->designation }}</small>
 												</div>
 											</div>
-											{{-- <button class="post-options">
+											<button class="post-options">
 												<i class="fas fa-ellipsis-h"></i>
-											</button> --}}
-											@if($Roledata->employee_id === $post->employee_code)
-											<div class="post-options-container">
-												<button class="post-options" onclick="toggleOptions(this)">
-													<i class="fas fa-ellipsis-h"></i>
-												</button>
-												
-												<div class="options-dropdown">
-													<button class="edit-post-btn" 
-															data-post-id="{{ $post->id }}"
-															data-post-content="{{ $post->title }}"
-															data-post-file="{{ $post->image_path }}"
-															data-bs-toggle="modal" 
-															data-bs-target="#editPostModal">
-														<i class="fas fa-edit"></i> Edit
-													</button>
-													<button class="delete-post-btn" onclick="window.location.href='{{ route('posts.delete', ['id' => $post->id, 'emp_id' => $post->employee_code]) }}'">
-														<i class="fas fa-trash"></i> Delete
-													</button>
-												</div>
-											</div>
-											@endif
+											</button>
 										</div>
 
 										<!-- Post Content -->
@@ -952,59 +865,6 @@
 							</div>
 						</div>
 					<!------------end model ------------------>
-					<!-- Edit Modal -->
-					<div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">Edit Post</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<form id="editPostForm" method="post" action="" enctype="multipart/form-data">
-										@csrf
-										@method('PUT')
-										<input type="text" name="post_id" id="editPostId">
-										<input type="text" name="remove_file" id="removeFileFlag" value="0">
-
-										<div class="form-group mb-3">
-											<textarea class="form-control @error('content') is-invalid @enderror" 
-													id="editPostContent" name="content" rows="5" 
-													placeholder="What's on your mind?" required></textarea>
-											@error('content')
-												<div class="invalid-feedback">{{ $message }}</div>
-											@enderror
-										</div>
-
-										<div class="form-group mb-3">
-											<label for="editPostFile">Update File</label>
-											<input type="file" class="form-control @error('post_file') is-invalid @enderror" 
-												id="editPostFile" name="post_file"
-												accept="image/*,.pdf,.doc,.docx,video/*">
-											@error('post_file')
-												<div class="invalid-feedback">{{ $message }}</div>
-											@enderror
-											<small class="text-muted">Max file size: 10MB | Allowed formats: JPEG, PNG, GIF, PDF, DOC, DOCX, MP4, MOV, AVI</small>
-											
-											<!-- Current File Display -->
-											<div id="currentFileContainer" class="mt-3" style="display: none;">
-												<div class="d-flex justify-content-between align-items-center">
-													<strong>Current File:</strong>
-													<button type="button" id="removeFileBtn" class="btn btn-sm btn-danger">Remove File</button>
-												</div>
-												<div id="currentFilePreview" class="mt-2"></div>
-											</div>
-										</div>
-
-										<button type="submit" class="btn btn-primary">Update Post</button>
-									</form>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-								</div>
-							</div>
-						</div>
-					</div>
 
 					
 				</div>
@@ -1115,17 +975,93 @@
 </script>
 
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
-	// Get modal instance
-	var addPostModal = new bootstrap.Modal(document.getElementById('addPostModal'));
-	
-	// Show modal when Add Post is clicked
-	document.querySelector('.add-post-btn').addEventListener('click', function(e) {
-		e.preventDefault();
-		addPostModal.show();
-	});
-	
-	});
+document.addEventListener('DOMContentLoaded', function() {
+  // Get modal instance
+  var addPostModal = new bootstrap.Modal(document.getElementById('addPostModal'));
+  
+  // Show modal when Add Post is clicked
+  document.querySelector('.add-post-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    addPostModal.show();
+  });
+  
+  // Handle form submission
+  document.getElementById('submitPost').addEventListener('click', function() {
+    const postContent = document.getElementById('postContent').value.trim();
+    const postImage = document.getElementById('postImage').files[0];
+    
+    if (!postContent) {
+      alert('Please enter some content for your post');
+      return;
+    }
+    
+    // Create a new post element
+    const newPost = document.createElement('div');
+    newPost.className = 'post-card';
+    newPost.innerHTML = `
+      <div class="post-header">
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/men/4.jpg" alt="You" class="post-avatar">
+          <div class="user-details">
+            <h5 class="post-username">You</h5>
+            <small class="post-timestamp">Just now</small>
+          </div>
+        </div>
+        <button class="post-options">
+          <i class="fas fa-ellipsis-h"></i>
+        </button>
+      </div>
+      <div class="post-content-container">
+        <p class="post-content">${postContent}</p>
+        ${postImage ? `
+        <div class="post-image-container">
+          <img src="${URL.createObjectURL(postImage)}" alt="Post content" class="post-image">
+        </div>
+        ` : ''}
+      </div>
+      <div class="post-stats">
+        <div class="stats-content">
+          <div class="likes-count">
+            <span class="like-count-badge">
+              <i class="fas fa-thumbs-up"></i>
+            </span>
+            <span>0</span>
+          </div>
+          <div class="comments-count">
+            <span>0 comments</span>
+          </div>
+        </div>
+      </div>
+      <div class="post-actions">
+        <button class="btn-action like-btn">
+          <i class="far fa-thumbs-up"></i>
+          Like
+        </button>
+        <button class="btn-action comment-toggle-btn">
+          <i class="fas fa-comment"></i>
+          Comment
+        </button>
+      </div>
+      <div class="post-comments">
+        <!-- Comments will appear here -->
+      </div>
+      <div class="add-comment">
+        <img src="https://randomuser.me/api/portraits/men/4.jpg" alt="You" class="comment-avatar">
+        <div class="comment-form">
+          <input type="text" placeholder="Write a comment..." class="comment-input">
+          <button class="comment-post-btn">Post</button>
+        </div>
+      </div>
+    `;
+    
+    // Prepend the new post to the container
+    document.getElementById('post-scroll-container').prepend(newPost);
+    
+    // Reset and hide the modal
+    document.getElementById('postForm').reset();
+    addPostModal.hide();
+  });
+});
 </script>
 
 
@@ -1245,86 +1181,6 @@
 			complete: function() {
 				button.prop('disabled', false);
 			}
-		});
-	});
-
-
-	//-----------for edit and delete button show
-	function toggleOptions(button) {
-		// Close all other dropdowns first
-		document.querySelectorAll('.options-dropdown').forEach(dropdown => {
-			if (dropdown !== button.nextElementSibling) {
-				dropdown.classList.remove('show-dropdown');
-			}
-		});
-		
-		// Toggle the current dropdown
-		const dropdown = button.nextElementSibling;
-		dropdown.classList.toggle('show-dropdown');
-	}
-
-	// Close dropdown when clicking outside
-	document.addEventListener('click', function(event) {
-		if (!event.target.closest('.post-options-container')) {
-			document.querySelectorAll('.options-dropdown').forEach(dropdown => {
-				dropdown.classList.remove('show-dropdown');
-			});
-		}
-	});
-</script>
-
-<script>
-	document.addEventListener('DOMContentLoaded', function() {
-		// When edit button is clicked
-		document.querySelectorAll('.edit-post-btn').forEach(button => {
-			button.addEventListener('click', function() {
-				const postId = this.getAttribute('data-post-id');
-				const postContent = this.getAttribute('data-post-content');
-				const postFile = this.getAttribute('data-post-file');
-				const postFileType = this.getAttribute('data-post-file-type');
-
-				// Set form action
-				document.getElementById('editPostForm').action = `/posts/${postId}`;
-				document.getElementById('editPostId').value = postId;
-				document.getElementById('editPostContent').value = postContent;
-				document.getElementById('removeFileFlag').value = '0';
-
-				// Handle file display
-				const filePreview = document.getElementById('currentFilePreview');
-				const fileContainer = document.getElementById('currentFileContainer');
-				const removeFileBtn = document.getElementById('removeFileBtn');
-
-				if (postFile) {
-					fileContainer.style.display = 'block';
-					
-					// Display different preview based on file type
-					if (postFileType && postFileType.startsWith('image/')) {
-						filePreview.innerHTML = `<img src="${postFile}" class="img-thumbnail" style="max-height: 150px;">`;
-					} else if (postFileType === 'application/pdf') {
-						filePreview.innerHTML = `<i class="fas fa-file-pdf fa-3x text-danger"></i><br>
-											<a href="${postFile}" target="_blank">View PDF</a>`;
-					} else if (postFileType === 'application/msword' || postFileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-						filePreview.innerHTML = `<i class="fas fa-file-word fa-3x text-primary"></i><br>
-												<a href="${postFile}" target="_blank">View Document</a>`;
-					} else if (postFileType && postFileType.startsWith('video/')) {
-						filePreview.innerHTML = `<video controls style="max-width: 100%; max-height: 150px;">
-											<source src="${postFile}" type="${postFileType}">
-											Your browser does not support the video tag.
-											</video>`;
-					} else {
-						filePreview.innerHTML = `<a href="${postFile}" target="_blank">Download File</a>`;
-					}
-				} else {
-					fileContainer.style.display = 'none';
-				}
-
-				// Remove file button handler
-				removeFileBtn.addEventListener('click', function() {
-					fileContainer.style.display = 'none';
-					document.getElementById('removeFileFlag').value = '1';
-					document.getElementById('editPostFile').value = '';
-				});
-			});
 		});
 	});
 </script>

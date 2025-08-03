@@ -10,6 +10,7 @@ use App\Models\Post\PostLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use DB;
 
 class PostController extends Controller
@@ -169,6 +170,64 @@ class PostController extends Controller
                 'success' => false,
                 'error' => 'Failed to process like'
             ], 500);
+        }
+    }
+
+    public function deletePost(Request $request, $id,$employee_code){
+        dd($id,$employee_code);
+        $post = Post::where('employee_code',$employee_code)->where('id',$id)->firstOrFail();
+        return view('employeer\employee-corner\emp-post\edit-post');
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validate the request
+        //dd('okkkk');
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string|max:2000',
+            'post_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,mp4,mov,avi|max:10480',
+            'remove_file' => 'sometimes|boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            $post = Post::findOrFail($id);
+            $filePath = $post->image_path;
+            
+            // Handle file removal
+            if ($request->remove_file && $post->image_path) {
+                Storage::disk('public')->delete($post->image_path);
+                $filePath = null;
+            }
+
+            // Handle file upload
+            if ($request->hasFile('post_file')) {
+                // Delete old file if exists
+                if ($post->image_path) {
+                    Storage::disk('public')->delete($post->image_path);
+                }
+                
+                $file = $request->file('post_file');
+                $filePath = $file->store('employee-post', 'public');
+            }
+
+            // Update post
+            $post->update([
+                'title' => $request->content,
+                'image_path' => $filePath
+            ]);
+
+            Session::flash('success', 'Post updated successfully.');
+            return back();
+            
+        } catch (\Exception $e) {
+            Session::flash('error', 'Error: ' . $e->getMessage());
+            return back();
         }
     }
 

@@ -6060,6 +6060,8 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 
 // Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 Route::post('/posts', 'App\Http\Controllers\Post\PostController@store')->name('posts.store');
+Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+Route::get('edit-post/{id}/{emp_id}', 'App\Http\Controllers\Post\PostController@deletePost')->name('posts.delete');
 
 Route::post('comments', 'App\Http\Controllers\Post\PostController@storeComment')->name('comment.store');
 
