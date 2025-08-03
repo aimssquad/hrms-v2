@@ -1411,7 +1411,7 @@
 					
 					// Handle file display
 					if (response.image_path) {
-						const fileUrl = "/storage/" + response.image_path;
+						const fileUrl = "/storage/app/public/" + response.image_path;
 						const fileExtension = response.image_path.split('.').pop().toLowerCase();
 						
 						let filePreviewHtml = '';
