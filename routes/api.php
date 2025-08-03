@@ -69,6 +69,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {  
     Route::post('emp-post',[PostController::class, 'savePost']);
     Route::post('post-comment',[PostController::class, 'saveComment']);
-
+    Route::post('posts-like/{post}',[PostController::class, 'toggleLike']);
+    Route::get('all-post',[PostController::class, 'allPost']);
 });
 

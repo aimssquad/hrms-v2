@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post\Post;
 use App\Models\Post\PostComment;
+use App\Models\Post\PostLike;
 use App\Models\HolidayApply;
 use App\Models\Holiday;
 use App\Helpers\Api\Helper;
 use Validator;
 use Exception;
 use DB;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -133,6 +135,169 @@ class PostController extends Controller
         }
     }
 
+    public function toggleLike(Request $request, $postId)
+    {
+        //dd(auth()->user()->emid,auth()->user()->employee_id);
+        if (!auth()->check()) {
+            return Helper::rjd("Authentication required", 0, [], 401);
+        }          
+
+        try {
+            // Check if like already exists
+            $existingLike = PostLike::where('post_id', $postId)
+                                  ->where('emid', auth()->user()->emid)
+                                  ->where('employee_code', auth()->user()->employee_id)
+                                  ->first();
+            //dd($existingLike);
+            if ($existingLike) {
+                // Unlike the post
+                //dd('okk');
+                $existingLike->delete();
+                $action = 'unliked';
+            } else {
+                // Like the post
+                PostLike::create([
+                    'post_id' => $postId,
+                    'emid' => auth()->user()->emid,
+                    'employee_code' => auth()->user()->employee_id
+                ]);
+                $action = 'liked';
+            }
+            //dd('5555k');
+            // Get updated like count
+            $likesCount = PostLike::where('post_id', $postId)->count();
+
+            return response()->json([
+                'flag' => true,
+                'action' => $action,
+                'likes_count' => $likesCount
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Like error: '.$e->getMessage());
+            return response()->json([
+                'flag' => false,
+                'error' => 'Failed to process like'
+            ], 500);
+        }
+    }
+
+    public function allPost(Request $request)
+    {
+        if (!auth()->check()) {
+            return Helper::rjd("Authentication required", 0, [], 401);
+        }
+
+        try {
+            $user = auth()->user();
+            
+            // Main posts query
+            $posts = DB::table('post')
+                ->join('employee', function($join) {
+                    $join->on('employee.emid', '=', 'post.emid')
+                        ->on('employee.emp_code', '=', 'post.employee_code');
+                })
+                ->leftJoin('post_likes', function($join) use ($user) {
+                    $join->on('post_likes.post_id', '=', 'post.id')
+                        ->where('post_likes.emid', $user->emid)
+                        ->where('post_likes.employee_code', $user->employee_id);
+                })
+                ->where('employee.status', 'active')
+                ->orderBy('post.created_at', 'desc')
+                ->select(
+                    'post.*',
+                    'employee.emp_fname as first_name',
+                    'employee.emp_lname as last_name',
+                    'employee.emp_image as employee_image',
+                    'employee.emp_designation as designation',
+                    DB::raw('(SELECT COUNT(*) FROM post_likes WHERE post_likes.post_id = post.id) as likes_count'),
+                    DB::raw('CASE WHEN post_likes.id IS NOT NULL THEN 1 ELSE 0 END as is_liked')
+                )
+                ->get();
+
+            // If no posts found
+            if ($posts->isEmpty()) {
+                return Helper::rjd("No posts found", 1, ['posts' => []]);
+            }
+
+            // Get all post IDs for batch comments query
+            $postIds = $posts->pluck('id');
+
+            // Batch load all comments for these posts
+            $allComments = DB::table('post_comments')
+                ->join('employee', function($join) {
+                    $join->on('employee.emid', '=', 'post_comments.emid')
+                        ->on('employee.emp_code', '=', 'post_comments.employee_code');
+                })
+                ->whereIn('post_comments.post_id', $postIds)
+                ->where('employee.status', 'active')
+                ->orderBy('post_comments.created_at', 'asc')
+                ->select(
+                    'post_comments.*',
+                    'post_comments.post_id',
+                    'employee.emp_fname as commenter_first_name',
+                    'employee.emp_lname as commenter_last_name',
+                    'employee.emp_image as commenter_image',
+                    'employee.emp_designation as commenter_designation'
+                )
+                ->get()
+                ->groupBy('post_id'); // Group comments by post_id
+
+            // Transform posts
+            $transformedPosts = $posts->map(function ($post) use ($allComments) {
+                $comments = $allComments->get($post->id, collect())->map(function ($comment) {
+                    return (object)[
+                        'id' => $comment->id,
+                        'comment_text' => $comment->comment_text,
+                        'created_at' => $comment->created_at,
+                        'commenter_name' => trim($comment->commenter_first_name . ' ' . $comment->commenter_last_name),
+                        'commenter_image' => $comment->commenter_image 
+                            ? asset("storage/app/public/".$comment->commenter_image) 
+                            : asset('assets/img/user.png'),
+                        'commenter_designation' => $comment->commenter_designation,
+                        'time_ago' => \Carbon\Carbon::parse($comment->created_at)->diffForHumans()
+                    ];
+                });
+
+                return (object)[
+                    'id' => $post->id,
+                    'emid' => $post->emid,
+                    'employee_code' => $post->employee_code,
+                    'title' => $post->title,
+                    'image_path' => $post->image_path ? asset("storage/app/public/".$post->image_path) : null,
+                    'created_at' => $post->created_at,
+                    'updated_at' => $post->updated_at,
+                    'employee_name' => trim($post->first_name . ' ' . $post->last_name),
+                    'employee_image' => $post->employee_image 
+                        ? asset("storage/app/public/".$post->employee_image) 
+                        : asset('assets/img/user.png'),
+                    'designation' => $post->designation,
+                    'time_ago' => \Carbon\Carbon::parse($post->created_at)->diffForHumans(),
+                    'comments' => $comments,
+                    'comments_count' => $comments->count(),
+                    'likes_count' => $post->likes_count ?? 0,
+                    'is_liked' => $post->is_liked ?? false
+                ];
+            });
+
+            return Helper::rjd(
+                "All data retrieved successfully",
+                1,
+                ['posts' => $transformedPosts]
+            );
+
+        } catch (\Exception $e) {
+            \Log::error('Post error: '.$e->getMessage());
+            return Helper::rjd(
+                "Failed to process posts",
+                0,
+                [],
+                500
+            );
+        }
+    }
+
+    
 
 
 

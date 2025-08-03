@@ -9,4 +9,9 @@ class Employee extends Model
 {
     use HasFactory;
     protected $table="employee";
+
+    public function posts()
+    {
+        return $this->hasMany(\App\Models\Post\Post::class, ['employee_code', 'emid'], ['emp_code', 'emid']);
+    }
 }
