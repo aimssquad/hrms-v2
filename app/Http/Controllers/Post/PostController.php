@@ -182,7 +182,7 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         // Validate the request
-        //dd('okkkk');
+        dd('okkkk');
         $validator = Validator::make($request->all(), [
             'content' => 'required|string|max:2000',
             'post_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,mp4,mov,avi|max:10480',
