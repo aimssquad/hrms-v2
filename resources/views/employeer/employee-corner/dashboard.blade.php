@@ -827,6 +827,85 @@
 											</div>
 											@endif
 										</div>
+										<!--------------- Update Modal-------------------->
+
+										<div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel" aria-hidden="true">
+											<div class="modal-dialog modal-dialog-centered">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title">Edit Post</h5>
+														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">
+														<form id="editPostForm" method="post" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
+															@csrf
+															@method('PUT')
+															<input type="text" name="post_id" value="{{ $post->id }}">
+															<input type="text" name="remove_file" id="removeFileFlag" value="0">
+
+															<div class="form-group mb-3">
+																<textarea class="form-control @error('content') is-invalid @enderror" 
+																		id="editPostContent" name="content" rows="5" 
+																		placeholder="What's on your mind?" required>{{ old('content', $post->title) }}</textarea>
+																@error('content')
+																	<div class="invalid-feedback">{{ $message }}</div>
+																@enderror
+															</div>
+
+															<div class="form-group mb-3">
+																<label for="editPostFile">Update File</label>
+																<input type="file" class="form-control @error('post_file') is-invalid @enderror" 
+																	id="editPostFile" name="post_file"
+																	accept="image/*,.pdf,.doc,.docx,video/*">
+																@error('post_file')
+																	<div class="invalid-feedback">{{ $message }}</div>
+																@enderror
+																<small class="text-muted">Max file size: 10MB | Allowed formats: JPEG, PNG, GIF, PDF, DOC, DOCX, MP4, MOV, AVI</small>
+																
+																<!-- Current File Display -->
+																<div id="currentFileContainer" class="mt-3" style="{{ $post->image_path ? 'display: block;' : 'display: none;' }}">
+																	<div class="d-flex justify-content-between align-items-center">
+																		<strong>Current File:</strong>
+																		<button type="button" id="removeFileBtn" class="btn btn-sm btn-danger">Remove File</button>
+																	</div>
+																	<div id="currentFilePreview" class="mt-2">
+																		@if($post->image_path)
+																			@php
+																				$extension = pathinfo($post->image_path, PATHINFO_EXTENSION);
+																			@endphp
+																			
+																			@if(in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+																				<img src="{{$post->image_path }}" class="img-thumbnail" style="max-height: 150px;">
+																			@elseif($extension === 'pdf')
+																				<i class="fas fa-file-pdf fa-3x text-danger"></i><br>
+																				<a href="{{$post->image_path }}" target="_blank">View PDF</a>
+																			@elseif(in_array($extension, ['doc', 'docx']))
+																				<i class="fas fa-file-word fa-3x text-primary"></i><br>
+																				<a href="{{$post->image_path }}" target="_blank">View Document</a>
+																			@elseif(in_array($extension, ['mp4', 'mov', 'avi']))
+																				<video controls style="max-width: 100%; max-height: 150px;">
+																					<source src="{{$post->image_path }}" type="video/{{ $extension }}">
+																					Your browser does not support the video tag.
+																				</video>
+																			@else
+																				<a href="{{$post->image_path }}" target="_blank">Download File</a>
+																			@endif
+																		@endif
+																	</div>
+																</div>
+															</div>
+
+															<button type="submit" class="btn btn-primary">Update Post</button>
+														</form>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+
 
 										<!-- Post Content -->
 										<div class="post-content-container">
@@ -953,7 +1032,7 @@
 						</div>
 					<!------------end model ------------------>
 					<!-- Edit Modal -->
-					<div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel" aria-hidden="true">
+					{{-- <div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -1004,7 +1083,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> --}}
 
 					
 				</div>
@@ -1274,57 +1353,65 @@
 </script>
 
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
-		// When edit button is clicked
-		document.querySelectorAll('.edit-post-btn').forEach(button => {
-			button.addEventListener('click', function() {
-				const postId = this.getAttribute('data-post-id');
-				const postContent = this.getAttribute('data-post-content');
-				const postFile = this.getAttribute('data-post-file');
-				const postFileType = this.getAttribute('data-post-file-type');
+	// document.addEventListener('DOMContentLoaded', function() {
+	// 	// When edit button is clicked
+	// 	document.querySelectorAll('.edit-post-btn').forEach(button => {
+	// 		button.addEventListener('click', function() {
+	// 			const postId = this.getAttribute('data-post-id');
+	// 			const postContent = this.getAttribute('data-post-content');
+	// 			const postFile = this.getAttribute('data-post-file');
+	// 			const postFileType = this.getAttribute('data-post-file-type');
 
-				// Set form action
-				document.getElementById('editPostForm').action = `/posts/${postId}`;
-				document.getElementById('editPostId').value = postId;
-				document.getElementById('editPostContent').value = postContent;
-				document.getElementById('removeFileFlag').value = '0';
+	// 			// Set form action
+	// 			document.getElementById('editPostForm').action = `/posts/${postId}`;
+	// 			document.getElementById('editPostId').value = postId;
+	// 			document.getElementById('editPostContent').value = postContent;
+	// 			document.getElementById('removeFileFlag').value = '0';
 
-				// Handle file display
-				const filePreview = document.getElementById('currentFilePreview');
-				const fileContainer = document.getElementById('currentFileContainer');
-				const removeFileBtn = document.getElementById('removeFileBtn');
+	// 			// Handle file display
+	// 			const filePreview = document.getElementById('currentFilePreview');
+	// 			const fileContainer = document.getElementById('currentFileContainer');
+	// 			const removeFileBtn = document.getElementById('removeFileBtn');
 
-				if (postFile) {
-					fileContainer.style.display = 'block';
+	// 			if (postFile) {
+	// 				fileContainer.style.display = 'block';
 					
-					// Display different preview based on file type
-					if (postFileType && postFileType.startsWith('image/')) {
-						filePreview.innerHTML = `<img src="${postFile}" class="img-thumbnail" style="max-height: 150px;">`;
-					} else if (postFileType === 'application/pdf') {
-						filePreview.innerHTML = `<i class="fas fa-file-pdf fa-3x text-danger"></i><br>
-											<a href="${postFile}" target="_blank">View PDF</a>`;
-					} else if (postFileType === 'application/msword' || postFileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-						filePreview.innerHTML = `<i class="fas fa-file-word fa-3x text-primary"></i><br>
-												<a href="${postFile}" target="_blank">View Document</a>`;
-					} else if (postFileType && postFileType.startsWith('video/')) {
-						filePreview.innerHTML = `<video controls style="max-width: 100%; max-height: 150px;">
-											<source src="${postFile}" type="${postFileType}">
-											Your browser does not support the video tag.
-											</video>`;
-					} else {
-						filePreview.innerHTML = `<a href="${postFile}" target="_blank">Download File</a>`;
-					}
-				} else {
-					fileContainer.style.display = 'none';
-				}
+	// 				// Display different preview based on file type
+	// 				if (postFileType && postFileType.startsWith('image/')) {
+	// 					filePreview.innerHTML = `<img src="${postFile}" class="img-thumbnail" style="max-height: 150px;">`;
+	// 				} else if (postFileType === 'application/pdf') {
+	// 					filePreview.innerHTML = `<i class="fas fa-file-pdf fa-3x text-danger"></i><br>
+	// 										<a href="${postFile}" target="_blank">View PDF</a>`;
+	// 				} else if (postFileType === 'application/msword' || postFileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+	// 					filePreview.innerHTML = `<i class="fas fa-file-word fa-3x text-primary"></i><br>
+	// 											<a href="${postFile}" target="_blank">View Document</a>`;
+	// 				} else if (postFileType && postFileType.startsWith('video/')) {
+	// 					filePreview.innerHTML = `<video controls style="max-width: 100%; max-height: 150px;">
+	// 										<source src="${postFile}" type="${postFileType}">
+	// 										Your browser does not support the video tag.
+	// 										</video>`;
+	// 				} else {
+	// 					filePreview.innerHTML = `<a href="${postFile}" target="_blank">Download File</a>`;
+	// 				}
+	// 			} else {
+	// 				fileContainer.style.display = 'none';
+	// 			}
 
-				// Remove file button handler
-				removeFileBtn.addEventListener('click', function() {
-					fileContainer.style.display = 'none';
-					document.getElementById('removeFileFlag').value = '1';
-					document.getElementById('editPostFile').value = '';
-				});
-			});
-		});
-	});
+	// 			// Remove file button handler
+	// 			removeFileBtn.addEventListener('click', function() {
+	// 				fileContainer.style.display = 'none';
+	// 				document.getElementById('removeFileFlag').value = '1';
+	// 				document.getElementById('editPostFile').value = '';
+	// 			});
+	// 		});
+	// 	});
+	// });
+
+	document.querySelectorAll('.remove-file').forEach(button => {
+    button.addEventListener('click', function() {
+        const container = this.closest('.current-file');
+        container.querySelector('input[name="remove_file"]').value = '1';
+        container.style.display = 'none';
+    });
+});
 </script>
