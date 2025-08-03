@@ -179,14 +179,15 @@ class PostController extends Controller
         return view('employeer\employee-corner\emp-post\edit-post');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         // Validate the request
-        dd('okkkk');
+        //dd($request->post_id);
         $validator = Validator::make($request->all(), [
             'content' => 'required|string|max:2000',
             'post_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,mp4,mov,avi|max:10480',
-            'remove_file' => 'sometimes|boolean'
+            'remove_file' => 'sometimes|boolean',
+            'post_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -196,7 +197,7 @@ class PostController extends Controller
         }
 
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::findOrFail($request->post_id);
             $filePath = $post->image_path;
             
             // Handle file removal
@@ -229,6 +230,23 @@ class PostController extends Controller
             Session::flash('error', 'Error: ' . $e->getMessage());
             return back();
         }
+    }
+
+    public function edit(Request $request,$id)
+    {
+        //dd('okk');
+        // Verify employee code
+        // if ($request->employee_code && $post->employee_code !== $request->employee_code) {
+        //     return response()->json(['error' => 'Unauthorized'], 403);
+        // }
+        $post = Post::where('id',$id)->firstOrFail();
+
+        return response()->json([
+            'title' => $post->title,
+            'content' => $post->content,
+            'image_path' => $post->image_path,
+            'file_type' => $post->file_type,
+        ]);
     }
 
 
