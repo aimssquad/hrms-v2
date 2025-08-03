@@ -1025,8 +1025,8 @@
 									<form id="editPostForm" method="post" action="{{ route('posts.update') }}" enctype="multipart/form-data">
 										@csrf
 										@method('PUT')
-										<input type="text" name="post_id" id="editPostId">
-										<input type="text" name="remove_file" id="removeFileFlag" value="0">
+										<input type="hidden" name="post_id" id="editPostId">
+										<input type="hidden" name="remove_file" id="removeFileFlag" value="0">
 
 										<div class="form-group mb-3">
 											<textarea class="form-control" id="editPostContent" name="content" rows="5" required></textarea>
@@ -1384,7 +1384,7 @@
 		$(document).on('click', '.edit-post-btn', function() {
 			const postId = $(this).data('post-id');
 			const employeeCode = $(this).data('employee-code');
-			alert(postId);
+			//alert(postId);
 			// Show loading state
 			$('#editPostModal').find('.modal-body').prepend(
 				'<div class="text-center py-3" id="loadingSpinner">' +
@@ -1411,7 +1411,7 @@
 					
 					// Handle file display
 					if (response.image_path) {
-						const fileUrl = "/storage/app/public/" + response.image_path;
+						const fileUrl = "https://skilledworkerscloud.co.uk/hrms-v2/storage/app/public/" + response.image_path;
 						const fileExtension = response.image_path.split('.').pop().toLowerCase();
 						
 						let filePreviewHtml = '';
