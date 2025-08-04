@@ -821,7 +821,7 @@
 														<i class="fas fa-edit"></i> Edit
 													</button> --}}
 													
-														<button class="edit-post-btn btn btn-sm btn-primary" 
+														<button class="edit-post-btn " 
 																data-post-id="{{ $post->id }}"
 																data-employee-code="{{ $post->employee_code }}"
 																data-bs-toggle="modal" 

@@ -12,7 +12,8 @@ class PostLike extends Model
     protected $fillable = [
         'post_id',
         'emid',
-        'employee_code'
+        'employee_code',
+        'name'
     ];
 
     public function post(): BelongsTo

@@ -174,9 +174,20 @@ class PostController extends Controller
     }
 
     public function deletePost(Request $request, $id,$employee_code){
-        dd($id,$employee_code);
-        $post = Post::where('employee_code',$employee_code)->where('id',$id)->firstOrFail();
-        return view('employeer\employee-corner\emp-post\edit-post');
+        // dd($id,$employee_code);
+        // $post = Post::where('employee_code',$employee_code)->where('id',$id)->firstOrFail();
+          $post = Post::where('id', $id)
+                   ->where('employee_code', $employee_code)
+                   ->firstOrFail();
+
+        // Delete related likes and comments first
+        $post->likes()->delete();    // Delete all likes for this post
+        $post->comments()->delete(); // Delete all comments for this post
+
+        // Finally delete the post itself
+        $post->delete();
+        Session::flash('success', 'Post deleted successfully.');
+        return redirect('organization/employerdashboard');
     }
 
     public function update(Request $request)
@@ -234,11 +245,6 @@ class PostController extends Controller
 
     public function edit(Request $request,$id)
     {
-        //dd('okk');
-        // Verify employee code
-        // if ($request->employee_code && $post->employee_code !== $request->employee_code) {
-        //     return response()->json(['error' => 'Unauthorized'], 403);
-        // }
         $post = Post::where('id',$id)->firstOrFail();
 
         return response()->json([
