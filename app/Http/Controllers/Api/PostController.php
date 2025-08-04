@@ -135,52 +135,52 @@ class PostController extends Controller
         }
     }
 
-    public function toggleLike(Request $request, $postId)
-    {
-        //dd(auth()->user()->emid,auth()->user()->employee_id);
-        if (!auth()->check()) {
-            return Helper::rjd("Authentication required", 0, [], 401);
-        }          
+    // public function toggleLike(Request $request, $postId)
+    // {
+    //     //dd(auth()->user()->emid,auth()->user()->employee_id);
+    //     if (!auth()->check()) {
+    //         return Helper::rjd("Authentication required", 0, [], 401);
+    //     }          
 
-        try {
-            // Check if like already exists
-            $existingLike = PostLike::where('post_id', $postId)
-                                  ->where('emid', auth()->user()->emid)
-                                  ->where('employee_code', auth()->user()->employee_id)
-                                  ->first();
-            //dd($existingLike);
-            if ($existingLike) {
-                // Unlike the post
-                //dd('okk');
-                $existingLike->delete();
-                $action = 'unliked';
-            } else {
-                // Like the post
-                PostLike::create([
-                    'post_id' => $postId,
-                    'emid' => auth()->user()->emid,
-                    'employee_code' => auth()->user()->employee_id
-                ]);
-                $action = 'liked';
-            }
-            //dd('5555k');
-            // Get updated like count
-            $likesCount = PostLike::where('post_id', $postId)->count();
+    //     try {
+    //         // Check if like already exists
+    //         $existingLike = PostLike::where('post_id', $postId)
+    //                               ->where('emid', auth()->user()->emid)
+    //                               ->where('employee_code', auth()->user()->employee_id)
+    //                               ->first();
+    //         //dd($existingLike);
+    //         if ($existingLike) {
+    //             // Unlike the post
+    //             //dd('okk');
+    //             $existingLike->delete();
+    //             $action = 'unliked';
+    //         } else {
+    //             // Like the post
+    //             PostLike::create([
+    //                 'post_id' => $postId,
+    //                 'emid' => auth()->user()->emid,
+    //                 'employee_code' => auth()->user()->employee_id
+    //             ]);
+    //             $action = 'liked';
+    //         }
+    //         //dd('5555k');
+    //         // Get updated like count
+    //         $likesCount = PostLike::where('post_id', $postId)->count();
 
-            return response()->json([
-                'flag' => true,
-                'action' => $action,
-                'likes_count' => $likesCount
-            ]);
+    //         return response()->json([
+    //             'flag' => true,
+    //             'action' => $action,
+    //             'likes_count' => $likesCount
+    //         ]);
 
-        } catch (\Exception $e) {
-            \Log::error('Like error: '.$e->getMessage());
-            return response()->json([
-                'flag' => false,
-                'error' => 'Failed to process like'
-            ], 500);
-        }
-    }
+    //     } catch (\Exception $e) {
+    //         \Log::error('Like error: '.$e->getMessage());
+    //         return response()->json([
+    //             'flag' => false,
+    //             'error' => 'Failed to process like'
+    //         ], 500);
+    //     }
+    // }
 
     //main function
     // public function allPost(Request $request)
@@ -423,6 +423,94 @@ class PostController extends Controller
             \Log::error('Post error: '.$e->getMessage());
             return Helper::rjd(
                 "Failed to process posts",
+                0,
+                [],
+                500
+            );
+        }
+    }
+
+    public function toggleLike(Request $request, $postId)
+    {
+        if (!auth()->check()) {
+            return Helper::rjd("Authentication required", 0, [], 401);
+        }
+
+        try {
+            $user = auth()->user();
+            //$request->name = $request->input('reaction_type', 'like'); // Default to 'like' if not specified
+            $validator = Validator::make($request->all(), [
+                'name' => [
+                    'nullable',
+                    'string',
+                    'in:like,love,haha,wow,sad,angry'
+                ]
+            ]);
+            // Check if reaction already exists
+            $existingReaction = PostLike::where('post_id', $postId)
+                                    ->where('emid', $user->emid)
+                                    ->where('employee_code', $user->employee_id)
+                                    ->first();
+
+            $action = null;
+            
+            if ($existingReaction) {
+                if ($existingReaction->name === $request->name) {
+                    // Remove the reaction if it's the same type
+                    $existingReaction->delete();
+                    $action = 'removed';
+                } else {
+                    // Update to new reaction type
+                    $existingReaction->update(['name' => $request->name]);
+                    $action = 'updated';
+                }
+            } else {
+                // Create new reaction
+                PostLike::create([
+                    'post_id' => $postId,
+                    'emid' => $user->emid,
+                    'employee_code' => $user->employee_id,
+                    'name' => $request->name
+                ]);
+                $action = 'added';
+            }
+
+            // Get updated reaction counts
+            $reactionCounts = PostLike::where('post_id', $postId)
+                ->selectRaw('COUNT(*) as total')
+                ->selectRaw('SUM(name = "like") as like_count')
+                ->selectRaw('SUM(name = "love") as love_count')
+                ->selectRaw('SUM(name = "haha") as haha_count')
+                // Add more reaction types as needed
+                ->first();
+
+            // Get current user's reaction after update
+            $userReaction = PostLike::where('post_id', $postId)
+                                ->where('emid', $user->emid)
+                                ->where('employee_code', $user->employee_id)
+                                ->value('name');
+
+            return Helper::rjd(
+                "Reaction processed successfully",
+                1,
+                [
+                    'action' => $action,
+                    'reaction_type' => $request->name,
+                    'reactions' => [
+                        'total' => $reactionCounts->total ?? 0,
+                        'like' => $reactionCounts->like_count ?? 0,
+                        'love' => $reactionCounts->love_count ?? 0,
+                        'haha' => $reactionCounts->haha_count ?? 0,
+                        // Add more reaction types as needed
+                    ],
+                    'user_reaction' => $userReaction
+                ]
+            );
+
+        } catch (\Exception $e) {
+            \Log::error('Reaction error: '.$e->getMessage());
+            return Helper::rjd(
+                "Failed to process reaction",
                 0,
                 [],
                 500
