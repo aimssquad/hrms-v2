@@ -6058,9 +6058,8 @@ Route::post('/superadmin/save-atten-permission', [OrgAttenPermissionController::
 // language change route
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
 
-// Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+// post, comment,like route
 Route::post('/posts', 'App\Http\Controllers\Post\PostController@store')->name('posts.store');
-// Route::get('post-edit/{id}', [PostController::class, 'edit'])->name('posts.edit');
 Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
 Route::put('post-update', [PostController::class, 'update'])->name('posts.update');
 Route::get('edit-post/{id}/{emp_id}', 'App\Http\Controllers\Post\PostController@deletePost')->name('posts.delete');
