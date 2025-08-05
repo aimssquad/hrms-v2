@@ -262,7 +262,7 @@ class BreakTimeController extends Controller
             ->first();
         //dd($break);
         if(!$break){
-              $dynamicFlag = 0;
+              $dynamicFlag = 1;
                     $data = []; // Empty array
                     $message = "break data not found";
                     return Helper::rjd(

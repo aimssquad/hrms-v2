@@ -235,6 +235,28 @@ class PostController extends Controller
         }
     }
 
+    public function commentReply(Request $request, $commentId){
+        $email = Session::get('emp_email');
+        $data['comments'] =  PostComment::find($commentId);
+        $data['commenter'] = DB::table('employee')
+            ->where('emid', $data['comments']->emid)
+            ->where('emp_code', $data['comments']->employee_code)
+            ->where('status', 'active')
+            ->select(
+                DB::raw("CONCAT(emp_fname, ' ', emp_lname) as employee_name"),
+                'emp_image as employee_image'
+            )
+            ->first();
+            // $data = [
+            //     'comment_id' => $comments->id,
+            //     'emid' => $comments->emid,
+            //     'employee_code' => $comments->employee_code,
+               
+            // ]
+        //dd($data);
+        return view('employeer/employee-corner/emp-post/edit-post', $data);
+    }
+
   
 
 

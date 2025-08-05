@@ -6066,6 +6066,9 @@ Route::get('edit-post/{id}/{emp_id}', 'App\Http\Controllers\Post\PostController@
 
 Route::post('comments', 'App\Http\Controllers\Post\PostController@storeComment')->name('comment.store');
 
+Route::get('comment-reply/{id}',[PostController::class, 'commentReply'])->name('comment.reply');
+Route::post('comment-reply',[PostController::class, 'commentReplySave'])->name('comment.reply.save');
+
 Route::post('/posts/{post}/like', 'App\Http\Controllers\Post\PostController@toggleLike');
 
 

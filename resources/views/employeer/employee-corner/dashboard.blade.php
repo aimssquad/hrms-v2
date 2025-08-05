@@ -397,6 +397,20 @@
 		color: #fa5305; /* Red icon */
 	}
 	/*--------------- End Edit and delete button css -------------*/
+
+	.btn-reply {
+		background: none;
+		border: none;
+		color: #999;
+		font-size: 11px;
+		padding: 2px;
+		cursor: pointer;
+		margin-top: 3px;
+	}
+
+	.btn-reply:hover {
+		color: #555;
+	}
 </style>
 @section('content')
     <div class="content container-fluid pb-0">
@@ -897,6 +911,9 @@
 															<small class="comment-time">{{ $comment->time_ago }}</small>
 														</div>
 														<p class="comment-text">{{ $comment->comment_text }}</p>
+														<a class="btn-reply" data-comment-id="{{ $comment->id }}" href="{{route('comment.reply',$comment->id)}}" title="Reply">
+															<i class="fas fa-reply"></i>
+														</a>
 													</div>
 												</div>
 											@endforeach
