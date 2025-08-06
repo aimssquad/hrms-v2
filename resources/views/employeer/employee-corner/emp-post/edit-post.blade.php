@@ -205,7 +205,7 @@
                             
                             <!-- Reply Form (Initially hidden) -->
                             <div class="reply-form-container">
-                                <form id="postForm" method="post" action="" enctype="multipart/form-data" class="reply-form">
+                                <form id="postForm" method="post" action="#" enctype="multipart/form-data" class="reply-form">
                                     @csrf
                                     <input type="hidden" name="post_id" value="{{$comments->post_id}}">
                                     <input type="hidden" name="comment_id" value="{{$comments->id}}">
