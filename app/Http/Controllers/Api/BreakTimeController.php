@@ -139,11 +139,15 @@ class BreakTimeController extends Controller
         //dd()
         $currentAttendance  =  TempAttendance::where('employee_code',$employee_code)->where('emid',$emid)->where('date',$validated['break_date'])->first();
         if(!$currentAttendance){
-            return response()->json([
-                    'flag' => 0,
-                    'status' => false,
-                    'message' => 'Sorry , you have not attended yet.',
-                ], 400);
+            $dynamicFlag = 0;
+            $data=[];
+            $message = "Sorry , you have not attended yet.";
+            return Helper::rjd(
+                $message,
+                $dynamicFlag,
+                $data
+            );
+
         }
         //dd($currentAttendance);
 
@@ -232,12 +236,21 @@ class BreakTimeController extends Controller
         ]; 
   
 
-        return response()->json([
-            'flag' => 1,
-            'status' => true,
-            'message' => $message,
-            'data' => $data
-        ]);
+        // return response()->json([
+        //     'flag' => 1,
+        //     'status' => true,
+        //     'message' => $message,
+        //     'data' => $data
+        // ]);
+
+        $dynamicFlag = 1;
+        $data=$data;
+        $message = $message;
+        return Helper::rjd(
+            $message,
+            $dynamicFlag,
+            $data
+        );
     }
 
 
