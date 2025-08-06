@@ -2,6 +2,7 @@
 @section('title', 'Edit Post')
 @section('css')
 <style>
+    
     /* Comment Container Styles */
     .comment-container {
         background: #f0f2f5;
@@ -129,7 +130,7 @@
     }
     
     .cancel-reply {
-        margin-right: 8px;
+        margin-left: 8px;
     }
 </style>
 
@@ -178,11 +179,16 @@
                             <!-- Comment Header with user info -->
                             <div class="comment-header">
                                 <div class="commenter-avatar">
-                                    <img src="{{ asset('storage/'.$commenter->employee_image) }}" alt="{{ $commenter->employee_name }}" class="commenter-image">
+                                    @if($commenter->employee_image == null)
+                                        <img src="{{asset('assets/img/user.png')}}" alt="You" class="reply-user-avatar">
+                                    @else
+                                    <img src="{{ asset('storage/app/public/'.$commenter->employee_image) }}" alt="{{ $commenter->employee_name }}" class="commenter-image">
+                                    @endif
+                                    
                                 </div>
                                 <div class="commenter-info">
                                     <h5 class="commenter-name">{{ $commenter->employee_name }}</h5>
-                                    <span class="comment-time">Just now</span>
+                                    <span class="comment-time">{{\Carbon\Carbon::parse($comments->created_at)->diffForHumans()}}</span>
                                 </div>
                             </div>
                             
@@ -198,12 +204,20 @@
                             </div>
                             
                             <!-- Reply Form (Initially hidden) -->
-                            <div class="reply-form-container" style="display: none;">
+                            <div class="reply-form-container">
                                 <form id="postForm" method="post" action="" enctype="multipart/form-data" class="reply-form">
                                     @csrf
+                                    <input type="hidden" name="post_id" value="{{$comments->post_id}}">
+                                    <input type="hidden" name="comment_id" value="{{$comments->id}}">
+                                    <input type="hidden" name="comment_employee_id" value="{{$comments->employee_code}}">
                                     <div class="form-group mb-3">
                                         <div class="reply-input-group">
-                                            <img src="{{ asset('storage/'.$commenter->employee_image) }}" alt="Your profile" class="reply-user-avatar">
+                                            @if($emp_image == null)
+                                                <img src="{{asset('assets/img/user.png')}}" alt="You" class="reply-user-avatar">
+                                            @else
+                                                <img src="{{ asset('storage/app/public/'.$emp_image) }}" alt="Your profile" class="reply-user-avatar">
+                                            @endif
+                                            
                                             <textarea class="form-control reply-textarea @error('content') is-invalid @enderror" 
                                                     id="reply" name="reply" rows="1" 
                                                     placeholder="Write a reply..." required>{{ old('content') }}</textarea>
@@ -213,8 +227,9 @@
                                         @enderror
                                     </div>
                                     <div class="reply-buttons">
-                                        <button type="button" class="btn btn-outline-secondary cancel-reply">Cancel</button>
                                         <button type="submit" class="btn btn-primary">Reply</button>
+                                        <button type="button" class="btn btn-outline-secondary cancel-reply">Cancel</button>
+                                        
                                     </div>
                                 </form>
                             </div>
@@ -225,18 +240,4 @@
         </div>
     </div>    
 @endsection
-<script>
-    // Simple JavaScript to toggle reply form visibility
-    document.querySelectorAll('.reply-trigger').forEach(button => {
-        button.addEventListener('click', function() {
-            const replyForm = this.closest('.comment-container').querySelector('.reply-form-container');
-            replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
-        });
-    });
-    
-    document.querySelectorAll('.cancel-reply').forEach(button => {
-        button.addEventListener('click', function() {
-            this.closest('.reply-form-container').style.display = 'none';
-        });
-    });
-</script>
+

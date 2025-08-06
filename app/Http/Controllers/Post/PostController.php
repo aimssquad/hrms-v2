@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Post;
 use App\Http\Controllers\Controller;
 use App\Models\Post\Post;
 use App\Models\Post\PostComment;
+use App\Models\Post\PostCommentReply;
 use App\Models\User;
+use App\Models\Employee;
 use App\Models\Post\PostLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -237,6 +239,10 @@ class PostController extends Controller
 
     public function commentReply(Request $request, $commentId){
         $email = Session::get('emp_email');
+        $user = User::where('email', $email)->first();
+        $employee = Employee::where('emp_code',$user->employee_id)->where('emid',$user->emid)->first();
+        //dd($user);
+        $data['emp_image'] = $employee->emp_image;
         $data['comments'] =  PostComment::find($commentId);
         $data['commenter'] = DB::table('employee')
             ->where('emid', $data['comments']->emid)
@@ -257,7 +263,7 @@ class PostController extends Controller
         return view('employeer/employee-corner/emp-post/edit-post', $data);
     }
 
-  
+  //\Carbon\Carbon::parse($comment->created_at)->diffForHumans()
 
 
 
