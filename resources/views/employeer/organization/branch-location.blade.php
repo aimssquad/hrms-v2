@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Branch Location')
+@section('title', \App\Helpers\Helper::cachedTrans('Branch Location') )
 
 @section('content')
 <!-- Page Content -->
