@@ -9,14 +9,14 @@
     <div class="page-header">
         <div class="row align-items-center">
            <div class="col">
-              <h3 class="page-title">Branch Location</h3>
+              <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Branch Location')}}</h3>
               <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('organization.home')}}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Branch Location </li>
+                <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Branch Location')}} </li>
               </ul>
            </div>
            <div class="col-auto float-end ms-auto">
-                <a href="{{url('organization/add-location')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Branch Location</a>
+                <a href="{{url('organization/add-location')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Branch Location')}}</a>
            </div>
         </div>
      </div>
@@ -27,7 +27,7 @@
            <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
-                    <i class="fa fa-map-marker" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Organization Branch Location
+                    <i class="fa fa-map-marker" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Organization Branch Location')}}
                 </h4>
                  <div class="row">
                     <div class="col-auto">
@@ -39,7 +39,7 @@
                             {{-- put the value - that is your file name --}}
                             <input type="hidden" id="filenameInput" value="Branch-location">
                             <button type="submit" class="btn-download btn-download-excel me-0">
-                                 Export to Excel
+                                 {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                             </button>
                         </form>
                     </div>
@@ -50,7 +50,7 @@
                           <input type="hidden" name="headings" id="pdfHeadings">
                           <input type="hidden" name="filename" id="pdfFilename">
                           <button type="submit" class="btn-download btn-download-pdf">
-                               Export to PDF
+                               {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}
                           </button>
                       </form>
                     </div>
@@ -61,15 +61,15 @@
                     <table id="basic-datatables" class="display table table-striped table-hover">
                        <thead>
                           <tr>
-                            <th>Sl No.</th>
-                            <th>Branch Name</th>
-                            <th>Attendance Process</th>
-                            <th>Location</th>
-                            <th>Latitude</th>
-                            <th>Longitude</th>
-                            <th>Office Around</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Branch Name')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Attendance Process')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Location')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Latitude')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Longitude')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Office Around')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Status')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                           </tr>
                        </thead>
                        <tbody> 
