@@ -263,6 +263,10 @@ class PostController extends Controller
         return view('employeer/employee-corner/emp-post/edit-post', $data);
     }
 
+    public function commentReplySave(Request $request){
+        return redirect('organization/employerdashboard');
+    }
+
   //\Carbon\Carbon::parse($comment->created_at)->diffForHumans()
 
 
