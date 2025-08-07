@@ -7,7 +7,7 @@
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
-        <title>Register - SponiHR</title>
+        <title>Register - SponicHR</title>
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/sponicHr-logo.png') }}">
       @else

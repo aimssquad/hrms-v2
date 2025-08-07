@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'All Employee List')
+@section('title', \App\Helpers\Helper::cachedTrans('All Employee List'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -29,11 +29,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title"> All Employee List</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans("All Employee List")}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('org-dashboarddetails')}}">Sponsor Compliance Dashboard</a></li>
-               <li class="breadcrumb-item active">All Employee List</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans("Home")}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('org-dashboarddetails')}}">{{\App\Helpers\Helper::cachedTrans("Sponsor Compliance Dashboard")}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans("All Employee List")}}</li>
             </ul>
          </div>
       </div>
@@ -45,7 +45,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;All Employee List
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans("All Employee List")}}
                </h4>
                <div class="row">
                   <div class="col-auto">
@@ -57,7 +57,7 @@ return $output;
                           {{-- put the value - that is your file name --}}
                           <input type="hidden" id="filenameInput" value="All-Employee-List">
                           <button type="submit" class="btn btn-success btn-sm">
-                              <i class="fas fa-file-excel"></i> Export to Excel
+                              <i class="fas fa-file-excel"></i> {{\App\Helpers\Helper::cachedTrans("Export to Excel")}}
                           </button>
                       </form>
                   </div>
@@ -68,7 +68,7 @@ return $output;
                         <input type="hidden" name="headings" id="pdfHeadings">
                         <input type="hidden" name="filename" id="pdfFilename">
                         <button type="submit" class="btn btn-info btn-sm">
-                            <i class="fas fa-file-pdf"></i> Export to PDF
+                            <i class="fas fa-file-pdf"></i> {{\App\Helpers\Helper::cachedTrans("Export to PDF")}} 
                         </button>
                     </form>
                   </div>
@@ -80,17 +80,17 @@ return $output;
                <table class="table table-striped custom-table" id="basic-datatables">
                   <thead>
                      <tr>
-                       <th>Employee ID</th>
-                       <th>Employee Name</th>
-                       <th>Job Title</th>
-                       <th>DOB</th>
-                       <th>Mobile</th>
-                       <th>Nationality</th>
-                       <th>NI Number</th>
-                       <th>Visa Expired</th>
-                       <th>Passport No.</th>
-                       <th>Address.</th>
-                       <th>Action</th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("Employee ID")}} </th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("Employee Name")}} </th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("Job Title")}}</th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("DOB")}} </th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("Mobile")}} </th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("Nationality")}} </th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("NI Number")}} </th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("Visa Expired")}} </th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("Passport No.")}} </th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("Address.")}} </th>
+                       <th>{{\App\Helpers\Helper::cachedTrans("Action")}} </th>
                      </tr>
                   </thead>
                   <tbody>
