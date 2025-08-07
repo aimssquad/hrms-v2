@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Key Contect')
+@section('title', \App\Helpers\Helper::cachedTrans('Key Contect'))
 
 @section('content')
 <!-- Page Content -->
@@ -9,10 +9,10 @@
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="page-title"> Key Contect</h3>
+                <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans("Key Contect")}}</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('organization.home')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active"> Key Contect </li>
+                    <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans("Key Contect")}}Dashboard</a></li>
+                    <li class="breadcrumb-item active"> {{\App\Helpers\Helper::cachedTrans("Key Contect")}} </li>
                 </ul>
             </div>
         </div>
@@ -23,7 +23,7 @@
            <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
-                    <i class="far fa-user" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Key Contect 
+                    <i class="far fa-user" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans("Key Contect")}}
                 </h4>
                  <div class="row">
                     <div class="col-auto">
@@ -35,7 +35,7 @@
                             {{-- put the value - that is your file name --}}
                             <input type="hidden" id="filenameInput" value="Key-contact">
                             <button type="submit" class="btn-download btn-download-excel me-0">
-                                 Export to Excel
+                                 {{\App\Helpers\Helper::cachedTrans("Export to Excel")}} 
                             </button>
                         </form>
                     </div>
@@ -46,7 +46,7 @@
                           <input type="hidden" name="headings" id="pdfHeadings">
                           <input type="hidden" name="filename" id="pdfFilename">
                           <button type="submit" class="btn-download btn-download-pdf">
-                              <i class="fas fa-file-pdf"></i> Export to PDF
+                              <i class="fas fa-file-pdf"></i> {{\App\Helpers\Helper::cachedTrans("Export to PDF")}} 
                           </button>
                       </form>
                     </div>
@@ -57,29 +57,29 @@
                     <table id="basic-datatables" class="display table table-striped table-hover">
                        <thead>
                           <tr>
-                            <th>Sl No.</th>
-                            <th> Name</th>
-                            <th>Designation </th>
-                            <th>Phone No</th>
-                            <th>Email Id</th>
-                            <th>Do you have a history of Criminal conviction/Bankruptcy?</th>
-                            <th>Proof Of Id</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Sl No.")}} </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Name")}} </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Designation")}} </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Phone No")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Email Id")}} </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Do you have a history of Criminal conviction/Bankruptcy?")}} </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Proof Of Id")}}</th>
                           </tr>
                        </thead>
                        <tbody> 
                             @if ($Roledata->key_f_name!='')								
                                 <tr>
                                     <td>1</td>
-                                    <td>{{ $Roledata->key_f_name }} {{ $Roledata->key_f_lname }}</td>
-                                    <td>{{ $Roledata->key_designation }}</td>
+                                    <td>{{ \App\Helpers\Helper::cachedTrans($Roledata->key_f_name) }} {{ \App\Helpers\Helper::cachedTrans($Roledata->key_f_lname) }}</td>
+                                    <td>{{ \App\Helpers\Helper::cachedTrans($Roledata->key_designation) }}</td>
                                     <td>{{ $Roledata->key_phone }}</td>
                                     <td>{{ $Roledata->key_email }}</td>
-                                    <td>{{ $Roledata->key_bank_status }} @if ($Roledata->key_bank_status=='Yes')( {{ $Roledata->key_bank_other }} ) @endif</td>
+                                    <td>{{ \App\Helpers\Helper::cachedTrans($Roledata->key_bank_status) }} @if ($Roledata->key_bank_status=='Yes')( {{ $Roledata->key_bank_other }} ) @endif</td>
                                     <td>
                                         @if ($Roledata->key_proof!='')
                                             <a href="{{ asset('storage/app/public/' . $Roledata->key_proof) }}" target="_blank"><img src="{{ asset('storage/app/public/' . $Roledata->key_proof) }}" height="50px" width="50px"/></a>
                                         @else
-                                        <p>No Proof Of Id</p>
+                                        <p>{{\App\Helpers\Helper::cachedTrans("No Proof Of Id")}}</p>
                                         @endif	
                                     </td>
                                 </tr>

@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Employees (RTI)')
+@section('title', \App\Helpers\Helper::cachedTrans('Employees (RTI)') )
 
 @section('content')
 <!-- Page Content -->
@@ -9,10 +9,10 @@
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="page-title"> Employees (RTI)</h3>
+                <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans('Employees (RTI)')}} </h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('organization.home')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Employees (RTI)</li>
+                    <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}} </a></li>
+                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Employees (RTI)')}} </li>
                 </ul>
             </div>
         </div>
@@ -23,7 +23,7 @@
            <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
-                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Employees (RTI)
+                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Employees (RTI)')}} 
                 </h4>
                 <div class="row">
                     <div class="col-auto">
@@ -35,7 +35,7 @@
                             {{-- put the value - that is your file name --}}
                             <input type="hidden" id="filenameInput" value="Employee-rtilink">
                             <button type="submit" class="btn-download btn-download-excel me-0">
-                                 Export to Excel
+                                 {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                             </button>
                         </form>
                     </div>
@@ -46,7 +46,7 @@
                           <input type="hidden" name="headings" id="pdfHeadings">
                           <input type="hidden" name="filename" id="pdfFilename">
                           <button type="submit" class="btn-download btn-download-pdf">
-                               Export to PDF
+                               {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                           </button>
                       </form>
                     </div>
@@ -57,12 +57,12 @@
                     <table id="basic-datatables" class="display table table-striped table-hover">
                        <thead>
                           <tr>
-                             <th>Sl No.</th>
-                             <th>Employee Name</th>
-                             <th>Department</th>
-                             <th>Job Type</th>
-                             <th>Job Title</th>
-                             <th>Immigration Status</th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}} </th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Employee Name')}} </th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Department')}} </th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Job Type')}} </th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Job Title')}} </th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Immigration Status')}} </th>
                           </tr>
                        </thead>
                        <tbody>
@@ -75,11 +75,11 @@
                                     @if ($empuprotgans->name!='')								
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $empuprotgans->name }}</td>
-                                            <td>{{ $empuprotgans->department }}</td>
-                                            <td>{{ $empuprotgans->job_type }}</td>
-                                            <td>{{ $empuprotgans->designation }}</td>
-                                            <td>{{ $empuprotgans->immigration }}</td>
+                                            <td>{{ $empuprotgans->name  }}</td>
+                                            <td>{{ \App\Helpers\Helper::cachedTrans($empuprotgans->department) }}</td>
+                                            <td>{{ \App\Helpers\Helper::cachedTrans($empuprotgans->job_type) }}</td>
+                                            <td>{{ \App\Helpers\Helper::cachedTrans($empuprotgans->designation) }}</td>
+                                            <td>{{ \App\Helpers\Helper::cachedTrans($empuprotgans->immigration) }}</td>
                                             <!--<td class="text-end">-->
                                             <!--    <div class="dropdown dropdown-action">-->
                                             <!--        <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>-->

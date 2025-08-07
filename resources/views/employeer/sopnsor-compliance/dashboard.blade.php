@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Sponsor Compaliance')
+@section('title', \App\Helpers\Helper::cachedTrans('Sponsor Compaliance'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -12,10 +12,10 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
    <div class="page-header">
       <div class="row">
          <div class="col-sm-12">
-            <h3 class="page-title">Welcome!</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans("Welcome!")}}</h3>
             <ul class="breadcrumb">
                <li class="breadcrumb-item active">
-                  {{ucwords($Roledata->com_name)}}
+                  {{\App\Helpers\Helper::cachedTrans(ucwords($Roledata->com_name))}}
                </li>
             </ul>
          </div>
@@ -55,14 +55,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Organisation Profile</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Organisation Profile")}}</h4>
                      </div>
                      <div class="modern-card-body">
                            <div class="modern-status">
                               @if($Roledata->updated_at != '')
-                              <span class="status-badge complete">Complete</span>
+                              <span class="status-badge complete">{{\App\Helpers\Helper::cachedTrans("Complete")}}</span>
                               @else
-                              <span class="status-badge incomplete">Incomplete</span>
+                              <span class="status-badge incomplete">{{\App\Helpers\Helper::cachedTrans("Incomplete")}}</span>
                               @endif
                            </div>
                            <div class="modern-arrow">
@@ -80,7 +80,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">All Employee List</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("All Employee List")}}</h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status">
@@ -105,7 +105,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Migrant Employee List</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Migrant Employee List")}}</h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -124,7 +124,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Right to Work checks</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Incomplete")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -147,7 +147,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Recruitment Process</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Recruitment Process")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -172,7 +172,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Recruitment Process</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Recruitment Process")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -195,7 +195,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                               <div class="modern_icon_wrapper">
                                        <i class="fa fa-building modern-icon"></i>
                                     </div>
-                                    <h4 class="modern-card-title">Leave Management</h4>
+                                    <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Leave Management")}} </h4>
                               </div>
                               <div class="modern-card-body">
                                  <div class="modern-status"></div>
@@ -220,7 +220,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Leave Management</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Leave Management")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -240,7 +240,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Payroll</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Payroll")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -261,7 +261,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <div class="modern_icon_wrapper">
                                  <i class="fa fa-building modern-icon"></i>
                               </div>
-                              <h4 class="modern-card-title">Key Contact</h4>
+                              <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Key Contact")}} </h4>
                         </div>
                         <div class="modern-card-body">
                            <div class="modern-status"></div>
@@ -281,7 +281,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Sponsor Management Dossier</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Sponsor Management Dossier")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -300,7 +300,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Monitoring & Reporting</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Monitoring & Reporting")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -320,7 +320,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                            <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Message Centre</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Message Centre")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -339,7 +339,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                            <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">Staff Report</h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Staff Report")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -362,7 +362,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                         <i class="fa fa-building modern-icon"></i>
                      </div>
-                     <h4 class="modern-card-title">Absent Report</h4>
+                     <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Absent Report")}} </h4>
                   </div>
                   <div class="modern-card-body">
                      <div class="d-flex align-items-center w-100">
@@ -402,7 +402,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                     <h4 class="modern-card-title">Change Of Circumstances</h4>
+                     <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Change Of Circumstances")}} </h4>
                   </div>
                   <div class="modern-card-body">
                      <div class="d-flex align-items-center w-100">
@@ -443,7 +443,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                   <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                     <h4 class="modern-card-title">Contract Agreement</h4>
+                     <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Contract Agreement")}} </h4>
                   </div>
                   <div class="modern-card-body">
                      <div class="d-flex align-items-center w-100">
@@ -485,32 +485,32 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                <div class="card" style="margin-bottom:30px;">
                   <div class="card-body">
                      <div class="card-header">
-                        <h3 style="color:#FF902F;">E-VISA / VISA  NOTIFICATION</h3>
+                        <h3 style="color:#FF902F;">{{\App\Helpers\Helper::cachedTrans("E-VISA / VISA  NOTIFICATION")}} </h3>
                      </div>
                      <div class="table-responsive">
                         <table id="basic-datatables" class="table table-striped custom-table" >
                            <thead>
                               <tr>
-                                 <th>Employee Code</th>
-                                 <th>Employee Name</th>
-                                 <th>Address</th>
-                                 <th>Share Code</th>
-                                 <th>Share Date Check</th>
-                                 <th>Share Issue Date</th>
-                                 <th>Share Expiry Date</th>
-                                 <th>Passport No.</th>
-                                 <th>BRP No.</th>
-                                 <th>Visa Issue Date</th>
-                                 <th>Visa Expiry Date</th>
-                                 <th>Visa Reminder - 90 days </th>
-                                 <th>View </th>
-                                 <th>Send </th>
+                                 <th>Employee Code </th>
+                                 <th>Employee Name </th>
+                                 <th>Address </th>
+                                 <th>Share Code </th>
+                                 <th>Share Date Check </th>
+                                 <th>Share Issue Date </th>
+                                 <th>Share Expiry Date </th>
+                                 <th>Passport No. </th>
+                                 <th>BRP No. </th>
+                                 <th>Visa Issue Date </th>
+                                 <th>Visa Expiry Date </th>
+                                 <th>Visa Reminder - 90 days  </th>
+                                 <th>View  </th>
+                                 <th>Send  </th>
                                  <th>Visa Reminder - 60 days </th>
-                                 <th>View </th>
-                                 <th>Send </th>
-                                 <th>Visa Reminder - 30 days </th>
+                                 <th>View  </th>
+                                 <th>Send  </th>
+                                 <th>Visa Reminder - 30 days  </th>
                                  <th>View</th>
-                                 <th>Send </th>
+                                 <th>Send</th>
                                  <th>Email Send</th>
                               </tr>
                            </thead>

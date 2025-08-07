@@ -84,7 +84,7 @@
                                     <td>{{ $branch->radius }}</td>
                                     <td>
                                         <span class="badge {{ $branch->status ? 'bg-success' : 'bg-danger' }}">
-                                        <a href="{{ url('organization/location-status/' . base64_encode($branch->id)) }}"> {{ $branch->status ? 'Active' : 'Inactive' }} </a>
+                                        <a href="{{ url('organization/location-status/' . base64_encode($branch->id)) }}"> {{ $branch->status ? \App\Helpers\Helper::cachedTrans('Action') : \App\Helpers\Helper::cachedTrans('Inactive') }} </a>
                                         </span>
                                     </td>
                                     <td class="text-end">
