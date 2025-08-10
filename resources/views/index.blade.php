@@ -16,7 +16,7 @@
       <meta name="keywords" content="Sponic Hr">
       <meta name="author" content="Sponic Hr">
    
-      @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+      @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk' || $dName === 'sponichr.skilledworkerscloud.co.uk') 
         <title>Login - SponicHR</title>
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/sponicHr-logo.png') }}">
