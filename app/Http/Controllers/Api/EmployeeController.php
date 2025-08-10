@@ -92,5 +92,19 @@ class EmployeeController extends Controller
         }
     }
 
+    public function employee_dtl(){
+        try{
+            $emid = auth()->user()->emid;
+            $employee_id = auth()->user()->employee_id;
+
+            //dd(auth()->user()->employee_id);
+            $employee = Employee::where('emp_code', $employee_id)->where('emid', $emid)->get();
+            dd($employee);
+
+        } catch (Exception $e) {
+            return Helper::rj("Server Error.", 500);
+        }
+    }
+
 
 } //End class.

@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Right to Work checks')
+@section('title', \App\Helpers\Helper::cachedTrans('Right to Work checks'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -33,22 +33,22 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title"> Right to Work checks</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans("Right to Work checks")}} </h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('org-dashboarddetails')}}">Sponsor Compliance Dashboard</a></li>
-               <li class="breadcrumb-item active">Right to Work checks</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans("Home")}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('org-dashboarddetails')}}">{{\App\Helpers\Helper::cachedTrans("Sponsor Compliance Dashboard")}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans("Right to Work checks")}}</li>
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type ==="employee")
             @foreach($sidebarItems['Sponsor Compliances'] as $rotaItem)
                 @if($rotaItem['submenu_name'] == 'Sponsor Compliances' && $rotaItem['can_add'] == 1)
-            <a href="{{ url('org-add-right-works-by-datecheck') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Right to Work checks </a>
+            <a href="{{ url('org-add-right-works-by-datecheck') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans("Add Right to Work checks")}}  </a>
             @endif
             @endforeach
             @elseif($user_type == 'employer')
-            <a href="{{ url('org-add-right-works-by-datecheck') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Right to Work checks</a>
+            <a href="{{ url('org-add-right-works-by-datecheck') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans("Add Right to Work checks")}} </a>
             @endif
             {{-- 
             <div class="view-icons">
@@ -66,7 +66,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
-                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Right to Work checks
+                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans("Right to Work checks")}}
                 </h4>
                 <div class="row">
                    <div class="col-auto">
@@ -78,7 +78,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                            {{-- put the value - that is your file name --}}
                            <input type="hidden" id="filenameInput" value="Right-to-Work-checks">
                            <button type="submit" class="btn btn-success btn-sm">
-                               <i class="fas fa-file-excel"></i> Export to Excel
+                               <i class="fas fa-file-excel"></i> {{\App\Helpers\Helper::cachedTrans("Export to Excel")}}
                            </button>
                        </form>
                    </div>
@@ -89,7 +89,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                          <input type="hidden" name="headings" id="pdfHeadings">
                          <input type="hidden" name="filename" id="pdfFilename">
                          <button type="submit" class="btn btn-info btn-sm">
-                             <i class="fas fa-file-pdf"></i> Export to PDF
+                             <i class="fas fa-file-pdf"></i> {{\App\Helpers\Helper::cachedTrans("Export to PDF")}}
                          </button>
                      </form>
                    </div>
@@ -100,13 +100,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     <table id="basic-datatables" class="display table table-striped table-hover">
                        <thead>
                           <tr>
-                            <th>Employee ID</th>
-                            <th>Employee Name</th>
-                            <th>Date of check</th>
-                            <th>Type of check</th>
-                            <th>View</th>
-                            <th>Download</th>
-                            <th>Edit</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Employee ID")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Employee Name")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Date of check")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Type of check")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("View")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Download")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Edit")}}</th>
                           </tr>
                        </thead>
                        <tbody>

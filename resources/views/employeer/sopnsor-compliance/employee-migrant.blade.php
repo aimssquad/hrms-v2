@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Migrant Employee')
+@section('title', \App\Helpers\Helper::cachedTrans('Migrant Employee'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -29,11 +29,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title"> Migrant Employee</h3>
+            <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans("Migrant Employee")}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('org-dashboarddetails')}}">Sponsor Compliance Dashboard</a></li>
-               <li class="breadcrumb-item active">Migrant Employee</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans("Home")}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('org-dashboarddetails')}}">{{\App\Helpers\Helper::cachedTrans("Sponsor Compliance Dashboard")}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans("Migrant Employee")}}</li>
             </ul>
          </div>
       </div>
@@ -46,7 +46,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title" style="color:rgb(250, 149, 33)">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbspVisa Notification
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans("Visa Notification")}}
                </h4>
                <div class="row">
                   <div class="col-auto">
@@ -58,7 +58,7 @@ return $output;
                           {{-- put the value - that is your file name --}}
                           <input type="hidden" id="filenameInput" value="Visa-Notification">
                           <button type="submit" class="btn btn-success btn-sm">
-                              <i class="fas fa-file-excel"></i> Export to Excel
+                              <i class="fas fa-file-excel"></i> {{\App\Helpers\Helper::cachedTrans("Export to Excel")}} 
                           </button>
                       </form>
                   </div>
@@ -69,7 +69,7 @@ return $output;
                         <input type="hidden" name="headings" id="pdfHeadings">
                         <input type="hidden" name="filename" id="pdfFilename">
                         <button type="submit" class="btn btn-info btn-sm">
-                            <i class="fas fa-file-pdf"></i> Export to PDF
+                            <i class="fas fa-file-pdf"></i> {{\App\Helpers\Helper::cachedTrans("Export to PDF")}}
                         </button>
                     </form>
                   </div>
@@ -80,30 +80,30 @@ return $output;
                   <table class="table table-striped custom-table" id="basic-datatables">
                      <thead>
                         <tr>
-                           <th>Employee ID</th>
-                           <th>Employee Name</th>
-                           <th>DOB</th>
-                           <th>Mobile</th>
-                           <th>Nationality</th>
-                           <th>Share Code</th>
-                           <th>Share Date Check</th>
-                           <th>Share Issue Date</th>
-                           <th>Share Expiry Date</th>
-                           <th>NI Number</th>
-                           <th>Visa Expired</th>
-                           <th>Visa Reminder - 90 days </th>
-                           <th>View </th>
-                           <th>Send </th>
-                           <th>Visa Reminder - 60 days </th>
-                           <th>View </th>
-                           <th>Send</th>
-                           <th>Visa Reminder - 30 days </th>
-                           <th>View </th>
-                           <th>Send </th>
-                           <th>Passport No.</th>
-                           <th>Address.</th>
-                           <th>Email Send</th>
-                           <th>Action</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Employee ID")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Employee Name")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("DOB")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Mobile")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Nationality")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Share Code")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Share Date Check")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Share Issue Date")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Share Expiry Date")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("NI Number")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Visa Expired")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Visa Reminder - 90 days")}}  </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("View")}}  </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Send")}}  </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Visa Reminder - 60 days")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("View")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Send")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Visa Reminder - 30 days")}}  </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("View")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Send")}}  </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Passport No.")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Address.")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Email Send")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Action")}} </th>
                         </tr>
                      </thead>
                      <tbody>

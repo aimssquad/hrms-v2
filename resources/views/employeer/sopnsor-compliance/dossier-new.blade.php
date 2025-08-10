@@ -1,13 +1,5 @@
-
-
-
-
-
-
-
-
 @extends('employeer.include.app')
-@section('title', ' Sponsor Management Dossier')
+@section('title', \App\Helpers\Helper::cachedTrans('Sponsor Management Dossier'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -37,11 +29,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">  Sponsor Management Dossier</h3>
+            <h3 class="page-title">  {{\App\Helpers\Helper::cachedTrans("Sponsor Management Dossier")}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Dashboard</a></li>
-               <li class="breadcrumb-item"><a href="{{url('org-dashboarddetails')}}">Sponsor Compliance Dashboard</a></li>
-               <li class="breadcrumb-item active"> Sponsor Management Dossier</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans("Dashboard")}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('org-dashboarddetails')}}">{{\App\Helpers\Helper::cachedTrans("Sponsor Compliance Dashboard")}}</a></li>
+               <li class="breadcrumb-item active"> {{\App\Helpers\Helper::cachedTrans("Sponsor Management Dossier")}}</li>
             </ul>
          </div>
       </div>

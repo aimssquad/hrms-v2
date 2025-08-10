@@ -34,6 +34,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     
     Route::get('employee-birthday',[EmployeeController::class, 'getEmployeeBirthday']);
     Route::post('employee','App\Http\Controllers\Api\EmployeeController@editEmployee');
+    
+    Route::get('employee', [EmployeeController::class, 'employee_dtl']);
 
     Route::get('show_daily_attendance',[AttendanceController::class, 'showDailyAttendance']);
     Route::get('get_branch',[AttendanceController::class, 'getBranch']);

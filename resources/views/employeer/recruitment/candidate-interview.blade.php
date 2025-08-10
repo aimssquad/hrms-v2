@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Interview')
+@section('title', \App\Helpers\Helper::cachedTrans('Interview'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -34,11 +34,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Interview</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans("Interview")}}</h3>
 				<ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-					<li class="breadcrumb-item active">Interview</li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans("Home")}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans("Recruitment Dashboard")}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans("Interview")}}</li>
 				</ul>
 			</div>
 		</div>
@@ -49,7 +49,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
-                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Interview
+                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans("Interview")}}
                 </h4>
                 <div class="row">
                    <div class="col-auto">
@@ -61,7 +61,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                            {{-- put the value - that is your file name --}}
                            <input type="hidden" id="filenameInput" value="Interview">
                            <button type="submit" class="btn-download btn-download-excel me-0">
-                                Export to Excel
+                                {{\App\Helpers\Helper::cachedTrans("Export to Excel")}}
                            </button>
                        </form>
                    </div>
@@ -72,7 +72,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                          <input type="hidden" name="headings" id="pdfHeadings">
                          <input type="hidden" name="filename" id="pdfFilename">
                          <button type="submit" class="btn-download btn-download-pdf">
-                              Export to PDF
+                              {{\App\Helpers\Helper::cachedTrans("Export to PDF")}}
                          </button>
                      </form>
                    </div>
@@ -83,14 +83,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     <table id="basic-datatables" class="table table-striped custom-table" >
                        <thead>
                           <tr>
-                            <th>Job Code</th>
-                            <th>Job Title</th>
-                            <th>Candidate</th>
-                            <th>Email</th>
-                            <th>Contact Number</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Action</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Job Code")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Job Title")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Candidate")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Email")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Home")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Status")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Date")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Action")}}</th>
                           </tr>
                        </thead>
                        <tbody>

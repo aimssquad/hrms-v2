@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Job Posting')
+@section('title', \App\Helpers\Helper::cachedTrans('Job Posting'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -32,20 +32,20 @@ return $output;
          <div class="col">
             <h3 class="page-title">Job Posting</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-               <li class="breadcrumb-item active">Job Posting</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans("Home")}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans("Recruitment Dashboard")}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans("Job Posting")}}</li>
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
             @foreach($sidebarItems['Recruitment'] as $rotaItem)
                @if($rotaItem['submenu_name'] == 'Job Posting' && $rotaItem['can_add'] == 1)
-            <a href="{{ url('org-recruitment/add-job-post') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job Posting</a>
+            <a href="{{ url('org-recruitment/add-job-post') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans("Add Job Posting")}} </a>
             @endif
             @endforeach
             @elseif($user_type == 'employer')
-            <a href="{{ url('org-recruitment/add-job-post') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Job Posting</a>
+            <a href="{{ url('org-recruitment/add-job-post') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans("Add Job Posting")}} </a>
             @endif
          </div>
       </div>
@@ -57,7 +57,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Job Posting
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans("Job Posting")}}
                </h4>
                <div class="row">
                   <div class="col-auto">
@@ -70,7 +70,7 @@ return $output;
                           <input type="hidden" id="filenameInput" value="Job-posting">
                           <button data-toggle="tooltip" data-placement="bottom" title="Download Excel" 
                             class="btn btn-download btn-download-excel me-0" type="submit">
-                            Export to Excel
+                            {{\App\Helpers\Helper::cachedTrans("Export to Excel")}} 
                     </button>
                       </form>
                   </div>
@@ -82,7 +82,7 @@ return $output;
                         <input type="hidden" name="filename" id="pdfFilename">
                         <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" 
                             class="btn btn-download btn-download-pdf" type="submit">
-                            Export to PDF
+                            {{\App\Helpers\Helper::cachedTrans("Export to PDF")}} 
                     </button>
                     </form>
                   </div>
@@ -93,18 +93,18 @@ return $output;
                   <table class="table table-striped custom-table" id="basic-datatables">
                      <thead>
                         <tr>
-                           <th>Sl. No.</th>
-                           <th>Job Code</th>
-                           <th>Job Title</th>
-                           <th>Job Link</th>
-                           <th>Vacancy</th>
-                           <th>Job Location</th>
-                           <th>Job Posted Date</th>
-                           <th>Closing Date</th>
-                           <th>Email</th>
-                           <th>Phone No.</th>
-                           <th>Status</th>
-                           <th>Action</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Sl. No.")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Job Code")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Job Title")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Job Link")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Vacancy")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Job Location")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Job Posted Date")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Closing Date")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Email")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Phone No.")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Status")}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Action")}}</th>
                         </tr>
                      </thead>
                      <tbody>

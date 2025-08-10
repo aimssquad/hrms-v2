@@ -691,7 +691,7 @@ class AttendanceController extends Controller
 
             return response()->json([
                 'flag' => 1,
-                'status' => true,
+                'status' => 200,
                 'message' => 'Login recorded successfully.',
                 'data' => $created
             ]);
@@ -736,7 +736,7 @@ class AttendanceController extends Controller
 
             return response()->json([
                 'flag' => 1,
-                'status' => true,
+                'status' => 200,
                 'message' => 'Logout recorded successfully.',
                 'data' => $attendance
             ]);
@@ -801,11 +801,11 @@ class AttendanceController extends Controller
                                     ->where('emid', $emid)
                                     ->orderBy('date', 'desc');
 
-                // Apply date range filter if provided
+         
                 if (!empty($validated['from_date']) && !empty($validated['to_date'])) {
                     $query->whereBetween('date', [$validated['from_date'], $validated['to_date']]);
                 } 
-                // Apply single date filter if only from_date is provided
+             
                 elseif (!empty($validated['from_date'])) {
                     $query->where('date', '>=', $validated['from_date']);
                 }
