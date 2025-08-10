@@ -6,7 +6,9 @@
       <meta name="description" content="Sponic Hr">
       <meta name="keywords" content="Sponic Hr">
       <meta name="author" content="Sponic Hr">
+
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+      <meta property="og:image" content="{{ asset('frontend/assets/img/sponicHr-logo.png') }}">
         <title>Register - SponicHR</title>
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/sponicHr-logo.png') }}">
