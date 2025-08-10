@@ -8,7 +8,7 @@
       <meta name="author" content="Sponic Hr">
 
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk' || $dName === 'sponichr.skilledworkerscloud.co.uk') 
-        <meta property="og:image" content="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/sponicHr-logo.png">
+        <meta property="og:image" content="https://skilledworkerscloud.co.uk/hrms-v2/public/sponicHr-logo.png">
         <meta property="og:image:type" content="image/png">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
