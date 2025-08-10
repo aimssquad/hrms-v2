@@ -1,6 +1,6 @@
 <!-- Favicon -->
-<link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}">
-
+{{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/swch_logo.png') }}"> --}}
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/img/sponicHr-logo.png') }}">
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
 
