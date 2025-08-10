@@ -7,7 +7,7 @@
       <meta name="keywords" content="Sponic Hr">
       <meta name="author" content="Sponic Hr">
 
-      @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+      @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk' || $dName === 'sponichr.skilledworkerscloud.co.uk') 
         <meta property="og:image" content="https://skilledworkerscloud.co.uk/hrms-v2/frontend/assets/img/sponicHr-logo.png">
         <meta property="og:image:type" content="image/png">
         <meta property="og:image:width" content="1200">
@@ -167,7 +167,7 @@
                      <div class="login_main_right pt-0">
                         <div class="text-center">
                            <div class="account-logo">
-                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk' || $dName === 'sponichr.skilledworkerscloud.co.uk') 
                                 <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/sponicHr-logo.png')}}" alt="SponicHR"></a>
                             @else 
                                 @if($domain_name && $domain_name->logo) 
@@ -321,7 +321,7 @@
                             
                         </div>
                         <div class="carousel-inner">
-                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk' || $dName === 'sponichr.skilledworkerscloud.co.uk') 
                                 @if($videos->isNotEmpty())
                                     @foreach($videos as $key => $video)
                                         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
