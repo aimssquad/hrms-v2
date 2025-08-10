@@ -122,7 +122,7 @@
 				<div class="col-sm-6 bg-left_main">
                     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
-                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk' || $dName === 'sponichr.skilledworkerscloud.co.uk') 
                                 @if($videos->isNotEmpty())
                                     @foreach($videos as $key => $video)
                                         <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-label="Slide {{ $key + 1 }}"></button>
@@ -135,7 +135,7 @@
                             @endif
                         </div>
                         <div class="carousel-inner">
-                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk' || $dName === 'sponichr.skilledworkerscloud.co.uk') 
                                 @if($videos->isNotEmpty())
                                     @foreach($videos as $key => $video)
                                         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
@@ -195,7 +195,7 @@
                      <div class="login_main_right">
                         <div class="text-center">
                            <div class="account-logo">
-                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk') 
+                            @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk' || $dName === 'sponichr.skilledworkerscloud.co.uk') 
                                 <a href="https://skilledworkerscloud.co.uk/hrms-v2/"><img src="{{asset('frontend/assets/img/sponicHr-logo.png')}}" alt="SponicHR"></a>
                             @else 
                                 @if($domain_name && $domain_name->logo) 
