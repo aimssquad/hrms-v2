@@ -147,7 +147,11 @@
                                 </li>
                                 <li>
                                     <div class="title">Proof Of Id</div>
+                                    @if($companies_rs->level_proof)
                                     <div class="text"><a href="{{ asset('storage/app/public/' . $companies_rs->level_proof) }}" target="_blank"><img src="{{ asset('storage/app/public/' . $companies_rs->level_proof) }}" height="50px" width="50px"/></a></div>
+                                    @else
+                                    <div class="text">No Proof Available</div>
+                                    @endif
                                 </li>
                             </ul>
                         </div>
@@ -180,7 +184,11 @@
                                 </li>
                                 <li>
                                     <div class="title">Proof Of Id</div>
+                                    @if($companies_rs->key_proof)
                                     <div class="text"><a href="{{ asset('storage/app/public/' . $companies_rs->key_proof) }}" target="_blank"><img src="{{ asset('storage/app/public/' . $companies_rs->key_proof) }}" height="50px" width="50px"/></a></div>
+                                    @else
+                                    <div class="text">No Proof Available</div>
+                                    @endif
                                 </li>
                             </ul>
                         </div>

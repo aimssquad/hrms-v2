@@ -51,7 +51,7 @@
             'items' => [
                 ['url' => 'organization/employee/employerdashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
                 ['url' => 'organization/employee', 'label' =>  \App\Helpers\Helper::cachedTrans('Employees'),],
-                ['url' => 'organization/employee/sync-employee-upload', 'label' => \App\Helpers\Helper::cachedTrans('Sync Bulk Employees'),],
+                // ['url' => 'organization/employee/sync-employee-upload', 'label' => \App\Helpers\Helper::cachedTrans('Sync Bulk Employees'),],
                 ['url' => 'organization/inactiveEmployee', 'label' =>  \App\Helpers\Helper::cachedTrans('Inactive Employees'),],
                 ['url' => 'org-settings/vw-department', 'label' =>  \App\Helpers\Helper::cachedTrans('Department'),],
                 ['url' => 'org-settings/vw-designation', 'label' =>  \App\Helpers\Helper::cachedTrans('Designation'),],
