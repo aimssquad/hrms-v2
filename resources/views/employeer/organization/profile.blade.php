@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', \App\Helpers\Helper::cachedTrans('Organization Profile'))
+@section('title', 'Organization Profile')
 
 @section('content')
 
@@ -11,10 +11,10 @@
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans('Organization Profile')}}</h3>
+                <h3 class="page-title">Organization Profile</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
-                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Profile')}}</li>
+                    <li class="breadcrumb-item"><a href="{{route('organization.home')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Profile</li>
                 </ul>
             </div>
         </div>
@@ -40,18 +40,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="profile-info-left">
-                                        <h3 class="user-name m-t-0 mb-0">{{\App\Helpers\Helper::cachedTrans(ucfirst($companies_rs->com_name))}}</h3>
-                                        <h6 class="text">{{\App\Helpers\Helper::cachedTrans('Status')}} - <span class="badge bg-inverse-success"> {{\App\Helpers\Helper::cachedTrans(ucfirst($companies_rs->status))}}</span></h6>
-                                        <h6 class="text">{{\App\Helpers\Helper::cachedTrans(ucfirst($companies_rs->f_name ?? ''))}} {{\App\Helpers\Helper::cachedTrans(ucfirst($companies_rs->l_name ?? ''))}}</h6>
-                                        <div class="staff-id">{{\App\Helpers\Helper::cachedTrans('Orgnaization ID')}} : {{\App\Helpers\Helper::cachedTrans($companies_rs->reg)}}</div>
-                                        <div class="staff-id">{{\App\Helpers\Helper::cachedTrans('Registration No')}} : {{\App\Helpers\Helper::cachedTrans($companies_rs->com_reg)}}</div>
-                                        <div class="staff-id">{{\App\Helpers\Helper::cachedTrans('Type of Organisation')}} : {{\App\Helpers\Helper::cachedTrans($companies_rs->com_type)}}</div>
-                                        <div class="staff-id">{{\App\Helpers\Helper::cachedTrans('Name of Sector')}} : {{\App\Helpers\Helper::cachedTrans($companies_rs->com_nat)}}</div>
-                                        <div class="staff-id">{{\App\Helpers\Helper::cachedTrans('Trading Name')}} : {{\App\Helpers\Helper::cachedTrans($companies_rs->trad_name)}}</div>
-                                        <div class="staff-id">{{\App\Helpers\Helper::cachedTrans('Trading Period')}} : {{\App\Helpers\Helper::cachedTrans($companies_rs->com_year)}}</div>
-                                        <div class="small doj">{{\App\Helpers\Helper::cachedTrans('Date of Create')}} : {{\App\Helpers\Helper::cachedTrans(\Carbon\Carbon::parse($companies_rs->created_at)->format('j M Y'))}}</div>
+                                        <h3 class="user-name m-t-0 mb-0">{{ ucfirst($companies_rs->com_name) }}</h3>
+                                        <h6 class="text">Status - <span class="badge bg-inverse-success"> {{ ucfirst($companies_rs->status) }}</span></h6>
+                                        <h6 class="text">{{ ucfirst($companies_rs->f_name ?? '') }} {{ ucfirst($companies_rs->l_name ?? '') }}</h6>
+                                        <div class="staff-id">Orgnaization ID : {{ $companies_rs->reg }}</div>
+                                        <div class="staff-id">Registration No : {{ $companies_rs->com_reg }}</div>
+                                        <div class="staff-id">Type of Organisation : {{ $companies_rs->com_type }}</div>
+                                        <div class="staff-id">Name of Sector : {{ $companies_rs->com_nat }}</div>
+                                        <div class="staff-id">Trading Name : {{ $companies_rs->trad_name }}</div>
+                                        <div class="staff-id">Trading Period : {{ $companies_rs->com_year }}</div>
+                                        <div class="small doj">Date of Create : {{ \Carbon\Carbon::parse($companies_rs->created_at)->format('j M Y') }}</div>
                                         <div class="staff-msg">
-                                            <a class="btn btn-custom" href="{{url('org-company-profile/pdf')}}?c_id={{base64_encode($companies_rs->id)}}"> {{\App\Helpers\Helper::cachedTrans('Download PDF')}}</a>
+                                            <a class="btn btn-custom" href="{{url('org-company-profile/pdf')}}?c_id={{base64_encode($companies_rs->id)}}">Download PDF</a>
                                             <a class="btn btn-custom" href="{{url('org-company-profile/edit-company')}}?c_id={{base64_encode($companies_rs->id)}}"><i class="fa-solid fa-pencil"></i>Edit Profile</a>
                                         </div>
                                     </div>
@@ -59,36 +59,36 @@
                                 <div class="col-md-6">
                                     <ul class="personal-info">
                                         <li>
-                                            <div class="title">{{\App\Helpers\Helper::cachedTrans('Phone')}}:</div>
-                                            <div class="text"><a href="#">{{\App\Helpers\Helper::cachedTrans( $companies_rs->p_no ?? '' )}}</a></div>
+                                            <div class="title">Phone:</div>
+                                            <div class="text"><a href="#">{{ $companies_rs->p_no ?? '' }}</a></div>
                                         </li>
                                         <li>
-                                            <div class="title">{{\App\Helpers\Helper::cachedTrans('Organization Email ID')}}:</div>
-                                            <div class="text"><a href="#">{{\App\Helpers\Helper::cachedTrans($Roledata->organ_email ?? '' )}} </a></div>
+                                            <div class="title">Organization Email ID:</div>
+                                            <div class="text"><a href="#">{{ $Roledata->organ_email ?? '' }}</a></div>
                                         </li>
                                         <li>
-                                            <div class="title">{{\App\Helpers\Helper::cachedTrans('Login Email ID')}}:</div>
-                                            <div class="text"><a href="#">{{\App\Helpers\Helper::cachedTrans($companies_rs->email ?? '' )}} </a></div>
+                                            <div class="title">Login Email ID:</div>
+                                            <div class="text"><a href="#">{{ $companies_rs->email ?? '' }}</a></div>
                                         </li>
                                         
                                         <li>
-                                            <div class="title">{{\App\Helpers\Helper::cachedTrans('Password')}}:</div>
-                                            <div class="text">{{$companies_rs->pass ?? '' }}</div>
+                                            <div class="title">Password:</div>
+                                            <div class="text">{{ $companies_rs->pass ?? '' }}</div>
                                         </li>
                                         <li>
-                                            <div class="title">{{\App\Helpers\Helper::cachedTrans('Address')}}:</div>
-                                            <div class="text">{{\App\Helpers\Helper::cachedTrans($companies_rs->address ?? '')}} {{\App\Helpers\Helper::cachedTrans($companies_rs->address2 ?? '' )}} {{\App\Helpers\Helper::cachedTrans($companies_rs->road ?? '')}}  {{\App\Helpers\Helper::cachedTrans($companies_rs->city ?? '')}} {{\App\Helpers\Helper::cachedTrans($companies_rs->zip ?? '')}} </div>
+                                            <div class="title">Address:</div>
+                                            <div class="text">{{ $companies_rs->address ?? '' }} {{ $companies_rs->address2 ?? '' }} {{ $companies_rs->road ?? '' }} {{ $companies_rs->city ?? '' }} {{ $companies_rs->zip ?? '' }}</div>
                                         </li>
                                         <!--<li>-->
                                         <!--    <div class="title">Fax:</div>-->
                                         <!--    <div class="text">{{ $companies_rs->fax ?? '' }}</div>-->
                                         <!--</li>-->
                                         <li>
-                                            <div class="title">{{\App\Helpers\Helper::cachedTrans('Website')}}:</div>
+                                            <div class="title">Website:</div>
                                             <div class="text"><a href="{{ $companies_rs->website ?? '' }}" target="_blank">{{ $companies_rs->website ?? '' }}</a></div>
                                         </li>
                                         <li>
-                                            <div class="title">{{\App\Helpers\Helper::cachedTrans('Landline')}}:</div>
+                                            <div class="title">Landline:</div>
                                             <div class="text">{{ $companies_rs->land ?? '' }}</div>
                                         </li>
                                        
@@ -106,10 +106,10 @@
         <div class="row user-tabs">
             <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
                 <ul class="nav nav-tabs nav-tabs-bottom">
-                    <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">{{\App\Helpers\Helper::cachedTrans('Profile')}}</a></li>
+                    <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Profile</a></li>
            
-                    <li class="nav-item"><a href="#emp_assets" data-bs-toggle="tab" class="nav-link">{{\App\Helpers\Helper::cachedTrans('Employee (RTI)')}}</a></li>
-                             <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">{{\App\Helpers\Helper::cachedTrans('Trading Hours')}}</a></li>
+                    <li class="nav-item"><a href="#emp_assets" data-bs-toggle="tab" class="nav-link">Employee (RTI)</a></li>
+                             <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Trading Hours</a></li>
                 </ul>
             </div>
         </div>
@@ -123,32 +123,35 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">{{\App\Helpers\Helper::cachedTrans('Authorised Person Details')}}  </h3>
+                            <h3 class="card-title">Authorised Person Details </h3>
                             <ul class="personal-info">
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Name')}}.</div>
-                                    <div class="text">{{\App\Helpers\Helper::cachedTrans(ucfirst($companies_rs->f_name ?? ''))}}  {{\App\Helpers\Helper::cachedTrans(ucfirst($companies_rs->l_name ?? ''))}} </div>
+                                    <div class="title">Name.</div>
+                                    <div class="text">{{ ucfirst($companies_rs->f_name ?? '') }} {{ ucfirst($companies_rs->l_name ?? '') }}</div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Designation')}}.</div>
-                                    <div class="text">{{\App\Helpers\Helper::cachedTrans($companies_rs->desig)}}</div>
-                                    {{-- {{ !empty($companies_rs->desig) ? $companies_rs->desig : 'N/A' }} --}}
+                                    <div class="title">Designation.</div>
+                                    <div class="text">{{ !empty($companies_rs->desig) ? $companies_rs->desig : 'N/A' }}</div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Phone No')}}.</div>
+                                    <div class="title">Phone No.</div>
                                     <div class="text"><a href="#">{{ !empty($companies_rs->con_num) ? $companies_rs->con_num : 'N/A' }}</a></div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Email Id')}}.</div>
+                                    <div class="title">Email Id.</div>
                                     <div class="text">{{ !empty($companies_rs->authemail) ? $companies_rs->authemail : 'N/A' }}</div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Do you have a history of Criminal conviction/Bankruptcy?')}}</div>
-                                    <div class="text">{{\App\Helpers\Helper::cachedTrans($companies_rs->bank_status)}}</div>
+                                    <div class="title">Do you have a history of Criminal conviction/Bankruptcy?</div>
+                                    <div class="text">{{$companies_rs->bank_status}}</div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Proof Of Id')}}.</div>
+                                    <div class="title">Proof Of Id</div>
+                                    @if($companies_rs->level_proof)
                                     <div class="text"><a href="{{ asset('storage/app/public/' . $companies_rs->level_proof) }}" target="_blank"><img src="{{ asset('storage/app/public/' . $companies_rs->level_proof) }}" height="50px" width="50px"/></a></div>
+                                    @else
+                                    <div class="text">No Proof Available</div>
+                                    @endif
                                 </li>
                             </ul>
                         </div>
@@ -157,31 +160,35 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">{{\App\Helpers\Helper::cachedTrans('Key Contact')}} </h3>
+                            <h3 class="card-title">Key Contact </h3>
                             <ul class="personal-info">
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Name')}}.</div>
-                                    <div class="text">{{\App\Helpers\Helper::cachedTrans(ucfirst($companies_rs->key_f_name ?? ''))}} {{\App\Helpers\Helper::cachedTrans(ucfirst($companies_rs->key_l_name ?? ''))}}</div>
+                                    <div class="title">Name</div>
+                                    <div class="text">{{ ucfirst($companies_rs->key_f_name ?? '') }} {{ ucfirst($companies_rs->key_f_name ?? '') }}</div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Designation')}}.</div>
-                                    <div class="text">{{\App\Helpers\Helper::cachedTrans($companies_rs->key_designation)}} </div>
+                                    <div class="title">Designation.</div>
+                                    <div class="text">{{ !empty($companies_rs->key_designation) ? $companies_rs->key_designation : 'N/A' }}</div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Phone No')}}.</div>
-                                    <div class="text"><a href="#"> {{ !empty($companies_rs->key_phone) ? $companies_rs->key_phone : 'N/A' }}</a></div>
+                                    <div class="title">Phone No.</div>
+                                    <div class="text"><a href="#">{{ !empty($companies_rs->key_phone) ? $companies_rs->key_phone : 'N/A' }}</a></div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Email Id')}}.</div>
-                                    <div class="text"> {{ !empty($companies_rs->key_email) ? $companies_rs->key_email : 'N/A' }}</div>
+                                    <div class="title">Email Id.</div>
+                                    <div class="text">{{ !empty($companies_rs->key_email) ? $companies_rs->key_email : 'N/A' }}</div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Do you have a history of Criminal conviction/Bankruptcy?')}}</div>
-                                    <div class="text">{{\App\Helpers\Helper::cachedTrans($companies_rs->key_bank_status)}}</div>
+                                    <div class="title">Do you have a history of Criminal conviction/Bankruptcy?</div>
+                                    <div class="text">{{$companies_rs->key_bank_status}}</div>
                                 </li>
                                 <li>
-                                    <div class="title">{{\App\Helpers\Helper::cachedTrans('Proof Of Id')}}</div>
+                                    <div class="title">Proof Of Id</div>
+                                    @if($companies_rs->key_proof)
                                     <div class="text"><a href="{{ asset('storage/app/public/' . $companies_rs->key_proof) }}" target="_blank"><img src="{{ asset('storage/app/public/' . $companies_rs->key_proof) }}" height="50px" width="50px"/></a></div>
+                                    @else
+                                    <div class="text">No Proof Available</div>
+                                    @endif
                                 </li>
                             </ul>
                         </div>
@@ -192,33 +199,33 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">{{\App\Helpers\Helper::cachedTrans('Level 1 User')}} </h3>
+                            <h3 class="card-title">Level 1 User </h3>
                             <div class="table-responsive">
                                 <table class="table table-nowrap" id="level1">
                                     <thead>
                                         <tr>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Name')}}</th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Designation')}} </th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Phone No')}}</th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Email Id')}}</th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Do you have a history of Criminal conviction/Bankruptcy?')}}</th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Proof Of Id')}}</th>
+                                            <th>Name</th>
+                                            <th>Designation </th>
+                                            <th>Phone No</th>
+                                            <th>Email Id</th>
+                                            <th>Do you have a history of Criminal conviction/Bankruptcy?</th>
+                                            <th>Proof Of Id</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{{\App\Helpers\Helper::cachedTrans($companies_rs->level_f_name)}} </td>
-                                            <td>{{\App\Helpers\Helper::cachedTrans($companies_rs->level_designation )}} </td>
+                                            <td>{{ !empty($companies_rs->level_f_name) ? $companies_rs->level_f_name : 'N/A' }}</td>
+                                            <td>{{ !empty($companies_rs->level_designation) ? $companies_rs->level_designation : 'N/A' }}</td>
                                             <td>{{ !empty($companies_rs->level_phone) ? $companies_rs->level_phone : 'N/A' }}</td>
                                             <td>{{ !empty($companies_rs->level_email) ? $companies_rs->level_email : 'N/A' }}</td>
-                                            <td>{{\App\Helpers\Helper::cachedTrans($companies_rs->level_bank_status)}} </td>
+                                            <td>{{ !empty($companies_rs->level_bank_status) ? $companies_rs->level_bank_status : 'N/A' }}</td>
                                             <td>    
                                                 @if (!empty($companies_rs->level_proof))
                                                     <a href="{{ asset('storage/app/public/' . $companies_rs->level_proof) }}" target="_blank">
                                                         <img src="{{ asset('storage/app/public/' . $companies_rs->level_proof) }}" height="50px" width="50px"/>
                                                     </a>
                                                 @else
-                                                    {{\App\Helpers\Helper::cachedTrans('No Proof Available')}}
+                                                    No Proof Available
                                                 @endif    
                                             </td>
                                         </tr>
@@ -231,33 +238,33 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">{{\App\Helpers\Helper::cachedTrans('Level 2 User')}}  </h3>
+                            <h3 class="card-title">Level 2 User </h3>
                             <div class="table-responsive">
                                 <table class="table table-nowrap" id="level2">
                                     <thead>
                                         <tr>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Name')}} </th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Designation')}}  </th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Phone No')}} </th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Email Id')}} </th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Do you have a history of Criminal conviction/Bankruptcy?')}} </th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Proof Of Id')}} </th>
+                                            <th>Name</th>
+                                            <th>Designation </th>
+                                            <th>Phone No</th>
+                                            <th>Email Id</th>
+                                            <th>Do you have a history of Criminal conviction/Bankruptcy?</th>
+                                            <th>Proof Of Id</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{{\App\Helpers\Helper::cachedTrans($companies_rs->level2_f_name)}} </td>
-                                            <td>{{\App\Helpers\Helper::cachedTrans($companies_rs->level2_designation)}} </td>
+                                            <td>{{ !empty($companies_rs->level2_f_name) ? $companies_rs->level2_f_name : 'N/A' }}</td>
+                                            <td>{{ !empty($companies_rs->level2_designation) ? $companies_rs->level2_designation : 'N/A' }}</td>
                                             <td>{{ !empty($companies_rs->level2_phone) ? $companies_rs->level2_phone : 'N/A' }}</td>
                                             <td>{{ !empty($companies_rs->level2_email) ? $companies_rs->level2_email : 'N/A' }}</td>
-                                            <td>{{\App\Helpers\Helper::cachedTrans($companies_rs->level2_bank_status)}} </td>
+                                            <td>{{ !empty($companies_rs->level2_bank_status) ? $companies_rs->level2_bank_status : 'N/A' }}</td>
                                             <td>	
                                                 @if (!empty($companies_rs->level2_proof))
                                                     <a href="{{ asset('storage/app/public/' . $companies_rs->level2_proof) }}" target="_blank">
                                                         <img src="{{ asset('storage/app/public/' . $companies_rs->level2_proof) }}" height="50px" width="50px"/>
                                                     </a>
                                                 @else
-                                                    {{\App\Helpers\Helper::cachedTrans('No Proof Available')}} 
+                                                    No Proof Available
                                                 @endif	
                                             </td>                                            
                                         </tr>
@@ -279,72 +286,65 @@
                     <table class="table table-new custom-table mb-0 " >
                         <thead>
                             <tr>
-                                <th class="text-left font-weight-bold">{{\App\Helpers\Helper::cachedTrans('Days')}} </th>
-                                <th class="text-center font-weight-bold">{{\App\Helpers\Helper::cachedTrans('Status')}} </th>
-                                <th class="text-center font-weight-bold">{{\App\Helpers\Helper::cachedTrans('Opening Time')}} </th>
-                                <th class="text-center font-weight-bold">{{\App\Helpers\Helper::cachedTrans('Closing Time')}} </th>
+                                <th class="text-left font-weight-bold">Days</th>
+                                <th class="text-center font-weight-bold">Status</th>
+                                <th class="text-center font-weight-bold">Opening Time</th>
+                                <th class="text-center font-weight-bold">Closing Time</th>
                             </tr>
                         </thead>
                         <tbody style="background-color: #fff; color: #333;">
                             <!-- Monday -->
                             <tr>
-                                <td class="text-left">{{\App\Helpers\Helper::cachedTrans('Monday')}}</td>
-                                <td class="text-center">{{\App\Helpers\Helper::cachedTrans($Roledata->mon_status)}}</td>
-                                {{-- {{ $Roledata ? $Roledata->mon_status : 'N/A' }} --}}
+                                <td class="text-left">Monday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->mon_status : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->mon_time : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->mon_close : 'N/A' }}</td>
                             </tr>
                             
                             <!-- Tuesday -->
                             <tr>
-                                <td class="text-left">{{\App\Helpers\Helper::cachedTrans('Tuesday')}}</td>
-                                <td class="text-center">{{\App\Helpers\Helper::cachedTrans($Roledata->tue_status)}}</td>
-                                {{-- <td class="text-center">{{ $Roledata ? $Roledata->tue_status : 'N/A' }}</td> --}}
+                                <td class="text-left">Tuesday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->tue_status : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->tue_time : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->tue_close : 'N/A' }}</td>
                             </tr>
                             
                             <!-- Wednesday -->
                             <tr>
-                                <td class="text-left">{{\App\Helpers\Helper::cachedTrans('Wednesday')}}</td>
-                                <td class="text-center">{{\App\Helpers\Helper::cachedTrans($Roledata->wed_status)}}</td>
-                                {{-- <td class="text-center">{{ $Roledata ? $Roledata->wed_status : 'N/A' }}</td> --}}
+                                <td class="text-left">Wednesday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->wed_status : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->wed_time : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->wed_close : 'N/A' }}</td>
                             </tr>
                             
                             <!-- Thursday -->
                             <tr>
-                                <td class="text-left">{{\App\Helpers\Helper::cachedTrans('Thursday')}}</td>
-                                <td class="text-center">{{\App\Helpers\Helper::cachedTrans($Roledata->thu_status)}}</td>
-                                {{-- <td class="text-center">{{ $Roledata ? $Roledata->thu_status : 'N/A' }}</td> --}}
+                                <td class="text-left">Thursday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->thu_status : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->thu_time : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->thu_close : 'N/A' }}</td>
                             </tr>
                             
                             <!-- Friday -->
                             <tr>
-                                <td class="text-left">{{\App\Helpers\Helper::cachedTrans('Friday')}}</td>
-                                <td class="text-center">{{\App\Helpers\Helper::cachedTrans($Roledata->fri_status)}}</td>
-                                {{-- <td class="text-center">{{ $Roledata ? $Roledata->fri_status : 'N/A' }}</td> --}}
+                                <td class="text-left">Friday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->fri_status : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->fri_time : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->fri_close : 'N/A' }}</td>
                             </tr>
                             
                             <!-- Saturday -->
                             <tr>
-                                <td class="text-left">{{\App\Helpers\Helper::cachedTrans('Saturday')}}</td>
-                                <td class="text-center">{{\App\Helpers\Helper::cachedTrans($Roledata->sat_status)}}</td>
-                                {{-- <td class="text-center">{{ $Roledata ? $Roledata->sat_status : 'N/A' }}</td> --}}
+                                <td class="text-left">Saturday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->sat_status : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->sat_time : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->sat_close : 'N/A' }}</td>
                             </tr>
                             
                             <!-- Sunday -->
                             <tr>
-                                <td class="text-left">{{\App\Helpers\Helper::cachedTrans('Sunday')}}</td>
-                                <td class="text-center">{{\App\Helpers\Helper::cachedTrans($Roledata->sun_status)}}</td>
-                                {{-- <td class="text-center">{{ $Roledata ? $Roledata->sun_status : 'N/A' }}</td> --}}
+                                <td class="text-left">Sunday</td>
+                                <td class="text-center">{{ $Roledata ? $Roledata->sun_status : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->sun_time : 'N/A' }}</td>
                                 <td class="text-center">{{ $Roledata ? $Roledata->sun_close : 'N/A' }}</td>
                             </tr>
@@ -363,17 +363,16 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>{{\App\Helpers\Helper::cachedTrans('Employee Name')}}</th>
-                            <th>{{\App\Helpers\Helper::cachedTrans('Department')}}</th>
-                            <th>{{\App\Helpers\Helper::cachedTrans('Job Type')}}</th>
-                            <th>{{\App\Helpers\Helper::cachedTrans('Job Title')}}</th>
-                            <th>{{\App\Helpers\Helper::cachedTrans('Immigration Status')}}</th>
+                            <th>Employee Name</th>
+                            <th>Department</th>
+                            <th>Job Type</th>
+                            <th>Job Title</th>
+                            <th>Immigration Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php
                             $employee_or_rs = DB::table('company_employee')->where('emid','=',$companies_rs->reg)->get();
-                            //dd($employee_or_rs);
                             $countwmploor= count($employee_or_rs);
                         @endphp
                         @if ($countwmploor!=0)
@@ -381,11 +380,11 @@
                                 @if ($empuprotgans->name!='')								
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{\App\Helpers\Helper::cachedTrans($empuprotgans->name)}} </td>
-                                        <td>{{\App\Helpers\Helper::cachedTrans($empuprotgans->department )}} </td>
-                                        <td>{{\App\Helpers\Helper::cachedTrans($empuprotgans->job_type)}} </td>
-                                        <td>{{\App\Helpers\Helper::cachedTrans($empuprotgans->designation)}} </td>
-                                        <td>{{\App\Helpers\Helper::cachedTrans($empuprotgans->immigration)}} </td>
+                                        <td>{{ $empuprotgans->name }}</td>
+                                        <td>{{ $empuprotgans->department }}</td>
+                                        <td>{{ $empuprotgans->job_type }}</td>
+                                        <td>{{ $empuprotgans->designation }}</td>
+                                        <td>{{ $empuprotgans->immigration }}</td>
                                     </tr>
                                 @endif
                             @endforeach   
