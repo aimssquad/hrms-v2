@@ -414,7 +414,7 @@ use App\Models\User; ?>
 
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">Job List</a></li>  
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">Task List</a></li>  
                 </ul>
             </div>
             <div class="content">

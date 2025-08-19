@@ -10,6 +10,7 @@ use App\Models\Branch_location;
 use App\Models\RotaEmployee;
 use App\Models\Post\Post;
 use App\Models\Employee;
+use App\Models\TaskManagement\ProjectMembers;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Mail;
@@ -181,10 +182,27 @@ class OrganizationController extends Controller
                         'is_liked' => $post->is_liked ?? false
                     ];
                 });
+
+                
+                $orgData = User::where('employee_id',$user->emid)->first();
+                $empData = Employee::where('emp_code',$user->employee_id)->first();
+                //dd($empData->emp_code);
+                $projectAssign = ProjectMembers::where('user_id',$empData->id)->get();
+                //dd($projectAssign);
+                if ($projectAssign->count() > 0) {
+                    $data['project'] = $empData->emp_code;
+                } else {
+                    $data['project'] = "";
+                }
+                //dd($data['project']);
+
+
                 //dd($data['posts']);
                 return view('employeer.employee-corner.dashboard', $data);
                     
             }
+
+
             //dd($data);
             return view($this->_routePrefix . '.dashboard', $data);
         } else {

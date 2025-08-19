@@ -9,6 +9,7 @@ use App\Models\TaskManagement\ProjectMembers;
 use App\Models\TaskManagement\MasterLabels;
 use App\Models\TaskManagement\Task;
 use App\Models\User;
+use App\Models\Employee;
 use DB;
 use Session;
 
@@ -17,7 +18,7 @@ class TaskController extends Controller
     public function dashboard(Request $request)
     {
         $project_id = decrypt($request->id);
-
+        //dd($project_id);
         // dd(Session::all());
         if (!empty(Session::get('user_type'))) {
             $currentUser = Session::get('users_id');
@@ -68,4 +69,126 @@ class TaskController extends Controller
             return redirect("/");
         }
     }
+
+
+    // public function employeeTask(Request $request) {
+    //     $email = Session::get("emp_email");
+    //     if (empty($email)) {
+    //         return redirect("/");
+    //     }
+
+    //     $currentUser = User::where('email', $email)->first();
+        
+    //     if (!$currentUser) {
+    //         return redirect("/")->with('error', 'User not found');
+    //     }
+
+    //     $employee = Employee::where('emp_code', $currentUser->employee_id)->where('emid', $currentUser->emid)->first();
+
+    //     //dd($employee->id);
+    //     $projects['projects'] = DB::table('project_members as pm')
+    //         ->join('projects as p', 'pm.project_id', '=', 'p.id')
+    //         ->where('pm.user_id', $employee->id)
+    //         ->select([
+    //             'p.title',
+    //             'p.description',
+    //             'p.status',
+    //             'p.emid as project_code', // Added project code if needed
+    //             'pm.role'
+    //         ])
+    //         ->orderBy('p.title') // Optional: sort by project name
+    //         ->get();
+            
+    //     //dd($projects);        
+    //     return view('employeer/employee-corner/task/task',$projects);
+    // }
+
+    public function employeeTask(Request $request) {
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+
+        $currentUser = User::where('email', $email)->first();
+        
+        if (!$currentUser) {
+            return redirect("/")->with('error', 'User not found');
+        }
+
+        $employee = Employee::where('emp_code', $currentUser->employee_id)
+                        ->where('emid', $currentUser->emid)
+                        ->first();
+
+        if (!$employee) {
+            return redirect("/")->with('error', 'Employee record not found');
+        }
+
+        $projects = DB::table('project_members as pm')
+            ->join('projects as p', 'pm.project_id', '=', 'p.id')
+            ->leftJoin('tasks as t', function($join) use ($employee) {
+                $join->on('t.project_id', '=', 'p.id')
+                    ->where('t.assignedTo', $employee->id);
+            })
+            ->where('pm.user_id', $employee->id)
+            ->select([
+                'p.id as project_id',
+                'p.title as project_title',
+                'p.description as project_description',
+                'p.status as project_status',
+                'p.emid as project_code',
+                'pm.role as project_role',
+                't.id as task_id',
+                't.task_name',
+                't.task_desc',
+                't.start_date',
+                't.expected_end_date',
+                't.status as task_status'
+            ])
+            ->orderBy('p.title')
+            ->orderBy('t.start_date')
+            ->get();
+
+        // Group projects with their tasks
+        $groupedProjects = [];
+        foreach ($projects as $project) {
+            $projectId = $project->project_id;
+            
+            if (!isset($groupedProjects[$projectId])) {
+                $groupedProjects[$projectId] = [
+                    'project_id' => $project->project_id,
+                    'project_title' => $project->project_title,
+                    'project_description' => $project->project_description,
+                    'project_status' => $project->project_status,
+                    'project_code' => $project->project_code,
+                    'project_role' => $project->project_role,
+                    'tasks' => []
+                ];
+            }
+            
+            if ($project->task_id) {
+                $groupedProjects[$projectId]['tasks'][] = [
+                    'task_id' => $project->task_id,
+                    'task_name' => $project->task_name,
+                    'task_desc' => $project->task_desc,
+                    'start_date' => $project->start_date,
+                    'expected_end_date' => $project->expected_end_date,
+                    'task_status' => $project->task_status
+                ];
+            }
+        }
+        //dd($groupedProjects);
+        return view('employeer/employee-corner/task/task', [
+            'projects' => array_values($groupedProjects)
+        ]);
+    }
+
+    public function members(Request $request, $id){
+        return view('employeer/employee-corner/task/tt');
+    }
+
+    
+
+
+
+
 }

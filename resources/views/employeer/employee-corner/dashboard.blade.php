@@ -517,6 +517,27 @@
 					</a>
 				</div>
 			</div>
+			@if($project)
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+				<div class="card dash-widget overflow-visible">
+					<a href="{{ url('org-employee-corner/task-assign') }}">
+						<div class="card-body modern-card">
+							<div class="dash-widget-info">
+								<span>Assign Task</span>
+								{{-- <h3>5</h3> --}}
+							</div>
+							<div class="modern_icon_wrapper">
+								<i class="lab la-blackberry  fa-2x modern-icon"></i>
+							</div>
+							<div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+								<span style="font-size: 13px;">View</span>
+								<i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			@endif
 		</div>
        	<div class="row">
 			<div class="col-xxl-8 col-lg-12 col-md-12">
@@ -911,9 +932,9 @@
 															<small class="comment-time">{{ $comment->time_ago }}</small>
 														</div>
 														<p class="comment-text">{{ $comment->comment_text }}</p>
-														<a class="btn-reply" data-comment-id="{{ $comment->id }}" href="{{route('comment.reply',$comment->id)}}" title="Reply">
+														{{-- <a class="btn-reply" data-comment-id="{{ $comment->id }}" href="{{route('comment.reply',$comment->id)}}" title="Reply">
 															<i class="fas fa-reply"></i>
-														</a>
+														</a> --}}
 													</div>
 												</div>
 											@endforeach

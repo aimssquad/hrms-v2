@@ -25,6 +25,7 @@ use App\Http\Controllers\Attendance\EmployeeAttendancePermission;
 use App\Http\Controllers\OrgAttenPermissionController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\organization\TaskController;
 
 
 /*
@@ -6070,6 +6071,11 @@ Route::get('comment-reply/{id}',[PostController::class, 'commentReply'])->name('
 Route::post('comment-reply',[PostController::class, 'commentReplySave'])->name('comment.reply.save');
 
 Route::post('/posts/{post}/like', 'App\Http\Controllers\Post\PostController@toggleLike');
+
+Route::get('org-employee-corner/task-assign',[TaskController::class, 'employeeTask']);
+
+Route::get('/projects/{project}/members', [TaskController::class, 'members'])
+    ->name('projects.members');
 
 
 
