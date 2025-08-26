@@ -921,7 +921,7 @@ class AttendanceController extends Controller
                 } else {
                     // If no record, create empty record for working day
                     $completeAttendance[] = [
-                        'id' => "",
+                        'id' => 00,
                         'employee_code' => $employee_id,
                         'employee_name' => $employee->emp_name ?? '',
                         'date' => $workingDay,
@@ -938,8 +938,8 @@ class AttendanceController extends Controller
                         'month' => date('Y-m', strtotime($workingDay)),
                         'emid' => $emid,
                         'device_id' => "",
-                        'location_accuracy' => "",
-                        'is_location_mocked' => "",
+                        'location_accuracy' => 00.0,
+                        'is_location_mocked' => 0,
                         'photo_proof' => "",
                         'punch_type' => "",
                         'punch_status' => "",
