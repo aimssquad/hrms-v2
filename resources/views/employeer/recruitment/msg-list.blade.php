@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Message Center')
+@section('title', \App\Helpers\Helper::cachedTrans('Message Center'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -31,22 +31,22 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Message Center</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Message Center')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-               <li class="breadcrumb-item active">Message Center</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Message Center')}}</li>
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
             @foreach($sidebarItems['Recruitment'] as $rotaItem)
             @if($rotaItem['submenu_name'] == 'Message Center' && $rotaItem['can_add'] == 1)
-            <a href="{{ url('org-recruitment/add-message-centre') }}" class="btn add-btn"><i class="fas fa-paper-plane"></i> Send Message</a>
+            <a href="{{ url('org-recruitment/add-message-centre') }}" class="btn add-btn"><i class="fas fa-paper-plane"></i> {{\App\Helpers\Helper::cachedTrans('Send Message')}}</a>
             @endif
             @endforeach
             @elseif($user_type == 'employer')
-            <a href="{{ url('org-recruitment/add-message-centre') }}" class="btn add-btn"><i class="fas fa-paper-plane"></i> Send Message</a>
+            <a href="{{ url('org-recruitment/add-message-centre') }}" class="btn add-btn"><i class="fas fa-paper-plane"></i> {{\App\Helpers\Helper::cachedTrans('Send Message')}}</a>
             @endif
          </div>
       </div>
@@ -57,7 +57,7 @@ return $output;
       <div class="card custom-card">
          <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="card-title">
-                <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Message Center
+                <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Message Center')}}
             </h4>
             <div class="row">
                <div class="col-auto">
@@ -69,7 +69,7 @@ return $output;
                        {{-- put the value - that is your file name --}}
                        <input type="hidden" id="filenameInput" value="Message-center">
                        <button type="submit" class="btn-download btn-download-excel me-0">
-                           Export to Excel
+                        {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}   
                      </button>
                    </form>
                </div>
@@ -80,7 +80,7 @@ return $output;
                      <input type="hidden" name="headings" id="pdfHeadings">
                      <input type="hidden" name="filename" id="pdfFilename">
                      <button type="submit" class="btn-download btn-download-pdf">
-                           Export to PDF
+                        {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}   
                      </button>
                  </form>
                </div>
@@ -91,12 +91,12 @@ return $output;
                <table id="basic-datatables" class="table table-striped custom-table" >
                   <thead>
                      <tr>
-                        <th>Sl.No.</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Subject</th>
-                        <th>Date</th>
-                        <th>Message</th>
+                        <th> {{\App\Helpers\Helper::cachedTrans('Sl No')}} </th>
+                        <th> {{\App\Helpers\Helper::cachedTrans('Name')}} </th>
+                        <th> {{\App\Helpers\Helper::cachedTrans('Email')}} </th>
+                        <th> {{\App\Helpers\Helper::cachedTrans('Subject')}} </th>
+                        <th> {{\App\Helpers\Helper::cachedTrans('Date')}} </th>
+                        <th> {{\App\Helpers\Helper::cachedTrans('Message')}} </th>
                      </tr>
                   </thead>
                   <tbody>

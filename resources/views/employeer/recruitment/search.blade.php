@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Search')
+@section('title', \App\Helpers\Helper::cachedTrans('Search'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -35,11 +35,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Search</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Search')}}</h3>
 				<ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-					<li class="breadcrumb-item active">Search</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Search')}}</li>
 				</ul>
 			</div>
 		</div>
@@ -55,48 +55,48 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     <div class="row form-group">
                        <div class="col-md-3">
                           <div class=" form-group current-stage">
-                             <label for="inputFloatingLabel-recruitment" class="col-form-label">Current Stage of Recruitment</label>
+                             <label for="inputFloatingLabel-recruitment" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Current Stage of Recruitment')}}</label>
                              <select id="inputFloatingLabel-recruitment" name="status" class="select" required=""  style="">
                                 <option value="">Select</option>
-                                <option value="Application Received"  <?php if(isset($status) && $status=='Application Received') { echo 'selected';}?>>Application Received</option>
-                                <option value="Short listed" <?php if(isset($status) && $status=='Short listed') { echo 'selected';}?>>Short listed</option>
-                                <option value="Interview" <?php if(isset($status) && $status=='Interview') { echo 'selected';}?>>Interview</option>
-                                <option value="Online Screen Test"  <?php if(isset($status) && $status=='Online Screen Test') { echo 'selected';}?> >Online Screen Test</option>
-                                <option value="Written Test"   <?php if(isset($status) && $status=='Written Test') { echo 'selected';}?> >Written Test</option>
-                                <option value="Telephone Interview"   <?php if(isset($status) && $status=='Telephone Interview') { echo 'selected';}?> >Telephone Interview</option>
-                                <option value="Face to Face Interview"   <?php if(isset($status) && $status=='Face to Face Interview') { echo 'selected';}?> >Face to Face Interview</option>
-                                <option value="Job Offered" <?php if(isset($status) && $status=='Job Offered') { echo 'selected';}?>>Job Offered</option>
-                                <option  value="Hired" <?php if(isset($status) && $status=='Hired') { echo 'selected';}?>>Hired</option>
-                                <option value="Hold"  <?php if(isset($status) && $status=='Hold') { echo 'selected';}?>>Hold</option>
-                                <option value="Rejected" <?php if(isset($status) && $status=='Rejected') { echo 'selected';}?>>Rejected</option>
+                                <option value="Application Received"  <?php if(isset($status) && $status=='Application Received') { echo 'selected';}?>>{{\App\Helpers\Helper::cachedTrans('Application Received')}}</option>
+                                <option value="Short listed" <?php if(isset($status) && $status=='Short listed') { echo 'selected';}?>>{{\App\Helpers\Helper::cachedTrans('Short listed')}}</option>
+                                <option value="Interview" <?php if(isset($status) && $status=='Interview') { echo 'selected';}?>>{{\App\Helpers\Helper::cachedTrans('Interview')}}</option>
+                                <option value="Online Screen Test"  <?php if(isset($status) && $status=='Online Screen Test') { echo 'selected';}?> >{{\App\Helpers\Helper::cachedTrans('Online Screen Test')}}</option>
+                                <option value="Written Test"   <?php if(isset($status) && $status=='Written Test') { echo 'selected';}?> >{{\App\Helpers\Helper::cachedTrans('Written Test')}}</option>
+                                <option value="Telephone Interview"   <?php if(isset($status) && $status=='Telephone Interview') { echo 'selected';}?> >{{\App\Helpers\Helper::cachedTrans('Telephone Interview')}}</option>
+                                <option value="Face to Face Interview"   <?php if(isset($status) && $status=='Face to Face Interview') { echo 'selected';}?> >{{\App\Helpers\Helper::cachedTrans('Face to Face Interview')}}</option>
+                                <option value="Job Offered" <?php if(isset($status) && $status=='Job Offered') { echo 'selected';}?>>{{\App\Helpers\Helper::cachedTrans('Job Offered')}}</option>
+                                <option  value="Hired" <?php if(isset($status) && $status=='Hired') { echo 'selected';}?>>{{\App\Helpers\Helper::cachedTrans('Hired')}}</option>
+                                <option value="Hold"  <?php if(isset($status) && $status=='Hold') { echo 'selected';}?>>{{\App\Helpers\Helper::cachedTrans('Hold')}}</option>
+                                <option value="Rejected" <?php if(isset($status) && $status=='Rejected') { echo 'selected';}?>>{{\App\Helpers\Helper::cachedTrans('Rejected')}}</option>
                              </select>
                           </div>
                        </div>
                        <div class="col-md-3">
                           <div class=" form-group current-stage">
-                             <label for="inputFloatingLabel-recruitment" class="col-form-label">Job Title </label>
+                             <label for="inputFloatingLabel-recruitment" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Title')}} </label>
                              <select id="job_id" name="job_id" class="select"  style="">
                                 <option value="">Select</option>
                                 @foreach($company_job_rs as $dept)
-                                <option value="{{$dept->id}}">{{$dept->title}}  (Job Code :{{$dept->job_code}} )</option>
+                                <option value="{{$dept->id}}">{{\App\Helpers\Helper::cachedTrans($dept->title)}}  (Job Code :{{$dept->job_code}} )</option>
                                 @endforeach
                              </select>
                           </div>
                        </div>
                        <div class="col-md-3">
                           <div class=" form-group">
-                             <label for="inputFloatingLabel-select-date"  class="col-form-label">From Date</label>
+                             <label for="inputFloatingLabel-select-date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('From Date')}}</label>
                              <input id="inputFloatingLabel-select-date" value="<?php if(isset($start_date) && $start_date) { echo $start_date;}?>"  name="start_date" type="date" class="form-control input-border-bottom" required="" style="">
                           </div>
                        </div>
                        <div class="col-md-3">
                           <div class=" form-group">
-                             <label for="inputFloatingLabel-select-date"  class="col-form-label">To Date</label>
+                             <label for="inputFloatingLabel-select-date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('To Date')}}</label>
                              <input id="inputFloatingLabel-select-date" name="end_date" value="<?php if(isset($end_date) && $end_date) { echo $end_date;}?>"  type="date" class="form-control input-border-bottom" required="" style="">
                           </div>
                        </div>
                        <div class="col-md-3">
-                          <button class="btn btn-primary" style="margin-top: 25px;" type="submit">Submit</button>
+                          <button class="btn btn-primary" style="margin-top: 25px;" type="submit">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                        </div>
                     </div>
                  </form>
@@ -109,7 +109,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
            <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                  <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Search
+                  <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Search')}}
               </h4>
               <div class="row">
                  <div class="col-auto">
@@ -121,7 +121,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                          {{-- put the value - that is your file name --}}
                          <input type="hidden" id="filenameInput" value="Search">
                          <button type="submit" class="btn-download btn-download-excel me-0">
-                              Export to Excel
+                              {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                         </button>
                      </form>
                  </div>
@@ -132,7 +132,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                        <input type="hidden" name="headings" id="pdfHeadings">
                        <input type="hidden" name="filename" id="pdfFilename">
                        <button type="submit" class="btn-download btn-download-pdf">
-                              Export to PDF
+                              {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}
                         </button>
                    </form>
                  </div>
@@ -146,7 +146,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     <input id="inputFloatingLabel-select-date" value="<?php if(isset($start_date) && $start_date) { echo $start_date;}?>"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                     <input id="inputFloatingLabel-select-date" name="end_date" value="<?php if(isset($end_date) && $end_date) { echo $end_date;}?>"  type="hidden" class="form-control input-border-bottom" required="" >					
                     <input id="inputFloatingLabel-select-date" name="job_id" value="<?php if(isset($job_id) && $job_id) { echo $job_id;}?>"  type="hidden" class="form-control input-border-bottom" required="" >					
-                    <button class="btn btn-default" style="margin-top: -30px;float:right;" type="submit">Download Pdf</button>	
+                    <button class="btn btn-default" style="margin-top: -30px;float:right;" type="submit">{{\App\Helpers\Helper::cachedTrans('Download Pdf')}}</button>	
                  </form>
                  <?php
                     }?>
@@ -159,7 +159,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     <input id="inputFloatingLabel-select-date" value="<?php if(isset($start_date) && $start_date) { echo $start_date;}?>"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                     <input id="inputFloatingLabel-select-date" name="end_date" value="<?php if(isset($end_date) && $end_date) { echo $end_date;}?>"  type="hidden" class="form-control input-border-bottom" required="" >					
                     <input id="inputFloatingLabel-select-date" name="job_id" value="<?php if(isset($job_id) && $job_id) { echo $job_id;}?>"  type="hidden" class="form-control input-border-bottom" required="" >					
-                    <button class="btn btn-default" style="margin-top: -30px;float:right;margin-right: 15px;" type="submit">Download Excel</button>	
+                    <button class="btn btn-default" style="margin-top: -30px;float:right;margin-right: 15px;" type="submit">{{\App\Helpers\Helper::cachedTrans('Download Excel')}}</button>	
                  </form>
                  <?php
                     }?>
@@ -169,14 +169,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     <table id="basic-datatables" class="display table table-striped table-hover" >
                        <thead>
                           <tr>
-                             <th>Job Code</th>
-                             <th>Job Title</th>
-                             <th>Candidate</th>
-                             <th>Email</th>
-                             <th>Contact Number</th>
-                             <th>Status</th>
-                             <th>Date</th>
-                             <th>Action</th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Job Code')}}</th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Job Title')}}</th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Candidate')}}</th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Email')}}</th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Contact Number')}}</th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Status')}}</th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Date')}}</th>
+                             <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                           </tr>
                        </thead>
                        <tbody>

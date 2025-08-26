@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Message Center')
+@section('title', \App\Helpers\Helper::cachedTrans('Message Center'))
 @section('content')
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -8,14 +8,14 @@
       <div class="row align-items-center">
          <div class="col">
             @if(isset($_GET['id']))
-            <h4 class="card-title"><i class="fas fa-briefcase"></i> Edit Message Center</h4>
+            <h4 class="card-title"><i class="fas fa-briefcase"></i> {{\App\Helpers\Helper::cachedTrans('Edit Message Center')}}</h4>
             @else
-            <h4 class="card-title"><i class="fas fa-briefcase"></i> Add Message Center</h4>
+            <h4 class="card-title"><i class="fas fa-briefcase"></i> {{\App\Helpers\Helper::cachedTrans('Add Message Center')}}</h4>
             @endif 
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-               <li class="breadcrumb-item active">Message Center</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Message Center')}}</li>
             </ul>
          </div>
       </div>
@@ -30,7 +30,7 @@
                <div class="row form-group">
                   <div class="col-md-4">
                      <div class="form-group">
-                        <label for="selectFloatingLabel" class="col-form-label">Select Candidate</label>				
+                        <label for="selectFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Candidate')}}</label>				
                         <select class="form-control input-border-bottom" id="selectFloatingLabel" name="user_id" required="" onchange="billvalue(this.value);" >
                            <option value="">&nbsp;</option>
                            @foreach($or_rs as $billdept)
@@ -41,7 +41,7 @@
                   </div>
                   <div class="col-md-6">
                      <div class=" form-group">
-                        <label for="email" class="col-form-label">Candidate Email</label>
+                        <label for="email" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Candidate Email')}}</label>
                         <input id="email" type="text"  name="email"    class="form-control input-border-bottom" required="">
                      </div>
                   </div>
@@ -49,13 +49,13 @@
                <div  class="row form-group" id="payment" style="display:none">
                   <div class="col-md-12">
                      <div class=" form-group">
-                        <label for="subject" class="col-form-label">CC</label>
+                        <label for="subject" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('CC')}}</label>
                         <input id="cc" type="email"  name="cc"    class="form-control input-border-bottom">
                      </div>
                   </div>
                   <div class="col-md-12">
                      <div class=" form-group">
-                        <label for="subject" class="col-form-label">Subject</label>
+                        <label for="subject" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Subject')}}</label>
                         <input id="subject" type="text"  name="subject"    class="form-control input-border-bottom" required="">
                      </div>
                   </div>
@@ -65,7 +65,7 @@
                   </div>
                   <div class="col-md-12">
                      <div class=" form-group">
-                        <label for="subject" class="col-form-label">Upload Attachment</label>
+                        <label for="subject" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Upload Attachment')}}</label>
                         <input id="file" type="file"  name="photos[]"  multiple    class="form-control input-border-bottom">
                      </div>
                   </div>
@@ -73,7 +73,7 @@
                <br>
                <div class="row form-group">
                   <div class="col-md-4">
-                     <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> SEND</button>
+                     <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> {{\App\Helpers\Helper::cachedTrans('SEND')}}</button>
                   </div>
                </div>
          </div>

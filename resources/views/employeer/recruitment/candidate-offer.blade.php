@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Generate Offer Letter')
+@section('title', \App\Helpers\Helper::cachedTrans('Generate Offer Letter'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -35,22 +35,22 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Generate Offer Letter</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Generate Offer Letter')}}</h3>
 				<ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-					<li class="breadcrumb-item active">Generate Offer Letter</li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Generate Offer Letter')}}</li>
 				</ul>
 			</div>
             <div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
 				@foreach($sidebarItems['Recruitment'] as $rotaItem)
                     @if($rotaItem['submenu_name'] == 'Generate Offer Letter' && $rotaItem['can_edit'] == 1)
-				<a href="{{ url('org-recruitment/generate-letter') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Generate Offer Letter</a>
+				<a href="{{ url('org-recruitment/generate-letter') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Generate Offer Letter')}}</a>
 				@endif
 				@endforeach
 				@elseif($user_type == 'employer')
-				<a href="{{ url('org-recruitment/generate-letter') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Generate Offer Letter</a>
+				<a href="{{ url('org-recruitment/generate-letter') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Generate Offer Letter')}}</a>
 				@endif
 				{{-- <div class="view-icons">
 					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
@@ -65,7 +65,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         <div class="card  custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
-                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Generate Offer Letter
+                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Generate Offer Letter')}}
 
                 </h4>
                 <div class="row">
@@ -78,7 +78,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                            {{-- put the value - that is your file name --}}
                            <input type="hidden" id="filenameInput" value="Generate-offer-letter">
                            <button type="submit" class="btn-download btn-download-excel me-0">
-                                Export to Excel
+                                {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                            </button>
                        </form>
                    </div>
@@ -89,7 +89,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                          <input type="hidden" name="headings" id="pdfHeadings">
                          <input type="hidden" name="filename" id="pdfFilename">
                          <button type="submit" class="btn-download btn-download-pdf">
-                             Export to PDF
+                            {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                          </button>
                      </form>
                    </div>
@@ -100,16 +100,16 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     <table id="basic-datatables" class="table table-striped custom-table" >
                        <thead>
                           <tr>
-                            <th>Job Code</th>
-                            <th>Job Title</th>
-                            <th>Candidate</th>
-                            <th>Email</th>
-                            <th>Contact Number</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Offered Salary</th>
-                            <th>Date Of Joining </th>
-                            <th>Action</th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Job Code')}} </th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Job Title')}} </th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Candidate')}} </th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Email')}} </th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Contact Number')}} </th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Status')}} </th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Date')}} </th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Offered Salary')}} </th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Date Of Joining')}}  </th>
+                            <th> {{\App\Helpers\Helper::cachedTrans('Action')}} </th>
                           </tr>
                        </thead>
                        <tbody>
@@ -118,11 +118,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                         <tr>
                                             
 											<td>{{ $candidate->soc }}</td>
-                                            <td>{{ $candidate->job_title }}</td>
+                                            <td>{{\App\Helpers\Helper::cachedTrans($candidate->job_title)}}</td>
 											 <td>{{ $candidate->name }}</td>
 											  <td>{{ $candidate->email }}</td>
 											   <td>{{ $candidate->phone }}</td>
-											    <td>Offer Letter Generated</td>
+											    <td> {{\App\Helpers\Helper::cachedTrans('Offer Letter Generated')}} </td>
 												<td>
 												<?php
                                                     echo date('d/m/Y',strtotime($candidate->cr_date));
@@ -139,26 +139,26 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                             @foreach($sidebarItems['Recruitment'] as $rotaItem)
                                             @if($rotaItem['submenu_name'] == 'Generate Offer Letter' && $rotaItem['can_edit'] == 1)
                                                         <a class="dropdown-item" href="{{url('org-recruitment/edit-hired/'.base64_encode($candidate->user_id))}}">
-                                                            <i class="fa-solid fa-pencil m-r-5"></i>View
+                                                            <i class="fa-solid fa-pencil m-r-5"></i> {{\App\Helpers\Helper::cachedTrans('View')}}
                                                         </a>
                                                     @endif
                                                 @endforeach
                                             @elseif($user_type == 'employer')
                                                 <a class="dropdown-item" href="{{url('org-recruitment/edit-hired/'.base64_encode($candidate->user_id))}}">
-                                                    <i class="fa-solid fa-pencil m-r-5"></i> View
+                                                    <i class="fa-solid fa-pencil m-r-5"></i> {{\App\Helpers\Helper::cachedTrans('View')}}
                                                 </a>
                                             @endif
                                             @if($user_type == 'employee')
                                             @foreach($sidebarItems['Recruitment'] as $rotaItem)
                                             @if($rotaItem['submenu_name'] == 'Generate Offer Letter' && $rotaItem['can_edit'] == 1)
                                                         <a class="dropdown-item" href="{{asset('public/pdf/'.$candidate->dom_pdf)}}" download>
-                                                            <i class="fa fa-arrow-circle-down m-r-5"></i> Downlode
+                                                            <i class="fa fa-arrow-circle-down m-r-5"></i>{{\App\Helpers\Helper::cachedTrans('Downlode')}} 
                                                         </a>
                                                     @endif
                                                 @endforeach
                                             @elseif($user_type == 'employer')
                                                 <a class="dropdown-item" href="{{asset('public/pdf/'.$candidate->dom_pdf)}}" download>
-                                                    <i class="fa fa-arrow-circle-down m-r-5"></i> Downlode
+                                                    <i class="fa fa-arrow-circle-down m-r-5"></i> {{\App\Helpers\Helper::cachedTrans('Downlode')}}
                                                 </a>
                                             @endif
                                         </div>

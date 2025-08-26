@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(isset($_GET['id']))
-@section('title', 'Edit Department')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Department'))
 @else
-@section('title', 'Add New Department')
+@section('title', \App\Helpers\Helper::cachedTrans('Add New Department'))
 @endif
 
 @section('content')
@@ -12,20 +12,20 @@
          <div class="row">
             <div class="col-md-12">
                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                   @if(isset($_GET['id']))
-                  <li class="breadcrumb-item active">Edit Department</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Department')}}</li>
                   @else
-                  <li class="breadcrumb-item active">Add Department</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Department')}}</li>
                   @endif
                </ul>
                <div class="card custom-card">
                   <div class="card-header">
                      @if(isset($_GET['id']))
-                     <h4 class="card-title"><i class="far fa-user"></i> Edit New Department</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Edit New Department')}}</h4>
                      @else
-                        <h4 class="card-title"><i class="far fa-user"></i> Add New Department</h4>
+                        <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Add New Department')}}</h4>
                      @endif
                      
                   </div>
@@ -45,7 +45,7 @@
                                                        <div class="row">
                                                            <div class="col-md-4">
                                                            <div class="form-group">
-                                                               <label for="inputFloatingLabel" class="col-form-label">Department Name</label>
+                                                               <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Department Name')}}</label>
                                                                    <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="department_name" value="<?php if(isset($_GET['id'])){  echo $departments[0]->department_name;  }?>{{ old('department_name') }}">
                                                                    
                                                                    
@@ -57,7 +57,7 @@
                                                                </div>
                                                                <br>
                                                                <div class="row form-group">
-                                                           <div class="col-md-2"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                                           <div class="col-md-2"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button></div>
                                                            </div>
                                                            </div>
                                                        </form>

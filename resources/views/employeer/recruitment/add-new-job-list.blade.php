@@ -1,16 +1,16 @@
 @extends('employeer.include.app')
-@section('title', 'Add Job List')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Job List'))
 @section('content')
 <div class="content container-fluid pb-0">
    <!-- Page Header -->
    <div class="page-header">
       <div class="row">
          <div class="col-sm-12">
-            <h3 class="page-title">Job List</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Job List')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-               <li class="breadcrumb-item active">Job List </li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Job List')}} </li>
             </ul>
          </div>
       </div>
@@ -22,9 +22,9 @@
          <div class="card custom-card">
             <div class="card-header">
                @if(isset($_GET['id']))
-               <h4 class="card-title"><i class="fas fa-university"></i>Edit Job List</h4>
+               <h4 class="card-title"><i class="fas fa-university"></i>{{\App\Helpers\Helper::cachedTrans('Edit Job List')}} </h4>
                @else
-               <h4 class="card-title"><i class="far fa-user"></i> Add Job List</h4>
+               <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Add Job List')}} </h4>
                @endif 
             </div>
             <div class="card-body">
@@ -40,7 +40,7 @@
                                      ?>
                               <div class="col-md-4">
                                  <div class=" form-group">
-                                    <label for="type" class="col-form-label">Select Job Type</label>
+                                    <label for="type" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Job Type')}} </label>
                                     <select id="type" type="text" class="form-control input-border-bottom" required="" name="type" onchange="jobcheck(this.value);">
                                        <option value="" >&nbsp;</option>
                                        <option  value="new"  >New</option>
@@ -55,7 +55,7 @@
                                  ?>
                               <div class="col-md-4">
                                  <div class=" form-group">
-                                    <label for="inputFloatingLabel-soc-code" class="col-form-label">Job Code</label>
+                                    <label for="inputFloatingLabel-soc-code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Code')}} </label>
                                     <input id="inputFloatingLabel-soc-code" 
        type="text" 
        class="form-control input-border-bottom" 
@@ -72,14 +72,14 @@
                                  ?>
                               <div class="col-md-4" id="newcust" style="display:none;">
                                  <div class=" form-group">
-                                    <label for="inputFloatingLabel-soc-code" class="col-form-label">Job Code</label>
+                                    <label for="inputFloatingLabel-soc-code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Code')}} </label>
                                     <input id="socnew" type="text" class="form-control input-border-bottom" name="socnew" value="<?php if(isset($_GET['id'])){  echo $departments[0]->soc;  }?>{{ old('soc') }}" <?php if(isset($_GET['id'])){ echo 'readonly';}?>>
                                  </div>
                               </div>
                               @if( isset($oldcust) && count($oldcust)!=0)
                               <div class="col-md-4" id="oldcust" style="display:none;">
                                  <div class=" form-group">
-                                    <label for="soc" class="col-form-label">Job Code</label>
+                                    <label for="soc" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Code')}} </label>
                                     <select id="socold" type="text" class="form-control input-border-bottom"  name="socold" onChange="socClick()">
                                        <option value="" >&nbsp;</option>
                                        @foreach($oldcust as $recruitment_job)
@@ -96,7 +96,7 @@
                              <div class="col-md-4">
                                  <div id="test">
                                      <div class="form-group">
-                                         <label class="col-form-label">Department</label>
+                                         <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Department')}} </label>
                                          <input type="text" id="dept" class="form-control" name="department"  readonly>
                                      </div>
                                  </div>
@@ -105,7 +105,7 @@
                              <div class="col-md-4">
                                  <div id="test">
                                      <div class="form-group">
-                                         <label class="col-form-label">Department</label>
+                                         <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Department')}} </label>
                                          <select id="dept" class="form-control" name="department">
                                              <option value="">Select Your Department</option>
                                              @foreach($depert as $department)
@@ -125,21 +125,21 @@
                            <div class="row">
                               <div class="col-md-4">
                                  <div class=" form-group">
-                                    <label for="inputFloatingLabel-job-title" class="col-form-label">Job Title  </label>
+                                    <label for="inputFloatingLabel-job-title" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Title')}}   </label>
                                     <input id="inputFloatingLabel-job-title" type="text" class="form-control input-border-bottom" required="" name="title" value="<?php if(isset($_GET['id'])){  echo $departments[0]->title;  }?>{{ old('title') }}">
                                  </div>
                               </div>
                               <div class="col-md-12">
                                  <input id="skil_set" type="hidden" class="form-control input-border-bottom" required="" name="skil_set" value="<?php if(isset($_GET['id'])){  echo $departments[0]->skil_set;  }?>{{ old('skil_set') }}" >
                                  <div class=" form-group">
-                                    <label for="editor"  class="col-form-label">Job Descriptions</label>
+                                    <label for="editor"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Descriptions')}} </label>
                                     <textarea   rows="5" class="form-control"  required="" id="editor" name="des_job"><?php if(isset($_GET['id'])){?>  {!! $departments[0]->des_job !!} <?php  }?> </textarea>
                                  </div>
                               </div>
                            </div>
                            <br>
                            <div class="row form-group">
-                              <div class="col-md-6"><button type="submit" class="btn btn-primary" style="margin-top: 12px;">Submit</button>
+                              <div class="col-md-6"><button type="submit" class="btn btn-primary" style="margin-top: 12px;">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                               </div>
                            </div>
                         </form>

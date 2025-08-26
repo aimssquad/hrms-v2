@@ -2,7 +2,7 @@
 // dd(asset($job->resume));
 @endphp
 @extends('employeer.include.app')
-@section('title', 'Job Applied')
+@section('title', \App\Helpers\Helper::cachedTrans('Job Applied'))
 @section('content')
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -10,11 +10,11 @@
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Job Applied</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Job Applied')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-               <li class="breadcrumb-item active">Job Applied</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Job Applied')}}</li>
             </ul>
          </div>
       </div>
@@ -31,84 +31,84 @@
                <div class="row form-group">
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Job Title:<span>{{$job->job_title}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Job Title')}}:<span>{{$job->job_title}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Candidate Name:<span>{{$job->name}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Candidate Name')}}:<span>{{$job->name}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Email:<span>{{$job->email}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Email')}}:<span>{{$job->email}}</span></h5>
                      </div>
                   </div>
                   @if($job->dob!='')
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Date Of Birth:<span>{{ date('d/m/Y',strtotime($job->dob))}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Date Of Birth')}}:<span>{{ date('d/m/Y',strtotime($job->dob))}}</span></h5>
                      </div>
                   </div>
                   @endif
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Contact Number:<span>+{{$job->phone}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Contact Number')}}:<span>+{{$job->phone}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Gender:<span>{{$job->gender}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Gender')}}:<span>{{$job->gender}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Total Year of Experience:<span>{{$job->exp}} Years {{$job->exp_month}} Months</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Total Year of Experience')}}:<span>{{$job->exp}} Years {{$job->exp_month}} Months</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Education Qualification:<span>{{$job->edu}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Education Qualification')}}:<span>{{$job->edu}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Skill Set:<span>{{$job->skill}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Skill Set')}}:<span>{{$job->skill}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Skill level:<span>{{$job->skill_level}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Skill level')}}:<span>{{$job->skill_level}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Current Organization:<span>{{$job->cur_or}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Current Organization')}}:<span>{{$job->cur_or}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Current Job Title:<span>{{$job->cur_deg}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Home')}}Current Job Title:<span>{{$job->cur_deg}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Current Salary:<span>@if($job->sal!='') {{ number_format($job->sal,2)}}  @endif</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Current Salary')}}:<span>@if($job->sal!='') {{ number_format($job->sal,2)}}  @endif</span></h5>
                      </div>
                   </div>
                   <div class="col-md-8">
                      <div class="app-form-text">
-                        <h5>Current Location / Address:<span>{{$job->location}} @if(!empty($job->zip)) ,{{$job->zip}} @endif</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Current Location / Address')}}:<span>{{$job->location}} @if(!empty($job->zip)) ,{{$job->zip}} @endif</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Expected Salary:<span>@if($job->exp_sal!='') {{ number_format($job->exp_sal,2)}}  @endif</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Expected Salary')}}:<span>@if($job->exp_sal!='') {{ number_format($job->exp_sal,2)}}  @endif</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Apply Date:<span> <?php
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Apply Date')}}:<span> <?php
                            echo date('d/m/Y',strtotime($job->date));
                            if($job->date>='2021-02-22'){
                            echo ' '.date('h:i A ',strtotime($job->date));
@@ -119,35 +119,35 @@
                   @if($job->apply!='')
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>How the candidate applied ?:<span>{{ $job->apply }}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('How the candidate applied ?')}}:<span>{{ $job->apply }}</span></h5>
                      </div>
                   </div>
                   @endif
                   @if($job->recruited!='')
                   <div class="col-md-6">
                      <div class="app-form-text">
-                        <h5>Are  there suitable settled workers available to be recruited for this role ?:<span>{{ $job->recruited }} @if($job->recruited=='Yes')( {{ $job->other }} ) @endif</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Are  there suitable settled workers available to be recruited for this role ?')}}:<span>{{ $job->recruited }} @if($job->recruited=='Yes')( {{ $job->other }} ) @endif</span></h5>
                      </div>
                   </div>
                   @endif
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Current Stage of Recruitment:<span>{{ $job->status}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Current Stage of Recruitment')}}:<span>{{ $job->status}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class="app-form-text">
-                        <h5>Remarks:<span>{{ $job_details->remarks}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Remarks')}}:<span>{{ $job_details->remarks}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="app-form-text">
-                        <h5>Date:<span>{{  date('d/m/Y',strtotime($job_details->date))}}</span></h5>
+                        <h5>{{\App\Helpers\Helper::cachedTrans('Date')}}:<span>{{  date('d/m/Y',strtotime($job_details->date))}}</span></h5>
                      </div>
                   </div>
                   <div class="col-md-4">
                      <?php  if($job->upload_sh!=''){   ?>
-                     <button class="btn btn-default download" type="button" style="    margin: 11px 0 0;"><a href="{{asset('public/'.$job->upload_sh)}}" download>Download  Interview Sheet</a></button>
+                     <button class="btn btn-default download" type="button" style="    margin: 11px 0 0;"><a href="{{asset('public/'.$job->upload_sh)}}" download>{{\App\Helpers\Helper::cachedTrans('Download  Interview Sheet')}}</a></button>
                      <?php
                         }
                         
@@ -156,7 +156,7 @@
                </div>
                <div class="row form-group" style="background:none;margin-top:15px">
                   <div class="col-md-12">
-                     <button class="btn btn-primary sub" type="button" onclick="goBack()">Back</button>
+                     <button class="btn btn-primary sub" type="button" onclick="goBack()">{{\App\Helpers\Helper::cachedTrans('Back')}}</button>
                   </div>
                </div>
             </form>

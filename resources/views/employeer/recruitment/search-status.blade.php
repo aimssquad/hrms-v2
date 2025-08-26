@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Status Search')
+@section('title', \App\Helpers\Helper::cachedTrans('Status Search'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -30,11 +30,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Status Search</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Status Search')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-               <li class="breadcrumb-item active">Status Search</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Status Search')}}</li>
             </ul>
          </div>
       </div>
@@ -50,29 +50,29 @@ return $output;
                   <div class="row form-group">
                      <div class="col-md-3">
                         <div class=" form-group current-stage">
-                           <label for="inputFloatingLabel-recruitment" class="col-form-label">Job Title </label>
+                           <label for="inputFloatingLabel-recruitment" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Title')}} </label>
                            <select id="job_id" name="job_id" class="select"  style="">
                               <option value="">Select</option>
                               @foreach($company_job_rs as $dept)
-                              <option value="{{$dept->id}}">{{$dept->title}}  (Job Code :{{$dept->job_code}} )</option>
+                              <option value="{{$dept->id}}">{{\App\Helpers\Helper::cachedTrans($dept->title)}}  (Job Code :{{$dept->job_code}} )</option>
                               @endforeach
                            </select>
                         </div>
                      </div>
                      <div class="col-md-3">
                         <div class=" form-group">
-                           <label for="inputFloatingLabel-select-date"  class="col-form-label">From Date</label>
+                           <label for="inputFloatingLabel-select-date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('From Date')}}</label>
                            <input id="inputFloatingLabel-select-date" value="<?php if(isset($start_date) && $start_date) { echo $start_date;}?>"  name="start_date" type="date" class="form-control input-border-bottom" required="">
                         </div>
                      </div>
                      <div class="col-md-3">
                         <div class=" form-group">
-                           <label for="inputFloatingLabel-select-date"  class="col-form-label">To Date</label>
+                           <label for="inputFloatingLabel-select-date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('To Date')}}</label>
                            <input id="inputFloatingLabel-select-date" name="end_date" value="<?php if(isset($end_date) && $end_date) { echo $end_date;}?>"  type="date" class="form-control input-border-bottom" required="">
                         </div>
                      </div>
                      <div class="col-md-3">
-                        <button class="btn btn-primary" style="margin-top: 25px;" type="submit">Submit</button>
+                        <button class="btn btn-primary" style="margin-top: 25px;" type="submit">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                      </div>
                   </div>
                </form>
@@ -85,7 +85,7 @@ return $output;
          <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Status Search
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Status Search')}}
                </h4>
                <div class="d-flex justify-content-end align-items-center">
                    <?php
@@ -96,14 +96,14 @@ return $output;
                        <input name="start_date" type="hidden" class="form-control" value="<?php if(isset($start_date) && $start_date) { echo $start_date; } ?>">
                        <input name="end_date" type="hidden" class="form-control" value="<?php if(isset($end_date) && $end_date) { echo $end_date; } ?>">
                        <input name="job_id" type="hidden" class="form-control" value="<?php if(isset($job_id) && $job_id) { echo $job_id; } ?>">
-                       <button class="btn-download btn-download-pdf" type="submit">Download PDF</button>
+                       <button class="btn-download btn-download-pdf" type="submit">{{\App\Helpers\Helper::cachedTrans('Download PDF')}}</button>
                    </form>
                    <form method="post" action="{{ url('recruitment/status-search-result-excel') }}" enctype="multipart/form-data">
                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                        <input name="start_date" type="hidden" class="form-control" value="<?php if(isset($start_date) && $start_date) { echo $start_date; } ?>">
                        <input name="end_date" type="hidden" class="form-control" value="<?php if(isset($end_date) && $end_date) { echo $end_date; } ?>">
                        <input name="job_id" type="hidden" class="form-control" value="<?php if(isset($job_id) && $job_id) { echo $job_id; } ?>">
-                       <button class="btn-download btn-download-excel me-0" type="submit">Download Excel</button>
+                       <button class="btn-download btn-download-excel me-0" type="submit">{{\App\Helpers\Helper::cachedTrans('Download Excel')}}</button>
                    </form>
                    <?php
                    }
@@ -117,14 +117,14 @@ return $output;
                      <thead>
                         <tr>
                            <!--<th>Job Code</th>-->
-                           <th>Job Title</th>
-                           <th>Candidate</th>
-                           <th>Email</th>
-                           <th>Contact Number</th>
-                           <th>Status</th>
-                           <th>Date</th>
-                           <th>Mail</th>
-                           <th>Action</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Job Title')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Candidate')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Email')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Contact Number')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Status')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Date')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Mail')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                         </tr>
                      </thead>
                      <tbody>

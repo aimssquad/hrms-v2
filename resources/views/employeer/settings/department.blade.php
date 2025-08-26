@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Department Master')
+@section('title', \App\Helpers\Helper::cachedTrans('Department Master'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -30,22 +30,22 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title"> Department Master</h3>
+            <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans('Department Master')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Settings Dashboard</a></li>
-               <li class="breadcrumb-item active">Department Master</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Settings Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Department Master')}}</li>
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
             @foreach($sidebarItems['Employee Administration'] as $rotaItem)
                   @if($rotaItem['submenu_name'] == 'Department' && $rotaItem['can_add'] == 1)
-            <a href="{{ url('org-settings/add-new-department') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Department </a>
+            <a href="{{ url('org-settings/add-new-department') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Department')}} </a>
             @endif
             @endforeach
             @elseif($user_type == 'employer')
-            <a href="{{ url('org-settings/add-new-department') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Department</a>
+            <a href="{{ url('org-settings/add-new-department') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans('Add Department')}} </a>
             @endif
             {{-- 
             <div class="view-icons">
@@ -63,7 +63,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Department Master
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Department Master')}} 
                </h4>
                <div class="row">
                   <div class="col-auto">
@@ -75,7 +75,7 @@ return $output;
                           {{-- put the value - that is your file name --}}
                           <input type="hidden" id="filenameInput" value="Department-Master">
                           <button type="submit" class="btn-download btn-download-excel me-0">
-									Export to Excel
+									{{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
 							   </button>
                       </form>
                   </div>
@@ -86,7 +86,7 @@ return $output;
                         <input type="hidden" name="headings" id="pdfHeadings">
                         <input type="hidden" name="filename" id="pdfFilename">
                         <button type="submit" class="btn-download btn-download-pdf">
-                           Export to PDF
+                           {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                         </button>
                     </form>
                   </div>
@@ -97,9 +97,9 @@ return $output;
                   <table class="table table-striped custom-table" id="basic-datatables">
                      <thead>
                         <tr>
-                        <th>Sl. No.</th>
-                        <th>Department Name</th>
-                        <th>Action</th>
+                        <th>{{\App\Helpers\Helper::cachedTrans('Sl. No.')}}</th>
+                        <th>{{\App\Helpers\Helper::cachedTrans('Department Name')}}</th>
+                        <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                         </tr>
                      </thead>
                      <tbody>

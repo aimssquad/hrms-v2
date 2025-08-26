@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Employee Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('Employee Dashboard'))
 
 @section('content')
 
@@ -12,10 +12,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Employee Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Employee Dashboard')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Employee Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Employee Dashboard')}}</li>
                     </ul>
                 </div>
                 {{-- <div class="col-auto float-end ms-auto">
@@ -39,14 +39,14 @@
                                     <a href="{{ url('organization/employee') }}">
                                         <div class="card-body modern-card">
                                             <div class="dash-widget-info">
-                                                <span>Employees</span>
+                                                <span>{{\App\Helpers\Helper::cachedTrans('Employees')}}</span>
                                                 <h3>{{$employee_count ?? 0}}</h3>
                                             </div>
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa-solid fa-users fa-2x modern-icon"></i>
                                             </div>
                                             <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
-                                                <span style="font-size: 13px;">View</span>
+                                                <span style="font-size: 13px;">{{\App\Helpers\Helper::cachedTrans('View')}}</span>
                                                 <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                                             </div>
                                         </div>
@@ -59,14 +59,14 @@
                                     <a href="{{ url('org-settings/vw-department') }}">
                                         <div class="card-body modern-card">
                                             <div class="dash-widget-info">
-                                                <span>Department</span>
+                                                <span>{{\App\Helpers\Helper::cachedTrans('Department')}}</span>
                                                 <h3>{{$department_count ?? 0}}</h3>
                                             </div>
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa-solid fa-building fa-2x modern-icon"></i>
                                             </div>
                                             <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
-                                                <span style="font-size: 13px;">View</span>
+                                                <span style="font-size: 13px;">{{\App\Helpers\Helper::cachedTrans('View')}}</span>
                                                 <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                                             </div>
                                         </div>
@@ -78,14 +78,14 @@
                                     <a href="{{ url('org-settings/vw-designation') }}">
                                         <div class="card-body modern-card">
                                             <div class="dash-widget-info">
-                                                <span>Designation</span>
+                                                <span>{{\App\Helpers\Helper::cachedTrans('Designation')}}</span>
                                                 <h3>{{$designation_count ?? 0}}</h3>
                                             </div>
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa-solid fa-id-badge fa-2x modern-icon"></i>
                                             </div>
                                             <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
-                                                <span style="font-size: 13px;">View</span>
+                                                <span style="font-size: 13px;">{{\App\Helpers\Helper::cachedTrans('View')}}</span>
                                                 <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                                             </div>
                                         </div>
@@ -98,14 +98,14 @@
                                     <a href="{{ url('org-settings/vw-employee-type') }}">
                                         <div class="card-body modern-card">
                                             <div class="dash-widget-info">
-                                                <span>Type of Employees</span>
+                                                <span>{{\App\Helpers\Helper::cachedTrans('Type of Employees')}}</span>
                                                 <h3>{{$employee_type_count ?? 0 }}</h3>
                                             </div>
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa-solid fa-user-tie fa-2x modern-icon"></i>
                                             </div>
                                             <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
-                                                <span style="font-size: 13px;">View</span>
+                                                <span style="font-size: 13px;">{{\App\Helpers\Helper::cachedTrans('View')}}</span>
                                                 <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                                             </div>
                                         </div>
@@ -118,14 +118,14 @@
                                     <a href="{{ url('organization/allShifts') }}">
                                         <div class="card-body modern-card">
                                             <div class="dash-widget-info">
-                                                <span>All Shifts</span>
+                                                <span>{{\App\Helpers\Helper::cachedTrans('All Shifts')}}</span>
                                                 <h3>{{$shift_count ?? 0 }}</h3>
                                             </div>
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa-solid fa-clock fa-2x modern-icon"></i>
                                             </div>
                                             <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
-                                                <span style="font-size: 13px;">View</span>
+                                                <span style="font-size: 13px;">{{\App\Helpers\Helper::cachedTrans('View')}}</span>
                                                 <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                                             </div>
                                         </div>

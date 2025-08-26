@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'All Shifts')
+@section('title', \App\Helpers\Helper::cachedTrans('All Shifts'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -36,11 +36,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">All Shifts</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('All Shifts')}}</h3>
 				<ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">Employee Dashboard</a></li>
-					<li class="breadcrumb-item active">All Shifts</li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Employee Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('All Shifts')}}</li>
 				</ul>
 			</div>
 			
@@ -53,7 +53,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;All Shifts
+                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('All Shifts')}}
 
                     </h4>
                     <div class="row">
@@ -66,7 +66,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                {{-- put the value - that is your file name --}}
                                <input type="hidden" id="filenameInput" value="All-Shifts">
                                <button type="submit" class="btn-download btn-download-excel me-0">
-                                        Export to Excel
+                                    {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}    
                                 </button>
                            </form>
                        </div>
@@ -77,7 +77,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                              <input type="hidden" name="headings" id="pdfHeadings">
                              <input type="hidden" name="filename" id="pdfFilename">
                              <button type="submit" class="btn-download btn-download-pdf">
-                                    Export to PDF
+                                {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}    
                             </button>
                          </form>
                        </div>
@@ -88,12 +88,12 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <table id="basic-datatables" class="display table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Shift Code</th>
-                                    <th>Shift Description</th>
-                                    <th>Work In Time</th>
-                                    <th>Work Out Time</th>
-                                    <th>Break Time From</th>
-                                    <th>Break Time To</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Shift Code')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Shift Description')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Work In Time')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Work Out Time')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Break Time From')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Break Time To')}}</th>
                                 </tr>
                             </thead>
 

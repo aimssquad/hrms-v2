@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(isset($employee_type->id))
-@section('title', 'Edit Type Of Employment')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Type Of Employment'))
 @else
-@section('title', 'Add New Type Of Employment')
+@section('title', \App\Helpers\Helper::cachedTrans('Add New Type Of Employment'))
 @endif
 
 @section('content')
@@ -12,21 +12,21 @@
          <div class="row">
             <div class="col-md-12">
                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                   @if(isset($employee_type->id))
-                  <li class="breadcrumb-item active">Edit Type Of Employment</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Type Of Employment')}}</li>
                   @else
-                  <li class="breadcrumb-item active">Add Type Of Employment</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Type Of Employment')}}</li>
                   @endif
                   
                </ul>
                <div class="card custom-card">
                   <div class="card-header">
                      @if(isset($employee_type->id))
-                     <h4 class="card-title"><i class="far fa-user"></i> Edit Type Of Employment</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Edit Type Of Employment')}} </h4>
                      @else
-                     <h4 class="card-title"><i class="far fa-user"></i> Add New Type Of Employment</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Add New Type Of Employment')}} </h4>
                      @endif
                      
                   </div>
@@ -47,7 +47,7 @@
                                  <div class="row">
                                     <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="inputFloatingLabel" class="col-form-label">Employment Type</label>
+                                          <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employment Type')}}</label>
                                           <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom" required="" name="employ_type_name" value="<?php if(!empty($employee_type->employ_type_name)){ echo $employee_type->employ_type_name;}?>">
                                           @if ($errors->has('employ_type_name'))
                                           <div class="error" style="color:red;">{{ $errors->first('employ_type_name') }}</div>
@@ -57,7 +57,7 @@
                                  </div>
                                  <br>
                                  <div class="row form-group">
-                                    <div class="col-md-2"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                    <div class="col-md-2"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button></div>
                                  </div>
                            </div>
                            </form>

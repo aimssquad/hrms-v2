@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Employee List')
+@section('title', \App\Helpers\Helper::cachedTrans('Employee List'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -32,11 +32,11 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="page-title">Employees</h3>
+                <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Employees')}}</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">Employee Dashboard</a></li>
-                    <li class="breadcrumb-item active">Employee List</li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Employee Dashboard')}}</a></li>
+                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Employee List')}}</li>
                 </ul>
             </div>
             <div class="col-auto float-end ms-auto">
@@ -46,7 +46,7 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
 						<input type="text" name="search" id="searchEmployeeName" 
 							class="form-control" 
 							value="{{ request('search') }}" 
-							placeholder="Search by name or code"
+							placeholder="'{{\App\Helpers\Helper::cachedTrans("Search by name or code")}}'"
 							autocomplete="off">
 						<button type="button" class="btn btn-primary" id="searchButton">
 							<i class="fa fa-search"></i>
@@ -59,7 +59,7 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
 					</div>
                 </form>
                 
-                <a href="{{url('organization/view-add-employee')}}" class="btn add-btn me-2"><i class="fa-solid fa-plus"></i> Add Employee</a>
+                <a href="{{url('organization/view-add-employee')}}" class="btn add-btn me-2"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Employee')}}</a>
                 <div class="view-icons">
                     <a href="{{url('organization/employee')}}" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
                     <a href="{{url('organization/emplist')}}" class="list-view btn btn-link"><i class="fa-solid fa-bars"></i></a>
@@ -176,7 +176,7 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
         </div>
         @empty
         <div class="col-12">
-            <div class="alert alert-info">No employees found.</div>
+            <div class="alert alert-info">{{\App\Helpers\Helper::cachedTrans('No employees found')}}.</div>
         </div>
         @endforelse
     </div>

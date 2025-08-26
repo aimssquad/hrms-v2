@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Inactive Employee List')
+@section('title', \App\Helpers\Helper::cachedTrans('Inactive Employee'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -37,11 +37,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Inactive Employee</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Inactive Employee')}}</h3>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-					<li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">Employee Dashboard</a></li>
-					<li class="breadcrumb-item active">Inactive Employee List</li>
+					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+					<li class="breadcrumb-item"><a href="{{url('organization/employee/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Employee Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Inactive Employee')}} </li>
 				</ul>
 			</div>
 			
@@ -53,7 +53,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 			<div class="card custom-card">
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<h4 class="card-title">
-						<i class="far fa-user" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Employee List
+						<i class="far fa-user" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Employee List')}}
 					</h4>
 					<div class="row">
 						<div class="col-auto">
@@ -65,7 +65,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 								{{-- put the value - that is your file name --}}
 								<input type="hidden" id="filenameInput" value="Employee-list">
 								<button type="submit" class="btn-download btn-download-excel me-0">
-									Export to Excel
+									{{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
 							   </button>
 							</form>
 						</div>
@@ -76,7 +76,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 							  <input type="hidden" name="headings" id="pdfHeadings">
 							  <input type="hidden" name="filename" id="pdfFilename">
 							  <button type="submit" class="btn-download btn-download-pdf">
-								Export to PDF
+								{{\App\Helpers\Helper::cachedTrans('Export to PDF')}}
 						   </button>
 						  </form>
 						</div>
@@ -87,16 +87,16 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 						<table class="table table-striped custom-table" id="basic-datatables">
 							<thead>
 								<tr>
-									<th>Employee ID</th>
-									<th>Employee Name</th>
-									<th>DOB</th>
-									<th>Mobile</th>
-									<th class="text-nowrap">Email</th>
-									<th>Department</th>
-									<th>Designation</th>
-									<th>Address</th>
-									<th>Status</th>
-									<th class="text-end no-sort">Action</th>
+									<th> {{\App\Helpers\Helper::cachedTrans('Employee ID')}} </th>
+									<th> {{\App\Helpers\Helper::cachedTrans('Employee Name')}} </th>
+									<th> {{\App\Helpers\Helper::cachedTrans('DOB')}} </th>
+									<th> {{\App\Helpers\Helper::cachedTrans('Mobile')}} </th>
+									<th class="text-nowrap">{{\App\Helpers\Helper::cachedTrans('Email')}}</th>
+									<th> {{\App\Helpers\Helper::cachedTrans('Department')}} </th>
+									<th> {{\App\Helpers\Helper::cachedTrans('Designation')}} </th>
+									<th> {{\App\Helpers\Helper::cachedTrans('Address')}} </th>
+									<th> {{\App\Helpers\Helper::cachedTrans('Status')}} </th>
+									<th class="text-end no-sort">{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
 								</tr>
 							</thead>
 							<tbody>

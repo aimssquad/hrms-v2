@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(isset($_GET['id']))
-@section('title', 'Edit New Designation')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit New Designation'))
 @else
-@section('title', 'Add New Designation')
+@section('title', \App\Helpers\Helper::cachedTrans('Add New Designation'))
 @endif
 
 @section('content')
@@ -12,20 +12,20 @@
          <div class="row">
             <div class="col-md-12">
                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                   @if(isset($_GET['id']))
-                  <li class="breadcrumb-item active">Edit Designation</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Designation')}}</li>
                   @else
-                  <li class="breadcrumb-item active">Add Designation</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Designation')}}</li>
                   @endif
                </ul>
                <div class="card custom-card">
                   <div class="card-header">
                      @if(isset($_GET['id']))
-                     <h4 class="card-title"><i class="far fa-user"></i> Edit New Designation</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Edit New Designation')}}</h4>
                      @else
-                     <h4 class="card-title"><i class="far fa-user"></i> Add New Designation</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Add New Designation')}}</h4>
                      @endif
                     
                   </div>
@@ -45,7 +45,7 @@
                                                            <div class="row form-group">
                                                            <div class="col-md-4">
                                            <div class="form-group">
-                                                                   <label for="selectFloatingLabel" class="col-form-label">Select Department</label>
+                                                                   <label for="selectFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Department')}}</label>
                                                                        <select class="select input-border-bottom" id="selectFloatingLabel" name="department_code" required="">
                                                                                                                
                                                
@@ -63,7 +63,7 @@
                                                                </div>
                                        <div class="col-md-4">
                                        <div class="form-group">
-                                           <label for="inputFloatingLabel" class="col-form-label">Designation Name</label>
+                                           <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Designation Name')}}</label>
                                                                    <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  required="" name="designation_name"  value="<?php  if(app('request')->input('id')){ echo $designation->designation_name; } ?> {{ old('designation_name') }}">
                                                                    
                                                                        @if ($errors->has('designation_name'))
@@ -75,7 +75,7 @@
                                                                <br>
                                                                <div class="row form-group">
                                        <div class="col-md-4">
-                                           <button type="submit" class="btn btn-primary">Submit</button>
+                                           <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                                        </div>
                                        </div>
                                                            </div>

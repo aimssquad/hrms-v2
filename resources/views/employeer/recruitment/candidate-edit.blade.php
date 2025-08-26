@@ -2,7 +2,7 @@
    // dd(asset($job->resume));
 @endphp
 @extends('employeer.include.app')
-@section('title', 'Job Applied')
+@section('title', \App\Helpers\Helper::cachedTrans('Job Applied'))
 @section('content')
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -10,11 +10,11 @@
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Job Applied</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Job Applied')}}</h3>
 				<ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-					<li class="breadcrumb-item active">Job Applied</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Job Applied')}}</li>
 				</ul>
 			</div>
 		</div>
@@ -31,28 +31,28 @@
                     <div class="row form-group">
                        <div class="col-md-4">
                           <div class=" form-group current-stage">
-                            <label for="name" class="col-form-label">Job Title</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Title')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->job_title}}" readonly>
                              {{-- <h5>Job Title:<span>{{$job->job_title}}</span></h5> --}}
                           </div>
                        </div>
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Candidate Name</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Candidate Name')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->name}}" readonly>
                              {{-- <h5>Candidate Name:<span>{{$job->name}}</span></h5> --}}
                           </div>
                        </div>
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Candidate Address:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Candidate Address:')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->location}} {{$job->zip}}" readonly>
                              {{-- <h5>Candidate Address:<span>{{$job->location}} @if(!empty($job->zip)) , {{$job->zip}} @endif</span></h5> --}}
                           </div>
                        </div>
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Email::</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Email:')}}</label>
                             <input class="form-control" type="email" name="" value="{{$job->email}}" readonly>
                              {{-- <h5>Email:<span>{{$job->email}}</span></h5> --}}
                           </div>
@@ -60,7 +60,7 @@
                        @if($job->dob!='')
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Date of Birth:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Date of Birth:')}}</label>
                             <input class="form-control" type="date" name="" value="{{ date('Y-m-d', strtotime($job->dob)) }}" readonly>
                              {{-- <h5>Date Of Birth:<span>{{ date('d/m/Y',strtotime($job->dob))}}</span></h5> --}}
                           </div>
@@ -68,49 +68,49 @@
                        @endif
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Contact Number:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Contact Number:')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->phone}}" readonly>
                              {{-- <h5>Contact Number:<span>+{{$job->phone}}</span></h5> --}}
                           </div>
                        </div>
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Gender:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Gender:')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->gender}}" readonly>
                              {{-- <h5>Gender:<span>{{$job->gender}}</span></h5> --}}
                           </div>
                        </div>
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Total Year of Experience:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Total Year of Experience:')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->exp}} Years {{$job->exp_month}} Months" readonly>
                              {{-- <h5>Total Year of Experience:<span>{{$job->exp}} Years {{$job->exp_month}} Months</span></h5> --}}
                           </div>
                        </div>
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Education Qualification:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Education Qualification:')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->edu}}" readonly>
                              {{-- <h5>Education Qualification:<span>{{$job->edu}}</span></h5> --}}
                           </div>
                        </div>
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Skill Set:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Skill Set:')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->skill}}" readonly>
                              {{-- <h5>Skill Set:<span>{{$job->skill}}</span></h5> --}}
                           </div>
                        </div>
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Most Recent Employer:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Most Recent Employer:')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->cur_or}}" readonly>
                              {{-- <h5>Most Recent Employer:<span>{{$job->cur_or}}</span></h5> --}}
                           </div>
                        </div>
                        <div class="col-md-4">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Most Recent Job Title:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Most Recent Job Title:')}}</label>
                             <input class="form-control" type="text" name="" value="{{$job->cur_deg}}" readonly>
                              {{-- <h5>Most Recent Job Title:<span>{{$job->cur_deg}}</span></h5> --}}
                           </div>
@@ -118,7 +118,7 @@
                        <div class="col-md-4">
                           <div class="app-form-text">
                             @if($job->exp_sal!='')
-                            <label for="name" class="col-form-label">Expected Salary:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Expected Salary:')}}</label>
                             <input class="form-control" type="text" name="" value="{{ number_format($job->exp_sal,2)}}" readonly>
                             @endif
                              {{-- <h5>Expected Salary (GBP):<span> @if($job->exp_sal!='') {{ number_format($job->exp_sal,2)}}  @endif</span></h5> --}}
@@ -126,7 +126,7 @@
                        </div>
                        <div class="col-md-4">
                           <div class=" form-group current-stage">
-                            <label for="name" class="col-form-label">Application Date:</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Application Date:')}}</label>
                                 <input class="form-control" type="date" name="application_date" id="application_date" value="{{date('Y-m-d',strtotime($job->date))}}" class="form-control">	
                           </div>
                        </div>
@@ -135,7 +135,7 @@
                     <div class="row form-group" style="padding: 3px 0 15px;">
                        <div class="col-md-4">
                           <div class=" form-group current-stage">
-                             <label class="col-form-label">Current Stage of Recruitment</label>
+                             <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Current Stage of Recruitment')}}</label>
                              <select class="select" required="" name="status"  style="margin-top: 10px;" <?php  if($job->status!=''){  if($job->status!='Application Received'){ ?> disabled	 <?php }
                                 }
                                 
@@ -150,7 +150,7 @@
                        @if($job->recruited!='')
                        <div class="col-md-6">
                           <div class="app-form-text">
-                            <label for="name" class="col-form-label">Are  there suitable settled workers available to be recruited for this role ?::</label>
+                            <label for="name" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Are  there suitable settled workers available to be recruited for this role ?')}}:</label>
                             <input class="form-control" type="text" name="" value="{{ $job->recruited }} @if($job->recruited=='Yes')( {{ $job->other }} ) @endif" readonly>
                              {{-- <h5>Are  there suitable settled workers available to be recruited for this role ?:<span>{{ $job->recruited }} @if($job->recruited=='Yes')( {{ $job->other }} ) @endif</span></h5> --}}
                           </div>
@@ -158,7 +158,7 @@
                        @endif
                        <div class="col-md-4">
                           <div class="form-group current-stage">
-                             <label class="col-form-label">How the candidate applied ? </label>
+                             <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('How the candidate applied ?')}} </label>
                              <select class="select" required="" name="apply"  style="margin-top: 10px;" <?php  if($job->status!=''){  if($job->status!='Application Received'){ ?> disabled	 <?php }
                                 }
                                 
@@ -173,11 +173,11 @@
                           </div>
                        </div>
                        <div class="col-md-4" style="margin-top:35px;">
-                          <button class="btn btn-primary download" type="button" style=""><a href="{{asset('/public/'.$job->resume)}}" download class="text-white" target="_blank">Download Resume</a></button>
+                          <button class="btn btn-primary download" type="button" style=""><a href="{{asset('/public/'.$job->resume)}}" download class="text-white" target="_blank">{{\App\Helpers\Helper::cachedTrans('Download Resume')}}</a></button>
                        </div>
                        <div class="col-md-4">
                           <?php  if($job->cover_letter!=''){   ?>
-                          <button class="btn btn-primary download" type="button" style="    margin: 11px 0 0;"><a href="{{asset('public/'.$job->cover_letter)}}" download target="_blank">Download Cover Letter</a></button>
+                          <button class="btn btn-primary download" type="button" style="    margin: 11px 0 0;"><a href="{{asset('public/'.$job->cover_letter)}}" download target="_blank">{{\App\Helpers\Helper::cachedTrans('Download Cover Letter')}}</a></button>
                           <?php
                              }
                              
@@ -187,7 +187,7 @@
                     <div class="row form-group" style="    padding: 9px 0 15px;">
                        <div class="col-md-6">
                           <div class=" form-group">
-                             <label class="col-form-label">Remarks</label>	
+                             <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Remarks')}}</label>	
                              <input class="form-control" type="text" class="form-control" <?php  if($job->status!=''){  if($job->status!='Application Received'){ ?> disabled	 <?php }
                                 }
                                 
@@ -197,7 +197,7 @@
                        </div>
                        <div class="col-md-6">
                           <div class=" form-group">
-                             <label class="col-form-label">Date</label>	
+                             <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Date')}}</label>	
                              <input class="form-control" type="date" <?php  if($job->status!=''){  if($job->status!='Application Received'){ ?> disabled	 <?php }
                                 }
                                 
@@ -210,7 +210,7 @@
                        <?php  if($job->status!=''){  
                           if($job->status=='Application Received'){ ?>
                        <div class="col-md-12">
-                          <button class="btn btn-primary sub" type="submit">Submit</button>
+                          <button class="btn btn-primary sub" type="submit">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                        </div>
                        <?php }
                           else{
@@ -219,7 +219,7 @@
                           <button class="btn btn-default sub" type="button" onclick="goBack()">Back</button>
                           </div> -->
                        <div class="col-md-12">
-                          <button class="btn btn-primary sub" type="submit">Submit</button>
+                          <button class="btn btn-primary sub" type="submit">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                        </div>
                        <?php
                           }

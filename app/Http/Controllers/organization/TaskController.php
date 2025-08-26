@@ -4,14 +4,17 @@ namespace App\Http\Controllers\organization;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\ProjectMembers;
 use App\Models\TaskManagement\MasterLabels;
 use App\Models\TaskManagement\Task;
 use App\Models\User;
 use App\Models\Employee;
+use App\Models\ProjectPost;
 use DB;
 use Session;
+use Storage;
 
 class TaskController extends Controller
 {
@@ -71,37 +74,6 @@ class TaskController extends Controller
     }
 
 
-    // public function employeeTask(Request $request) {
-    //     $email = Session::get("emp_email");
-    //     if (empty($email)) {
-    //         return redirect("/");
-    //     }
-
-    //     $currentUser = User::where('email', $email)->first();
-        
-    //     if (!$currentUser) {
-    //         return redirect("/")->with('error', 'User not found');
-    //     }
-
-    //     $employee = Employee::where('emp_code', $currentUser->employee_id)->where('emid', $currentUser->emid)->first();
-
-    //     //dd($employee->id);
-    //     $projects['projects'] = DB::table('project_members as pm')
-    //         ->join('projects as p', 'pm.project_id', '=', 'p.id')
-    //         ->where('pm.user_id', $employee->id)
-    //         ->select([
-    //             'p.title',
-    //             'p.description',
-    //             'p.status',
-    //             'p.emid as project_code', // Added project code if needed
-    //             'pm.role'
-    //         ])
-    //         ->orderBy('p.title') // Optional: sort by project name
-    //         ->get();
-            
-    //     //dd($projects);        
-    //     return view('employeer/employee-corner/task/task',$projects);
-    // }
 
     public function employeeTask(Request $request) {
         $email = Session::get("emp_email");
@@ -182,8 +154,246 @@ class TaskController extends Controller
         ]);
     }
 
-    public function members(Request $request, $id){
-        return view('employeer/employee-corner/task/tt');
+
+    public function members(Request $request, $id)
+    {
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        
+        $empData = User::where('email', $email)->first();
+        $emid = $empData->emid;
+        $employee_code = $empData->employee_id;
+
+        $projectData = DB::table('projects as p')
+            ->leftJoin('project_members as pm', 'p.id', '=', 'pm.project_id')
+            ->leftJoin('tasks as t', 'p.id', '=', 't.project_id')
+            ->leftJoin('employee as e', 'pm.user_id', '=', 'e.id')
+            ->where('p.id', $id)
+            ->select([
+                'p.id as project_id',
+                'p.title as project_title',
+                'p.description as project_description',
+                'p.status as project_status',
+                'pm.role as member_role',
+                't.task_name',
+                't.task_desc',
+                't.start_date',
+                't.expected_end_date',
+                DB::raw("CONCAT(e.emp_fname, ' ', COALESCE(e.emp_mname, ''), ' ', e.emp_lname) as employee_name"),
+                'e.emp_code as employee_code'
+            ])
+            ->orderBy('employee_name')
+            ->orderBy('t.start_date')
+            ->get();
+        //dd($projectData);        
+        // Group the data by project
+        $groupedData = [
+            'project' => null,
+            'members' => [],
+            'tasks' => []
+        ];
+
+        foreach ($projectData as $item) {
+            // Set project info (only once)
+            if (!$groupedData['project']) {
+                $groupedData['project'] = [
+                    'id' => $item->project_id,
+                    'title' => $item->project_title,
+                    'description' => $item->project_description,
+                    'status' => $item->project_status
+                ];
+            }
+
+            // Add unique members
+            if ($item->employee_name && !isset($groupedData['members'][$item->employee_code])) {
+                $groupedData['members'][$item->employee_code] = [
+                    'name' => $item->employee_name,
+                    'employee_code' => $item->employee_code,
+                    'role' => $item->member_role
+                ];
+            }
+
+            // Add unique tasks
+            if ($item->task_name && !isset($groupedData['tasks'][$item->task_name])) {
+                $groupedData['tasks'][$item->task_name] = [
+                    'task_name' => $item->task_name,
+                    'task_desc' => $item->task_desc,
+                    'start_date' => $item->start_date,
+                    'expected_end_date' => $item->expected_end_date
+                ];
+            }
+        }
+
+        // Convert to simple arrays
+        $groupedData['members'] = array_values($groupedData['members']);
+        $groupedData['tasks'] = array_values($groupedData['tasks']);
+        //dd($groupedData);
+        $data['id'] = $id;
+        $data['post_data'] = ProjectPost::with('user') // Add relationship if you have one
+            ->where('project_id', $id)
+            ->orderBy('created_at', 'asc')
+            ->get(); 
+        
+        // Pass employee_code to the view to identify "my" messages
+        return view('employeer/employee-corner/task/tt', compact('data', 'employee_code','groupedData'));
+    }
+
+    
+
+
+
+
+    public function empProjectPost(Request $request)
+    {
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        //dd($request->all());
+        $empData = User::where('email', $email)->first();
+        $emid = $empData->emid;
+        $employee_code = $empData->employee_id;
+
+        $validate_data = Validator::make($request->all(), [
+            'project_id' => 'required|integer',
+            'file' => 'nullable|file|mimes:pdf,png,jpg,jpeg,xls,xlsx|max:2048',
+            'title' => 'required|string|max:1000'
+        ]);
+       
+        if ($validate_data->fails()) {
+            //dd($validate_data->errors()->all()); 
+            return redirect()->back()
+                ->withErrors($validate_data)
+                ->withInput();
+        }
+  
+        $filePath = null;
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            // Store file in storage/app/public/project_files directory
+            $filePath = $file->storeAs('project_files', $fileName, 'public');
+        }
+
+        $data = [
+            'project_id' => $request->project_id,
+            'title' => $request->title,
+            'file' => $filePath,
+            'emid' => $emid,
+            'employee_code' => $employee_code,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
+        //dd($data);
+        ProjectPost::create($data);
+
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Project post created successfully!');
+    }
+
+    // Add these methods to your controller
+
+    public function edit($id)
+    {
+        //dd($id);
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        //dd($request->all());
+        $empData = User::where('email', $email)->first();
+        $emid = $empData->emid;
+        $employee_code = $empData->employee_id;
+
+        $post = ProjectPost::where('id', $id)
+                    ->where('employee_code', $employee_code)
+                    ->firstOrFail();
+        //dd($post);            
+        return response()->json([
+            'success' => true,
+            'post' => $post
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        $empData = User::where('email', $email)->first();
+        $emid = $empData->emid;
+        $employee_code = $empData->employee_id;
+
+        $post = ProjectPost::where('id', $id)
+                    ->where('employee_code', $employee_code)
+                    ->firstOrFail();
+                    
+        $validate_data = Validator::make($request->all(), [
+            'title' => 'required|string|max:1000',
+            'file' => 'nullable|file|mimes:pdf,png,jpg,jpeg,xls,xlsx|max:2048',
+        ]);
+    
+        if ($validate_data->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validate_data->errors()->first()
+            ]);
+        }
+
+        $data = [
+            'title' => $request->title,
+            'updated_at' => now()
+        ];
+
+        if ($request->hasFile('file')) {
+            // Delete old file if exists
+            if ($post->file) {
+                Storage::disk('public')->delete($post->file);
+            }
+            
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('project_files', $fileName, 'public');
+            $data['file'] = $filePath;
+        }
+
+        $post->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Post updated successfully'
+        ]);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        //dd($id);
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        $empData = User::where('email', $email)->first();
+        $emid = $empData->emid;
+        $employee_code = $empData->employee_id;
+
+        $post = ProjectPost::where('id', $id)
+                    ->where('employee_code', $employee_code)
+                    ->firstOrFail();
+                    
+        // Delete associated file if exists
+        if ($post->file) {
+            Storage::disk('public')->delete($post->file);
+        }
+        
+        $post->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Post deleted successfully'
+        ]);
     }
 
     

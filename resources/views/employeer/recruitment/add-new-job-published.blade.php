@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Job Published')
+@section('title', \App\Helpers\Helper::cachedTrans('Job Published'))
 @section('content')
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -8,14 +8,14 @@
 		<div class="row align-items-center">
 			<div class="col">
                 @if(isset($_GET['id']))
-                <h4 class="card-title"><i class="fas fa-briefcase"></i> Edit Job Published</h4>
+                <h4 class="card-title"><i class="fas fa-briefcase"></i>{{\App\Helpers\Helper::cachedTrans('Edit Job Published')}} </h4>
                 @else
-                <h4 class="card-title"><i class="fas fa-briefcase"></i> Add Job Published</h4>
+                <h4 class="card-title"><i class="fas fa-briefcase"></i>{{\App\Helpers\Helper::cachedTrans('Add Job Published')}} </h4>
                 @endif 
 				<ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-					<li class="breadcrumb-item active">Job Published</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Job Published')}}</li>
 				</ul>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
                        <div class="col-md-4">
                           
                           <div class=" form-group">
-                             <label for="inputFloatingLabel-soc-code" class="col-form-label">JOB Code</label>
+                             <label for="inputFloatingLabel-soc-code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('JOB Code')}}</label>
                              <select id="job_id" class="form-control input-border-bottom" required="" name="job_id"  onchange="chngdepartment(this.value);">
                                 <option value="">select</option>
                                @foreach($department_rs as $dept)
@@ -69,7 +69,7 @@
                        </div>
                        <?php   if(isset($_GET['id'])){ ?>
                        <div class="col-md-4">
-                          <label for="title" class="col-form-label">Job Title</label>
+                          <label for="title" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Title')}}</label>
                            <select id="title" class="form-control input-border-bottom" required="" name="title"  onchange="chngdepartmentdesp(this.value);">
                                  <option value="">select</option>
                                  <option value="" <?php if($designation[0]->title==$designation[0]->title){?> selected="selected"<?php }?>><?php echo $designation[0]->title; ?></option>
@@ -81,7 +81,7 @@
                               ?>
                        <div class="col-md-4">
                           <div class=" form-group">
-                             <label for="title" class="col-form-label">Job Title</label>
+                             <label for="title" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Title')}}</label>
                              <select id="title" class="form-control input-border-bottom" required="" name="title"  onchange="chngdepartmentdesp(this.value);">
                                 <option value="">&nbsp;</option>
                              </select>
@@ -92,18 +92,18 @@
                           ?>
                        <div class="col-md-4">
                           <div class=" form-group">
-                             <label for="department" class="col-form-label">Department</label>
+                             <label for="department" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Department')}} </label>
                              <input id="department" type="text" class="form-control input-border-bottom" required="" name="department" value="<?php if(isset($_GET['id'])){  echo $designation[0]->department;  }?>{{ old('title') }}" <?php if(isset($_GET['id'])){ echo 'readonly';}?>>
                           </div>
                        </div>
                     </div>
                     <div class="row form-group">
                        <div class="col-md-12">
-                          <label for="job_desc" class="col-form-label">Job Description</label>
+                          <label for="job_desc" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Description')}} </label>
                           <textarea id="job_desc"   name="job_desc" type="text"  rows="5" class="form-control"  required="" <?php if(isset($_GET['id'])){ echo 'readonly';}?>><?php if(isset($_GET['id'])){  ?>  {!! $designation[0]->job_desc !!} <?php }?>  </textarea>
                        </div>
                     </div>
-                    <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px;">Published websites </h3>
+                    <h3 class="card-title" style="border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 16px;">{{\App\Helpers\Helper::cachedTrans('Published websites')}}  </h3>
                     <div id="education_fields">
                        <?php if(isset($_GET['id'])){ ?> 
                        <?php   $trupload_id=0;
@@ -123,7 +123,7 @@
                           <div class="col-md-6">
                              <div class="form-group">
                                 @if($trupload_id==0)
-                                <label class="col-form-label">Published websites url/link   </label>
+                                <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Published websites url/link')}}    </label>
                                 @endif
                                 <input type="text" class="form-control input-border-bottom" id="url_{{ $empuprs->id}}"  name="url_{{ $empuprs->id}}" value="{{ $empuprs->url}}" >
                                 <input  type="hidden" class="form-control input-border-bottom" name="id_up_doc[]" value="{{ $empuprs->id}}">
@@ -132,7 +132,7 @@
                           <div class="col-md-4">
                              <div class="form-group">
                                 @if($trupload_id==0)
-                                <label for="other_doc_input_{{ $empuprs->id}}">Upload Document  </label>
+                                <label for="other_doc_input_{{ $empuprs->id}}">{{\App\Helpers\Helper::cachedTrans('Upload Document')}}   </label>
                                 @endif
                                 @if($empuprs->scren!='')
                                 <a href="{{ asset('storage/app/public/'.$empuprs->scren) }}" target="_blank" download  style="text-align: right;
@@ -144,7 +144,7 @@
                                 <input type="file" class="form-control-file" id="docu_nat_{{ $empuprs->id}}" name="scren_{{ $empuprs->id}}"  onchange="Filevalidation({{ $empuprs->id}})">
                              </div>
                              @if($trupload_id==0)
-                             <span>*Document Size not more than 2 MB</span>
+                             <span>{{\App\Helpers\Helper::cachedTrans('*Document Size not more than 2 MB')}} </span>
                              @endif
                           </div>
                        </div>
@@ -162,22 +162,22 @@
                        <div class="row form-group">
                           <div class="col-md-6">
                              <div class="form-group">
-                                <label class="col-form-label">Published websites url/link   </label>
+                                <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Published websites url/link')}}    </label>
                                 <input type="text" class="form-control input-border-bottom" id="url_1"  name="url[]"  >
                              </div>
                           </div>
                           <div class="col-md-4">
                              <div class="form-group">
-                                <label for="other_doc_input_1">Upload Document  </label>
+                                <label for="other_doc_input_1">{{\App\Helpers\Helper::cachedTrans('Upload Document ')}}  </label>
                                 <input type="file" class="form-control-file" id="docu_nat_1" name="scren[]"  onchange="Filevalidation(1)"  >
                              </div>
-                             <span>*Document Size not more than 2 MB</span>
+                             <span>{{\App\Helpers\Helper::cachedTrans('*Document Size not more than 2 MB')}} </span>
                           </div>
                        </div>
                        <div class="row form-group">
                           <div class="col-md-6">
                              <div class="form-group">
-                                <label class="col-form-label">Published websites url/link   </label>
+                                <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Published websites url/link')}}    </label>
                                 <input type="text" class="form-control input-border-bottom" id="url_2" name="url[]"  >
                              </div>
                           </div>
@@ -198,7 +198,7 @@
                     <br>
                     <div class="row form-group">
                        <div class="col-md-12">
-                          <button class="btn btn-primary" type="submit">Submit</button>
+                          <button class="btn btn-primary" type="submit">{{\App\Helpers\Helper::cachedTrans('Submit')}} </button>
                        </div>
                     </div>
                  </form>

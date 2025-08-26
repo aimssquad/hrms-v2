@@ -2,7 +2,7 @@
 //dd('okk');    
 @endphp
 @extends('employeer.include.app')
-@section('title', 'Job Posting')
+@section('title', \App\Helpers\Helper::cachedTrans('Job Posting'))
 @section('content')
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -11,14 +11,14 @@
    <div class="row align-items-center">
       <div class="col">
          @if(isset($_GET['id']))
-         <h4 class="card-title"><i class="fas fa-briefcase"></i> Edit Job Posting</h4>
+         <h4 class="card-title"><i class="fas fa-briefcase"></i> {{\App\Helpers\Helper::cachedTrans('Edit Job Posting')}}</h4>
          @else
-         <h4 class="card-title"><i class="fas fa-briefcase"></i> Add Job Posting</h4>
+         <h4 class="card-title"><i class="fas fa-briefcase"></i> {{\App\Helpers\Helper::cachedTrans('Add Job Posting')}}</h4>
          @endif 
          <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">Recruitment Dashboard</a></li>
-            <li class="breadcrumb-item active">Job Posting</li>
+            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+            <li class="breadcrumb-item"><a href="{{url('recruitment/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Recruitment Dashboard')}}</a></li>
+            <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Job Posting')}}</li>
          </ul>
       </div>
    </div>
@@ -33,7 +33,7 @@
             <div class="row form-group">
                <div class="col-md-3">
                   <div class="form-group">
-                     <label for="inputFloatingLabel-soc-code" class="col-form-label">JOB Code</label>
+                     <label for="inputFloatingLabel-soc-code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('JOB Code')}}</label>
                      @if(isset($_GET['id']))
                      <input class="form-control" type="text" id="soc" name="soc" value="{{ $designation[0]->soc }}" onchange="chngdepartment(this.value);" readonly>
                      @else
@@ -48,13 +48,13 @@
                </div>   
                   @if(isset($_GET['id']))
                   <div class="col-md-3">
-                     <label for="title" class="col-form-label">Job Title</label>
+                     <label for="title" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Title')}}</label>
                      <input id="title" type="text" name="title" class="form-control input-border-bottom" required value="{{ isset($_GET['id']) ? $designation[0]->title : old('title') }}" readonly>
                   </div>
                   @else
                   <div class="col-md-3">
                      <div class="form-group">
-                        <label for="title" class="col-form-label">Job Title</label>
+                        <label for="title" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Title')}}</label>
                         <select id="title" class="form-control input-border-bottom" required name="title" onchange="chngdepartmentdesp(this.value);">
                            <option value="">&nbsp;</option>
                         </select>
@@ -63,19 +63,19 @@
                   @endif
                   <div class="col-md-3">
                      <div class=" form-group">
-                        <label for="department" class="col-form-label">Department</label>
+                        <label for="department" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Department')}}</label>
                         <input id="department" type="text" class="form-control input-border-bottom" required="" name="department" value="<?php if(isset($_GET['id'])){  echo $designation[0]->department;  }?>{{ old('title') }}" <?php if(isset($_GET['id'])){ echo 'readonly';}?>>
                      </div>
                   </div>
                </div>
                <div class="row form-group">
                   <div class="col-md-12">
-                     <label for="job_desc" class="col-form-label">Job Description</label>
+                     <label for="job_desc" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Description')}}</label>
                      <textarea id="job_desc"   name="job_desc" type="text"  rows="5" class="form-control"  required="" <?php if(isset($_GET['id'])){ echo '';}?>><?php if(isset($_GET['id'])){  ?>  {!! $designation[0]->job_desc !!} <?php  }?>  </textarea>
                   </div>
                   <div class="col-md-4">
                      <div class=" form-group">
-                        <label for="inputFloatingLabel-job-type" class="col-form-label">Job Type</label>	
+                        <label for="inputFloatingLabel-job-type" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Home')}}Job Type</label>	
                         <select id="inputFloatingLabel-job-type" name="job_type" type="text" class="select" required="">
                            <option value="">&nbsp;</option>
                            <option value="Full Time"  <?php  if(request()->get('id')!=''){  if($designation[0]->job_type=='Full Time'){ echo 'selected';} } ?>>Full Time</option>
@@ -86,7 +86,7 @@
                   </div>
                   <div class="col-md-4">
                      <div class=" form-group">
-                        <label for="working_hour" class="col-form-label">Working Hours (Weekly)</label>
+                        <label for="working_hour" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Working Hours (Weekly)')}}</label>
                         <select id="working_hour" name="working_hour" class="form-control input-border-bottom" required="">
                            <option value="">&nbsp;</option>
                            @for ($i = 1; $i <= 80; $i+=0.5)
@@ -98,7 +98,7 @@
                </div>
                <div class="row form-group">
                   <div class="col-md-6">
-                     <label for="inputFloatingLabel-salary" class="col-form-label">Job Experience</label>
+                     <label for="inputFloatingLabel-salary" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Experience')}}</label>
                      <div class="row">
                         <div class="col-md-4">
                            <div class=" form-group">
@@ -123,23 +123,23 @@
                      </div>
                   </div>
                   <div class="col-md-6">
-                     <label for="inputFloatingLabel-salary" class="col-form-label"> Basic Salary</label>
+                     <label for="inputFloatingLabel-salary" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Basic Salary')}} </label>
                      <div class="row">
                         <div class="col-md-4">
                            <div class=" form-group">
-                              <label for="basic_min" class="col-form-label">Min</label>
+                              <label for="basic_min" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Min')}}</label>
                               <input id="basic_min" type="text" class="form-control input-border-bottom" required="" name="basic_min"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->basic_min;  }?>{{ old('basic_min') }}">
                            </div>
                         </div>
                         <div class="col-md-4">
                            <div class=" form-group">	
-                              <label for="basic_max" class="col-form-label">Max</label>	
+                              <label for="basic_max" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Max')}}</label>	
                               <input id="basic_max" type="text" class="form-control input-border-bottom" required="" name="basic_max"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->basic_max;  }?>{{ old('basic_max') }}">
                            </div>
                         </div>
                         <div class="col-md-4">
                            <div class=" form-group">
-                              <label for="time_pre" class="col-form-label"> Period </label>	
+                              <label for="time_pre" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Period')}}  </label>	
                               <select class="form-control input-border-bottom" id="time_pre" required="" name="time_pre">
                                  <option value="">&nbsp;</option>
                                  <option value="Annually" <?php  if(request()->get('id')!=''){  if($designation[0]->time_pre=='Annually'){ echo 'selected';} } ?>>Annually</option>
@@ -154,35 +154,35 @@
                <div class="row">
                   <div class="col-md-6">
                      <div class=" form-group">	
-                        <label for="inputFloatingLabel-add-1" class="col-form-label">Number Of Vacancies</label>				
+                        <label for="inputFloatingLabel-add-1" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Number Of Vacancies')}}</label>				
                         <input id="inputFloatingLabel-add-1" type="number" class="form-control input-border-bottom" required="" name="no_vac"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->no_vac;  }?>{{ old('no_vac') }}">
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class=" form-group">	
-                        <label for="inputFloatingLabel-add-2" class="col-form-label">Job Location</label>
+                        <label for="inputFloatingLabel-add-2" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Location')}}</label>
                         <input id="inputFloatingLabel-add-2" type="text" class="form-control input-border-bottom" required="" name="job_loc"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->job_loc;  }?>{{ old('job_loc') }}">
                      </div>
                   </div>
                </div>
                <div class="row form-group">
                   <div class="col-md-12">
-                     <h2 style="color:#1269db">Desired Candidate</h2>
+                     <h2 style="color:#1269db">{{\App\Helpers\Helper::cachedTrans('Desired Candidate')}}</h2>
                   </div>
                   <div class="col-md-4">
                      <div class=" form-group">	
-                        <label for="inputFloatingLabel-qualification" class="col-form-label">Qualifications</label>	
+                        <label for="inputFloatingLabel-qualification" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Qualifications')}}</label>	
                         <input id="inputFloatingLabel-qualification" type="text" class="form-control input-border-bottom" required="" name="quli"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->quli;  }?>{{ old('quli') }}">
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class=" form-group">	
-                        <label for="inputFloatingLabel-skill-set" class="col-form-label">Skill Set</label>	
+                        <label for="inputFloatingLabel-skill-set" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Skill Set')}}</label>	
                         <input id="inputFloatingLabel-skill-set" type="text" class="form-control input-border-bottom" name="skill"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->skill;  }?>{{ old('skill') }}">
                      </div>
                   </div>
                   <div class="col-md-4">
-                     <label for="inputFloatingLabel-age" class="col-form-label">Age</label>
+                     <label for="inputFloatingLabel-age" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Age')}}</label>
                      <input id="skil_set" type="hidden" class="form-control input-border-bottom" required="" name="skil_set" value="<?php if(isset($_GET['id'])){  echo $designation[0]->skil_set;  }?>{{ old('skil_set') }}" >
                      <div class="row">
                         <div class="col-md-4">
@@ -211,7 +211,7 @@
                      <div class=" form-group">
                         <!-- 	<input id="inputFloatingLabel-gender" type="text" class="form-control input-border-bottom" required="" style="margin-top: 22px;">
                            <label for="inputFloatingLabel-gender" class="col-form-label">Gender</label> -->
-                        <h6>Gender</h6>
+                        <h6>{{\App\Helpers\Helper::cachedTrans('Gender')}}</h6>
                         <input type="checkbox" id="gender_male" name="gender_male" value="Male" <?php  if(request()->get('id')!=''){  if($designation[0]->gender_male=='Male'){ echo 'checked';} } ?>>
                         <label for="vehicle1">Male</label>&nbsp &nbsp &nbsp
                         <input type="checkbox" id="gender" name="gender" value="Female" <?php  if(request()->get('id')!=''){  if($designation[0]->gender=='Female'){ echo 'checked';} } ?>>
@@ -220,43 +220,43 @@
                   </div>
                   <div class="col-md-4">
                      <div class=" form-group">
-                        <label for="inputFloatingLabel-job-posting-date"  class="col-form-label">Job Posting Date</label>
+                        <label for="inputFloatingLabel-job-posting-date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Job Posting Date')}}</label>
                         <input id="inputFloatingLabel-job-posting-date"  type="date"  class="form-control input-border-bottom" required="" name="post_date"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->post_date;  }?>{{ old('post_date') }}" <?php if(isset($_GET['id'])){ ?> readonly  <?php }else{?> max="{{date('Y-m-d')}}" <?php } ?> >
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class=" form-group">
-                        <label for="inputFloatingLabel-end-date"  class="col-form-label">Closing Date</label>
+                        <label for="inputFloatingLabel-end-date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Closing Date')}}</label>
                         <input id="inputFloatingLabel-end-date"  type="date"  class="form-control input-border-bottom" required="" name="clos_date"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->clos_date;  }?>{{ old('clos_date') }}">
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class=" form-group">
-                        <label for="author" class="col-form-label"> Authorising Officer</label>
+                        <label for="author" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Authorising Officer')}} Authorising Officer</label>
                         <input id="author" type="text" class="form-control input-border-bottom" required="" name="author"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->author;  }?>{{ old('author') }}">
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class=" form-group">
-                        <label for="desig" class="col-form-label"> Authorising Officer’s Designation</label>
+                        <label for="desig" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Authorising Officer’s Designation')}} </label>
                         <input id="desig" type="text" class="form-control input-border-bottom" required=""  name="desig"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->desig;  }?>{{ old('desig') }}">
                      </div>
                   </div>
                   <div class="col-md-4">
                      <div class=" form-group">
-                        <label for="inputFloatingLabel-mail" class="col-form-label"> Contact Number</label>
+                        <label for="inputFloatingLabel-mail" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Contact Number')}} </label>
                         <input id="inputFloatingLabel-mail" type="tel" class="form-control input-border-bottom" required=""  name="con_num"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->con_num;  }?>{{ old('con_num') }}">
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class=" form-group">
-                        <label for="inputFloatingLabel-number" class="col-form-label">Email</label>
+                        <label for="inputFloatingLabel-number" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Email')}} </label>
                         <input id="inputFloatingLabel-number" type="email" class="form-control input-border-bottom" required="" name="email"  value="<?php if(isset($_GET['id'])){  echo $designation[0]->email;  }?>{{ old('email') }}">
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class=" form-group">
-                        <label for="role" class="col-form-label">Is this a new role</label>
+                        <label for="role" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Is this a new role')}} </label>
                         <select class="form-control input-border-bottom" id="role" required="" name="role">
                            <option value="">&nbsp;</option>
                            <option value="Yes" <?php  if(request()->get('id')!=''){  if($designation[0]->role=='Yes'){ echo 'selected';} } ?>>Yes</option>
@@ -266,7 +266,7 @@
                   </div>
                   <div class="col-md-6">
                      <div class=" form-group">
-                        <label for="english_pro" class="col-form-label">Language Requirements
+                        <label for="english_pro" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Language Requirements')}} 
                         </label>		
                         <select class="form-control input-border-bottom" id="english_pro"  name="english_pro" required="" onchange="trade_epmloyee(this.value);">
                            <option value="">&nbsp;</option>
@@ -278,7 +278,7 @@
                   </div>
                   <div class="col-md-4 " id="criman_new" <?php   if(request()->get('id')!=''){ if($designation[0]->english_pro=='Others'){  ?> style="display:block;" <?php }else{ ?> style="display:none;" <?php }}else{ ?> style="display:none;" <?php  }  ?>>
                      <div class="form-group">
-                        <label for="other" class="col-form-label">Give Details </label>
+                        <label for="other" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Give Details')}} </label>
                         <input id="other" type="text" class="form-control input-border-bottom" name="other"  value="@if(request()->get('id')!='') @if($designation[0]->other){{  $designation[0]->other }}@endif @endif">
                      </div>
                   </div>
@@ -286,7 +286,7 @@
                      ?>
                   <div class="col-md-4">
                      <div class=" form-group">
-                        <label for="status" class="col-form-label">Status</label>		
+                        <label for="status" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Status')}}</label>		
                         <select class="form-control input-border-bottom" id="status" required="" name="status">
                            <option value="">&nbsp;</option>
                            <option value="Job Created" <?php  if(request()->get('id')!=''){  if($designation[0]->status=='Job Created'){ echo 'selected';} } ?>>Job Created</option>
@@ -299,7 +299,7 @@
                <br>
                <div class="row form-group">
                   <div class="col-md-12">
-                     <button class="btn btn-primary" type="submit">Submit</button>
+                     <button class="btn btn-primary" type="submit">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                   </div>
                </div>
          </form>
