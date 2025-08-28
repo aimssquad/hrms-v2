@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(app('request')->input('id'))
-@section('title', 'Edit Late Policy')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Late Policy'))
 @else
-@section('title', 'Add Late Policy')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Late Policy'))
 @endif
 @section('content')
 <div class="content container-fluid pb-0">
@@ -10,17 +10,17 @@
       <div class="row align-items-center">
          <div class="col">
             @if(app('request')->input('id'))
-            <h3 class="page-title">Edit Late Policy</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Edit Late Policy')}}</h3>
             @else
-            <h3 class="page-title">Add Late Policy</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Add Late Policy')}}</h3>
             @endif
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">Rota Dashboard</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Rota Dashboard')}}</a></li>
                @if(app('request')->input('id'))
-               <li class="breadcrumb-item active">Edit Late Policy</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Late Policy')}}</li>
                @else
-               <li class="breadcrumb-item active">Add New Late Policy</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New Late Policy')}}</li>
                @endif
             </ul>
          </div>
@@ -36,7 +36,7 @@
                   <div class="row form-group">
                      <div class="col-md-3">
                         <div class=" form-group">
-                           <label for="inputFloatingLabel-grade" class="col-form-label"> Select Department</label>
+                           <label for="inputFloatingLabel-grade" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Department')}} </label>
                            <select class="select" id="selectFloatingLabel" name="department" required="" onchange="chngdepartment(this.value);">
                               <option value="">&nbsp;</option>
                               @foreach($departs as $dept)
@@ -47,7 +47,7 @@
                      </div>
                      <div class="col-md-3">
                         <div class="form-group">
-                           <label for="designation" class="col-form-label"> Select Designation </label>
+                           <label for="designation" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Designation')}}  </label>
                            <select class="select" id="designation"  name="designation" required="" onchange="chngdepartmentshift(this.value);">
                               <option value="">&nbsp;</option>
                               @if(app('request')->input('id'))
@@ -60,7 +60,7 @@
                      </div>
                      <div class="col-md-3">
                         <div class=" form-group">
-                           <label for="shift_code" class="col-form-label">Shift Code</label>
+                           <label for="shift_code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Shift Code')}} </label>
                            <select  id="shift_code"  name="shift_code" class="select" required=""   style="width: 100%; box-sizing: border-box;">
                               <option value="">&nbsp;</option>
                               @if(app('request')->input('id'))
@@ -73,7 +73,7 @@
                      </div>
                      <div class="col-md-3">
                         <div class=" form-group">	
-                           <label for="inputFloatingLabel-shift-description" class="col-form-label">Maximum Grace Period in Minutes</label>
+                           <label for="inputFloatingLabel-shift-description" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Maximum Grace Period in Minutes')}} </label>
                            <input id="inputFloatingLabel-shift-description"  name="max_grace" value="<?php  if(app('request')->input('id')){ echo $shift_management->max_grace; } ?>" type="number" class="form-control input-border-bottom" required=""  placeholder="">
                         </div>
                      </div>
@@ -81,13 +81,13 @@
                   <div class="row form-group">
                      <div class="col-md-3">
                         <div class=" form-group">	
-                           <label for="inputFloatingLabel-shift-in-time" class="col-form-label">No. of Days Allow</label>
+                           <label for="inputFloatingLabel-shift-in-time" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('No. of Days Allow')}} </label>
                            <input id="inputFloatingLabel-shift-in-time" type="number" class="form-control input-border-bottom"  required="" name="no_allow" value="<?php  if(app('request')->input('id')){ echo $shift_management->no_allow; } ?>"  >
                         </div>
                      </div>
                      <div class="col-md-3">
                         <div class=" form-group">	
-                           <label for="inputFloatingLabel-shift-out-time" class="col-form-label">No. of Day Salary Deducted</label>
+                           <label for="inputFloatingLabel-shift-out-time" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('No. of Day Salary Deducted')}} </label>
                            <input id="inputFloatingLabel-shift-out-time"  name="no_day_red" value="<?php  if(app('request')->input('id')){ echo $shift_management->no_day_red; } ?>"  type="number" class="form-control input-border-bottom" required>
                         </div>
                      </div>
@@ -97,7 +97,7 @@
                      <div class="col-md-4">
                         <div class="sub-reset-btn">
                            <a href="#">	
-                           <button class="btn btn-primary" type="submit">Submit</button></a>
+                           <button class="btn btn-primary" type="submit">{{\App\Helpers\Helper::cachedTrans('Submit')}} </button></a>
                            <!-- <i class="fas fa-ban reset-ban-icon"></i> -->
                            {{-- <a href="#">	
                            <button class="btn btn-primary" type="submit">Reset</button></a> --}}

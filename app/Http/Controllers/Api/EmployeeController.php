@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\LeaveApply;
+use App\Models\EmployeePermission;
 use App\Helpers\Api\Helper;
 use Validator;
 use Exception;
@@ -93,13 +94,35 @@ class EmployeeController extends Controller
     }
 
     public function employee_dtl(){
+        if (!auth()->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         try{
             $emid = auth()->user()->emid;
             $employee_id = auth()->user()->employee_id;
 
             //dd(auth()->user()->employee_id);
-            $employee = Employee::where('emp_code', $employee_id)->where('emid', $emid)->get();
-            dd($employee);
+            $data = Employee::where('emp_code', $employee_id)->where('emid', $emid)->get();
+            //$data['role']
+            if(empty($data)){
+                $dynamicFlag = 0;
+                $data = [];
+                $message = "No employee found";
+                return Helper::rjd(
+                    $message,
+                    $dynamicFlag,
+                    $data
+                );
+            }
+
+            $dynamicFlag = 1;
+            $data = $data;
+            $message = "Employee get successfully";
+            return Helper::rjd(
+                $message,
+                $dynamicFlag,
+                $data
+            ); 
 
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);

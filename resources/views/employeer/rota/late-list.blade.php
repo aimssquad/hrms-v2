@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Late Policy')
+@section('title', \App\Helpers\Helper::cachedTrans('Late Policy'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -36,11 +36,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Late Policy</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Late Policy')}}</h3>
 				<ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">Rota Dashboard</a></li>
-					<li class="breadcrumb-item active">Late Policy</li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Rota Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Late Policy')}}</li>
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
@@ -49,14 +49,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         @foreach($sidebarItems['Rota'] as $rotaItem)
                             @if($rotaItem['submenu_name'] == 'Late Policy' && $rotaItem['can_add'] == 1)
                                 <a href="{{ url('rota-org/add-late-policy') }}" class="btn add-btn">
-                                    <i class="fa-solid fa-plus"></i>  Add Late Policy
+                                    <i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans('Add Late Policy')}}  
                                 </a>
                                 @break
                             @endif
                         @endforeach
                     @endif
 				@elseif($user_type == 'employer')
-				<a href="{{url('rota-org/add-late-policy')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Late Policy</a>
+				<a href="{{url('rota-org/add-late-policy')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans('Add Late Policy')}} </a>
 				@endif
 				{{-- <div class="view-icons">
 					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
@@ -72,7 +72,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Late Policy
+                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Late Policy')}}
                     </h4>
                     <div class="row">
                        <div class="col-auto">
@@ -84,7 +84,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                {{-- put the value - that is your file name --}}
                                <input type="hidden" id="filenameInput" value="Process-Attendence">
                                <button type="submit" class="btn-download btn-download-excel me-0">
-                                        Export to Excel
+                                    {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}    
                                 </button>
                            </form>
                        </div>
@@ -95,7 +95,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                              <input type="hidden" name="headings" id="pdfHeadings">
                              <input type="hidden" name="filename" id="pdfFilename">
                              <button type="submit" class="btn-download btn-download-pdf">
-                                    Export to PDF
+                                {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}    
                             </button>
                          </form>
                        </div>
@@ -106,13 +106,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <table id="basic-datatables" class="display table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Department</th>
-                                    <th>Designation</th>
-                                    <th>Shift Code</th>
-                                    <th>Max Grace Period</th>
-                                    <th>No. of Days Allow</th>
-                                    <th>No. of Day Salary Deducted</th>
-                                    <th>Action</th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Department')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Designation')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Shift Code')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Max Grace Period')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('No. of Days Allow')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('No. of Day Salary Deducted')}}</th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Action')}} </th>
                                 </tr>
                             </thead>
 

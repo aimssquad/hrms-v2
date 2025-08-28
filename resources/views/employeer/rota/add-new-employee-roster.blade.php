@@ -1,15 +1,15 @@
 @extends('employeer.include.app')
-@section('title', 'Employee Wise Duty Roaster')
+@section('title', \App\Helpers\Helper::cachedTrans('Employee Wise Duty Roaster'))
 @section('content')
 <div class="content container-fluid pb-0">
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Employee Wise Duty Roaster</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Employee Wise Duty Roaster')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">Rota Dashboard</a></li>
-               <li class="breadcrumb-item active"> Add Employee Wise Duty Roaster</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Rota Dashboard')}}</a></li>
+               <li class="breadcrumb-item active"> {{\App\Helpers\Helper::cachedTrans('Add Employee Wise Duty Roaster')}}</li>
             </ul>
          </div>
       </div>
@@ -24,7 +24,7 @@
                   <div class="row form-group">
                      <div class="col-md-4">
                         <div class=" form-group">
-                           <label for="inputFloatingLabel-grade" class="col-form-label"> Select Department</label>
+                           <label for="inputFloatingLabel-grade" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Department')}} </label>
                            <select class="select" id="selectFloatingLabel" name="department" required="" onchange="chngdepartment(this.value);">
                               <option value="">&nbsp;</option>
                               @foreach($departs as $dept)
@@ -35,7 +35,7 @@
                      </div>
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label for="designation" class="col-form-label"> Select Designation </label>
+                           <label for="designation" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Designation')}}  </label>
                            <select class="select" id="designation"  name="designation" required="" onchange="chngdepartmentshift(this.value);">
                               <option value="">&nbsp;</option>
                            </select>
@@ -43,7 +43,7 @@
                      </div>
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label for="employee_id" class="col-form-label"> Select Employee </label>
+                           <label for="employee_id" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Employee')}}  </label>
                            <select class="select" id="employee_id"  name="employee_id" required="" >
                               <option value="">&nbsp;</option>
                            </select>
@@ -51,13 +51,13 @@
                      </div>
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label for="inputFloatingLabel-select-date" class="col-form-label" > From Date </label>
+                           <label for="inputFloatingLabel-select-date" class="col-form-label" >{{\App\Helpers\Helper::cachedTrans('From Date')}}  </label>
                            <input type="date" class="form-control input-border-bottom" name="start_date" id="form_date" required="">
                         </div>
                      </div>
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label for="inputFloatingLabel-select-date" class="col-form-label" > To Date </label>
+                           <label for="inputFloatingLabel-select-date" class="col-form-label" >{{\App\Helpers\Helper::cachedTrans('To Date')}}  </label>
                            <input type="date" class="form-control input-border-bottom " name="end_date" id="to_date" onChange="dateValidation()" required="" >
                         </div>
                      </div>
@@ -69,7 +69,7 @@
                      <div class="col-md-4">
                         <div class="sub-reset-btn">
                            <a href="#">	
-                           <button class="btn btn-primary" type="submit" >Submit</button></a>
+                           <button class="btn btn-primary" type="submit" >{{\App\Helpers\Helper::cachedTrans('Submit')}}</button></a>
                            <!-- <i class="fas fa-ban reset-ban-icon"></i> -->
                            {{-- <a href="#">	
                            <button class="btn btn-default" type="submit" style="background-color: #1572E8!important; color: #fff!important;">Reset</button></a> --}}

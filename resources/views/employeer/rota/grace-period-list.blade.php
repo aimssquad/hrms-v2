@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Allowance Period')
+@section('title', \App\Helpers\Helper::cachedTrans('Allowance Period'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -29,11 +29,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Allowance Period</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Allowance Period')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">Rota Dashboard</a></li>
-               <li class="breadcrumb-item active">Allowance Period</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Rota Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Allowance Period')}}</li>
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
@@ -41,13 +41,13 @@ return $output;
                @if(isset($sidebarItems['Rota']))
                   @foreach($sidebarItems['Rota'] as $rotaItem)
                      @if($rotaItem['submenu_name'] == 'Shift Planning' && $rotaItem['can_add'] == 1)
-                        <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allowance Period</a>
+                        <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Allowance Period')}} </a>
                         @break
                      @endif
                   @endforeach
                @endif
             @elseif($user_type == 'employer')
-            <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allowance Period</a>
+            <a href="{{ url('rota-org/add-grace-period') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans('Add Allowance Period')}} </a>
             @endif
             {{-- 
             <div class="view-icons">
@@ -65,7 +65,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Allowance Period 
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Allowance Period ')}}
                </h4>
                <div class="row">
                   <div class="col-auto">
@@ -77,7 +77,7 @@ return $output;
                           {{-- put the value - that is your file name --}}
                           <input type="hidden" id="filenameInput" value="Allowance-period">
                           <button type="submit" class="btn-download btn-download-excel me-0">
-                              Export to Excel
+                              {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                         </button>
                       </form>
                   </div>
@@ -88,7 +88,7 @@ return $output;
                         <input type="hidden" name="headings" id="pdfHeadings">
                         <input type="hidden" name="filename" id="pdfFilename">
                         <button type="submit" class="btn-download btn-download-pdf">
-                           Export to PDF
+                           {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                       </button>
                     </form>
                   </div>
@@ -99,12 +99,12 @@ return $output;
                   <table id="basic-datatables" class="display table table-striped table-hover">
                      <thead>
                         <tr>
-                           <th>Department</th>
-                           <th>Designation</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Department')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Designation')}}</th>
                            <!--<th>Shift Name</th>-->
-                           <th>Work In-Time</th>
-                           <th>Grace Period</th>
-                           <th>Action</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Work In-Time')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Grace Period')}}</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                         </tr>
                      </thead>
                      <tbody>

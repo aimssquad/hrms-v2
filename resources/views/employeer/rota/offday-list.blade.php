@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Leave Day')
+@section('title', \App\Helpers\Helper::cachedTrans('Leave Day'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -36,11 +36,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Leave Day</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Leave Day')}}</h3>
 				<ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">Rota Dashboard</a></li>
-					<li class="breadcrumb-item active">Leave Day</li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Rota Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Leave Day')}}</li>
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
@@ -48,13 +48,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                     @if(isset($sidebarItems['Rota']))
                         @foreach($sidebarItems['Rota'] as $rotaItem)
                             @if($rotaItem['submenu_name'] == 'Shift Planning' && $rotaItem['can_add'] == 1)
-                                <a href="{{url('rota-org/add-offday')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Leave Day</a>
+                                <a href="{{url('rota-org/add-offday')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Leave Day')}}</a>
                                 @break
                             @endif
                         @endforeach
                     @endif
 				@elseif($user_type == 'employer')
-				<a href="{{url('rota-org/add-offday')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Leave Day</a>
+				<a href="{{url('rota-org/add-offday')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Leave Day')}}</a>
 				@endif
 				{{-- <div class="view-icons">
 					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
@@ -70,7 +70,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Leave Day
+                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Leave Day')}}
                     </h4>
                     <div class="row">
                        <div class="col-auto">
@@ -82,7 +82,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                {{-- put the value - that is your file name --}}
                                <input type="hidden" id="filenameInput" value="Day-Off">
                                <button type="submit" class="btn-download btn-download-excel me-0">
-                                        Export to Excel
+                                    {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                                 </button>
                            </form>
                        </div>
@@ -93,7 +93,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                              <input type="hidden" name="headings" id="pdfHeadings">
                              <input type="hidden" name="filename" id="pdfFilename">
                              <button type="submit" class="btn-download btn-download-pdf">
-                                    Export to PDF
+                                {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                             </button>
                          </form>
                        </div>
@@ -104,17 +104,17 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <table id="basic-datatables" class="display table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Department</th>
-                                    <th>Designation</th>
-                                    <th>Shift Name</th>
-                                    <th>Sunday</th>
-                                    <th>Monday</th>
-                                    <th>Tuesday</th>
-                                    <th>Wednesday</th>
-                                    <th>Thursday</th>
-                                    <th>Friday</th>
-                                    <th>Saturday</th>
-                                    <th>Action</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Department')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Designation')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Shift Name')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Sunday')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Monday')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Tuesday')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Wednesday')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Thursday')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Friday')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Saturday')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Action')}} </th>
                                 </tr>
                             </thead>
 

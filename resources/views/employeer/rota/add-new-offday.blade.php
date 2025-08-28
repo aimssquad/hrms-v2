@@ -1,22 +1,22 @@
 @extends('employeer.include.app')
 @if(app('request')->input('id'))
-  @section('title', 'Edit Leave Day')
+  @section('title', \App\Helpers\Helper::cachedTrans('Edit Leave Day'))
 @else
-  @section('title', 'Add Leave Day')
+  @section('title', \App\Helpers\Helper::cachedTrans('Add Leave Day'))
 @endif
 @section('content')
 <div class="content container-fluid pb-0">
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Leave Day</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Leave Day')}} </h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">Rota Dashboard</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Rota Dashboard')}} </a></li>
                 @if(app('request')->input('id'))
-                    <li class="breadcrumb-item active"> Edit Leave Day</li>
+                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Leave Day')}} </li>
                 @else
-                    <li class="breadcrumb-item active"> Add Leave Day</li>
+                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Leave Day')}} </li>
                 @endif
             </ul>
          </div>
@@ -32,7 +32,7 @@
                   <div class="row form-group">
                      <div class="col-md-4">
                         <div class=" form-group">
-                           <label for="inputFloatingLabel-grade" class="col-form-label"> Select Department</label>
+                           <label for="inputFloatingLabel-grade" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Department')}} </label>
                            <select class="select" id="selectFloatingLabel" name="department" required="" onchange="chngdepartment(this.value);">
                               <option value="">&nbsp;</option>
                               @foreach($departs as $dept)
@@ -43,7 +43,7 @@
                      </div>
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label for="designation" class="col-form-label"> Select Designation </label>
+                           <label for="designation" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Designation')}}  </label>
                            <select class="select" id="designation"  name="designation" required="" onchange="chngdepartmentshift(this.value);">
                               <option value="">&nbsp;</option>
                               @if(app('request')->input('id'))
@@ -56,7 +56,7 @@
                      </div>
                      <div class="col-md-4">
                         <div class=" form-group">
-                           <label for="shift_code" class="col-form-label">Shift Code</label>
+                           <label for="shift_code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Shift Code')}} </label>
                            <select  id="shift_code"  name="shift_code"class="select" required="" >
                               <option value="">&nbsp;</option>
                               @if(app('request')->input('id'))
@@ -71,43 +71,43 @@
                   <div class="row form-group">
                      <div class="col-md-3">
                         <input id="inputFloatingLabel-monday"  type="checkbox" name="mon" value="1" <?php  if(app('request')->input('id')){  if($shift_management->mon=='1'){ echo 'checked';} } ?>>
-                        <label for="inputFloatingLabel-monday" class="day-check">Monday</label>
+                        <label for="inputFloatingLabel-monday" class="day-check">{{\App\Helpers\Helper::cachedTrans('Monday')}}</label>
                      </div>
                      <div class="col-md-3">
                         <input id="inputFloatingLabel-tuesday" type="checkbox" name="tue" value="1" <?php  if(app('request')->input('id')){  if($shift_management->tue=='1'){ echo 'checked';} } ?>>
-                        <label for="inputFloatingLabel-tuesday" class="day-check">Tuesday</label>
+                        <label for="inputFloatingLabel-tuesday" class="day-check">{{\App\Helpers\Helper::cachedTrans('Tuesday')}} </label>
                      </div>
                      <div class="col-md-3">
                         <input id="inputFloatingLabel-wednesday" type="checkbox" name="wed" value="1" <?php  if(app('request')->input('id')){  if($shift_management->wed=='1'){ echo 'checked';} } ?>>
-                        <label for="inputFloatingLabel-wednesday" class="day-check">Wednesday</label>
+                        <label for="inputFloatingLabel-wednesday" class="day-check">{{\App\Helpers\Helper::cachedTrans('Wednesday')}}</label>
                      </div>
                      <div class="col-md-3">
                         <input id="inputFloatingLabel-thursday" type="checkbox" name="thu" value="1" <?php  if(app('request')->input('id')){  if($shift_management->thu=='1'){ echo 'checked';} } ?>>
-                        <label for="inputFloatingLabel-thursday" class="day-check">Thursday</label>
+                        <label for="inputFloatingLabel-thursday" class="day-check">{{\App\Helpers\Helper::cachedTrans('Thursday')}}</label>
                      </div>
                   </div>
                   <div class="row form-group">
                      <div class="col-md-3">
                         <input id="inputFloatingLabel-friday" type="checkbox" name="fri" value="1" <?php  if(app('request')->input('id')){  if($shift_management->fri=='1'){ echo 'checked';} } ?>>
-                        <label for="inputFloatingLabel-friday" class="day-check">Friday</label>
+                        <label for="inputFloatingLabel-friday" class="day-check">{{\App\Helpers\Helper::cachedTrans('Friday')}} </label>
                      </div>
                      <div class="col-md-3">
                         <input id="inputFloatingLabel-saturday" type="checkbox" name="sat" value="1" <?php  if(app('request')->input('id')){  if($shift_management->sat=='1'){ echo 'checked';} } ?>>
-                        <label for="inputFloatingLabel-saturday" class="day-check">Saturday</label>
+                        <label for="inputFloatingLabel-saturday" class="day-check">{{\App\Helpers\Helper::cachedTrans('Saturday')}} </label>
                      </div>
                      <div class="col-md-3">
                         <input id="inputFloatingLabel-sunday" type="checkbox" name="sun" value="1" <?php  if(app('request')->input('id')){  if($shift_management->sun=='1'){ echo 'checked';} } ?>>
-                        <label for="inputFloatingLabel-sunday" class="col-form-label">Sunday</label>
+                        <label for="inputFloatingLabel-sunday" class="day-check">{{\App\Helpers\Helper::cachedTrans('Sunday')}} </label>
                      </div>
                   </div>
                   <div class="row form-group">
                      <div class="col-md-4">
                         <div class="sub-reset-btn">
                            <a href="#">	
-                           <button class="btn btn-primary" type="submit" >Submit</button></a>
+                           <button class="btn btn-primary" type="submit" >{{\App\Helpers\Helper::cachedTrans('Submit')}} </button></a>
                            <!-- <i class="fas fa-ban reset-ban-icon"></i> -->
                            <a href="#">	
-                           <button class="btn btn-primary" type="submit" >Reset</button></a>
+                           <button class="btn btn-primary" type="submit" >{{\App\Helpers\Helper::cachedTrans('Reset')}} </button></a>
                         </div>
                      </div>
                   </div>

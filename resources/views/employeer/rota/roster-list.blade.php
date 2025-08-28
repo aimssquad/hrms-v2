@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Employee Roster')
+@section('title', \App\Helpers\Helper::cachedTrans('Employee Roster'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -29,11 +29,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Employee Roster</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Employee Roster')}} </h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">Rota Dashboard</a></li>
-               <li class="breadcrumb-item active">Employee Roster</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('rota-org/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Rota Dashboard')}} </a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Employee Roster')}} </li>
             </ul>
          </div>
       </div>
@@ -44,7 +44,7 @@ return $output;
       <div class="col-md-12">
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
-               <h4 class="card-title"><i class="fa fa-briefcase" aria-hidden="true" style="color:#FF902F;"></i>&nbsp;Employee Roster</h4>
+               <h4 class="card-title"><i class="fa fa-briefcase" aria-hidden="true" style="color:#FF902F;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Employee Roster')}} </h4>
             </div>
             <div class="card-body">
                <form  method="post" action="{{ url('rota-org/add-duty-roster') }}" enctype="multipart/form-data" >
@@ -52,7 +52,7 @@ return $output;
                   <div class="row form-group">
                      <div class="col-md-4">
                         <div class=" form-group">
-                           <label for="inputFloatingLabel-grade" class="col-form-label"> Select Department</label>
+                           <label for="inputFloatingLabel-grade" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Department')}} </label>
                            <select class="select" id="selectFloatingLabel" name="department" required="" onchange="chngdepartment(this.value);">
                               <option value="">&nbsp;</option>
                               @foreach($departs as $dept)
@@ -63,7 +63,7 @@ return $output;
                      </div>
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label for="designation" class="col-form-label"> Select Designation </label>
+                           <label for="designation" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Designation')}}  </label>
                            <select class="select" id="designation"  name="designation" required="" onchange="chngdepartmentshift();">
                               <option value="">&nbsp;</option>
                            </select>
@@ -71,20 +71,20 @@ return $output;
                      </div>
                      <div class="col-md-4">
                         <div class=" form-group">		
-                           <label for="employee_code" class="col-form-label">Employee Code</label>
+                           <label for="employee_code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Code')}}</label>
                            <select id="employee_code" type="text" class="select"  name="employee_code">
                            ?></select>
                         </div>
                      </div>
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label for="inputFloatingLabel-select-date" class="col-form-label" > From Date </label>
+                           <label for="inputFloatingLabel-select-date" class="col-form-label" >{{\App\Helpers\Helper::cachedTrans('From Date')}}  </label>
                            <input type="date" class="form-control input-border-bottom" name="start_date" id="inputFloatingLabel-select-date" required=""  style="margin-top: 16px;">
                         </div>
                      </div>
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label for="inputFloatingLabel-select-date" class="col-form-label" > To Date </label>
+                           <label for="inputFloatingLabel-select-date" class="col-form-label" >{{\App\Helpers\Helper::cachedTrans('To Date')}}  </label>
                            <input type="date" class="form-control input-border-bottom " name="end_date" id="inputFloatingLabel-select-date" required=""  style="margin-top: 16px;">
                         </div>
                      </div>
@@ -94,7 +94,7 @@ return $output;
                      <div class="col-md-4">
                         <div class="sub-reset-btn">	
                            <a href="#">	
-                           <button class="btn btn-primary" type="submit">View Schedule</button></a>
+                           <button class="btn btn-primary" type="submit">{{\App\Helpers\Helper::cachedTrans('View Schedule')}}</button></a>
                         </div>
                      </div>
                   </div>
@@ -108,7 +108,7 @@ return $output;
       <div class="col-md-12">
          <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-               <h4 class="card-title">Shift Schedule</h4>
+               <h4 class="card-title">{{\App\Helpers\Helper::cachedTrans('Shift Schedule')}}</h4>
                <div class="row">
                   <div class="col-auto">
                      @if(isset($department) ? $department : '')
@@ -119,7 +119,7 @@ return $output;
                            <input  value="{{ isset($designation) ? $designation : '' }}"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
                            <input  value="{{ isset($start_date) ? $start_date : '' }}"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                            <input  value="{{ isset($end_date) ? $end_date : '' }}"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                           <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn-download btn-download-pdf"  type="submit">Export to PDF</button>   
+                           <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn-download btn-download-pdf"  type="submit">{{\App\Helpers\Helper::cachedTrans('Export to PDF')}}</button>   
                         </form>
                      @endif
                   </div>
@@ -132,7 +132,7 @@ return $output;
                            <input  value="{{ isset($designation) ? $designation : '' }}"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
                            <input  value="{{ isset($start_date) ? $start_date : '' }}"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                            <input  value="{{ isset($end_date) ? $end_date : '' }}"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                           <button data-toggle="tooltip" data-placement="bottom" title="Download excel"  class="btn-download btn-download-excel me-0"  type="submit">Export to Excel</button>    
+                           <button data-toggle="tooltip" data-placement="bottom" title="Download excel"  class="btn-download btn-download-excel me-0"  type="submit">{{\App\Helpers\Helper::cachedTrans('Export to Excel')}}</button>    
                         </form>
                      @endif
                   </div>
@@ -142,15 +142,15 @@ return $output;
                @if($user_type == 'employee')
                @foreach($sidebarItems['Rota'] as $rotaItem)
                @if($rotaItem['submenu_name'] == 'Employee Roster' && $rotaItem['can_edit'] == 1)
-               <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Employee Roster(Employee wise)"
+               <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="{{\App\Helpers\Helper::cachedTrans('Add Employee Roster(As Per Employee)')}}"
                   style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
-               <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>Add Employee Roster(Department wise)</a>
+               <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>{{\App\Helpers\Helper::cachedTrans('Add Employee Roster(Department wise)')}}</a>
                @endif
                @endforeach
                @elseif($user_type == 'employer')
-               <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="Add Employee Roster(Employee wise)"
+               <a href="{{ url('rota-org/add-employee-duty')}}" class="btn add-shift-btn" data-toggle="tooltip" data-placement="bottom" title="{{\App\Helpers\Helper::cachedTrans('Add Employee Roster(As Per Employee)')}}"
                   style="background: none !important;"> &nbsp;<img  style="width: 35px;" src="{{ asset('img/user-image.png')}}"></a>
-               <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>Add Employee Roster(Department wise)</a>
+               <a href="{{ url('rota-org/add-department-duty') }}" class="btn add-btn"><i class="la la-plus"></i>{{\App\Helpers\Helper::cachedTrans('Add Employee Roster(Department wise)')}}</a>
                @endif
                {{-- 
                <div class="view-icons"> --}}
@@ -171,16 +171,16 @@ return $output;
                   <table id="basic-datatables" class="display table table-striped table-hover" >
                      <thead>
                         <tr>
-                           <th>Department</th>
-                           <th>Designation</th>
-                           <th>Employee Name</th>
-                           <th>Shift Code</th>
-                           <th>Work In Time</th>
-                           <th>Work Out Time</th>
-                           <th>Break Time From</th>
-                           <th>Break Time  To</th>
-                           <th>From Date</th>
-                           <th>To Date</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Department')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Designation')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Employee Name')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Shift Code')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Work In Time')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Work Out Time')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Break Time From')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Break Time To')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('From Date')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('To Date')}} </th>
                         </tr>
                      </thead>
                      <tbody>

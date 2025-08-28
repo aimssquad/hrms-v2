@@ -278,7 +278,7 @@ class EmployeeCornerOrganisationController extends Controller
                 $result = "";
             }
             $data["module_name"] = $result;
-            //dd($data["employee"]);
+            //dd($data);
             return view($this->_routePrefix . '.user-profile',$data);
             //return view("employee-corner-organisation/user-profile", $data);
         } else {
