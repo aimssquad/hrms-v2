@@ -75,3 +75,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('all-post',[PostController::class, 'allPost']);
 });
 
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
+    Route::get('list-work-update',[EmployeeController::class, 'workUpdateList']);
+    Route::post('work-update',[EmployeeController::class, 'workStore']);
+    Route::get('work-edit/{id}',[EmployeeController::class, 'workUpdateEdit']);
+    Route::put('work-update/{id}',[EmployeeController::class, 'workUpdate']);
+  
+});
+
