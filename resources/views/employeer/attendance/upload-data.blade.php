@@ -1,15 +1,15 @@
 @extends('employeer.include.app')
-@section('title', 'Sync')
+@section('title', \App\Helpers\Helper::cachedTrans('Sync'))
 @section('content')
 <div class="content container-fluid pb-0">
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="page-title">Sync</h3>
+                <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Sync')}}</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('attendance-management/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Sync</li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('attendance-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Sync')}}</li>
                 </ul>
             </div>
         </div>
@@ -20,9 +20,9 @@
                 <div class="card-body">
                     @include('employeer.layout.message')
                     <div class="col-auto float-end ms-auto">
-                        <a class="btn add-btn" href="{{ asset('public/excel/attendence1.csv')}}" download> Download</a>
+                        <a class="btn add-btn" href="{{ asset('public/excel/attendence1.csv')}}" download> {{\App\Helpers\Helper::cachedTrans('Download')}}</a>
                         <br><br>
-                        <p class="mt-2 mb-0 text-center">Download Sample here</p>
+                        <p class="mt-2 mb-0 text-center">{{\App\Helpers\Helper::cachedTrans('Download Sample here')}}</p>
                     </div>
                     
                     <form  method="post" action="{{ url('attendance-management/upload-data') }}" enctype="multipart/form-data" >
@@ -30,18 +30,18 @@
                         <div class="row form-group">
                             <div class="col-md-3">
                             <div class=" form-group ">
-                                <label for="upload_csv" class="col-form-label">File To Upload (.csv)</label>
+                                <label for="upload_csv" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('File To Upload (.csv)')}}</label>
                                 <input type="file" id="upload_csv" name="upload_csv" class="form-controll" required>
                             </div>
-                            <span style="color:rgb(243, 150, 29)">*Document Size Less Than 2 MB</span>
+                            <span style="color:rgb(243, 150, 29)">{{\App\Helpers\Helper::cachedTrans('*Document Size Less Than 2 MB')}}</span>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                             <a href="#">
-                            <button class="btn btn-primary" type="submit">Upload</button></a>
+                            <button class="btn btn-primary" type="submit">{{\App\Helpers\Helper::cachedTrans('Upload')}}</button></a>
                             <a href="#">
-                            <button class="btn btn-primary" type="reset">Reset</button></a>
+                            <button class="btn btn-primary" type="reset">{{\App\Helpers\Helper::cachedTrans('Reset')}}</button></a>
                             </div>
                         </div>
                     </form>

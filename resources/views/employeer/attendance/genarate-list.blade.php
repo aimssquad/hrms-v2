@@ -1,15 +1,15 @@
 @extends('employeer.include.app')
-@section('title', 'Generate Attendance')
+@section('title', \App\Helpers\Helper::cachedTrans('Generate Attendance'))
 @section('content')
     <div class="content container-fluid pb-0">
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Generate Attendance</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Generate Attendance')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{url('attendance-management/dashboard')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Generate Attendance</li>
+                        <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item"><a href="{{url('attendance-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Generate Attendance')}}</li>
                     </ul>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                         <div class="row form-group">
                             <div class="col-md-3">
                                 <div class=" form-group">
-                                <label for="department" class="col-form-label"> Select Department</label>
+                                <label for="department" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Department')}} </label>
                                 <select class="select" id="department" name="department" required="" onchange="chngdepartment(this.value);">
                                     <option value="">&nbsp;</option>
                                     @foreach($departs as $dept)
@@ -35,7 +35,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                <label for="designation" class="col-form-label"> Select Designation </label>
+                                <label for="designation" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Designation')}}  </label>
                                 <select class="select" id="designation"  name="designation" required="" onchange="chngdepartmentdesign(this.value);">
                                     <option value="">&nbsp;</option>
                                 </select>
@@ -43,26 +43,26 @@
                             </div>
                             <div class="col-md-3">
                                 <div class=" form-group">		
-                                <label for="employee_code" class="col-form-label">Employee Code</label>
+                                <label for="employee_code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Code')}}</label>
                                 <select id="employee_code" type="text" class="select"  required="" name="employee_code"  style="">
                                 </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class=" form-group">
-                                <label for="start_date"  class="col-form-label">Form Date</label>
+                                <label for="start_date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Form Date')}}</label>
                                 <input id="start_date"  type="date"  name="start_date" class="form-control input-border-bottom" required="" style="">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class=" form-group">
-                                <label for="inputFloatingLabel-select-date"  class="col-form-label">To Date</label>
+                                <label for="inputFloatingLabel-select-date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('To Date')}}</label>
                                 <input id="end_date"  type="date" name="end_date" class="form-control input-border-bottom" required="" style="" onchange="chngshift(this.value);">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                <label for="designation" class="col-form-label"> Select Shift </label>
+                                <label for="designation" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Shift')}}  </label>
                                 <select class="select" id="shift_code"  name="shift_code" required="" >
                                     <option value="">&nbsp;</option>
                                 </select>
@@ -73,7 +73,7 @@
                         <div class="row form-group">
                             <div class="col-md-3">
                                 <a href="#">	
-                                <button class="btn btn-primary" type="submit" style="">Go</button></a>
+                                <button class="btn btn-primary" type="submit" style="">{{\App\Helpers\Helper::cachedTrans('Go')}}</button></a>
                             </div>
                         </div>
                     </form>
@@ -86,7 +86,7 @@
                 <div class="card custom-card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="card-title">
-                            <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Generate Attendance
+                            <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Generate Attendance')}}
                         </h4>
                         <div class="row">
                             <div class="col-auto">
@@ -98,7 +98,7 @@
                                     {{-- put the value - that is your file name --}}
                                     <input type="hidden" id="filenameInput" value="Generate-Attendence">
                                     <button type="submit" class="btn-download btn-download-excel me-0">
-                                        Export to Excel
+                                        {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                                    </button>
                                 </form>
                             </div>
@@ -109,7 +109,7 @@
                                   <input type="hidden" name="headings" id="pdfHeadings">
                                   <input type="hidden" name="filename" id="pdfFilename">
                                   <button type="submit" class="btn-download btn-download-pdf">
-                                        Export to PDF
+                                        {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                                 </button>
                               </form>
                             </div>
@@ -122,15 +122,15 @@
                             <table id="basic-datatables" class="display table table-striped table-hover" >
                                 <thead>
                                 <tr>
-                                    <th>Sl No.</th>
-                                    <th>Employee Code</th>
-                                    <th>Employee Name</th>
-                                    <th>Date</th>
-                                    <th>Clock In</th>
-                                    <th>Clock In Location</th>
-                                    <th>Clock Out</th>
-                                    <th>Clock Out Location</th>
-                                    <th>Duty Hours</th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Sl No.')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Employee Code')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Employee Name')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Date')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Clock In')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Clock In Location')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Clock Out')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Clock Out Location')}} </th>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Duty Hours')}} </th>
                                 </tr>
                                 </thead>
                                 <tbody>

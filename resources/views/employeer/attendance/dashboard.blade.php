@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Attendance Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('Attendance Dashboard'))
 
 @section('content')
 
@@ -12,10 +12,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Attendance Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Attendance Dashboard')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Attendance Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Attendance Dashboard')}}</li>
                     </ul>
                 </div>
                 {{-- <div class="col-auto float-end ms-auto">
@@ -41,7 +41,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-dashboard modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Total No of Employee Present</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Total Number of Employee Present')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -60,7 +60,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-dashboard modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Total No of Employee Absent</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Total Number of Employee Absent')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -79,7 +79,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-dashboard modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Total No of Employee On Leave</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Total Number of Employee On Leave')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -155,7 +155,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-calendar-check modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title mt-1">Generate Attendance</h4>
+                                            <h4 class="modern-card-title mt-1">{{\App\Helpers\Helper::cachedTrans('Generate Attendance')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -173,7 +173,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-calendar-check modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title mt-1">Daily Log</h4>
+                                            <h4 class="modern-card-title mt-1">{{\App\Helpers\Helper::cachedTrans('Daily Log')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -192,7 +192,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-history modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title mt-1">Attendance Record</h4>
+                                            <h4 class="modern-card-title mt-1">{{\App\Helpers\Helper::cachedTrans('Attendance Record')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -211,7 +211,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-cogs modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title mt-1">Execute Attendance</h4>
+                                            <h4 class="modern-card-title mt-1">{{\App\Helpers\Helper::cachedTrans('Execute Attendance')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -230,7 +230,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-user-times modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title mt-1">Absentee Record</h4>
+                                            <h4 class="modern-card-title mt-1">{{\App\Helpers\Helper::cachedTrans('Absentee Record')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
