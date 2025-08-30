@@ -772,246 +772,6 @@ class AttendanceController extends Controller
 
 
     //this is testing function for attendance filtaring 
-    // public function showEmpAttendance(Request $request) {
-    //     try {
-    //         if (auth()->check()) {
-    //             $validated = $request->validate([
-    //                 'from_date' => 'nullable|date_format:Y-m-d',
-    //                 'to_date' => 'nullable|date_format:Y-m-d'
-    //             ]);
-                
-    //             $employee_id = auth()->user()->employee_id;
-    //             $emid = auth()->user()->emid;
-                
-    //             // 1. Get employee basic info
-    //             $employee = DB::table('employee')
-    //                 ->where('emp_code', $employee_id)
-    //                 ->where('emid', $emid)
-    //                 ->first();
-                
-    //             if (!$employee) {
-    //                 return response()->json(['error' => 'Employee not found'], 404);
-    //             }
-                
-    //             // 2. Get department and designation IDs
-    //             $department = DB::table('department')
-    //                 ->where('department_name', $employee->emp_department)
-    //                 ->where('emid', $emid)
-    //                 ->where('department_status','active')
-    //                 ->first();
-    //             //dd($employee->emp_designation);
-    //             $designation = DB::table('designation')
-    //                 ->where('designation_name', $employee->emp_designation)
-    //                 //->where('department_code',$department->id)
-    //                 ->where('emid', $emid)
-    //                 ->first();
-    //             //dd($designation);
-    //             // 3. Get employee shift information
-    //             $shift = DB::table('shift_management')
-    //                 ->where('department', $department->id ?? null)
-    //                 ->where('designation',$designation->id?? null)
-    //                 ->where('emid', $emid)
-    //                 ->first();
-
-    //             if(empty($shift)){
-    //                 $dynamicFlag = 1;
-    //                 $data = [];
-    //                 $message = "Please Assign shift first";
-    //                 return Helper::rjd($message, $dynamicFlag, $data);
-    //             }    
-    //             //dd($shift);
-    //             // 4. Get employee off days based on shift
-    //             $offDayRecord = DB::table('offday')
-    //                 ->where('shift_code', $shift->id ?? null)
-    //                 ->where('department', $department->id ?? null)
-    //                 ->where('designation', $designation->id ?? null)
-    //                 ->where('emid', $emid)
-    //                 ->first();
-    //             //dd($offDayRecord);
-    //             if(empty($offDayRecord)){
-    //                 $dynamicFlag = 1;
-    //                 $data = [];
-    //                 $message = "Please Assign offday first";
-    //                 return Helper::rjd($message, $dynamicFlag, $data);
-    //             }
-
-    //             //dd($offDayRecord);
-    //             // Determine which days are off days
-    //             $offDays = [];
-    //             if ($offDayRecord) {
-    //                 $daysMapping = [
-    //                     'sun' => 0, // Sunday
-    //                     'mon' => 1, // Monday
-    //                     'tue' => 2, // Tuesday
-    //                     'wed' => 3, // Wednesday
-    //                     'thu' => 4, // Thursday
-    //                     'fri' => 5, // Friday
-    //                     'sat' => 6  // Saturday
-    //                 ];
-                    
-    //                 foreach ($daysMapping as $column => $dayIndex) {
-    //                     if ($offDayRecord->{$column} === '1') {
-    //                         $offDays[] = $dayIndex;
-    //                     }
-    //                 }
-    //             }
-    //             //dd($offDays);
-    //             // Set date range - default to current month if not specified
-    //             $startDate = !empty($validated['from_date']) ? $validated['from_date'] : date('Y-m-01');
-    //             $endDate = !empty($validated['to_date']) ? $validated['to_date'] : date('Y-m-t');
-                
-    //             // Generate all dates in the range
-    //             $period = new DatePeriod(
-    //                 new DateTime($startDate),
-    //                 new DateInterval('P1D'),
-    //                 new DateTime(date('Y-m-d', strtotime($endDate . ' +1 day')))
-    //             );
-                
-    //             // Filter out off days to get only working days
-    //             $workingDays = [];
-    //             foreach ($period as $date) {
-    //                 $dayOfWeek = (int)$date->format('w'); // 0 (Sunday) to 6 (Saturday)
-    //                 if (!in_array($dayOfWeek, $offDays)) {
-    //                     $workingDays[] = $date->format('Y-m-d');
-    //                 }
-    //             }
-    //             //dd($workingDays);
-    //             // Get attendance records for working days only
-    //             $attendance = TempAttendance::where('employee_code', $employee_id)
-    //                 ->where('emid', $emid)
-    //                 ->whereIn('date', $workingDays)
-    //                 ->orderBy('date', 'desc')
-    //                 ->get();
-                
-    //             // Create complete response with all working days
-    //             $completeAttendance = [];
-    //             foreach ($workingDays as $workingDay) {
-    //                 // Find attendance record for this working day
-    //                 $record = $attendance->firstWhere('date', $workingDay);
-                    
-    //                 if ($record) {
-    //                     // If record exists, use it
-    //                     $completeAttendance[] = [
-    //                         'id' => $record->id ?? '',
-    //                         'employee_code' => $record->employee_code ?? '',
-    //                         'employee_name' => $record->employee_name ?? '',
-    //                         'date' => $record->date ?? '',
-    //                         'time_in' => $record->time_in ?? '',
-    //                         'time_out' => $record->time_out ?? '',
-    //                         'time_in_location' => $record->time_in_location ?? '',
-    //                         'time_out_location' => $record->time_out_location ?? '',
-    //                         'time_in_latitude' => $record->time_in_latitude ?? '',
-    //                         'time_in_longitude' => $record->time_in_longitude ?? '',
-    //                         'time_out_latitude' => $record->time_out_latitude ?? '',
-    //                         'time_out_longitude' => $record->time_out_longitude ?? '',
-    //                         'duty_hours' => $record->duty_hours ?? '',
-    //                         'break_hours' => $record->break_hours ?? '',
-    //                         'month' => $record->month ?? '',
-    //                         'emid' => $record->emid ?? '',
-    //                         'device_id' => $record->device_id ?? '',
-    //                         'location_accuracy' => $record->location_accuracy ?? '',
-    //                         'is_location_mocked' => $record->is_location_mocked ?? '',
-    //                         'photo_proof' => $record->photo_proof ?? '',
-    //                         'punch_type' => $record->punch_type ?? '',
-    //                         'punch_status' => $record->punch_status ?? '',
-    //                         'remarks' => $record->remarks ?? '',
-    //                         'created_at' => $record->created_at ?? '',
-    //                         'updated_at' => $record->updated_at ?? ''
-    //                     ];
-    //                 } else {
-    //                     // If no record, create empty record for working day
-    //                     // $completeAttendance[] = [
-    //                     //     'id' => 0,
-    //                     //     'employee_code' => $employee_id,
-    //                     //     'employee_name' => $employee->emp_name ?? '',
-    //                     //     'date' => $workingDay,
-    //                     //     'time_in' => "",
-    //                     //     'time_out' => "",
-    //                     //     'time_in_location' => "",
-    //                     //     'time_out_location' => "",
-    //                     //     'time_in_latitude' => "",
-    //                     //     'time_in_longitude' => "",
-    //                     //     'time_out_latitude' => "",
-    //                     //     'time_out_longitude' => "",
-    //                     //     'duty_hours' => "",
-    //                     //     'break_hours' => "",
-    //                     //     'month' => date('Y-m', strtotime($workingDay)),
-    //                     //     'emid' => $emid,
-    //                     //     'device_id' => "",
-    //                     //     'location_accuracy' => 0.00,
-    //                     //     'is_location_mocked' => 0,
-    //                     //     'photo_proof' => "",
-    //                     //     'punch_type' => "",
-    //                     //     'punch_status' => "",
-    //                     //     'remarks' => "",
-    //                     //     'created_at' => "",
-    //                     //     'updated_at' => ""
-    //                     // ];
-    //                     $completeAttendance[] = [
-    //                         'id' => (int)($record->id ?? 0),
-    //                         'employee_code' => (string)($record->employee_code ?? ''),
-    //                         'employee_name' => (string)($record->employee_name ?? ''),
-    //                         'date' => (string)($record->date ?? ''),
-    //                         'time_in' => (string)($record->time_in ?? ''),
-    //                         'time_out' => (string)($record->time_out ?? ''),
-    //                         'time_in_location' => (string)($record->time_in_location ?? ''),
-    //                         'time_out_location' => (string)($record->time_out_location ?? ''),
-    //                         'time_in_latitude' => (string)($record->time_in_latitude ?? ''),
-    //                         'time_in_longitude' => (string)($record->time_in_longitude ?? ''),
-    //                         'time_out_latitude' => (string)($record->time_out_latitude ?? ''),
-    //                         'time_out_longitude' => (string)($record->time_out_longitude ?? ''),
-    //                         'duty_hours' => (string)($record->duty_hours ?? ''),
-    //                         'break_hours' => (string)($record->break_hours ?? ''),
-    //                         'month' => (string)($record->month ?? ''),
-    //                         'emid' => (string)($record->emid ?? ''),
-    //                         'device_id' => (string)($record->device_id ?? ''),
-    //                         'location_accuracy' => (float)($record->location_accuracy ?? 0.0),
-    //                         'is_location_mocked' => (int)($record->is_location_mocked ?? 0),
-    //                         'photo_proof' => (string)($record->photo_proof ?? ''),
-    //                         'punch_type' => (string)($record->punch_type ?? ''),
-    //                         'punch_status' => (string)($record->punch_status ?? ''),
-    //                         'remarks' => (string)($record->remarks ?? ''),
-    //                         'created_at' => (string)($record->created_at ?? ''),
-    //                         'updated_at' => (string)($record->updated_at ?? '')
-    //                     ];
-    //                 }
-    //             }
-                
-    //             // Add summary information
-    //             $totalWorkingDays = count($workingDays);
-    //             $presentDays = $attendance->count();
-    //             $absentDays = $totalWorkingDays - $presentDays;
-                
-    //             $summary = [
-    //                 'total_working_days' => $totalWorkingDays,
-    //                 'present_days' => $presentDays,
-    //                 'absent_days' => $absentDays,
-    //                 'from_date' => $startDate,
-    //                 'to_date' => $endDate
-    //             ];
-                
-    //             if(empty($completeAttendance)){
-    //                 $dynamicFlag = 1;
-    //                 $data = [];
-    //                 $message = "Attendance not found";
-    //                 return Helper::rjd($message, $dynamicFlag, $data);
-    //             }
-
-    //             $dynamicFlag = 1;
-    //             $data = $completeAttendance;
-    //             // $data = [
-    //             //     'attendance' => $completeAttendance,
-    //             //     'summary' => $summary
-    //             // ];
-    //             $message = "Data retrieved successfully";
-    //             return Helper::rjd($message, $dynamicFlag, $data);
-    //         }
-    //     } catch (Exception $e) {
-    //         return Helper::rj("Server Error.", 500);
-    //     }         
-    // }
-
-    // this is my main function for attendance filtaring through date
     public function showEmpAttendance(Request $request) {
         try {
             if (auth()->check()) {
@@ -1019,67 +779,307 @@ class AttendanceController extends Controller
                     'from_date' => 'nullable|date_format:Y-m-d',
                     'to_date' => 'nullable|date_format:Y-m-d'
                 ]);
-                //dd(auth()->user());
+                
                 $employee_id = auth()->user()->employee_id;
                 $emid = auth()->user()->emid;
                 
-                // Base query
-                $query = TempAttendance::where('employee_code', $employee_id)
-                                    ->where('emid', $emid)
-                                    ->orderBy('date', 'desc');
-
-         
-                if (!empty($validated['from_date']) && !empty($validated['to_date'])) {
-                    $query->whereBetween('date', [$validated['from_date'], $validated['to_date']]);
-                } 
-             
-                elseif (!empty($validated['from_date'])) {
-                    $query->where('date', '>=', $validated['from_date']);
+                // 1. Get employee basic info
+                $employee = DB::table('employee')
+                    ->where('emp_code', $employee_id)
+                    ->where('emid', $emid)
+                    ->first();
+                
+                if (!$employee) {
+                    return response()->json(['error' => 'Employee not found'], 404);
                 }
-                // Apply single date filter if only to_date is provided
-                elseif (!empty($validated['to_date'])) {
-                    $query->where('date', '<=', $validated['to_date']);
-                }
-                // If no date filters, get last 7 records
-                else {
-                    $query->limit(7);
-                }
+                
+                // 2. Get department and designation IDs
+                $department = DB::table('department')
+                    ->where('department_name', $employee->emp_department)
+                    ->where('emid', $emid)
+                    ->where('department_status','active')
+                    ->first();
+                //dd($employee->emp_designation);
+                $designation = DB::table('designation')
+                    ->where('designation_name', $employee->emp_designation)
+                    //->where('department_code',$department->id)
+                    ->where('emid', $emid)
+                    ->first();
+                //dd($designation);
+                // 3. Get employee shift information
+                $shift = DB::table('shift_management')
+                    ->where('department', $department->id ?? null)
+                    ->where('designation',$designation->id?? null)
+                    ->where('emid', $emid)
+                    ->first();
 
-                $attendance = $query->get();
-
-                if($attendance->isEmpty()){
+                if(empty($shift)){
                     $dynamicFlag = 1;
-                    $data=[];
-                    $message = "Attendance  not found";
-                    return Helper::rjd(
-                        $message,
-                        $dynamicFlag,
-                        $data
-                    );
+                    $data = [];
+                    $message = "Please Assign shift first";
+                    return Helper::rjd($message, $dynamicFlag, $data);
+                }    
+                //dd($shift);
+                // 4. Get employee off days based on shift
+                $offDayRecord = DB::table('offday')
+                    ->where('shift_code', $shift->id ?? null)
+                    ->where('department', $department->id ?? null)
+                    ->where('designation', $designation->id ?? null)
+                    ->where('emid', $emid)
+                    ->first();
+                //dd($offDayRecord);
+                if(empty($offDayRecord)){
+                    $dynamicFlag = 1;
+                    $data = [];
+                    $message = "Please Assign offday first";
+                    return Helper::rjd($message, $dynamicFlag, $data);
                 }
 
-
-                $attendance->transform(function ($item) {
-                    return collect($item)->map(function ($value) {
-                        return $value === null ? "" : $value;
-                    });
-                });
+                //dd($offDayRecord);
+                // Determine which days are off days
+                $offDays = [];
+                if ($offDayRecord) {
+                    $daysMapping = [
+                        'sun' => 0, // Sunday
+                        'mon' => 1, // Monday
+                        'tue' => 2, // Tuesday
+                        'wed' => 3, // Wednesday
+                        'thu' => 4, // Thursday
+                        'fri' => 5, // Friday
+                        'sat' => 6  // Saturday
+                    ];
+                    
+                    foreach ($daysMapping as $column => $dayIndex) {
+                        if ($offDayRecord->{$column} === '1') {
+                            $offDays[] = $dayIndex;
+                        }
+                    }
+                }
+                //dd($offDays);
+                // Set date range - default to current month if not specified
+                $startDate = !empty($validated['from_date']) ? $validated['from_date'] : date('Y-m-01');
+                $endDate = !empty($validated['to_date']) ? $validated['to_date'] : date('Y-m-t');
+                
+                // Generate all dates in the range
+                $period = new DatePeriod(
+                    new DateTime($startDate),
+                    new DateInterval('P1D'),
+                    new DateTime(date('Y-m-d', strtotime($endDate . ' +1 day')))
+                );
+                
+                // Filter out off days to get only working days
+                $workingDays = [];
+                foreach ($period as $date) {
+                    $dayOfWeek = (int)$date->format('w'); // 0 (Sunday) to 6 (Saturday)
+                    if (!in_array($dayOfWeek, $offDays)) {
+                        $workingDays[] = $date->format('Y-m-d');
+                    }
+                }
+                //dd($workingDays);
+                // Get attendance records for working days only
+                $attendance = TempAttendance::where('employee_code', $employee_id)
+                    ->where('emid', $emid)
+                    ->whereIn('date', $workingDays)
+                    ->orderBy('date', 'desc')
+                    ->get();
+                
+                // Create complete response with all working days
+                $completeAttendance = [];
+                foreach ($workingDays as $workingDay) {
+                    // Find attendance record for this working day
+                    $record = $attendance->firstWhere('date', $workingDay);
+                    
+                    if ($record) {
+                        // If record exists, use it
+                        $completeAttendance[] = [
+                            'id' => $record->id ?? '',
+                            'employee_code' => $record->employee_code ?? '',
+                            'employee_name' => $record->employee_name ?? '',
+                            'date' => $record->date ?? '',
+                            'time_in' => $record->time_in ?? '',
+                            'time_out' => $record->time_out ?? '',
+                            'time_in_location' => $record->time_in_location ?? '',
+                            'time_out_location' => $record->time_out_location ?? '',
+                            'time_in_latitude' => $record->time_in_latitude ?? '',
+                            'time_in_longitude' => $record->time_in_longitude ?? '',
+                            'time_out_latitude' => $record->time_out_latitude ?? '',
+                            'time_out_longitude' => $record->time_out_longitude ?? '',
+                            'duty_hours' => $record->duty_hours ?? '',
+                            'break_hours' => $record->break_hours ?? '',
+                            'month' => $record->month ?? '',
+                            'emid' => $record->emid ?? '',
+                            'device_id' => $record->device_id ?? '',
+                            'location_accuracy' => $record->location_accuracy ?? '',
+                            'is_location_mocked' => $record->is_location_mocked ?? '',
+                            'photo_proof' => $record->photo_proof ?? '',
+                            'punch_type' => $record->punch_type ?? '',
+                            'punch_status' => $record->punch_status ?? '',
+                            'remarks' => $record->remarks ?? '',
+                            'created_at' => $record->created_at ?? '',
+                            'updated_at' => $record->updated_at ?? ''
+                        ];
+                    } else {
+                        // If no record, create empty record for working day
+                        // $completeAttendance[] = [
+                        //     'id' => 0,
+                        //     'employee_code' => $employee_id,
+                        //     'employee_name' => $employee->emp_name ?? '',
+                        //     'date' => $workingDay,
+                        //     'time_in' => "",
+                        //     'time_out' => "",
+                        //     'time_in_location' => "",
+                        //     'time_out_location' => "",
+                        //     'time_in_latitude' => "",
+                        //     'time_in_longitude' => "",
+                        //     'time_out_latitude' => "",
+                        //     'time_out_longitude' => "",
+                        //     'duty_hours' => "",
+                        //     'break_hours' => "",
+                        //     'month' => date('Y-m', strtotime($workingDay)),
+                        //     'emid' => $emid,
+                        //     'device_id' => "",
+                        //     'location_accuracy' => 0.00,
+                        //     'is_location_mocked' => 0,
+                        //     'photo_proof' => "",
+                        //     'punch_type' => "",
+                        //     'punch_status' => "",
+                        //     'remarks' => "",
+                        //     'created_at' => "",
+                        //     'updated_at' => ""
+                        // ];
+                        $completeAttendance[] = [
+                            'id' => (int)($record->id ?? 0),
+                            'employee_code' => (string)($record->employee_code ?? ''),
+                            'employee_name' => (string)($record->employee_name ?? ''),
+                            'date' => (string)($record->date ?? ''),
+                            'time_in' => (string)($record->time_in ?? ''),
+                            'time_out' => (string)($record->time_out ?? ''),
+                            'time_in_location' => (string)($record->time_in_location ?? ''),
+                            'time_out_location' => (string)($record->time_out_location ?? ''),
+                            'time_in_latitude' => (string)($record->time_in_latitude ?? ''),
+                            'time_in_longitude' => (string)($record->time_in_longitude ?? ''),
+                            'time_out_latitude' => (string)($record->time_out_latitude ?? ''),
+                            'time_out_longitude' => (string)($record->time_out_longitude ?? ''),
+                            'duty_hours' => (string)($record->duty_hours ?? ''),
+                            'break_hours' => (string)($record->break_hours ?? ''),
+                            'month' => (string)($record->month ?? ''),
+                            'emid' => (string)($record->emid ?? ''),
+                            'device_id' => (string)($record->device_id ?? ''),
+                            'location_accuracy' => (float)($record->location_accuracy ?? 0.0),
+                            'is_location_mocked' => (int)($record->is_location_mocked ?? 0),
+                            'photo_proof' => (string)($record->photo_proof ?? ''),
+                            'punch_type' => (string)($record->punch_type ?? ''),
+                            'punch_status' => (string)($record->punch_status ?? ''),
+                            'remarks' => (string)($record->remarks ?? ''),
+                            'created_at' => (string)($record->created_at ?? ''),
+                            'updated_at' => (string)($record->updated_at ?? '')
+                        ];
+                    }
+                }
+                
+                // Add summary information
+                $totalWorkingDays = count($workingDays);
+                $presentDays = $attendance->count();
+                $absentDays = $totalWorkingDays - $presentDays;
+                
+                $summary = [
+                    'total_working_days' => $totalWorkingDays,
+                    'present_days' => $presentDays,
+                    'absent_days' => $absentDays,
+                    'from_date' => $startDate,
+                    'to_date' => $endDate
+                ];
+                
+                if(empty($completeAttendance)){
+                    $dynamicFlag = 1;
+                    $data = [];
+                    $message = "Attendance not found";
+                    return Helper::rjd($message, $dynamicFlag, $data);
+                }
 
                 $dynamicFlag = 1;
-                $data=$attendance;
-                $message = "Data get successfully";
-                return Helper::rjd(
-                    $message,
-                    $dynamicFlag,
-                    $data
-                );
-
+                $data = $completeAttendance;
+                // $data = [
+                //     'attendance' => $completeAttendance,
+                //     'summary' => $summary
+                // ];
+                $message = "Data retrieved successfully";
+                return Helper::rjd($message, $dynamicFlag, $data);
             }
-        
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);
         }         
     }
+
+    // this is my main function for attendance filtaring through date
+    // public function showEmpAttendance(Request $request) {
+    //     try {
+    //         if (auth()->check()) {
+    //             $validated = $request->validate([
+    //                 'from_date' => 'nullable|date_format:Y-m-d',
+    //                 'to_date' => 'nullable|date_format:Y-m-d'
+    //             ]);
+    //             //dd(auth()->user());
+    //             $employee_id = auth()->user()->employee_id;
+    //             $emid = auth()->user()->emid;
+                
+    //             // Base query
+    //             $query = TempAttendance::where('employee_code', $employee_id)
+    //                                 ->where('emid', $emid)
+    //                                 ->orderBy('date', 'desc');
+
+         
+    //             if (!empty($validated['from_date']) && !empty($validated['to_date'])) {
+    //                 $query->whereBetween('date', [$validated['from_date'], $validated['to_date']]);
+    //             } 
+             
+    //             elseif (!empty($validated['from_date'])) {
+    //                 $query->where('date', '>=', $validated['from_date']);
+    //             }
+    //             // Apply single date filter if only to_date is provided
+    //             elseif (!empty($validated['to_date'])) {
+    //                 $query->where('date', '<=', $validated['to_date']);
+    //             }
+    //             // If no date filters, get last 7 records
+    //             else {
+    //                 $query->limit(7);
+    //             }
+
+    //             $attendance = $query->get();
+
+    //             if($attendance->isEmpty()){
+    //                 $dynamicFlag = 1;
+    //                 $data=[];
+    //                 $message = "Attendance  not found";
+    //                 return Helper::rjd(
+    //                     $message,
+    //                     $dynamicFlag,
+    //                     $data
+    //                 );
+    //             }
+
+
+    //             $attendance->transform(function ($item) {
+    //                 return collect($item)->map(function ($value) {
+    //                     return $value === null ? "" : $value;
+    //                 });
+    //             });
+
+    //             $dynamicFlag = 1;
+    //             $data=$attendance;
+    //             $message = "Data get successfully";
+    //             return Helper::rjd(
+    //                 $message,
+    //                 $dynamicFlag,
+    //                 $data
+    //             );
+
+    //         }
+        
+    //     } catch (Exception $e) {
+    //         return Helper::rj("Server Error.", 500);
+    //     }         
+    // }
 
 
 
