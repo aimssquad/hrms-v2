@@ -966,7 +966,7 @@ class AttendanceController extends Controller
                             'emid' => (string)($record->emid ?? ''),
                             'device_id' => (string)($record->device_id ?? ''),
                             'location_accuracy' => (float)($record->location_accuracy ?? 0.0),
-                            'is_location_mocked' => (int)($record->is_location_mocked ?? .0),
+                            'is_location_mocked' => (int)($record->is_location_mocked ?? 0),
                             'photo_proof' => (string)($record->photo_proof ?? ''),
                             'punch_type' => (string)($record->punch_type ?? ''),
                             'punch_status' => (string)($record->punch_status ?? ''),
