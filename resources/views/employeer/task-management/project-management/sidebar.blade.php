@@ -117,6 +117,12 @@ $user_type = Session::get("user_type");
                                     </a>
                                 </li>
 
+                                 <li>
+                                    <a href="{{ url('org-task-management/'.request()->route('id').'/chat')}}">
+                                        <span class="sub-item">Chat With Member</span>
+                                    </a>
+                                </li>
+
                             <?php
                             }
 

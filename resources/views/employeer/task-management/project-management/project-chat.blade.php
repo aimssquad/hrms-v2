@@ -1,7 +1,291 @@
-@extends('employeer.employee-corner.main')
-@section('title', 'Project Discussion')
-@section('css')
-    <style>
+@extends('employeer.task-management.project-management.app')
+
+@section('title', 'Member Label')
+
+@section('content')
+{{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> --}}
+
+
+<div class="main-panel">
+   
+    <div class="content">
+        <div class="page-inner">
+            <div class="page-header">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">Project List</a></li>  
+                </ul>
+            </div>
+            {{-- <div class="viewproject-container"> --}}
+                    <!-- Left Side - Project Details -->
+                <div class="row">
+                    {{-- <div class="col-md-6 col-sm-12">
+                        <div class="project-details ">
+                            <div class="project-header">
+                                <h2>{{ $groupedData['project']['title'] }}</h2>
+                                <div class="project-status {{ $groupedData['project']['status'] }}">
+                                    {{ ucfirst($groupedData['project']['status']) }}
+                                </div>
+                            </div>
+
+                            <p class="project-description">{{ $groupedData['project']['description'] }}</p>
+
+                            <div class="project-info-section">
+                                <h3><i class="fas fa-calendar-alt"></i> Timeline</h3>
+                                <div class="info-grid">
+                                    <div>
+                                        <span class="info-label">Start Date</span>
+                                        @if(count($groupedData['tasks']) > 0)
+                                            @php
+                                                $startDates = array_column($groupedData['tasks'], 'start_date');
+                                                $earliestStartDate = min($startDates);
+                                            @endphp
+                                            <span class="info-value">{{ \Carbon\Carbon::parse($earliestStartDate)->format('M d, Y') }}</span>
+                                        @else
+                                            <span class="info-value">Not set</span>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <span class="info-label">Deadline</span>
+                                        @if(count($groupedData['tasks']) > 0)
+                                            @php
+                                                $endDates = array_column($groupedData['tasks'], 'expected_end_date');
+                                                $latestEndDate = max($endDates);
+                                            @endphp
+                                            <span class="info-value">{{ \Carbon\Carbon::parse($latestEndDate)->format('M d, Y') }}</span>
+                                        @else
+                                            <span class="info-value">Not set</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="project-info-section">
+                                <h3><i class="fas fa-users"></i> Team Members</h3>
+                                <div class="members-grid">
+                                    @foreach($groupedData['members'] as $member)
+                                        <div class="member-card">
+                                            <div class="member-avatar">{{ substr($member['name'], 0, 1) }}</div>
+                                            <div class="member-info">
+                                                <span class="member-name">{{ $member['name'] }}</span>
+                                                <span class="member-role">{{ $member['role'] }}</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="project-info-section">
+                                <h3><i class="fas fa-tasks"></i> Project Tasks</h3>
+                                @if(count($groupedData['tasks']) > 0)
+                                    <div class="tasks-list">
+                                        @foreach($groupedData['tasks'] as $task)
+                                            <div class="task-item">
+                                                <div class="task-header">
+                                                    <h4>{{ $task['task_name'] }}</h4>
+                                                    <span class="task-dates">
+                                                        {{ \Carbon\Carbon::parse($task['start_date'])->format('M d') }} - 
+                                                        {{ \Carbon\Carbon::parse($task['expected_end_date'])->format('M d, Y') }}
+                                                    </span>
+                                                </div>
+                                                <p class="task-description">{{ $task['task_desc'] }}</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-muted">No tasks created for this project yet.</p>
+                                @endif
+                            </div>
+
+                        </div>
+                    </div>      --}}
+                    <div class="col-md-12 col-sm-12">
+                        <div class="project-chat">
+                            <div class="chat-header">
+                                <i class="fas fa-comment-alt"></i>
+                                <h3>Team Discussion ({{ $groupedData['project']['title'] }})</h3>
+                            </div>
+                            
+                            <div class="chat-box custom-scroll">
+                                @if($data['post_data']->count() > 0)
+                                    @foreach($data['post_data'] as $post)
+                                        <div class="chat-message {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="post-{{ $post->id }}">
+                                            @if($post->employee_code != $employee_code)
+                                                <div class="message-sender">
+                                                    {{ App\Models\User::where('employee_id', $post->employee_code)->first()->name ?? $post->employee_code }}
+                                                </div>
+                                            @endif
+                                            
+                                            <div class="message-content">
+                                                @if($post->employee_code == $employee_code)
+                                                    <div class="message-menu">
+                                                        <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </button>
+                                                        <div class="menu-dropdown" id="menu-{{ $post->id }}">
+                                                            <div class="menu-item edit" onclick="openEditModal({{ $post->id }})">
+                                                                <i class="fas fa-edit"></i> Edit
+                                                            </div>
+                                                            <div class="menu-item delete btn-btnp" onclick="deletePost({{ $post->id }})">
+                                                                <i class="fas fa-trash"></i> Delete
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                
+                                                @if($post->title)
+                                                    <div class="message-text">{{ $post->title }}</div>
+                                                @endif
+                                                
+                                                {{-- Display file attachment if exists --}}
+                                                @if($post->file)
+                                                    @php
+                                                        $fileExtension = pathinfo($post->file, PATHINFO_EXTENSION);
+                                                        $fileIcon = 'fa-file';
+                                                        $fileType = 'file';
+                                                        
+                                                        if (in_array($fileExtension, ['pdf'])) {
+                                                            $fileIcon = 'fa-file-pdf';
+                                                            $fileType = 'pdf';
+                                                        } elseif (in_array($fileExtension, ['xlsx', 'xls'])) {
+                                                            $fileIcon = 'fa-file-excel';
+                                                            $fileType = 'excel';
+                                                        } elseif (in_array($fileExtension, ['png', 'jpg', 'jpeg', 'gif'])) {
+                                                            $fileIcon = 'fa-file-image';
+                                                            $fileType = 'image';
+                                                        }
+                                                        
+                                                        $fileSize = Storage::disk('public')->exists($post->file) ? 
+                                                            number_format(Storage::disk('public')->size($post->file) / 1024 / 1024, 2) . ' MB' : 
+                                                            'Unknown size';
+                                                    @endphp
+                                                    
+                                                    @if($fileType === 'image')
+                                                        <div class="attachment">
+                                                            <a href="{{ asset('storage/' . $post->file) }}" download>
+                                                            <img src="{{ asset('storage/' . $post->file) }}" alt="Attachment" style="max-width: 200px; max-height: 200px;">
+                                                            </a>
+                                                        </div>
+                                                    @else
+                                                        <div class="file-attachment">
+                                                            <div class="file-icon">
+                                                                <i class="fas {{ $fileIcon }}"></i>
+                                                            </div>
+                                                            <div class="file-info">
+                                                                <div class="file-name">{{ basename($post->file) }}</div>
+                                                                <div class="file-size">{{ $fileSize }}</div>
+                                                            </div>
+                                                            <a href="{{ asset('storage/' . $post->file) }}" class="download-btn" download>
+                                                                <i class="fas fa-download"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                @endif
+                                                
+                                                <div class="message-time">
+                                                    {{ $post->created_at->format('h:i A') }} • 
+                                                    {{ $post->created_at->format('M j, Y') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        {{-- Add divider for different dates --}}
+                                        @if(!$loop->last && !$post->created_at->isSameDay($data['post_data'][$loop->index + 1]->created_at))
+                                            <div class="divider">
+                                                <span class="divider-text">{{ $data['post_data'][$loop->index + 1]->created_at->format('F j, Y') }}</span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <div class="no-messages">
+                                        <i class="fas fa-comments"></i>
+                                        <p>No messages yet. Start the conversation!</p>
+                                    </div>
+                                @endif
+                            </div>
+                            
+                            <form action="{{ route('project.post') }}" method="post" enctype="multipart/form-data" id="post-form">
+                                @csrf
+                                <input type="hidden" name="project_id" value="{{ $data['id'] }}">
+                                <div class="chat-input">
+                                    <div class="file-input-container">
+                                        <label for="file-upload" class="file-upload-btn">
+                                            <i class="fas fa-paperclip"></i>
+                                            <input type="file" id="file-upload" class="file-upload-input" name="file" accept="image/*,.pdf,.xlsx,.xls,.doc,.docx">
+                                        </label>
+                                    </div>
+                                    <input type="text" name="title" placeholder="Write your message here..." required>
+                                    <button type="submit">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>   
+                </div>
+            {{-- </div>   --}}
+             <!-- Edit Modal -->
+            <div class="modal" id="editModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Edit Post</h3>
+                        <button class="close-modal" onclick="closeEditModal()">&times;</button>
+                    </div>
+                    <form id="edit-form" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="project_id" value="{{ $data['id'] }}">
+                        <input type="hidden" name="post_id" id="edit-post-id">
+                        
+                        <div class="modal-form-group">
+                            <label for="edit-title">Message</label>
+                            <textarea name="title" id="edit-title" required></textarea>
+                        </div>
+                        
+                        <div class="modal-form-group">
+                            <label for="edit-file">File (Leave empty to keep current file)</label>
+                            <input type="file" name="file" id="edit-file" accept="image/*,.pdf,.xlsx,.xls,.doc,.docx">
+                            <div class="current-file" id="current-file-info"></div>
+                        </div>
+                        
+                        <div class="modal-actions">
+                            <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+                            <button type="submit" class="btn-submit">Update Post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Delete Confirmation Modal -->
+            <div class="modal" id="deleteModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Confirm Delete</h3>
+                        <button class="close-modal" onclick="closeDeleteModal()">&times;</button>
+                    </div>
+                    <p>Are you sure you want to delete this post? This action cannot be undone.</p>
+                    <form id="delete-form" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="post_id" id="delete-post-id">
+                        
+                        <div class="modal-actions">
+                            <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                            <button type="submit" class="btn-submit btn-primary" >Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>  
+        </div>
+    </div>
+    {{-- @include('taskmanagement.partials.footer') --}}
+</div>
+<!-- /.content -->
+<div class="clearfix"></div>
+
+ <style>
         /* styles.css */
         :root {
         --primary: #4361ee;
@@ -981,289 +1265,9 @@
             color: #495057;
             }
     </style>
-    
 @endsection
-
-
-@section('content')
-    <div class="content container-fluid pb-0">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h3 class="page-title" style="color:#ff902f">Project Discussion</h3>
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}" style="color:#ff902f">Dashboard</a></li>
-                        <li class="breadcrumb-item active" style="color:#ff902f">Project Discussion</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="viewproject-container">
-            <!-- Left Side - Project Details -->
-            <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    <div class="project-details ">
-                        <div class="project-header">
-                            <h2>{{ $groupedData['project']['title'] }}</h2>
-                            <div class="project-status {{ $groupedData['project']['status'] }}">
-                                {{ ucfirst($groupedData['project']['status']) }}
-                            </div>
-                        </div>
-
-                        <p class="project-description">{{ $groupedData['project']['description'] }}</p>
-
-                        <div class="project-info-section">
-                            <h3><i class="fas fa-calendar-alt"></i> Timeline</h3>
-                            <div class="info-grid">
-                                <div>
-                                    <span class="info-label">Start Date</span>
-                                    @if(count($groupedData['tasks']) > 0)
-                                        @php
-                                            $startDates = array_column($groupedData['tasks'], 'start_date');
-                                            $earliestStartDate = min($startDates);
-                                        @endphp
-                                        <span class="info-value">{{ \Carbon\Carbon::parse($earliestStartDate)->format('M d, Y') }}</span>
-                                    @else
-                                        <span class="info-value">Not set</span>
-                                    @endif
-                                </div>
-                                <div>
-                                    <span class="info-label">Deadline</span>
-                                    @if(count($groupedData['tasks']) > 0)
-                                        @php
-                                            $endDates = array_column($groupedData['tasks'], 'expected_end_date');
-                                            $latestEndDate = max($endDates);
-                                        @endphp
-                                        <span class="info-value">{{ \Carbon\Carbon::parse($latestEndDate)->format('M d, Y') }}</span>
-                                    @else
-                                        <span class="info-value">Not set</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-info-section">
-                            <h3><i class="fas fa-users"></i> Team Members</h3>
-                            <div class="members-grid">
-                                @foreach($groupedData['members'] as $member)
-                                    <div class="member-card">
-                                        <div class="member-avatar">{{ substr($member['name'], 0, 1) }}</div>
-                                        <div class="member-info">
-                                            <span class="member-name">{{ $member['name'] }}</span>
-                                            <span class="member-role">{{ $member['role'] }}</span>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <div class="project-info-section">
-                            <h3><i class="fas fa-tasks"></i> Project Tasks</h3>
-                            @if(count($groupedData['tasks']) > 0)
-                                <div class="tasks-list">
-                                    @foreach($groupedData['tasks'] as $task)
-                                        <div class="task-item">
-                                            <div class="task-header">
-                                                <h4>{{ $task['task_name'] }}</h4>
-                                                <span class="task-dates">
-                                                    {{ \Carbon\Carbon::parse($task['start_date'])->format('M d') }} - 
-                                                    {{ \Carbon\Carbon::parse($task['expected_end_date'])->format('M d, Y') }}
-                                                </span>
-                                            </div>
-                                            <p class="task-description">{{ $task['task_desc'] }}</p>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @else
-                                <p class="text-muted">No tasks created for this project yet.</p>
-                            @endif
-                        </div>
-
-                    </div>
-                </div>     
-                <div class="col-md-6 col-sm-12">
-                    <div class="project-chat">
-                        <div class="chat-header">
-                            <i class="fas fa-comment-alt"></i>
-                            <h3>Team Discussion ({{ $groupedData['project']['title'] }})</h3>
-                        </div>
-                        
-                        <div class="chat-box custom-scroll">
-                            @if($data['post_data']->count() > 0)
-                                @foreach($data['post_data'] as $post)
-                                    <div class="chat-message {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="post-{{ $post->id }}">
-                                        @if($post->employee_code != $employee_code)
-                                            <div class="message-sender">
-                                                {{ App\Models\User::where('employee_id', $post->employee_code)->first()->name ?? $post->employee_code }}
-                                            </div>
-                                        @endif
-                                        
-                                        <div class="message-content">
-                                            @if($post->employee_code == $employee_code)
-                                                <div class="message-menu">
-                                                    <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
-                                                        <i class="fas fa-ellipsis-v"></i>
-                                                    </button>
-                                                    <div class="menu-dropdown" id="menu-{{ $post->id }}">
-                                                        <div class="menu-item edit" onclick="openEditModal({{ $post->id }})">
-                                                            <i class="fas fa-edit"></i> Edit
-                                                        </div>
-                                                        <div class="menu-item delete btn-btnp" onclick="deletePost({{ $post->id }})">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                            
-                                            @if($post->title)
-                                                <div class="message-text">{{ $post->title }}</div>
-                                            @endif
-                                            
-                                            {{-- Display file attachment if exists --}}
-                                            @if($post->file)
-                                                @php
-                                                    $fileExtension = pathinfo($post->file, PATHINFO_EXTENSION);
-                                                    $fileIcon = 'fa-file';
-                                                    $fileType = 'file';
-                                                    
-                                                    if (in_array($fileExtension, ['pdf'])) {
-                                                        $fileIcon = 'fa-file-pdf';
-                                                        $fileType = 'pdf';
-                                                    } elseif (in_array($fileExtension, ['xlsx', 'xls'])) {
-                                                        $fileIcon = 'fa-file-excel';
-                                                        $fileType = 'excel';
-                                                    } elseif (in_array($fileExtension, ['png', 'jpg', 'jpeg', 'gif'])) {
-                                                        $fileIcon = 'fa-file-image';
-                                                        $fileType = 'image';
-                                                    }
-                                                    
-                                                    $fileSize = Storage::disk('public')->exists($post->file) ? 
-                                                        number_format(Storage::disk('public')->size($post->file) / 1024 / 1024, 2) . ' MB' : 
-                                                        'Unknown size';
-                                                @endphp
-                                                
-                                                @if($fileType === 'image')
-                                                    <div class="attachment">
-                                                        <a href="{{ asset('storage/' . $post->file) }}" download>
-                                                        <img src="{{ asset('storage/' . $post->file) }}" alt="Attachment" style="max-width: 200px; max-height: 200px;">
-                                                        </a>
-                                                    </div>
-                                                @else
-                                                    <div class="file-attachment">
-                                                        <div class="file-icon">
-                                                            <i class="fas {{ $fileIcon }}"></i>
-                                                        </div>
-                                                        <div class="file-info">
-                                                            <div class="file-name">{{ basename($post->file) }}</div>
-                                                            <div class="file-size">{{ $fileSize }}</div>
-                                                        </div>
-                                                        <a href="{{ asset('storage/' . $post->file) }}" class="download-btn" download>
-                                                            <i class="fas fa-download"></i>
-                                                        </a>
-                                                    </div>
-                                                @endif
-                                            @endif
-                                            
-                                            <div class="message-time">
-                                                {{ $post->created_at->format('h:i A') }} • 
-                                                {{ $post->created_at->format('M j, Y') }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    {{-- Add divider for different dates --}}
-                                    @if(!$loop->last && !$post->created_at->isSameDay($data['post_data'][$loop->index + 1]->created_at))
-                                        <div class="divider">
-                                            <span class="divider-text">{{ $data['post_data'][$loop->index + 1]->created_at->format('F j, Y') }}</span>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            @else
-                                <div class="no-messages">
-                                    <i class="fas fa-comments"></i>
-                                    <p>No messages yet. Start the conversation!</p>
-                                </div>
-                            @endif
-                        </div>
-                        
-                        <form action="{{ route('project.post') }}" method="post" enctype="multipart/form-data" id="post-form">
-                            @csrf
-                            <input type="hidden" name="project_id" value="{{ $data['id'] }}">
-                            <div class="chat-input">
-                                <div class="file-input-container">
-                                    <label for="file-upload" class="file-upload-btn">
-                                        <i class="fas fa-paperclip"></i>
-                                        <input type="file" id="file-upload" class="file-upload-input" name="file" accept="image/*,.pdf,.xlsx,.xls,.doc,.docx">
-                                    </label>
-                                </div>
-                                <input type="text" name="title" placeholder="Write your message here..." required>
-                                <button type="submit">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>   
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Modal -->
-    <div class="modal" id="editModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Edit Post</h3>
-                <button class="close-modal" onclick="closeEditModal()">&times;</button>
-            </div>
-            <form id="edit-form" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <input type="hidden" name="project_id" value="{{ $data['id'] }}">
-                <input type="hidden" name="post_id" id="edit-post-id">
-                
-                <div class="modal-form-group">
-                    <label for="edit-title">Message</label>
-                    <textarea name="title" id="edit-title" required></textarea>
-                </div>
-                
-                <div class="modal-form-group">
-                    <label for="edit-file">File (Leave empty to keep current file)</label>
-                    <input type="file" name="file" id="edit-file" accept="image/*,.pdf,.xlsx,.xls,.doc,.docx">
-                    <div class="current-file" id="current-file-info"></div>
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-                    <button type="submit" class="btn-submit">Update Post</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Delete Confirmation Modal -->
-    <div class="modal" id="deleteModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Confirm Delete</h3>
-                <button class="close-modal" onclick="closeDeleteModal()">&times;</button>
-            </div>
-            <p>Are you sure you want to delete this post? This action cannot be undone.</p>
-            <form id="delete-form" method="POST">
-                @csrf
-                @method('DELETE')
-                <input type="hidden" name="post_id" id="delete-post-id">
-                
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
-                    <button type="submit" class="btn-submit btn-primary" >Delete</button>
-                </div>
-            </form>
-        </div>
-    </div>
-@endsection
-
 @section('script')
+@include('taskmanagement.partials.scripts')
     <script>
         // Simple JavaScript to handle file upload preview (optional enhancement)
         document.getElementById('file-upload').addEventListener('change', function(e) {

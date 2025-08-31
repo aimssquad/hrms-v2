@@ -581,8 +581,8 @@ Route::get('org-task-management/{id}/label-del/{label_id}', 'App\Http\Controller
 Route::get('org-task-management/{id}/roles', 'App\Http\Controllers\organization\RolesController@index');
 Route::post('org-task-management/{id}/roles', 'App\Http\Controllers\organization\RolesController@submit');
 Route::get('org-task-management/{id}/role-del/{role_id}', 'App\Http\Controllers\organization\RolesController@delete');
-
-
+// chat route for organization
+Route::get('org-task-management/{id}/chat', 'App\Http\Controllers\organization\ChatController@chat');
 
 
 //############################################### End Task Managemant ####################################################
