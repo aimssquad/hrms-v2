@@ -1,35 +1,9 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Attendance Permission')
-@php 
-$user_type = Session::get("user_type");
-$sidebarItems = \App\Helpers\Helper::getSidebarItems();
-//dd($sidebarItems);
-@endphp
-@section('content')
-@php
-	function my_simple_crypt( $string, $action = 'encrypt' ) {
-		// you may change these values to your own
-		$secret_key = 'bopt_saltlake_kolkata_secret_key';
-		$secret_iv = 'bopt_saltlake_kolkata_secret_iv';
-	
-		$output = false;
-		$encrypt_method = "AES-256-CBC";
-		$key = hash( 'sha256', $secret_key );
-		$iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
-	
-		if( $action == 'encrypt' ) {
-			$output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
-		}
-		else if( $action == 'decrypt' ){
-			$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
-		}
-	
-		return $output;
-	}
+@section('title', \App\Helpers\Helper::cachedTrans('Attendance Permission'))
 
-@endphp
+@section('content')
 
 <!-- Page Content -->
 <div class="content container-fluid pb-0">
@@ -37,11 +11,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Attendance Permission</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Attendance Permission')}}</h3>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    {{-- <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">Dashboard</a></li> --}}
-					<li class="breadcrumb-item active">Attendance Permission</li>
+					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Attendance Permission')}}</li>
 				</ul>
 			</div>
             @include('employeer.layout.message')
@@ -53,7 +27,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;
+                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Attendance Permission')}}
                     </h4>
                     <div class="row">
                         <div class="col-auto">
@@ -62,10 +36,10 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                 <input type="hidden" name="data" id="data">
                                 <input type="hidden" name="headings" id="headings">
                                 <input type="hidden" name="filename" id="filename">
-                                {{-- put the value - that is your file name --}}
-                                <input type="hidden" id="filenameInput" value="Notice">
+                                
+                                <input type="hidden" id="filenameInput" value="Permission">
                                 <button type="submit" class="btn-download btn-download-excel me-0">
-                                    Export to Excel
+                                    {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                                </button>
                             </form>
                         </div>
@@ -76,18 +50,18 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                               <input type="hidden" name="headings" id="pdfHeadings">
                               <input type="hidden" name="filename" id="pdfFilename">
                               <button type="submit" class="btn-download btn-download-pdf">
-                                Export to PDF
+                                {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                            </button>
                           </form>
                         </div>
                     </div>
-                 </div>
+                </div>
                 <div class="card-body">
-                   <form action="" method="POST">
+                    <form action="" method="POST">
                         @csrf
 
                         <div class="col-md-4">
-                            <label class="col-form-label">Attendance Permission</label>
+                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Attendance Permission')}}</label>
                             <select name="punch_type" class="form-control">
                                 <option value="">Select</option>
                                 @foreach($punch_type as $type)
@@ -105,8 +79,8 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                         <th width="50">
                                             <input type="checkbox" id="all_check" class="checkmark">
                                         </th>
-                                        <th>Employee Name</th>
-                                        <th>Attendance Type</th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans('Employee Name')}}</th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans('Attendance Type')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -132,12 +106,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <br>
 
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                         </div>
-                    </form>
-
-                    
-                       
+                    </form>      
                 </div>
             </div>
 		</div>
@@ -157,7 +128,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         }
     }
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
 <script>
     document.getElementById('all_check').addEventListener('change', function () {
@@ -167,5 +138,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         });
     });
 </script>
+
+
 
 @endsection

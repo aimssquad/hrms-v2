@@ -1,9 +1,9 @@
 @extends('employeer.include.app')
 @section('title', 'Add Catagory')
 @if(!empty($holidaydtl->id))  
-@section('title', 'Edit Catagory')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Catagory'))
 @else   
-@section('title', 'Add Catagory')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Catagory'))
 @endif 
 @section('content')
 <div class="main-panel">
@@ -12,20 +12,20 @@
    <div class="row">
       <div class="col-md-12">
          <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+            <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
             @if(!empty($holidaydtl->id))
-            <li class="breadcrumb-item active">Edit Catagory</li>
+            <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Catagory')}}</li>
             @else
-            <li class="breadcrumb-item active">Add New Catagory</li>
+            <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New Catagory')}}</li>
             @endif
          </ul>
          <div class="card custom-card">
             <div class="card-header">
                @if(!empty($holidaydtl->id))  
-               <h4 class="card-title"><i class="far fa-user"></i>  Edit Catagory</h4>
+               <h4 class="card-title"><i class="far fa-user"></i>  {{\App\Helpers\Helper::cachedTrans('Edit Catagory')}}</h4>
                @else   
-               <h4 class="card-title"><i class="far fa-user"></i>  Add New Catagory</h4>
+               <h4 class="card-title"><i class="far fa-user"></i>  {{\App\Helpers\Helper::cachedTrans('Add New Catagory')}}</h4>
                @endif 
             </div>
             <div class="card-body">
@@ -39,7 +39,7 @@
                            <div class="row">
                               <div class="col-md-6">
                                  <div class="form-group">
-                                    <label for="leave-type" class="col-form-label">Leave Type</label>
+                                    <label for="leave-type" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Leave Type')}}</label>
                                     <input  type="text" class="form-control input-border-bottom" required=""  name='leave_type_name' id="leave-type" value="<?php if(isset($holidaydtl->id)){  echo $holidaydtl->leave_type_name;  }?>{{ old('leave_type_name') }}">
                                     @if($errors->has('leave_type_name'))
                                     <div class="error" style="color:red;">{{$errors->first('leave_type_name')}}</div>
@@ -48,7 +48,7 @@
                               </div>
                               <div class="col-md-6">
                                  <div class="form-group">
-                                    <label for="alias" class="col-form-label">Leave Type Sort Code</label>
+                                    <label for="alias" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Leave Type Sort Code')}}</label>
                                     <input  type="text" class="form-control input-border-bottom" required=""  name='alies'  id="alias" value="<?php if(isset($holidaydtl->id)){  echo $holidaydtl->alies;  }?>{{ old('alies') }}">
                                     @if($errors->has('alies'))
                                     <div class="error" style="color:red;">{{ $errors->first('alies') }}</div>
@@ -57,15 +57,15 @@
                               </div>
                               <div class="col-md-6">
                                  <div class="form-group">
-                                    <label for="inputFloatingLabel-remarks" class="col-form-label">Remarks</label>
+                                    <label for="inputFloatingLabel-remarks" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Remarks')}}</label>
                                     <input id="inputFloatingLabel-remarks" type="text" class="form-control input-border-bottom"  name='remarks' value="<?php if(isset($holidaydtl->id)){  echo $holidaydtl->remarks;  }?>">
                                  </div>
                               </div>
                            </div>
                            <br>
                            <div class="row form-group">
-                              <div class="col-md-12 text-center">
-                                 <button type="submit" class="btn btn-primary">Submit</button>
+                              <div class="col-md-12 text-left">
+                                 <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                               </div>
                            </div>
                         </form>

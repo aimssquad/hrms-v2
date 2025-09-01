@@ -1,15 +1,15 @@
 @extends('employeer.include.app')
-@section('title', 'Attendance Record')
+@section('title', \App\Helpers\Helper::cachedTrans('Attendance Record'))
 @section('content')
 <div class="content container-fluid pb-0">
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Attendance Record</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Attendance Record')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('attendance-management/dashboard')}}">Dashboard</a></li>
-               <li class="breadcrumb-item active">Attendance Record</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('attendance-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Attendance Record')}}</li>
             </ul>
          </div>
       </div>
@@ -24,7 +24,7 @@
                   <div class="row form-group">
                      <div class="col-md-3">
                         <div class=" form-group">
-                           <label for="inputFloatingLabel-grade" class="col-form-label"> Select Department</label>
+                           <label for="inputFloatingLabel-grade" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Department')}}</label>
                            <select class="select" id="selectFloatingLabel" name="department" required="" onchange="chngdepartment(this.value);">
                               <option value="">&nbsp;</option>
                               @foreach($departs as $dept)
@@ -35,7 +35,7 @@
                      </div>
                      <div class="col-md-3">
                         <div class="form-group">
-                           <label for="designation" class="col-form-label"> Select Designation </label>
+                           <label for="designation" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select Designation')}}  </label>
                            <select class="select" id="designation"  name="designation" required="" onchange="chngdepartmentdesign(this.value);">
                               <option value="">&nbsp;</option>
                            </select>
@@ -43,20 +43,20 @@
                      </div>
                      <div class="col-md-3">
                         <div class=" form-group">		
-                           <label for="employee_code" class="col-form-label">Employee Code</label>
+                           <label for="employee_code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Code')}}</label>
                            <select id="employee_code" type="text" class="select" name="employee_code" required  style="">
                            </select>
                         </div>
                      </div>
                      <div class="col-md-3">
                         <div class=" form-group">
-                           <label for="inputFloatingLabel-select-date"  class="col-form-label">Form Date</label>
+                           <label for="inputFloatingLabel-select-date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Form Date')}}</label>
                            <input id="inputFloatingLabel-select-date"  type="date"  name="start_date" class="form-control input-border-bottom" required="" style="">
                         </div>
                      </div>
                      <div class="col-md-3">
                         <div class=" form-group">
-                           <label for="inputFloatingLabel-select-date"  class="col-form-label">To Date</label>
+                           <label for="inputFloatingLabel-select-date"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('To Date')}}</label>
                            <input id="inputFloatingLabel-select-date"  type="date" name="end_date" class="form-control input-border-bottom" required="" style="">
                         </div>
                      </div>
@@ -65,7 +65,7 @@
                   <div class="row form-group">
                      <div class="col-md-3">
                         <a href="#">	
-                        <button class="btn btn-primary" type="submit" >Go</button></a>
+                        <button class="btn btn-primary" type="submit" >{{\App\Helpers\Helper::cachedTrans('Go')}}</button></a>
                      </div>
                   </div>
                </form>
@@ -77,7 +77,7 @@
       <div class="col-md-12">
          <div class="card">
             <div class="card-header">
-               <h4 class="card-title"><i class="fa fa-history" aria-hidden="true" style="color:#10277f;"></i>&nbsp;Attendance History</h4>
+               <h4 class="card-title"><i class="fa fa-history" aria-hidden="true" style="color:#10277f;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Attendance History')}}</h4>
                <?php
                   if(isset($result) && $result!=''  ){
                   											?>
@@ -88,7 +88,7 @@
                   <input  value="<?php echo $designation;?>"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
                   <input  value="<?php echo $start_date;?>"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                   <input  value="<?php echo $end_date;?>"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                  <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn-download btn-download-pdf"  type="submit">Download PDF</button>	
+                  <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn-download btn-download-pdf"  type="submit"> {{\App\Helpers\Helper::cachedTrans('Download PDF')}}</button>	
                </form>
                <form  method="post" action="{{ url('attendance/attendance-month-report-excel') }}" enctype="multipart/form-data" >
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -97,7 +97,7 @@
                   <input  value="<?php echo $designation;?>"  name="designation" type="hidden" class="form-control input-border-bottom" required="" >
                   <input  value="<?php echo $start_date;?>"  name="start_date" type="hidden" class="form-control input-border-bottom" required="" >
                   <input  value="<?php echo $end_date;?>"  name="end_date" type="hidden" class="form-control input-border-bottom" required="" >
-                  <button data-toggle="tooltip" data-placement="bottom" title="Download Excel"  class="btn-download btn-download-excel me-3"  type="submit">Download Excel</button>	
+                  <button data-toggle="tooltip" data-placement="bottom" title="Download Excel"  class="btn-download btn-download-excel me-3"  type="submit">{{\App\Helpers\Helper::cachedTrans('Download Excel')}} </button>	
                </form>
                <?php
                   }?>
@@ -107,17 +107,17 @@
                   <table id="basic-datatables" class="display table table-striped table-hover" >
                      <thead>
                         <tr>
-                           <th>Sl No.</th>
-                           <th>Department</th>
-                           <th>Designation</th>
-                           <th>Employee Code</th>
-                           <th>Employee Name</th>
-                           <th>Date</th>
-                           <th>Clock In</th>
-                           <th>Clock In Location</th>
-                           <th>Clock Out</th>
-                           <th>Clock Out Location</th>
-                           <th>Duty Hours</th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Sl No.')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Department')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Designation')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Employee Code')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Employee Name')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Date')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Clock In')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Clock In Location')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Clock Out')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Clock Out Location')}} </th>
+                           <th> {{\App\Helpers\Helper::cachedTrans('Duty Hours')}} </th>
                         </tr>
                      </thead>
                      <tbody>

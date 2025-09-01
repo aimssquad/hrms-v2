@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Leave Handling Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('Leave Handling Dashboard'))
 @php
     $user_type = Session::get("user_type");
     $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -16,10 +16,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Leave Handling Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Leave Handling Dashboard')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Leave Handling Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Leave Handling Dashboard')}}</li>
                     </ul>
                 </div>
                 {{-- <div class="col-auto float-end ms-auto">
@@ -47,7 +47,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">Category</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Category')}} </h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status"></div>
@@ -67,7 +67,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">Policy</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Policy')}} </h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status">
@@ -88,7 +88,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">Allocation</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Allocation')}} </h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status">
@@ -109,7 +109,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">Leave Accrued</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Leave Accrued')}} </h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status">
@@ -130,7 +130,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">Leave Record</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Leave Record')}} </h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status">
@@ -151,7 +151,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">Record EE Wise</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Record EE Wise')}} </h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status">
@@ -174,7 +174,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">Category</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Category')}} </h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status"></div>
@@ -194,7 +194,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">Policy</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Policy')}}</h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status">
@@ -215,7 +215,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">Allocation</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Allocation')}}</h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status">
@@ -236,7 +236,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">Leave Accrued</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Leave Accrued')}}</h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status">
@@ -257,7 +257,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">Leave Record</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Leave Record')}}</h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status">
@@ -278,7 +278,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">Record EE Wise</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Record EE Wise')}}</h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status">

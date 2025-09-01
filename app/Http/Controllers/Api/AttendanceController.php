@@ -890,7 +890,6 @@ class AttendanceController extends Controller
                     $record = $attendance->firstWhere('date', $workingDay);
                     
                     if ($record) {
-                        // If record exists, use it
                         $completeAttendance[] = [
                             'id' => $record->id ?? '',
                             'employee_code' => $record->employee_code ?? '',
@@ -919,34 +918,6 @@ class AttendanceController extends Controller
                             'updated_at' => $record->updated_at ?? ''
                         ];
                     } else {
-                        // If no record, create empty record for working day
-                        // $completeAttendance[] = [
-                        //     'id' => 0,
-                        //     'employee_code' => $employee_id,
-                        //     'employee_name' => $employee->emp_name ?? '',
-                        //     'date' => $workingDay,
-                        //     'time_in' => "",
-                        //     'time_out' => "",
-                        //     'time_in_location' => "",
-                        //     'time_out_location' => "",
-                        //     'time_in_latitude' => "",
-                        //     'time_in_longitude' => "",
-                        //     'time_out_latitude' => "",
-                        //     'time_out_longitude' => "",
-                        //     'duty_hours' => "",
-                        //     'break_hours' => "",
-                        //     'month' => date('Y-m', strtotime($workingDay)),
-                        //     'emid' => $emid,
-                        //     'device_id' => "",
-                        //     'location_accuracy' => 0.00,
-                        //     'is_location_mocked' => 0,
-                        //     'photo_proof' => "",
-                        //     'punch_type' => "",
-                        //     'punch_status' => "",
-                        //     'remarks' => "",
-                        //     'created_at' => "",
-                        //     'updated_at' => ""
-                        // ];
                         $completeAttendance[] = [
                             'id' => (int)($record->id ?? 0),
                             'employee_code' => (string)($record->employee_code ?? ''),
@@ -965,7 +936,7 @@ class AttendanceController extends Controller
                             'month' => (string)($record->month ?? ''),
                             'emid' => (string)($record->emid ?? ''),
                             'device_id' => (string)($record->device_id ?? ''),
-                            'location_accuracy' => (float)($record->location_accuracy ?? 0.0),
+                            'location_accuracy' => (string)($record->location_accuracy ?? '00.0'),
                             'is_location_mocked' => (int)($record->is_location_mocked ?? 0),
                             'photo_proof' => (string)($record->photo_proof ?? ''),
                             'punch_type' => (string)($record->punch_type ?? ''),

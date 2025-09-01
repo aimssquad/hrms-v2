@@ -15,7 +15,7 @@
                     <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Attendance Dashboard')}}</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
-                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Attendance Dashboard')}}</li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</li>
                     </ul>
                 </div>
                 {{-- <div class="col-auto float-end ms-auto">
@@ -89,66 +89,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-                           <div class="col-12">
-                            <hr class="mt-3" >
-                           </div>
-                            
-                           
-                            <!--<div class="col-3 mb-3">-->
-                            <!--    <div class="alert alert-outline-info alert-dismissible fade show">-->
-                            <!--        Daily Attendance-->
-                            <!--        <a href="{{ url('attendance-management/daily-attendance') }}">-->
-                            <!--            <button type="button" class="btn-close" aria-label="add">-->
-                            <!--                <i class="fa fa-arrow-circle-right"></i>-->
-                            <!--            </button>-->
-                            <!--        </a>-->
-                            <!--    </div>-->
-                            <!--</div>-->
-                            <!--<div class="col-3 mb-3">-->
-                            <!--    <div class="alert alert-outline-info alert-dismissible fade show">-->
-                            <!--        Attendance History-->
-                            <!--        <a href="{{ url('attendance-management/attendance-report') }}">-->
-                            <!--            <button type="button" class="btn-close" aria-label="add">-->
-                            <!--                <i class="fa fa-arrow-circle-right"></i>-->
-                            <!--            </button>-->
-                            <!--        </a>-->
-                            <!--    </div>-->
-                            <!--</div>-->
-                            <!--<div class="col-3 mb-3">-->
-                            <!--    <div class="alert alert-outline-info alert-dismissible fade show">-->
-                            <!--        Process Attendance-->
-                            <!--        <a href="{{ url('attendance-management/process-attendance') }}">-->
-                            <!--            <button type="button" class="btn-close" aria-label="add">-->
-                            <!--                <i class="fa fa-arrow-circle-right"></i>-->
-                            <!--            </button>-->
-                            <!--        </a>-->
-                            <!--    </div>-->
-                            <!--</div>-->
-                            <!--<div class="col-3 mb-3">-->
-                            <!--    <div class="alert alert-outline-info alert-dismissible fade show">-->
-                            <!--        Absent Report-->
-                            <!--        <a href="{{ url('attendance-management/absent-report') }}">-->
-                            <!--            <button type="button" class="btn-close" aria-label="add">-->
-                            <!--                <i class="fa fa-arrow-circle-right"></i>-->
-                            <!--            </button>-->
-                            <!--        </a>-->
-                            <!--    </div>-->
-                            <!--</div>-->
-
-
-                          
-
-                            
-
-                           
-
-                        </div>
-
-                        <div class="row g-3 mt-1">
-                        <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="col-xl-4 col-md-6 col-sm-12">
                                 <a href="{{ url('attendance-management/generate-data') }}" class="modern-card-link">
                                     <div class="modern-card">
                                         <div class="modern-card-header">
@@ -166,6 +108,8 @@
                                     </div>
                                 </a>
                             </div>
+
+
                             <div class="col-xl-4 col-md-6 col-sm-12">
                                 <a href="{{ url('attendance-management/daily-attendance') }}" class="modern-card-link">
                                     <div class="modern-card">
@@ -240,7 +184,24 @@
                                         </div>
                                     </div>
                                 </a>
-
+                            </div>
+                             <div class="col-xl-4 col-md-6 col-sm-12">
+                                <a href="{{ url('org/employee-attendance') }}" class="modern-card-link">
+                                    <div class="modern-card">
+                                        <div class="modern-card-header">
+                                            <div class="modern_icon_wrapper">
+                                                <i class="fa fa-user-check modern-icon"></i>
+                                            </div>
+                                            <h4 class="modern-card-title mt-1">{{\App\Helpers\Helper::cachedTrans('Employee Attendance Permission')}}</h4>
+                                        </div>
+                                        <div class="modern-card-body">
+                                            <div class="modern-status"></div>
+                                            <div class="modern-arrow">
+                                                <i class="fa fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
