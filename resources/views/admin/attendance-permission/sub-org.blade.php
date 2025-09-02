@@ -107,87 +107,48 @@
                        <div class="col-md-12">
                           <div class="card custom-card">
                              <div class="card-header">
-                                <h4 class="card-title"><i class="fas fa-align-justify"></i>Organization Attendance Permission</h4>
+                                <h4 class="card-title"><i class="fas fa-align-justify"></i>Subadmin Organization Attendance Permission</h4>
                                 @if(Session::has('message'))
                                 <div class="alert alert-success" style="text-align:center;"><span class="glyphicon glyphicon-ok" ></span><em > {{ Session::get('message') }}</em></div>
                                 @endif
                              </div>
-                                <div class="card-body">
-                                    <form action="{{ route('save.emp-atten.permission') }}" method="POST">
-                                        @csrf
-
-                                        {{-- Hidden Organization ID --}}
-                                        <input type="hidden" name="emid" value="{{ $orgDtl->reg }}">
-
-                                        <h3 class="mb-3">{{ $orgDtl->com_name }}</h3>
-
-                                        {{-- Module Permissions Table --}}
-                                        <div class="table-responsive mb-4">
-                                            <table class="table table-striped table-bordered custom-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="50">#</th>
-                                                        <th>Module Permission</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {{-- @foreach($punch_type as $menu)
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <label class="custom_check">
-                                                                    <input type="checkbox" name="punch_type_id[]" value="{{ $menu->id }}">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </td>
-                                                            <td>{{ $menu->punch_type_name ?? 'N/A' }}</td>
-                                                        </tr>
-                                                    @endforeach --}}
-                                                    @foreach($punch_type as $menu)
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <label class="custom_check">
-                                                                    <input type="checkbox" 
-                                                                        name="punch_type_id[]" 
-                                                                        value="{{ $menu->id }}"
-                                                                        {{ in_array($menu->id, $assigned_types ?? []) ? 'checked' : '' }}>
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </td>
-                                                            <td>{{ $menu->punch_type_name ?? 'N/A' }}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        {{-- Default Attendance Type --}}
-                                        <div class="form-group col-md-6 mb-4">
-                                            <label for="status" class="col-form-label">Default Attendance Type</label>
-                                            <select name="default_punch_type_id" id="status" class="form-control" required>
-                                                <option value="">Select</option>
-                                                {{-- @foreach($punch_type as $menu)
-                                                    <option value="{{ $menu->id }}"
-                                                        {{ (isset($default_type) && $default_type == $menu->id) ? 'selected' : '' }}>
-                                                        {{ $menu->punch_type_name }}
-                                                    </option>
-                                                @endforeach --}}
-                                            
-                                                    @foreach($punch_type as $menu)
-                                                        <option value="{{ $menu->id }}"
-                                                            {{ ($default_type == $menu->id) ? 'selected' : '' }}>
-                                                            {{ $menu->punch_type_name }}
-                                                        </option>
-                                                    @endforeach
-                                                
-                                            </select>
-                                        </div>
-
-                                        {{-- Submit --}}
-                                        <div class="form-group col-md-6">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </form>
+                             <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="basic-datatables" class="display table table-striped table-hover" >
+                                        <thead>
+                                            <tr>
+                                                <th>Sl No</th>
+                                                <th>Organization Name</th>
+                                                <th>Attendance Type</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($results  as $organizations)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{$organizations->com_name}}</td>
+                                                    <td>{{ $organizations->punch_types ? implode(', ', $organizations->punch_types->toArray()) : 'N/A' }}</td>
+                                                    <td class="drp">
+                                                        <div class="dropdown">
+                                                            <button class="btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                Action
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                <a class="dropdown-item" href="{{ route('org.attendance.permissoin',$organizations->reg) }}">
+                                                                    <i class="far fa-edit"></i>&nbsp; Attendance Permission
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        
+                                        </tbody>
+                                    </table>
+                                    
                                 </div>
+                             </div>
                           </div>
                        </div>
                     </div>

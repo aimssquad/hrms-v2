@@ -101,6 +101,7 @@
                                                </button>
                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                   <a class="dropdown-item" href="{{url('superadmin/edit-company/'.$company->id)}}" target="_blank"><i class="far fa-edit"></i>&nbsp; Edit</a>
+                                                  {{-- <a class="dropdown-item" href="{{url('superadmin/org-atten-permission/'.$company->reg)}}" target="_blank"><i class="fas fa-key"></i>&nbsp; Org Attendance Permission</a> --}}
                                                   <a download class="dropdown-item" href="{{url('superadmin/company-report/'.base64_encode($company->reg))}}" target="_blank"><i class="fas fa-download"></i>&nbsp; Download</a>
                                                </div>
                                               </div>

@@ -36,6 +36,16 @@ class OrgAttenPermissionController extends Controller
         $data['orgDtl'] = DB::table('registration')->where('reg',$id)->first();
         $data['punch_type'] = DB::table('emp_punch_type_masters')->get();
         //dd($data['punch_type']);
+        $data['assigned_types'] = DB::table('org_attendance_permissions')
+        ->where('emid', $id)
+        ->pluck('punch_type_id')
+        ->toArray();
+
+        // Default punch type (if needed)
+        $data['default_type'] = DB::table('org_attendance_permissions')
+        ->where('emid', $id)
+        ->value('default_punch_type_id');
+            
         return view('admin.attendance-permission.org-permission',$data); 
     }
 

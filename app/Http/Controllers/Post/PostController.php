@@ -19,6 +19,7 @@ class PostController extends Controller
 {
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'content' => 'required|string|max:2000',
             'post_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx,mp4,mov,avi|max:10480' // 10MB max
@@ -43,6 +44,8 @@ class PostController extends Controller
                 $file = $request->file('post_file');
                 $filePath = $file->store('employee-post', 'public');
             }
+
+            //dd($userData->emid, $userData->employee_id, $request->content, $filePath);
             // Create post
             $post = Post::create([
                 'emid' => $userData->emid,
@@ -50,7 +53,7 @@ class PostController extends Controller
                 'title' => $request->content,
                 'image_path'=> $filePath,
             ]);
-
+            //dd($post);
             if ($post) {
                 Session::flash('success', 'Post created successfully.');
                 return back();
@@ -153,10 +156,40 @@ class PostController extends Controller
         ]);
         
         $email = Session::get('emp_email');
+       
         $userData = User::where('email', $email)
                       ->where('status', 'active')
                       ->firstOrFail();
-        
+                      
+        if(Session::get('user_type') == 'employer'){
+            //dd('okk');
+            $comment = PostComment::create([
+                'post_id' => $request->post_id,
+                'emid' => $userData->employee_id, // Assuming this matches your user table
+                'employee_code' => $userData->employee_id,
+                'comment_text' => $request->comment_text
+            ]);
+            // Get commenter details from employee table
+            $commenter = DB::table('registration')
+                //->where('emid', $userData->emid)
+                ->where('reg', $userData->employee_id)
+                ->where('status', 'active')
+                ->select('com_name', 'logo','desig')
+                ->first();
+            //dd($commenter);        
+            return response()->json([
+                'success' => true,
+                'comment' => $comment,
+                'commenter' => [
+                    'employee_name' => $commenter->com_name ?? 'Unknown',
+                    'employee_image' => $commenter->logo 
+                        ? asset("storage/app/public/".$commenter->logo) 
+                        : asset('default_avatar.jpg'),
+                    'designation' => $commenter->desig ?? ''
+                ]
+            ]);
+        }
+
         $comment = PostComment::create([
             'post_id' => $request->post_id,
             'emid' => $userData->emid, // Assuming this matches your user table

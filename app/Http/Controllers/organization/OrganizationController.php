@@ -202,8 +202,93 @@ class OrganizationController extends Controller
                     
             }
 
+            $user = User::where('email', $email)
+            ->where('status', 'active')
+            ->firstOrFail();
 
-            //dd($data);
+            $data['posts'] = DB::table('post')
+            ->leftJoin('employee', function($join) {
+                $join->on('employee.emid', '=', 'post.emid')
+                    ->on('employee.emp_code', '=', 'post.employee_code');
+            })
+            ->leftJoin('post_likes', function($join) use ($user) {
+                $join->on('post_likes.post_id', '=', 'post.id')
+                    ->where('post_likes.emid', $user->employee_id)
+                    ->where('post_likes.employee_code', $user->employee_id);
+            })
+            ->where(function($q) use ($user) {
+                $q->where('post.emid', $user->employee_id)
+                ->orWhereNull('post.emid'); // include org posts
+            })
+            ->where(function($q) {
+                $q->whereNull('employee.status')   // allow org posts with no employee
+                ->orWhere('employee.status', 'active');
+            })
+            ->orderBy('post.created_at', 'desc')
+            ->select(
+                'post.*',
+                'employee.emp_fname as first_name',
+                'employee.emp_lname as last_name',
+                'employee.emp_image as employee_image',
+                'employee.emp_designation as designation',
+                DB::raw('(SELECT COUNT(*) FROM post_likes WHERE post_likes.post_id = post.id) as likes_count'),
+                DB::raw('CASE WHEN post_likes.id IS NOT NULL THEN 1 ELSE 0 END as is_liked')
+            )
+            ->get();
+
+            //dd($data['posts']);       
+            // Transform posts with comments
+            $data['posts']->transform(function ($post) use ($user) {
+                $comments = DB::table('post_comments')
+                    ->join('employee', function($join) {
+                        $join->on('employee.emid', '=', 'post_comments.emid')
+                            ->on('employee.emp_code', '=', 'post_comments.employee_code');
+                    })
+                    ->where('post_comments.post_id', $post->id)
+                    ->where('employee.status', 'active')
+                    ->orderBy('post_comments.created_at', 'asc')
+                    ->select(
+                        'post_comments.*',
+                        'employee.emp_fname as commenter_first_name',
+                        'employee.emp_lname as commenter_last_name',
+                        'employee.emp_image as commenter_image',
+                        'employee.emp_designation as commenter_designation'
+                    )
+                    ->get()
+                    ->map(function ($comment) {
+                        return (object)[
+                            'id' => $comment->id,
+                            'comment_text' => $comment->comment_text,
+                            'created_at' => $comment->created_at,
+                            'commenter_name' => trim($comment->commenter_first_name . ' ' . $comment->commenter_last_name),
+                            'commenter_image' => $comment->commenter_image 
+                                ? asset("storage/".$comment->commenter_image) 
+                                : asset('assets/img/user.png'),
+                            'commenter_designation' => $comment->commenter_designation,
+                            'time_ago' => \Carbon\Carbon::parse($comment->created_at)->diffForHumans()
+                        ];
+                    });
+
+                return (object)[
+                    'id' => $post->id,
+                    'emid' => $post->emid,
+                    'employee_code' => $post->employee_code,
+                    'title' => $post->title,
+                    'image_path' => $post->image_path ? asset("storage/".$post->image_path) : null,
+                    'created_at' => $post->created_at,
+                    'updated_at' => $post->updated_at,
+                    'employee_name' => trim($post->first_name . ' ' . $post->last_name),
+                    'employee_image' => $post->employee_image ? asset("storage/".$post->employee_image) : asset('assets/img/user.png'),
+                    'designation' => $post->designation,
+                    'time_ago' => \Carbon\Carbon::parse($post->created_at)->diffForHumans(),
+                    'comments' => $comments,
+                    'comments_count' => $comments->count(),
+                    'likes_count' => $post->likes_count ?? 0,
+                    'is_liked' => (bool) $post->is_liked
+                ];
+            });
+
+            //dd($data['posts']);
             return view($this->_routePrefix . '.dashboard', $data);
         } else {
             return redirect("/");

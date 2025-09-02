@@ -5959,6 +5959,8 @@ Route::post('subadmin/update/profile', 'App\Http\Controllers\SubadminController@
 Route::get('subadmin/organization/module-permission/{id}', 'App\Http\Controllers\SubadminController@modulePermission')->name('partner.orgmodule.permission');
 Route::post('subadmin/organization/module-permission', 'App\Http\Controllers\SubadminController@saveModulePermission')->name('save.partner.orgmodule.permission');
 
+
+
 //-------------------------Superadmin --------------------
 Route::get('subadmin/edit-sub-company/{comp_id}', 'App\Http\Controllers\AdminController@viewSubAddCompany');
 Route::post('subadmin/editsubcompany', 'App\Http\Controllers\AdminController@saveSubCompany');
@@ -5967,6 +5969,8 @@ Route::get('subadmin/partner/modulepermission/{id}', 'App\Http\Controllers\Admin
 Route::post('subadmin/partner/savepermission', 'App\Http\Controllers\AdminController@savePartnerPermission');
 
 Route::get('subadmin/partner-emmployee-count', 'App\Http\Controllers\AdminController@getPartnerEmployee');
+
+Route::get('sadmin/view-sub-org-attendance-permission-list/{comp_id}', 'App\Http\Controllers\AdminController@subOrgAttenPermission');
 //--------------------------
 //-------------------------------------Sub Admin Billing---------------------------------------
 Route::get('sub-admin/billing/dashboard','App\Http\Controllers\organization\SubadminBillController@dashboard')->name('subadmin.billing.dashboard');

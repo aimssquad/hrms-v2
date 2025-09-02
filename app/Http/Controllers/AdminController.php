@@ -19551,6 +19551,8 @@ class AdminController extends Controller
                                         ->Where('org_code',$comp_id)
                                         ->orderBy('id', 'desc')
                                         ->get();
+
+
                 $data['sub_admin'] = DB::table('sub_admin_registrations')
                                         ->Where('org_code',$comp_id)
                                         ->first();
@@ -21737,6 +21739,28 @@ class AdminController extends Controller
             'result' => $result,
             'filters' => $request->all() // Pass filters back to view to maintain selections
         ]);
+    }
+
+    public function subOrgAttenPermission(Request $request, $id){
+        //dd($id);
+        if (!empty(Session::get('empsu_email'))) {
+            $results = DB::table('registration')
+                ->where('org_code',$id)
+                ->where('status','active')
+                ->where('verify','approved')->get();
+
+            foreach ($results as $active_org) {
+                $active_org->punch_types = DB::table('org_attendance_permissions AS oap')
+                    ->join('emp_punch_type_masters AS ptm', 'ptm.id', '=', 'oap.punch_type_id')
+                    ->where('oap.emid', $active_org->reg)
+                    ->pluck('ptm.punch_type_name');
+            }    
+
+            return view('admin.attendance-permission.sub-org',compact('results'));  
+
+        } else {
+            return redirect('superadmin'); 
+        }
     }
 
  

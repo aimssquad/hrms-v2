@@ -161,6 +161,7 @@
                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                   <a class="dropdown-item" href="{{url('subadmin/edit-sub-company/'.$company->id)}}"><i class="far fa-edit"></i>&nbsp; Edit</a>
                                                   <a class="dropdown-item" href="{{url('subadmin/partner/modulepermission/'.$company->reg)}}"><i class="fas fa-key"></i>&nbsp; Module Permission</a>
+                                                  <a class="dropdown-item" href="{{url('sadmin/view-sub-org-attendance-permission-list/'.$company->org_code)}}" target="_blank"><i class="fas fa-list"></i>&nbsp; View Org Attendence permission list</a>
                                                   <a class="dropdown-item" href="{{url('subadmin/view-sub-organization/'.$company->org_code)}}" target="_blank"><i class="fas fa-sticky-note"></i>&nbsp; View Organization</a>
                                                   <a download class="dropdown-item" href="{{url('superadmin/company-report/'.base64_encode($company->reg))}}"><i class="fas fa-download"></i>&nbsp; Download</a>
                                                </div>

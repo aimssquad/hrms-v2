@@ -837,9 +837,6 @@
 													<small class="post-designation">{{ $post->designation }}</small>
 												</div>
 											</div>
-											{{-- <button class="post-options">
-												<i class="fas fa-ellipsis-h"></i>
-											</button> --}}
 											@if($Roledata->employee_id === $post->employee_code)
 											<div class="post-options-container">
 												<button class="post-options" onclick="toggleOptions(this)">
@@ -847,22 +844,13 @@
 												</button>
 												
 												<div class="options-dropdown">
-													{{-- <button class="edit-post-btn" 
+													<button class="edit-post-btn " 
 															data-post-id="{{ $post->id }}"
-															data-post-content="{{ $post->title }}"
-															data-post-file="{{ $post->image_path }}"
+															data-employee-code="{{ $post->employee_code }}"
 															data-bs-toggle="modal" 
 															data-bs-target="#editPostModal">
 														<i class="fas fa-edit"></i> Edit
-													</button> --}}
-													
-														<button class="edit-post-btn " 
-																data-post-id="{{ $post->id }}"
-																data-employee-code="{{ $post->employee_code }}"
-																data-bs-toggle="modal" 
-																data-bs-target="#editPostModal">
-															<i class="fas fa-edit"></i> Edit
-														</button>
+													</button>
 														
 													<button class="delete-post-btn" onclick="window.location.href='{{ route('posts.delete', ['id' => $post->id, 'emp_id' => $post->employee_code]) }}'">
 														<i class="fas fa-trash"></i> Delete
@@ -961,89 +949,35 @@
 					<!-- /Post and comment Section -->
 
 					<!-- Add this modal HTML right after your post-container div -->
-						<div class="modal fade" id="addPostModal" tabindex="-1" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title">Create New Post</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										<form id="postForm" method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
-											@csrf
-											<div class="form-group mb-3">
-												<textarea class="form-control @error('content') is-invalid @enderror" 
-														id="postContent" name="content" rows="5" 
-														placeholder="What's on your mind?" required>{{ old('content') }}</textarea>
-												@error('content')
-													<div class="invalid-feedback">{{ $message }}</div>
-												@enderror
-											</div>
-											<div class="form-group mb-3">
-												<label for="postFile">Add File (Optional - Images, PDF, Word, Video)</label>
-												<input type="file" class="form-control @error('post_file') is-invalid @enderror" 
-													id="postFile" name="post_file"
-													accept="image/*,.pdf,.doc,.docx,video/*">
-												@error('post_file')
-													<div class="invalid-feedback">{{ $message }}</div>
-												@enderror
-												<small class="text-muted">Max file size: 10MB | Allowed formats: JPEG, PNG, GIF, PDF, DOC, DOCX, MP4, MOV, AVI</small>
-											</div>
-											<button type="submit" class="btn btn-primary">Post</button>
-										</form>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!------------end model ------------------>
-					<!-- Edit Modal -->
-					{{-- <div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel" aria-hidden="true">
+					<div class="modal fade" id="addPostModal" tabindex="-1" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title">Edit Post</h5>
+									<h5 class="modal-title">Create New Post</h5>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
-									<form id="editPostForm" method="post" action="" enctype="multipart/form-data">
+									<form id="postForm" method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
 										@csrf
-										@method('PUT')
-										<input type="text" name="post_id" id="editPostId">
-										<input type="text" name="remove_file" id="removeFileFlag" value="0">
-
 										<div class="form-group mb-3">
 											<textarea class="form-control @error('content') is-invalid @enderror" 
-													id="editPostContent" name="content" rows="5" 
-													placeholder="What's on your mind?" required></textarea>
+													id="postContent" name="content" rows="5" 
+													placeholder="What's on your mind?" required>{{ old('content') }}</textarea>
 											@error('content')
 												<div class="invalid-feedback">{{ $message }}</div>
 											@enderror
 										</div>
-
 										<div class="form-group mb-3">
-											<label for="editPostFile">Update File</label>
+											<label for="postFile">Add File (Optional - Images, PDF, Word, Video)</label>
 											<input type="file" class="form-control @error('post_file') is-invalid @enderror" 
-												id="editPostFile" name="post_file"
+												id="postFile" name="post_file"
 												accept="image/*,.pdf,.doc,.docx,video/*">
 											@error('post_file')
 												<div class="invalid-feedback">{{ $message }}</div>
 											@enderror
 											<small class="text-muted">Max file size: 10MB | Allowed formats: JPEG, PNG, GIF, PDF, DOC, DOCX, MP4, MOV, AVI</small>
-											
-											<!-- Current File Display -->
-											<div id="currentFileContainer" class="mt-3" style="display: none;">
-												<div class="d-flex justify-content-between align-items-center">
-													<strong>Current File:</strong>
-													<button type="button" id="removeFileBtn" class="btn btn-sm btn-danger">Remove File</button>
-												</div>
-												<div id="currentFilePreview" class="mt-2"></div>
-											</div>
 										</div>
-
-										<button type="submit" class="btn btn-primary">Update Post</button>
+										<button type="submit" class="btn btn-primary">Post</button>
 									</form>
 								</div>
 								<div class="modal-footer">
@@ -1051,7 +985,9 @@
 								</div>
 							</div>
 						</div>
-					</div> --}}
+					</div>
+						<!------------end create post model ------------------>
+						<!-- Edit Modal -->
 					<div class="modal fade" id="editPostModal" tabindex="-1" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
 							<div class="modal-content">
@@ -1074,7 +1010,7 @@
 										<div class="form-group mb-3">
 											<label for="editPostFile">Update File</label>
 											<input type="file" class="form-control" id="editPostFile" name="post_file"
-												accept="image/*,.pdf,.doc,.docx,video/*">
+												accept="image/png, image/jpeg, image/webp">
 											<small class="text-muted">Max file size: 10MB | Allowed formats: JPEG, PNG, GIF, PDF, DOC, DOCX, MP4, MOV, AVI</small>
 											
 											<div id="currentFileContainer" class="mt-3" style="display:none;">
@@ -1360,61 +1296,6 @@
 	});
 </script>
 
-{{-- <script>
-	document.addEventListener('DOMContentLoaded', function() {
-		// When edit button is clicked
-		document.querySelectorAll('.edit-post-btn').forEach(button => {
-			button.addEventListener('click', function() {
-				const postId = this.getAttribute('data-post-id');
-				const postContent = this.getAttribute('data-post-content');
-				const postFile = this.getAttribute('data-post-file');
-				const postFileType = this.getAttribute('data-post-file-type');
-
-				// Set form action
-				document.getElementById('editPostForm').action = `/posts/${postId}`;
-				document.getElementById('editPostId').value = postId;
-				document.getElementById('editPostContent').value = postContent;
-				document.getElementById('removeFileFlag').value = '0';
-
-				// Handle file display
-				const filePreview = document.getElementById('currentFilePreview');
-				const fileContainer = document.getElementById('currentFileContainer');
-				const removeFileBtn = document.getElementById('removeFileBtn');
-
-				if (postFile) {
-					fileContainer.style.display = 'block';
-					
-					// Display different preview based on file type
-					if (postFileType && postFileType.startsWith('image/')) {
-						filePreview.innerHTML = `<img src="${postFile}" class="img-thumbnail" style="max-height: 150px;">`;
-					} else if (postFileType === 'application/pdf') {
-						filePreview.innerHTML = `<i class="fas fa-file-pdf fa-3x text-danger"></i><br>
-											<a href="${postFile}" target="_blank">View PDF</a>`;
-					} else if (postFileType === 'application/msword' || postFileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-						filePreview.innerHTML = `<i class="fas fa-file-word fa-3x text-primary"></i><br>
-												<a href="${postFile}" target="_blank">View Document</a>`;
-					} else if (postFileType && postFileType.startsWith('video/')) {
-						filePreview.innerHTML = `<video controls style="max-width: 100%; max-height: 150px;">
-											<source src="${postFile}" type="${postFileType}">
-											Your browser does not support the video tag.
-											</video>`;
-					} else {
-						filePreview.innerHTML = `<a href="${postFile}" target="_blank">Download File</a>`;
-					}
-				} else {
-					fileContainer.style.display = 'none';
-				}
-
-				// Remove file button handler
-				removeFileBtn.addEventListener('click', function() {
-					fileContainer.style.display = 'none';
-					document.getElementById('removeFileFlag').value = '1';
-					document.getElementById('editPostFile').value = '';
-				});
-			});
-		});
-	});
-</script> --}}
 
 <script>
 	$(document).ready(function() {
