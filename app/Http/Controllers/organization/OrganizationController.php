@@ -262,7 +262,7 @@ class OrganizationController extends Controller
                             'created_at' => $comment->created_at,
                             'commenter_name' => trim($comment->commenter_first_name . ' ' . $comment->commenter_last_name),
                             'commenter_image' => $comment->commenter_image 
-                                ? asset("storage/".$comment->commenter_image) 
+                                ? asset("storage/app/public/".$comment->commenter_image) 
                                 : asset('assets/img/user.png'),
                             'commenter_designation' => $comment->commenter_designation,
                             'time_ago' => \Carbon\Carbon::parse($comment->created_at)->diffForHumans()
@@ -274,11 +274,11 @@ class OrganizationController extends Controller
                     'emid' => $post->emid,
                     'employee_code' => $post->employee_code,
                     'title' => $post->title,
-                    'image_path' => $post->image_path ? asset("storage/".$post->image_path) : null,
+                    'image_path' => $post->image_path ? asset("storage/app/public/".$post->image_path) : null,
                     'created_at' => $post->created_at,
                     'updated_at' => $post->updated_at,
                     'employee_name' => trim($post->first_name . ' ' . $post->last_name),
-                    'employee_image' => $post->employee_image ? asset("storage/".$post->employee_image) : asset('assets/img/user.png'),
+                    'employee_image' => $post->employee_image ? asset("storage/app/public/".$post->employee_image) : asset('assets/img/user.png'),
                     'designation' => $post->designation,
                     'time_ago' => \Carbon\Carbon::parse($post->created_at)->diffForHumans(),
                     'comments' => $comments,

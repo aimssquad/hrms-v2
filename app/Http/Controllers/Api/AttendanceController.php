@@ -640,6 +640,7 @@ class AttendanceController extends Controller
         $emid = $user->emid; 
         $employee_code = $user->employee_id;
         $employee_name = $user->name;
+        //dd($user);
         $validated = $request->validate([
             'date' => 'required|date',
             'time' => 'required',
@@ -665,7 +666,7 @@ class AttendanceController extends Controller
         $attendance = TempAttendance::where('employee_code', $employee_code)
             ->where('date', $validated['date'])
             ->first();
-
+        //dd($attendance);
         if (!$attendance) {
             // First punch => Login
             $data = [
