@@ -65,7 +65,7 @@
                             <select name="punch_type" class="form-control">
                                 <option value="">Select</option>
                                 @foreach($punch_type as $type)
-                                    <option value="{{ $type->punch_type_name }}">{{ $type->punch_type_name }}</option>
+                                    <option value="{{ \App\Helpers\Helper::cachedTrans($type->punch_type_name) }}">{{ $type->punch_type_name }}</option>
                                 @endforeach
                             </select>
                         </div>
