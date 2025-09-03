@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\RotaEmployee;
 use App\Models\Registration;
 use App\Models\Employee;
+use App\Models\Attandence;
 use App\Models\BreakTimes;
 use App\Models\Branch_location;
 use App\Models\TempAttendance;
@@ -629,6 +630,121 @@ class AttendanceController extends Controller
     }
 
 
+    // public function store(Request $request)
+    // {
+    //     if (!auth()->check()) {
+    //         return Helper::rjd("Something Went Wrong", 1, []);
+    //     }
+
+    //     $user = auth()->user();
+    //     //dd($user);
+    //     $emid = $user->emid; 
+    //     $employee_code = $user->employee_id;
+    //     $employee_name = $user->name;
+    //     //dd($user);
+    //     $validated = $request->validate([
+    //         'date' => 'required|date',
+    //         'time' => 'required',
+    //         'location' => 'nullable|string',
+    //         'latitude' => 'nullable|numeric',
+    //         'longitude' => 'nullable|numeric',
+    //         'device_id' => 'nullable|string',
+    //         'location_accuracy' => 'nullable|numeric',
+    //         'is_location_mocked' => 'nullable|boolean',
+    //         'photo_proof' => 'nullable|sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+    //         'punch_type' => 'nullable|string',
+    //         'remarks' => 'nullable|string',
+    //     ]);
+        
+    //     // Handle image upload if provided
+    //     $photoProofPath = null;
+    //     if ($request->hasFile('photo_proof')) {
+    //         $photoProofPath = $request->file('photo_proof')->store('temp-attendance', 'public');
+    //     } elseif ($request->filled('photo_proof')) {
+    //         $photoProofPath = $this->storeBase64Image($request->photo_proof);
+    //     }
+
+    //     $attendance = TempAttendance::where('employee_code', $employee_code)
+    //         ->where('date', $validated['date'])
+    //         ->first();
+    //     //dd($attendance);
+    //     if (!$attendance) {
+    //         // First punch => Login
+    //         $data = [
+    //             'employee_code' => $employee_code,
+    //             'employee_name' => $employee_name ?? '',
+    //             'date' => $validated['date'],
+    //             'time_in' => $validated['time'],
+    //             'time_in_location' => $validated['location'] ?? '',
+    //             'time_in_latitude' => $validated['latitude'] ?? null,
+    //             'time_in_longitude' => $validated['longitude'] ?? null,
+    //             'device_id' => $validated['device_id'] ?? null,
+    //             'location_accuracy' => $validated['location_accuracy'] ?? null,
+    //             'is_location_mocked' => $validated['is_location_mocked'] ?? 0,
+    //             'photo_proof' => $photoProofPath,
+    //             'punch_type' => $validated['punch_type'] ?? 'Manual',
+    //             'remarks' => $validated['remarks'] ?? '',
+    //             'month' => Carbon::parse($validated['date'])->format('Y-m'),
+    //             'punch_status' => 'IN',
+    //             'emid' => $emid
+    //         ];
+
+    //         $created = TempAttendance::create($data);
+
+    //         return response()->json([
+    //             'flag' => 1,
+    //             'status' => 200,
+    //             'message' => 'Login recorded successfully.',
+    //             'data' => $created
+    //         ]);
+    //     } else {
+    //         // Second punch => Logout
+    //         $timeIn = Carbon::parse($attendance->time_in);
+    //         $timeOut = Carbon::parse($validated['time']);
+    //         $dutyHours = $timeIn->diffInHours($timeOut) . ':' . $timeIn->diff($timeOut)->format('%I');
+
+    //         $totalBreakMinutes = BreakTimes::where('emid', $emid)
+    //             ->where('employee_code', $employee_code)
+    //             ->where('date', $validated['date'])
+    //             ->sum('total_break_time');
+
+    //         // Convert minutes to HH:MM:SS format
+    //         if ($totalBreakMinutes) {
+    //             $hours = floor($totalBreakMinutes / 60);
+    //             $minutes = $totalBreakMinutes % 60;
+    //             $seconds = 0; // Add seconds if needed
+                
+    //             $totalBreak = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
+    //         } else {
+    //             $totalBreak = '00:00:00';
+    //         }
+
+    //         //dd($totalBreak);
+    //         $updateData = [
+    //             'time_out' => $validated['time'],
+    //             'time_out_location' => $validated['location'] ?? '',
+    //             'time_out_latitude' => $validated['latitude'] ?? null,
+    //             'time_out_longitude' => $validated['longitude'] ?? null,
+    //             'break_hours' => $totalBreak,
+    //             'duty_hours' => $dutyHours,
+    //             'punch_status' => 'OUT',
+    //         ];
+
+    //         if ($photoProofPath) {
+    //             $updateData['photo_proof_out'] = $photoProofPath;
+    //         }
+
+    //         $attendance->update($updateData);
+
+    //         return response()->json([
+    //             'flag' => 1,
+    //             'status' => 200,
+    //             'message' => 'Logout recorded successfully.',
+    //             'data' => $attendance
+    //         ]);
+    //     }
+    // }
+
     public function store(Request $request)
     {
         if (!auth()->check()) {
@@ -636,11 +752,10 @@ class AttendanceController extends Controller
         }
 
         $user = auth()->user();
-        //dd($user);
         $emid = $user->emid; 
         $employee_code = $user->employee_id;
         $employee_name = $user->name;
-        //dd($user);
+
         $validated = $request->validate([
             'date' => 'required|date',
             'time' => 'required',
@@ -655,7 +770,6 @@ class AttendanceController extends Controller
             'remarks' => 'nullable|string',
         ]);
         
-        // Handle image upload if provided
         $photoProofPath = null;
         if ($request->hasFile('photo_proof')) {
             $photoProofPath = $request->file('photo_proof')->store('temp-attendance', 'public');
@@ -666,26 +780,26 @@ class AttendanceController extends Controller
         $attendance = TempAttendance::where('employee_code', $employee_code)
             ->where('date', $validated['date'])
             ->first();
-        //dd($attendance);
+
         if (!$attendance) {
-            // First punch => Login
+            // First Punch (Login) → Save ONLY in temp_attendances
             $data = [
-                'employee_code' => $employee_code,
-                'employee_name' => $employee_name ?? '',
-                'date' => $validated['date'],
-                'time_in' => $validated['time'],
-                'time_in_location' => $validated['location'] ?? '',
-                'time_in_latitude' => $validated['latitude'] ?? null,
-                'time_in_longitude' => $validated['longitude'] ?? null,
-                'device_id' => $validated['device_id'] ?? null,
-                'location_accuracy' => $validated['location_accuracy'] ?? null,
+                'employee_code'      => $employee_code,
+                'employee_name'      => $employee_name ?? '',
+                'date'               => $validated['date'],
+                'time_in'            => $validated['time'],
+                'time_in_location'   => $validated['location'] ?? '',
+                'time_in_latitude'   => $validated['latitude'] ?? null,
+                'time_in_longitude'  => $validated['longitude'] ?? null,
+                'device_id'          => $validated['device_id'] ?? null,
+                'location_accuracy'  => $validated['location_accuracy'] ?? null,
                 'is_location_mocked' => $validated['is_location_mocked'] ?? 0,
-                'photo_proof' => $photoProofPath,
-                'punch_type' => $validated['punch_type'] ?? 'Manual',
-                'remarks' => $validated['remarks'] ?? '',
-                'month' => Carbon::parse($validated['date'])->format('Y-m'),
-                'punch_status' => 'IN',
-                'emid' => $emid
+                'photo_proof'        => $photoProofPath,
+                'punch_type'         => $validated['punch_type'] ?? 'Manual',
+                'remarks'            => $validated['remarks'] ?? '',
+                'month'              => Carbon::parse($validated['date'])->format('Y-m'),
+                'punch_status'       => 'IN',
+                'emid'               => $emid
             ];
 
             $created = TempAttendance::create($data);
@@ -696,8 +810,9 @@ class AttendanceController extends Controller
                 'message' => 'Login recorded successfully.',
                 'data' => $created
             ]);
+
         } else {
-            // Second punch => Logout
+            // Second Punch (Logout) → Save in temp_attendances + main attandence
             $timeIn = Carbon::parse($attendance->time_in);
             $timeOut = Carbon::parse($validated['time']);
             $dutyHours = $timeIn->diffInHours($timeOut) . ':' . $timeIn->diff($timeOut)->format('%I');
@@ -707,26 +822,18 @@ class AttendanceController extends Controller
                 ->where('date', $validated['date'])
                 ->sum('total_break_time');
 
-            // Convert minutes to HH:MM:SS format
-            if ($totalBreakMinutes) {
-                $hours = floor($totalBreakMinutes / 60);
-                $minutes = $totalBreakMinutes % 60;
-                $seconds = 0; // Add seconds if needed
-                
-                $totalBreak = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
-            } else {
-                $totalBreak = '00:00:00';
-            }
+            $totalBreak = $totalBreakMinutes
+                ? sprintf("%02d:%02d:%02d", floor($totalBreakMinutes / 60), $totalBreakMinutes % 60, 0)
+                : '00:00:00';
 
-            //dd($totalBreak);
             $updateData = [
-                'time_out' => $validated['time'],
+                'time_out'          => $validated['time'],
                 'time_out_location' => $validated['location'] ?? '',
                 'time_out_latitude' => $validated['latitude'] ?? null,
-                'time_out_longitude' => $validated['longitude'] ?? null,
-                'break_hours' => $totalBreak,
-                'duty_hours' => $dutyHours,
-                'punch_status' => 'OUT',
+                'time_out_longitude'=> $validated['longitude'] ?? null,
+                'break_hours'       => $totalBreak,
+                'duty_hours'        => $dutyHours,
+                'punch_status'      => 'OUT',
             ];
 
             if ($photoProofPath) {
@@ -734,6 +841,27 @@ class AttendanceController extends Controller
             }
 
             $attendance->update($updateData);
+
+            // ✅ Save into attandence table ONLY if not exists
+            $alreadyExists = Attandence::where('emid', $emid)
+                ->where('employee_code', $employee_code)
+                ->where('date', $validated['date'])
+                ->exists();
+
+            if (!$alreadyExists) {
+                Attandence::create([
+                    'employee_code'     => $employee_code,
+                    'employee_name'     => $employee_name,
+                    'date'              => $validated['date'],
+                    'time_in'           => $attendance->time_in,
+                    'time_out'          => $updateData['time_out'],
+                    'month'             => Carbon::parse($validated['date'])->format('m/Y'),
+                    'time_in_location'  => $attendance->time_in_location,
+                    'time_out_location' => $updateData['time_out_location'],
+                    'duty_hours'        => $dutyHours,
+                    'emid'              => $emid,
+                ]);
+            }
 
             return response()->json([
                 'flag' => 1,
@@ -743,6 +871,9 @@ class AttendanceController extends Controller
             ]);
         }
     }
+
+
+
 
     protected function storeBase64Image($base64String)
     {
@@ -919,11 +1050,12 @@ class AttendanceController extends Controller
                             'updated_at' => $record->updated_at ?? ''
                         ];
                     } else {
+                        $defaultDate = \Carbon\Carbon::parse($workingDay)->addDay()->format('Y-m-d');
                         $completeAttendance[] = [
                             'id' => (int)($record->id ?? 0),
                             'employee_code' => (string)($record->employee_code ?? ''),
                             'employee_name' => (string)($record->employee_name ?? ''),
-                            'date' => (string)($record->date ?? ''),
+                            'date' => (string)($defaultDate ?? ''),
                             'time_in' => (string)($record->time_in ?? ''),
                             'time_out' => (string)($record->time_out ?? ''),
                             'time_in_location' => (string)($record->time_in_location ?? ''),
