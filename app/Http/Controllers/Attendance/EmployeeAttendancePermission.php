@@ -118,6 +118,7 @@ class EmployeeAttendancePermission extends Controller
 
     public function save(Request $request)
     {
+        //dd($request->all());
         if (!Session::has("emp_email")) {
             return redirect('/');
         }

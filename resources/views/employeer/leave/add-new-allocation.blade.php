@@ -1,14 +1,15 @@
 @extends('employeer.include.app')
-@section('title', 'Add Allocation')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Allocation'))
 @section('content')
 <div class="content container-fluid pb-0">
 <div class="page-header">
     <div class="row">
         <div class="col-sm-12">
-            <h3 class="page-title">Allocation</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Add Allocation')}}</h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('organization.home')}}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Allocation </li>
+                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Allocation')}}</li>
             </ul>
         </div>
     </div>
@@ -20,7 +21,7 @@
          <div class="col-md-12">
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="far fa-user"></i>  Add New Allocation</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i>  {{\App\Helpers\Helper::cachedTrans('Add New Allocation')}} </h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">
@@ -32,7 +33,7 @@
                                 <div class="row form-group">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="employee_type" class="col-form-label">Employment Type</label>
+                                            <label for="employee_type" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employment Type')}} </label>
                                             <select id="employee_type"   name="employee_type" type="date" class="select" required="" onchange="paygr(this.value);">
                                                 <option value=""></option>
                                                 @foreach($employee_type_rs as $emp)
@@ -43,7 +44,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="employee_code" class="col-form-label">Employee Code</label>
+                                            <label for="employee_code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Code')}}</label>
                                             <select id="employee_code"  id="employee_code" name="employee_code" class="select">
                                                 <?php if(isset($remp) && $remp!=''){?>
                                                 @foreach($employees as $empval)
@@ -55,7 +56,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="inputFloatingLabel-choose-year" class="col-form-label">Choose Year</label>
+                                            <label for="inputFloatingLabel-choose-year" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Choose Year')}}</label>
                                             <select id="inputFloatingLabel-choose-year" name="year_value" class="select" required="">
                                                 <option value="">&nbsp;</option>
                                                 <?php for($i = date("Y")-2; $i <=date("Y")+5; $i++){
@@ -67,7 +68,7 @@
                                     <br>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <button class="btn btn-primary" style="margin-top: 10px;margin-bottom: 10px;">Submit</button>
+                                            <button class="btn btn-primary" style="margin-top: 10px;margin-bottom: 10px;">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -81,16 +82,16 @@
                                     <tr>
                                        <th>
                                           <div class="form-check"><label class="form-check-label">
-                                             <span class="form-check-sign"> Select</span></label>
+                                             <span class="form-check-sign"> {{\App\Helpers\Helper::cachedTrans('Select')}}</span></label>
                                           </div>
                                        </th>
-                                       <th>Employment Type</th>
-                                       <th>Employee Code</th>
-                                       <th>Employee name</th>
-                                       <th>Leave Name</th>
-                                       <th>Maximum No.</th>
-                                       <th>Leave in Hand</th>
-                                       <th>Effective Year</th>
+                                       <th>{{\App\Helpers\Helper::cachedTrans('Employment Type')}} </th>
+                                       <th>{{\App\Helpers\Helper::cachedTrans('Employee Code')}} </th>
+                                       <th>{{\App\Helpers\Helper::cachedTrans('Employee name')}} </th>
+                                       <th>{{\App\Helpers\Helper::cachedTrans('Leave Name')}} </th>
+                                       <th>{{\App\Helpers\Helper::cachedTrans('Maximum No')}} </th>
+                                       <th>{{\App\Helpers\Helper::cachedTrans('Leave in Hand')}} </th>
+                                       <th>{{\App\Helpers\Helper::cachedTrans('Effective Year')}} </th>
                                     </tr>
                                  </thead>
                                  <tbody>
@@ -101,10 +102,10 @@
                                     <tr>
                                        <td colspan="4">
                                           <div class="form-check"><label class="form-check-label"><input id="selectAllval" class="form-check-input" type="checkbox" name="allval" >
-                                             <span class="form-check-sign"> </span>Check All</label>
+                                             <span class="form-check-sign"> </span>{{\App\Helpers\Helper::cachedTrans('Check All')}}</label>
                                           </div>
                                        </td>
-                                       <td colspan="4"><button style="float:right" class="btn btn-primary">Save</button></td>
+                                       <td colspan="4"><button style="float:right" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Save')}}</button></td>
                                     </tr>
                                     <?php
                                        }

@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Leave Allocation')
+@section('title', \App\Helpers\Helper::cachedTrans('Leave Allocation'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -37,22 +37,22 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Leave Allocation</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Leave Allocation')}} </h3>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">Dashboard</a></li>
-					<li class="breadcrumb-item active">Allocation</li>
+					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Allocation')}}</li>
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
 				    @foreach($sidebarItems['Leave Management'] as $rotaItem)
                         @if($rotaItem['submenu_name'] == 'Allocation' && $rotaItem['can_add'] == 1)
-				<a href="{{ url('leave/save-leave-allocation') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allocation</a>
+				<a href="{{ url('leave/save-leave-allocation') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Allocation')}} </a>
 				@endif
 				@endforeach
 				@elseif($user_type == 'employer')
-				<a href="{{ url('leave/save-leave-allocation') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Allocation</a>
+				<a href="{{ url('leave/save-leave-allocation') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Allocation')}} </a>
 				@endif
 				{{-- <div class="view-icons">
 					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
@@ -80,7 +80,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                 {{-- put the value - that is your file name --}}
                                 <input type="hidden" id="filenameInput" value="Leave Allocation">
                                 <button type="submit" class="btn-download btn-download-excel me-0">
-                                    Export to Excel
+                                    {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                                </button>
                             </form>
                         </div>
@@ -91,7 +91,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                               <input type="hidden" name="headings" id="pdfHeadings">
                               <input type="hidden" name="filename" id="pdfFilename">
                               <button type="submit" class="btn-download btn-download-pdf">
-                                Export to PDF
+                                {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                            </button>
                           </form>
                         </div>
@@ -102,15 +102,15 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <table class="table table-striped custom-table" id="basic-datatables">
                             <thead>
                                 <tr>
-                                    <th>Sl.No.</th>
-                                    <th>Employee Type</th>
-                                    <th>Leave Type</th>
-                                    <th>Employee Code</th>
-                                    <th>Employee Name</th>
-                                    <th>Max. No. of Leave</th>
-                                    <th>Leave in Hand</th>
-                                    <th>Effective Year</th>
-                                    <th>Action</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Sl.No.')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Employee Type')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Leave Type')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Employee Code')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Employee Name')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Max. No. of Leave')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Leave in Hand')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Effective Year')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Action')}} </th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(!empty($holidaydtl->id))
-@section('title', 'Edit Record')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Record'))
 @else
-@section('title', 'Add Record')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Record'))
 @endif
 @section('content')
 <div class="main-panel">
@@ -11,20 +11,20 @@
    <div class="row">
       <div class="col-md-12">
          <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">Holiday Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
             @if(!empty($holidaydtl->id))
-            <li class="breadcrumb-item active">Edit Record</li>
+            <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Record')}}</li>
             @else
-            <li class="breadcrumb-item active">Add New Record</li>
+            <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New Record')}}</li>
             @endif
          </ul>
          <div class="card custom-card">
             <div class="card-header">
                @if(!empty($holidaydtl->id))
-               <h4 class="card-title"><i class="far fa-user"></i>  Edit Record</h4>
+               <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Edit Record')}} </h4>
                @else
-               <h4 class="card-title"><i class="far fa-user"></i>  Add New Record</h4>
+               <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Add New Record')}} </h4>
                @endif
             </div>
             <div class="card-body">
@@ -38,7 +38,7 @@
                            <div class="row form-group">
                               <div class="col-md-3">
                                  <div class="form-group ">
-                                    <label for="inputFloatingLabel1" class="col-form-label">From Date</label>
+                                    <label for="inputFloatingLabel1" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('From Date')}}</label>
                                     <input id="inputFloatingLabel1" type="date" class="form-control "  required="" name="from_date"  value="<?php  if(!empty($holidaydtl->from_date)){echo $holidaydtl->from_date;} ?>" >
                                     @if ($errors->has('from_date'))
                                     <div class="error" style="color:red;">{{ $errors->first('from_date') }}</div>
@@ -47,7 +47,7 @@
                               </div>
                               <div class="col-md-3">
                                  <div class="form-group ">
-                                    <label for="inputFloatingLabel2" class="col-form-label">To Date</label>
+                                    <label for="inputFloatingLabel2" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('To Date')}}</label>
                                     <input id="inputFloatingLabel2" type="date" class="form-control " name="to_date"  required=""  value="<?php  if(!empty($holidaydtl->to_date)){echo $holidaydtl->to_date;} ?>"  onchange="calculateDays()" onclick="calculateDays()">
                                     @if ($errors->has('to_date'))
                                     <div class="error" style="color:red;">{{ $errors->first('to_date') }}</div>
@@ -56,7 +56,7 @@
                               </div>
                               <div class="col-md-3">
                                  <div class="form-group ">
-                                    <label for="selectFloatingLabel" class="col-form-label">Day</label>
+                                    <label for="selectFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Day')}}</label>
                                     <select class="select" id="" required="" name="weekname"  required="">
                                        <option value="sunday" <?php if(!empty($holidaydtl->weekname)){ if("sunday"== $holidaydtl->weekname) { echo "selected"; } } ?>>Sunday</option>
                                        <option value="monday" <?php if(!empty($holidaydtl->weekname)){ if($holidaydtl->weekname == 'monday'){ echo "selected"; } } ?>>Monday</option>
@@ -73,7 +73,7 @@
                               </div>
                               <div class="col-md-3">
                                  <div class="form-group">
-                                    <label for="selectFloatingLabel" class="col-form-label">Holiday Type</label>
+                                    <label for="selectFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Holiday Type')}}</label>
                                     <select class="select" id="selectFloatingLabel" required="" name="holiday_type">
                                        @foreach($holiday_type as $value):
                                        <option value="{{ $value->id }}" <?php if(!empty($holidaydtl->holiday_type)){ if($value->id== $holidaydtl->holiday_type) { echo "selected"; } } ?>>
@@ -90,7 +90,7 @@
                            <div class="row form-group">
                               <div class="col-md-3">
                                  <div class="form-group ">
-                                    <label for="inputFloatingLabel3" class="col-form-label">No. of Days</label>
+                                    <label for="inputFloatingLabel3" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('No of Days')}}</label>
                                     <input id="inputFloatingLabel3" type="text" class="form-control " required=""  name="day" value="<?php  if(!empty($holidaydtl->day)){echo $holidaydtl->day;} ?>"  readonly>
                                     @if ($errors->has('day'))
                                     <div class="error" style="color:red;">{{ $errors->first('day') }}</div>
@@ -99,7 +99,7 @@
                               </div>
                               <div class="col-md-6">
                                  <div class="form-group">
-                                    <label for="inputFloatingLabel4" class="col-form-label">Holiday Description</label>
+                                    <label for="inputFloatingLabel4" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Holiday Description')}}</label>
                                     <input id="inputFloatingLabel4" type="text" class="form-control input-border-bottom" required="" name="holiday_descripion" value="<?php  if(!empty($holidaydtl->holiday_descripion)){echo $holidaydtl->holiday_descripion;} ?>">
                                     @if ($errors->has('holiday_descripion'))
                                     <div class="error" style="color:red;">{{ $errors->first('holiday_descripion') }}</div>
@@ -110,7 +110,7 @@
                            <br>
                            <div class="row form-group">
                               <div class="col-md-12 text-center">
-                                 <button type="submit" class="btn btn-primary">Submit</button>
+                                 <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                               </div>
                            </div>
                         </form>

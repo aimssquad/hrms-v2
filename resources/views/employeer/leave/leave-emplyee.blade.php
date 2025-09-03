@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Record EE Wise')
+@section('title', \App\Helpers\Helper::cachedTrans('Record EE Wise'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -28,11 +28,11 @@ return $output;
     	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Leave Record EE Wise</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Leave Record EE Wise')}}</h3>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">Dashboard</a></li>
-					<li class="breadcrumb-item active">Record EE Wise</li>
+					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Record EE Wise')}}</li>
 				</ul>
 			</div>
             @include('employeer.layout.message')
@@ -51,7 +51,7 @@ return $output;
                         <div class="row form-group">
                             <div class="col-md-4">
                             <div class="form-group">
-                                <label for="inputFloatingLabel-choose-year" class="col-form-label">Choose Year</label>
+                                <label for="inputFloatingLabel-choose-year" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Choose Year')}}</label>
                                 <select id="inputFloatingLabel-choose-year" name="year_value" class="select" required="">
                                     <option value="">&nbsp;</option>
                                     <?php for($i = date("Y")-2; $i <=date("Y")+20; $i++){
@@ -65,7 +65,7 @@ return $output;
                             </div>
                             <div class="col-md-4">
                             <div class=" form-group">
-                                <label for="employee_code" class="col-form-label">Employee Code</label>
+                                <label for="employee_code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Code')}}</label>
                                 <select  type="text" class="form-control  select" name="employee_code"   required>
                                     <option value="">&nbsp;</option>
                                     @foreach($employee_rs as $employee)
@@ -79,14 +79,14 @@ return $output;
                             <div class="col-md-3">
                             <a href="#">
                                 <button class="btn btn-primary" type="submit" style="margin-top:10px;">
-                                    <i class="fas fa-eye"></i> View
+                                    <i class="fas fa-eye"></i> {{\App\Helpers\Helper::cachedTrans('View')}}
                                 </button>
                             </a>
 
                             <!-- Reset Button -->
                             <a href="#">
                                 <button class="btn btn-primary" type="reset" style="margin-top:10px;">
-                                    <i class="fas fa-undo"></i> Reset
+                                    <i class="fas fa-undo"></i> {{\App\Helpers\Helper::cachedTrans('Reset')}}
                                 </button>
                             </a>
                             </div>
@@ -100,7 +100,7 @@ return $output;
          <div class="col-md-12">
             <div class="card">
                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h4 class="card-title"><i class="far fa-file-archive" aria-hidden="true" style="color:#f78a0f;"></i> &nbsp;Record EE Wise</h4>
+                  <h4 class="card-title"><i class="far fa-file-archive" aria-hidden="true" style="color:#f78a0f;"></i> &nbsp; {{\App\Helpers\Helper::cachedTrans('Record EE Wise')}} </h4>
                     <!--<div>-->
                         <!-- Excel Link -->
                     <!--    <a href="path_to_excel_export" class="btn btn-success btn-sm">-->
@@ -123,7 +123,7 @@ return $output;
                      <!-- <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" class="btn btn-default" style="margin-top: -30px;background:none !important;float:right;" type="submit"><img  style="width: 35px;" src="{{ asset('img/dnld-pdf.png')}}"></button>	 -->
                      <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" 
                             class="btn btn-download btn-download-pdf me-3" type="submit">
-                            Export to PDF
+                            {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                     </button>
                   </form>
                   <form  method="post" action="{{ url('leave/leave-report-employee-wise-excel') }}" enctype="multipart/form-data" >
@@ -133,7 +133,7 @@ return $output;
                      <!-- <buttondata-toggle="tooltip" data-placement="bottom" title="Download Excel" class="btn btn-default" style="margin-top: -30px;background:none !important;float:right;margin-right: 15px;" type="submit"><img  style="width: 35px;" src="{{ asset('img/excel-dnld.png')}}"></button>	 -->
                      <button data-toggle="tooltip" data-placement="bottom" title="Download Excel" 
                             class="btn btn-download btn-download-excel" type="submit">
-                            Export to Excel
+                            {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                     </button>
                   </form>
                   </div>
@@ -145,13 +145,13 @@ return $output;
                      <table id="basic-datatables" class="table table-striped custom-table" >
                         <thead>
                            <tr>
-                              <th>Sl No.</th>
-                              <th>Employee Code</th>
-                              <th>Employee Name</th>
-                              <th>Leave Type</th>
-                              <th>Date Of Application	</th>
-                              <th>Duration</th>
-                              <th>No. Of Days</th>
+                              <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
+                              <th>{{\App\Helpers\Helper::cachedTrans('Employee Code')}}</th>
+                              <th>{{\App\Helpers\Helper::cachedTrans('Employee Name')}} </th>
+                              <th>{{\App\Helpers\Helper::cachedTrans('Leave Type')}} </th>
+                              <th>{{\App\Helpers\Helper::cachedTrans('Date Of Application')}}</th>
+                              <th>{{\App\Helpers\Helper::cachedTrans('Duration')}} </th>
+                              <th>{{\App\Helpers\Helper::cachedTrans('No. Of Days')}}</th>
                            </tr>
                         </thead>
                         <tbody>

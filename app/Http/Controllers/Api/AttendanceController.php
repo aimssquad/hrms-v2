@@ -1101,14 +1101,25 @@ class AttendanceController extends Controller
                     return Helper::rjd($message, $dynamicFlag, $data);
                 }
 
-                $dynamicFlag = 1;
-                $data = $completeAttendance;
+                //$dynamicFlag = 1;
+                //$data = $completeAttendance;
+                //$summary = $summary;
                 // $data = [
                 //     'attendance' => $completeAttendance,
                 //     'summary' => $summary
                 // ];
-                $message = "Data retrieved successfully";
-                return Helper::rjd($message, $dynamicFlag, $data);
+                // $message = "Data retrieved successfully";
+
+                return response()->json([
+                    'status'=>200,
+                    'flag' => 1,
+                    'data'=> $completeAttendance,
+                    'total_leave'=> $presentDays,
+                    'message' => "Data retrieved successfully"
+
+                ]);
+
+                //return Helper::rjd($message, $dynamicFlag, $data);
             }
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);

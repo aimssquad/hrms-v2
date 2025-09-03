@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(!empty($leave_rule_data->id))
-@section('title', 'Edit Policy')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Policy'))
 @else
-@section('title', 'Add Policy')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Policy'))
 @endif
 @section('content')
 <div class="main-panel">
@@ -11,20 +11,20 @@
    <div class="row">
       <div class="col-md-12">
          <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+            <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
             @if(!empty($leave_rule_data->id))
-            <li class="breadcrumb-item active">Edit Policy</li>
+            <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Policy')}}</li>
             @else
-            <li class="breadcrumb-item active">Add New Policy</li>
+            <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New Policy')}}</li>
             @endif
          </ul>
          <div class="card custom-card">
             <div class="card-header">
                @if(!empty($leave_rule_data->id))
-               <h4 class="card-title"><i class="far fa-user"></i>  Edit New Policy</h4>
+               <h4 class="card-title"><i class="far fa-user"></i>  {{\App\Helpers\Helper::cachedTrans('Edit Policy')}}</h4>
                @else
-               <h4 class="card-title"><i class="far fa-user"></i>  Add New Policy</h4>
+               <h4 class="card-title"><i class="far fa-user"></i>  {{\App\Helpers\Helper::cachedTrans('Add New Policy')}}</h4>
                @endif
             </div>
             <div class="card-body">
@@ -38,7 +38,7 @@
                            <div class="row form-group">
                               <div class="col-md-4">
                                  <div class="form-group">
-                                    <label for="employee_type" class="col-form-label">Employee Type</label>
+                                    <label for="employee_type" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Type')}}</label>
                                     <select   id="employee_type" name="employee_type"  class="select" required="">
                                        <option value="">Select</option>
                                        @foreach($employee_type_rs as $employee_type)
@@ -57,7 +57,7 @@
                               </div>
                               <div class="col-md-4">
                                  <div class="form-group">
-                                    <label for="leave_type_id" class="col-form-label">Leave Type</label>
+                                    <label for="leave_type_id" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Leave Type')}}</label>
                                     <select   id="leave_type_id" name="leave_type_id"  class="select" required="">
                                        @foreach($leave_type_rs as $leave_type)
                                        <option value="{{$leave_type->id}}" <?php if(!empty($leave_rule_data->leave_type_id)){ if($leave_rule_data->leave_type_id == $leave_type->id){ echo "selected"; } } ?> >{{ $leave_type->leave_type_name }}</option>
@@ -70,7 +70,7 @@
                               </div>
                               <div class="col-md-4">
                                  <div class="form-group">
-                                    <label for="max_no" class="col-form-label">Maximum No. (Annual)</label>
+                                    <label for="max_no" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Maximum No. (Annual)')}}</label>
                                     <input   type="text" class="form-control input-border-bottom" required="" id="max_no" name="max_no" value="<?php  if(!empty($leave_rule_data->max_no)){echo $leave_rule_data->max_no;} ?>">
                                     @if ($errors->has('max_no'))
                                     <div class="error" style="color:red;">{{ $errors->first('max_no') }}</div>
@@ -81,7 +81,7 @@
                            <div class="row form-group">
                               <div class="col-md-4">
                                  <div class="form-group">
-                                    <label for="effective_from" class="col-form-label">Effective From</label>	
+                                    <label for="effective_from" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Effective From')}}</label>	
                                     <input type="date" class="form-control input-border-bottom" required="" id="effective_from" name="effective_from"  value="<?php  if(!empty($leave_rule_data->effective_from)){ echo $leave_rule_data->effective_from; } ?>">
                                     @if ($errors->has('effective_from'))
                                     <div class="error" style="color:red;">{{ $errors->first('effective_from') }}</div>
@@ -90,7 +90,7 @@
                               </div>
                               <div class="col-md-4">
                                  <div class="form-group">
-                                    <label for="effective_to" class="col-form-label">Effective to</label>	
+                                    <label for="effective_to" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Effective to')}}</label>	
                                     <input  type="date" class="form-control input-border-bottom" required="" id="effective_to" name="effective_to" value="<?php  if(!empty($leave_rule_data->effective_to)){ echo $leave_rule_data->effective_to; } ?>">
                                     @if ($errors->has('effective_to'))
                                     <div class="error" style="color:red;">{{ $errors->first('effective_to') }}</div>
@@ -100,7 +100,7 @@
                            </div>
                            <br>
                            <div class="row form-group">
-                              <div class="col-md-12 text-center"><button class="btn btn-primary">Submit</button></div>
+                              <div class="col-md-12 text-center"><button class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button></div>
                            </div>
                         </form>
                      </div>

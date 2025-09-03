@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Leave Application list')
+@section('title', \App\Helpers\Helper::cachedTrans('Leave Application list'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -29,11 +29,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Leave Application list</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Leave Application list')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{url('leaveapprover/leave-dashboard')}}">Leave Authosizer Dashboard</a></li>
-               <li class="breadcrumb-item active">Leave Application list</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                <li class="breadcrumb-item"><a href="{{url('leaveapprover/leave-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Leave Application list')}}</li>
             </ul>
          </div>
       </div>
@@ -45,7 +45,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Leave Application list
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Leave Application list')}} 
                </h4>
                <div class="row">
                   <div class="col-auto">
@@ -57,7 +57,7 @@ return $output;
                           {{-- put the value - that is your file name --}}
                           <input type="hidden" id="filenameInput" value="Leave-Application">
                           <button type="submit" class="btn-download btn-download-excel me-0">
-                              Export to Excel
+                              {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                         </button>
                       </form>
                   </div>
@@ -68,7 +68,7 @@ return $output;
                            <input type="hidden" name="headings" id="pdfHeadings">
                            <input type="hidden" name="filename" id="pdfFilename">
                            <button type="submit" class="btn-download btn-download-pdf">
-                              Export to PDF
+                              {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                          </button>
                        </form>
                   </div>
@@ -79,18 +79,18 @@ return $output;
                   <table id="basic-datatables" class="display table table-striped table-hover">
                      <thead>
                         <tr>
-                           <th>Sl No.</th>
-                           <th>Employee Code</th>
-                           <th>Name</th>
-                           <th>Leave Type</th>
-                           <th>From Date</th>
-                           <th>To Date</th>
-                           <th>Date Of Application</th>
-                           <th>No. Of Leave</th>
-                           <th>Status</th>
-                           <th>Remarks(If any)</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Employee Code')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Name')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Leave Type')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('From Date')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('To Date')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Date Of Application')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('No. Of Leave')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Status')}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Remarks(If any)')}} </th>
                            @if(Session::get('user_type')=='employee')
-                           <th>Action</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Action')}} </th>
                            @endif   
                         </tr>
                      </thead>

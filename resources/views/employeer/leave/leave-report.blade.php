@@ -1,16 +1,16 @@
 @extends('employeer.include.app')
-@section('title', 'Leave Record')
+@section('title', \App\Helpers\Helper::cachedTrans('Leave Record'))
 @section('content')
 
 <div class="content container-fluid pb-0">
     <div class="page-header">
     	<div class="row align-items-center">
     		<div class="col">
-    			<h3 class="page-title">Leave Record</h3>
+    			<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Leave Record')}}</h3>
     			<ul class="breadcrumb">
-    				<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">Dashboard</a></li>
-    				<li class="breadcrumb-item active">Leave Record</li>
+    				<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+    				<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Leave Record')}}</li>
     			</ul>
     		</div>
             @include('employeer.layout.message')
@@ -21,7 +21,7 @@
           <div class="col-md-12">
              <div class="card custom-card">
                 <div class="card-header">
-                   <h4 class="card-title"><i class="far fa-user"></i> Leave Record</h4>
+                   <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Leave Record')}} </h4>
                    @include('employeer.layout.message')
                 </div>
                 <div class="card-body">
@@ -34,7 +34,7 @@
                                <div class="row form-group">
                                   <div class="col-md-4">
                                      <div class="form-group">
-                                        <label for="inputFloatingLabel-choose-year" class="col-form-label">Choose Year</label>
+                                        <label for="inputFloatingLabel-choose-year" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Choose Year')}}</label>
                                         <select id="inputFloatingLabel-choose-year" name="year_value" class="select" required="">
                                            <option value="">&nbsp;</option>
                                            <?php for($i = date("Y")-2; $i <=date("Y")+20; $i++){
@@ -47,7 +47,7 @@
                                <br>
                                <div class="row form-group">
                                   <div class="col-md-6">
-                                     <button type="submit" class="btn btn-primary">Submit</button>
+                                     <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                                   </div>
                                </div>
                             </form>

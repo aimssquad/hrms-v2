@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Leave Authosizer Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('Leave Authosizer Dashboard'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -16,10 +16,10 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Leave Authosizer Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Leave Authosizer Dashboard')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Leave Authosizer Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Leave Authosizer Dashboard')}}</li>
                     </ul>
                 </div>
                 {{-- <div class="col-auto float-end ms-auto">
@@ -47,7 +47,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">Leave Application List</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Leave Application List')}}</h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status">
@@ -70,7 +70,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-dashboard modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Leave Application List</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Leave Application List')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status">

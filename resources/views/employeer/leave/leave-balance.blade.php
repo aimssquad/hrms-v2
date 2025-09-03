@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Leave Accrued')
+@section('title', \App\Helpers\Helper::cachedTrans('Leave Accrued'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -28,11 +28,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Leave Accrued</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Leave Accrued')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">Dashboard</a></li>
-               <li class="breadcrumb-item active">Leave Accrued</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('leave/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Leave Accrued')}}</li>
             </ul>
          </div>
       </div>
@@ -49,7 +49,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                  <i class="far fa-hourglass" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; Leave Accrued
+                  <i class="far fa-hourglass" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Leave Accrued')}}
                </h4>
                <?php
                   if(count($leave_balance_rs)!=0  ){
@@ -59,14 +59,14 @@ return $output;
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <button data-toggle="tooltip" data-placement="bottom" title="Download PDF" 
                            class="btn btn-download btn-download-pdf me-3" type="submit">
-                        Export to PDF
+                           {{\App\Helpers\Helper::cachedTrans('Home')}} Export to PDF
                         </button>
                      </form>
                      <form  method="post" action="{{ url('leave-management/leave-balance-excel') }}" enctype="multipart/form-data" >
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <button data-toggle="tooltip" data-placement="bottom" title="Download Excel" 
                            class="btn btn-download btn-download-excel" type="submit">
-                        Export to Excel
+                              {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                         </button>
                      </form>
                   </div>
@@ -79,11 +79,11 @@ return $output;
                <table class="table table-striped custom-table " id="basic-datatables">
                   <thead>
                      <tr>
-                        <th>Sl.No.</th>
-                        <th>Employee Code</th>
-                        <th>Employee Name</th>
-                        <th>Leave Type</th>
-                        <th>Leave Balance</th>
+                        <th>{{\App\Helpers\Helper::cachedTrans('Sl.No.')}} </th>
+                        <th>{{\App\Helpers\Helper::cachedTrans('Employee Code')}} </th>
+                        <th>{{\App\Helpers\Helper::cachedTrans('Employee Name')}} </th>
+                        <th>{{\App\Helpers\Helper::cachedTrans('Leave Type')}} </th>
+                        <th>{{\App\Helpers\Helper::cachedTrans('Leave Balance')}} </th>
                      </tr>
                   </thead>
                   <tbody>

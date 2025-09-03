@@ -1,9 +1,9 @@
 @extends('employeer.include.app')
 
 @if(!empty($holidaydtl->id))  
-@section('title', 'Edit Category')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Category'))
 @else   
-@section('title', 'Add Category')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Category'))
 @endif 
 @section('content')
 <div class="main-panel">
@@ -12,21 +12,21 @@
       <div class="row">
          <div class="col-md-12">
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">Holiday Dashboard</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                @if(!empty($holidaydtl->id))
-               <li class="breadcrumb-item active">Edit Category</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Category')}}</li>
                @else
-               <li class="breadcrumb-item active">Add New Category</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New Category')}}</li>
                @endif
             </ul>
             <div class="card custom-card">
                <div class="card-header">
                   
                   @if(!empty($holidaydtl->id))  
-                  <h4 class="card-title"><i class="far fa-user"></i>  Edit Category</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Edit Category')}} </h4>
                   @else   
-                  <h4 class="card-title"><i class="far fa-user"></i>  Add New Category</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Add New Category')}} </h4>
                   @endif 
                </div>
                <div class="card-body">
@@ -40,7 +40,7 @@
                               <div class="row">
                                  <div class="col-md-5">
                                     <div class="form-group">
-                                       <label for="inputFloatingLabel" class="col-form-label">Holiday Type</label>
+                                       <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Holiday Type')}} </label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom" required="" name="name" value="<?php if(isset($holidaydtl->id)){  echo $holidaydtl->name;  }?>{{ old('name') }}"> 
                                        @if ($errors->has('name'))
                                        <div class="error" style="color:red;">{{ $errors->first('name') }}</div>
@@ -49,7 +49,7 @@
                                  </div>
                               </div>
                               <div class="row form-group text-center">
-                                 <div class="col-md-12"><button type="submit" class="btn btn-primary" style="margin-top:10px;">Submit</button></div>
+                                 <div class="col-md-12"><button type="submit" class="btn btn-primary" style="margin-top:10px;">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button></div>
                               </div>
                         </div>
                         </form>
