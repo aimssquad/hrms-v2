@@ -959,7 +959,7 @@ class AttendanceController extends Controller
                     ->where('designation', $designation->id ?? null)
                     ->where('emid', $emid)
                     ->first();
-                //dd($offDayRecord);
+                dd($offDayRecord);
                 if(empty($offDayRecord)){
                     $dynamicFlag = 1;
                     $data = [];
