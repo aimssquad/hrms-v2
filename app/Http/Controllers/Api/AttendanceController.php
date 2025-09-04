@@ -959,7 +959,7 @@ class AttendanceController extends Controller
                     ->where('designation', $designation->id ?? null)
                     ->where('emid', $emid)
                     ->first();
-                dd($offDayRecord);
+                //dd($offDayRecord);
                 if(empty($offDayRecord)){
                     $dynamicFlag = 1;
                     $data = [];
@@ -1009,6 +1009,7 @@ class AttendanceController extends Controller
                 }
                 //dd($workingDays);
                 // Get attendance records for working days only
+                dd($workingDays);
                 $attendance = TempAttendance::where('employee_code', $employee_id)
                     ->where('emid', $emid)
                     ->whereIn('date', $workingDays)
