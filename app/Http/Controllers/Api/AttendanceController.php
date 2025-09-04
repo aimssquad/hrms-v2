@@ -1014,7 +1014,7 @@ class AttendanceController extends Controller
                     ->whereIn('date', $workingDays)
                     ->orderBy('date', 'desc')
                     ->get();
-                
+                dd($attendance);
                 // Create complete response with all working days
                 $completeAttendance = [];
                 foreach ($workingDays as $workingDay) {
