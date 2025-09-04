@@ -995,6 +995,7 @@ class AttendanceController extends Controller
                 $attendance = TempAttendance::where('employee_code', $employee_id)
                     ->where('emid', $emid)
                     ->whereIn('date', $workingDays)
+                    ->where('punch_status','OUT')
                     ->orderBy('date', 'desc')
                     ->get();
 
