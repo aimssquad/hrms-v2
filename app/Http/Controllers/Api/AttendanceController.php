@@ -1007,7 +1007,7 @@ class AttendanceController extends Controller
                         $workingDays[] = $date->format('Y-m-d');
                     }
                 }
-                //dd($workingDays);
+                dd($workingDays);
                 // Get attendance records for working days only
                 //dd($workingDays);
                 $attendance = TempAttendance::where('employee_code', $employee_id)
