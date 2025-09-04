@@ -1037,7 +1037,7 @@ class AttendanceController extends Controller
                             'id' => 0,
                             'employee_code' => '',
                             'employee_name' => '',
-                            'date' => $workingDay, // ✅ correct date (no +1)
+                            'date' => $workingDay, 
                             'time_in' => '00:00:00',
                             'time_out' => '00:00:00',
                             'time_in_location' => '',
@@ -1080,14 +1080,23 @@ class AttendanceController extends Controller
                     return Helper::rjd("Attendance not found", 1, []);
                 }
 
-                // 9. Response
                 return response()->json([
-                    'status' => 200,
+                    'status'=>200,
                     'flag' => 1,
-                    'data' => $completeAttendance,
-                    'summary' => $summary,
+                    'data'=> $completeAttendance,
+                    'total_leave'=> $presentDays,
                     'message' => "Data retrieved successfully"
+
                 ]);
+
+                // 9. Response
+                // return response()->json([
+                //     'status' => 200,
+                //     'flag' => 1,
+                //     'data' => $completeAttendance,
+                //     'summary' => $summary,
+                //     'message' => "Data retrieved successfully"
+                // ]);
             }
         } catch (Exception $e) {
             return Helper::rj("Server Error.", 500);
