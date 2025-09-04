@@ -1013,7 +1013,7 @@ class AttendanceController extends Controller
                     ->where('emid', $emid)
                     ->whereIn('date', $workingDays)
                     ->orderBy('date', 'desc')
-                    ->get();
+                    ->toSql();
                 dd($attendance);
                 // Create complete response with all working days
                 $completeAttendance = [];
