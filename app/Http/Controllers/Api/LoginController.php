@@ -72,7 +72,7 @@ class LoginController extends Controller
             // Get employee profile image
             $userImage = DB::table('employee')->where('emp_code', $user_id)->where('emid', $emid)->first();
             $imagePath = $userImage->profileimage ?? ''; // Handle null case
-            dd($userImage);
+            dd($user_id, $emid);
             // Update device token
             $user->update(['device_token' => $deviceToken]);
 
