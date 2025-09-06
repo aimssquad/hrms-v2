@@ -81,7 +81,7 @@ class LoginController extends Controller
                 ->where("employee_id", $user_id)
                 ->where('emid', $emid)
                 ->first();
-            //dd($checkuser);    
+            dd($checkuser);    
             
             $org_cordinate = Branch_location::where('emid',$checkuser->emid)->select('latitude','longitude','radius')->first();
             if($org_cordinate != null){
