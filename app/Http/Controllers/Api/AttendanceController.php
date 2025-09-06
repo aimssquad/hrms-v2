@@ -1466,7 +1466,7 @@ class AttendanceController extends Controller
                 $date = date('Y-m-d');
                 
                 // Base query
-                $attendance = Attandence::where('employee_code', $employee_id)
+                $attendance = TempAttendance::where('employee_code', $employee_id)
                                     ->where('emid', $emid)
                                     ->where('date', $date)
                                     ->orderBy('id','desc')
