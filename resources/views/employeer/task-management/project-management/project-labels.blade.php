@@ -1,6 +1,6 @@
 @extends('employeer.task-management.project-management.app')
 
-@section('title', 'Member Label')
+@section('title', \App\Helpers\Helper::cachedTrans('Member Label'))
 
 @section('content')
 {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -13,16 +13,16 @@
         <div class="page-inner">
             <div class="page-header">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">Project List</a></li>  
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">{{\App\Helpers\Helper::cachedTrans('Project List')}}</a></li>  
                 </ul>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card custom-card">
                         <div class="card-header">
-                            <h4 class="card-title"><i class="fas fa-briefcase"></i> Project Label List
+                            <h4 class="card-title"><i class="fas fa-briefcase"></i> {{\App\Helpers\Helper::cachedTrans('Project Label List')}} 
                                 <!-- <span> <a data-toggle="tooltip" data-placement="bottom" title="" href="{{url('task-management/create-project')}}" data-original-title="Add New Project"><img style="width: 25px;" src="{{asset('img/plus1.png')}}"></a></span> -->
                             </h4>
                         </div>
@@ -36,11 +36,11 @@
                                 <div class="lv-due" style="border:none;">
                                     <div class="row form-group lv-due-body">
                                         <div class="col-md-6">
-                                            <label>Label <span>(*)</span></label>
+                                            <label>{{\App\Helpers\Helper::cachedTrans('Label')}}  <span>(*)</span></label>
                                             <input type="text" class="form-control" name="title" />
                                         </div>
                                         <div class="col-md-1">
-                                            <button type="submit" class="btn btn-primary btn-sm" style="margin-top:25px;">Submit</button>
+                                            <button type="submit" class="btn btn-primary btn-sm" style="margin-top:25px;">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                                             <!-- <button type="reset" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Reset</button> -->
                                         </div>
 
@@ -56,12 +56,10 @@
                                 <table id="basic-datatables" class="display table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Sl. No.</th>
-                                            <th>label Name</th>
-                                            <th>Status</th>
-
+                                            <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
+                                            <th>{{\App\Helpers\Helper::cachedTrans('label Name')}}</th>
                                             <!-- <th>Role</th> -->
-                                            <th>Action</th>
+                                            <th >{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                                         </tr>
                                     </thead>
 

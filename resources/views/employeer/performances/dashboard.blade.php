@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Performence Control Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('Performence Control Dashboard'))
 @php
     $user_type = Session::get("user_type");
     $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -15,10 +15,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Performence Control Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Performence Control Dashboard')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Performence Control Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Performence Control Dashboard')}}</li>
                     </ul>
                 </div>
                 {{-- <div class="col-auto float-end ms-auto">
@@ -46,7 +46,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">Appraisal Request List</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Appraisal Request List')}}</h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status">
@@ -67,7 +67,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">Create Request</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Create Request')}}</h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status"></div>
@@ -89,7 +89,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">Appraisal Request List</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Appraisal Request List')}}</h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status">
@@ -109,7 +109,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">Create Request</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Create Request')}}</h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status"></div>

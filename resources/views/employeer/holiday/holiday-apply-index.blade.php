@@ -1,7 +1,7 @@
 
 @extends('employeer.include.app')
 
-@section('title', 'Holiday Apply List')
+@section('title', \App\Helpers\Helper::cachedTrans('Holiday Apply List'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -36,22 +36,22 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Holiday Apply List</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Holiday Apply List')}}</h3>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">Holiday Dashboard</a></li>
-					<li class="breadcrumb-item active">Holiday Apply</li>
+					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Holiday Apply List')}}</li>
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
 				@if($user_type == 'employee')
                     @foreach($sidebarItems['Holiday Management'] as $rotaItem)
                         @if($rotaItem['submenu_name'] == 'Category' && $rotaItem['can_add'] == 1)
-                            <a href="{{ route('holiday.applications.create') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Holiday Apply</a>
+                            <a href="{{ route('holiday.applications.create') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Holiday Apply')}}</a>
                         @endif
                     @endforeach
 				@elseif($user_type == 'employer')
-				    <a href="{{ route('holiday.applications.create') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Holiday Apply</a>
+				    <a href="{{ route('holiday.applications.create') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Holiday Apply')}}</a>
 				@endif
 				{{-- <div class="view-icons">
 					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
@@ -67,7 +67,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Holiday Apply List
+                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Holiday Apply List')}}
                     </h4>
                     <div class="row">
                        <div class="col-auto">
@@ -77,9 +77,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                <input type="hidden" name="headings" id="headings">
                                <input type="hidden" name="filename" id="filename">
                                {{-- put the value - that is your file name --}}
-                               <input type="hidden" id="filenameInput" value="Holiday-Category">
+                               <input type="hidden" id="filenameInput" value="Holiday-apply">
                                <button type="submit" class="btn-download btn-download-excel me-0">
-                                        Export to Excel
+                                    {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}    
                                 </button>
                            </form>
                        </div>
@@ -90,7 +90,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                              <input type="hidden" name="headings" id="pdfHeadings">
                              <input type="hidden" name="filename" id="pdfFilename">
                              <button type="submit" class="btn-download btn-download-pdf">
-                                Export to PDF
+                                {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}   
                            </button>
                          </form>
                        </div>
@@ -101,13 +101,13 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <table class="table table-striped custom-table" id="basic-datatables">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Employee name</th>
-                                    <th>Holiday Type</th>
-                                    <th>Apply Date</th>
-                                    <th>Duration</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('ID')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Employee name')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Holiday Type')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Apply Date')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Duration')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Status')}} </th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Actions')}} </th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Edit Holiday Apply')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Holiday Apply'))
 @section('content')
 <div class="main-panel">
 <div class="content">
@@ -7,13 +7,13 @@
       <div class="row">
          <div class="col-md-12">
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">Holiday Dashboard</a></li>
-               <li class="breadcrumb-item active">Edit Holiday Apply</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('orgaization/holiday-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Holiday Apply')}}</li>
             </ul>
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="far fa-user"></i>  Edit Holiday Apply</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Edit Holiday Apply')}} </h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">
@@ -28,9 +28,9 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="holiday_type2_id">Holiday Type</label>
+                                            <label for="holiday_type2_id">{{\App\Helpers\Helper::cachedTrans('Holiday Type')}}</label>
                                             <select name="holiday_type2_id" id="holiday_type2_id" class="select" required>
-                                                <option value="">Select Holiday Type</option>
+                                                <option value="">Select</option>
                                                 @foreach($holidayTypes as $type)
                                                     <option value="{{ $type->id }}" {{ $application->holiday_type2_id == $type->id ? 'selected' : '' }}>
                                                         {{ $type->holiday_type_name }}
@@ -42,7 +42,7 @@
                                     
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="employee_id">Employee</label>
+                                            <label for="employee_id">{{\App\Helpers\Helper::cachedTrans('Employee')}}</label>
                                             <input type="hidden" class="form-control" name="employee_id" value="{{$application->employee_id}}" >
                                             <input type="text" class="form-control"  value="{{ $activeEmployees->name }}" readonly>
                                         </div>
@@ -50,23 +50,23 @@
                                     
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Leave Type</label><br>
+                                            <label>{{\App\Helpers\Helper::cachedTrans('Leave Type')}}</label><br>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="holiday_types" id="day_wise" 
                                                        value="days" {{ $application->holiday_types == 'days' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="day_wise">Day Wise</label>
+                                                <label class="form-check-label" for="day_wise">{{\App\Helpers\Helper::cachedTrans('Day Wise')}}</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="holiday_types" id="hourly_wise" 
                                                        value="hour" {{ $application->holiday_types == 'hour' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="hourly_wise">Hourly Wise</label>
+                                                <label class="form-check-label" for="hourly_wise">{{\App\Helpers\Helper::cachedTrans('Hourly Wise')}}</label>
                                             </div>
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="form_date">Date</label>
+                                            <label for="form_date">{{\App\Helpers\Helper::cachedTrans('Date')}}</label>
                                             <input type="date" class="form-control" id="form_date" name="form_date" 
                                                    value="{{ \Carbon\Carbon::parse($application->form_date)->format('Y-m-d') }}" required>
                                         </div>
@@ -74,14 +74,14 @@
                                     
                                     <div class="col-md-4">
                                         <div class="form-group day-field" style="{{ $application->holiday_types == 'days' ? 'display:block' : 'display:none' }}">
-                                            <label for="no_of_days">Number of Days</label>
+                                            <label for="no_of_days">{{\App\Helpers\Helper::cachedTrans('Number of Days')}} </label>
                                             <input type="number" class="form-control" id="no_of_days" name="no_of_days" 
                                                    min="1" step="1" value="{{ $application->no_of_days }}">
                                         </div>
                                         
                                         <div class="hour-field" style="{{ $application->holiday_types == 'hour' ? 'display:block' : 'display:none' }}">
                                             <div class="form-group">
-                                                <label for="hour">Hours</label>
+                                                <label for="hour">{{\App\Helpers\Helper::cachedTrans('Hours')}}</label>
                                                 <input type="number" class="form-control" id="hour" name="hour" 
                                                        min="1" step="1" value="{{ $application->hour }}">
                                             </div>
@@ -89,7 +89,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="status">Status</label>
+                                            <label for="status">{{\App\Helpers\Helper::cachedTrans('Status')}}</label>
                                             <select class="select" name="status" id="status">
                                                 <option value="">Select Status</option>
                                                 <option value="pending" {{ $application->status == "pending" ? 'selected' : '' }}>Pending</option>
@@ -100,8 +100,8 @@
                                     </div>
                                 </div>
                                 <br>
-                                <button type="submit" class="btn btn-primary">Update</button>
-                                <a href="{{ route('holiday.applications.index') }}" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Update')}}</button>
+                                <a href="{{ route('holiday.applications.index') }}" class="btn btn-secondary">{{\App\Helpers\Helper::cachedTrans('Cancel')}}</a>
                             </form>                       
                         </div>
                   </div>

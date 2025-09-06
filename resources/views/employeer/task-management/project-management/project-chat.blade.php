@@ -1,6 +1,6 @@
 @extends('employeer.task-management.project-management.app')
 
-@section('title', 'Member Label')
+@section('title', \App\Helpers\Helper::cachedTrans('Chat With Employee'))
 
 @section('content')
 {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -13,9 +13,9 @@
         <div class="page-inner">
             <div class="page-header">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">Project List</a></li>  
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item"><a href="#">{{\App\Helpers\Helper::cachedTrans('Chat With Employee')}}</a></li>  
                 </ul>
             </div>
             {{-- <div class="viewproject-container"> --}}
@@ -105,7 +105,7 @@
                         <div class="project-chat">
                             <div class="chat-header">
                                 <i class="fas fa-comment-alt"></i>
-                                <h3>Team Discussion ({{ $groupedData['project']['title'] }})</h3>
+                                <h3>{{\App\Helpers\Helper::cachedTrans('Team Discussion')}} ({{ \App\Helpers\Helper::cachedTrans($groupedData['project']['title']) }})</h3>
                             </div>
                             
                             <div class="chat-box custom-scroll">
@@ -201,7 +201,7 @@
                                 @else
                                     <div class="no-messages">
                                         <i class="fas fa-comments"></i>
-                                        <p>No messages yet. Start the conversation!</p>
+                                        <p>{{\App\Helpers\Helper::cachedTrans('No messages yet. Start the conversation!')}}</p>
                                     </div>
                                 @endif
                             </div>
@@ -216,7 +216,7 @@
                                             <input type="file" id="file-upload" class="file-upload-input" name="file" accept="image/*,.pdf,.xlsx,.xls,.doc,.docx">
                                         </label>
                                     </div>
-                                    <input type="text" name="title" placeholder="Write your message here..." required>
+                                    <input type="text" name="title" placeholder="{{\App\Helpers\Helper::cachedTrans('Write your message here...')}}" required>
                                     <button type="submit">
                                         <i class="fas fa-paper-plane"></i>
                                     </button>

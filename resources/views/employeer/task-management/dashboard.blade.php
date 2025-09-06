@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Task Control Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('Task Control Dashboard'))
 
 @section('content')
 
@@ -12,10 +12,10 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3 class="page-title">Welcome Task Control Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Welcome Task Control Dashboard')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</li>
                     </ul>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                                     <div class="modern_icon_wrapper">
                                         <i class="la la-list modern-icon"></i>
                                     </div>
-                                    <h4 class="modern-card-title">Project Directory</h4>
+                                    <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Project Directory')}}</h4>
                                 </div>
                                 <div class="modern-card-body">
                                     <div class="modern-status"></div>
@@ -50,7 +50,7 @@
                                     <div class="modern_icon_wrapper">
                                         <i class="la la-plus modern-icon"></i>
                                     </div>
-                                    <h4 class="modern-card-title">New Project</h4>
+                                    <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('New Project')}}</h4>
                                 </div>
                                 <div class="modern-card-body">
                                     <div class="modern-status"></div>
@@ -75,11 +75,11 @@
                         <h6 class="bg-primary m-0 p-2 text-white"><a class="for_hover_white" href={{url('/org-task-management/'.encrypt($p->id).'/tasks')}}>{{ucfirst($p->title)}} <i class="fa-solid fa-arrow-right"></i></a></h6>
                         <table class="table table-hover border m-0 p-0">
                             <tr>
-                                <th>Owner:</th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Owner:')}}</th>
                                 <td>{{ucfirst($p->owner)}}</td>
                             </tr>
                             <tr>
-                                <th>Satrt Date:</th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Satrt Date:')}}</th>
                                 <td><span class="badge text-bg-primary">{{date("d-m-Y",strtotime($p->created_at))}}</span></td>
                             </tr>
                         </table>

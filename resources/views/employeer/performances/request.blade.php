@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Appraisal Request List')
+@section('title', \App\Helpers\Helper::cachedTrans('Appraisal Request List'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -29,22 +29,22 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Appraisal Request List</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Appraisal Request List')}}</h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('org-performances/dashboard') }}">Performance Control Dashboard</a></li>
-               <li class="breadcrumb-item active">Appraisal Request List</li>
+                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('org-performances/dashboard') }}">{{\App\Helpers\Helper::cachedTrans('Performance Control Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Appraisal Request List')}}</li>
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
                 @foreach($sidebarItems['Performance Control'] as $rotaItem)
                     @if($rotaItem['submenu_name'] == 'Appraisal Request List' && $rotaItem['can_add'] == 1)
-                    <a href="{{url('org-performances/request')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Appraisal Request List</a>
+                    <a href="{{url('org-performances/request')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Appraisal Request List')}}</a>
                     @endif
                 @endforeach
             @elseif($user_type == 'employer')
-            <a href="{{url('org-performances/request')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Appraisal Request List</a>
+            <a href="{{url('org-performances/request')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans('Add Appraisal Request List')}} </a>
             @endif
             {{-- 
             <div class="view-icons">
@@ -64,7 +64,7 @@ return $output;
         <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
-                    <i class="far fa-user" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Appraisal Request List
+                    <i class="far fa-user" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Appraisal Request List')}}
                 </h4>
                 <div class="row">
                     <div class="col-auto">
@@ -76,7 +76,7 @@ return $output;
                             {{-- put the value - that is your file name --}}
                             <input type="hidden" id="filenameInput" value="Appraisal Request List">
                             <button type="submit" class="btn-download btn-download-excel me-0">
-                                Export to Excel
+                                {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                            </button>
                         </form>
                     </div>
@@ -87,7 +87,7 @@ return $output;
                           <input type="hidden" name="headings" id="pdfHeadings">
                           <input type="hidden" name="filename" id="pdfFilename">
                           <button type="submit" class="btn-download btn-download-pdf">
-                                Export to PDF
+                               {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                         </button>
                       </form>
                     </div>
@@ -98,19 +98,19 @@ return $output;
                     <table id="basic-datatables" class="table table-striped custom-table">
                         <thead>
                             <tr>
-                                <th>Sl. No.</th>
-                                <th>Employee</th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Employee')}}</th>
                                 @if($currentUserType=='employer')
-                                <th>Reporting Auth</th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Reporting Auth')}}</th>
                                 @endif
                                 <!-- <th>Joing Date</th> -->
-                                <th>Department</th>
-                                <th>Apprisal Period Start </th>
-                                <th>Apprisal Period End </th>
-                                <th>Rating</th>
-                                <th>Status</th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Department')}}</th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Apprisal Period Start')}} </th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Apprisal Period End')}} </th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Rating')}}</th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Status')}}</th>
                                 <!-- <th>End Date</th> -->
-                                <th>Action</th>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                             </tr>
                         </thead>
 

@@ -122,6 +122,48 @@
                                         </div>
                                     </a>
                                 </div>
+
+                                <div class="col-xl-4 col-md-6 col-sm-12">
+                                    <a href="{{ url('organization/holiday-types') }}" class="modern-card-link">
+                                        <div class="modern-card">
+                                            <div class="modern-card-header">
+                                                <div class="modern_icon_wrapper">
+                                                    <i class="la la-dashboard modern-icon"></i>
+                                                </div>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Holiday Type')}}</h4>
+                                            </div>
+                                            <div class="modern-card-body">
+                                                <div class="modern-status">
+                                                    </div>
+                                                    <div class="modern-arrow">
+                                                    {{-- <span class="employee-count">{{ $holiday_list_count ?? 0 }}</span> --}}
+                                                    <i class="fa fa-arrow-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6 col-sm-12">
+                                    <a href="{{ url('organization/holiday-applications') }}" class="modern-card-link">
+                                        <div class="modern-card">
+                                            <div class="modern-card-header">
+                                                <div class="modern_icon_wrapper">
+                                                    <i class="la la-dashboard modern-icon"></i>
+                                                </div>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Holiday Apply')}}</h4>
+                                            </div>
+                                            <div class="modern-card-body">
+                                                <div class="modern-status">
+                                                    </div>
+                                                    <div class="modern-arrow">
+                                                    {{-- <span class="employee-count">{{ $holiday_list_count ?? 0 }}</span> --}}
+                                                    <i class="fa fa-arrow-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
                             @endif  
                         </div>
                     </div>

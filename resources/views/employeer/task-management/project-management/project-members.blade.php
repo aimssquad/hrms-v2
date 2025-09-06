@@ -1,6 +1,6 @@
 @extends('employeer.task-management.project-management.app')
 
-@section('title', 'Project List')
+@section('title', \App\Helpers\Helper::cachedTrans('Project List'))
 
 @section('content')
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -212,16 +212,16 @@
         <div class="page-inner">
             <div class="page-header">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">Project List</a></li>  
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">{{\App\Helpers\Helper::cachedTrans('Project List')}}</a></li>  
                 </ul>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card custom-card">
                         <div class="card-header">
-                            <h4 class="card-title"><i class="fas fa-briefcase"></i> Project Listff
+                            <h4 class="card-title"><i class="fas fa-briefcase"></i> {{\App\Helpers\Helper::cachedTrans('Project List')}} 
                                 <!-- <span> <a data-toggle="tooltip" data-placement="bottom" title="" href="{{url('task-management/create-project')}}" data-original-title="Add New Project"><img style="width: 25px;" src="{{asset('img/plus1.png')}}"></a></span> -->
                             </h4>
 
@@ -236,7 +236,7 @@
                                 <div class="lv-due" style="border:none;">
                                     <div class="row form-group lv-due-body">
                                         <div class="col-md-3">
-                                            <label>Department <span>(*)</span></label>
+                                            <label>{{\App\Helpers\Helper::cachedTrans('Department')}} <span>(*)</span></label>
                                             <select class="form-control" id="department">
                                                 <option>Select Department</option>
                                                 @foreach($departments as $d)
@@ -246,7 +246,7 @@
 
                                         </div>
                                         <div class="col-md-3">
-                                            <label>Employee <span>(*)</span></label>
+                                            <label>{{\App\Helpers\Helper::cachedTrans('Employee')}} <span>(*)</span></label>
                                             <select class="form-control" name="user_id" id="employee">
                                                 <option>Select Employee</option>
                                                 @foreach($emplyees as $e)
@@ -256,7 +256,7 @@
 
                                         </div>
                                         <div class="col-md-3">
-                                            <label>Roles <span>(*)</span></label>
+                                            <label>{{\App\Helpers\Helper::cachedTrans('Roles')}} <span>(*)</span></label>
                                             <select class="form-control" name="role">
                                                 <option>Select Role</option>
                                                 @foreach($roles as $k=>$r)
@@ -268,7 +268,7 @@
                                         </div>
                                         <div class="col-md-3 ">
                                             <label></label>
-                                            <button type="submit" class="btn btn-primary btn-sm mt-4">Submit</button>
+                                            <button type="submit" class="btn btn-primary btn-sm mt-4">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                                             <!-- <button type="reset" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Reset</button> -->
                                         </div>
 
@@ -284,12 +284,11 @@
                                 <table id="basic-datatables" class="display table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Sl. No.</th>
-                                            <th>Project Name</th>
-                                            <th>Members</th>
-
-                                            <th>Role</th>
-                                            <th>Action</th>
+                                            <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
+                                            <th>{{\App\Helpers\Helper::cachedTrans('Project Name')}}</th>
+                                            <th>{{\App\Helpers\Helper::cachedTrans('Members')}}</th>
+                                            <th>{{\App\Helpers\Helper::cachedTrans('Role')}}</th>
+                                            <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                                         </tr>
                                     </thead>
 

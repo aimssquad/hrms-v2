@@ -1,6 +1,6 @@
 @extends('employeer.task-management.project-management.app')
 
-@section('title', 'Project Role')
+@section('title', \App\Helpers\Helper::cachedTrans('Project Role'))
 
 @section('content')
 {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -12,16 +12,17 @@
         <div class="page-inner">
             <div class="page-header">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">Job List</a></li>  
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">{{\App\Helpers\Helper::cachedTrans('Task List')}}</a></li>  
+                    <li class="breadcrumb-item"><a href="#">{{\App\Helpers\Helper::cachedTrans('Role List')}}</a></li> 
                 </ul>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card custom-card">
                         <div class="card-header">
-                            <h4 class="card-title"><i class="fas fa-briefcase"></i> Role List
+                            <h4 class="card-title"><i class="fas fa-briefcase"></i> {{\App\Helpers\Helper::cachedTrans('Role List')}}
                                 {{-- <span> <a data-toggle="tooltip" data-placement="bottom" title="" href="{{url('task-management/'.request()->route('id').'/role-add')}}" data-original-title="Add New Project"><img style="width: 25px;" src="{{asset('img/plus1.png')}}"></a></span> --}}
                             </h4>
 
@@ -37,14 +38,14 @@
                                 <div class="lv-due" style="border:none;">
                                     <div class="row form-group lv-due-body">
                                         <div class="col-md-4">
-                                            <label>Role <span>(*)</span></label>
+                                            <label>{{\App\Helpers\Helper::cachedTrans('Role')}} <span>(*)</span></label>
                                             <input type="text" class="form-control" name="title" />
 
                                         </div>
 
                                         <div class="col-md-1 mt-2">
                                             
-                                            <button type="submit" class="btn btn-primary btn-sm mt-3">Submit</button>
+                                            <button type="submit" class="btn btn-primary btn-sm mt-3">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                                             <!-- <button type="reset" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Reset</button> -->
                                         </div>
 
@@ -60,10 +61,10 @@
                                 <table id="basic-datatables" class="display table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Sl. No.</th>
-                                            <th>Role Title</th>
+                                            <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
+                                            <th>{{\App\Helpers\Helper::cachedTrans('Role Title')}}</th>
                                             <!-- <th>Status</th> -->
-                                            <th>Action</th>
+                                            <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                                         </tr>
                                     </thead>
 

@@ -1,6 +1,6 @@
 @extends('employeer.task-management.project-management.app')
 
-@section('title', 'Task Management Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('Task List'))
 
 @section('content')
 <?php
@@ -38,7 +38,7 @@ use App\Models\User; ?>
                                 <div id="message"></div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h4 id="frm_title">Create issue</h4>
+                                        <h4 id="frm_title">{{\App\Helpers\Helper::cachedTrans('Create issue')}}</h4>
                                         <div class="d-flex flex-row-reverse position-absolute create_task_new">
                                             <div class="p-2"></div>
                                             <!-- <div class="p-2"><span class="badge rounded-pill text-bg-light p-2 ps-3 pe-3">Import
@@ -49,7 +49,7 @@ use App\Models\User; ?>
                                         </div>
                                         <div class="col-sm-12 mt-3">
                                             <div>
-                                                <label>Task <span class="text-danger">*</span></label>
+                                                <label>{{\App\Helpers\Helper::cachedTrans('Task')}} <span class="text-danger">*</span></label>
                                                 <!-- <select class="form-select  mt-2 mb-4" aria-label="Default select example">
                                                 <option selected>Project Name 1</option>
                                                 <option value="1">Project Name 2</option>
@@ -74,13 +74,13 @@ use App\Models\User; ?>
                                         <div class="col-sm-12">
                                             <div class="row mt-3">
                                                 <div class="col-sm-2">
-                                                    Start Date
+                                                    {{\App\Helpers\Helper::cachedTrans('Start Date')}} 
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <input type="date" class="form-control form-control-sm" name="start_date" id="start_date" min={{date('Y-m-d',strtotime("+1 day"))}} />
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    End Date
+                                                   {{\App\Helpers\Helper::cachedTrans('End Date')}} 
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <input type="date" class="form-control form-control-sm" name="expected_end_date" id="expected_end_date" min={{date('Y-m-d',strtotime("+1 day"))}} />
@@ -88,9 +88,9 @@ use App\Models\User; ?>
         
                                             </div>
                                             <div>
-                                                <label>Assign to</label>
+                                                <label>{{\App\Helpers\Helper::cachedTrans('Assign to')}} </label>
                                                 <select class="form-select  mt-2" aria-label="Default select example" name="assignedTo" id="assignedTo">
-                                                    <option selected disabled>Unassigned</option>
+                                                    <option selected disabled>{{\App\Helpers\Helper::cachedTrans('Unassigned')}}</option>
                                                     @foreach($members as $m)
                                                     <option value="{{$m->user_id}}">{{$m->fname}} {{$m->mname}} {{$m->lname}}</option>
                                                     @endforeach
@@ -103,8 +103,8 @@ use App\Models\User; ?>
         
                                             <div class="row">
                                             <div class="col-md-6">
-                                                <label>Status <span class="material-symbols-outlined float-start me-1">
-                                                        schedule
+                                                <label>{{\App\Helpers\Helper::cachedTrans('Status')}}  <span class="material-symbols-outlined float-start me-1">
+                                                        {{\App\Helpers\Helper::cachedTrans('schedule')}} 
                                                     </span></label>
                                                 <div id="demo2" class="mt-1">
                                                     <div class="wrapper2">
@@ -142,11 +142,11 @@ use App\Models\User; ?>
                                                     </div>
             
                                                 </div>
-                                                <p class="mt-1 mb-3">This is the issue's initial status upon creation</p>
+                                                <p class="mt-1 mb-3">{{\App\Helpers\Helper::cachedTrans("This is the issue's initial status upon creation")}} </p>
                                             </div>
         
                                             <div class="col-md-6">
-                                                <label>Summary <span class="text-danger">*</span></label>
+                                                <label>{{\App\Helpers\Helper::cachedTrans('Summary')}}  <span class="text-danger">*</span></label>
                                                 <textarea type="text" placeholder="" class="form-control form-control-sm mt-1" name="task_desc" id="task_desc"></textarea>
                                                 <input type="hidden" name="project_id" value="{{decrypt(request()->route('id'))}}" />
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -161,9 +161,9 @@ use App\Models\User; ?>
                                                     </div>
                                                     <div class="mt-4 d-flex">
                                                         <div class="p-2">
-                                                            <button type="button" class="btn btn-info danger" data-dismiss="modal">Cancel</button>
+                                                            <button type="button" class="btn btn-info danger" data-dismiss="modal">{{\App\Helpers\Helper::cachedTrans('Cancel')}} </button>
                                                         </div>
-                                                        <div class="p-2"> <button type="submit" class="btn btn-primary">Create</button>
+                                                        <div class="p-2"> <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Create')}} </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -191,23 +191,23 @@ use App\Models\User; ?>
                                         <h2 id="edit_task_title"></h2>
                                         <div class="row">
                                             <div class="col-sm-2">
-                                                <p class="mt-1">Due date</p>
+                                                <p class="mt-1">{{\App\Helpers\Helper::cachedTrans('Due date')}}</p>
                                             </div>
                                             <div class="col-sm-10">
-                                                <div class="bg-light d-block p-2" id="edit_task_due_date">Light</div>
+                                                <div class="bg-light d-block p-2" id="edit_task_due_date">{{\App\Helpers\Helper::cachedTrans('Light')}}</div>
                                                 <!-- <input class="form-control form-control-sm" type="date" placeholder="None" /> -->
                                             </div>
                                         </div>
                                         <div class="mt-2">
-                                            <h6>Description</h6>
-                                            <div class="bg-light d-block p-2" id="edit_task_desc">Implementation Home page</div>
+                                            <h6>{{\App\Helpers\Helper::cachedTrans('Description')}}</h6>
+                                            <div class="bg-light d-block p-2" id="edit_task_desc">{{\App\Helpers\Helper::cachedTrans('Implementation Home page')}}</div>
                                         </div>
                                         <div class="mt-4">
-                                            <h6>Activity</h6>
+                                            <h6>{{\App\Helpers\Helper::cachedTrans('Activity')}}</h6>
                                             <div>
                                                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                                                     <li class="nav-item" role="presentation">
-                                                        <button class="nav-link active bg-secondary" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Comments</button>
+                                                        <button class="nav-link active bg-secondary" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{\App\Helpers\Helper::cachedTrans('Comments')}}</button>
                                                     </li>
                                                     <!-- <li class="nav-item" role="presentation">
                                                 <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
@@ -246,8 +246,8 @@ use App\Models\User; ?>
                                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         
                                                                         <div class="mt-2">
-                                                                            <button type="submit" class="btn btn-primary">Save</button>
-                                                                            <button type="button" class="btn btn-info danger">Cancel</button>
+                                                                            <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Save')}}</button>
+                                                                            <button type="button" class="btn btn-info danger">{{\App\Helpers\Helper::cachedTrans('Cancel')}}</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
@@ -354,11 +354,11 @@ use App\Models\User; ?>
                                         </div> -->
                                     </div>
                                     <div class="border rounded mt-3 p-2">
-                                        <h6 class="pt-1">Details</h6>
+                                        <h6 class="pt-1">{{\App\Helpers\Helper::cachedTrans('Details')}}</h6>
                                         <hr>
                                         <table class="table table-borderless m-0">
                                             <tr>
-                                                <td width="50%">Assignee</td>
+                                                <td width="50%">{{\App\Helpers\Helper::cachedTrans('Assignee')}}</td>
                                                 <td>
                                                     <div class="pro_img me-1 float-start">
                                                         <img style="width: 30px!important; height: 30px;" src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png" alt="Kabbir">
@@ -413,8 +413,9 @@ use App\Models\User; ?>
                 </ul> --}}
 
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">Task List</a></li>  
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">{{\App\Helpers\Helper::cachedTrans('Task List')}}</a></li>  
                 </ul>
             </div>
             <div class="content">
@@ -438,12 +439,12 @@ use App\Models\User; ?>
                             <div class="card custom-card">
                                 <div class="">
                                     <div class="card-header w-100 justify-content-between">
-                                        <h4 class="card-title"><i class="fas fa-briefcase"></i> Task List
+                                        <h4 class="card-title"><i class="fas fa-briefcase"></i> {{\App\Helpers\Helper::cachedTrans('Task List')}}
                                     </h4>
                                     <span>
                                         <a class="custom-task-button" data-placement="bottom" data-toggle="modal" data-target=".create_task_modal" data-original-title="Add New Task">
                                             <i class="fas fa-plus"></i>
-                                            <span class="button-text">Add Task</span>
+                                            <span class="button-text">{{\App\Helpers\Helper::cachedTrans('Add Task')}} </span>
                                         </a>
                                     </span>
                                 </div>
@@ -458,14 +459,14 @@ use App\Models\User; ?>
                                         <table id="basic-datatables" class="table table-striped custom-table">
                                             <thead>
                                                 <tr>
-                                                    <th>Sl. No.</th>
-                                                    <th>Task</th>
-                                                    <th>Assigned To</th>
-                                                    <th>Description</th>
-                                                    <th>Start Date</th>
-                                                    <th>Due Date</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}} </th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('Task')}} </th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('Assigned To')}} </th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('Description')}} </th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('Start Date')}} </th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('Due Date')}} </th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('Status')}} </th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('Action')}} </th>
                                                 </tr>
                                             </thead>
         
