@@ -52,7 +52,7 @@ class LoginController extends Controller
 
             // Find user with email and password
             $checkuser = $this->_model->userfind($request->email, $request->password);
-            dd($checkuser);
+            //dd($checkuser);
             if ($checkuser == null) {
                 $dynamicFlag = 0;
                 return Helper::rj("Not a valid credential", $dynamicFlag);
@@ -67,9 +67,10 @@ class LoginController extends Controller
             $user_id = $checkuser->employee_id;
             $userPrimaryId = $user->id;
             $deviceToken = $request->device_token;
-            dd($user_id);
+            $emid = $user->emid;
+            //dd($user_id);
             // Get employee profile image
-            $userImage = DB::table('employee')->where('emp_code', $user_id)->first();
+            $userImage = DB::table('employee')->where('emp_code', $user_id)->where('emid', $emid)->first();
             $imagePath = $userImage->profileimage ?? ''; // Handle null case
 
             // Update device token
@@ -78,6 +79,7 @@ class LoginController extends Controller
             // Get complete user details
             $checkuser = UserModel::join('employee', 'employee.emp_code', '=', 'users.employee_id')
                 ->where("employee_id", $user_id)
+                ->where('emid', $emid)
                 ->first();
             //dd($checkuser);    
             
