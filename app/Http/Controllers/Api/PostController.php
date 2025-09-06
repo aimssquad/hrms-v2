@@ -306,7 +306,7 @@ class PostController extends Controller
 
         try {
             $user = auth()->user();
-            
+            dd($user);
             // Main posts query
             $posts = DB::table('post')
                 ->join('employee', function($join) {
