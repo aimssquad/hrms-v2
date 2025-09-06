@@ -67,7 +67,7 @@ class LoginController extends Controller
             $user_id = $checkuser->employee_id;
             $userPrimaryId = $user->id;
             $deviceToken = $request->device_token;
-
+            dd($user_id);
             // Get employee profile image
             $userImage = DB::table('employee')->where('emp_code', $user_id)->first();
             $imagePath = $userImage->profileimage ?? ''; // Handle null case
