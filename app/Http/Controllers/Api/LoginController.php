@@ -52,7 +52,7 @@ class LoginController extends Controller
 
             // Find user with email and password
             $checkuser = $this->_model->userfind($request->email, $request->password);
-
+            dd($checkuser);
             if ($checkuser == null) {
                 $dynamicFlag = 0;
                 return Helper::rj("Not a valid credential", $dynamicFlag);
