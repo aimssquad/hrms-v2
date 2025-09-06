@@ -72,16 +72,24 @@ class LoginController extends Controller
             // Get employee profile image
             $userImage = DB::table('employee')->where('emp_code', $user_id)->where('emid', $emid)->first();
             $imagePath = $userImage->profileimage ?? ''; // Handle null case
-            dd($user_id, $emid);
+            //dd($user_id, $emid);
             // Update device token
             $user->update(['device_token' => $deviceToken]);
 
             // Get complete user details
-            $checkuser = UserModel::join('employee', 'employee.emp_code', '=', 'users.employee_id')
-                ->where("employee_id", $user_id)
-                ->where('emid', $emid)
+            // $checkuser = UserModel::join('employee', 'employee.emp_code', '=', 'users.employee_id')
+            //     ->where("employee_id", $user_id)
+            //     ->where('emid', $emid)
+            //     ->first();
+            $checkuser = UserModel::join('employee', function($join) {
+                    $join->on('employee.emp_code', '=', 'users.employee_id')
+                        ->on('employee.emid', '=', 'users.emid'); // add extra join condition
+                })
+                ->where('users.employee_id', $user_id)
+                ->where('users.emid', $emid)
                 ->first();
-            dd($checkuser);    
+
+            //dd($checkuser);    
             
             $org_cordinate = Branch_location::where('emid',$checkuser->emid)->select('latitude','longitude','radius')->first();
             if($org_cordinate != null){
