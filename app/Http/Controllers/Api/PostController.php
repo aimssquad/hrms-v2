@@ -306,7 +306,7 @@ class PostController extends Controller
 
         try {
             $user = auth()->user();
-            dd($user);
+            //dd($user);
             // Main posts query
             $posts = DB::table('post')
                 ->join('employee', function($join) {
@@ -417,7 +417,9 @@ class PostController extends Controller
                 "All data retrieved successfully",
                 1,
                 ['posts' => $transformedPosts]
-            );
+            )->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 
         } catch (\Exception $e) {
             \Log::error('Post error: '.$e->getMessage());
