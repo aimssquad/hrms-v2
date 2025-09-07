@@ -311,8 +311,7 @@ class PostController extends Controller
             $posts = DB::table('post')
                 ->join('employee', function($join) {
                     $join->on('employee.emid', '=', 'post.emid')
-                        ->on('employee.emp_code', '=', 'post.employee_code')
-                        ->where('employee.emid',$user->emid);
+                        ->on('employee.emp_code', '=', 'post.employee_code');
                 })
                 ->leftJoin('post_likes', function($join) use ($user) {
                     $join->on('post_likes.post_id', '=', 'post.id')
@@ -320,6 +319,7 @@ class PostController extends Controller
                         ->where('post_likes.employee_code', $user->employee_id);
                 })
                 ->where('employee.status', 'active')
+                ->where('post.emid',$user->emid)
                 ->orderBy('post.created_at', 'desc')
                 ->select(
                     'post.*',
