@@ -311,7 +311,8 @@ class PostController extends Controller
             $posts = DB::table('post')
                 ->join('employee', function($join) {
                     $join->on('employee.emid', '=', 'post.emid')
-                        ->on('employee.emp_code', '=', 'post.employee_code');
+                        ->on('employee.emp_code', '=', 'post.employee_code')
+                        ->where('employee.emid',$user->emid);
                 })
                 ->leftJoin('post_likes', function($join) use ($user) {
                     $join->on('post_likes.post_id', '=', 'post.id')
