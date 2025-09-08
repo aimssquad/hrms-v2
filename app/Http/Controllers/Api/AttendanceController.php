@@ -1524,6 +1524,7 @@ public function showEmpAttandanceWF(Request $request)
                 $allDays[] = $date->format('Y-m-d');
             }
 
+            //dd($allDays, $emid, $employee_id);
             // 6. Attendance records
             $attendance = TempAttendance::where('employee_code', $employee_id)
                 ->where('emid', $emid)
@@ -1531,7 +1532,7 @@ public function showEmpAttandanceWF(Request $request)
                 ->where('punch_status', 'OUT')
                 ->orderBy('id', 'desc')
                 ->get();
-
+            //dd($attendance);
             // 7. Build complete attendance
             $completeAttendance = [];
             foreach ($allDays as $day) {
@@ -1566,7 +1567,7 @@ public function showEmpAttandanceWF(Request $request)
                         "remarks"           => "",
                         "created_at"        => "",
                         "updated_at"        => "",
-                        "status"            => "WF"
+                        "status"            => "WO"
                     ];
                 } elseif ($record) {
                     // Present
@@ -1640,7 +1641,7 @@ public function showEmpAttandanceWF(Request $request)
             $totalDays   = count($allDays);
             $presentDays = collect($completeAttendance)->where('status', 'P')->count();
             $absentDays  = collect($completeAttendance)->where('status', 'A')->count();
-            $weekOffDays = collect($completeAttendance)->where('status', 'WF')->count();
+            $weekOffDays = collect($completeAttendance)->where('status', 'WO')->count();
 
             $summary = [
                 'total_days'   => $totalDays,
