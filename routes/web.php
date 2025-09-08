@@ -6085,3 +6085,6 @@ Route::post('project/post',[TaskController::class, 'empProjectPost'])->name('pro
 Route::get('/project-posts/{id}/edit', [TaskController::class, 'edit'])->name('project.posts.edit');
 Route::put('/project-posts/{id}', [TaskController::class, 'update'])->name('project.posts.update');
 Route::delete('/project-posts/{id}', [TaskController::class, 'destroy'])->name('project.posts.destroy');
+
+Route::post('/project-post-reply', [TaskController::class, 'store'])->name('project.post.reply');
+

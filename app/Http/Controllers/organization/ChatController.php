@@ -18,7 +18,7 @@ use Storage;
 
 class ChatController extends Controller
 {
-    public function Chat(Request $request){
+    public function chat(Request $request){
         $email = Session::get("emp_email");
         if (empty($email)) {
             return redirect("/");

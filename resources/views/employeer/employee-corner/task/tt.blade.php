@@ -1093,13 +1093,16 @@
                             @if($data['post_data']->count() > 0)
                                 @foreach($data['post_data'] as $post)
                                     <div class="chat-message {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="post-{{ $post->id }}">
+                                        {{-- Sender --}}
                                         @if($post->employee_code != $employee_code)
                                             <div class="message-sender">
-                                                {{ App\Models\User::where('employee_id', $post->employee_code)->first()->name ?? $post->employee_code }}
+                                                {{ $post->user->name ?? $post->employee_code }}
                                             </div>
                                         @endif
                                         
+                                        {{-- Main Post Content --}}
                                         <div class="message-content">
+                                            {{-- Edit/Delete Menu for my posts --}}
                                             @if($post->employee_code == $employee_code)
                                                 <div class="message-menu">
                                                     <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
@@ -1116,63 +1119,69 @@
                                                 </div>
                                             @endif
                                             
+                                            {{-- Post Text --}}
                                             @if($post->title)
                                                 <div class="message-text">{{ $post->title }}</div>
                                             @endif
                                             
-                                            {{-- Display file attachment if exists --}}
+                                            {{-- Attachments --}}
                                             @if($post->file)
                                                 @php
                                                     $fileExtension = pathinfo($post->file, PATHINFO_EXTENSION);
-                                                    $fileIcon = 'fa-file';
-                                                    $fileType = 'file';
-                                                    
-                                                    if (in_array($fileExtension, ['pdf'])) {
-                                                        $fileIcon = 'fa-file-pdf';
-                                                        $fileType = 'pdf';
-                                                    } elseif (in_array($fileExtension, ['xlsx', 'xls'])) {
-                                                        $fileIcon = 'fa-file-excel';
-                                                        $fileType = 'excel';
-                                                    } elseif (in_array($fileExtension, ['png', 'jpg', 'jpeg', 'gif'])) {
-                                                        $fileIcon = 'fa-file-image';
-                                                        $fileType = 'image';
-                                                    }
-                                                    
-                                                    $fileSize = Storage::disk('public')->exists($post->file) ? 
-                                                        number_format(Storage::disk('public')->size($post->file) / 1024 / 1024, 2) . ' MB' : 
-                                                        'Unknown size';
+                                                    $fileType = in_array($fileExtension, ['png','jpg','jpeg','gif']) ? 'image' : 'file';
                                                 @endphp
-                                                
+
                                                 @if($fileType === 'image')
                                                     <div class="attachment">
                                                         <a href="{{ asset('storage/' . $post->file) }}" download>
-                                                        <img src="{{ asset('storage/' . $post->file) }}" alt="Attachment" style="max-width: 200px; max-height: 200px;">
+                                                            <img src="{{ asset('storage/' . $post->file) }}" alt="Attachment" style="max-width: 200px; max-height: 200px;">
                                                         </a>
                                                     </div>
                                                 @else
                                                     <div class="file-attachment">
-                                                        <div class="file-icon">
-                                                            <i class="fas {{ $fileIcon }}"></i>
-                                                        </div>
-                                                        <div class="file-info">
-                                                            <div class="file-name">{{ basename($post->file) }}</div>
-                                                            <div class="file-size">{{ $fileSize }}</div>
-                                                        </div>
-                                                        <a href="{{ asset('storage/' . $post->file) }}" class="download-btn" download>
-                                                            <i class="fas fa-download"></i>
+                                                        <i class="fas fa-file"></i>
+                                                        <a href="{{ asset('storage/' . $post->file) }}" download>
+                                                            {{ basename($post->file) }}
                                                         </a>
                                                     </div>
                                                 @endif
                                             @endif
                                             
                                             <div class="message-time">
-                                                {{ $post->created_at->format('h:i A') }} • 
-                                                {{ $post->created_at->format('M j, Y') }}
+                                                {{ $post->created_at->format('h:i A • M j, Y') }}
                                             </div>
                                         </div>
+
+                                        {{-- Replies Section --}}
+                                        @if($post->replies->count() > 0)
+                                            <div class="replies">
+                                                @foreach($post->replies as $reply)
+                                                    <div class="reply-message {{ $reply->employee_code == $employee_code ? 'mine' : '' }}">
+                                                        <div class="reply-content">
+                                                            <strong>{{ $reply->user->name ?? $reply->employee_code }}:</strong> 
+                                                            {{ $reply->reply_text }}
+                                                            <div class="reply-time">
+                                                                {{ $reply->created_at->format('h:i A • M j, Y') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+
+                                        {{-- Reply Form --}}
+                                        <form action="{{ route('project.post.reply') }}" method="post" class="reply-form">
+                                            @csrf
+                                            <input type="hidden" name="project_id" value="{{ $data['id'] }}">
+                                            <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                            <div class="reply-input">
+                                                <input type="text" name="reply_text" placeholder="Write a reply..." required>
+                                                <button type="submit"><i class="fas fa-reply"></i></button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    
-                                    {{-- Add divider for different dates --}}
+
+                                    {{-- Divider for dates --}}
                                     @if(!$loop->last && !$post->created_at->isSameDay($data['post_data'][$loop->index + 1]->created_at))
                                         <div class="divider">
                                             <span class="divider-text">{{ $data['post_data'][$loop->index + 1]->created_at->format('F j, Y') }}</span>
@@ -1187,6 +1196,7 @@
                             @endif
                         </div>
                         
+                        {{-- New Post Form --}}
                         <form action="{{ route('project.post') }}" method="post" enctype="multipart/form-data" id="post-form">
                             @csrf
                             <input type="hidden" name="project_id" value="{{ $data['id'] }}">
@@ -1204,7 +1214,8 @@
                             </div>
                         </form>
                     </div>
-                </div>   
+                </div>
+  
             </div>
         </div>
     </div>

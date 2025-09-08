@@ -18,9 +18,22 @@ class ProjectPost extends Model
        'file' 
     ];
 
-    public function user()
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'employee_code', 'employee_id','emid');
+    // }
+    
+
+ public function user()
+{
+    return $this->belongsTo(User::class, 'employee_code', 'employee_id')
+        ->where('users.emid', $this->emid); // use current post's emid
+}
+
+
+    public function replies()
     {
-        return $this->belongsTo(User::class, 'employee_code', 'employee_id');
+        return $this->hasMany(ProjectPostReply::class, 'post_id', 'id');
     }
 
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\HolidayController;
 use App\Http\Controllers\Api\BreakTimeController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\TaskController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -53,6 +54,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('attendance-status',[AttendanceController::class, 'showEmpAttendanceStatus']);
     Route::post('creat-break',[BreakTimeController::class, 'store']);
     Route::get('break-status',[BreakTimeController::class, 'breakStatus']);
+    //for aminul
+    Route::post('show-emp-attendance',[AttendanceController::class, 'showEmpAttandanceWF']);
 
 });
 
@@ -80,6 +83,13 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::post('work-update',[EmployeeController::class, 'workStore']);
     Route::get('work-edit/{id}',[EmployeeController::class, 'workUpdateEdit']);
     Route::put('work-update/{id}',[EmployeeController::class, 'workUpdate']);
+  
+});
+
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
+    Route::get('project-list',[TaskController::class, 'employeeTask']);
+    Route::get('/projects/members/{project}', [TaskController::class, 'members']);
+   
   
 });
 

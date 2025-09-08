@@ -12,6 +12,7 @@ use App\Models\TaskManagement\Task;
 use App\Models\User;
 use App\Models\Employee;
 use App\Models\ProjectPost;
+use App\Models\ProjectPostReply;
 use DB;
 use Session;
 use Storage;
@@ -155,90 +156,90 @@ class TaskController extends Controller
     }
 
 
-    public function members(Request $request, $id)
-    {
-        $email = Session::get("emp_email");
-        if (empty($email)) {
-            return redirect("/");
-        }
+    // public function members(Request $request, $id)
+    // {
+    //     $email = Session::get("emp_email");
+    //     if (empty($email)) {
+    //         return redirect("/");
+    //     }
         
-        $empData = User::where('email', $email)->first();
-        $emid = $empData->emid;
-        $employee_code = $empData->employee_id;
+    //     $empData = User::where('email', $email)->first();
+    //     $emid = $empData->emid;
+    //     $employee_code = $empData->employee_id;
 
-        $projectData = DB::table('projects as p')
-            ->leftJoin('project_members as pm', 'p.id', '=', 'pm.project_id')
-            ->leftJoin('tasks as t', 'p.id', '=', 't.project_id')
-            ->leftJoin('employee as e', 'pm.user_id', '=', 'e.id')
-            ->where('p.id', $id)
-            ->select([
-                'p.id as project_id',
-                'p.title as project_title',
-                'p.description as project_description',
-                'p.status as project_status',
-                'pm.role as member_role',
-                't.task_name',
-                't.task_desc',
-                't.start_date',
-                't.expected_end_date',
-                DB::raw("CONCAT(e.emp_fname, ' ', COALESCE(e.emp_mname, ''), ' ', e.emp_lname) as employee_name"),
-                'e.emp_code as employee_code'
-            ])
-            ->orderBy('employee_name')
-            ->orderBy('t.start_date')
-            ->get();
-        //dd($projectData);        
-        // Group the data by project
-        $groupedData = [
-            'project' => null,
-            'members' => [],
-            'tasks' => []
-        ];
+    //     $projectData = DB::table('projects as p')
+    //         ->leftJoin('project_members as pm', 'p.id', '=', 'pm.project_id')
+    //         ->leftJoin('tasks as t', 'p.id', '=', 't.project_id')
+    //         ->leftJoin('employee as e', 'pm.user_id', '=', 'e.id')
+    //         ->where('p.id', $id)
+    //         ->select([
+    //             'p.id as project_id',
+    //             'p.title as project_title',
+    //             'p.description as project_description',
+    //             'p.status as project_status',
+    //             'pm.role as member_role',
+    //             't.task_name',
+    //             't.task_desc',
+    //             't.start_date',
+    //             't.expected_end_date',
+    //             DB::raw("CONCAT(e.emp_fname, ' ', COALESCE(e.emp_mname, ''), ' ', e.emp_lname) as employee_name"),
+    //             'e.emp_code as employee_code'
+    //         ])
+    //         ->orderBy('employee_name')
+    //         ->orderBy('t.start_date')
+    //         ->get();
+    //     //dd($projectData);        
+    //     // Group the data by project
+    //     $groupedData = [
+    //         'project' => null,
+    //         'members' => [],
+    //         'tasks' => []
+    //     ];
 
-        foreach ($projectData as $item) {
-            // Set project info (only once)
-            if (!$groupedData['project']) {
-                $groupedData['project'] = [
-                    'id' => $item->project_id,
-                    'title' => $item->project_title,
-                    'description' => $item->project_description,
-                    'status' => $item->project_status
-                ];
-            }
+    //     foreach ($projectData as $item) {
+    //         // Set project info (only once)
+    //         if (!$groupedData['project']) {
+    //             $groupedData['project'] = [
+    //                 'id' => $item->project_id,
+    //                 'title' => $item->project_title,
+    //                 'description' => $item->project_description,
+    //                 'status' => $item->project_status
+    //             ];
+    //         }
 
-            // Add unique members
-            if ($item->employee_name && !isset($groupedData['members'][$item->employee_code])) {
-                $groupedData['members'][$item->employee_code] = [
-                    'name' => $item->employee_name,
-                    'employee_code' => $item->employee_code,
-                    'role' => $item->member_role
-                ];
-            }
+    //         // Add unique members
+    //         if ($item->employee_name && !isset($groupedData['members'][$item->employee_code])) {
+    //             $groupedData['members'][$item->employee_code] = [
+    //                 'name' => $item->employee_name,
+    //                 'employee_code' => $item->employee_code,
+    //                 'role' => $item->member_role
+    //             ];
+    //         }
 
-            // Add unique tasks
-            if ($item->task_name && !isset($groupedData['tasks'][$item->task_name])) {
-                $groupedData['tasks'][$item->task_name] = [
-                    'task_name' => $item->task_name,
-                    'task_desc' => $item->task_desc,
-                    'start_date' => $item->start_date,
-                    'expected_end_date' => $item->expected_end_date
-                ];
-            }
-        }
+    //         // Add unique tasks
+    //         if ($item->task_name && !isset($groupedData['tasks'][$item->task_name])) {
+    //             $groupedData['tasks'][$item->task_name] = [
+    //                 'task_name' => $item->task_name,
+    //                 'task_desc' => $item->task_desc,
+    //                 'start_date' => $item->start_date,
+    //                 'expected_end_date' => $item->expected_end_date
+    //             ];
+    //         }
+    //     }
 
-        // Convert to simple arrays
-        $groupedData['members'] = array_values($groupedData['members']);
-        $groupedData['tasks'] = array_values($groupedData['tasks']);
-        //dd($groupedData);
-        $data['id'] = $id;
-        $data['post_data'] = ProjectPost::with('user') // Add relationship if you have one
-            ->where('project_id', $id)
-            ->orderBy('created_at', 'asc')
-            ->get(); 
+    //     // Convert to simple arrays
+    //     $groupedData['members'] = array_values($groupedData['members']);
+    //     $groupedData['tasks'] = array_values($groupedData['tasks']);
+    //     //dd($groupedData);
+    //     $data['id'] = $id;
+    //     $data['post_data'] = ProjectPost::with('user') // Add relationship if you have one
+    //         ->where('project_id', $id)
+    //         ->orderBy('created_at', 'asc')
+    //         ->get(); 
         
-        // Pass employee_code to the view to identify "my" messages
-        return view('employeer/employee-corner/task/tt', compact('data', 'employee_code','groupedData'));
-    }
+    //     // Pass employee_code to the view to identify "my" messages
+    //     return view('employeer/employee-corner/task/tt', compact('data', 'employee_code','groupedData'));
+    // }
 
     
 
@@ -395,6 +396,160 @@ class TaskController extends Controller
             'message' => 'Post deleted successfully'
         ]);
     }
+
+
+    public function members(Request $request, $id)
+    {
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        
+        $empData = User::where('email', $email)->first();
+        $emid = $empData->emid;
+        $employee_code = $empData->employee_id;
+
+        // Fetch project details with members and tasks
+        $projectData = DB::table('projects as p')
+            ->leftJoin('project_members as pm', 'p.id', '=', 'pm.project_id')
+            ->leftJoin('tasks as t', 'p.id', '=', 't.project_id')
+            ->leftJoin('employee as e', 'pm.user_id', '=', 'e.id')
+            ->where('p.id', $id)
+            ->select([
+                'p.id as project_id',
+                'p.title as project_title',
+                'p.description as project_description',
+                'p.status as project_status',
+                'pm.role as member_role',
+                't.task_name',
+                't.task_desc',
+                't.start_date',
+                't.expected_end_date',
+                DB::raw("CONCAT(e.emp_fname, ' ', COALESCE(e.emp_mname, ''), ' ', e.emp_lname) as employee_name"),
+                'e.emp_code as employee_code'
+            ])
+            ->orderBy('employee_name')
+            ->orderBy('t.start_date')
+            ->get();
+
+        // Group the data by project
+        $groupedData = [
+            'project' => null,
+            'members' => [],
+            'tasks' => []
+        ];
+
+        foreach ($projectData as $item) {
+            // Project info
+            if (!$groupedData['project']) {
+                $groupedData['project'] = [
+                    'id' => $item->project_id,
+                    'title' => $item->project_title,
+                    'description' => $item->project_description,
+                    'status' => $item->project_status
+                ];
+            }
+
+            // Unique members
+            if ($item->employee_name && !isset($groupedData['members'][$item->employee_code])) {
+                $groupedData['members'][$item->employee_code] = [
+                    'name' => $item->employee_name,
+                    'employee_code' => $item->employee_code,
+                    'role' => $item->member_role
+                ];
+            }
+
+            // Unique tasks
+            if ($item->task_name && !isset($groupedData['tasks'][$item->task_name])) {
+                $groupedData['tasks'][$item->task_name] = [
+                    'task_name' => $item->task_name,
+                    'task_desc' => $item->task_desc,
+                    'start_date' => $item->start_date,
+                    'expected_end_date' => $item->expected_end_date
+                ];
+            }
+        }
+
+        $groupedData['members'] = array_values($groupedData['members']);
+        $groupedData['tasks'] = array_values($groupedData['tasks']);
+
+        // Load posts with replies
+        $data['id'] = $id;
+        // $data['post_data'] = ProjectPost::with(['user', 'replies.user']) // eager load replies + reply user
+        //     ->where('project_id', $id)
+        //     ->where('emid',$emid)
+        //     ->orderBy('created_at', 'asc')
+        //     ->get();
+
+
+        $data['post_data'] = DB::table('project_post as p')
+            ->leftJoin('users as u', function($join) {
+                $join->on('u.employee_id', '=', 'p.employee_code')
+                    ->where(function($q) {
+                        $q->on('u.emid', '=', 'p.emid')
+                        ->orWhereNull('p.emid'); // allow null org
+                    });
+            })
+            ->leftJoin('project_post_reply as r', 'r.post_id', '=', 'p.id')
+            ->leftJoin('users as ru', function($join) {
+                $join->on('ru.employee_id', '=', 'r.employee_code')
+                    ->where(function($q) {
+                        $q->on('ru.emid', '=', 'r.emid')
+                        ->orWhereNull('r.emid'); // allow null org on replies too
+                    });
+            })
+            ->where('p.project_id', $id)
+            ->where(function($q) use ($emid) {
+                $q->where('p.emid', $emid)
+                ->orWhereNull('p.emid');
+            })
+            ->orderBy('p.created_at', 'asc')
+            ->select([
+                'p.*',
+                'u.name as post_user_name',
+                'r.id as reply_id',
+                'r.reply_text',
+                'r.created_at as reply_created_at',
+                'ru.name as reply_user_name'
+            ])
+            ->get();
+
+
+            
+        dd($data['post_data']);
+        return view('employeer/employee-corner/task/tt', compact('data', 'employee_code', 'groupedData'));
+    }
+
+    public function store(Request $request)
+    {
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        
+        $empData = User::where('email', $email)->first();
+        //dd($empData);
+        $emid = $empData->emid;
+        $employee_code = $empData->employee_id;
+        
+        $request->validate([
+            'project_id' => 'required',
+            'post_id' => 'required|exists:project_post,id',
+            'reply_text' => 'required|string',
+        ]);
+
+        ProjectPostReply::create([
+            'emid' => $emid,
+            'project_id' => $request->project_id,
+            'post_id' => $request->post_id,
+            'employee_code' => $employee_code,
+            'reply_text' => $request->reply_text,
+        ]);
+
+        return back()->with('success', 'Reply added successfully.');
+    }
+
+
 
     
 
