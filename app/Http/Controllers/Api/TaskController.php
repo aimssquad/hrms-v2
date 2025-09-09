@@ -206,6 +206,7 @@ public function members(Request $request, $id)
                 'p.title',
                 'p.file',
                 'p.created_at',
+                'p.employee_code',
                 'u.name as user_name'
             ])
             ->get();
@@ -221,6 +222,7 @@ public function members(Request $request, $id)
 
                 $post->replies = $parent ? [[
                     'id'         => $parent->id,
+                    'employee_code' => $parent->employee_code,
                     'parent_id'  => $parent->parent_id,
                     'title'      => $parent->title,
                     'file'       => $parent->file,
