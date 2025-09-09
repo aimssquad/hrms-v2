@@ -89,7 +89,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
     Route::get('project-list',[TaskController::class, 'employeeTask']);
     Route::get('/projects/members/{project}', [TaskController::class, 'members']);
-   
+    Route::post('/project-post-reply', [TaskController::class, 'store']);
   
 });
 
