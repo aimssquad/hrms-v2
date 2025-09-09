@@ -109,102 +109,78 @@
                             </div>
                             
                             <div class="chat-box custom-scroll">
-                                @if($data['post_data']->count() > 0)
-                                    @foreach($data['post_data'] as $post)
+                                @php
+                                    // Only get top-level posts
+                                    $topPosts = $data['post_data']->whereNull('parent_id');
+                                @endphp
+
+                                @if($topPosts->count() > 0)
+                                    @foreach($topPosts as $post)
                                         <div class="chat-message {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="post-{{ $post->id }}">
+                                            {{-- Sender name for others --}}
                                             @if($post->employee_code != $employee_code)
-                                                <div class="message-sender">
-                                                    {{ App\Models\User::where('employee_id', $post->employee_code)->first()->name ?? $post->employee_code }}
-                                                </div>
+                                                <div class="message-sender">{{ $post->user_name }}</div>
                                             @endif
-                                            
+
                                             <div class="message-content">
-                                                @if($post->employee_code == $employee_code)
-                                                    <div class="message-menu">
-                                                        <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
-                                                            <i class="fas fa-ellipsis-v"></i>
-                                                        </button>
-                                                        <div class="menu-dropdown" id="menu-{{ $post->id }}">
-                                                            <div class="menu-item edit" onclick="openEditModal({{ $post->id }})">
-                                                                <i class="fas fa-edit"></i> Edit
-                                                            </div>
-                                                            <div class="menu-item delete btn-btnp" onclick="deletePost({{ $post->id }})">
-                                                                <i class="fas fa-trash"></i> Delete
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                                
+                                                {{-- Main message text --}}
                                                 @if($post->title)
                                                     <div class="message-text">{{ $post->title }}</div>
                                                 @endif
-                                                
-                                                {{-- Display file attachment if exists --}}
+
+                                                {{-- File attachment --}}
                                                 @if($post->file)
-                                                    @php
-                                                        $fileExtension = pathinfo($post->file, PATHINFO_EXTENSION);
-                                                        $fileIcon = 'fa-file';
-                                                        $fileType = 'file';
-                                                        
-                                                        if (in_array($fileExtension, ['pdf'])) {
-                                                            $fileIcon = 'fa-file-pdf';
-                                                            $fileType = 'pdf';
-                                                        } elseif (in_array($fileExtension, ['xlsx', 'xls'])) {
-                                                            $fileIcon = 'fa-file-excel';
-                                                            $fileType = 'excel';
-                                                        } elseif (in_array($fileExtension, ['png', 'jpg', 'jpeg', 'gif'])) {
-                                                            $fileIcon = 'fa-file-image';
-                                                            $fileType = 'image';
-                                                        }
-                                                        
-                                                        $fileSize = Storage::disk('public')->exists($post->file) ? 
-                                                            number_format(Storage::disk('public')->size($post->file) / 1024 / 1024, 2) . ' MB' : 
-                                                            'Unknown size';
-                                                    @endphp
-                                                    
-                                                    @if($fileType === 'image')
-                                                        <div class="attachment">
-                                                            <a href="{{ asset('storage/' . $post->file) }}" download>
-                                                            <img src="{{ asset('storage/' . $post->file) }}" alt="Attachment" style="max-width: 200px; max-height: 200px;">
-                                                            </a>
-                                                        </div>
-                                                    @else
-                                                        <div class="file-attachment">
-                                                            <div class="file-icon">
-                                                                <i class="fas {{ $fileIcon }}"></i>
-                                                            </div>
-                                                            <div class="file-info">
-                                                                <div class="file-name">{{ basename($post->file) }}</div>
-                                                                <div class="file-size">{{ $fileSize }}</div>
-                                                            </div>
-                                                            <a href="{{ asset('storage/' . $post->file) }}" class="download-btn" download>
-                                                                <i class="fas fa-download"></i>
-                                                            </a>
-                                                        </div>
-                                                    @endif
+                                                    <div class="attachment">
+                                                        <a href="{{ asset('storage/app/public/' . $post->file) }}" download>
+                                                            <img src="{{ asset('storage/app/public/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                        </a>
+                                                    </div>
                                                 @endif
-                                                
+
+                                                {{-- Time --}}
                                                 <div class="message-time">
-                                                    {{ $post->created_at->format('h:i A') }} • 
-                                                    {{ $post->created_at->format('M j, Y') }}
+                                                    {{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        {{-- Add divider for different dates --}}
-                                        @if(!$loop->last && !$post->created_at->isSameDay($data['post_data'][$loop->index + 1]->created_at))
-                                            <div class="divider">
-                                                <span class="divider-text">{{ $data['post_data'][$loop->index + 1]->created_at->format('F j, Y') }}</span>
+
+                                        {{-- 🔹 Show replies to this post --}}
+                                        @php
+                                            $replies = $data['post_data']->where('parent_id', $post->id);
+                                        @endphp
+                                        @if($replies->count() > 0)
+                                            <div class="replies-container">
+                                                @foreach($replies as $reply)
+                                                    <div class="chat-message reply {{ $reply->employee_code == $employee_code ? 'mine' : '' }}" id="reply-{{ $reply->id }}">
+                                                        @if($reply->employee_code != $employee_code)
+                                                            <div class="message-sender">{{ $reply->user_name }}</div>
+                                                        @endif
+                                                        <div class="message-content">
+                                                            {{-- Show quoted parent text like WhatsApp --}}
+                                                            <div class="quoted-message">
+                                                                <span class="quoted-user">{{ $post->user_name }}</span>
+                                                                <span class="quoted-text">{{ \Illuminate\Support\Str::limit($post->title, 50) }}</span>
+                                                            </div>
+
+                                                            <div class="message-text">{{ $reply->title }}</div>
+
+                                                            <div class="message-time">
+                                                                {{ \Carbon\Carbon::parse($reply->created_at)->format('h:i A • M j, Y') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         @endif
                                     @endforeach
                                 @else
                                     <div class="no-messages">
                                         <i class="fas fa-comments"></i>
-                                        <p>{{\App\Helpers\Helper::cachedTrans('No messages yet. Start the conversation!')}}</p>
+                                        <p>{{ \App\Helpers\Helper::cachedTrans('No messages yet. Start the conversation!') }}</p>
                                     </div>
                                 @endif
                             </div>
+
                             
                             <form action="{{ route('project.post') }}" method="post" enctype="multipart/form-data" id="post-form">
                                 @csrf

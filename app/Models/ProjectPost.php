@@ -13,6 +13,7 @@ class ProjectPost extends Model
     protected $fillable = [
        'emid',
        'project_id',
+       'parent_id',
        'employee_code',
        'title',
        'file' 

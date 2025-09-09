@@ -89,6 +89,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
     Route::get('project-list',[TaskController::class, 'employeeTask']);
     Route::get('/projects/members/{project}', [TaskController::class, 'members']);
+
+    Route::post('project/post',[TaskController::class, 'empProjectPost']);    
+    Route::get('/project-posts/{id}/edit', [TaskController::class, 'edit']);
+    Route::put('/project-posts/{id}', [TaskController::class, 'update']);
+    Route::delete('/project-posts/{id}', [TaskController::class, 'destroy']);
+
     Route::post('/project-post-reply', [TaskController::class, 'store']);
   
 });
