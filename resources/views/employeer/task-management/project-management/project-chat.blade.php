@@ -278,12 +278,32 @@
 
                                                 {{-- File --}}
                                                 @if($post->file)
+                                                    @php
+                                                        $filePath = 'storage/app/public/' . $post->file;
+                                                        $extension = strtolower(pathinfo($post->file, PATHINFO_EXTENSION));
+                                                    @endphp
                                                     <div class="attachment">
-                                                        <a href="{{ asset('storage/app/public/' . $post->file) }}" download>
-                                                            <img src="{{ asset('storage/app/public/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                        <a href="{{ asset($filePath) }}" target="_blank" download>
+                                                            @if(in_array($extension, ['jpg','jpeg','png','gif','webp']))
+                                                                {{-- Show image preview --}}
+                                                                <img src="{{ asset($filePath) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                            @elseif($extension === 'pdf')
+                                                                {{-- PDF icon --}}
+                                                                <i class="fas fa-file-pdf fa-3x text-red-600"></i> <span>PDF File</span>
+                                                            @elseif(in_array($extension, ['xls','xlsx']))
+                                                                {{-- Excel icon --}}
+                                                                <i class="fas fa-file-excel fa-3x text-green-600"></i> <span>Excel File</span>
+                                                            @elseif(in_array($extension, ['doc','docx']))
+                                                                {{-- Word icon --}}
+                                                                <i class="fas fa-file-word fa-3x text-blue-600"></i> <span>Word File</span>
+                                                            @else
+                                                                {{-- Generic file --}}
+                                                                <i class="fas fa-file fa-3x text-gray-600"></i> <span>File</span>
+                                                            @endif
                                                         </a>
                                                     </div>
                                                 @endif
+
 
                                                 {{-- Time --}}
                                                 <div class="message-time">
@@ -386,12 +406,32 @@
 
                                                 <div class="message-text">{{ $post->title }}</div>
                                                 @if($post->file)
+                                                    @php
+                                                        $filePath = 'storage/app/public/' . $post->file;
+                                                        $extension = strtolower(pathinfo($post->file, PATHINFO_EXTENSION));
+                                                    @endphp
                                                     <div class="attachment">
-                                                        <a href="{{ asset('storage/app/public/' . $post->file) }}" download>
-                                                            <img src="{{ asset('storage/app/public/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                        <a href="{{ asset($filePath) }}" target="_blank" download>
+                                                            @if(in_array($extension, ['jpg','jpeg','png','gif','webp']))
+                                                                {{-- Show image preview --}}
+                                                                <img src="{{ asset($filePath) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                            @elseif($extension === 'pdf')
+                                                                {{-- PDF icon --}}
+                                                                <i class="fas fa-file-pdf fa-3x text-red-600"></i> <span>PDF File</span>
+                                                            @elseif(in_array($extension, ['xls','xlsx']))
+                                                                {{-- Excel icon --}}
+                                                                <i class="fas fa-file-excel fa-3x text-green-600"></i> <span>Excel File</span>
+                                                            @elseif(in_array($extension, ['doc','docx']))
+                                                                {{-- Word icon --}}
+                                                                <i class="fas fa-file-word fa-3x text-blue-600"></i> <span>Word File</span>
+                                                            @else
+                                                                {{-- Generic file --}}
+                                                                <i class="fas fa-file fa-3x text-gray-600"></i> <span>File</span>
+                                                            @endif
                                                         </a>
                                                     </div>
                                                 @endif
+
                                                 <div class="message-time">{{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}</div>
                                             </div>
                                         </div>
