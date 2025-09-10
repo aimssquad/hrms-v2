@@ -1,6 +1,94 @@
 @extends('employeer.task-management.project-management.app')
 
 @section('title', \App\Helpers\Helper::cachedTrans('Chat With Employee'))
+@section('css')
+<style>
+  .message-menu {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+.menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #666;
+}
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 10;
+    min-width: 120px;
+}
+.menu-dropdown .menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.menu-dropdown .menu-item:hover {
+    background: #f1f1f1;
+}
+.menu-dropdown .delete {
+    color: red;
+}
+
+.chat-message {
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: #f5f5f5;
+    position: relative;
+}
+
+.chat-message.mine {
+    background: #d1e7ff; /* light blue for my posts */
+    text-align: right;
+}
+
+.chat-message.reply {
+    margin-left: 40px; /* indent replies */
+    border-left: 3px solid #007bff; /* blue line */
+    background: #fafafa;
+}
+
+.reply-wrapper {
+    padding-left: 8px;
+}
+
+.quoted-message {
+    font-size: 13px;
+    color: #555;
+    background: #f0f0f0;
+    border-left: 3px solid #ccc;
+    padding: 4px 8px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+}
+
+.quoted-user {
+    font-weight: bold;
+    margin-right: 4px;
+    color: #333;
+}
+
+.reply-text {
+    font-size: 14px;
+    color: #222;
+}
+
+
+
+</style>
+@endsection
 
 @section('content')
 {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -108,78 +196,158 @@
                                 <h3>{{\App\Helpers\Helper::cachedTrans('Team Discussion')}} ({{ \App\Helpers\Helper::cachedTrans($groupedData['project']['title']) }})</h3>
                             </div>
                             
-                            <div class="chat-box custom-scroll">
-                                @php
-                                    // Only get top-level posts
-                                    $topPosts = $data['post_data']->whereNull('parent_id');
-                                @endphp
+                        <div class="chat-box custom-scroll">
+    @forelse($data['post_data'] as $post)
 
-                                @if($topPosts->count() > 0)
-                                    @foreach($topPosts as $post)
-                                        <div class="chat-message {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="post-{{ $post->id }}">
-                                            {{-- Sender name for others --}}
-                                            @if($post->employee_code != $employee_code)
-                                                <div class="message-sender">{{ $post->user_name }}</div>
-                                            @endif
+        {{-- ✅ Show POSTS (parent_id = null) --}}
+        @if(is_null($post->parent_id))
+            <div class="chat-message {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="post-{{ $post->id }}">
+                @if($post->employee_code != $employee_code)
+                    <div class="message-sender">{{ $post->user_name }}</div>
+                @endif
 
-                                            <div class="message-content">
-                                                {{-- Main message text --}}
-                                                @if($post->title)
-                                                    <div class="message-text">{{ $post->title }}</div>
-                                                @endif
+                <div class="message-content">
+                    {{-- Menu --}}
+                    <div class="message-menu">
+                        <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="menu-dropdown" id="menu-{{ $post->id }}">
+                            {{-- Reply always visible --}}
+                            <div class="menu-item reply" onclick="setReply({{ $post->id }}, '{{ $post->title }}', '{{ $post->user_name }}')">
+                                <i class="fas fa-reply"></i> Reply
+                            </div>
+                            @if($post->employee_code == $employee_code)
+                                <div class="menu-item edit" onclick="openEditModal({{ $post->id }}, '{{ $post->title }}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </div>
+                                <div class="menu-item delete" onclick="deletePost({{ $post->id }})">
+                                    <i class="fas fa-trash"></i> Delete
+                                </div>
+                            @endif
+                        </div>
+                    </div>
 
-                                                {{-- File attachment --}}
-                                                @if($post->file)
-                                                    <div class="attachment">
-                                                        <a href="{{ asset('storage/app/public/' . $post->file) }}" download>
-                                                            <img src="{{ asset('storage/app/public/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
-                                                        </a>
-                                                    </div>
-                                                @endif
+                    {{-- Text --}}
+                    @if($post->title)
+                        <div class="message-text">{{ $post->title }}</div>
+                    @endif
 
-                                                {{-- Time --}}
-                                                <div class="message-time">
-                                                    {{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}
-                                                </div>
-                                            </div>
+                    {{-- File --}}
+                    @if($post->file)
+                        <div class="attachment">
+                            <a href="{{ asset('storage/' . $post->file) }}" download>
+                                <img src="{{ asset('storage/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                            </a>
+                        </div>
+                    @endif
+
+                    <div class="message-time">
+                        {{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}
+                    </div>
+                </div>
+            </div>
+
+            {{-- ✅ Show Replies (if nested in "replies") --}}
+            @if(!empty($post->replies))
+                <div class="replies-container">
+                    @foreach($post->replies as $reply)
+                        <div class="chat-message reply {{ $reply['employee_code'] == $employee_code ? 'mine' : '' }}" id="reply-{{ $reply['id'] }}">
+                            @if($reply['employee_code'] != $employee_code)
+                                <div class="message-sender">{{ $reply['user_name'] }}</div>
+                            @endif
+
+                            <div class="message-content">
+                                {{-- Menu --}}
+                                <div class="message-menu">
+                                    <button class="menu-toggle" onclick="toggleMenu({{ $reply['id'] }})">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="menu-dropdown" id="menu-{{ $reply['id'] }}">
+                                        <div class="menu-item reply" onclick="setReply({{ $reply['id'] }}, '{{ $reply['title'] }}', '{{ $reply['user_name'] }}')">
+                                            <i class="fas fa-reply"></i> Reply
                                         </div>
-
-                                        {{-- 🔹 Show replies to this post --}}
-                                        @php
-                                            $replies = $data['post_data']->where('parent_id', $post->id);
-                                        @endphp
-                                        @if($replies->count() > 0)
-                                            <div class="replies-container">
-                                                @foreach($replies as $reply)
-                                                    <div class="chat-message reply {{ $reply->employee_code == $employee_code ? 'mine' : '' }}" id="reply-{{ $reply->id }}">
-                                                        @if($reply->employee_code != $employee_code)
-                                                            <div class="message-sender">{{ $reply->user_name }}</div>
-                                                        @endif
-                                                        <div class="message-content">
-                                                            {{-- Show quoted parent text like WhatsApp --}}
-                                                            <div class="quoted-message">
-                                                                <span class="quoted-user">{{ $post->user_name }}</span>
-                                                                <span class="quoted-text">{{ \Illuminate\Support\Str::limit($post->title, 50) }}</span>
-                                                            </div>
-
-                                                            <div class="message-text">{{ $reply->title }}</div>
-
-                                                            <div class="message-time">
-                                                                {{ \Carbon\Carbon::parse($reply->created_at)->format('h:i A • M j, Y') }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
+                                        @if($reply['employee_code'] == $employee_code)
+                                            <div class="menu-item edit" onclick="openEditModal({{ $reply['id'] }}, '{{ $reply['title'] }}')">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </div>
+                                            <div class="menu-item delete" onclick="deletePost({{ $reply['id'] }})">
+                                                <i class="fas fa-trash"></i> Delete
                                             </div>
                                         @endif
-                                    @endforeach
-                                @else
-                                    <div class="no-messages">
-                                        <i class="fas fa-comments"></i>
-                                        <p>{{ \App\Helpers\Helper::cachedTrans('No messages yet. Start the conversation!') }}</p>
                                     </div>
-                                @endif
+                                </div>
+
+                                {{-- Quoted parent --}}
+                                <div class="quoted-message">
+                                    <span class="quoted-user">{{ $post->user_name }}</span>
+                                    <span class="quoted-text">{{ \Illuminate\Support\Str::limit($post->title, 50) }}</span>
+                                </div>
+
+                                <div class="message-text">{{ $reply['title'] }}</div>
+                                <div class="message-time">{{ \Carbon\Carbon::parse($reply['created_at'])->format('h:i A • M j, Y') }}</div>
                             </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
+        @else
+            {{-- ✅ Direct REPLY (when parent_id is not null but no nested replies array) --}}
+            @php
+                $parent = $data['post_data']->firstWhere('id', $post->parent_id);
+            @endphp
+            <div class="chat-message reply {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="reply-{{ $post->id }}">
+                @if($post->employee_code != $employee_code)
+                    <div class="message-sender">{{ $post->user_name }}</div>
+                @endif
+
+                <div class="message-content">
+                    <div class="message-menu">
+                        <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="menu-dropdown" id="menu-{{ $post->id }}">
+                            <div class="menu-item reply" onclick="setReply({{ $post->id }}, '{{ $post->title }}', '{{ $post->user_name }}')">
+                                <i class="fas fa-reply"></i> Reply
+                            </div>
+                            @if($post->employee_code == $employee_code)
+                                <div class="menu-item edit" onclick="openEditModal({{ $post->id }}, '{{ $post->title }}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </div>
+                                <div class="menu-item delete" onclick="deletePost({{ $post->id }})">
+                                    <i class="fas fa-trash"></i> Delete
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    {{-- Quoted parent --}}
+                    @if(!empty($parent))
+                        <div class="quoted-message">
+                            <span class="quoted-user">{{ $parent->user_name }}</span>
+                            <span class="quoted-text">{{ \Illuminate\Support\Str::limit($parent->title, 50) }}</span>
+                        </div>
+                    @endif
+
+                    <div class="message-text">{{ $post->title }}</div>
+                    <div class="message-time">{{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}</div>
+                </div>
+            </div>
+        @endif
+
+    @empty
+        <div class="no-messages">
+            <i class="fas fa-comments"></i>
+            <p>No messages yet. Start the conversation!</p>
+        </div>
+    @endforelse
+</div>
+
+
+
+
+
 
                             
                             <form action="{{ route('project.post') }}" method="post" enctype="multipart/form-data" id="post-form">
@@ -1413,5 +1581,22 @@
                 alert('Error deleting post');
             });
         });
+    </script>
+    {{-- -------- --}}
+    <script>
+        function toggleMenu(id) {
+            document.querySelectorAll('.menu-dropdown').forEach(menu => {
+                if (menu.id !== 'menu-' + id) menu.style.display = 'none';
+            });
+            let menu = document.getElementById('menu-' + id);
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        document.addEventListener("click", function(e) {
+            if (!e.target.closest(".message-menu")) {
+                document.querySelectorAll(".menu-dropdown").forEach(menu => menu.style.display = "none");
+            }
+        });
+
     </script>
 @endsection

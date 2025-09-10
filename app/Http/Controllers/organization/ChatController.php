@@ -225,7 +225,7 @@ class ChatController extends Controller
 
     $data['id']        = $id;
     $data['post_data'] = $posts;
-
+    //dd($data['post_data']);
     return view(
         'employeer/task-management/project-management/project-chat',
         compact('data', 'employee_code', 'groupedData')

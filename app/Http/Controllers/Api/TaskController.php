@@ -657,6 +657,174 @@ public function members(Request $request, $id)
         }
     }
 
+    public function edit($id)
+    {
+        try {
+            // Get authenticated user (API guard)
+            $user = auth('api')->user(); 
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+
+            $employee_code = $user->employee_id;
+
+            // Fetch post owned by the user
+            $post = ProjectPost::where('id', $id)
+                ->where('employee_code', $employee_code)
+                ->first();
+
+            if (!$post) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Post not found or you don’t have permission'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'post' => $post
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        //dd($request->all());
+        try {
+            // 🔑 Get logged in user
+            $user = auth('api')->user();
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+
+            $employee_code = $user->employee_id;
+
+            // 🔎 Find post by id & employee
+            $post = ProjectPost::where('id', $id)
+                ->where('employee_code', $employee_code)
+                ->first();
+
+            if (!$post) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Post not found or you don’t have permission'
+                ], 404);
+            }
+
+            // ✅ Validation
+            $validate_data = Validator::make($request->all(), [
+                'title' => 'required|string|max:1000',
+                'file'  => 'nullable|file|mimes:pdf,png,jpg,jpeg,xls,xlsx|max:2048',
+            ]);
+
+            if ($validate_data->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $validate_data->errors()->first()
+                ], 422);
+            }
+
+            $data = [
+                'title' => $request->title,
+                'updated_at' => now()
+            ];
+
+            // 📂 Handle file upload
+            if ($request->hasFile('file')) {
+                // Delete old file
+                if ($post->file) {
+                    Storage::disk('public')->delete($post->file);
+                }
+
+                $file = $request->file('file');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('project_files', $fileName, 'public');
+                $data['file'] = $filePath;
+            }
+
+            // 📝 Update post
+            $post->update($data);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Post updated successfully',
+                'post'    => $post
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong',
+                'error'   => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            //  Get logged in user
+            $user = auth('api')->user();
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+
+            $employee_code = $user->employee_id;
+
+            // 🔎 Find post owned by current user
+            $post = ProjectPost::where('id', $id)
+                ->where('employee_code', $employee_code)
+                ->first();
+
+            if (!$post) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Post not found or you don’t have permission'
+                ], 404);
+            }
+
+            // 🗑 Delete associated file if exists
+            if ($post->file) {
+                Storage::disk('public')->delete($post->file);
+            }
+
+            //  Delete post
+            $post->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Post deleted successfully'
+            ],200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong',
+                'error'   => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 
 
 
