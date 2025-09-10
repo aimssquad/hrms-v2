@@ -133,6 +133,61 @@
     padding: 4px 6px; /* gives some clickable area */
 }
 
+/* Common styling for all file previews */
+.attachment {
+    margin-top: 8px;
+}
+
+.file-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #f5f5f5;
+    transition: background 0.2s ease-in-out;
+}
+
+.file-preview i {
+    font-size: 28px;
+}
+
+/* Hover effect */
+.file-preview:hover {
+    background: #eaeaea;
+    text-decoration: none;
+}
+
+/* PDF Styling */
+.file-preview.pdf {
+    color: #e63946; /* red */
+}
+
+/* Excel Styling */
+.file-preview.excel {
+    color: #2a9d8f; /* green */
+}
+
+/* Word Styling */
+.file-preview.word {
+    color: #457b9d; /* blue */
+}
+
+/* Generic File Styling */
+.file-preview.generic {
+    color: #6c757d; /* gray */
+}
+
+/* Image preview */
+.file-preview-img {
+    max-width: 150px;
+    border-radius: 6px;
+    display: block;
+}
+
+
 
 </style>
 @endsection
@@ -285,23 +340,31 @@
                                                     <div class="attachment">
                                                         <a href="{{ asset($filePath) }}" target="_blank" download>
                                                             @if(in_array($extension, ['jpg','jpeg','png','gif','webp']))
-                                                                {{-- Show image preview --}}
-                                                                <img src="{{ asset($filePath) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                                <img src="{{ asset($filePath) }}" alt="Attachment" class="file-preview-img">
                                                             @elseif($extension === 'pdf')
-                                                                {{-- PDF icon --}}
-                                                                <i class="fas fa-file-pdf fa-3x text-red-600"></i> <span>PDF File</span>
+                                                                <div class="file-preview pdf">
+                                                                    <i class="fas fa-file-pdf"></i>
+                                                                    <span>PDF File</span>
+                                                                </div>
                                                             @elseif(in_array($extension, ['xls','xlsx']))
-                                                                {{-- Excel icon --}}
-                                                                <i class="fas fa-file-excel fa-3x text-green-600"></i> <span>Excel File</span>
+                                                                <div class="file-preview excel">
+                                                                    <i class="fas fa-file-excel"></i>
+                                                                    <span>Excel File</span>
+                                                                </div>
                                                             @elseif(in_array($extension, ['doc','docx']))
-                                                                {{-- Word icon --}}
-                                                                <i class="fas fa-file-word fa-3x text-blue-600"></i> <span>Word File</span>
+                                                                <div class="file-preview word">
+                                                                    <i class="fas fa-file-word"></i>
+                                                                    <span>Word File</span>
+                                                                </div>
                                                             @else
-                                                                {{-- Generic file --}}
-                                                                <i class="fas fa-file fa-3x text-gray-600"></i> <span>File</span>
+                                                                <div class="file-preview generic">
+                                                                    <i class="fas fa-file"></i>
+                                                                    <span>File</span>
+                                                                </div>
                                                             @endif
                                                         </a>
                                                     </div>
+
                                                 @endif
 
 
@@ -413,23 +476,31 @@
                                                     <div class="attachment">
                                                         <a href="{{ asset($filePath) }}" target="_blank" download>
                                                             @if(in_array($extension, ['jpg','jpeg','png','gif','webp']))
-                                                                {{-- Show image preview --}}
-                                                                <img src="{{ asset($filePath) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                                <img src="{{ asset($filePath) }}" alt="Attachment" class="file-preview-img">
                                                             @elseif($extension === 'pdf')
-                                                                {{-- PDF icon --}}
-                                                                <i class="fas fa-file-pdf fa-3x text-red-600"></i> <span>PDF File</span>
+                                                                <div class="file-preview pdf">
+                                                                    <i class="fas fa-file-pdf"></i>
+                                                                    <span>PDF File</span>
+                                                                </div>
                                                             @elseif(in_array($extension, ['xls','xlsx']))
-                                                                {{-- Excel icon --}}
-                                                                <i class="fas fa-file-excel fa-3x text-green-600"></i> <span>Excel File</span>
+                                                                <div class="file-preview excel">
+                                                                    <i class="fas fa-file-excel"></i>
+                                                                    <span>Excel File</span>
+                                                                </div>
                                                             @elseif(in_array($extension, ['doc','docx']))
-                                                                {{-- Word icon --}}
-                                                                <i class="fas fa-file-word fa-3x text-blue-600"></i> <span>Word File</span>
+                                                                <div class="file-preview word">
+                                                                    <i class="fas fa-file-word"></i>
+                                                                    <span>Word File</span>
+                                                                </div>
                                                             @else
-                                                                {{-- Generic file --}}
-                                                                <i class="fas fa-file fa-3x text-gray-600"></i> <span>File</span>
+                                                                <div class="file-preview generic">
+                                                                    <i class="fas fa-file"></i>
+                                                                    <span>File</span>
+                                                                </div>
                                                             @endif
                                                         </a>
                                                     </div>
+
                                                 @endif
 
                                                 <div class="message-time">{{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}</div>
