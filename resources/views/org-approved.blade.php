@@ -25,7 +25,7 @@
                     <tr>
                         <td style="padding: 20px;">
                             <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; color: #333;"><strong>Dear {{ strtoupper($name) }},</strong></p>
-                            <p style="font-size: 20px; font-family: 'Times New Roman', Times, serif; text-align: justify; color: #333;">
+                            <p style="font-size: 16px; font-family: 'Times New Roman', Times, serif; text-align: justify; color: #333;">
                                 Congratulations! Your organization has been successfully verified. Thank you for registering with Skilled Workers Cloud (SWC). You’re now ready to set up your organization profile and unlock the full potential of our HRMS.
                             </p>
                             
