@@ -84,7 +84,54 @@
     font-size: 14px;
     color: #222;
 }
+/* ---reply button  */
+.chat-message {
+    position: relative; /* so reply-btn can be absolutely placed */
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f8f9fa;
+}
 
+.message-content {
+    flex: 1; /* take full width */
+}
+
+.reply-btn {
+    position: absolute;
+    right: -70px; /* move outside the card to the right */
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f1f1f1;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.3s;
+}
+
+.reply-btn:hover {
+    background: #e2e6ea;
+}
+
+.message-menu {
+    display: inline-block;
+    margin-left: 15px;  /* push away from text */
+    vertical-align: middle; /* align with text nicely */
+}
+
+.menu-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px; /* gives some clickable area */
+}
 
 
 </style>
@@ -196,153 +243,167 @@
                                 <h3>{{\App\Helpers\Helper::cachedTrans('Team Discussion')}} ({{ \App\Helpers\Helper::cachedTrans($groupedData['project']['title']) }})</h3>
                             </div>
                             
-                        <div class="chat-box custom-scroll">
-    @forelse($data['post_data'] as $post)
+                            <div class="chat-box custom-scroll">
+                                @forelse($data['post_data'] as $post)
 
-        {{-- ✅ Show POSTS (parent_id = null) --}}
-        @if(is_null($post->parent_id))
-            <div class="chat-message {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="post-{{ $post->id }}">
-                @if($post->employee_code != $employee_code)
-                    <div class="message-sender">{{ $post->user_name }}</div>
-                @endif
+                                    {{-- ✅ Show POSTS (parent_id = null) --}}
+                                    @if(is_null($post->parent_id))
+                                        <div class="chat-message {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="post-{{ $post->id }}">
+                                            @if($post->employee_code != $employee_code)
+                                                <div class="message-sender">{{ $post->user_name }}</div>
+                                            @endif
 
-                <div class="message-content">
-                    {{-- Menu --}}
-                    <div class="message-menu">
-                        <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <div class="menu-dropdown" id="menu-{{ $post->id }}">
-                            {{-- Reply always visible --}}
-                            <div class="menu-item reply" onclick="setReply({{ $post->id }}, '{{ $post->title }}', '{{ $post->user_name }}')">
-                                <i class="fas fa-reply"></i> Reply
-                            </div>
-                            @if($post->employee_code == $employee_code)
-                                <div class="menu-item edit" onclick="openEditModal({{ $post->id }}, '{{ $post->title }}')">
-                                    <i class="fas fa-edit"></i> Edit
-                                </div>
-                                <div class="menu-item delete" onclick="deletePost({{ $post->id }})">
-                                    <i class="fas fa-trash"></i> Delete
-                                </div>
-                            @endif
-                        </div>
-                    </div>
+                                            <div class="message-content">
+                                                {{-- 3-dot Menu --}}
+                                                <div class="message-menu">
+                                                    <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <div class="menu-dropdown" id="menu-{{ $post->id }}">
+                                                        @if($post->employee_code == $employee_code)
+                                                            <div class="menu-item edit" onclick="openEditModal({{ $post->id }}, '{{ $post->title }}')">
+                                                                <i class="fas fa-edit"></i> Edit
+                                                            </div>
+                                                            <div class="menu-item delete" onclick="deletePost({{ $post->id }})">
+                                                                <i class="fas fa-trash"></i> Delete
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
 
-                    {{-- Text --}}
-                    @if($post->title)
-                        <div class="message-text">{{ $post->title }}</div>
-                    @endif
+                                                {{-- Main Text --}}
+                                                @if($post->title)
+                                                    <div class="message-text">{{ $post->title }}</div>
+                                                @endif
 
-                    {{-- File --}}
-                    @if($post->file)
-                        <div class="attachment">
-                            <a href="{{ asset('storage/' . $post->file) }}" download>
-                                <img src="{{ asset('storage/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
-                            </a>
-                        </div>
-                    @endif
+                                                {{-- File --}}
+                                                @if($post->file)
+                                                    <div class="attachment">
+                                                        <a href="{{ asset('storage/' . $post->file) }}" download>
+                                                            <img src="{{ asset('storage/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                        </a>
+                                                    </div>
+                                                @endif
 
-                    <div class="message-time">
-                        {{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}
-                    </div>
-                </div>
-            </div>
-
-            {{-- ✅ Show Replies (if nested in "replies") --}}
-            @if(!empty($post->replies))
-                <div class="replies-container">
-                    @foreach($post->replies as $reply)
-                        <div class="chat-message reply {{ $reply['employee_code'] == $employee_code ? 'mine' : '' }}" id="reply-{{ $reply['id'] }}">
-                            @if($reply['employee_code'] != $employee_code)
-                                <div class="message-sender">{{ $reply['user_name'] }}</div>
-                            @endif
-
-                            <div class="message-content">
-                                {{-- Menu --}}
-                                <div class="message-menu">
-                                    <button class="menu-toggle" onclick="toggleMenu({{ $reply['id'] }})">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="menu-dropdown" id="menu-{{ $reply['id'] }}">
-                                        <div class="menu-item reply" onclick="setReply({{ $reply['id'] }}, '{{ $reply['title'] }}', '{{ $reply['user_name'] }}')">
-                                            <i class="fas fa-reply"></i> Reply
-                                        </div>
-                                        @if($reply['employee_code'] == $employee_code)
-                                            <div class="menu-item edit" onclick="openEditModal({{ $reply['id'] }}, '{{ $reply['title'] }}')">
-                                                <i class="fas fa-edit"></i> Edit
+                                                {{-- Time --}}
+                                                <div class="message-time">
+                                                    {{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}
+                                                </div>
                                             </div>
-                                            <div class="menu-item delete" onclick="deletePost({{ $reply['id'] }})">
-                                                <i class="fas fa-trash"></i> Delete
+
+                                            {{-- Reply button outside, vertically centered --}}
+                                            @if($post->employee_code != $employee_code)
+                                                <div class="reply-btn" onclick="setReply({{ $post->id }}, '{{ $post->title }}', '{{ $post->user_name }}')">
+                                                    <i class="fas fa-reply"></i> Reply
+                                                </div>
+                                            @endif
+                                        </div>
+
+
+                                        {{-- ✅ Show Replies (if nested in "replies") --}}
+                                        @if(!empty($post->replies))
+                                            <div class="replies-container">
+                                                @foreach($post->replies as $reply)
+                                                    <div class="chat-message reply {{ $reply['employee_code'] == $employee_code ? 'mine' : '' }}" id="reply-{{ $reply['id'] }}">
+                                                        @if($reply['employee_code'] != $employee_code)
+                                                            <div class="message-sender">{{ $reply['user_name'] }}</div>
+                                                        @endif
+
+                                                        <div class="message-content">
+                                                            {{-- Menu --}}
+                                                            <div class="message-menu">
+                                                                <button class="menu-toggle" onclick="toggleMenu({{ $reply['id'] }})">
+                                                                    <i class="fas fa-ellipsis-v"></i>
+                                                                </button>
+                                                                <div class="menu-dropdown" id="menu-{{ $reply['id'] }}">
+                                                                    <div class="menu-item reply" onclick="setReply({{ $reply['id'] }}, '{{ $reply['title'] }}', '{{ $reply['user_name'] }}')">
+                                                                        <i class="fas fa-reply"></i> Reply
+                                                                    </div>
+                                                                    @if($reply['employee_code'] == $employee_code)
+                                                                        <div class="menu-item edit" onclick="openEditModal({{ $reply['id'] }}, '{{ $reply['title'] }}')">
+                                                                            <i class="fas fa-edit"></i> Edit
+                                                                        </div>
+                                                                        <div class="menu-item delete" onclick="deletePost({{ $reply['id'] }})">
+                                                                            <i class="fas fa-trash"></i> Delete
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+
+                                                            {{-- Quoted parent --}}
+                                                            <div class="quoted-message">
+                                                                <span class="quoted-user">{{ $post->user_name }}</span>
+                                                                <span class="quoted-text">{{ \Illuminate\Support\Str::limit($post->title, 50) }}</span>
+                                                            </div>
+
+                                                            <div class="message-text">{{ $reply['title'] }}</div>
+                                                            <div class="message-time">{{ \Carbon\Carbon::parse($reply['created_at'])->format('h:i A • M j, Y') }}</div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         @endif
+
+                                    @else
+                                        {{-- ✅ Direct REPLY (when parent_id is not null but no nested replies array) --}}
+                                        @php
+                                            $parent = $data['post_data']->firstWhere('id', $post->parent_id);
+                                        @endphp
+                                        <div class="chat-message reply {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="reply-{{ $post->id }}">
+                                            @if($post->employee_code != $employee_code)
+                                                <div class="message-sender">{{ $post->user_name }}</div>
+                                            @endif
+
+                                            <div class="message-content">
+                                                <div class="message-menu">
+                                                    <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <div class="menu-dropdown" id="menu-{{ $post->id }}">
+                                                        {{-- <div class="menu-item reply" onclick="setReply({{ $post->id }}, '{{ $post->title }}', '{{ $post->user_name }}')">
+                                                            <i class="fas fa-reply"></i> Reply
+                                                        </div> --}}
+                                                        @if($post->employee_code == $employee_code)
+                                                            <div class="menu-item edit" onclick="openEditModal({{ $post->id }}, '{{ $post->title }}')">
+                                                                <i class="fas fa-edit"></i> Edit
+                                                            </div>
+                                                            <div class="menu-item delete" onclick="deletePost({{ $post->id }})">
+                                                                <i class="fas fa-trash"></i> Delete
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                                {{-- Quoted parent --}}
+                                                @if(!empty($parent))
+                                                    <div class="quoted-message">
+                                                        <span class="quoted-user">{{ $parent->user_name }}</span>
+                                                        <span class="quoted-text">{{ \Illuminate\Support\Str::limit($parent->title, 50) }}</span>
+                                                    </div>
+                                                @endif
+
+                                               
+
+                                                <div class="message-text">{{ $post->title }}</div>
+                                                @if($post->file)
+                                                    <div class="attachment">
+                                                        <a href="{{ asset('storage/app/public/' . $post->file) }}" download>
+                                                            <img src="{{ asset('storage/app/public/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                                <div class="message-time">{{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}</div>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                @empty
+                                    <div class="no-messages">
+                                        <i class="fas fa-comments"></i>
+                                        <p>No messages yet. Start the conversation!</p>
                                     </div>
-                                </div>
-
-                                {{-- Quoted parent --}}
-                                <div class="quoted-message">
-                                    <span class="quoted-user">{{ $post->user_name }}</span>
-                                    <span class="quoted-text">{{ \Illuminate\Support\Str::limit($post->title, 50) }}</span>
-                                </div>
-
-                                <div class="message-text">{{ $reply['title'] }}</div>
-                                <div class="message-time">{{ \Carbon\Carbon::parse($reply['created_at'])->format('h:i A • M j, Y') }}</div>
+                                @endforelse
                             </div>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-
-        @else
-            {{-- ✅ Direct REPLY (when parent_id is not null but no nested replies array) --}}
-            @php
-                $parent = $data['post_data']->firstWhere('id', $post->parent_id);
-            @endphp
-            <div class="chat-message reply {{ $post->employee_code == $employee_code ? 'mine' : '' }}" id="reply-{{ $post->id }}">
-                @if($post->employee_code != $employee_code)
-                    <div class="message-sender">{{ $post->user_name }}</div>
-                @endif
-
-                <div class="message-content">
-                    <div class="message-menu">
-                        <button class="menu-toggle" onclick="toggleMenu({{ $post->id }})">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <div class="menu-dropdown" id="menu-{{ $post->id }}">
-                            <div class="menu-item reply" onclick="setReply({{ $post->id }}, '{{ $post->title }}', '{{ $post->user_name }}')">
-                                <i class="fas fa-reply"></i> Reply
-                            </div>
-                            @if($post->employee_code == $employee_code)
-                                <div class="menu-item edit" onclick="openEditModal({{ $post->id }}, '{{ $post->title }}')">
-                                    <i class="fas fa-edit"></i> Edit
-                                </div>
-                                <div class="menu-item delete" onclick="deletePost({{ $post->id }})">
-                                    <i class="fas fa-trash"></i> Delete
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
-                    {{-- Quoted parent --}}
-                    @if(!empty($parent))
-                        <div class="quoted-message">
-                            <span class="quoted-user">{{ $parent->user_name }}</span>
-                            <span class="quoted-text">{{ \Illuminate\Support\Str::limit($parent->title, 50) }}</span>
-                        </div>
-                    @endif
-
-                    <div class="message-text">{{ $post->title }}</div>
-                    <div class="message-time">{{ \Carbon\Carbon::parse($post->created_at)->format('h:i A • M j, Y') }}</div>
-                </div>
-            </div>
-        @endif
-
-    @empty
-        <div class="no-messages">
-            <i class="fas fa-comments"></i>
-            <p>No messages yet. Start the conversation!</p>
-        </div>
-    @endforelse
-</div>
 
 
 
@@ -401,27 +462,44 @@
                     </form>
                 </div>
             </div>
-            
-            <!-- Delete Confirmation Modal -->
-            <div class="modal" id="deleteModal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Confirm Delete</h3>
-                        <button class="close-modal" onclick="closeDeleteModal()">&times;</button>
-                    </div>
-                    <p>Are you sure you want to delete this post? This action cannot be undone.</p>
-                    <form id="delete-form" method="POST">
+            <!------------   Reply Model  ----------------->
+            <!-- Reply Modal -->
+            <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content rounded-lg">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reply to <span id="reply-user-name"></span></h5>
+                    {{-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                    </button> --}}
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('project.post') }}" method="post" enctype="multipart/form-data" id="reply-form">
                         @csrf
-                        @method('DELETE')
-                        <input type="hidden" name="post_id" id="delete-post-id">
-                        
-                        <div class="modal-actions">
-                            <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
-                            <button type="submit" class="btn-submit btn-primary" >Delete</button>
+                        <input type="hidden" name="project_id" value="{{ $data['id'] }}">
+                        <input type="hidden" name="parent_id" id="reply-parent-id-modal">
+
+                        <div class="form-group mb-3">
+                            <label for="reply-title">Message</label>
+                            <input type="text" class="form-control" name="title" id="reply-title" placeholder="Write your reply..." required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="reply-file">Attachment</label>
+                            <input type="file" class="form-control" name="file" id="reply-file" accept="image/*,.pdf,.xlsx,.xls,.doc,.docx">
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
                         </div>
                     </form>
                 </div>
-            </div>  
+                </div>
+            </div>
+            </div>
+
         </div>
     </div>
     {{-- @include('taskmanagement.partials.footer') --}}
@@ -440,7 +518,7 @@
         --gray: #6c757d;
         --success: #4cc9f0;
         --warning: #f8961e;
-        --danger: #f72585;
+        --danger: #696265;
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
@@ -848,8 +926,7 @@
         flex: 1;
         margin: 0 10px;
         }
-    </style>
-    <style>
+ 
         .file-upload-btn {
             display: flex;
             align-items: center;
@@ -1011,7 +1088,7 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(14, 13, 13, 0.7);
             font-size: 16px;
             padding: 4px;
             border-radius: 50%;
@@ -1023,7 +1100,7 @@
         }
 
         .chat-message.mine .menu-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(156, 154, 154, 0.2);
         }
 
         .chat-message:not(.mine) .menu-toggle {
@@ -1070,11 +1147,11 @@
         }
 
         .menu-item.edit {
-            color: #4361ee;
+            color: #0a0a0a;
         }
 
         .menu-item.delete {
-            color: #f72585;
+            color: #141414;
         }
 
         /* Modal styles */
@@ -1175,240 +1252,7 @@
             color: white;
         }
     </style>
-    <style>
-         :root {
-            --primary: #4361ee;
-            --primary-light: #4895ef;
-            --secondary: #3f37c9;
-            --dark: #212529;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --success: #4cc9f0;
-            --warning: #f8961e;
-            --danger: #f72585;
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            }
-
-            * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            }
-
-            body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background-color: #f5f7fb;
-            }
-
-            .viewproject-container {
-            display: flex;
-            gap: 24px;
-            height: 85vh;
-            max-width: 1600px;
-            margin: 20px auto;
-            padding: 0 20px;
-            }
-
-            /* Project Details Styles */
-            .project-details {
-            flex: 1;
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: var(--card-shadow);
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            }
-
-            .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            }
-
-            .project-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dark);
-            }
-
-            .project-status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            }
-
-            .project-status.development-phase {
-            background-color: rgba(67, 97, 238, 0.1);
-            color: var(--primary);
-            }
-
-            .project-status.open {
-            background-color: rgba(67, 97, 238, 0.1);
-            color: var(--primary);
-            }
-
-            .project-status.completed {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: #28a745;
-            }
-
-            .project-description {
-            color: var(--gray);
-            font-size: 15px;
-            line-height: 1.7;
-            }
-
-            .project-info-section {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            }
-
-            .project-info-section h3 {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
-            color: var(--dark);
-            }
-
-            .project-info-section h3 .fas {
-            color: var(--primary);
-            }
-
-            .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            }
-
-            .info-grid > div {
-            background: #f8f9fa;
-            padding: 12px 16px;
-            border-radius: 8px;
-            }
-
-            .info-label {
-            display: block;
-            font-size: 12px;
-            color: var(--gray);
-            margin-bottom: 4px;
-            }
-
-            .info-value {
-            font-size: 14px;
-            font-weight: 500;
-            }
-
-            .members-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            }
-
-            .member-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            transition: transform 0.2s;
-            }
-
-            .member-card:hover {
-            transform: translateY(-2px);
-            }
-
-            .member-avatar {
-            width: 36px;
-            height: 36px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            }
-
-            .member-info {
-            display: flex;
-            flex-direction: column;
-            }
-
-            .member-name {
-            font-size: 14px;
-            font-weight: 600;
-            }
-
-            .member-role {
-            font-size: 12px;
-            color: var(--gray);
-            }
-
-            .repo-link {
-            display: inline-block;
-            padding: 10px 16px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.2s;
-            }
-
-            .repo-link:hover {
-            background: rgba(67, 97, 238, 0.1);
-            }
-
-            /* Tasks List Styles */
-            .tasks-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            }
-
-            .task-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 4px solid #FF902F;
-            }
-
-            .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            }
-
-            .task-header h4 {
-            margin: 0;
-            font-size: 14px;
-            font-weight: 600;
-            }
-
-            .task-dates {
-            font-size: 12px;
-            color: #6c757d;
-            }
-
-            .task-description {
-            margin: 0;
-            font-size: 13px;
-            color: #495057;
-            }
-    </style>
+    
 @endsection
 @section('script')
 @include('taskmanagement.partials.scripts')
@@ -1550,37 +1394,34 @@
             });
         });
 
-        document.getElementById('delete-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const postId = document.getElementById('delete-post-id').value;
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
+        function deletePost(postId) {
+            if (!confirm("Are you sure you want to delete this post?")) {
+                return;
+            }
+
+            fetch(`/project-posts/${postId}`, {
+                method: 'DELETE',
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
                 }
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Remove the post from the UI
-                    document.getElementById(`post-${postId}`).remove();
-                    closeDeleteModal();
-                    
-                    // Show success message
-                    alert('Post deleted successfully');
+                    // Reload the page
+                    window.location.reload();
                 } else {
-                    alert('Error deleting post: ' + data.message);
+                    alert('Error deleting post: ' + (data.message || 'Unknown error'));
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Error deleting post');
+                console.error('Delete error:', error);
+                alert('Error deleting post (network issue)');
             });
-        });
+        }
+
+
     </script>
     {{-- -------- --}}
     <script>
@@ -1597,6 +1438,19 @@
                 document.querySelectorAll(".menu-dropdown").forEach(menu => menu.style.display = "none");
             }
         });
+
+    </script>
+
+    <script>
+        function setReply(postId, postTitle, userName) {
+            // Fill modal hidden fields
+            document.getElementById('reply-parent-id-modal').value = postId;
+            document.getElementById('reply-user-name').innerText = userName;
+
+            // Open modal (Bootstrap 5)
+            var replyModal = new bootstrap.Modal(document.getElementById('replyModal'));
+            replyModal.show();
+        }
 
     </script>
 @endsection

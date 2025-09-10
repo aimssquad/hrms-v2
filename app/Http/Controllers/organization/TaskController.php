@@ -259,6 +259,7 @@ class TaskController extends Controller
 
         $validate_data = Validator::make($request->all(), [
             'project_id' => 'required|integer',
+            'parent_id' => 'nullable|integer',
             'file' => 'nullable|file|mimes:pdf,png,jpg,jpeg,xls,xlsx|max:2048',
             'title' => 'required|string|max:1000'
         ]);
@@ -280,6 +281,7 @@ class TaskController extends Controller
 
         $data = [
             'project_id' => $request->project_id,
+            'parent_id' => $request->parent_id,
             'title' => $request->title,
             'file' => $filePath,
             'emid' => $emid,
@@ -371,19 +373,22 @@ class TaskController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        //dd($id);
         $email = Session::get("emp_email");
+        //dd($email);
         if (empty($email)) {
-            return redirect("/");
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
         }
-        $empData = User::where('email', $email)->first();
-        $emid = $empData->emid;
-        $employee_code = $empData->employee_id;
 
+        $empData = User::where('email', $email)->first();
+        $employee_code = $empData->employee_id;
+        //dd($id, $employee_code);
         $post = ProjectPost::where('id', $id)
                     ->where('employee_code', $employee_code)
                     ->firstOrFail();
-                    
+        //dd($post);            
         // Delete associated file if exists
         if ($post->file) {
             Storage::disk('public')->delete($post->file);

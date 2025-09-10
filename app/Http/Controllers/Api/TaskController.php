@@ -189,7 +189,7 @@ public function members(Request $request, $id)
         $groupedData['members'] = array_values($groupedData['members']);
         $groupedData['tasks'] = array_values($groupedData['tasks']);
 
-        // 🔥 Fetch all posts (including replies) from single table
+        //  Fetch all posts (including replies) from single table
         $allPosts = DB::table('project_post as p')
             ->leftJoin('users as u', function($join) {
                 $join->on('u.employee_id', '=', 'p.employee_code')
