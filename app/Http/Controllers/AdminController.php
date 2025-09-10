@@ -5723,7 +5723,8 @@ class AdminController extends Controller
 
                 $this->addAdminLog(3, 'Organisation - Updated data for company code: ' . $request->reg);
 
-                $toemail=$request->email;
+                //$toemail=$request->email;
+                $toemail="sharmaranjanetc@gmail.com";
                 //dd($toemail);
                 if ($toemail != '') {
                     $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password];
