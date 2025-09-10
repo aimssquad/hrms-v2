@@ -279,8 +279,8 @@
                                                 {{-- File --}}
                                                 @if($post->file)
                                                     <div class="attachment">
-                                                        <a href="{{ asset('storage/' . $post->file) }}" download>
-                                                            <img src="{{ asset('storage/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
+                                                        <a href="{{ asset('storage/app/public/' . $post->file) }}" download>
+                                                            <img src="{{ asset('storage/app/public/' . $post->file) }}" alt="Attachment" style="max-width: 150px; border-radius: 6px;">
                                                         </a>
                                                     </div>
                                                 @endif
