@@ -6088,3 +6088,5 @@ Route::delete('/project-posts/{id}', [TaskController::class, 'destroy'])->name('
 
 Route::post('/project-post-reply', [TaskController::class, 'store'])->name('project.post.reply');
 
+Route::get('etc-check','App\Http\Controllers\AdminController@mailtemplateCheck');
+

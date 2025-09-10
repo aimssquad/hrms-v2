@@ -5723,8 +5723,7 @@ class AdminController extends Controller
 
                 $this->addAdminLog(3, 'Organisation - Updated data for company code: ' . $request->reg);
 
-                //$toemail=$request->email;
-                $toemail="sharmaranjanetc@gmail.com";
+                $toemail=$request->email;
                 //dd($toemail);
                 if ($toemail != '') {
                     $data = ["name" =>$exits->name, "email" =>$exits->email, "password" =>$exits->password];
@@ -21762,6 +21761,20 @@ class AdminController extends Controller
         } else {
             return redirect('superadmin'); 
         }
+    }
+
+
+    public function mailtemplateCheck(){
+        //dd('okk');
+        $toemail = "sharmaranjanetc@gmail.com";
+        $data = ["name" =>"Aditya acadamy", "email" =>"sharmaranjanetc@gmail.com", "password" =>"123456"];
+        $com_name = "Aditya Birla Group";
+        Mail::send('org-approved', $data, function ($message) use ($toemail,$com_name) {
+            $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Organization Verification Successful – Welcome to $com_name!");
+            $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+        });
+
+        echo "message sent complate";
     }
 
  
