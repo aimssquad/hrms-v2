@@ -1,15 +1,15 @@
 @extends('employeer.include.app')
-@section('title', 'Add Managment')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Managment'))
 @section('content')
 <div class="content container-fluid pb-0">
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Add Division</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Add Division')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('file-management/dashboard')}}">File Manager Dashboard</a></li>
-               <li class="breadcrumb-item active">Add Division</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('file-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}} </a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Division')}} </li>
             </ul>
          </div>
       </div>
@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                           <label class="col-form-label">Name</label>
+                           <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Name')}} </label>
                            <input type="text" class="form-control input-border-bottom" id="name" name="name" oninput="intrFunction()" required>
                            <input type="hidden" id="sort" class="form-control" name="sort_name" >
                         </div>
@@ -34,7 +34,7 @@
                 <div class="row form-group">
                    <div class="col-md-3">
                       <a href="#">
-                      <button class="btn btn-primary" type="submit">Go</button></a>
+                      <button class="btn btn-primary" type="submit">{{\App\Helpers\Helper::cachedTrans('Save')}}</button></a>
                    </div>
                 </div>
              </form>

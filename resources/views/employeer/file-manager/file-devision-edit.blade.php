@@ -1,15 +1,15 @@
 @extends('employeer.include.app')
-@section('title', 'Edit Devision')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Devision'))
 @section('content')
 <div class="content container-fluid pb-0">
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Edit Devision</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Edit Devision')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('file-management/dashboard')}}">File Manager Dashboard</a></li>
-               <li class="breadcrumb-item active">Edit Devision</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('file-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}} </a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Devision')}} </li>
             </ul>
          </div>
       </div>
@@ -24,14 +24,14 @@
                   <div class="row">
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label class="col-form-label">Name</label>
+                           <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Name')}} </label>
                            <input type="hidden" value="<?php print_r($file_details->id) ?>" name="id">
                            <input type="text" class="form-control" name="name" value="<?php print_r($file_details->name) ?>">
                         </div>
                      </div>
                      <div class="col-md-4">
                         <div class="form-group">
-                           <label class="col-form-label">Status</label>
+                           <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Status')}} </label>
                            <select class="select" name="status">
                               <option>Status</option>
                               <option value="active" <?php if($file_details->status=='active'){?> selected="selected"<?php }?>>Active</option>
@@ -44,7 +44,7 @@
                   <div class="row form-group">
                      <div class="col-md-3">
                         <a href="#">
-                        <button class="btn btn-primary" type="submit">Go</button></a>
+                        <button class="btn btn-primary" type="submit">{{\App\Helpers\Helper::cachedTrans('Save')}}</button></a>
                      </div>
                   </div>
                </form>

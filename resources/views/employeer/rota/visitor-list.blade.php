@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Visitor List')
+@section('title', \App\Helpers\Helper::cachedTrans('Visitor List'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -30,11 +30,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Visitor List</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Visitor List')}} </h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('rota-org/visitor-dashboard')}}">Visitor Dashboard</a></li>
-               <li class="breadcrumb-item active">Visitor List</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('rota-org/visitor-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}} </a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Visitor List')}}</li>
             </ul>
          </div>
       </div>
@@ -46,7 +46,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
-                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Visitor List
+                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Visitor List')}} 
                 </h4>
                 <div class="row">
                    <div class="col-auto">
@@ -58,7 +58,7 @@ return $output;
                            {{-- put the value - that is your file name --}}
                            <input type="hidden" id="filenameInput" value="Vesitor-List">
                            <button type="submit" class="btn-download btn-download-excel me-0">
-                                 Export to Excel
+                                 {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                            </button>
                        </form>
                    </div>
@@ -69,7 +69,7 @@ return $output;
                          <input type="hidden" name="headings" id="pdfHeadings">
                          <input type="hidden" name="filename" id="pdfFilename">
                          <button type="submit" class="btn-download btn-download-pdf">
-                              Export to PDF
+                              {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}
                         </button>
                      </form>
                    </div>
@@ -80,17 +80,17 @@ return $output;
                   <table id="basic-datatables" class="display table table-striped table-hover">
                      <thead>
                         <tr>
-                            <th>Sl No</th>
-                            <th>Name</th>
-                            <th>Designation</th>
-                            <th>Email ID</th>
-                            <th>Contact No</th>
-                            <th>Address</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Reference</th>
-                            <th>Action</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Sl No')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Name')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Designation')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Email ID')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Contact No')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Address')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Description')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Date')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Time')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Reference')}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                         
                                 </tr>
                      </thead>

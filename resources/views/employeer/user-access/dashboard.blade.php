@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'User Permissions Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('User Permissions Dashboard'))
 
 @section('content')
 
@@ -12,10 +12,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">User Permissions Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('User Permissions Dashboard')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">User Permissions Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('User Permissions Dashboard')}}</li>
                     </ul>
                 </div>
                 {{-- <div class="col-auto float-end ms-auto">
@@ -41,7 +41,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-dashboard modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title">User Settings</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('User Settings')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <span></span>
@@ -62,7 +62,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-dashboard modern-icon"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Access Roles</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Access Roles')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <span></span>

@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Add Folder')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Folder'))
 @section('css')
 <style>
     .card-body a {
@@ -26,12 +26,12 @@
     <div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Add Folder</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Add Folder')}}</h3>
 			</div>
 			<div class="col-auto float-end ms-auto">
 				{{-- <a href="{{ url('fileManagment/fileManagment-add') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Folder</a> --}}
                 <button type="button" class="btn btn-primary mx-1" title="Import Files"  data-toggle="modal" data-target="#exampleModal1">
-                    <i class="fa-solid fa-plus"></i> Add Folder
+                    <i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Folder')}}
                 </button>
 			</div>
 		</div>
@@ -42,7 +42,7 @@
             <div class="card custom-card">
                 <div class="card-header">
                     <h4 class="card-title"><i class="far fa-folder" aria-hidden="true"
-                            style="color:#f80606;"></i>&nbsp;Add Folder<span>
+                            style="color:#f80606;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Add Folder')}}<span>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -71,14 +71,14 @@
                 <input type="hidden" name="orgId" value="{{$data->organization_id}}">
                 <input type="hidden" name="file_id" value="{{ request()->route('id') }}">
                 <div class="form-group">
-                  <label for="excel_file">Folder Name</label>
+                  <label for="excel_file">{{\App\Helpers\Helper::cachedTrans('Folder Name')}}</label>
                   <input type="text" name="folder_name" class="form-control" style='height: 40px;' id="fileInput" required>
                 </div>
 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" id="validateButton"  onclick="hello()">submit</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{\App\Helpers\Helper::cachedTrans('Close')}}</button>
+              <button type="submit" class="btn btn-primary" id="validateButton"  onclick="hello()">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
             </div>
             {{-- <div id="validationMessage"></div> --}}
           </div>
@@ -98,14 +98,14 @@
                 <input type="hidden" id="file_id" name="fileupload_id">
                 <input type="hidden" name="org_id" value="{{ request()->route('id') }}">
                 <div class="form-group">
-                  <label for="excel_file">File Name</label>
+                  <label for="excel_file">{{\App\Helpers\Helper::cachedTrans('File Name')}}</label>
                   <input type="text" name="file_rename" class="form-control"  style='height: 40px;' id="filerenameid" required>
                 </div>
 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px;" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" id="validateButton" onclick="hello()">Update</button>
+              <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px;" data-dismiss="modal">{{\App\Helpers\Helper::cachedTrans('Close')}}</button>
+              <button type="submit" class="btn btn-primary" id="validateButton" onclick="hello()">{{\App\Helpers\Helper::cachedTrans('Update')}}</button>
             </div>
           </div>
       </form>

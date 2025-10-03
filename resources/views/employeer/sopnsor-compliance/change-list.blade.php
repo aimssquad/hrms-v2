@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'COC- Report')
+@section('title', \App\Helpers\Helper::cachedTrans('COC- Report'))
 
 @section('content')
 <!-- Page Content -->
@@ -8,10 +8,11 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="page-title">COC- Report</h3>
+                <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('COC- Report')}}</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">COC- Report</li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('organization/circumstances')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('COC- Report')}}</li>
                 </ul>
             </div>
         </div>
@@ -27,7 +28,7 @@
                         @csrf
                         <div class="row form-group">
                             <div class="col-md-3">
-                                <label for="employee_code" class="col-form-label">Employee Code</label>
+                                <label for="employee_code" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Code')}}</label>
                                 <select id="employee_code" class="select" name="employee_code" required>
                                     <option value="">Select</option>
                                     @foreach($employee_type_rs as $employee_type)
@@ -38,7 +39,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3 mt-4">
-                                <button class="btn btn-primary" type="submit">Go</button>
+                                <button class="btn btn-primary" type="submit">{{\App\Helpers\Helper::cachedTrans('Go')}}</button>
                             </div>
                         </div>
                     </form>

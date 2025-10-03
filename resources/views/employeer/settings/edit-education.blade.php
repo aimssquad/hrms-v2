@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Education Edit')
+@section('title', \App\Helpers\Helper::cachedTrans('Education Edit'))
 @section('content')
 <div class="main-panel">
    <div class="content">
@@ -7,13 +7,13 @@
          <div class="row">
             <div class="col-md-12">
                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Edit Education</li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Education')}}</li>
                </ul>
                <div class="card custom-card">
                   <div class="card-header">
-                     <h4 class="card-title"><i class="far fa-user"></i> Edit Education</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Edit Education')}} </h4>
                   </div>
                   <div class="card-body">
                      <div class="multisteps-form">
@@ -30,7 +30,7 @@
                    
                                                            
                                                            <div class="form-group">
-                                                               <label for="inputFloatingLabel" class="col-form-label">Education Name</label>
+                                                               <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Education Name')}} </label>
                                                                <input type="hidden" name="edu_id" value="<?php print_r($education->ideducation_master) ?>">
                                                                    <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="education_name" value="<?php print_r($education->education_name) ?>" />
                                                            </div>
@@ -41,7 +41,7 @@
                                                                </div>
                                                                <br>
                                                                <div class="row form-group">
-                                                           <div class="col-md-2"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                                           <div class="col-md-2"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}} </button></div>
                                                            </div>
                                                            </div>
                                                        </form>

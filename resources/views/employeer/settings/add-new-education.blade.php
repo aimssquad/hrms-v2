@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Add New Education')
+@section('title', \App\Helpers\Helper::cachedTrans('Add New Education'))
 @section('content')
 <div class="main-panel">
    <div class="content">
@@ -7,13 +7,13 @@
          <div class="row">
             <div class="col-md-12">
                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Add Education</li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Education')}} </li>
                </ul>
                <div class="card custom-card">
                   <div class="card-header">
-                     <h4 class="card-title"><i class="far fa-user"></i> Add New Education</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Add New Education')}} </h4>
                   </div>
                   @if(Session::has('message'))										
                   <div class="alert alert-success" style="text-align:center;">{{ Session::get('message') }}</div>
@@ -33,7 +33,7 @@
                    
                                                            
                                                            <div class="form-group">
-                                                               <label for="inputFloatingLabel" class="col-form-label">Education Name</label>
+                                                               <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Education Name')}} </label>
                                                                    <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="education_name" />
                                                            </div>
                                                            
@@ -43,7 +43,7 @@
                                                                </div>
                                                                <br>
                                                                <div class="row form-group">
-                                                           <div class="col-md-2"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                                           <div class="col-md-2"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}} </button></div>
                                                            </div>
                                                            </div>
                                                        </form>

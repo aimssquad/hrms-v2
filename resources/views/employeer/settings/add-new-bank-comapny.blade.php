@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Add Organization Bank')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Organization Bank'))
 @section('content')
 <div class="main-panel">
 <div class="content">
@@ -7,13 +7,13 @@
       <div class="row">
          <div class="col-md-12">
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
-               <li class="breadcrumb-item active">Add Organization Bank</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Organization Bank')}}</li>
             </ul>
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="la la-bank" style="color:#ffa318;"></i> Add Organization Bank</h4>
+                  <h4 class="card-title"><i class="la la-bank" style="color:#ffa318;"></i> {{\App\Helpers\Helper::cachedTrans('Add Organization Bank')}}</h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">
@@ -25,7 +25,7 @@
                               <div class="row">
                                  <div class="col-md-4">
                                     <div class="form-group">
-                                       <label for="inputFloatingLabel" class="col-form-label">Bank Name</label>
+                                       <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Bank Name')}}</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankname" placeholder="Enter Your Company Name" required>
                                        @error('bankname')
                                           <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -34,7 +34,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
-                                       <label for="inputFloatingLabel" class="col-form-label">Bank Branch</label>
+                                       <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Bank Branch')}}</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankbranch" placeholder="Enter Your Branch Name" required>
                                        @error('bankbranch')
                                           <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -43,7 +43,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
-                                       <label for="inputFloatingLabel" class="col-form-label">IFSC Code</label>
+                                       <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('IFSC Code')}}</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="ifsccode" placeholder="Enter Your IFSC Code" required>
                                        @error('micrcode')
                                           <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -52,7 +52,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
-                                       <label for="inputFloatingLabel" class="col-form-label">MICR Code</label>
+                                       <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('MICR Code')}}</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="micrcode" placeholder="Enter Your MICR Code" required>
                                        @error('micrcode')
                                           <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -61,7 +61,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="form-group">
-                                       <label for="inputFloatingLabel" class="col-form-label">Status</label>
+                                       <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Status')}}</label>
                                        <select class="select" name="status" required>
                                           <option>Status</option>
                                           <option value="active">Active</option>
@@ -76,7 +76,7 @@
                               </div>
                               <br>
                               <div class="row form-group">
-                                 <div class="col-md-2"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                 <div class="col-md-2"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button></div>
                               </div>
                         </div>
                         </form>

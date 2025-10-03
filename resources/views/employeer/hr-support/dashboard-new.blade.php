@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Home - HRMS admin template')
+@section('title', \App\Helpers\Helper::cachedTrans('Home - HRMS admin template'))
 @php
     $user_type = Session::get("user_type");
     $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -155,7 +155,7 @@
                             @else
                             <div class="card">
                                 <div class="card-header justify-content-between">
-                                    <div class="card-title">Hr Support Files</div>
+                                    <div class="card-title"> {{\App\Helpers\Helper::cachedTrans('Hr Support Files')}}</div>
                                 </div>
                                 <div class="card-body">
                                 
@@ -166,7 +166,7 @@
                                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
                                                             data-bs-target="#collapseType{{ $type->id }}" aria-expanded="false" 
                                                             aria-controls="collapseType{{ $type->id }}">
-                                                        {{ $type->type }}
+                                                        {{ \App\Helpers\Helper::cachedTrans($type->type) }}
                                                     </button>
                                                 </h2>
                                                 <div id="collapseType{{ $type->id }}" class="accordion-collapse collapse" 
@@ -181,7 +181,7 @@
                                                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
                                                                                 data-bs-target="#collapseSubtype{{ $subtype->id }}" 
                                                                                 aria-expanded="false" aria-controls="collapseSubtype{{ $subtype->id }}">
-                                                                            {{ $subtype->sub_name }}
+                                                                            {{ \App\Helpers\Helper::cachedTrans($subtype->sub_name) }}
                                                                         </button>
                                                                     </h2>
                                                                     <div id="collapseSubtype{{ $subtype->id }}" class="accordion-collapse collapse" 
@@ -199,7 +199,7 @@
                                                                                                     data-bs-target="#collapseFile{{ $file->id }}" 
                                                                                                     aria-expanded="false" 
                                                                                                     aria-controls="collapseFile{{ $file->id }}">
-                                                                                                {{ $file->title }}
+                                                                                                {{ \App\Helpers\Helper::cachedTrans($file->title) }}
                                                                                             </button>
                                                                                         </h2>
                                                                                         <div id="collapseFile{{ $file->id }}" class="accordion-collapse collapse" 
@@ -208,7 +208,7 @@
                                                                                             <div class="accordion-body">
                                                                                                 <!-- File Description -->
                                                                                                 <div>
-                                                                                                    <strong>Description:</strong> {!! $file->small_description ?? '' !!}
+                                                                                                    <strong>{{\App\Helpers\Helper::cachedTrans('Description')}}:</strong> {!! \App\Helpers\Helper::cachedTrans($file->small_description) ?? '' !!}
                                                                                                 </div>
                                                                                             
                                                                                                 <!-- View Icon (Next Line) -->
@@ -223,20 +223,20 @@
                                                                                                 <table class="table table-bordered mt-3">
                                                                                                     <thead>
                                                                                                         <tr>
-                                                                                                            <th>File Name</th>
-                                                                                                            <th>Description</th>
-                                                                                                            <th>PDF</th>
-                                                                                                            <th>DOC</th>
+                                                                                                            <th>{{\App\Helpers\Helper::cachedTrans('File Name')}}</th>
+                                                                                                            <th>{{\App\Helpers\Helper::cachedTrans('Description')}}</th>
+                                                                                                            <th>{{\App\Helpers\Helper::cachedTrans('PDF')}}</th>
+                                                                                                            <th>{{\App\Helpers\Helper::cachedTrans('DOC')}}</th>
                                                                                                         </tr>
                                                                                                     </thead>
                                                                                                     <tbody>
                                                                                                         @foreach($file->hrsupportDoc as $docsFile)
                                                                                                             <tr>
                                                                                                                 <!-- File Name -->
-                                                                                                                <td>{{ $docsFile->name ?? 'N/A' }}</td>
+                                                                                                                <td>{{ \App\Helpers\Helper::cachedTrans($docsFile->name) ?? 'N/A' }}</td>
                                                                                             
                                                                                                                 <!-- Description -->
-                                                                                                                <td class="decription_td_hr_support"><p>{!! $docsFile->document_description ?? 'No description' !!}</p></td>
+                                                                                                                <td class="decription_td_hr_support"><p>{!! \App\Helpers\Helper::cachedTrans($docsFile->document_description) ?? 'No description' !!}</p></td>
                                                                                             
                                                                                                                 <!-- PDF Link -->
                                                                                                                 <td class="text-center">

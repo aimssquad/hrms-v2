@@ -1,15 +1,6 @@
-
-
-
-
-
-
-
-
-
 @extends('employeer.include.app')
 
-@section('title', 'Employee Permission')
+@section('title', \App\Helpers\Helper::cachedTrans('Employee Permission'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -44,11 +35,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Employee Permission</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Employee Permission')}}</h3>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('user-access-role/dashboard')}}">User Permissions Dashboard</a></li>
-					<li class="breadcrumb-item active">Employee Permission</li>
+					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('user-access-role/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Employee Permission')}} </li>
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
@@ -63,7 +54,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
-                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Employee Permission
+                    <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Employee Permission')}} 
                 </h4>
                 <div class="row">
                    <div class="col-auto">
@@ -75,7 +66,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                            {{-- put the value - that is your file name --}}
                            <input type="hidden" id="filenameInput" value="Employee Permission">
                            <button type="submit" class="btn-download btn-download-excel me-0">
-                             Export to Excel
+                             {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                            </button>
                        </form>
                    </div>
@@ -86,7 +77,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                          <input type="hidden" name="headings" id="pdfHeadings">
                          <input type="hidden" name="filename" id="pdfFilename">
                          <button type="submit" class="btn-download btn-download-pdf">
-                             Export to PDF
+                             {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                          </button>
                      </form>
                    </div>
@@ -98,10 +89,10 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <table class="table table-striped custom-table" id="basic-datatables">
                             <thead>
                                 <tr>
-                                    <th>Sl No</th>
-                                    <th>Employee</th>
-                                    <th>Department</th>
-                                    <th>Designation</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Sl No')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Employee')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Department')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Designation')}}</th>
                                     <th class="text-center"></th>
                                 </tr>
                             </thead>

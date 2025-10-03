@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'File Manager Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('File Manager Dashboard'))
 @php
     $user_type = Session::get("user_type");
     $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -16,10 +16,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">File Manager Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('File Manager Dashboard')}} </h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">File Manager Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('File Manager Dashboard')}} </li>
                     </ul>
                 </div>
                 {{-- <div class="col-auto float-end ms-auto">
@@ -47,7 +47,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">File Devision</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('File Devision')}}</h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status">
@@ -68,7 +68,7 @@
                                                         <div class="modern_icon_wrapper">
                                                             <i class="la la-dashboard modern-icon"></i>
                                                         </div>
-                                                        <h4 class="modern-card-title">File Manager</h4>
+                                                        <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('File Manager')}}</h4>
                                                     </div>
                                                     <div class="modern-card-body">
                                                         <div class="modern-status">
@@ -91,7 +91,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">File Devision</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('File Devision')}}</h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status">
@@ -112,7 +112,7 @@
                                                 <div class="modern_icon_wrapper">
                                                     <i class="la la-dashboard modern-icon"></i>
                                                 </div>
-                                                <h4 class="modern-card-title">File Manager</h4>
+                                                <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('File Manager')}}</h4>
                                             </div>
                                             <div class="modern-card-body">
                                                 <div class="modern-status">
@@ -138,7 +138,7 @@
                 <div class="card custom-card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="card-title">
-                            <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;File Manager List
+                            <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('File Manager List')}} 
                         </h4>
                         <div class="row">
                            <div class="col-auto">
@@ -150,7 +150,7 @@
                                    {{-- put the value - that is your file name --}}
                                    <input type="hidden" id="filenameInput" value="File-Manager-List">
                                    <button type="submit" class="btn-download btn-download-excel">
-                                        Export to Excel
+                                        {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                                    </button>
                                </form>
                            </div>
@@ -161,7 +161,7 @@
                                  <input type="hidden" name="headings" id="pdfHeadings">
                                  <input type="hidden" name="filename" id="pdfFilename">
                                  <button type="submit" class="btn-download btn-download-pdf">
-                                      Export to PDF
+                                      {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                                  </button>
                              </form>
                            </div>
@@ -172,10 +172,10 @@
                             <table id="basic-datatables" class="display table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Sl.No.</th>
-                                        <th>File Name</th>
-                                        <th>Organization Id</th>
-                                        <th>Status</th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}} </th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans('File Name')}} </th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans('Organization Id')}} </th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans('Status')}}</th>
                                       
                                     </tr>
                                 </thead>

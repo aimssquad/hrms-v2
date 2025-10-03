@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Change Notification List')
+@section('title', \App\Helpers\Helper::cachedTrans('Change Notification List'))
 
 @section('content')
 @php
@@ -35,11 +35,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3 class="page-title">Change Notification List</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Change Notification List')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{url('organization/circumstances')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item active"> Change Notification List</li>
+                        <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item"><a href="{{url('organization/circumstances')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Change Notification List')}} </li>
                     </ul>
                 </div>
                 <div class="col-auto float-end ms-auto">
@@ -68,7 +68,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="far fa-bail" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Change Notification List
+                        <i class="far fa-bail" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Change Notification List')}}
                     </h4>
                     <div class="row">
                        <div class="col-auto">
@@ -80,7 +80,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                {{-- put the value - that is your file name --}}
                                <input type="hidden" id="filenameInput" value="Change-Of-Circumstances-List">
                                <button type="submit" class="btn-download btn-download-excel me-0">
-                                        Export to Excel
+                                        {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                                 </button>
                            </form>
                        </div>
@@ -91,7 +91,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                 <input type="hidden" name="headings" id="pdfHeadings">
                                 <input type="hidden" name="filename" id="pdfFilename">
                                 <button type="submit" class="btn-download btn-download-pdf">
-                                    Export to PDF
+                                    {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}
                                </button>
                             </form>
                        </div>
@@ -102,17 +102,17 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <table class="table table-striped custom-table" id="basic-datatables">
                             <thead>
                                 <tr>
-                                    <th>Sl No .</th>
-                                    <th>Joining Date</th>
-                                    <th>Date of Change</th>
-                                    <th>Employee Name</th>
-                                    <th>Designation</th>
-                                    <th>Employment Type</th>
-                                    <th>Phone</th>
-                                    <th>Nationality</th>
-                                    <th>Visa Expiration</th>
-                                    <th>Passport Expiration</th>
-                                    <th>Remarks</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Sl No .')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Joining Date')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Date of Change')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Employee Name')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Designation')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Employment Type')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Phone')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Nationality')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Visa Expiration')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Passport Expiration')}}</th>
+                                    <th>{{\App\Helpers\Helper::cachedTrans('Remarks')}}</th>
                                 </tr>
                             </thead>
                             <tbody>

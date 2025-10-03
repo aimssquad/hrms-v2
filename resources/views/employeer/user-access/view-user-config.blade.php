@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(isset($user) && !empty($user->id))          	
-@section('title', 'Edit User Settings')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit User Settings'))
 @else    
-@section('title', 'Add User Settings')
+@section('title', \App\Helpers\Helper::cachedTrans('Add User Settings'))
 @endif 
 @section('content')
 <div class="main-panel">
@@ -11,22 +11,22 @@
       <div class="row">
          <div class="col-md-12">
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('user-access-role/dashboard')}}">User Permission Dashboard</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('user-access-role/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('User Permission Dashboard')}}</a></li>
                @if(isset($user) && !empty($user->id))
-               <li class="breadcrumb-item active">Edit User Settings</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit User Settings')}}</li>
                @else
-               <li class="breadcrumb-item active">Add New User Settings</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New User Settings')}}</li>
                @endif
             </ul>
             <div class="card custom-card">
                <div class="card-header d-flex justify-content-between align-items-center">
                   @if(isset($user) && !empty($user->id))  
                   @php $addclass ='form-control'; @endphp          	
-                  <h4 class="card-title"><i class="far fa-user"></i> Edit User Settings</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Edit User Settings')}}</h4>
                   @else   
                   @php $addclass ='select'; @endphp  
-                  <h4 class="card-title"><i class="far fa-user"></i> Add User Settings</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Add User Settings')}}</h4>
                   @endif 
                  <!-- <div>-->
                      <!-- Excel Link -->
@@ -50,7 +50,7 @@
                               <div class="row form-group">
                                  <div class="col-md-3">
                                     <div class="form-group ">
-                                       <label for="selectFloatingLabel" class="col-form-label">Employee Code</label>
+                                       <label for="selectFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Code')}}</label>
                                        <select  class="<?=$addclass?>" id="selectFloatingLabel"   <?php if(empty($user->id)){ ?>required=""  <?php } ?> name="emp_code" onchange="getEmployeeName()" <?php if(!empty($user->id)){echo 'style="display:none"';}?>>
                                           <option value="">Select Employee Code</option>
                                           <?php foreach ($employees as $employee) { ?>
@@ -77,19 +77,19 @@
                                     }	?>
                                  <div class="col-md-3">
                                     <div class="form-group ">
-                                       <label for="inputFloatingLabel" class="col-form-label">Employee Name</label>
+                                       <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Name')}}</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control " required="" name="name" value="<?php if(!empty($user->id)){echo $job_details->emp_fname.' '.$job_details->emp_mname.' '.$job_details->emp_lname;}?>"  readonly="1">
                                     </div>
                                  </div>
                                  <div class="col-md-3">
                                     <div class="form-group ">
-                                       <label for="inputFloatingLabel1" class="col-form-label">Email</label>
+                                       <label for="inputFloatingLabel1" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Email')}}</label>
                                        <input id="inputFloatingLabel1" type="email" class="form-control " required="" name="user_email" value="<?php if(!empty($user->id)){echo $user->email;}?>"  >
                                     </div>
                                  </div>
                                  <div class="col-md-3">
                                     <div class="form-group">
-                                       <label for="inputFloatingLabel2" class="col-form-label">User Password</label>
+                                       <label for="inputFloatingLabel2" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('User Password')}}</label>
                                        <input id="inputFloatingLabel2" type="text" class="form-control input-border-bottom"  name="user_pass" value="<?php if(!empty($user->id)){echo $user->password;}?>">
                                        @if ($errors->has('user_pass'))
                                        <div class="error" style="color:red;">{{ $errors->first('user_pass') }}</div>
@@ -98,7 +98,7 @@
                                  </div>
                                  <div class="col-md-3" <?php if(empty($user->id)){ ?>style="display:none" <?php } ?>>
                                     <div class="form-group">
-                                       <label for="selectFloatingLabel3" class="col-form-label">User status</label>
+                                       <label for="selectFloatingLabel3" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('User status')}}</label>
                                        <select id="selectFloatingLabel3"  class="select"   name="status">
                                           <option value="active" <?php if(!empty($user->status)){  if($user->status == "active"){ ?> selected="selected" <?php } }?>  >Active</option>
                                           <option value="inactive" <?php if(!empty($user->status)){ if($user->status == "inactive"){ ?> selected="selected" <?php } } ?>>Inactive</option>
@@ -109,7 +109,7 @@
                               <br>
                               <div class="row form-group">
                                  <div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                                  </div>
                               </div>
                         </div>

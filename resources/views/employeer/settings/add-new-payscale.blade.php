@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(app('request')->input('id'))
-@section('title', 'Edit New Annual Pay')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit New Annual Pay'))
 @else
-@section('title', 'Add New Annual Pay')
+@section('title', \App\Helpers\Helper::cachedTrans('Add New Annual Pay'))
 @endif
 @section('content')
 <div class="main-panel">
@@ -11,21 +11,21 @@
       <div class="row">
          <div class="col-md-12">
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                @if(app('request')->input('id'))
-               <li class="breadcrumb-item active">Edit Annual Pay</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Annual Pay')}}</li>
                @else
-               <li class="breadcrumb-item active">Add New Annual Pay</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New Annual Pay')}}</li>
                @endif
                
             </ul>
             <div class="card custom-card">
                <div class="card-header">
                   @if(app('request')->input('id'))
-                  <h4 class="card-title"><i class="far fa-user"></i> Edit Annual Pay</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Edit Annual Pay')}}</h4>
                   @else
-                  <h4 class="card-title"><i class="far fa-user"></i> Add New Annual Pay</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Add New Annual Pay')}} </h4>
                   @endif
                </div>
                @if(Session::has('message'))										
@@ -45,7 +45,7 @@
                                  <div class="row form-group">
                                     <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="inputFloatingLabel" class="col-form-label">Paygroup Code</label>
+                                          <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Pay group Code')}}</label>
                                           <select class="select input-border-bottom" id="inputFloatingLabel" required="" name="payscale_code">
                                              @foreach($paygroup_rs as $grade)
                                              <option value="{{ $grade->id}}"  <?php  if(app('request')->input('id')){ if($getPayscale[0]->payscale_code==$grade->id){ echo 'selected'; } } ?> >{{ $grade->grade_name}}</option>
@@ -59,7 +59,7 @@
                                     @foreach($getPaybac as $gradebas)
                                     <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="inputFloatingLabel<?php echo  $tr_id;?>" class="col-form-label">Annual Pay</label>
+                                          <label for="inputFloatingLabel<?php echo  $tr_id;?>" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Annual Pay')}}</label>
                                           <input id="inputFloatingLabel<?php echo  $tr_id;?>" type="text" class="form-control input-border-bottom" required="" name="pay_scale_basic[]" value="{{ $gradebas->pay_scale_basic}}" >
                                        </div>
                                     </div>
@@ -75,7 +75,7 @@
                                     @if (empty(app('request')->input('id')))
                                     <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="inputFloatingLabel1" class="col-form-label">Annual Pay</label>
+                                          <label for="inputFloatingLabel1" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Annual Pay')}} </label>
                                           <input id="inputFloatingLabel1" type="text" class="form-control input-border-bottom" required="" name="pay_scale_basic[]" >
                                        </div>
                                     </div>
@@ -87,7 +87,7 @@
                               </div>
                               <br>
                               <div class="form-group">
-                                 <div class="col-md-2 btn-up"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                 <div class="col-md-2 btn-up"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}} </button></div>
                               </div>
                            </form>
                         </div>

@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Employee Bank Add')
+@section('title', \App\Helpers\Helper::cachedTrans('Employee Bank Add'))
 @section('content')
 <div class="main-panel">
 <div class="content">
@@ -7,13 +7,13 @@
       <div class="row">
          <div class="col-md-12">
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item active"> Add Employee Bank</li>
+                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Employee Bank')}} </li>
             </ul>
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="far fa-user"></i> Add Employee Bank</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Add Employee Bank')}} </h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">
@@ -25,7 +25,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">Bank Name <span style="color:red;">(*)</span></label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Bank Name')}} <span style="color:red;">(*)</span></label>
                                         <select name="bank_name" id="bank_name" class="select" required>
                                             <option value="">Select Bank</option>
                                             @foreach($MastersbankName as $value)
@@ -42,31 +42,31 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">Bank Branch</label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Bank Branch')}}</label>
                                         <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="branch_name" placeholder="Enter Your Branch Name">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">IFSC Code</label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('IFSC Code')}}</label>
                                         <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="ifsc_code" placeholder="Enter Your IFSC Code">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">MICR Code</label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('MICR Code')}}</label>
                                         <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="swift_code" placeholder="Enter Your MICR Code">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">Enter Account number </label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Enter Account number')}} </label>
                                         <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="account_number" placeholder="Enter Your MICR Code">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">Status</label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Status')}}</label>
                                         <select class="select" name="status">
                                             <option>Status</option>
                                             <option value="active">Active</option>
@@ -78,7 +78,7 @@
                                 </div>
                                 <br>
                                 <div class="row form-group">
-                                    <div class="col-md-2"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                    <div class="col-md-2"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button></div>
                                 </div>
                             </form>
                         </div>    

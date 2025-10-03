@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Edit Organization Bank')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Organization Bank'))
 @section('content')
 <div class="main-panel">
 <div class="content">
@@ -7,13 +7,13 @@
       <div class="row">
          <div class="col-md-12">
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
-               <li class="breadcrumb-item active"> Edit Organization Bank</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Organization Bank')}}</li>
            </ul>
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="la la-bank" style="color:#ffa318;"></i> Edit Organization Bank</h4>
+                  <h4 class="card-title"><i class="la la-bank" style="color:#ffa318;"></i>{{\App\Helpers\Helper::cachedTrans('Edit Organization Bank')}} </h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">
@@ -26,7 +26,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                         <input type="hidden" name="id" value="{{ $bank->id }}">
-                                        <label for="inputFloatingLabel" class="col-form-label">Bank Name</label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Bank Name')}}</label>
                                         <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankname" value="<?php print_r($bank->bankname) ?>" required>
                                           @error('bankname')
                                              <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">Bank Branch</label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Bank Branch')}}</label>
                                         <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="bankbranch" value="{{ $bank->bankbranch }}" required>
                                         @error('bankbranch')
                                           <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">IFSC Code</label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('IFSC Code')}}</label>
                                         <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="ifsccode" value="{{ $bank->ifsccode }}" required>
                                        @error('ifsccode')
                                           <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">MICR Code</label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('MICR Code')}}</label>
                                         <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="micrcode" value="{{ $bank->micrcode }}" required>
                                         @error('micrcode')
                                           <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                        <label for="inputFloatingLabel" class="col-form-label">Status</label>
+                                        <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Status')}}</label>
                                         <select class="select" name="status" required>
                                                 <option value="">Status</option>
                                                 <option value="active" {{ $bank->status == 'active' ? 'selected' : '' }}>Active</option>
@@ -78,7 +78,7 @@
                                 </div>
                                 <br>
                                 <div class="row form-group">
-                                    <div class="col-md-2"><button type="submit" class="btn btn-primary">Update</button></div>
+                                    <div class="col-md-2"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Update')}}</button></div>
                                 </div>
                             </form>
                         </div>

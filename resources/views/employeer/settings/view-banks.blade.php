@@ -29,22 +29,22 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title"> Bank Sortcode</h3>
+            <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans('Bank Sortcode')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Settings Dashboard</a></li>
-               <li class="breadcrumb-item active">Bank Sortcode</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}} </a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Bank Sortcode')}} </li>
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
             @if($user_type == 'employee')
             @foreach($sidebarItems as $value)
             @if($value['rights'] == 'Add' && $value['module_name'] == 4 && $value['menu'] == 49)
-            <a href="{{ url('org-settings/bank-sortcode') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Bank Sortcode </a>
+            <a href="{{ url('org-settings/bank-sortcode') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Bank Sortcode')}}</a>
             @endif
             @endforeach
             @elseif($user_type == 'employer')
-            <a href="{{ url('org-settings/bank-sortcode') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Bank Sortcode</a>
+            <a href="{{ url('org-settings/bank-sortcode') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Add Bank Sortcode')}} </a>
             @endif
             {{-- 
             <div class="view-icons">
@@ -62,7 +62,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Bank Sortcode
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Bank Sortcode')}} 
                </h4>
                <div class="row">
                   <div class="col-auto">
@@ -74,7 +74,7 @@ return $output;
                           {{-- put the value - that is your file name --}}
                           <input type="hidden" id="filenameInput" value="Bank-Sortcode">
                           <button type="submit" class="btn btn-success btn-sm">
-                              <i class="fas fa-file-excel"></i> Export to Excel
+                              <i class="fas fa-file-excel"></i> {{\App\Helpers\Helper::cachedTrans('Export to Excel')}} 
                           </button>
                       </form>
                   </div>
@@ -85,7 +85,7 @@ return $output;
                         <input type="hidden" name="headings" id="pdfHeadings">
                         <input type="hidden" name="filename" id="pdfFilename">
                         <button type="submit" class="btn btn-info btn-sm">
-                            <i class="fas fa-file-pdf"></i> Export to PDF
+                            <i class="fas fa-file-pdf"></i> {{\App\Helpers\Helper::cachedTrans('Export to PDF')}} 
                         </button>
                     </form>
                   </div>
@@ -96,10 +96,10 @@ return $output;
                   <table class="table table-striped custom-table" id="basic-datatables">
                      <thead>
                         <tr>
-                          <th>Sl. No.</th>
-                          <th>Bank Name</th>
-                          <th>Bank Sort Code </th>
-                          <th>Action</th>
+                          <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}} </th>
+                          <th>{{\App\Helpers\Helper::cachedTrans('Bank Name')}} </th>
+                          <th>{{\App\Helpers\Helper::cachedTrans('Bank Sort Code')}}  </th>
+                          <th>{{\App\Helpers\Helper::cachedTrans('Action')}} </th>
                         </tr>
                      </thead>
                      <tbody>

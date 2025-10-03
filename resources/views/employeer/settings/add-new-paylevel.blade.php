@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(app('request')->input('id'))
-@section('title', 'Edit New Pay Group')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit New Pay Group'))
 @else
-@section('title', 'Add New Pay Group')
+@section('title', \App\Helpers\Helper::cachedTrans('Add New Pay Group'))
 @endif
 
 @section('content')
@@ -12,20 +12,20 @@
          <div class="row">
             <div class="col-md-12">
                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                   @if(app('request')->input('id'))
-                  <li class="breadcrumb-item active">Edit Pay Group</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Pay Group')}} </li>
                   @else
-                  <li class="breadcrumb-item active">Add New Pay Group</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New Pay Group')}} </li>
                   @endif
                </ul>
                <div class="card custom-card">
                   <div class="card-header">
                      @if(app('request')->input('id'))
-                     <h4 class="card-title"><i class="far fa-user"></i> Edit Pay Group</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Edit Pay Group')}}</h4>
                      @else
-                     <h4 class="card-title"><i class="far fa-user"></i> Add New Pay Group</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Add New Pay Group')}} </h4>
                      @endif
                      
                   </div>
@@ -46,7 +46,7 @@
                                                            <div class="col-md-4">
                                                              
                                                              <div class="form-group">
-                                                             <label for="inputFloatingLabel" class="col-form-label">Pay Group</label>
+                                                             <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Pay Group')}} </label>
                                                                    <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom" required="" id="grade_name" name="grade_name"     value="<?php  if(app('request')->input('id')){  echo $getGrade[0]->grade_name; } ?>{{ old('grade_name') }}">
                                                                    
                                                                    @if ($errors->has('grade_name'))
@@ -56,7 +56,7 @@
                                                            </div>
                                                            <div class="col-md-4">
                                                              <div class="form-group">
-                                                                 <label for="selectFloatingLabel" class="col-form-label">Select</label>
+                                                                 <label for="selectFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Select')}} </label>
                                                                    <select class="select input-border-bottom" id="selectFloatingLabel" required="" name="grade_status">
                                                                        
                                                                        <option value="active"  <?php  if(app('request')->input('id')){ if($getGrade[0]->grade_status=='active'){ echo 'selected'; } } ?> >Active</option>
@@ -70,7 +70,7 @@
                                                            <br>
                                                            <div class="row form-group">
                                                            <div class="col-md-4">
-                                                             <button class="btn btn-primary" type="submit">Submit</button>
+                                                             <button class="btn btn-primary" type="submit">{{\App\Helpers\Helper::cachedTrans('Submit')}} </button>
                                                              </div>
                                                            </div>
                                                            </div>

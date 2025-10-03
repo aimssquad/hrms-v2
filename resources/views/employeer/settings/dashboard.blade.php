@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Settings Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('Settings Dashboard'))
 
 @section('content')
 
@@ -11,10 +11,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Settings Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Settings Dashboard')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Settings Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Settings Dashboard')}}</li>
                     </ul>
                 </div>
                 {{-- <div class="col-auto float-end ms-auto">
@@ -38,7 +38,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-bank modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Add Organisation Bank</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Add Organisation Bank')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -57,7 +57,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-bank modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Add Employee Bank</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Add Employee Bank')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -75,7 +75,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-sitemap modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Add New Department</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Add New Department')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -94,7 +94,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-id-badge modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Add New Designation</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Add New Designation')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -112,7 +112,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-users modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Add New Employee Type</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Add New Employee Type')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -131,7 +131,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-user modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Add Employee Mode Type</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Add Employee Mode Type')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -150,7 +150,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Add Employee Master Type</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Add Employee Master Type')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -169,7 +169,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Add Education Master Type</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Add Education Master Type')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -256,7 +256,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Total Department</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Total Department')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <span></span>
@@ -277,7 +277,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Total Designation</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Total Designation')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <span></span>
@@ -298,7 +298,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Total Employee Type</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Total Employee Type')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <span></span>
@@ -319,7 +319,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Total Employee Mode</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Total Employee Mode')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <span></span>
@@ -341,7 +341,7 @@
                                     <div class="modern_icon_wrapper">
                                         <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                     </div>
-                                    <h4 class="modern-card-title">Total Employee Master</h4>
+                                    <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Total Employee Master')}}</h4>
                                 </div>
                                 <div class="modern-card-body">
                                     <span></span>
@@ -362,7 +362,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="fa fa-braille modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Total Education Master</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Total Education Master')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <span></span>

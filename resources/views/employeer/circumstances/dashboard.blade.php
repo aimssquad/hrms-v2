@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', 'Circumstances Dashboard')
+@section('title', \App\Helpers\Helper::cachedTrans('Circumstances Dashboard'))
 
 @section('content')
 
@@ -12,10 +12,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Change Of Circumstances Dashboard</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Change Of Circumstances Dashboard')}}</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Change Of Circumstances Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                        <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Change Of Circumstances Dashboard')}}</li>
                     </ul>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-bell modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">Change Notification List</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('Change Notification List')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>
@@ -53,7 +53,7 @@
                                             <div class="modern_icon_wrapper">
                                                 <i class="la la-list modern-icon" data-bs-toggle="tooltip" aria-label="fa fa-braille" data-bs-original-title="fa fa-braille"></i>
                                             </div>
-                                            <h4 class="modern-card-title">COC- Report</h4>
+                                            <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans('COC- Report')}}</h4>
                                         </div>
                                         <div class="modern-card-body">
                                             <div class="modern-status"></div>

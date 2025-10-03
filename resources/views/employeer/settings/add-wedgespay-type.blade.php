@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(isset($paytypedetails) && !empty($paytypedetails))
-@section('title', 'Edit Salary Pay Mode')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Salary Pay Mode'))
 @else
-@section('title', 'Add Salary Pay Mode')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Salary Pay Mode'))
 @endif 
 @section('content')
 <div class="main-panel">
@@ -11,20 +11,20 @@
       <div class="row">
          <div class="col-md-12">
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                @if(isset($paytypedetails) && !empty($paytypedetails))
-               <li class="breadcrumb-item active">Edit Salary Pay Mode</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Salary Pay Mode')}}</li>
                @else
-               <li class="breadcrumb-item active">Add New Salary Pay Mode</li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New Salary Pay Mode')}}</li>
                @endif
             </ul>
             <div class="card custom-card">
                <div class="card-header">
                   @if(isset($paytypedetails) && !empty($paytypedetails))
-                  <h4 class="card-title"><i class="fas fa-money-bill-wave"></i> Edit  Salary Pay Mode</h4>
+                  <h4 class="card-title"><i class="fas fa-money-bill-wave"></i>{{\App\Helpers\Helper::cachedTrans('Edit  Salary Pay Mode')}} </h4>
                   @else
-                  <h4 class="card-title"><i class="fas fa-money-bill-wave"></i> Salary Pay Mode</h4>
+                  <h4 class="card-title"><i class="fas fa-money-bill-wave"></i>{{\App\Helpers\Helper::cachedTrans('Salary Pay Mode')}} </h4>
                   @endif 
                </div>
                @if(Session::has('message'))										
@@ -44,7 +44,7 @@
                               <div class="row">
                                  <div class="col-md-4">
                                     <div class="form-group">
-                                       <label for="inputFloatingLabel" class="col-form-label">Payment Type</label>
+                                       <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Payment Type')}}</label>
                                        <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom" required=""  name="pay_type"   value="{{ (isset($paytypedetails[0]->pay_type) && !empty($paytypedetails[0]->pay_type))?$paytypedetails[0]->pay_type:old('pay_type')}}">
                                        @if ($errors->has('pay_type'))
                                        <div class="error" style="color:red;">{{ $errors->first('pay_type') }}</div>
@@ -55,7 +55,7 @@
                               <br>
                               <div class="row form-group">
                                  <div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                                  </div>
                               </div>
                            </form>

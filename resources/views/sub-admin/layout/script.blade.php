@@ -142,5 +142,12 @@ $('#exportPDFForm').on('submit', function(e) {
       $(this).off('submit').submit();
    });
 
+   //    language change 
+    var url = "{{ route('language_change') }}";
+    $(".language_change").change(function(){
+
+        window.location.href = url + "?lang="+ $(this).val();
+
+    });
 
 </script>

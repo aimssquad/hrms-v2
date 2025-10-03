@@ -23,7 +23,7 @@
                 <div class="col">
                     <h3 class="page-title">Dashboard</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('organization/employerdashboard') }}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ul>
                 </div>

@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Add Folder')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Folder'))
 @section('css')
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 <style>
@@ -87,10 +87,10 @@
                <div class="card">
                   <div class="card-header">
                      <div class="d-flex justify-content-between mb-2">
-                        <div class="mt-1"><i class="fa fa-cog" aria-hidden="true" style="color:#10277f;"></i> Files</div>
+                        <div class="mt-1"><i class="fa fa-cog" aria-hidden="true" style="color:#10277f;"></i> {{\App\Helpers\Helper::cachedTrans('Files')}}</div>
                         <div>
                            <button type="button" class="btn btn-primary mx-1" title="Import Files"  data-toggle="modal" data-target="#exampleModal1">
-                           Add File
+                            {{\App\Helpers\Helper::cachedTrans('Add File')}} 
                            </button>
                         </div>
                      </div>
@@ -117,10 +117,10 @@
                                  </a>
                                  <div class="drop_down" style-="    background: #fff; font-size: 13px;"
                                  <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
-                                 <span class="material-symbols-outlined">edit</span> Edit
+                                 <span class="material-symbols-outlined">{{\App\Helpers\Helper::cachedTrans('Edit')}}</span>
                                  </a>
                                  <a class="d-block" href="{{url('org-fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
-                                 <span class="material-symbols-outlined text-danger">delete</span> Delete
+                                 <span class="material-symbols-outlined text-danger">{{\App\Helpers\Helper::cachedTrans('Delete')}}</span>
                                  </a>
                               </div>
                      </div>
@@ -135,10 +135,10 @@
                      <li class="position-relative shadow-sm p-2 mb-3">
                      <div class="file_btn position-absolute">
                      <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
-                     <span class="material-symbols-outlined">edit</span>
+                     <span class="material-symbols-outlined">{{\App\Helpers\Helper::cachedTrans('Add Folder')}}edit</span>
                      </a>
                      <a class="d-block" href="{{url('org-fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
-                     <span class="material-symbols-outlined text-danger">delete</span>
+                     <span class="material-symbols-outlined text-danger">{{\App\Helpers\Helper::cachedTrans('Delete')}}</span>
                      </a>
                      </div>
                      <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->folder_name.'/'.$item->uploadFile)}}" download>
@@ -152,10 +152,10 @@
                      <li class="position-relative shadow-sm p-2 mb-3">
                      <div class="file_btn position-absolute">
                      <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
-                     <span class="material-symbols-outlined">edit</span>
+                     <span class="material-symbols-outlined">{{\App\Helpers\Helper::cachedTrans('Edit')}}</span>
                      </a>
                      <a class="d-block" href="{{url('org-fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
-                     <span class="material-symbols-outlined text-danger">delete</span>
+                     <span class="material-symbols-outlined text-danger">{{\App\Helpers\Helper::cachedTrans('Delete')}}</span>
                      </a>
                      </div>
                      <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->folder_name.'/'.$item->uploadFile)}}" download>
@@ -169,10 +169,10 @@
                      <li class="position-relative shadow-sm p-2 mb-3">
                      <div class="file_btn position-absolute">
                      <a href="#" class="d-block" data-toggle="modal" data-target="#exampleModal2" data-id="{{$item->id}}" id="renameButton" onclick="helopj('{{$item->id}}', '{{$item->file_rename}}')">
-                     <span class="material-symbols-outlined">edit</span>
+                     <span class="material-symbols-outlined">{{\App\Helpers\Helper::cachedTrans('Edit')}}</span>
                      </a>
                      <a class="d-block" href="{{url('org-fileManagment/file-name-delete/'.$item->id.'/'.request()->route('id'))}}">
-                     <span class="material-symbols-outlined text-danger">delete</span>
+                     <span class="material-symbols-outlined text-danger">{{\App\Helpers\Helper::cachedTrans('Delete')}}</span>
                      </a>
                      </div>
                      <a href="{{asset('filemanagment/'.$item->fileName.'/'.$item->folder_name.'/'.$item->uploadFile)}}" download>
@@ -210,15 +210,15 @@
                <input type="hidden" name="file_id" value="{{$data->file_id}}">
                <input type="hidden" name="file_add" value="{{ request()->route('id') }}">
                <div class="form-group">
-                  <label for="excel_file">File Name</label>
+                  <label for="excel_file">{{\App\Helpers\Helper::cachedTrans('File Name')}}</label>
                   <input type="text" name="file_rename[]" class="form-control" style='height: 40px;' id="fileInput" required>
-                  <label for="excel_file">Upload Files</label>
+                  <label for="excel_file">{{\App\Helpers\Helper::cachedTrans('Upload Files')}}</label>
                   <input type="file" name="uploadFile[]" class="form-control" style='height: 40px;' id="fileInput" multiple required>
                </div>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px; background-color: #fd0303;border-color: #fc0202;" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary" id="validateButton" style="color: #fff;padding: 0px 8px;height: 32px;" onclick="hello()">submit</button>
+               <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px; background-color: #fd0303;border-color: #fc0202;" data-dismiss="modal">{{\App\Helpers\Helper::cachedTrans('Close')}}</button>
+               <button type="submit" class="btn btn-primary" id="validateButton" style="color: #fff;padding: 0px 8px;height: 32px;" onclick="hello()">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
             </div>
             {{-- 
             <div id="validationMessage"></div>
@@ -238,13 +238,13 @@
                <input type="hidden" id="file_id" name="fileupload_id">
                <input type="hidden" name="org_id" value="{{ request()->route('id') }}">
                <div class="form-group">
-                  <label for="excel_file">File Name</label>
+                  <label for="excel_file">{{\App\Helpers\Helper::cachedTrans('File Name')}}</label>
                   <input type="text" name="file_rename" class="form-control"  style='height: 40px;' id="filerenameid" required>
                </div>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px; background-color: #fc0303;border-color: #af0e08;" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary" id="validateButton" style="color: #fff;padding: 0px 8px;height: 32px;" onclick="hello()">Update</button>
+               <button type="button" class="btn btn-secondary" style="padding: 0px 8px;height: 32px; background-color: #fc0303;border-color: #af0e08;" data-dismiss="modal">{{\App\Helpers\Helper::cachedTrans('Close')}}</button>
+               <button type="submit" class="btn btn-primary" id="validateButton" style="color: #fff;padding: 0px 8px;height: 32px;" onclick="hello()">{{\App\Helpers\Helper::cachedTrans('Update')}}</button>
             </div>
          </div>
       </form>

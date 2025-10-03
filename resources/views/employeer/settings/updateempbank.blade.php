@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Edit Employee Bank')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Employee Bank'))
 @section('content')
 <div class="main-panel">
 <div class="content">
@@ -7,13 +7,13 @@
       <div class="row">
          <div class="col-md-12">
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Edit Employee Bank</li>
+                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Employee Bank')}}</li>
              </ul>
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="far fa-user"></i> Edit Employee Bank</h4>
+                  <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Edit Employee Bank')}} </h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">
@@ -26,7 +26,7 @@
                            <input type="hidden" name="bankid" value="{{ ((isset($bankdetails) && !empty($bankdetails))?$bankdetails[0]['id']:'')}}">
                            <div class="row form-group">
                                <div class="col-md-4">
-                                   <label class="col-form-label">Enter Bank Name <span>(*)</span></label>
+                                   <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Enter Bank Name')}} <span>(*)</span></label>
                                    <?php //print_r($MastersbankName); exit; 
                                    ?>
                                    <select name="bank_name" id="bank_name" class="select" required>
@@ -44,7 +44,7 @@
 
                                </div>
                                <div class="col-md-4">
-                                   <label class="col-form-label">Enter Branch Name <span>(*)</span></label>
+                                   <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Enter Branch Name')}} <span>(*)</span></label>
                                    <input type="text" id="branch_name" required required name="branch_name" class="form-control" value="{{ (isset($bankdetails[0]['branch_name']) && !empty($bankdetails[0]['branch_name']))?$bankdetails[0]['branch_name']:old('branch_name')}}">
                                    @if ($errors->has('branch_name'))
                                    <div class="error" style="color:red;">{{ $errors->first('branch_name') }}</div>
@@ -54,7 +54,7 @@
 
                          
                                <div class="col-md-4">
-                                   <label class="col-form-label">IFSC Code <span>(*)</span></label>
+                                   <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('IFSC Code')}} <span>(*)</span></label>
                                    <input type="text"   required id="ifsc_code" name="ifsc_code" class="form-control" value="{{ (isset($bankdetails[0]['ifsc_code']) && !empty($bankdetails[0]['ifsc_code']))?$bankdetails[0]['ifsc_code']:old('ifsc_code')}}">
 
 
@@ -65,14 +65,14 @@
                            </div>
                             <div class="row form-group">
                                <div class="col-md-4">
-                                   <label class="col-form-label">Enter MICR Code </label>
+                                   <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Enter MICR Code')}} </label>
                                    <input type="text"   id="swift_code" name="swift_code" class="form-control" value="{{ (isset($bankdetails[0]['swift_code']) && !empty($bankdetails[0]['swift_code']))?$bankdetails[0]['swift_code']:old('swift_code')}}">
                                    @if ($errors->has('swift_code'))
                                    <div class="error" style="color:red;">{{ $errors->first('swift_code') }}</div>
                                    @endif
                                </div>
                                <div class="col-md-4">
-                                <label class="col-form-label">Enter Account number </label>
+                                <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Enter Account number')}} </label>
                                 <input type="text"   id="account_number" name="account_number" class="form-control" value="{{ (isset($bankdetails[0]['account_number']) && !empty($bankdetails[0]['account_number']))?$bankdetails[0]['account_number']:old('account_number')}}">
                                 @if ($errors->has('account_number'))
                                 <div class="error" style="color:red;">{{ $errors->first('account_number') }}</div>
@@ -82,7 +82,7 @@
                           
                                
                            <div class="col-md-4">
-                                   <label class="col-form-label">Status <span>(*)</span></label>
+                                   <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Status')}} <span>(*)</span></label>
                                    <select class="select" name="bank_status">
                                           
                                            <option value="active" <?php if($bankdetails['0']['bank_status']=='active'){?> selected="selected"<?php }?>>Active</option>
@@ -95,7 +95,7 @@
                            </div>
                            <br>
                                 <div class="row form-group">
-                                   <div class="col-md-2"><button type="submit" class="btn btn-primary">Update</button></div>
+                                   <div class="col-md-2"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Update')}}</button></div>
                                 </div>
                           </div>
                           </form>

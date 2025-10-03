@@ -1,8 +1,8 @@
 @extends('employeer.include.app')
 @if(isset($bankdetails) && !empty($bankdetails))
-@section('title', 'Edit Bank Sortcode')
+@section('title', \App\Helpers\Helper::cachedTrans('Edit Bank Sortcode'))
 @else
-@section('title', 'Add Bank Sortcode')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Bank Sortcode'))
 @endif
 @section('content')
 <div class="main-panel">
@@ -11,21 +11,21 @@
          <div class="row">
             <div class="col-md-12">
                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                   @if(isset($bankdetails) && !empty($bankdetails))
-                  <li class="breadcrumb-item active">Edit Bank Sortcode</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Bank Sortcode')}}</li>
                   @else
-                  <li class="breadcrumb-item active">Add New Bank Sortcode</li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add New Bank Sortcode')}}</li>
                   @endif
                   
                </ul>
                <div class="card custom-card">
                   <div class="card-header">
                      @if(isset($bankdetails) && !empty($bankdetails))
-                     <h4 class="card-title"><i class="fas fa-university"></i> Edit Bank Sortcode </h4>
+                     <h4 class="card-title"><i class="fas fa-university"></i>{{\App\Helpers\Helper::cachedTrans('Edit Bank Sortcode')}}  </h4>
                      @else
-                     <h4 class="card-title"><i class="far fa-user"></i>Edit Bank Sortcode</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i>{{\App\Helpers\Helper::cachedTrans('Edit Bank Sortcode')}}</h4>
                      @endif 
                   </div>
                   @if(Session::has('message'))										
@@ -45,7 +45,7 @@
                                  <div class="row">
                                     <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="inputFloatingLabel"  class="col-form-label">Bank Name</label>	
+                                          <label for="inputFloatingLabel"  class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Bank Name')}}</label>	
                                           <select name="bank_name" id="bank_name"  class="select input-border-bottom" required="">
                                              @foreach($MastersbankName as $value):
                                              <option value="{{ $value->id }}" <?php if(!empty($bankdetails[0]->id)){ if( $bankdetails[0]->bank_name == $value->id){  echo "selected"; } } ?>>
@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="inputFloatingLabel1" class="col-form-label">Bank Sort Code</label>
+                                          <label for="inputFloatingLabel1" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Bank Sort Code')}}</label>
                                           <input id="inputFloatingLabel1" type="text" class="form-control input-border-bottom" required="" name="bank_sort"   value="{{ (isset($bankdetails[0]->bank_sort) && !empty($bankdetails[0]->bank_sort))?$bankdetails[0]->bank_sort:old('bank_sort')}}">
                                           @if ($errors->has('bank_sort'))
                                           <div class="error" style="color:red;">{{ $errors->first('bank_sort') }}</div>
@@ -68,7 +68,7 @@
                                  <br>
                                  <div class="row form-group">
                                     <div class="col-md-4">
-                                       <button type="submit" class="btn btn-primary">Submit</button>
+                                       <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                                     </div>
                                  </div>
                            </div>

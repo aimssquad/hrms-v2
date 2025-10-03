@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Employee Type Edit')
+@section('title', \App\Helpers\Helper::cachedTrans('Employee Type Edit'))
 @section('content')
 <div class="main-panel">
    <div class="content">
@@ -7,13 +7,13 @@
          <div class="row">
             <div class="col-md-12">
                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Edit Employee Type</li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                  <li class="breadcrumb-item"><a href="{{url('organization/settings-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                  <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Edit Employee Type')}}</li>
                </ul>
                <div class="card custom-card">
                   <div class="card-header">
-                     <h4 class="card-title"><i class="far fa-user"></i> Edit Employee Type</h4>
+                     <h4 class="card-title"><i class="far fa-user"></i> {{\App\Helpers\Helper::cachedTrans('Edit Employee Type')}} </h4>
                   </div>
                   <div class="card-body">
                      <div class="multisteps-form">
@@ -29,14 +29,14 @@
                                     <div class="col-md-4">
                                        <div class="form-group">
                                           <input type="hidden" name="id" value="{{$enteries->employ_type_id}}">
-                                          <label for="inputFloatingLabel" class="col-form-label">Employee Type</label>
+                                          <label for="inputFloatingLabel" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Employee Type')}} </label>
                                           <input id="inputFloatingLabel" type="text" class="form-control input-border-bottom"  name="employ_type_name" value="{{$enteries->employ_type_name}}">
                                        </div>
                                     </div>
                                  </div>
                                  <br>
                                  <div class="row form-group">
-                                    <div class="col-md-2"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                    <div class="col-md-2"><button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button></div>
                                  </div>
                            </div>
                            </form>

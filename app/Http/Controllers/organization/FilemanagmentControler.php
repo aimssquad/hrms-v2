@@ -54,42 +54,42 @@ class FilemanagmentControler extends Controller
       return view($this->_routePrefix . '.dashboard',$data);
     }
 
-    public function filedivisionlist(Request $request){
-        $email = Session::get('emp_email');
-        $user_email=Session::get('user_email');
-        $user_type=Session::get('user_type');
-        $arrayEmail=[];
-        if($user_type==="employer"){
-           $email = Session::get('emp_email');
-           array_push($arrayEmail, $email);
-        }else{
-           $user_email=Session::get('user_email');
-           array_push($arrayEmail, $user_email);
-        }
-        $emp_email = implode(", ", $arrayEmail);
-        if($user_type==="employer"){
-           if(!empty($email)){
-              $dataReg = Registration::where("email",$email)->first();
-              $organization_id = $dataReg['id'];
-              $data['file_details']= fileDivision::where("organization_id",$organization_id)->get();
-              return view($this->_routePrefix . '.file-devision-list',$data);
-              //return view("filemanagment/file-devision-list",$data);
-              }else{
-                  return redirect("/");
-              }
-        }else{
-           if(!empty($user_email)){
-              // $dataReg = Registration::where("email",$email)->first();
-              // $organization_id = $dataReg['id'];
-              $dataReg =DB::table('users')->where('email',$user_email)->first();
-              // dd($dataReg);
-              $data['file_details']= fileDivision::where("organization_id",$dataReg->employee_id)->get();
-              return view($this->_routePrefix . '.file-devision-list',$data);
-              //return view("filemanagment/file-devision-list",$data);
-              }else{
-                  return redirect("/");
-              }
-        }
+   public function filedivisionlist(Request $request){
+      $email = Session::get('emp_email');
+      $user_email=Session::get('user_email');
+      $user_type=Session::get('user_type');
+      $arrayEmail=[];
+      if($user_type==="employer"){
+         $email = Session::get('emp_email');
+         array_push($arrayEmail, $email);
+      }else{
+         $user_email=Session::get('user_email');
+         array_push($arrayEmail, $user_email);
+      }
+      $emp_email = implode(", ", $arrayEmail);
+      if($user_type==="employer"){
+         if(!empty($email)){
+            $dataReg = Registration::where("email",$email)->first();
+            $organization_id = $dataReg['id'];
+            $data['file_details']= fileDivision::where("organization_id",$organization_id)->get();
+            return view($this->_routePrefix . '.file-devision-list',$data);
+            //return view("filemanagment/file-devision-list",$data);
+            }else{
+               return redirect("/");
+            }
+      }else{
+         if(!empty($user_email)){
+            // $dataReg = Registration::where("email",$email)->first();
+            // $organization_id = $dataReg['id'];
+            $dataReg =DB::table('users')->where('email',$user_email)->first();
+            // dd($dataReg);
+            $data['file_details']= fileDivision::where("organization_id",$dataReg->employee_id)->get();
+            return view($this->_routePrefix . '.file-devision-list',$data);
+            //return view("filemanagment/file-devision-list",$data);
+            }else{
+               return redirect("/");
+            }
+      }
    }
 
    public function filedivisionView(){

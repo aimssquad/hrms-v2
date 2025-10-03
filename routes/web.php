@@ -6060,8 +6060,10 @@ Route::get('/superadmin/org-atten-permission/{id}',[OrgAttenPermissionController
 Route::post('/superadmin/save-atten-permission', [OrgAttenPermissionController::class, 'saveEmpAttenPermission'])->name('save.emp-atten.permission');
 
 
-// language change route
+// language change route for Organization
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
+
+Route::get('language_change', [LangController::class, 'language_change'])->name('language_change');
 
 // post, comment,like route
 Route::post('/posts', 'App\Http\Controllers\Post\PostController@store')->name('posts.store');

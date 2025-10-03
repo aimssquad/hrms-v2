@@ -145,12 +145,12 @@
             'icon' => 'las la-cogs',
             'items' => [
                 ['url' => 'organization/settings-dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
-                ['submenu' => 'Bank Master', 'children' => [
+                ['submenu' => \App\Helpers\Helper::cachedTrans('Bank Master'), 'children' => [
                     ['url' => 'org-settings/vw-cmp-bank', 'label' =>    \App\Helpers\Helper::cachedTrans('Add Organisation Bank'),],
                     ['url' => 'org-settings/vw-emp-bank', 'label' =>    \App\Helpers\Helper::cachedTrans('Add Employee Bank'),],
                     ['url' => 'org-settings/vw-ifsc', 'label' =>    \App\Helpers\Helper::cachedTrans('IFSC Record'),],
                 ]],
-                ['submenu' => 'HCM Settings', 'children' => [
+                ['submenu' => \App\Helpers\Helper::cachedTrans('HCM Settings'), 'children' => [
                    // ['url' => 'org-settings/vw-caste', 'label' => 'Caste Master'],
                    // ['url' => 'org-settings/vw-subcast', 'label' => 'Sub Cast'],
                    // ['url' => 'org-settings/vw-class', 'label' => 'Class Master'],

@@ -1,14 +1,14 @@
 @extends('employeer.include.app')
-@section('title', 'Add Notice')
+@section('title', \App\Helpers\Helper::cachedTrans('Add Notice'))
 @section('content')
 <div class="content container-fluid pb-0">
 <div class="page-header">
     <div class="row">
         <div class="col-sm-12">
-            <h3 class="page-title">Notice</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Add Notice')}}</h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('organization.home')}}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Notice </li>
+                <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Notice')}} </li>
             </ul>
         </div>
     </div>
@@ -21,7 +21,7 @@
          <div class="col-md-12">
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="las la-bullhorn" style="color:rgb(253, 124, 3)"></i>  Add New Notice</h4>
+                  <h4 class="card-title"><i class="las la-bullhorn" style="color:rgb(253, 124, 3)"></i>  {{\App\Helpers\Helper::cachedTrans('Add New Notice')}}</h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">
@@ -34,32 +34,32 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="col-form-label">Title</label>
+                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Title')}}</label>
                                             <input type="text" class="form-control" name="title" value="{{ old('title') }}" required>
                                         </div>
                                     </div>
                                    
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="col-form-label">Start Date</label>
+                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Start Date')}}</label>
                                             <input type="date" name="start_date" class="form-control" value="{{ old('start_date') }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="col-form-label">End Date</label>
+                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('End Date')}}</label>
                                             <input type="date" name="end_date" class="form-control" value="{{ old('end_date') }}" required>
                                          </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="col-form-label">Description</label>
+                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Description')}}</label>
                                             <textarea name="description" class="form-control" required>{{ old('description') }}</textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label class="col-form-label">Image (optional)</label>
+                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Image')}}</label>
                                             <input type="file" class="form-control" name="image">
                                         </div>
                                     </div>
@@ -69,7 +69,7 @@
                                         <div class="col-md-12">
                                             <input type="hidden" name="notice_for" value="employees"> 
                                             <input type="hidden" name="created_by_type" value="Organization"> 
-                                            <button type="submit" class="btn btn-primary">Create Notice</button>
+                                            <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Create Notice')}}</button>
                                         </div>
                                     </div> 
                             </form>

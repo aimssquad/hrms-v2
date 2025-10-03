@@ -1,7 +1,6 @@
-
 @extends('employeer.include.app')
 
-@section('title', 'Invoice List')
+@section('title', \App\Helpers\Helper::cachedTrans('Invoice List'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -15,11 +14,11 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 	<div class="page-header">
 		<div class="row align-items-center">
 			<div class="col">
-				<h3 class="page-title">Invoice List</h3>
+				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Invoice List')}}</h3>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Billing Dashboard</a></li>
-					<li class="breadcrumb-item active">Invoice List</li>
+					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                    <li class="breadcrumb-item"><a href="#">{{\App\Helpers\Helper::cachedTrans('Dashboard')}} </a></li>
+					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Invoice List')}}</li>
 				</ul>
 			</div>
 		</div>
@@ -31,7 +30,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
             <div class="card custom-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">
-                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Invoice List
+                        <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans('Invoice List')}}
                     </h4>
                     <div class="row">
                        <div class="col-auto">
@@ -43,7 +42,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                {{-- put the value - that is your file name --}}
                                <input type="hidden" id="filenameInput" value="invoice-list">
                                <button type="submit" class="btn-download btn-download-excel me-0">
-                                        Export to Excel
+                                        {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                                 </button>
                            </form>
                        </div>
@@ -54,7 +53,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                              <input type="hidden" name="headings" id="pdfHeadings">
                              <input type="hidden" name="filename" id="pdfFilename">
                              <button type="submit" class="btn-download btn-download-pdf">
-                                Export to PDF
+                                {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}
                            </button>
                          </form>
                        </div>
@@ -65,22 +64,22 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                         <table id="basic-datatables" class="display table table-striped table-hover" >
                             <thead>
                                <tr>
-                                  <th>Sl.No.</th>
-                                  <th>Invoice.No.</th>
-                                  <th>Invoice.Date.</th>
-                                  <th>Item Name</th>
-                                  <th>Company Name</th>
-                                  <th>Amount</th>
-                                  <th>Vat(%)</th>
-                                  <th>Discount Amount</th>
-                                  <th>Total Amount</th>
-                                  <th>Payment Mode</th>
-                                  <th>Description</th>
-                                  <th>Remarks</th>
-                                  <th>Payment Id</th>
-                                  <th>Payment Document</th>
-                                  <th>Payment Status</th>
-                                  <th>Action</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Invoice.No.')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Invoice.Date.')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Item Name')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Company Name')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Amount')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Vat(%)')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Discount Amount')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Total Amount')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Payment Mode')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Description')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Remarks')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Payment Id')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Payment Document')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Payment Status')}}</th>
+                                  <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                                </tr>
                             </thead>
                             <tbody>

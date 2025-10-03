@@ -1,5 +1,5 @@
 @extends('employeer.include.app')
-@section('title', 'Sign Up Link')
+@section('title', \App\Helpers\Helper::cachedTrans('Sign Up Link'))
 @php 
 $user_type = Session::get("user_type");
 $sidebarItems = \App\Helpers\Helper::getSidebarItems();
@@ -29,11 +29,11 @@ return $output;
    <div class="page-header">
       <div class="row align-items-center">
          <div class="col">
-            <h3 class="page-title">Sign Up Link</h3>
+            <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Sign Up Link')}}</h3>
             <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-               <li class="breadcrumb-item"><a href="{{url('rota-org/visitor-dashboard')}}">Visitor Dashboard</a></li>
-               <li class="breadcrumb-item active">Sign Up Link</li>
+               <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('rota-org/visitor-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}} </a></li>
+               <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Sign Up Link')}}</li>
             </ul>
          </div>
       </div>
@@ -45,7 +45,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Sign Up Link
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans('Sign Up Link')}}
                </h4>
                <div class="row">
                   <div class="col-auto">
@@ -57,7 +57,7 @@ return $output;
                           {{-- put the value - that is your file name --}}
                           <input type="hidden" id="filenameInput" value="Sign-Up-Link">
                           <button type="submit" class="btn-download btn-download-excel me-0">
-                                 Export to Excel
+                                 {{\App\Helpers\Helper::cachedTrans('Export to Excel')}}
                            </button>
                       </form>
                   </div>
@@ -68,7 +68,7 @@ return $output;
                         <input type="hidden" name="headings" id="pdfHeadings">
                         <input type="hidden" name="filename" id="pdfFilename">
                         <button type="submit" class="btn-download btn-download-pdf">
-                           Export to PDF
+                           {{\App\Helpers\Helper::cachedTrans('Export to PDF')}}
                       </button>
                     </form>
                   </div>
@@ -79,7 +79,7 @@ return $output;
                   <table id="basic-datatables" class="display table table-striped table-hover">
                      <thead>
                         <tr>
-                           <th>Visitor Link</th>
+                           <th>{{\App\Helpers\Helper::cachedTrans('Visitor Link')}}</th>
                         </tr>
                      </thead>
                      <tbody>

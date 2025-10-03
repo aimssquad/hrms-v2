@@ -12,13 +12,13 @@
    <div class="row">
       <div class="col-md-12">
          <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{url('user-access-role/dashboard')}}">User Permissions Dashboard</a></li>
-            <li class="breadcrumb-item active">Employee Permission</li> 
+            <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+            <li class="breadcrumb-item"><a href="{{url('user-access-role/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('User Permissions Dashboard')}}</a></li>
+            <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Employee Permission')}}</li> 
          </ul>
          <div class="card custom-card">
             <div class="card-header">
-               <h4 class="card-title"><i class="far fa-user"></i> {{ strtoupper($user_name->name) }}  Employee Permission</h4>
+               <h4 class="card-title"><i class="far fa-user"></i> {{ strtoupper($user_name->name) }}  {{\App\Helpers\Helper::cachedTrans('Employee Permission')}}</h4>
             </div>
             <div class="card-body">
                <div class="multisteps-form">
@@ -37,7 +37,7 @@
                                     <thead>
                                         <tr>
                                             <th width="50">#</th>
-                                            <th><strong>Module Name</strong></th>
+                                            <th><strong> {{\App\Helpers\Helper::cachedTrans('Module Name')}}</strong></th>
                                             {{-- <th style="color:#4e03fc"><strong>Submenu</strong></th> --}}
                                             {{-- <th class="text-center" style="color:#4e03fc"></th> --}}
                                             {{-- <th class="text-center" style="color:#0307fa">Edit</th>
@@ -65,7 +65,7 @@
                                                         </label>
                                                     </td>
                                                     <td>
-                                                        <h4 style="color:#FF902F">{{ $module->module_name }}</h4>
+                                                        <h4 style="color:#FF902F">{{ \App\Helpers\Helper::cachedTrans($module->module_name) }}</h4>
                                                     </td>
                                                    
                                                     
@@ -87,7 +87,7 @@
                                                         </td>
                                                         <td class="ps-5">
                                                             {{-- <input type="hidden" name="modules[{{ $moduleIndex }}][submenus][{{ $submenu->id }}][submenu_name]" value="{{ $submenu->submenu_name }}"> --}}
-                                                            {{ $submenu->submenu_name }}
+                                                            {{ \App\Helpers\Helper::cachedTrans($submenu->submenu_name) }}
                                                         </td>
                                                        
                                                         {{-- <td class="text-center">
@@ -146,7 +146,7 @@
                                 </table>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
                     </form>
                </div>
             </div>

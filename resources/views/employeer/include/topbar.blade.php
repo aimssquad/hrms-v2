@@ -102,7 +102,7 @@
                 <option value="bn" {{ session()->get('locale') == 'bn' ? 'selected' : '' }}>Bengali</option>
                 <option value="hi" {{ session()->get('locale') == 'hi' ? 'selected' : '' }}>Hindi</option>
                 <option value="ar" {{ session()->get('locale') == 'ar' ? 'selected' : '' }}>Arabic</option>
-                <option value="or" {{ session()->get('locale') == 'or' ? 'selected' : '' }}>Oromo</option>
+                <option value="om" {{ session()->get('locale') == 'om' ? 'selected' : '' }}>Oromo</option>
                 <option value="am" {{ session()->get('locale') == 'am' ? 'selected' : '' }}>Amharic</option>
                 <option value="fr" {{ session()->get('locale') == 'fr' ? 'selected' : '' }}>France</option>
                 <option value="es" {{ session()->get('locale') == 'es' ? 'selected' : '' }}>Spanish</option>

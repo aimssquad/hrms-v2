@@ -60,4 +60,11 @@ class LangController extends Controller
 
     }
 
+    public function language_change(Request $request){
+        //dd('okk');
+        App::setLocale($request->lang);
+        session()->put('locale', $request->lang);
+        return redirect()->back();
+    }
+
 }
