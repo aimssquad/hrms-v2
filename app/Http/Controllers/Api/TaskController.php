@@ -850,7 +850,7 @@ public function members(Request $request, $id)
             // Check if createdBy exists in users table
             $isOrgComment = \DB::table('users')->where('id', $comment->createdBy)->exists();
 
-            $comment->comment_type = $isOrgComment ? 'organization' : 'employee';
+            $comment->comment_type = $isOrgComment ? 'admin' : 'employee';
             return $comment;
         });
 
@@ -859,6 +859,11 @@ public function members(Request $request, $id)
             'data'    => $task_comments,
             'message' => 'Task comments retrieved successfully'
         ], 200);
+    }
+
+    public function add_emp_task_comment (Request $request){
+        $user = auth('api')->user();
+        dd($user);
     }
 
 

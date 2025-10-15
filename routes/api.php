@@ -97,6 +97,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::post('/project-post-reply', [TaskController::class, 'store']);
 
     Route::get('project-task-comment/{id}', [TaskController::class, 'taskComment']);
+    Route::post('project-task-comment-add', [TaskController::class, 'add_emp_task_comment']);
   
 });
 
