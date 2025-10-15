@@ -861,10 +861,54 @@ public function members(Request $request, $id)
         ], 200);
     }
 
-    public function add_emp_task_comment (Request $request){
+    // public function add_emp_task_comment (Request $request){
+    //     $user = auth('api')->user();
+    //     $employee =  Employee::where('emid',$user->emid)->where('emp_code',$user->employee_id)->first();
+    //     dd($employee);
+    // }
+
+    public function add_emp_task_comment(Request $request)
+    {
         $user = auth('api')->user();
-        dd($user);
+
+        // Validate request
+        $validated = $request->validate([
+            'task_id' => 'required|integer',
+            'comment_details' => 'required|string',
+        ]);
+
+        // Try to detect if the user is an employee
+        $employee = Employee::where('emid', $user->emid)
+            ->where('emp_code', $user->employee_id)
+            ->first();
+
+        // Create comment
+        $comment = new TaskComment();
+        $comment->task_id = $validated['task_id'];
+        $comment->comment_details = $validated['comment_details'];
+        $comment->status = 'active';
+        $comment->created_at = now();
+
+        if ($employee) {
+            // Comment by employee
+            $comment->createdBy = $employee->id;
+        } else {
+            // Comment by organization (user)
+            $comment->createdBy = $user->id;
+        }
+
+        $comment->save();
+
+        // Add comment_type for clarity in response
+        $comment->comment_type = $employee ? 'employee' : 'organization';
+
+        return response()->json([
+            'success' => true,
+            'data' => $comment,
+            'message' => 'Comment added successfully',
+        ], 200);
     }
+
 
 
 
