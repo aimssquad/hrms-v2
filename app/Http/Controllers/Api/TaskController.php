@@ -916,13 +916,19 @@ public function members(Request $request, $id)
 
     public function getProjectTasks($project_id)
     {
+        $user = auth('api')->user();
         // Fetch all labels for the project
+        $employee = Employee::where('emid', $user->emid)
+            ->where('emp_code', $user->employee_id)
+            ->first();
+
         $labels = DB::table('tm_master_labels')
             ->where('project_id', $project_id)
             ->pluck('title'); // only the label names like ['Todo', 'Resolved', 'WIP']
 
         // Fetch all tasks for this project (with assigned employee)
         $tasks = Task::where('project_id', $project_id)
+            ->where('assignedTo',$employee->id)
             ->with('assignedEmployee:id,emp_fname')
             ->get();
 
