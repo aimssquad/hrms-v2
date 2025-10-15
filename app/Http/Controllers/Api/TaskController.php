@@ -1012,7 +1012,7 @@ public function members(Request $request, $id)
                             'id' => $comment->id,
                             'comment' => $comment->comment_details,
                             'user' => $user->name ?? $employee->emp_fname ?? '',
-                            'type' => $user ? 'organization' : 'employee',
+                           // 'type' => $user ? 'organization' : 'employee',
                             'timestamp' => $comment->created_at ? $comment->created_at->format('Y-m-d H:i:s') : null,
                         ];
                     })
