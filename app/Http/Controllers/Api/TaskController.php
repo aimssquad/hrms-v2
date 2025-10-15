@@ -914,29 +914,83 @@ public function members(Request $request, $id)
     }
 
 
+    // public function getProjectTasks($project_id)
+    // {
+    //     $user = auth('api')->user();
+    //     // Fetch all labels for the project
+    //     $employee = Employee::where('emid', $user->emid)
+    //         ->where('emp_code', $user->employee_id)
+    //         ->first();
+
+    //     $labels = DB::table('tm_master_labels')
+    //         ->where('project_id', $project_id)
+    //         ->pluck('title'); // only the label names like ['Todo', 'Resolved', 'WIP']
+
+    //     // Fetch all tasks for this project (with assigned employee)
+    //     $tasks = Task::where('project_id', $project_id)
+    //         ->where('assignedTo',$employee->id)
+    //         ->with('assignedEmployee:id,emp_fname')
+    //         ->get();
+
+    //     // Prepare response
+    //     $data = [];
+
+    //     foreach ($labels as $label) {
+    //         // Match tasks whose status = label title
+    //         $filtered = $tasks->filter(function ($task) use ($label) {
+    //             return strtolower($task->status) === strtolower($label);
+    //         })->map(function ($task) {
+    //             return [
+    //                 'id' => $task->id,
+    //                 'title' => $task->task_name,
+    //                 'description' => $task->task_desc,
+    //                 'assignee' => $task->assignedEmployee->emp_fname ?? 'Unassigned',
+    //                 'dueDate' => $task->expected_end_date,
+    //                 'createdDate' => $task->created_at ? $task->created_at->format('Y-m-d') : null,
+    //                 'status' => $task->status,
+    //                 'priority' => $task->priority
+    //             ];
+    //         })->values();
+
+    //         // Add to response array
+    //         $data[strtolower($label)] = $filtered;
+    //     }
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'data' => $data
+    //     ], 200);
+    // }
+
     public function getProjectTasks($project_id)
     {
         $user = auth('api')->user();
-        // Fetch all labels for the project
+
+        // Detect if logged-in user is employee
         $employee = Employee::where('emid', $user->emid)
             ->where('emp_code', $user->employee_id)
             ->first();
 
+        // Fetch all labels for the project
         $labels = DB::table('tm_master_labels')
             ->where('project_id', $project_id)
-            ->pluck('title'); // only the label names like ['Todo', 'Resolved', 'WIP']
+            ->pluck('title');
 
-        // Fetch all tasks for this project (with assigned employee)
+        // Fetch all tasks with assigned employee + task comments
         $tasks = Task::where('project_id', $project_id)
-            ->where('assignedTo',$employee->id)
-            ->with('assignedEmployee:id,emp_fname')
+            ->where('assignedTo', $employee->id)
+            ->with([
+                'assignedEmployee:id,emp_fname',
+                'taskComments' => function ($query) {
+                    $query->orderBy('created_at', 'desc');
+                }
+            ])
             ->get();
 
         // Prepare response
         $data = [];
 
         foreach ($labels as $label) {
-            // Match tasks whose status = label title
             $filtered = $tasks->filter(function ($task) use ($label) {
                 return strtolower($task->status) === strtolower($label);
             })->map(function ($task) {
@@ -946,13 +1000,25 @@ public function members(Request $request, $id)
                     'description' => $task->task_desc,
                     'assignee' => $task->assignedEmployee->emp_fname ?? 'Unassigned',
                     'dueDate' => $task->expected_end_date,
-                    'createdDate' => $task->created_at ? $task->created_at->format('Y-m-d') : null,
+                    'createdDate' => optional($task->created_at)->format('Y-m-d'),
                     'status' => $task->status,
-                    'priority' => $task->priority
+                    'priority' => $task->priority,
+                    'comments' => $task->taskComments->map(function ($comment) {
+                        // Determine comment author (employee or organization)
+                        $user = DB::table('users')->where('id', $comment->createdBy)->first();
+                        $employee = DB::table('employees')->where('id', $comment->createdBy)->first();
+
+                        return [
+                            'id' => $comment->id,
+                            'comment' => $comment->comment_details,
+                            'user' => $user->name ?? $employee->emp_fname ?? 'Unknown',
+                            'type' => $user ? 'organization' : 'employee',
+                            'timestamp' => $comment->created_at ? $comment->created_at->format('Y-m-d H:i:s') : null,
+                        ];
+                    })
                 ];
             })->values();
 
-            // Add to response array
             $data[strtolower($label)] = $filtered;
         }
 
@@ -961,6 +1027,7 @@ public function members(Request $request, $id)
             'data' => $data
         ], 200);
     }
+
 
     public function changeTaskStatus(Request $request, $id)
     {

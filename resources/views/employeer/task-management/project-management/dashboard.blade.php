@@ -463,8 +463,9 @@ use App\Models\User; ?>
                                                     <th>{{\App\Helpers\Helper::cachedTrans('Task')}} </th>
                                                     <th>{{\App\Helpers\Helper::cachedTrans('Assigned To')}} </th>
                                                     <th>{{\App\Helpers\Helper::cachedTrans('Description')}} </th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('Priority')}} </th>
                                                     <th>{{\App\Helpers\Helper::cachedTrans('Start Date')}} </th>
-                                                    <th>{{\App\Helpers\Helper::cachedTrans('Due Date')}} </th>
+                                                    <th>{{\App\Helpers\Helper::cachedTrans('End Date')}} </th>
                                                     <th>{{\App\Helpers\Helper::cachedTrans('Status')}} </th>
                                                     <th>{{\App\Helpers\Helper::cachedTrans('Action')}} </th>
                                                 </tr>
@@ -478,6 +479,7 @@ use App\Models\User; ?>
                                                     <td><a style="color:#ffa318;" href="javascript:void(0);" onclick="taskDetailsModalOpen('{{$t->id}}')">{{$t->task_name}}</a></td>
                                                     <td>{{$t->fname}} {{$t->mname}} {{$t->lname}}</td>
                                                     <td>{{$t->task_desc}}</td>
+                                                    <td>{{$t->priority}}</td>
                                                     <td>{{$t->start_date}}</td>
                                                     <td>{{$t->expected_end_date}}</td>
                                                     <td>{{ucwords($t->status)}}</td>
