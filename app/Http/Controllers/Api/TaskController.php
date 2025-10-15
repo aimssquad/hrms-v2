@@ -948,6 +948,7 @@ public function members(Request $request, $id)
                     'dueDate' => $task->expected_end_date,
                     'createdDate' => $task->created_at ? $task->created_at->format('Y-m-d') : null,
                     'status' => $task->status,
+                    'priority' => $task->priority
                 ];
             })->values();
 
@@ -960,6 +961,44 @@ public function members(Request $request, $id)
             'data' => $data
         ], 200);
     }
+
+    public function changeTaskStatus(Request $request, $id)
+    {
+        $user = auth('api')->user();
+
+        // Validate input
+        $validated = $request->validate([
+            'status' => 'required|string'
+        ]);
+
+        // Check if task exists
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Task not found',
+            ], 404);
+        }
+
+        // Identify if request came from an employee or organization
+        $employee = Employee::where('emid', $user->emid)
+            ->where('emp_code', $user->employee_id)
+            ->first();
+
+        // Update the task status
+        $task->status = $validated['status'];
+        $task->updatedBy = $employee ? $employee->id : $user->id;
+        $task->updated_at = now();
+        $task->save();
+
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Task status updated successfully',
+        ], 200);
+    }
+
 
 
 
