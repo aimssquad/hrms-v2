@@ -141,6 +141,7 @@ public function members(Request $request, $id)
                 'p.description as project_description',
                 'p.status as project_status',
                 'pm.role as member_role',
+                't.id',
                 't.task_name',
                 't.task_desc',
                 't.start_date',
