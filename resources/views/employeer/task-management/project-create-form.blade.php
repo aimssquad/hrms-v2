@@ -37,6 +37,17 @@
 
                                         </div>
 
+                                        <div class="col-md-6">
+                                            <label class="col-fprm-label">{{\App\Helpers\Helper::cachedTrans('Project Start Date')}} <span>(*)</span></label>
+                                            <input type="date" class="form-control" name="project_start_date" />
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="col-fprm-label">{{\App\Helpers\Helper::cachedTrans('Project End Date')}} <span>(*)</span></label>
+                                            <input type="date" class="form-control" name="project_end_date" />
+
+                                        </div>
+
 
                                     </div>
                                     <div class="row">

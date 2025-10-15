@@ -192,8 +192,8 @@ class TaskManagement extends Controller
                 'title' => 'required',
                 'description' => 'required',
                 'identifier' => 'nullable',
-                // 'createdBy' => 'required',
-                // 'status' => 'required'
+                'project_start_date' => 'nullable',
+                'project_end_date' => 'nullable'
             ]);
             $isExist = Project::where(['title' => $validatedData['title'], 'emid' => $Roledata->reg])->first();
             if ($isExist) {
@@ -267,8 +267,8 @@ class TaskManagement extends Controller
         $validatedData = $request->validate([
             'title' => 'required',
             'description' => 'required',
-            // 'id' => 'required',
-            // 'keywords' => 'required',
+            'project_start_date' => 'required',
+            'project_end_date' => 'required',
             'identifier' => 'nullable',
             'status' => 'required'
         ]);

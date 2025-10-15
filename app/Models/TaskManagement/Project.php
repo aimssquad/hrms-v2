@@ -17,6 +17,8 @@ class Project extends Model
         'createdBy',
         'identifier',
         'status',
+        'project_start_date',
+        'project_end_date',
         'created_at',
         'updated_at'
     ];

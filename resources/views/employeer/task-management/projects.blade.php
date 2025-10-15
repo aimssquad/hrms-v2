@@ -101,6 +101,7 @@ return $output;
                           <th> {{\App\Helpers\Helper::cachedTrans('Project Members')}}</th>
                           <th> {{\App\Helpers\Helper::cachedTrans('Owner')}}</th>
                           <th> {{\App\Helpers\Helper::cachedTrans('Start Date')}}</th>
+                          <th> {{\App\Helpers\Helper::cachedTrans('End Date')}}</th>
                           <th> {{\App\Helpers\Helper::cachedTrans('Status')}}</th>
                           <th> {{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                         </tr>
@@ -112,7 +113,8 @@ return $output;
                           <td><a class="atag_titel_main" href={{url('/org-task-management/'.encrypt($p->id).'/tasks')}}>{{$p->title}}</a></td>
                           <td>{{count($p->members)}}</td>
                           <td>{{$p->owner}}</td>
-                          <td>{{$p->created_at}}</td>
+                          <td>{{$p->project_start_date ?? 'N/A'}}</td>
+                          <td>{{$p->project_end_date ?? 'N/A'}}</td>
                           <td>{{$p->status}}</td>
                            <td class="text-end">
                               <div class="dropdown dropdown-action">
