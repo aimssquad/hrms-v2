@@ -141,6 +141,8 @@ public function members(Request $request, $id)
                 'p.title as project_title',
                 'p.description as project_description',
                 'p.status as project_status',
+                'p.project_start_date as project_start_date',
+                'p.project_end_date as project_end_date',
                 'pm.role as member_role',
                 't.id',
                 't.task_name',
@@ -166,7 +168,9 @@ public function members(Request $request, $id)
                     'id' => $item->project_id,
                     'title' => $item->project_title,
                     'description' => $item->project_description,
-                    'status' => $item->project_status
+                    'status' => $item->project_status,
+                    'project_start_date' => $item->project_start_date,
+                    'project_end_date' => $item->project_end_date
                 ];
             }
 
