@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Employee;
 use App\Models\ProjectPost;
 use App\Models\ProjectPostReply;
+use App\Models\TaskComment;
 use DB;
 use Session;
 use Storage;
@@ -824,6 +825,16 @@ public function members(Request $request, $id)
                 'error'   => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function taskComment ($id){
+        $task_comment = TaskComment::where('task_id',$id)->get();
+
+         return response()->json([
+                'success' => true,
+                'data'    => $task_comment,  
+                'message' => 'Post deleted successfully'
+            ],200);
     }
 
 

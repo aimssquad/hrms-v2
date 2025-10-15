@@ -94,8 +94,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('/project-posts/{id}/edit', [TaskController::class, 'edit']);
     Route::put('/project-posts/{id}', [TaskController::class, 'update']);
     Route::delete('/project-posts/{id}', [TaskController::class, 'destroy']);
-
     Route::post('/project-post-reply', [TaskController::class, 'store']);
+
+    Route::post('project-task-comment/{id}', [TaskController::class, 'taskComment']);
   
 });
 
