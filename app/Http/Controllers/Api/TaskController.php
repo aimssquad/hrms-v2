@@ -938,7 +938,7 @@ public function members(Request $request, $id)
                     'id' => $task->id,
                     'title' => $task->task_name,
                     'description' => $task->task_desc,
-                    'assignee' => $task->assignedEmployee->emp_name ?? 'Unassigned',
+                    'assignee' => $task->assignedEmployee->emp_fname ?? 'Unassigned',
                     'dueDate' => $task->expected_end_date,
                     'createdDate' => $task->created_at ? $task->created_at->format('Y-m-d') : null,
                     'status' => $task->status,
