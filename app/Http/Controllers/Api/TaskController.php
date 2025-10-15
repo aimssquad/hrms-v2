@@ -179,6 +179,7 @@ public function members(Request $request, $id)
 
             if ($item->task_name && !isset($groupedData['tasks'][$item->task_name])) {
                 $groupedData['tasks'][$item->task_name] = [
+                    'task_id' => $item->id,
                     'task_name' => $item->task_name,
                     'task_desc' => $item->task_desc,
                     'start_date' => $item->start_date,
