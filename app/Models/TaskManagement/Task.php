@@ -32,7 +32,7 @@ class Task extends Model
 
     public function assignedEmployee()
     {
-        return $this->belongsTo(Employee::class, 'assignedTo', 'id');
+        return $this->belongsTo(\App\Models\Employee::class, 'assignedTo', 'id');
     }
 
 }
