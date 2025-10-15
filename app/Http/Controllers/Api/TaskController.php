@@ -827,15 +827,40 @@ public function members(Request $request, $id)
         }
     }
 
-    public function taskComment ($id){
-        $task_comment = TaskComment::where('task_id',$id)->get();
+    // public function taskComment ($id){
+    //     $user = auth('api')->user();
 
-         return response()->json([
-                'success' => true,
-                'data'    => $task_comment,  
-                'message' => 'Post deleted successfully'
-            ],200);
+    //     $task_comment = TaskComment::where('task_id',$id)->get();
+
+    //      return response()->json([
+    //             'success' => true,
+    //             'data'    => $task_comment,  
+    //             'message' => 'Post deleted successfully'
+    //         ],200);
+    // }
+
+    public function taskComment($id)
+    {
+        $user = auth('api')->user();
+
+        $task_comments = TaskComment::where('task_id', $id)->get();
+
+        // Add comment type (organization / employee)
+        $task_comments->transform(function ($comment) {
+            // Check if createdBy exists in users table
+            $isOrgComment = \DB::table('users')->where('id', $comment->createdBy)->exists();
+
+            $comment->comment_type = $isOrgComment ? 'organization' : 'employee';
+            return $comment;
+        });
+
+        return response()->json([
+            'success' => true,
+            'data'    => $task_comments,
+            'message' => 'Task comments retrieved successfully'
+        ], 200);
     }
+
 
 
 
