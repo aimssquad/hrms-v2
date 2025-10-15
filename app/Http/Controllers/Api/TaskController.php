@@ -923,7 +923,7 @@ public function members(Request $request, $id)
 
         // Fetch all tasks for this project (with assigned employee)
         $tasks = Task::where('project_id', $project_id)
-            ->with('assignedEmployee:id,emp_name')
+            ->with('assignedEmployee:id,emp_fname')
             ->get();
 
         // Prepare response
