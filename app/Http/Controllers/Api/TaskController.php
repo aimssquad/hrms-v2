@@ -914,6 +914,49 @@ public function members(Request $request, $id)
     }
 
 
+    public function getProjectTasks($project_id)
+    {
+        // Fetch all labels for the project
+        $labels = DB::table('tm_master_labels')
+            ->where('project_id', $project_id)
+            ->pluck('title'); // only the label names like ['Todo', 'Resolved', 'WIP']
+
+        // Fetch all tasks for this project (with assigned employee)
+        $tasks = Task::where('project_id', $project_id)
+            ->with('assignedEmployee:id,emp_name')
+            ->get();
+
+        // Prepare response
+        $data = [];
+
+        foreach ($labels as $label) {
+            // Match tasks whose status = label title
+            $filtered = $tasks->filter(function ($task) use ($label) {
+                return strtolower($task->status) === strtolower($label);
+            })->map(function ($task) {
+                return [
+                    'id' => $task->id,
+                    'title' => $task->task_name,
+                    'description' => $task->task_desc,
+                    'assignee' => $task->assignedEmployee->emp_name ?? 'Unassigned',
+                    'dueDate' => $task->expected_end_date,
+                    'createdDate' => $task->created_at ? $task->created_at->format('Y-m-d') : null,
+                    'status' => $task->status,
+                ];
+            })->values();
+
+            // Add to response array
+            $data[strtolower($label)] = $filtered;
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ], 200);
+    }
+
+
+
 
 
 

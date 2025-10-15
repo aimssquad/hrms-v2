@@ -98,6 +98,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 
     Route::get('project-task-comment/{id}', [TaskController::class, 'taskComment']);
     Route::post('project-task-comment-add', [TaskController::class, 'add_emp_task_comment']);
+
+    Route::get('project-wise-task/{id}', [TaskController::class, 'getProjectTasks']);
   
 });
 

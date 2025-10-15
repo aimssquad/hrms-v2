@@ -29,4 +29,10 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function assignedEmployee()
+    {
+        return $this->belongsTo(Employee::class, 'assignedTo', 'id');
+    }
+
 }
