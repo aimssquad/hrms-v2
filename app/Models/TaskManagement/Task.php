@@ -35,4 +35,9 @@ class Task extends Model
         return $this->belongsTo(\App\Models\Employee::class, 'assignedTo', 'id');
     }
 
+    public function taskComments()
+    {
+        return $this->hasMany(TaskComment::class, 'task_id', 'id');
+    }
+
 }
