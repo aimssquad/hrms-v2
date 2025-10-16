@@ -134,15 +134,15 @@ class TaskController extends Controller
     public function update(Request $request)
     {
         //dd($request->all());
-        dd('okk');
+        //dd('okk');
         $validatedData = $request->validate([
             'project_id' => 'required',
             'task_name' => 'required',
             'task_desc' => 'required',
             // 'tags' => 'required',
             'assignedTo' => 'required',
-            // 'start_date' => 'required',
-            // 'expected_end_date' => 'required',
+            'start_date' => 'nullable',
+            'expected_end_date' => 'nullable',
             // 'createdBy' => 'required',
              'priority' => 'nullable',
         ]);

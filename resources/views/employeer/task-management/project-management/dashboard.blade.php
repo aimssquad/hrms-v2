@@ -911,21 +911,57 @@ use App\Models\User; ?>
         })
         $('#create_task_modal').modal('show');
     }
+    // const setTaskCreateForm = (data, mode = null) => {
+    //     if (mode) {
+    //         $('#task_name').val(data?.task_name);
+    //         $('#start_date').val(data?.start_date);
+    //         $('#expected_end_date').val(data?.expected_end_date);
+    //         $('#task_create_status_display').text(data?.status);
+    //         $('#task_create_status').val(data?.task_name);
+    //         $('#task_desc').val(data?.task_desc);
+    //         $('#frm_title').html("Update issue");
+    //         $('#btm').html("Update");
+    //         $('select#assignedTo option[value="' + data.assignedTo + '"]').attr("selected", true);
+    //     } else {
+
+    //     }
+    // }
     const setTaskCreateForm = (data, mode = null) => {
         if (mode) {
+            // Fill data for edit mode
             $('#task_name').val(data?.task_name);
             $('#start_date').val(data?.start_date);
             $('#expected_end_date').val(data?.expected_end_date);
             $('#task_create_status_display').text(data?.status);
-            $('#task_create_status').val(data?.task_name);
+            $('#task_create_status').val(data?.status);
             $('#task_desc').val(data?.task_desc);
+            $('#priority').val(data?.priority);
             $('#frm_title').html("Update issue");
             $('#btm').html("Update");
             $('select#assignedTo option[value="' + data.assignedTo + '"]').attr("selected", true);
-        } else {
 
+            // 🟢 Remove min date restriction during update
+            $('#start_date').removeAttr('min');
+            $('#expected_end_date').removeAttr('min');
+
+            // Optional: Clear browser validation messages
+            $('#start_date')[0].setCustomValidity('');
+            $('#expected_end_date')[0].setCustomValidity('');
+        } else {
+            // // Reset form for create mode
+            // $('#frm_task_create')[0].reset();
+            // $('#frm_title').html("Create issue");
+            // $('#btm').html("Create");
+
+            // // 🟢 Reapply min date restriction for new task
+            // const tomorrow = new Date();
+            // tomorrow.setDate(tomorrow.getDate() + 1);
+            // const minDate = tomorrow.toISOString().split('T')[0];
+            // $('#start_date').attr('min', minDate);
+            // $('#expected_end_date').attr('min', minDate);
         }
-    }
+    };
+
     const setLebels = (l, mode) => {
         console.log(l)
         if (mode == 'create') {
