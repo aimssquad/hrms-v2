@@ -87,15 +87,22 @@ use App\Models\User; ?>
                                                 </div>
         
                                             </div>
-                                            <div>
-                                                <label>{{\App\Helpers\Helper::cachedTrans('Assign to')}} </label>
-                                                <select class="form-select  mt-2" aria-label="Default select example" name="assignedTo" id="assignedTo">
-                                                    <option selected disabled>{{\App\Helpers\Helper::cachedTrans('Unassigned')}}</option>
-                                                    @foreach($members as $m)
-                                                    <option value="{{$m->user_id}}">{{$m->fname}} {{$m->mname}} {{$m->lname}}</option>
-                                                    @endforeach
-        
-                                                </select>
+                                            <div class="row mt-3">
+                                                <div class="col-sm-6">
+                                                    <label>{{\App\Helpers\Helper::cachedTrans('Assign to')}} </label>
+                                                    <select class="form-select  mt-2" aria-label="Default select example" name="assignedTo" id="assignedTo">
+                                                        <option selected disabled>{{\App\Helpers\Helper::cachedTrans('Unassigned')}}</option>
+                                                        @foreach($members as $m)
+                                                        <option value="{{$m->user_id}}">{{$m->fname}} {{$m->mname}} {{$m->lname}}</option>
+                                                        @endforeach
+            
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label style="padding-bottom:8px;">{{\App\Helpers\Helper::cachedTrans('Prioroty')}} </label>
+                                                    <input type="text" class="form-control form-control-sm" name="priority" id="priority"  />
+
+                                                </div>
                                                 <!-- <small class="d-block"><a href="#" class="text-primary text-decoration-none"> Learn More
                                                 </a></small> -->
                                             </div>
@@ -152,18 +159,18 @@ use App\Models\User; ?>
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <div class="d-flex">
                                                     <div class="p-2 flex-grow-1">
-                                                        <!-- <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                            Create another issue
-                                                        </label>
-                                                    </div> -->
+                                                        {{-- <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                                Create another issue
+                                                            </label>
+                                                        </div>  --}}
                                                     </div>
                                                     <div class="mt-4 d-flex">
                                                         <div class="p-2">
                                                             <button type="button" class="btn btn-info danger" data-dismiss="modal">{{\App\Helpers\Helper::cachedTrans('Cancel')}} </button>
                                                         </div>
-                                                        <div class="p-2"> <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Create')}} </button>
+                                                        <div class="p-2"> <button type="submit" id ="btm" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Create')}} </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -845,6 +852,7 @@ use App\Models\User; ?>
         $('#edit_task_desc').html(data?.task_desc);
         $('#edit_task_assignedTo').html(data?.assignedUsername);
         $('#edit_task_title').html(data?.task_name);
+        
         $('#details_page_status_display').html(data?.status);
     }
     const setCommentList = (data, id) => {
@@ -911,7 +919,8 @@ use App\Models\User; ?>
             $('#task_create_status_display').text(data?.status);
             $('#task_create_status').val(data?.task_name);
             $('#task_desc').val(data?.task_desc);
-            $('#frm_title').html("Update issue")
+            $('#frm_title').html("Update issue");
+            $('#btm').html("Update");
             $('select#assignedTo option[value="' + data.assignedTo + '"]').attr("selected", true);
         } else {
 

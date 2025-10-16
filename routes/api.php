@@ -101,7 +101,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 
     Route::get('project-wise-task/{id}', [TaskController::class, 'getProjectTasks']);
 
-    Route::get('task-status-change/{id}', [TaskController::class, 'changeTaskStatus']);
+    Route::post('task-status-change/{id}', [TaskController::class, 'changeTaskStatus']);
   
 });
 
