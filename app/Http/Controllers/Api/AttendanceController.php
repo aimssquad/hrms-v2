@@ -850,6 +850,28 @@ class AttendanceController extends Controller
                 ->exists();
 
             if (!$alreadyExists) {
+                // Convert dutyHours (e.g. "8:30") into total minutes
+                list($dhours, $dmins) = explode(':', $dutyHours);
+                $dutyMinutes = ($dhours * 60) + $dmins;
+
+                // Convert totalBreak (e.g. "00:20:00") into total minutes
+                list($bhours, $bmins, $bsecs) = explode(':', $totalBreak);
+                $breakMinutes = ($bhours * 60) + $bmins;
+
+                // Subtract break minutes from duty minutes
+                $netMinutes = $dutyMinutes - $breakMinutes;
+
+                // Prevent negative results
+                if ($netMinutes < 0) {
+                    $netMinutes = 0;
+                }
+
+                // Convert back to H:i format (e.g., "08:15")
+                $hours = floor($netMinutes / 60);
+                $minutes = $netMinutes % 60;
+                $total_dutyHour = sprintf("%02d:%02d", $hours, $minutes);
+
+                // ✅ Save to attendance table
                 Attandence::create([
                     'employee_code'     => $employee_code,
                     'employee_name'     => $employee_name,
@@ -859,10 +881,14 @@ class AttendanceController extends Controller
                     'month'             => Carbon::parse($validated['date'])->format('m/Y'),
                     'time_in_location'  => $attendance->time_in_location,
                     'time_out_location' => $updateData['time_out_location'],
-                    'duty_hours'        => $dutyHours,
+                    'duty_hours'        => $total_dutyHour,
                     'emid'              => $emid,
                 ]);
             }
+
+
+            $attendance->time_in = Carbon::parse($attendance->time_in)->format('H:i');
+            $attendance->time_out = Carbon::parse($updateData['time_out'])->format('H:i');
 
             return response()->json([
                 'flag' => 1,

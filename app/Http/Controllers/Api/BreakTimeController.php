@@ -136,8 +136,9 @@ class BreakTimeController extends Controller
             'punch_type' => 'nullable|string|in:GPS,QR,FaceID,Manual',
             'remarks' => 'nullable|string',
         ]);
-        //dd()
+        //dd($employee_code, $validated['break_date'], $emid);
         $currentAttendance  =  TempAttendance::where('employee_code',$employee_code)->where('emid',$emid)->where('date',$validated['break_date'])->first();
+        //dd($currentAttendance);
         if(!$currentAttendance){
             $dynamicFlag = 0;
             $data=[];
@@ -255,51 +256,99 @@ class BreakTimeController extends Controller
 
 
 
-    public function breakStatus(){
-        //dd('okk');
-        if (!auth()->check()) {
-            return Helper::rjd("Unauthorized access", 0, []);
-        }
+    // public function breakStatus(){
+    //     //dd('okk');
+    //     if (!auth()->check()) {
+    //         return Helper::rjd("Unauthorized access", 0, []);
+    //     }
 
-        $user = auth()->user();
-        $emid = $user->emid; 
-        $employee_code = $user->employee_id;
-        $employee_name = $user->name;
-        $date = date('Y-m-d');
+    //     $user = auth()->user();
+    //     $emid = $user->emid; 
+    //     $employee_code = $user->employee_id;
+    //     $employee_name = $user->name;
+    //     $date = date('Y-m-d');
         
-        // $break = BreakTimes::where('emid',$emid)->where('employee_code',$employee_code)->where('date',$date)->orderBy('date',desc)->first();
-        $break = BreakTimes::where('emid', $emid)
-            ->where('employee_code', $employee_code)
-            ->where('date', $date)
-            ->latest()      
-            ->first();
-        //dd($break);
-        if(!$break){
-              $dynamicFlag = 1;
-                    $data = []; // Empty array
-                    $message = "break data not found";
-                    return Helper::rjd(
-                        $message,
-                        $dynamicFlag,
-                        $data
-                    );
-        }
+    //     // $break = BreakTimes::where('emid',$emid)->where('employee_code',$employee_code)->where('date',$date)->orderBy('date',desc)->first();
+    //     $break = BreakTimes::where('emid', $emid)
+    //         ->where('employee_code', $employee_code)
+    //         ->where('date', $date)
+    //         ->latest()      
+    //         ->first();
+    //     //dd($break);
+    //     if(!$break){
+    //           $dynamicFlag = 1;
+    //                 $data = []; // Empty array
+    //                 $message = "break data not found";
+    //                 return Helper::rjd(
+    //                     $message,
+    //                     $dynamicFlag,
+    //                     $data
+    //                 );
+    //     }
 
-        $breakArray = $break->toArray();
-        $breakAttendance = array_map(function($value) {
-            return $value === null ? "" : $value;
-        }, $breakArray);
+    //     $breakArray = $break->toArray();
+    //     $breakAttendance = array_map(function($value) {
+    //         return $value === null ? "" : $value;
+    //     }, $breakArray);
 
-        $dynamicFlag = 1;
-        $data = [$breakAttendance]; // Wrap in array to make it a list
-        $message = "break data get successfully";
-        return Helper::rjd(
-            $message,
-            $dynamicFlag,
-            $data
-        );
+    //     $dynamicFlag = 1;
+    //     $data = [$breakAttendance]; // Wrap in array to make it a list
+    //     $message = "break data get successfully";
+    //     return Helper::rjd(
+    //         $message,
+    //         $dynamicFlag,
+    //         $data
+    //     );
 
+    // }
+
+   public function breakStatus()
+{
+    if (!auth()->check()) {
+        return Helper::rjd("Unauthorized access", 0, []);
     }
+
+    $user = auth()->user();
+    $emid = $user->emid;
+    $employee_code = $user->employee_id;
+    $employee_name = $user->name;
+    $date = date('Y-m-d');
+
+    // 🔹 Get the latest break entry for the current user and date
+    $latestBreak = BreakTimes::where('emid', $emid)
+        ->where('employee_code', $employee_code)
+        ->where('date', $date)
+        ->latest('id')
+        ->first();
+
+    // If no record found
+    if (!$latestBreak) {
+        return Helper::rjd("break data not found", 1, []);
+    }
+
+    // 🔹 Calculate total break time (sum for this date)
+    $totalBreak = BreakTimes::where('emid', $emid)
+        ->where('employee_code', $employee_code)
+        ->where('date', $date)
+        ->sum('total_break_time');
+
+    // 🔹 Convert nulls to empty strings
+    $breakData = array_map(function ($value) {
+        return $value === null ? "" : $value;
+    }, $latestBreak->toArray());
+
+    // 🔹 Custom API response format
+    $response = [
+        'status' => 200,
+        'flag' => 1,
+        'message' => "break data get successfully",
+        'data' => [$breakData],  // Only last break record
+        'total_break' => $totalBreak // Sum of all breaks that day
+    ];
+
+    return response()->json($response);
+}
+
 
 
 

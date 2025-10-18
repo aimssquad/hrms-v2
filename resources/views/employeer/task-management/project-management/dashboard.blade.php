@@ -487,8 +487,9 @@ use App\Models\User; ?>
                                                     <td>{{$t->fname}} {{$t->mname}} {{$t->lname}}</td>
                                                     <td>{{$t->task_desc}}</td>
                                                     <td>{{$t->priority}}</td>
-                                                    <td>{{$t->start_date}}</td>
-                                                    <td>{{$t->expected_end_date}}</td>
+                                                    <td>{{ $t->start_date ? \Carbon\Carbon::parse($t->start_date)->format('d-m-Y') : 'N/A' }}</td>
+                                                    <td>{{ $t->expected_end_date ? \Carbon\Carbon::parse($t->expected_end_date)->format('d-m-Y') : 'N/A' }}</td>
+
                                                     <td>{{ucwords($t->status)}}</td>
                                                     <td><?php
                                                         if ((isset($currentMember->role) && (strtolower($currentMember->role) == 'manager' || strtolower($currentMember->role) == 'owner')) || $t->createdBy == $users_id || $currentUserType === 'employer') {
@@ -940,7 +941,7 @@ use App\Models\User; ?>
             $('#btm').html("Update");
             $('select#assignedTo option[value="' + data.assignedTo + '"]').attr("selected", true);
 
-            // 🟢 Remove min date restriction during update
+            //  Remove min date restriction during update
             $('#start_date').removeAttr('min');
             $('#expected_end_date').removeAttr('min');
 
@@ -953,7 +954,7 @@ use App\Models\User; ?>
             // $('#frm_title').html("Create issue");
             // $('#btm').html("Create");
 
-            // // 🟢 Reapply min date restriction for new task
+            // //  Reapply min date restriction for new task
             // const tomorrow = new Date();
             // tomorrow.setDate(tomorrow.getDate() + 1);
             // const minDate = tomorrow.toISOString().split('T')[0];
