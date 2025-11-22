@@ -66,7 +66,7 @@ class DashboardController extends Controller
                 })
                 ->select('users.*')->get();
             $data['employee_inactive'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
-
+            
             $data['employee_migarnt'] = DB::table('users')
                 ->join('employee', 'users.employee_id', '=', 'employee.emp_code')
                 ->where('employee.emid', '=', $Roledata->reg)
@@ -86,7 +86,7 @@ class DashboardController extends Controller
                 ->where('users.user_type', '=', 'employee')
                 ->select('employee.*')
                 ->get();
-
+            //dd($Roledata->reg);    
             $data['employee_suspened'] = DB::table('employee')
 
                 ->where('emid', '=', $Roledata->reg)

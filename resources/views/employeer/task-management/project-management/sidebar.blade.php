@@ -4,32 +4,34 @@ $user_type = Session::get("user_type");
 @endphp  
 <?php
 
-                    use App\Models\TaskManagement\ProjectMembers;
-                    use App\User;
+    use App\Models\TaskManagement\ProjectMembers;
+    use App\User;
 
-                    $usetype = Session::get('user_type');
-                    $project_id = decrypt(request()->route('id'));
+    $usetype = Session::get('user_type');
+    $project_id = decrypt(request()->route('id'));
+    //dd($project_id);    
+    if ($usetype == 'employee') {
+        $usemail = Session::get('user_email');
+        $users_id = Session::get('users_id');
+        $dtaem = DB::table('users')
 
-                    if ($usetype == 'employee') {
-                        $usemail = Session::get('user_email');
-                        $users_id = Session::get('users_id');
-                        $dtaem = DB::table('users')
+            ->where('id', '=', $users_id)
+            ->first();
+        $Roles_auth = DB::table('role_authorization')
+            ->where('emid', '=', $dtaem->emid)
 
-                            ->where('id', '=', $users_id)
-                            ->first();
-                        $Roles_auth = DB::table('role_authorization')
-                            ->where('emid', '=', $dtaem->emid)
+            ->where('member_id', '=', $dtaem->email)
+            ->get()->toArray();
+        $arrrole = array();
+        foreach ($Roles_auth as $valrol) {
+            $arrrole[] = $valrol->menu;
+        }
+    }
 
-                            ->where('member_id', '=', $dtaem->email)
-                            ->get()->toArray();
-                        $arrrole = array();
-                        foreach ($Roles_auth as $valrol) {
-                            $arrrole[] = $valrol->menu;
-                        }
-                    }
+    $project_name_sidebar = DB::table('projects')->where('id', $project_id)->where('status', 'open')->select('title')->first();
+    //dd($project_name_sidebar->title);
 
-
-                    ?>
+?>
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-inner slimscroll">
@@ -37,7 +39,7 @@ $user_type = Session::get("user_type");
                 <ul class="sidebar-vertical">
                     
                                 <li class="menu-title">
-                                    <span>{{\App\Helpers\Helper::cachedTrans('Main')}}</span>
+                                    <span>{{\App\Helpers\Helper::cachedTrans("$project_name_sidebar->title")}}</span>
                                 </li>
                                 <li class="submenu">
                                     <a href="#"><i class="la la-cube {{Request::is('org-employeecornerorganisationdashboard')?'noti-dot':'';}}"></i> <span> {{\App\Helpers\Helper::cachedTrans('Project Management')}}</span> <span class="menu-arrow"></span></a>
