@@ -58,6 +58,7 @@ class TaskController extends Controller
 
                         ->get();
                     $data['tasks'] = $tasks;
+                    
                 } else {
 
                     $tasks = Task::select('tasks.*', 'e.emp_fname as fname', 'e.emp_mname as mname', 'e.emp_lname as lname')
@@ -67,6 +68,7 @@ class TaskController extends Controller
                     $data['tasks'] = $tasks;
                 }
             }
+            $data['project_id'] = $project_id;
             //return View('taskmanagement/tasks/tasks', $data);
             return view('employeer/task-management/project-management/dashboard', $data);
         } else {

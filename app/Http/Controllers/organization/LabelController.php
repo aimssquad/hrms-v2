@@ -19,6 +19,8 @@ class LabelController extends Controller
             $data['labels'] = MasterLabels::select("*")
                 ->where('project_id', $project_id)
                 ->get();
+
+            $data['project_id'] = $project_id;
                 return View('employeer/task-management/project-management/project-labels', $data);
         } else {
             return redirect("/");

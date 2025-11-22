@@ -28,8 +28,12 @@ $user_type = Session::get("user_type");
         }
     }
 
-    $project_name_sidebar = DB::table('projects')->where('id', $project_id)->where('status', 'open')->select('title')->first();
-    //dd($project_name_sidebar->title);
+    $project_name_sidebar = DB::table('projects')
+        ->where('id', $project_id)
+        //->where('status', 'open')
+        ->select('title')
+        ->first();
+    //dd($project_id);
 
 ?>
     <!-- Sidebar -->
@@ -39,7 +43,9 @@ $user_type = Session::get("user_type");
                 <ul class="sidebar-vertical">
                     
                                 <li class="menu-title">
-                                    <span>{{\App\Helpers\Helper::cachedTrans("$project_name_sidebar->title")}}</span>
+                                    @if(!empty($project_name_sidebar))
+                                        <span>{{\App\Helpers\Helper::cachedTrans("$project_name_sidebar->title")}}</span>
+                                    @endif
                                 </li>
                                 <li class="submenu">
                                     <a href="#"><i class="la la-cube {{Request::is('org-employeecornerorganisationdashboard')?'noti-dot':'';}}"></i> <span> {{\App\Helpers\Helper::cachedTrans('Project Management')}}</span> <span class="menu-arrow"></span></a>

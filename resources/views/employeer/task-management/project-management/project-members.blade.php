@@ -211,6 +211,8 @@
     <div class="content">
         <div class="page-inner">
             <div class="page-header">
+               
+                <h1 class="page-title"> {{$project->title}}</h1>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
                     <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>

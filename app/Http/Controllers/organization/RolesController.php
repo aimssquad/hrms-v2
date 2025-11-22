@@ -18,7 +18,10 @@ class RolesController extends Controller
             $data['labels'] = MasterRoles::select("*")
                 ->where('project_id', $project_id)
                 ->get();
-                return View('employeer/task-management/project-management/project-roles', $data);
+            
+            $data['project_id'] = $project_id;
+
+            return View('employeer/task-management/project-management/project-roles', $data);
         } else {
             return redirect("/");
         }
