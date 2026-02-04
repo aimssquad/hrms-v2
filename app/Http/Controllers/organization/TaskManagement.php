@@ -110,8 +110,7 @@ class TaskManagement extends Controller
                 }
                 $data['projects'] =  $projects;
             }
-            // print_r($data);
-            // die;
+            //dd($data);
             return view($this->_routePrefix . '.dashboard',$data);
             //return View('taskmanagement/dashboard', $data);
         } else {

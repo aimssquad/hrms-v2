@@ -29,6 +29,36 @@
 		@include('employeer.layout.customizer')
 		@include('employeer.layout.script')
         @yield('script')
+
+        <script src="https://js.pusher.com/8.2/pusher.min.js"></script>
+
+        <script>
+            window.AUTH_EMID = "{{ auth()->check() ? auth()->user()->emid : '' }}";
+            window.PROJECT_ID = "{{ isset($project) ? $project->id : '' }}";
+
+            if (window.AUTH_EMID && window.PROJECT_ID) {
+
+                Pusher.logToConsole = false;
+
+                const pusher = new Pusher(
+                    "{{ config('broadcasting.connections.pusher.key') }}",
+                    {
+                        cluster: "{{ config('broadcasting.connections.pusher.options.cluster') }}",
+                        encrypted: true
+                    }
+                );
+
+                const channelName = `project-channel.${window.AUTH_EMID}.${window.PROJECT_ID}`;
+                const channel = pusher.subscribe(channelName);
+
+                channel.bind('project-post-live', function (res) {
+                    console.log('Live notification:', res);
+                    handleLiveNotification(res.data.post);
+                });
+            }
+        </script>
+
+
 		
     </body>
 </html>

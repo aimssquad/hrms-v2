@@ -789,6 +789,151 @@ $user_type = Session::get("user_type");
                      </div>
                   </div>
                </div>
+               {{-- Message Center start --}}
+               {{-- <div class="col-xl-12 col-md-12 d-flex">
+                  <div class="card employee-month-card flex-fill">
+                     <div class="card-body">
+
+                           <h4 class="mb-3">
+                              {{ \App\Helpers\Helper::cachedTrans('Message Center') }}
+                           </h4>
+
+                           <div class="list-group">
+
+                              <!-- Group 1 -->
+                              <a href="javascript:void(0)"
+                                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                 <div class="d-flex align-items-center">
+                                       <div class="avatar bg-primary text-white rounded-circle me-3"
+                                          style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;">
+                                          H
+                                       </div>
+                                       <div>
+                                          <h6 class="mb-0">HRMS Project</h6>
+                                          <small class="text-muted">Please update task status</small>
+                                       </div>
+                                 </div>
+                                 <div class="text-end">
+                                       <small class="text-muted d-block">10:45 AM</small>
+                                       <span class="badge bg-success rounded-pill">3</span>
+                                 </div>
+                              </a>
+
+                              <!-- Group 2 -->
+                              <a href="javascript:void(0)"
+                                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                 <div class="d-flex align-items-center">
+                                       <div class="avatar bg-warning text-white rounded-circle me-3"
+                                          style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;">
+                                          P
+                                       </div>
+                                       <div>
+                                          <h6 class="mb-0">Payroll Team</h6>
+                                          <small class="text-muted">Salary sheet approved</small>
+                                       </div>
+                                 </div>
+                                 <div class="text-end">
+                                       <small class="text-muted d-block">Yesterday</small>
+                                 </div>
+                              </a>
+
+                              <!-- Group 3 -->
+                              <a href="javascript:void(0)"
+                                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                 <div class="d-flex align-items-center">
+                                       <div class="avatar bg-success text-white rounded-circle me-3"
+                                          style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;">
+                                          J
+                                       </div>
+                                       <div>
+                                          <h6 class="mb-0">JetSki Booking</h6>
+                                          <small class="text-muted">Client confirmed booking</small>
+                                       </div>
+                                 </div>
+                                 <div class="text-end">
+                                       <small class="text-muted d-block">09:15 AM</small>
+                                       <span class="badge bg-success rounded-pill">5</span>
+                                 </div>
+                              </a>
+
+                              <!-- Group 4 -->
+                              <a href="javascript:void(0)"
+                                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                 <div class="d-flex align-items-center">
+                                       <div class="avatar bg-danger text-white rounded-circle me-3"
+                                          style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;">
+                                          D
+                                       </div>
+                                       <div>
+                                          <h6 class="mb-0">Design Team</h6>
+                                          <small class="text-muted">UI finalized</small>
+                                       </div>
+                                 </div>
+                                 <div class="text-end">
+                                       <small class="text-muted d-block">Monday</small>
+                                 </div>
+                              </a>
+
+                           </div>
+
+                     </div>
+                  </div>
+               </div> --}}
+
+               <div class="col-xl-12 col-md-12 d-flex">
+                  <div class="card employee-month-card flex-fill">
+                     <div class="card-body">
+
+                           <h4 class="mb-3">
+                              {{ \App\Helpers\Helper::cachedTrans('Message Center') }}
+                           </h4>
+
+                           <div class="list-group">
+
+                              @forelse($projectData as $group)
+                              <a href="{{url('/org-task-management/'.encrypt($group['project_id']).'/chat')}}"
+                                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+
+                                 <div class="d-flex align-items-center">
+                                       <!-- Avatar -->
+                                       <div class="avatar bg-primary text-white rounded-circle me-3"
+                                          style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;">
+                                          {{ strtoupper(substr($group['project_name'], 0, 1)) }}
+                                       </div>
+
+                                       <!-- Project Info -->
+                                       <div>
+                                          <h6 class="mb-0">{{ $group['project_name'] }}</h6>
+                                          <small class="text-muted">
+                                             {{ $group['employee'] }}
+                                             @if($group['employee']) :
+                                             @endif
+                                             {{ $group['last_message'] }}
+                                          </small>
+                                       </div>
+                                 </div>
+
+                                 <!-- Time -->
+                                 <div class="text-end">
+                                       <small class="text-muted d-block">
+                                          {{ $group['time'] }}
+                                       </small>
+                                 </div>
+
+                              </a>
+                              @empty
+                              <div class="text-center text-muted p-3">
+                                 No project messages yet
+                              </div>
+                              @endforelse
+
+                           </div>
+
+                     </div>
+                  </div>
+               </div>
+
+
                {{-- @if(!$employee_birth->isEmpty())
                <div class="col-xl-12 col-md-12 d-flex">
                   <div class="card employee-month-card flex-fill" style="height: 200px;">

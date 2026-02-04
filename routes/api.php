@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\HolidayController;
 use App\Http\Controllers\Api\BreakTimeController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\NoticeController;
+use App\Http\Controllers\Api\HelpdeskController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -17,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::group(['prefix' => 'v1/', 'middleware' => ['api']], function () {
     Route::post('login', 'App\Http\Controllers\Api\LoginController@doLogin');
+    Route::post('guest/login', 'App\Http\Controllers\Api\LoginController@login');
 });
 
 Route::middleware(['auth:api'])->group(function () {
@@ -54,6 +57,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('attendance-status',[AttendanceController::class, 'showEmpAttendanceStatus']);
     Route::post('creat-break',[BreakTimeController::class, 'store']);
     Route::get('break-status',[BreakTimeController::class, 'breakStatus']);
+    Route::post('attendance-report', [AttendanceController::class, 'attendanceReport']);
     //for aminul
     Route::post('show-emp-attendance',[AttendanceController::class, 'showEmpAttandanceWF']);
 
@@ -102,6 +106,19 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('project-wise-task/{id}', [TaskController::class, 'getProjectTasks']);
 
     Route::post('task-status-change/{id}', [TaskController::class, 'changeTaskStatus']);
+
+    Route::get('message-center', [TaskController::class, 'messageCenter']);
+  
+});
+
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
+    Route::get('emp-notice',[NoticeController::class, 'empNotice']);
+    Route::get('/notification/status/{id}',[NoticeController::class, 'status']);
+  
+});
+
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
+    Route::post('raise-ticket', [HelpdeskController::class, 'helpdeskStore']);
   
 });
 

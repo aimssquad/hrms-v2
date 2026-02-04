@@ -95,6 +95,52 @@ class OrganizationController extends Controller
                     ->whereDate('start_date', '<=', $today)
                     ->whereDate('end_date', '>=', $today)
                     ->get();
+
+                // for project wise chat
+                $projects = DB::table('projects as pr')
+                    ->leftJoin('project_post as pp', function ($join) {
+                        $join->on('pp.project_id', '=', 'pr.id')
+                            ->whereNull('pp.parent_id');
+                    })
+                    ->where('pr.emid', $data["Roledata"]->reg)
+                    ->select(
+                        'pr.id as project_id',
+                        'pr.title as project_name',
+                        DB::raw('MAX(pp.created_at) as last_time')
+                    )
+                    ->groupBy('pr.id', 'pr.title')
+                    ->orderByRaw('MAX(pp.created_at) DESC')
+                    ->get();
+
+
+
+                    // Get last post details
+                $data['projectData'] = [];
+
+                foreach ($projects as $project) {
+
+                    $lastPost = DB::table('project_post as p')
+                        ->leftJoin('employee as e', 'e.emp_code', '=', 'p.employee_code')
+                        ->where('p.project_id', $project->project_id)
+                        ->whereNull('p.parent_id')
+                        ->orderBy('p.created_at', 'DESC')
+                        ->select(
+                            'p.title',
+                            'p.created_at',
+                            DB::raw("CONCAT(e.emp_fname,' ',e.emp_lname) as employee_name")
+                        )
+                        ->first();
+
+                    $data['projectData'][] = [
+                        'project_id'   => $project->project_id,
+                        'project_name' => $project->project_name,
+                        'last_message' => $lastPost->title ?? 'No messages yet',
+                        'employee'     => $lastPost->employee_name ?? '',
+                        'time'         => $lastPost
+                            ? \Carbon\Carbon::parse($lastPost->created_at)->diffForHumans()
+                            : ''
+                    ];
+                }
                 // $data['notices'] = DB::table('notices')->where('created_by_type','admin')->where('notice_for','organization')->get();
             } else {
                 
@@ -296,7 +342,7 @@ class OrganizationController extends Controller
                 ];
             });
 
-            //dd($data['posts']);
+            //dd($data['projectData']);
             return view($this->_routePrefix . '.dashboard', $data);
         } else {
             return redirect("/");

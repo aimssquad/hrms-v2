@@ -57,6 +57,7 @@
                 ['url' => 'org-settings/vw-designation', 'label' =>  \App\Helpers\Helper::cachedTrans('Designation'),],
                 ['url' => 'org-settings/vw-employee-type', 'label' =>  \App\Helpers\Helper::cachedTrans('Type of Employment'),],
                 ['url' => 'organization/allShifts', 'label' =>  \App\Helpers\Helper::cachedTrans('All Shifts'),],
+                ['url' => 'organization/allGuest', 'label' =>  \App\Helpers\Helper::cachedTrans('All Clients'),],
 
             ]
         ],
@@ -189,8 +190,10 @@
                 ['url' => 'organization/billing/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
                 ['url' => 'organization/billing-show', 'label' =>  \App\Helpers\Helper::cachedTrans('Invoice'),],
                 ['url' => '#', 'label' =>  \App\Helpers\Helper::cachedTrans('Payment Receipt'),],
+
+                ['url' => 'organization/currency', 'label' =>  \App\Helpers\Helper::cachedTrans('Currencies'),],
             ]
-        ], 
+        ],  
         14 => [
             'title' => \App\Helpers\Helper::cachedTrans('File Manager'),
             'icon' => 'las la-file',
@@ -258,6 +261,15 @@
                 ['url' => 'org/mobile-menu', 'label' => \App\Helpers\Helper::cachedTrans('Mobile Menu'),],
                 //['url' => 'org/employee-attendance', 'label' => 'Employee Attendance Permission'],
                
+            ]
+        ],
+        26 => [
+            'title' => \App\Helpers\Helper::cachedTrans('Customer Billing'),
+            'icon' => 'las la-donate',
+            'items' => [
+                ['url' => 'organization/customer-billing/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+                ['url' => 'organization/customer', 'label' =>  \App\Helpers\Helper::cachedTrans('Customer'),],
+                ['url' => 'organization/customer/invoice', 'label' =>  \App\Helpers\Helper::cachedTrans('Customer Invoice'),],
             ]
         ],
         
@@ -408,6 +420,7 @@ function isActiveModule($moduleItems) {
         </div>
         @php
             $email = Session::get('emp_email');
+            //dd($email);
             $company_details = DB::table('registration')
                 ->where('email', '=', $email)
                 ->first(); 
@@ -474,6 +487,8 @@ function isActiveModule($moduleItems) {
 }
 }
 </style>
+
+
 
 <!-- Two Col Sidebar -->
 @include('employeer.layout.side-settings')

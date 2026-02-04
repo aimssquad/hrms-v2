@@ -26,7 +26,13 @@ use App\Http\Controllers\OrgAttenPermissionController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\organization\TaskController;
+use App\Http\Controllers\organization\HelpdeskController;
+use App\Http\Controllers\organization\ChatController;
 
+// for organization bills there guest or anyone 
+use App\Http\Controllers\organization\CurrencyController;
+use App\Http\Controllers\organization\CustomerController;
+use App\Http\Controllers\organization\CustomerInvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +44,10 @@ use App\Http\Controllers\organization\TaskController;
 | contains the "web" middleware group. Now create something great!
 |
  */
+
+Route::get('pusher', function () {
+    return view('pusher');
+});
 
 Route::get('register-email', function () {
     return view('register-email');
@@ -192,9 +202,13 @@ Route::get('organization/add_employee', 'App\Http\Controllers\organization\Landi
 //Route::post('organization/save-employee', 'App\Http\Controllers\EmployeeController@saveEmployee');
 Route::get('organization/example', 'App\Http\Controllers\organization\EmployeeController@example');
 Route::get('organization/allShifts', 'App\Http\Controllers\organization\LandingController@viewshift')->name('organization.allShifts');
-
-
-
+Route::get('organization/allGuest', 'App\Http\Controllers\organization\LandingController@guestList')->name('organization.allGuest');
+Route::get('organization/guest/add-edit', 'App\Http\Controllers\organization\LandingController@addEditGeust')->name('organization.guest.addEdit');
+Route::post('organization/guest/save', 'App\Http\Controllers\organization\LandingController@saveGuest')->name('organization.guest.save');
+Route::get('organization/guest/delete', 'App\Http\Controllers\organization\LandingController@deleteGuest')->name('organization.guest.delete');
+Route::get('organization/guest/project', 'App\Http\Controllers\organization\LandingController@addGuestToProject')->name('organization.guest.project');
+Route::post('organization/guest/project', 'App\Http\Controllers\organization\LandingController@saveGuestToProjectMember')->name('organization.guest.project.save');
+Route::post('organization/guest/removeProject', 'App\Http\Controllers\organization\LandingController@removeGuestFromProject')->name('organization.guest.removeProject');
 
 //----------------------------- Holiday List ------------------------------------
 Route::get('orgaization/holiday-dashboard','App\Http\Controllers\organization\HolidayController@dashboard')->name('organization/holiday-dashboard');
@@ -584,6 +598,15 @@ Route::get('org-task-management/{id}/role-del/{role_id}', 'App\Http\Controllers\
 // chat route for organization
 Route::get('org-task-management/{id}/chat', 'App\Http\Controllers\organization\ChatController@chat');
 
+// Route::get('/project-chat/{project_id}/export/pdf', [ChatController::class, 'exportPDF'])
+//     ->name('chat.export.pdf');
+    
+// Route::get('/project-chat/{project_id}/export/excel', [ChatController::class, 'exportExcel'])
+//     ->name('chat.export.excel');
+// Add this route
+//Route::post('/project-chat/download', 'App\Http\Controllers\organization\ChatController@downloadChat')->name('project.chat.download');
+Route::post('/project-chat/download-zip', 'App\Http\Controllers\organization\ChatController@downloadChatZip')->name('project.chat.download.zip');
+
 
 //############################################### End Task Managemant ####################################################
 
@@ -687,6 +710,8 @@ Route::post('notice/add-notice', 'App\Http\Controllers\organization\NoticeContro
 Route::get('notice/edit-notice/{id}', 'App\Http\Controllers\organization\NoticeController@edit')->name('edit.notice');
 Route::post('/notice/update/{id}', 'App\Http\Controllers\organization\NoticeController@update')->name('update.notice');
 Route::get('notice/delete-notice/{id}', 'App\Http\Controllers\organization\NoticeController@destroy')->name('delete.notice');
+
+Route::get('helpdesk', 'App\Http\Controllers\organization\NoticeController@helpdesk');
 #####################################################Sub-admin###############################################
 Route::get('sub-admin/dashboard', [AdminController::class, 'hh'])->name('sub-admin.dashboard');
 ######################################################################################
@@ -6090,5 +6115,40 @@ Route::delete('/project-posts/{id}', [TaskController::class, 'destroy'])->name('
 
 Route::post('/project-post-reply', [TaskController::class, 'store'])->name('project.post.reply');
 
+// Remove this route and there related controller code after mail sending correction
 Route::get('etc-check','App\Http\Controllers\AdminController@mailtemplateCheck');
 
+Route::get('helpdesk', [HelpdeskController::class, 'index']);
+Route::get('add-helpdesk', [HelpdeskController::class, 'addHelpdesk']);
+Route::post('store-helpdesk', [HelpdeskController::class, 'storeHelpdesk']);
+
+
+// organization billing route for there client or gest route 
+Route::get('organization/currency', [CurrencyController::class, 'index'])->name('org.currency.list');
+Route::get('organization/add-currency', [CurrencyController::class, 'create'])->name('org.currency.create');
+Route::post('organization/store-currency', [CurrencyController::class, 'store'])->name('org.currency.store');
+Route::get('organization/edit-currency/{id}', [CurrencyController::class, 'edit'])->name('org.currency.edit');
+Route::post('organization/update-currency/{id}', [CurrencyController::class, 'update'])->name('org.currency.update');
+Route::delete('organization/delete-currency/{id}', [CurrencyController::class, 'destroy'])->name('org.currency.delete');
+// Add Guest Or Customer
+
+Route::get('organization/customer-billing/dashboard', [CustomerController::class, 'dashboard'])->name('org.customer.dashboard');
+Route::get('organization/customer', [CustomerController::class, 'index'])->name('org.customer.list');
+Route::get('organization/add-customer', [CustomerController::class, 'create'])->name('org.customer.create');
+Route::post('organization/store-customer', [CustomerController::class, 'store'])->name('org.customer.store');
+Route::get('organization/edit-customer/{id}', [CustomerController::class, 'edit'])->name('org.customer.edit');
+Route::post('organization/update-customer/{id}', [CustomerController::class, 'update'])->name('org.customer.update');
+Route::delete('organization/delete-customer/{id}', [CustomerController::class, 'destroy'])->name('org.customer.delete');
+
+Route::get('organization/customer/invoice', [CustomerInvoiceController::class, 'index'])->name('org.customer.invoice.list');
+Route::post('organization/store-invoice-customer', [CustomerInvoiceController::class, 'addCustomer'])->name('org.invoice-customer.store');
+Route::get('organization/customer/add-invoice', [CustomerInvoiceController::class, 'create'])->name('org.customer.invoice.create');
+Route::post('organization/customer/store-invoice', [CustomerInvoiceController::class, 'store'])->name('org.customer.invoice.store');
+Route::get('organization/customer/edit-invoice/{id}', [CustomerInvoiceController::class, 'edit'])->name('org.customer.invoice.edit');
+Route::put('organization/customer/update-invoice/{id}', [CustomerInvoiceController::class, 'update'])->name('org.customer.invoice.update');
+Route::delete('organization/customer/delete-invoice/{id}', [CustomerInvoiceController::class, 'destroy'])->name('org.customer.invoice.delete');
+
+Route::get('organization/customer/show-invoice/{id}', [CustomerInvoiceController::class, 'show'])->name('org.customer.invoice.show');
+Route::get('organization/invoice/pdf/{id}',[CustomerInvoiceController::class, 'downloadInvoicePdf'])->name('org.invoice.pdf');
+
+Route::post('organization/customer/send-email/{id}', [CustomerInvoiceController::class, 'sendInvoieToMail'])->name('org.customer.invoice.send.email');

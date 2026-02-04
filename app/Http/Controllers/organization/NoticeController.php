@@ -5,10 +5,14 @@ namespace App\Http\Controllers\organization;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Notice;
+use App\Models\Notification;
+use App\Models\UserModel;
+use App\Events\NoticeCreated;
 use Exception;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use App\Services\FirebaseService;
 use Validator;
 
 class NoticeController extends Controller
@@ -55,10 +59,11 @@ class NoticeController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(Request $request, FirebaseService $firebase)
     {
         $data = Session::get('users_id');
-        //dd($request->all());
+        $emid = Session::get('emid');
+        
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -86,10 +91,50 @@ class NoticeController extends Controller
                 'created_by_id' => Session::get('users_id'), // Replace this with the actual creator's ID logic
             ]);
 
+            $notification = Notification::create([
+                'emid' => $emid,
+                'employee_id' => 'all',
+                'title'=> $validated['title'],
+                'description' => $validated['description'],
+                'start_date' => $validated['start_date'],
+                'end_date' => $validated['end_date'],
+                'status' => 0,
+            ]);
+
+            event(new NoticeCreated($notification));
+
+            //  Send FCM push notification
+           if ($notification->employee_id === 'all') {
+                $tokens = UserModel::where('emid', $emid)
+                    ->whereNotNull('device_token')
+                    ->pluck('device_token');
+            } else {
+                $tokens = UserModel::where('emid', $emid)
+                    ->where('employee_id', $notification->employee_id)
+                    ->whereNotNull('device_token')
+                    ->pluck('device_token');
+            }
+
+
+            foreach ($tokens as $token) {
+                $firebase->sendNotification(
+                    $token,
+                    $notification->title,
+                    $notification->description,
+                    [
+                        'type' => 'notice',
+                        'employee_id' => (string) $notification->employee_id,
+                        'notice_id' => (string) $notification->id,
+                    ]
+                );
+            }
+
+
+
             Session::flash('message', 'Notice added successfully.');
             return redirect('notice/org-notice');
         } catch (\Exception $e) {
-            Session::flash('message', 'Somthings went wrong.');
+            Session::flash('error', 'Somthings went wrong.');
             return redirect('notice/add-notice');
         }
     }
@@ -161,6 +206,22 @@ class NoticeController extends Controller
         Session::flash('message', 'Notice deleted successfully.');
         return redirect('notice/org-notice');
     }
+
+    public function helpdesk()
+    {
+        $data = [
+            "ticket_no"      => "ABB80526",
+            "organization"   => "Abbas Cos",
+            "employee_name"  => "Souman Akther",
+            "email"          => "souman@yopmail.com",
+            "message"        => "When I submit Work report, I face an issue.",
+            "image"          => asset('storage/helpdesk/OFtr4uBCUM4fKl1PRt6nmHMhpvaFP3BcMo1i73bh.jpg'), // or null
+            "date"           => "11-12-2025",
+        ];
+
+        return view('email-template.helpdesk_ticket', $data);
+    }
+
 
 
 

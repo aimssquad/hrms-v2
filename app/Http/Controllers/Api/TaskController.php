@@ -17,6 +17,10 @@ use App\Models\TaskManagement\TaskComment;
 use DB;
 use Session;
 use Storage;
+use App\Events\ProjectPostCreated;
+use App\Models\UserModel;
+use App\Models\Notification;
+use App\Services\FirebaseService;
 
 class TaskController extends Controller
 {
@@ -115,160 +119,9 @@ class TaskController extends Controller
         }
     }
 
-public function members(Request $request, $id)
-{
-    try {
-        if (!auth()->check()) {
-            return response()->json([
-                "status" => 401,
-                "message" => "Authentication required",
-                "data" => []
-            ], 401);
-        }
-
-        $empData = auth()->user(); 
-        $emid = $empData->emid;
-        $employee_code = $empData->employee_id;
-
-        // Project details with members and tasks
-        $projectData = DB::table('projects as p')
-            ->leftJoin('project_members as pm', 'p.id', '=', 'pm.project_id')
-            ->leftJoin('tasks as t', 'p.id', '=', 't.project_id')
-            ->leftJoin('employee as e', 'pm.user_id', '=', 'e.id')
-            ->where('p.id', $id)
-            ->select([
-                'p.id as project_id',
-                'p.title as project_title',
-                'p.description as project_description',
-                'p.status as project_status',
-                'p.project_start_date as project_start_date',
-                'p.project_end_date as project_end_date',
-                'pm.role as member_role',
-                't.id',
-                't.task_name',
-                't.task_desc',
-                't.start_date',
-                't.expected_end_date',
-                DB::raw("CONCAT(e.emp_fname, ' ', COALESCE(e.emp_mname, ''), ' ', e.emp_lname) as employee_name"),
-                'e.emp_code as employee_code'
-            ])
-            ->orderBy('employee_name')
-            ->orderBy('t.start_date')
-            ->get();
-
-        $groupedData = [
-            'project' => null,
-            'members' => [],
-            'tasks' => []
-        ];
-
-        foreach ($projectData as $item) {
-            if (!$groupedData['project']) {
-                $groupedData['project'] = [
-                    'id' => $item->project_id,
-                    'title' => $item->project_title,
-                    'description' => $item->project_description,
-                    'status' => $item->project_status,
-                    'project_start_date' => $item->project_start_date,
-                    'project_end_date' => $item->project_end_date
-                ];
-            }
-
-            if ($item->employee_name && !isset($groupedData['members'][$item->employee_code])) {
-                $groupedData['members'][$item->employee_code] = [
-                    'name' => $item->employee_name,
-                    'employee_code' => $item->employee_code,
-                    'role' => $item->member_role
-                ];
-            }
-
-            if ($item->task_name && !isset($groupedData['tasks'][$item->task_name])) {
-                $groupedData['tasks'][$item->task_name] = [
-                    'task_id' => $item->id,
-                    'task_name' => $item->task_name,
-                    'task_desc' => $item->task_desc,
-                    'start_date' => $item->start_date,
-                    'expected_end_date' => $item->expected_end_date
-                ];
-            }
-        }
-
-        $groupedData['members'] = array_values($groupedData['members']);
-        $groupedData['tasks'] = array_values($groupedData['tasks']);
-
-        //  Fetch all posts (including replies) from single table
-        $allPosts = DB::table('project_post as p')
-            ->leftJoin('users as u', function($join) {
-                $join->on('u.employee_id', '=', 'p.employee_code')
-                     ->where(function($q) {
-                         $q->on('u.emid', '=', 'p.emid')
-                           ->orWhereNull('p.emid');
-                     });
-            })
-            ->where('p.project_id', $id)
-            ->orderBy('p.created_at', 'asc')
-            ->select([
-                'p.id',
-                'p.parent_id',
-                'p.title',
-                'p.file',
-                'p.created_at',
-                'p.employee_code',
-                'u.name as user_name'
-            ])
-            ->get();
-
-        // Index posts by ID for easy lookup
-        $postIndex = $allPosts->keyBy('id');
-
-        // Build posts with replies
-        $posts = $allPosts->map(function ($post) use ($postIndex) {
-            if ($post->parent_id) {
-                // reply → attach its parent
-                $parent = $postIndex->get($post->parent_id);
-
-                $post->replies = $parent ? [[
-                    'id'         => $parent->id,
-                    'employee_code' => $parent->employee_code,
-                    'parent_id'  => $parent->parent_id,
-                    'title'      => $parent->title,
-                    'file'       => $parent->file,
-                    'created_at' => $parent->created_at,
-                    'user_name'  => $parent->user_name,
-                ]] : [];
-            } else {
-                // top-level post → empty replies
-                $post->replies = [];
-            }
-            return $post;
-        })->values();
-
-        return response()->json([
-            "status" => 200,
-            "message" => "Project details fetched successfully",
-            "data" => [
-                "employee_code" => $employee_code,
-                "project" => $groupedData,
-                "posts" => $posts
-            ]
-        ]);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            "status" => 500,
-            "message" => "Something went wrong",
-            "error" => $e->getMessage()
-        ], 500);
-    }
-}
-
-
-
-//------------------
     // public function members(Request $request, $id)
     // {
     //     try {
-    //         // Ensure user is authenticated
     //         if (!auth()->check()) {
     //             return response()->json([
     //                 "status" => 401,
@@ -278,11 +131,10 @@ public function members(Request $request, $id)
     //         }
 
     //         $empData = auth()->user(); 
-    //         //dd($empData);
     //         $emid = $empData->emid;
     //         $employee_code = $empData->employee_id;
 
-    //         // Fetch project details with members and tasks
+    //         // Project details with members and tasks
     //         $projectData = DB::table('projects as p')
     //             ->leftJoin('project_members as pm', 'p.id', '=', 'pm.project_id')
     //             ->leftJoin('tasks as t', 'p.id', '=', 't.project_id')
@@ -293,7 +145,10 @@ public function members(Request $request, $id)
     //                 'p.title as project_title',
     //                 'p.description as project_description',
     //                 'p.status as project_status',
+    //                 'p.project_start_date as project_start_date',
+    //                 'p.project_end_date as project_end_date',
     //                 'pm.role as member_role',
+    //                 't.id',
     //                 't.task_name',
     //                 't.task_desc',
     //                 't.start_date',
@@ -305,7 +160,6 @@ public function members(Request $request, $id)
     //             ->orderBy('t.start_date')
     //             ->get();
 
-    //         // Group the data
     //         $groupedData = [
     //             'project' => null,
     //             'members' => [],
@@ -318,7 +172,9 @@ public function members(Request $request, $id)
     //                     'id' => $item->project_id,
     //                     'title' => $item->project_title,
     //                     'description' => $item->project_description,
-    //                     'status' => $item->project_status
+    //                     'status' => $item->project_status,
+    //                     'project_start_date' => $item->project_start_date,
+    //                     'project_end_date' => $item->project_end_date
     //                 ];
     //             }
 
@@ -332,6 +188,7 @@ public function members(Request $request, $id)
 
     //             if ($item->task_name && !isset($groupedData['tasks'][$item->task_name])) {
     //                 $groupedData['tasks'][$item->task_name] = [
+    //                     'task_id' => $item->id,
     //                     'task_name' => $item->task_name,
     //                     'task_desc' => $item->task_desc,
     //                     'start_date' => $item->start_date,
@@ -343,8 +200,8 @@ public function members(Request $request, $id)
     //         $groupedData['members'] = array_values($groupedData['members']);
     //         $groupedData['tasks'] = array_values($groupedData['tasks']);
 
-    //         // Load posts with replies
-    //         $posts = DB::table('project_post as p')
+    //         //  Fetch all posts (including replies) from single table
+    //         $allPosts = DB::table('project_post as p')
     //             ->leftJoin('users as u', function($join) {
     //                 $join->on('u.employee_id', '=', 'p.employee_code')
     //                     ->where(function($q) {
@@ -352,29 +209,43 @@ public function members(Request $request, $id)
     //                         ->orWhereNull('p.emid');
     //                     });
     //             })
-    //             ->leftJoin('project_post_reply as r', 'r.post_id', '=', 'p.id')
-    //             ->leftJoin('users as ru', function($join) {
-    //                 $join->on('ru.employee_id', '=', 'r.employee_code')
-    //                     ->where(function($q) {
-    //                         $q->on('ru.emid', '=', 'r.emid')
-    //                         ->orWhereNull('r.emid');
-    //                     });
-    //             })
     //             ->where('p.project_id', $id)
-    //             ->where(function($q) use ($emid) {
-    //                 $q->where('p.emid', $emid)
-    //                 ->orWhereNull('p.emid');
-    //             })
     //             ->orderBy('p.created_at', 'asc')
     //             ->select([
-    //                 'p.*',
-    //                 'u.name as post_user_name',
-    //                 'r.id as reply_id',
-    //                 'r.reply_text',
-    //                 'r.created_at as reply_created_at',
-    //                 'ru.name as reply_user_name'
+    //                 'p.id',
+    //                 'p.parent_id',
+    //                 'p.title',
+    //                 'p.file',
+    //                 'p.created_at',
+    //                 'p.employee_code',
+    //                 'u.name as user_name'
     //             ])
     //             ->get();
+
+    //         // Index posts by ID for easy lookup
+    //         $postIndex = $allPosts->keyBy('id');
+
+    //         // Build posts with replies
+    //         $posts = $allPosts->map(function ($post) use ($postIndex) {
+    //             if ($post->parent_id) {
+    //                 // reply → attach its parent
+    //                 $parent = $postIndex->get($post->parent_id);
+
+    //                 $post->replies = $parent ? [[
+    //                     'id'         => $parent->id,
+    //                     'employee_code' => $parent->employee_code,
+    //                     'parent_id'  => $parent->parent_id,
+    //                     'title'      => $parent->title,
+    //                     'file'       => $parent->file,
+    //                     'created_at' => $parent->created_at,
+    //                     'user_name'  => $parent->user_name,
+    //                 ]] : [];
+    //             } else {
+    //                 // top-level post → empty replies
+    //                 $post->replies = [];
+    //             }
+    //             return $post;
+    //         })->values();
 
     //         return response()->json([
     //             "status" => 200,
@@ -395,170 +266,206 @@ public function members(Request $request, $id)
     //     }
     // }
 
-    // public function members(Request $request, $id)
-    // {
-    //     try {
-    //         // Ensure user is authenticated
-    //         if (!auth()->check()) {
-    //             return response()->json([
-    //                 "status" => 401,
-    //                 "message" => "Authentication required",
-    //                 "data" => []
-    //             ], 401);
-    //         }
+    public function members(Request $request, $id)
+    {
+        try {
+            // Auth check
+            if (!auth()->check()) {
+                return response()->json([
+                    "status" => 401,
+                    "message" => "Authentication required",
+                    "data" => []
+                ], 401);
+            }
 
-    //         $empData = auth()->user(); 
-    //         $emid = $empData->emid;
-    //         $employee_code = $empData->employee_id;
+            $empData = auth()->user();
+            $employee_code = $empData->employee_id;
 
-    //         // Fetch project details with members and tasks
-    //         $projectData = DB::table('projects as p')
-    //             ->leftJoin('project_members as pm', 'p.id', '=', 'pm.project_id')
-    //             ->leftJoin('tasks as t', 'p.id', '=', 't.project_id')
-    //             ->leftJoin('employee as e', 'pm.user_id', '=', 'e.id')
-    //             ->where('p.id', $id)
-    //             ->select([
-    //                 'p.id as project_id',
-    //                 'p.title as project_title',
-    //                 'p.description as project_description',
-    //                 'p.status as project_status',
-    //                 'pm.role as member_role',
-    //                 't.task_name',
-    //                 't.task_desc',
-    //                 't.start_date',
-    //                 't.expected_end_date',
-    //                 DB::raw("CONCAT(e.emp_fname, ' ', COALESCE(e.emp_mname, ''), ' ', e.emp_lname) as employee_name"),
-    //                 'e.emp_code as employee_code'
-    //             ])
-    //             ->orderBy('employee_name')
-    //             ->orderBy('t.start_date')
-    //             ->get();
+            /* ======================================================
+            | PROJECT + MEMBERS + TASKS (EMPLOYEE + GUEST)
+            ====================================================== */
+            $projectData = DB::table('projects as p')
+                ->leftJoin('project_members as pm', 'p.id', '=', 'pm.project_id')
 
-    //         // Group the data
-    //         $groupedData = [
-    //             'project' => null,
-    //             'members' => [],
-    //             'tasks' => []
-    //         ];
+                // employee join (only when user_type = employee)
+                ->leftJoin('employee as e', function ($join) {
+                    $join->on('pm.user_id', '=', 'e.id')
+                        ->where('pm.user_type', '=', 'employee');
+                })
 
-    //         foreach ($projectData as $item) {
-    //             if (!$groupedData['project']) {
-    //                 $groupedData['project'] = [
-    //                     'id' => $item->project_id,
-    //                     'title' => $item->project_title,
-    //                     'description' => $item->project_description,
-    //                     'status' => $item->project_status
-    //                 ];
-    //             }
+                // guest join (only when user_type = guest)
+                ->leftJoin('guests as g', function ($join) {
+                    $join->on('pm.user_id', '=', 'g.id')
+                        ->where('pm.user_type', '=', 'guest');
+                })
 
-    //             if ($item->employee_name && !isset($groupedData['members'][$item->employee_code])) {
-    //                 $groupedData['members'][$item->employee_code] = [
-    //                     'name' => $item->employee_name,
-    //                     'employee_code' => $item->employee_code,
-    //                     'role' => $item->member_role
-    //                 ];
-    //             }
+                ->leftJoin('tasks as t', 'p.id', '=', 't.project_id')
+                ->where('p.id', $id)
+                ->select([
+                    'p.id as project_id',
+                    'p.title as project_title',
+                    'p.description as project_description',
+                    'p.status as project_status',
+                    'p.project_start_date',
+                    'p.project_end_date',
 
-    //             if ($item->task_name && !isset($groupedData['tasks'][$item->task_name])) {
-    //                 $groupedData['tasks'][$item->task_name] = [
-    //                     'task_name' => $item->task_name,
-    //                     'task_desc' => $item->task_desc,
-    //                     'start_date' => $item->start_date,
-    //                     'expected_end_date' => $item->expected_end_date
-    //                 ];
-    //             }
-    //         }
+                    'pm.user_type',
+                    'pm.role as member_role',
 
-    //         $groupedData['members'] = array_values($groupedData['members']);
-    //         $groupedData['tasks'] = array_values($groupedData['tasks']);
+                    // employee fields
+                    DB::raw("CONCAT(e.emp_fname, ' ', COALESCE(e.emp_mname, ''), ' ', e.emp_lname) as employee_name"),
+                    'e.emp_code as employee_code',
 
-    //         // Load posts with replies
-    //         $posts = DB::table('project_post as p')
-    //             ->leftJoin('users as u', function($join) {
-    //                 $join->on('u.employee_id', '=', 'p.employee_code')
-    //                     ->where(function($q) {
-    //                         $q->on('u.emid', '=', 'p.emid')
-    //                         ->orWhereNull('p.emid');
-    //                     });
-    //             })
-    //             ->leftJoin('project_post_reply as r', 'r.post_id', '=', 'p.id')
-    //             ->leftJoin('users as ru', function($join) {
-    //                 $join->on('ru.employee_id', '=', 'r.employee_code')
-    //                     ->where(function($q) {
-    //                         $q->on('ru.emid', '=', 'r.emid')
-    //                         ->orWhereNull('r.emid');
-    //                     });
-    //             })
-    //             ->where('p.project_id', $id)
-    //             ->where(function($q) use ($emid) {
-    //                 $q->where('p.emid', $emid)
-    //                 ->orWhereNull('p.emid');
-    //             })
-    //             ->orderBy('p.created_at', 'asc')
-    //             ->select([
-    //                 'p.*',
-    //                 'u.name as post_user_name',
-    //                 'r.id as reply_id',
-    //                 'r.reply_text',
-    //                 'r.created_at as reply_created_at',
-    //                 'ru.name as reply_user_name'
-    //             ])
-    //             ->get();
+                    // guest fields
+                    'g.name as guest_name',
+                    'g.guest_id as guest_code',
 
-    //         // Group replies under each post
-    //         $formattedPosts = [];
-    //         foreach ($posts as $post) {
-    //             $postId = $post->id;
+                    // task fields
+                    't.id as task_id',
+                    't.task_name',
+                    't.task_desc',
+                    't.start_date',
+                    't.expected_end_date'
+                ])
+                ->orderBy('t.start_date')
+                ->get();
 
-    //             // If not yet added, initialize post
-    //             if (!isset($formattedPosts[$postId])) {
-    //                 $formattedPosts[$postId] = [
-    //                     'id' => $post->id,
-    //                     'emid' => $post->emid,
-    //                     'project_id' => $post->project_id,
-    //                     'employee_code' => $post->employee_code,
-    //                     'title' => $post->title,
-    //                     'file' => $post->file,
-    //                     'created_at' => $post->created_at,
-    //                     'updated_at' => $post->updated_at,
-    //                     'post_user_name' => $post->post_user_name,
-    //                     'replies' => []
-    //                 ];
-    //             }
+            /* ======================================================
+            | GROUP DATA
+            ====================================================== */
+            $groupedData = [
+                'project' => null,
+                'members' => [],
+                'tasks'   => []
+            ];
 
-    //             // Push reply if exists
-    //             if ($post->reply_id) {
-    //                 $formattedPosts[$postId]['replies'][] = [
-    //                     'reply_id' => $post->reply_id,
-    //                     'reply_text' => $post->reply_text,
-    //                     'reply_created_at' => $post->reply_created_at,
-    //                     'reply_user_name' => $post->reply_user_name
-    //                 ];
-    //             }
-    //         }
+            foreach ($projectData as $item) {
 
-    //         $formattedPosts = array_values($formattedPosts);
+                // 📌 Project (once)
+                if (!$groupedData['project']) {
+                    $groupedData['project'] = [
+                        'id' => $item->project_id,
+                        'title' => $item->project_title,
+                        'description' => $item->project_description,
+                        'status' => $item->project_status,
+                        'project_start_date' => $item->project_start_date,
+                        'project_end_date' => $item->project_end_date,
+                    ];
+                }
 
-    //         // Final Response
-    //         return response()->json([
-    //             "status" => 200,
-    //             "message" => "Project details fetched successfully",
-    //             "data" => [
-    //                 "employee_code" => $employee_code,
-    //                 "project" => $groupedData,
-    //                 "posts" => $formattedPosts
-    //             ]
-    //         ]);
+                // 👤 EMPLOYEE MEMBER
+                if ($item->user_type === 'employee' && $item->employee_code) {
+                    if (!isset($groupedData['members'][$item->employee_code])) {
+                        $groupedData['members'][$item->employee_code] = [
+                            'name' => $item->employee_name,
+                            'employee_code' => $item->employee_code,
+                            'role' => $item->member_role,
+                            'user_type' => 'employee' 
+                        ];
+                    }
+                }
 
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             "status" => 500,
-    //             "message" => "Something went wrong",
-    //             "error" => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
-//------------------
+                /* ===============================
+                | GUEST MEMBER
+                =============================== */
+                if ($item->user_type === 'guest' && $item->guest_code) {
+                    if (!isset($groupedData['members'][$item->guest_code])) {
+                        $groupedData['members'][$item->guest_code] = [
+                            'name' => $item->guest_name,
+                            'employee_code' => $item->guest_code, 
+                            'role' => $item->member_role,
+                            'user_type' => 'guest' 
+                        ];
+                    }
+                }
+
+                // 📋 TASKS
+                if ($item->task_name && !isset($groupedData['tasks'][$item->task_id])) {
+                    $groupedData['tasks'][$item->task_id] = [
+                        'task_id' => $item->task_id,
+                        'task_name' => $item->task_name,
+                        'task_desc' => $item->task_desc,
+                        'start_date' => $item->start_date,
+                        'expected_end_date' => $item->expected_end_date
+                    ];
+                }
+            }
+
+            // Normalize arrays
+            $groupedData['members'] = array_values($groupedData['members']);
+            $groupedData['tasks']   = array_values($groupedData['tasks']);
+
+            /* ======================================================
+            | POSTS + REPLIES
+            ====================================================== */
+            $allPosts = DB::table('project_post as p')
+                ->leftJoin('users as u', function ($join) {
+                    $join->on('u.employee_id', '=', 'p.employee_code')
+                        ->where(function ($q) {
+                            $q->on('u.emid', '=', 'p.emid')
+                            ->orWhereNull('p.emid');
+                        });
+                })
+                ->where('p.project_id', $id)
+                ->orderBy('p.created_at', 'asc')
+                ->select([
+                    'p.id',
+                    'p.parent_id',
+                    'p.title',
+                    'p.file',
+                    'p.created_at',
+                    'p.employee_code',
+                    'u.name as user_name'
+                ])
+                ->get();
+
+            $postIndex = $allPosts->keyBy('id');
+
+            $posts = $allPosts->map(function ($post) use ($postIndex) {
+                if ($post->parent_id) {
+                    $parent = $postIndex->get($post->parent_id);
+                    $post->replies = $parent ? [[
+                        'id' => $parent->id,
+                        'employee_code' => $parent->employee_code,
+                        'parent_id' => $parent->parent_id,
+                        'title' => $parent->title,
+                        'file' => $parent->file,
+                        'created_at' => $parent->created_at,
+                        'user_name' => $parent->user_name,
+                    ]] : [];
+                } else {
+                    $post->replies = [];
+                }
+                return $post;
+            })->values();
+
+            /* ======================================================
+            | RESPONSE
+            ====================================================== */
+            return response()->json([
+                "status" => 200,
+                "message" => "Project details fetched successfully",
+                "data" => [
+                    "employee_code" => $employee_code,
+                    "project" => $groupedData,
+                    "posts" => $posts
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => 500,
+                "message" => "Something went wrong",
+                "error" => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+
+
+
     public function store(Request $request)
     {
         //dd('okkk');
@@ -602,8 +509,118 @@ public function members(Request $request, $id)
         }
     }
 
-    // project releted post 
-    public function empProjectPost(Request $request)
+  
+    // this post and reply code working fine
+    // public function empProjectPost(Request $request, FirebaseService $firebase)
+    // {
+    //     if (!auth()->check()) {
+    //         return response()->json([
+    //             "status"  => 401,
+    //             "message" => "Authentication required",
+    //             "data"    => []
+    //         ], 401);
+    //     }
+
+    //     try {
+    //         $user = auth()->user();
+
+    //         $validator = Validator::make($request->all(), [
+    //             'project_id' => 'required|integer|exists:projects,id',
+    //             'parent_id'  => 'nullable|integer|exists:project_post,id',
+    //             'file'       => 'nullable|file|mimes:pdf,png,jpg,jpeg,xls,xlsx|max:2048',
+    //             'title'      => 'required|string|max:1000'
+    //         ]);
+
+    //         if ($validator->fails()) {
+    //             return response()->json([
+    //                 "status"  => 422,
+    //                 "message" => "Validation failed",
+    //                 "errors"  => $validator->errors()
+    //             ], 422);
+    //         }
+
+    //         /** ========= FILE ========= */
+    //         $filePath = null;
+    //         if ($request->hasFile('file')) {
+    //             $file = $request->file('file');
+    //             $fileName = time() . '_' . $file->getClientOriginalName();
+    //             $filePath = $file->storeAs('project_files', $fileName, 'public');
+    //         }
+
+    //         /** ========= SAVE POST ========= */
+    //         $post = ProjectPost::create([
+    //             'project_id'    => $request->project_id,
+    //             'parent_id'     => $request->parent_id,
+    //             'title'         => $request->title,
+    //             'file'          => $filePath,
+    //             'emid'          => $user->emid,
+    //             'employee_code' => $user->employee_id,
+    //             'created_at'    => now(),
+    //             'updated_at'    => now()
+    //         ]);
+
+    //         /** ========= PROJECT MEMBERS (EXCEPT SENDER) ========= */
+    //         $memberCodes = DB::table('project_members as pm')
+    //             ->join('employee as e', 'e.id', '=', 'pm.user_id')
+    //             ->where('pm.project_id', $request->project_id)
+    //             ->where('e.emp_code', '!=', $user->employee_id)
+    //             ->pluck('e.emp_code');
+
+    //         /** ========= DB NOTIFICATION ========= */
+    //         foreach ($memberCodes as $empCode) {
+    //             Notification::create([
+    //                 'emid' => $user->emid,
+    //                 'employee_id' => $empCode,
+    //                 'title' => 'New Project Message',
+    //                 'description' => $request->title,
+    //                 'status' => 0,
+    //             ]);
+    //         }
+
+    //         /** ========= LIVE BROADCAST ========= */
+    //         event(new ProjectPostCreated([
+    //             'project_id' => $request->project_id,
+    //             'emid' => $user->emid,
+    //             'post' => $post
+    //         ]));
+
+    //         /** ========= FCM PUSH ========= */
+    //         $tokens = UserModel::where('emid', $user->emid)
+    //             ->whereIn('employee_id', $memberCodes)
+    //             ->whereNotNull('device_token')
+    //             ->pluck('device_token');
+
+    //         foreach ($tokens as $token) {
+    //             $firebase->sendNotification(
+    //                 $token,
+    //                 'New Project Message',
+    //                 $request->title,
+    //                 [
+    //                     'type' => 'project_post',
+    //                     'project_id' => (string) $request->project_id,
+    //                     'post_id' => (string) $post->id
+    //                 ]
+    //             );
+    //         }
+
+    //         return response()->json([
+    //             "status"  => 200,
+    //             "message" => $request->parent_id
+    //                 ? "Reply added successfully"
+    //                 : "Project post created successfully",
+    //             "data"    => $post
+    //         ], 200);
+
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             "status"  => 500,
+    //             "message" => "Something went wrong",
+    //             "error"   => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
+    public function empProjectPost(Request $request, FirebaseService $firebase)
     {
         if (!auth()->check()) {
             return response()->json([
@@ -614,11 +631,13 @@ public function members(Request $request, $id)
         }
 
         try {
+            /* ================= AUTH USER ================= */
             $user = auth()->user();
-
+            //dd()
+            /* ================= VALIDATION ================= */
             $validator = Validator::make($request->all(), [
                 'project_id' => 'required|integer|exists:projects,id',
-                'parent_id'  => 'nullable|integer|exists:project_post,id', // reply to an existing post
+                'parent_id'  => 'nullable|integer|exists:project_post,id',
                 'file'       => 'nullable|file|mimes:pdf,png,jpg,jpeg,xls,xlsx|max:2048',
                 'title'      => 'required|string|max:1000'
             ]);
@@ -631,6 +650,53 @@ public function members(Request $request, $id)
                 ], 422);
             }
 
+            /* ================= IDENTIFY SENDER ================= */
+            $senderCode = null;
+            $senderName = null;
+            if ($user->user_type === 'employee') {
+
+                $emp = DB::table('employee')
+                    ->where('emid', $user->emid)
+                    ->where('emp_code', $user->employee_id)
+                    ->select('id', 'emp_code', 'emp_fname', 'emp_lname')
+                    ->first();
+
+                if (!$emp) {
+                    return response()->json([
+                        'status' => 404,
+                        'message' => 'Employee not found'
+                    ], 404);
+                }
+
+                $senderCode = $emp->emp_code;
+                $senderName = $emp->emp_fname .' '. $emp->emp_lname;
+            } elseif ($user->user_type === 'guest') {
+
+                $guest = DB::table('guests')
+                    ->where('emid', $user->emid)
+                    ->where('guest_id', $user->employee_id)
+                    ->select('id', 'guest_id', 'name')
+                    ->first();
+
+                if (!$guest) {
+                    return response()->json([
+                        'status' => 404,
+                        'message' => 'Guest not found'
+                    ], 404);
+                }
+
+                $senderCode = $guest->guest_id;
+                $senderName = $guest->name;
+
+
+            } else {
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'Invalid user type'
+                ], 403);
+            }
+
+            /* ================= FILE UPLOAD ================= */
             $filePath = null;
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
@@ -638,20 +704,93 @@ public function members(Request $request, $id)
                 $filePath = $file->storeAs('project_files', $fileName, 'public');
             }
 
+            /* ================= SAVE POST ================= */
             $post = ProjectPost::create([
                 'project_id'    => $request->project_id,
-                'parent_id'     => $request->parent_id,  // null = post, not null = reply
+                'parent_id'     => $request->parent_id,
                 'title'         => $request->title,
                 'file'          => $filePath,
                 'emid'          => $user->emid,
-                'employee_code' => $user->employee_id,
+                'employee_code' => $senderCode,   // emp_code OR guest_id
                 'created_at'    => now(),
                 'updated_at'    => now()
             ]);
 
+            /* ================= GET PROJECT MEMBERS (EMP + GUEST) ================= */
+            $memberCodes = DB::table('project_members as pm')
+
+                // employee join
+                ->leftJoin('employee as e', function ($join) {
+                    $join->on('pm.user_id', '=', 'e.id')
+                        ->where('pm.user_type', 'employee');
+                })
+
+                // guest join
+                ->leftJoin('guests as g', function ($join) {
+                    $join->on('pm.user_id', '=', 'g.id')
+                        ->where('pm.user_type', 'guest');
+                })
+
+                ->where('pm.project_id', $request->project_id)
+                ->select([
+                    'pm.user_type',
+                    'e.emp_code',
+                    'g.guest_id'
+                ])
+                ->get()
+                ->map(function ($m) {
+                    return $m->user_type === 'employee'
+                        ? $m->emp_code
+                        : $m->guest_id;
+                })
+                ->filter(function ($code) use ($senderCode) {
+                    return $code && $code !== $senderCode;
+                })
+                ->unique()
+                ->values();
+
+            /* ================= DB NOTIFICATION ================= */
+            foreach ($memberCodes as $code) {
+                Notification::create([
+                    'emid' => $user->emid,
+                    'employee_id' => $code,
+                    'title' => 'New Project Message',
+                    'description' => $request->title,
+                    'status' => 0,
+                ]);
+            }
+            $post['name'] = $senderName;
+            /* ================= LIVE BROADCAST ================= */
+            event(new ProjectPostCreated([
+                'project_id' => $request->project_id,
+                'emid' => $user->emid,
+                'post' => $post
+            ]));
+
+            /* ================= FCM PUSH ================= */
+            $tokens = UserModel::where('emid', $user->emid)
+                ->whereIn('employee_id', $memberCodes)
+                ->whereNotNull('device_token')
+                ->pluck('device_token');
+
+            // foreach ($tokens as $token) {
+            //     $firebase->sendNotification(
+            //         $token,
+            //         'New Project Message',
+            //         $request->title,
+            //         [
+            //             'type' => 'project_post',
+            //             'project_id' => (string) $request->project_id,
+            //             'post_id' => (string) $post->id
+            //         ]
+            //     );
+            // }
+
             return response()->json([
                 "status"  => 200,
-                "message" => $request->parent_id ? "Reply added successfully" : "Project post created successfully",
+                "message" => $request->parent_id
+                    ? "Reply added successfully"
+                    : "Project post created successfully",
                 "data"    => $post
             ], 200);
 
@@ -663,6 +802,7 @@ public function members(Request $request, $id)
             ], 500);
         }
     }
+
 
     public function edit($id)
     {
@@ -1065,6 +1205,687 @@ public function members(Request $request, $id)
             'message' => 'Task status updated successfully',
         ], 200);
     }
+
+
+
+    // public function messageCenter()
+    // {
+    //     if (!auth()->check()) {
+    //         return response()->json([
+    //             "status"  => 401,
+    //             "message" => "Authentication required",
+    //             "data"    => []
+    //         ], 401);
+    //     }
+    //     try {
+    //         // ================= AUTH USER =================
+    //         $user = auth('api')->user();
+
+    //         // ================= EMPLOYEE =================
+    //         $employee = DB::table('employee')
+    //             ->where('emid', $user->emid)
+    //             ->where('emp_code', $user->employee_id)
+    //             ->select('id', 'emp_code')
+    //             ->first();
+
+    //         if (!$employee) {
+    //             return response()->json([
+    //                 'status' => 404,
+    //                 'message' => 'Employee not found'
+    //             ], 404);
+    //         }
+
+    //         // ================= PROJECT IDS =================
+    //         $projectIds = DB::table('project_members')
+    //             ->where('user_id', $employee->id)
+    //             ->pluck('project_id');
+
+    //         if ($projectIds->isEmpty()) {
+    //             return response()->json([
+    //                 'status' => 200,
+    //                 'employee_code' => $employee->emp_code,
+    //                 'projects' => []
+    //             ]);
+    //         }
+
+    //         // ================= PROJECTS =================
+    //         $projects = DB::table('projects')
+    //             ->where('emid', $user->emid)
+    //             ->whereIn('id', $projectIds)
+    //             ->select('id', 'title', 'status')
+    //             ->get();
+
+    //         // ================= PROJECT MEMBERS =================
+    //         $projectMembers = DB::table('project_members as pm')
+    //             ->join('employee as e', 'e.id', '=', 'pm.user_id')
+    //             ->whereIn('pm.project_id', $projectIds)
+    //             ->select([
+    //                 'pm.project_id',
+    //                 'pm.role',
+    //                 'e.emp_code',
+    //                 DB::raw("CONCAT(e.emp_fname,' ',COALESCE(e.emp_mname,''),' ',e.emp_lname) as employee_name")
+    //             ])
+    //             ->get()
+    //             ->groupBy('project_id');
+    //         //dd($projectIds);      
+    //         // ================= PROJECT POSTS =================
+    //         $allPosts = DB::table('project_post as p')
+    //             ->leftJoin('users as u', function ($join) {
+    //                 $join->on('u.employee_id', '=', 'p.employee_code')
+    //                     ->on('u.emid', '=', 'p.emid');
+    //             })
+    //             ->where('p.emid', $user->emid)
+    //             ->whereIn('p.project_id', $projectIds)
+    //             ->orderBy('p.created_at', 'asc')
+    //             ->select([
+    //                 'p.id',
+    //                 'p.project_id',
+    //                 'p.parent_id',
+    //                 'p.title',
+    //                 'p.file',
+    //                 'p.created_at',
+    //                 'p.employee_code',
+    //                 'u.name as user_name'
+    //             ])
+    //             ->get()
+    //             ->groupBy('project_id');
+    //         //dd();       
+    //         // ================= FINAL RESPONSE =================
+    //         $finalProjects = [];
+
+    //         foreach ($projects as $project) {
+
+    //             $projectPosts = $allPosts->get($project->id, collect());
+    //             $postIndex    = $projectPosts->keyBy('id');
+
+    //             $messages = [];
+
+    //             // ---------- MAIN MESSAGES ----------
+    //             foreach ($projectPosts as $post) {
+    //                 if ($post->parent_id === null) {
+    //                     $messages[$post->id] = [
+    //                         'id'         => $post->id,
+    //                         'message'    => $post->title,
+    //                         'file'       => $post->file,
+    //                         'created_at' => $post->created_at,
+    //                         'employee_code' => $post->employee_code,
+    //                         'user_name'  => $post->user_name,
+    //                         'replies'    => []
+    //                     ];
+    //                 }
+    //             }
+
+    //             // ---------- REPLIES ----------
+    //             foreach ($projectPosts as $post) {
+    //                 if ($post->parent_id && isset($messages[$post->parent_id])) {
+    //                     $messages[$post->parent_id]['replies'][] = [
+    //                         'id'         => $post->id,
+    //                         'message'    => $post->title,
+    //                         'file'       => $post->file,
+    //                         'created_at' => $post->created_at,
+    //                         'employee_code' => $post->employee_code,
+    //                         'user_name'  => $post->user_name
+    //                     ];
+    //                 }
+    //             }
+
+    //             $finalProjects[] = [
+    //                 'project_id'   => $project->id,
+    //                 'project_name' => $project->title,
+    //                 'status'       => $project->status,
+    //                 'members'      => $projectMembers->get($project->id, collect())->values(),
+    //                 'messages'     => array_values($messages)
+    //             ];
+    //         }
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             'employee_code' => $employee->emp_code,
+    //             'projects' => $finalProjects
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'status' => 500,
+    //             'message' => 'Something went wrong',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+    // public function messageCenter()
+    // {
+    //     if (!auth()->check()) {
+    //         return response()->json([
+    //             "status"  => 401,
+    //             "message" => "Authentication required",
+    //             "data"    => []
+    //         ], 401);
+    //     }
+        
+    //     try {
+    //         // ================= AUTH USER =================
+    //         $user = auth('api')->user();
+    //         //dd($user);
+    //         // ================= EMPLOYEE =================
+    //         $employee = DB::table('employee')
+    //             ->where('emid', $user->emid)
+    //             ->where('emp_code', $user->employee_id)
+    //             ->select('id', 'emp_code')
+    //             ->first();
+
+    //         if (!$employee) {
+    //             return response()->json([
+    //                 'status' => 404,
+    //                 'message' => 'Employee not found'
+    //             ], 404);
+    //         }
+
+    //         // ================= PROJECT IDS =================
+    //         $projectIds = DB::table('project_members')
+    //             ->where('user_id', $employee->id)
+    //             ->pluck('project_id');
+
+    //         if ($projectIds->isEmpty()) {
+    //             return response()->json([
+    //                 'status' => 200,
+    //                 'employee_code' => $employee->emp_code,
+    //                 'projects' => []
+    //             ]);
+    //         }
+
+    //         // ================= PROJECTS =================
+    //         $projects = DB::table('projects')
+    //             ->where('emid', $user->emid)
+    //             ->whereIn('id', $projectIds)
+    //             ->select('id', 'title', 'status')
+    //             ->get();
+
+    //         // ================= PROJECT MEMBERS =================
+    //         $projectMembers = DB::table('project_members as pm')
+    //             ->join('employee as e', 'e.id', '=', 'pm.user_id')
+    //             ->whereIn('pm.project_id', $projectIds)
+    //             ->select([
+    //                 'pm.project_id',
+    //                 'pm.role',
+    //                 'e.emp_code',
+    //                 DB::raw("CONCAT(e.emp_fname,' ',COALESCE(e.emp_mname,''),' ',e.emp_lname) as employee_name")
+    //             ])
+    //             ->get()
+    //             ->groupBy('project_id');
+
+    //         // ================= PROJECT POSTS =================
+    //         $allPosts = DB::table('project_post as p')
+    //             ->leftJoin('users as u', function ($join) {
+    //                 $join->on('u.employee_id', '=', 'p.employee_code')
+    //                     ->where(function($q) {
+    //                         $q->where('u.emid', '=', DB::raw('p.emid'))
+    //                         ->orWhereNull('p.emid');
+    //                     });
+    //             })
+    //             ->where('p.emid', $user->emid)
+    //             ->whereIn('p.project_id', $projectIds)
+    //             ->orderBy('p.created_at', 'asc')
+    //             ->select([
+    //                 'p.id',
+    //                 'p.project_id',
+    //                 'p.parent_id',
+    //                 'p.title',
+    //                 'p.file',
+    //                 'p.created_at',
+    //                 'p.employee_code',
+    //                 'u.name as user_name'
+    //             ])
+    //             ->get()
+    //             ->groupBy('project_id');
+
+    //         // ================= FINAL RESPONSE =================
+    //         $finalProjects = [];
+
+    //         foreach ($projects as $project) {
+    //             $projectPosts = $allPosts->get($project->id, collect());
+                
+    //             // Create index for posts by ID
+    //             $postIndex = $projectPosts->keyBy('id');
+                
+    //             // Build messages array like in members() function
+    //             $messages = $projectPosts->map(function ($post) use ($postIndex) {
+    //                 // Convert stdClass to array
+    //                 $postArray = (array) $post;
+                    
+    //                 // Add replies array
+    //                 if ($post->parent_id) {
+    //                     // reply → attach its parent
+    //                     $parent = $postIndex->get($post->parent_id);
+    //                     $postArray['replies'] = $parent ? [[
+    //                         'id'            => $parent->id,
+    //                         'employee_code' => $parent->employee_code,
+    //                         'parent_id'     => $parent->parent_id,
+    //                         'title'         => $parent->title,
+    //                         'file'          => $parent->file,
+    //                         'created_at'    => $parent->created_at,
+    //                         'user_name'     => $parent->user_name,
+    //                     ]] : [];
+    //                 } else {
+    //                     // top-level post → empty replies
+    //                     $postArray['replies'] = [];
+    //                 }
+                    
+    //                 return $postArray;
+    //             })->values();
+
+    //             $finalProjects[] = [
+    //                 'project_id'   => $project->id,
+    //                 'project_name' => $project->title,
+    //                 'status'       => $project->status,
+    //                 'members'      => $projectMembers->get($project->id, collect())->values(),
+    //                 'messages'     => $messages
+    //             ];
+    //         }
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             'employee_code' => $employee->emp_code,
+    //             'projects' => $finalProjects
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'status' => 500,
+    //             'message' => 'Something went wrong',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
+    //   public function messageCenter()
+    // {
+    //     if (!auth()->check()) {
+    //         return response()->json([
+    //             "status"  => 401,
+    //             "message" => "Authentication required",
+    //             "data"    => []
+    //         ], 401);
+    //     }
+        
+    //     try {
+    //         // ================= AUTH USER =================
+    //         $user = auth('api')->user();
+    //         //dd($user->user_type);
+    //         // $employee_id = '';
+    //         // $employee_code = '';
+    //         // ================= EMPLOYEE =================
+    //         if($user->user_type == "employee"){
+    //             $employee = DB::table('employee')
+    //                 ->where('emid', $user->emid)
+    //                 ->where('emp_code', $user->employee_id)
+    //                 ->select('id', 'emp_code')
+    //                 ->first();
+
+    //             if (!$employee) {
+    //                 return response()->json([
+    //                     'status' => 404,
+    //                     'message' => 'Employee not found'
+    //                 ], 404);
+    //             }
+
+    //             $employee_id = $employee->id;
+    //             $employee_code = $employee->emp_code;
+
+    //         } elseif($user->user_type == "guest"){
+    //             $employee = DB::table('guests')
+    //                 ->where('emid', $user->emid)
+    //                 ->where('guest_id', $user->employee_id)
+    //                 ->select('id', 'guest_id')
+    //                 ->first();
+
+    //             if (!$employee) {
+    //                 return response()->json([
+    //                     'status' => 404,
+    //                     'message' => 'Employee not found'
+    //                 ], 404);
+    //             }
+
+    //             $employee_id = $employee->id;
+    //             $employee_code = $employee->guest_id;
+    //         }
+    //        //dd($employee_id, $employee_code);
+
+    //         // ================= PROJECT IDS =================
+    //         $projectIds = DB::table('project_members')
+    //             ->where('user_id', $employee_id)
+    //             ->pluck('project_id');
+
+    //         if ($projectIds->isEmpty()) {
+    //             return response()->json([
+    //                 'status' => 200,
+    //                 'employee_code' => $employee_code,
+    //                 'projects' => []
+    //             ]);
+    //         }
+    //         //dd($projectIds);
+    //         // ================= PROJECTS =================
+    //         $projects = DB::table('projects')
+    //             ->where('emid', $user->emid)
+    //             ->whereIn('id', $projectIds)
+    //             ->select('id', 'title', 'status')
+    //             ->get();
+    //         // this line of code is ok but now i need to change remaining code     
+    //         //dd($projects);
+    //         // ================= PROJECT MEMBERS =================
+    //         $projectMembers = DB::table('project_members as pm')
+    //             ->join('employee as e', 'e.id', '=', 'pm.user_id')
+    //             ->whereIn('pm.project_id', $projectIds)
+    //             ->select([
+    //                 'pm.project_id',
+    //                 'pm.role',
+    //                 'e.emp_code',
+    //                 DB::raw("CONCAT(e.emp_fname,' ',COALESCE(e.emp_mname,''),' ',e.emp_lname) as employee_name")
+    //             ])
+    //             ->get()
+    //             ->groupBy('project_id');
+
+    //         // ================= PROJECT POSTS =================
+    //         $allPosts = DB::table('project_post as p')
+    //             ->leftJoin('users as u', function ($join) {
+    //                 $join->on('u.employee_id', '=', 'p.employee_code')
+    //                     ->where(function($q) {
+    //                         $q->where('u.emid', '=', DB::raw('p.emid'))
+    //                         ->orWhereNull('p.emid');
+    //                     });
+    //             })
+    //             ->where('p.emid', $user->emid)
+    //             ->whereIn('p.project_id', $projectIds)
+    //             ->orderBy('p.created_at', 'asc')
+    //             ->select([
+    //                 'p.id',
+    //                 'p.project_id',
+    //                 'p.parent_id',
+    //                 'p.title',
+    //                 'p.file',
+    //                 'p.created_at',
+    //                 'p.employee_code',
+    //                 'u.name as user_name'
+    //             ])
+    //             ->get()
+    //             ->groupBy('project_id');
+
+    //         // ================= FINAL RESPONSE =================
+    //         $finalProjects = [];
+
+    //         foreach ($projects as $project) {
+    //             $projectPosts = $allPosts->get($project->id, collect());
+                
+    //             // Create index for posts by ID
+    //             $postIndex = $projectPosts->keyBy('id');
+                
+    //             // Build messages array like in members() function
+    //             $messages = $projectPosts->map(function ($post) use ($postIndex) {
+    //                 // Convert stdClass to array
+    //                 $postArray = (array) $post;
+                    
+    //                 // Add replies array
+    //                 if ($post->parent_id) {
+    //                     // reply → attach its parent
+    //                     $parent = $postIndex->get($post->parent_id);
+    //                     $postArray['replies'] = $parent ? [[
+    //                         'id'            => $parent->id,
+    //                         'employee_code' => $parent->employee_code,
+    //                         'parent_id'     => $parent->parent_id,
+    //                         'title'         => $parent->title,
+    //                         'file'          => $parent->file,
+    //                         'created_at'    => $parent->created_at,
+    //                         'user_name'     => $parent->user_name,
+    //                     ]] : [];
+    //                 } else {
+    //                     // top-level post → empty replies
+    //                     $postArray['replies'] = [];
+    //                 }
+                    
+    //                 return $postArray;
+    //             })->values();
+
+    //             $finalProjects[] = [
+    //                 'project_id'   => $project->id,
+    //                 'project_name' => $project->title,
+    //                 'status'       => $project->status,
+    //                 'members'      => $projectMembers->get($project->id, collect())->values(),
+    //                 'messages'     => $messages
+    //             ];
+    //         }
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             'employee_code' => $employee->emp_code,
+    //             'projects' => $finalProjects
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'status' => 500,
+    //             'message' => 'Something went wrong',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
+    public function messageCenter()
+    {
+        if (!auth()->check()) {
+            return response()->json([
+                "status"  => 401,
+                "message" => "Authentication required",
+                "data"    => []
+            ], 401);
+        }
+
+        try {
+            /* ================= AUTH USER ================= */
+            $user = auth('api')->user();
+
+            $memberId   = null;
+            $memberCode = null;
+
+            /* ================= IDENTIFY USER ================= */
+            if ($user->user_type === 'employee') {
+
+                $emp = DB::table('employee')
+                    ->where('emid', $user->emid)
+                    ->where('emp_code', $user->employee_id)
+                    ->select('id', 'emp_code')
+                    ->first();
+
+                if (!$emp) {
+                    return response()->json([
+                        'status' => 404,
+                        'message' => 'Employee not found'
+                    ], 404);
+                }
+
+                $memberId   = $emp->id;
+                $memberCode = $emp->emp_code;
+
+            } elseif ($user->user_type === 'guest') {
+
+                $guest = DB::table('guests')
+                    ->where('emid', $user->emid)
+                    ->where('guest_id', $user->employee_id)
+                    ->select('id', 'guest_id')
+                    ->first();
+
+                if (!$guest) {
+                    return response()->json([
+                        'status' => 404,
+                        'message' => 'Guest not found'
+                    ], 404);
+                }
+
+                $memberId   = $guest->id;
+                $memberCode = $guest->guest_id;
+
+            } else {
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'Invalid user type'
+                ], 403);
+            }
+
+            /* ================= PROJECT IDS ================= */
+            $projectIds = DB::table('project_members')
+                ->where('user_id', $memberId)
+                ->where('user_type', $user->user_type)
+                ->pluck('project_id');
+
+            if ($projectIds->isEmpty()) {
+                return response()->json([
+                    'status' => 200,
+                    'employee_code' => $memberCode,
+                    'projects' => []
+                ]);
+            }
+
+            /* ================= PROJECTS ================= */
+            $projects = DB::table('projects')
+                ->where('emid', $user->emid)
+                ->whereIn('id', $projectIds)
+                ->select('id', 'title', 'status')
+                ->get();
+
+            /* ================= PROJECT MEMBERS (EMPLOYEE + GUEST) ================= */
+            $projectMembersRaw = DB::table('project_members as pm')
+
+                ->leftJoin('employee as e', function ($join) {
+                    $join->on('pm.user_id', '=', 'e.id')
+                        ->where('pm.user_type', 'employee');
+                })
+
+                ->leftJoin('guests as g', function ($join) {
+                    $join->on('pm.user_id', '=', 'g.id')
+                        ->where('pm.user_type', 'guest');
+                })
+
+                ->whereIn('pm.project_id', $projectIds)
+                ->select([
+                    'pm.project_id',
+                    'pm.role',
+                    'pm.user_type',
+
+                    // employee
+                    'e.emp_code',
+                    DB::raw("CONCAT(e.emp_fname,' ',COALESCE(e.emp_mname,''),' ',e.emp_lname) as employee_name"),
+
+                    // guest
+                    'g.guest_id',
+                    'g.name as guest_name'
+                ])
+                ->get();
+
+            $projectMembers = $projectMembersRaw
+                ->groupBy('project_id')
+                ->map(function ($members) {
+                    return $members->map(function ($m) {
+
+                        if ($m->user_type === 'employee') {
+                            return [
+                                'project_id'    => $m->project_id,
+                                'role'          => $m->role,
+                                'emp_code'      => $m->emp_code,
+                                'employee_name' => $m->employee_name,
+                                'user_type'     => 'employee',
+                            ];
+                        }
+
+                        return [
+                            'project_id'    => $m->project_id,
+                            'role'          => $m->role,
+                            'emp_code'      => $m->guest_id,
+                            'employee_name' => $m->guest_name,
+                             'user_type'     => 'guest',  
+                        ];
+                    })->values();
+                });
+
+            /* ================= PROJECT POSTS ================= */
+            $allPosts = DB::table('project_post as p')
+                ->leftJoin('users as u', function ($join) {
+                    $join->on('u.employee_id', '=', 'p.employee_code')
+                        ->where(function ($q) {
+                            $q->where('u.emid', '=', DB::raw('p.emid'))
+                            ->orWhereNull('p.emid');
+                        });
+                })
+                ->where('p.emid', $user->emid)
+                ->whereIn('p.project_id', $projectIds)
+                ->orderBy('p.created_at', 'asc')
+                ->select([
+                    'p.id',
+                    'p.project_id',
+                    'p.parent_id',
+                    'p.title',
+                    'p.file',
+                    'p.created_at',
+                    'p.employee_code',
+                    'u.name as user_name',
+                    'u.user_type as user_type'
+                ])
+                ->get()
+                ->groupBy('project_id');
+
+            /* ================= FINAL RESPONSE ================= */
+            $finalProjects = [];
+
+            foreach ($projects as $project) {
+
+                $projectPosts = $allPosts->get($project->id, collect());
+                $postIndex = $projectPosts->keyBy('id');
+
+                $messages = $projectPosts->map(function ($post) use ($postIndex) {
+                    $postArr = (array) $post;
+
+                    if ($post->parent_id) {
+                        $parent = $postIndex->get($post->parent_id);
+                        $postArr['replies'] = $parent ? [[
+                            'id'            => $parent->id,
+                            'employee_code' => $parent->employee_code,
+                            'parent_id'     => $parent->parent_id,
+                            'title'         => $parent->title,
+                            'file'          => $parent->file,
+                            'created_at'    => $parent->created_at,
+                            'user_name'     => $parent->user_name,
+                        ]] : [];
+                    } else {
+                        $postArr['replies'] = [];
+                    }
+
+                    return $postArr;
+                })->values();
+
+                $finalProjects[] = [
+                    'project_id'   => $project->id,
+                    'project_name' => $project->title,
+                    'status'       => $project->status,
+                    'members'      => $projectMembers->get($project->id, collect()),
+                    'messages'     => $messages
+                ];
+            }
+
+            return response()->json([
+                'status' => 200,
+                'employee_code' => $memberCode,
+                'projects' => $finalProjects
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+
 
 
 

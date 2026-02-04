@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
+use App\Events\NoticeCreated;
+use App\Models\Notification;
 use Mail;
 use URL;
 use PDF;
@@ -4252,19 +4254,34 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $job = DB::table('employee')->where('emp_code', '=', base64_decode($send_id))->where('emid', '=', $Roledata->reg)->first();
 
             $data = array('com_name' => $Roledata->com_name, 'com_logo' => $Roledata->logo, 'address' => $Roledata->address . ',' . $Roledata->address2 . ',' . $Roledata->road, 'addresssub' => $Roledata->city . ',' . $Roledata->zip . ',' . $Roledata->country, 'Roledata' => $Roledata, 'offer' => $job);
-
+            //dd($data);
             $toemail = $job->emp_ps_email;
-            Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
-                $message->to($toemail)->subject('Your Visa is Due to Expire in 90 Days');
-                $message->from(env('MAIL_USERNAME'));
-            });
+            //dd($Roledata->authemail);
+            // Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail)->subject('Your Visa is Due to Expire in 90 Days');
+            //     $message->from(env('MAIL_USERNAME'));
+            // });
 
-            $toemail = $Roledata->authemail;
-            //dd($toemail);
-            Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
-                $message->to($toemail)->subject('Your Visa is Due to Expire in 90 Days');
-                $message->from(env('MAIL_USERNAME'));
-            });
+            // $toemail = $Roledata->authemail;
+          
+            // Mail::send('reminder-email-90days', $data, function ($message) use ($toemail) {
+            //     $message->to($toemail)->subject('Your Visa is Due to Expire in 90 Days');
+            //     $message->from(env('MAIL_USERNAME'));
+            // });
+
+            
+            $notification = Notification::create([
+                'emid'        => $Roledata->reg, 
+                'employee_id' => $job->emp_code,      
+                'title'       => 'Visa Expiry Reminder 90 days',
+                'description' => 'Your visa will expire in 90 days. Please check your email.',
+                'start_date'  => now(),
+                'end_date'    => $job->visa_exp_date ?? null,
+                'status'      => 1,
+            ]);
+
+            event(new NoticeCreated($notification));
+            
 
             Session::flash('message', 'Visa Review Reminder send Successfully.');
 
@@ -4300,6 +4317,16 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
                 $message->from(env('MAIL_USERNAME'));
             });
 
+            Notification::create([
+                'emid'        => $Roledata->reg,       
+                'employee_id' => $job->emp_code,        
+                'title'       => 'Visa Expiry Reminder 60 days',
+                'description' => 'Your visa will expire in 60 days. Please check your email.',
+                'start_date'  => now(),
+                'end_date'    => $job->visa_exp_date ?? null,
+                'status'      => 1,
+            ]);
+
             Session::flash('message', 'Visa Review Reminder send Successfully.');
 
             return redirect('org-dashboarddetails');
@@ -4331,6 +4358,16 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
                 $message->to($toemail)->subject('Urgent Reminder: Your Visa Expires in 30 Days');
                 $message->from(env('MAIL_USERNAME'));
             });
+
+            Notification::create([
+                'emid'        => $Roledata->reg,       
+                'employee_id' => $job->emp_code,        
+                'title'       => 'Visa Expiry Reminder 30 days',
+                'description' => 'Your visa will expire in 30 days. Please check your email.',
+                'start_date'  => now(),
+                'end_date'    => $job->visa_exp_date ?? null,
+                'status'      => 1,
+            ]);
 
             Session::flash('message', 'Visa Review Reminder send Successfully.');
 
@@ -5146,21 +5183,31 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $toemail = $job->emp_ps_email;
             // return view('passport-90days-reminder',$data);
             // dd('okk');
-            // Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
-            //     $message->to($toemail, 'Skilledworkescloud')->subject
-            //         ('Right to Work Documentation – Temporary Passport 90-day Reminder');
+            Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
+                $message->to($toemail, 'Skilledworkescloud')->subject
+                    ('Right to Work Documentation – Temporary Passport 90-day Reminder');
 
-            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            // });
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            });
 
             $toemail = $Roledata->authemail;
 
-            // Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
-            //     $message->to($toemail, 'Skilledworkescloud')->subject
-            //         ('Right to Work Documentation – Temporary Passport 90-day Reminder');
+            Mail::send('passport-90days-reminder', $data, function ($message) use ($toemail) {
+                $message->to($toemail, 'Skilledworkescloud')->subject
+                    ('Right to Work Documentation – Temporary Passport 90-day Reminder');
 
-            //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
-            // });
+                $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
+            });
+
+            Notification::create([
+                'emid'        => $Roledata->reg,       
+                'employee_id' => $job->emp_code,        
+                'title'       => 'Passport Expiry Reminder 90 days',
+                'description' => 'Your Passport will expire in 90 days. Please check your email.',
+                'start_date'  => now(),
+                'end_date'    => $job->pass_exp_date ?? null,
+                'status'      => 1,
+            ]);
 
             Session::flash('message', 'Passport Review Reminder send Successfully.');
 
@@ -5194,7 +5241,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             // });
 
-            $toemail = $Roledata->authemail;
+            // $toemail = $Roledata->authemail;
 
             // Mail::send('passmailsendsecond', $data, function ($message) use ($toemail) {
             //     $message->to($toemail, 'Skilledworkescloud')->subject
@@ -5202,6 +5249,16 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             // });
+
+            Notification::create([
+                'emid'        => $Roledata->reg,       
+                'employee_id' => $job->emp_code,        
+                'title'       => 'Passport Expiry Reminder 60 days',
+                'description' => 'Your Passport will expire in 60 days. Please check your email.',
+                'start_date'  => now(),
+                'end_date'    => $job->pass_exp_date ?? null,
+                'status'      => 1,
+            ]);
 
             Session::flash('message', 'Passport Review Reminder send Successfully.');
 
@@ -5240,6 +5297,16 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
             //     $message->from('noreply@skilledworkerscloud.co.uk', 'Skilledworkescloud');
             // });
+
+            Notification::create([
+                'emid'        => $Roledata->reg,       
+                'employee_id' => $job->emp_code,        
+                'title'       => 'Passport Expiry Reminder 30 days',
+                'description' => 'Your Passport will expire in 30 days. Please check your email.',
+                'start_date'  => now(),
+                'end_date'    => $job->pass_exp_date ?? null,
+                'status'      => 1,
+            ]);
 
             Session::flash('message', 'Passport Review Reminder send Successfully.');
 
