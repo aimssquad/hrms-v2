@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Mail;
+use Carbon\Carbon;
 
 class CustomerInvoiceController extends Controller
 {
@@ -87,23 +88,152 @@ class CustomerInvoiceController extends Controller
         //return view('guests.create');
     }
 
+    // public function store(Request $request)
+    // {
+    //     $email = Session::get("emp_email");
+    //     $emid  = Session::get("emid");
+    //     $com_name = DB::table('registration')->where('reg', $emid)->select('com_name')->first();
+    //     //dd($request->all());
+    //     $companyName = $com_name->com_name ?? '';
+
+    //     if (!empty(trim($companyName))) {
+    //         // Remove spaces and take first 2 letters
+    //         $companyPrefix = strtoupper(
+    //             substr(preg_replace('/\s+/', '', $companyName), 0, 2)
+    //         );
+    //     } else {
+    //         $companyPrefix = 'IN'; 
+    //     }
+        
+    //     DB::beginTransaction();
+
+    //     try {
+
+    //         /* =======================
+    //         | 1. CREATE INVOICE
+    //         ======================= */
+
+    //         $invoice = Invoice::create([
+    //             'emid'         => $emid,
+    //             'guest_id'     => $request->guest_id,
+    //             'country'      => $request->country,
+    //             'currency'     => $request->currency,
+    //             'invoice_date' => $request->date,
+    //             'invoice_send' => $request->invoice_send,
+    //             'total_tax'    => 0,
+    //             'grand_total'  => 0,
+    //         ]);
+
+    //         $randomNumber = rand(10000, 99999);
+    //         $invoiceNo = $companyPrefix . $randomNumber . $invoice->id;
+    //         $invoice->update([
+    //             'invoice_no' => $invoiceNo
+    //         ]);
+
+    //         $totalTax   = 0;
+    //         $grandTotal = 0;
+
+    //         /* =======================
+    //         | 2. LOOP ITEMS
+    //         ======================= */
+
+    //         foreach ($request->service_name as $index => $serviceName) {
+
+    //             $qty        = (float) $request->quantity[$index];
+    //             $unitPrice  = (float) $request->unit_price[$index];
+    //             $discount   = (float) ($request->discount[$index] ?? 0);
+    //             $discType   = $request->discount_type[$index] ?? null;
+    //             $taxPercent = (float) ($request->tax_percent[$index] ?? 0);
+    //             $taxType    = $request->tax_type[$index] ?? 'exclusive';
+
+    //             /* -----------------------
+    //             | BASE AMOUNT
+    //             ----------------------- */
+    //             $baseAmount = $qty * $unitPrice;
+
+    //             /* -----------------------
+    //             | DISCOUNT CALCULATION
+    //             ----------------------- */
+    //             if ($discType === 'percentage_discount' && $discount > 0) {
+    //                 $discountAmount = ($baseAmount * $discount) / 100;
+    //             } elseif ($discType === 'flat_discount') {
+    //                 $discountAmount = $discount;
+    //             } else {
+    //                 $discountAmount = 0;
+    //             }
+
+    //             $amountAfterDiscount = max($baseAmount - $discountAmount, 0);
+
+    //             /* -----------------------
+    //             | TAX CALCULATION
+    //             ----------------------- */
+    //             if ($taxPercent > 0) {
+
+    //                 if ($taxType === 'inclusive') {
+    //                     // tax included in price
+    //                     $taxAmount = $amountAfterDiscount - ($amountAfterDiscount / (1 + $taxPercent / 100));
+    //                     $subTotal  = $amountAfterDiscount;
+
+    //                 } else {
+    //                     // exclusive tax
+    //                     $taxAmount = ($amountAfterDiscount * $taxPercent) / 100;
+    //                     $subTotal  = $amountAfterDiscount + $taxAmount;
+    //                 }
+
+    //             } else {
+    //                 $taxAmount = 0;
+    //                 $subTotal  = $amountAfterDiscount;
+    //             }
+
+    //             /* -----------------------
+    //             | SAVE ITEM
+    //             ----------------------- */
+    //             InvoiceItem::create([
+    //                 'emid'          => $emid,
+    //                 'invoice_id'    => $invoice->id,
+    //                 'service_name'  => $serviceName,
+    //                 'quantity'      => $qty,
+    //                 'unit_price'    => $unitPrice,
+    //                 'discount'      => $discountAmount,
+    //                 'discount_type' => $discType,
+    //                 'tax_percent'   => $taxPercent,
+    //                 'tax_type'      => $taxType,
+    //                 'sub_total'     => round($subTotal, 2),
+    //             ]);
+
+    //             $totalTax   += $taxAmount;
+    //             $grandTotal += $subTotal;
+    //         }
+
+    //         /* =======================
+    //         | 3. UPDATE INVOICE TOTALS
+    //         ======================= */
+
+    //         $invoice->update([
+    //             'total_tax'  => round($totalTax, 2),
+    //             'grand_total'=> round($grandTotal, 2),
+    //         ]);
+
+    //         DB::commit();
+
+    //         return redirect('organization/customer/invoice')
+    //             //->back()
+    //             ->with('message', 'Invoice created successfully');
+
+    //     } catch (\Exception $e) {
+
+    //         DB::rollBack();
+
+    //         return redirect()
+    //             ->back()
+    //             ->with('error', $e->getMessage());
+    //     }
+    // }
+
     public function store(Request $request)
     {
-        $email = Session::get("emp_email");
         $emid  = Session::get("emid");
-        $com_name = DB::table('registration')->where('reg', $emid)->select('com_name')->first();
 
-        $companyName = $com_name->com_name ?? '';
-
-        if (!empty(trim($companyName))) {
-            // Remove spaces and take first 2 letters
-            $companyPrefix = strtoupper(
-                substr(preg_replace('/\s+/', '', $companyName), 0, 2)
-            );
-        } else {
-            $companyPrefix = 'IN'; 
-        }
-        
         DB::beginTransaction();
 
         try {
@@ -111,7 +241,6 @@ class CustomerInvoiceController extends Controller
             /* =======================
             | 1. CREATE INVOICE
             ======================= */
-
             $invoice = Invoice::create([
                 'emid'         => $emid,
                 'guest_id'     => $request->guest_id,
@@ -119,49 +248,68 @@ class CustomerInvoiceController extends Controller
                 'currency'     => $request->currency,
                 'invoice_date' => $request->date,
                 'invoice_send' => $request->invoice_send,
+                'referance_no' => $request->referance_no,
+                'remarks' => $request->remarks,
                 'total_tax'    => 0,
                 'grand_total'  => 0,
             ]);
 
-            $randomNumber = rand(10000, 99999);
-            $invoiceNo = $companyPrefix . $randomNumber . $invoice->id;
+            /* =======================
+            | 2. GENERATE INVOICE NO
+            ======================= */
+            $companyName = DB::table('registration')
+                ->where('reg', $emid)
+                ->value('com_name');
+
+            $prefix = $companyName
+                ? strtoupper(substr(preg_replace('/\s+/', '', $companyName), 0, 2))
+                : 'IN';
+
+            $emidLastTwo = substr(preg_replace('/\D/', '', $emid), -2);
+
+            $month = Carbon::parse($invoice->invoice_date)->format('m'); 
+            $year  = Carbon::parse($invoice->invoice_date)->format('y'); 
+
+            $invoiceId = $invoice->id; 
+
+            $invoiceNo = $prefix . $emidLastTwo . $month . $year . $invoiceId;
+
             $invoice->update([
                 'invoice_no' => $invoiceNo
             ]);
 
+            /* =======================
+            | 3. LOOP ITEMS
+            ======================= */
             $totalTax   = 0;
             $grandTotal = 0;
-
-            /* =======================
-            | 2. LOOP ITEMS
-            ======================= */
 
             foreach ($request->service_name as $index => $serviceName) {
 
                 $qty        = (float) $request->quantity[$index];
                 $unitPrice  = (float) $request->unit_price[$index];
-                $discount   = (float) ($request->discount[$index] ?? 0);
+                $discount   = (float) ($request->discount[$index] ?? 0); // 10 OR 1000
                 $discType   = $request->discount_type[$index] ?? null;
                 $taxPercent = (float) ($request->tax_percent[$index] ?? 0);
                 $taxType    = $request->tax_type[$index] ?? 'exclusive';
 
                 /* -----------------------
-                | BASE AMOUNT
+                | BASE PRICE
                 ----------------------- */
-                $baseAmount = $qty * $unitPrice;
+                $basePrice = $qty * $unitPrice;
 
                 /* -----------------------
                 | DISCOUNT CALCULATION
                 ----------------------- */
                 if ($discType === 'percentage_discount' && $discount > 0) {
-                    $discountAmount = ($baseAmount * $discount) / 100;
+                    $discountAmount = ($basePrice * $discount) / 100;
                 } elseif ($discType === 'flat_discount') {
                     $discountAmount = $discount;
                 } else {
                     $discountAmount = 0;
                 }
 
-                $amountAfterDiscount = max($baseAmount - $discountAmount, 0);
+                $netAmount = max($basePrice - $discountAmount, 0);
 
                 /* -----------------------
                 | TAX CALCULATION
@@ -169,23 +317,23 @@ class CustomerInvoiceController extends Controller
                 if ($taxPercent > 0) {
 
                     if ($taxType === 'inclusive') {
-                        // tax included in price
-                        $taxAmount = $amountAfterDiscount - ($amountAfterDiscount / (1 + $taxPercent / 100));
-                        $subTotal  = $amountAfterDiscount;
-
+                        $taxAmount = $netAmount - ($netAmount / (1 + $taxPercent / 100));
+                        $lineTotal = $netAmount;
+                        $taxable   = $netAmount - $taxAmount;
                     } else {
-                        // exclusive tax
-                        $taxAmount = ($amountAfterDiscount * $taxPercent) / 100;
-                        $subTotal  = $amountAfterDiscount + $taxAmount;
+                        $taxAmount = ($netAmount * $taxPercent) / 100;
+                        $taxable   = $netAmount;
+                        $lineTotal = $netAmount + $taxAmount;
                     }
 
                 } else {
                     $taxAmount = 0;
-                    $subTotal  = $amountAfterDiscount;
+                    $taxable   = $netAmount;
+                    $lineTotal = $netAmount;
                 }
 
                 /* -----------------------
-                | SAVE ITEM
+                | SAVE ITEM (IMPORTANT)
                 ----------------------- */
                 InvoiceItem::create([
                     'emid'          => $emid,
@@ -193,30 +341,31 @@ class CustomerInvoiceController extends Controller
                     'service_name'  => $serviceName,
                     'quantity'      => $qty,
                     'unit_price'    => $unitPrice,
-                    'discount'      => $discountAmount,
+
+                    // ✅ STORE RAW DISCOUNT VALUE
+                    'discount'      => $discount,
                     'discount_type' => $discType,
+
                     'tax_percent'   => $taxPercent,
                     'tax_type'      => $taxType,
-                    'sub_total'     => round($subTotal, 2),
+                    'sub_total'     => round($lineTotal, 2),
                 ]);
 
                 $totalTax   += $taxAmount;
-                $grandTotal += $subTotal;
+                $grandTotal += $lineTotal;
             }
 
             /* =======================
-            | 3. UPDATE INVOICE TOTALS
+            | 4. UPDATE TOTALS
             ======================= */
-
             $invoice->update([
-                'total_tax'  => round($totalTax, 2),
-                'grand_total'=> round($grandTotal, 2),
+                'total_tax'   => round($totalTax, 2),
+                'grand_total' => round($grandTotal, 2),
             ]);
 
             DB::commit();
 
             return redirect('organization/customer/invoice')
-                //->back()
                 ->with('message', 'Invoice created successfully');
 
         } catch (\Exception $e) {
@@ -228,6 +377,7 @@ class CustomerInvoiceController extends Controller
                 ->with('error', $e->getMessage());
         }
     }
+
 
     // Edit Invoice 
     public function edit($encodedId)
@@ -258,6 +408,119 @@ class CustomerInvoiceController extends Controller
     }
 
     // update Invoice 
+    // public function update(Request $request, $encodedId)
+    // {
+    //     $id   = base64_decode($encodedId);
+    //     $emid = Session::get('emid');
+
+    //     DB::beginTransaction();
+
+    //     try {
+
+    //         /* =========================
+    //            UPDATE INVOICE HEADER
+    //         ========================== */
+    //         $invoice = Invoice::where('id', $id)
+    //             ->where('emid', $emid)
+    //             ->firstOrFail();
+
+    //         $invoice->update([
+    //             'guest_id'     => $request->guest_id,
+    //             'country'      => $request->country,
+    //             'currency'     => $request->currency,
+    //             'invoice_date' => $request->date,
+    //             'invoice_send' => $request->invoice_send,
+    //         ]);
+
+    //         /* =========================
+    //            DELETE OLD ITEMS
+    //         ========================== */
+    //         InvoiceItem::where('invoice_id', $invoice->id)->delete();
+
+    //         /* =========================
+    //            REINSERT ITEMS
+    //         ========================== */
+    //         $totalTax   = 0;
+    //         $grandTotal = 0;
+
+    //         foreach ($request->service_name as $index => $service) {
+
+    //             $qty        = (float) $request->quantity[$index];
+    //             $unitPrice  = (float) $request->unit_price[$index];
+    //             $discount   = (float) ($request->discount[$index] ?? 0);
+    //             $discType   = $request->discount_type[$index];
+    //             $taxPct     = (float) ($request->tax_percent[$index] ?? 0);
+    //             $taxType    = $request->tax_type[$index];
+
+    //             /* BASE */
+    //             $base = $qty * $unitPrice;
+
+    //             /* DISCOUNT */
+    //             if ($discType === 'percentage_discount') {
+    //                 $discountAmount = ($base * $discount) / 100;
+    //             } else {
+    //                 $discountAmount = $discount;
+    //             }
+
+    //             $afterDiscount = max($base - $discountAmount, 0);
+
+    //             /* TAX */
+    //             if ($taxPct > 0) {
+    //                 if ($taxType === 'inclusive') {
+    //                     $taxAmount = $afterDiscount - ($afterDiscount / (1 + $taxPct / 100));
+    //                     $subTotal  = $afterDiscount;
+    //                 } else {
+    //                     $taxAmount = ($afterDiscount * $taxPct) / 100;
+    //                     $subTotal  = $afterDiscount + $taxAmount;
+    //                 }
+    //             } else {
+    //                 $taxAmount = 0;
+    //                 $subTotal  = $afterDiscount;
+    //             }
+
+    //             /* SAVE ITEM */
+    //             InvoiceItem::create([
+    //                 'invoice_id'   => $invoice->id,
+    //                 'emid'         => $emid,
+    //                 'service_name' => $service,
+    //                 'quantity'     => $qty,
+    //                 'unit_price'   => $unitPrice,
+    //                 'discount'     => $discount,
+    //                 'discount_type'=> $discType,
+    //                 'tax_percent'  => $taxPct,
+    //                 'tax_type'     => $taxType,
+    //                 'sub_total'    => $subTotal,
+    //             ]);
+
+    //             $totalTax   += $taxAmount;
+    //             $grandTotal += $subTotal;
+    //         }
+
+    //         /* =========================
+    //            UPDATE TOTALS
+    //         ========================== */
+    //         $invoice->update([
+    //             'total_tax'   => $totalTax,
+    //             'grand_total' => $grandTotal,
+    //         ]);
+
+    //         DB::commit();
+
+    //         return redirect()
+    //             ->route('org.customer.invoice.show', base64_encode($invoice->id))
+    //             ->with('success', 'Invoice updated successfully');
+
+    //     } catch (\Exception $e) {
+
+    //         DB::rollBack();
+
+    //         return back()->with(
+    //             'error',
+    //             'Something went wrong: ' . $e->getMessage()
+    //         );
+    //     }
+    // }
+
     public function update(Request $request, $encodedId)
     {
         $id   = base64_decode($encodedId);
@@ -268,7 +531,7 @@ class CustomerInvoiceController extends Controller
         try {
 
             /* =========================
-               UPDATE INVOICE HEADER
+            1. UPDATE INVOICE HEADER
             ========================== */
             $invoice = Invoice::where('id', $id)
                 ->where('emid', $emid)
@@ -280,78 +543,98 @@ class CustomerInvoiceController extends Controller
                 'currency'     => $request->currency,
                 'invoice_date' => $request->date,
                 'invoice_send' => $request->invoice_send,
+                'referance_no' => $request->referance_no,
+                'remarks' => $request->remarks,
             ]);
 
             /* =========================
-               DELETE OLD ITEMS
+            2. DELETE OLD ITEMS
             ========================== */
             InvoiceItem::where('invoice_id', $invoice->id)->delete();
 
             /* =========================
-               REINSERT ITEMS
+            3. REINSERT ITEMS
             ========================== */
             $totalTax   = 0;
             $grandTotal = 0;
 
-            foreach ($request->service_name as $index => $service) {
+            foreach ($request->service_name as $index => $serviceName) {
 
                 $qty        = (float) $request->quantity[$index];
                 $unitPrice  = (float) $request->unit_price[$index];
+
+                // ✅ RAW DISCOUNT VALUE
                 $discount   = (float) ($request->discount[$index] ?? 0);
-                $discType   = $request->discount_type[$index];
-                $taxPct     = (float) ($request->tax_percent[$index] ?? 0);
-                $taxType    = $request->tax_type[$index];
+                $discType   = $request->discount_type[$index] ?? null;
 
-                /* BASE */
-                $base = $qty * $unitPrice;
+                $taxPercent = (float) ($request->tax_percent[$index] ?? 0);
+                $taxType    = $request->tax_type[$index] ?? 'exclusive';
 
-                /* DISCOUNT */
-                if ($discType === 'percentage_discount') {
-                    $discountAmount = ($base * $discount) / 100;
-                } else {
+                /* -----------------------
+                BASE PRICE
+                ----------------------- */
+                $basePrice = $qty * $unitPrice;
+
+                /* -----------------------
+                DISCOUNT CALCULATION
+                ----------------------- */
+                if ($discType === 'percentage_discount' && $discount > 0) {
+                    $discountAmount = ($basePrice * $discount) / 100;
+                } elseif ($discType === 'flat_discount') {
                     $discountAmount = $discount;
+                } else {
+                    $discountAmount = 0;
                 }
 
-                $afterDiscount = max($base - $discountAmount, 0);
+                $netAmount = max($basePrice - $discountAmount, 0);
 
-                /* TAX */
-                if ($taxPct > 0) {
+                /* -----------------------
+                TAX CALCULATION
+                ----------------------- */
+                if ($taxPercent > 0) {
+
                     if ($taxType === 'inclusive') {
-                        $taxAmount = $afterDiscount - ($afterDiscount / (1 + $taxPct / 100));
-                        $subTotal  = $afterDiscount;
+                        $taxAmount = $netAmount - ($netAmount / (1 + $taxPercent / 100));
+                        $lineTotal = $netAmount;
                     } else {
-                        $taxAmount = ($afterDiscount * $taxPct) / 100;
-                        $subTotal  = $afterDiscount + $taxAmount;
+                        $taxAmount = ($netAmount * $taxPercent) / 100;
+                        $lineTotal = $netAmount + $taxAmount;
                     }
+
                 } else {
                     $taxAmount = 0;
-                    $subTotal  = $afterDiscount;
+                    $lineTotal = $netAmount;
                 }
 
-                /* SAVE ITEM */
+                /* -----------------------
+                SAVE ITEM (IMPORTANT)
+                ----------------------- */
                 InvoiceItem::create([
-                    'invoice_id'   => $invoice->id,
-                    'emid'         => $emid,
-                    'service_name' => $service,
-                    'quantity'     => $qty,
-                    'unit_price'   => $unitPrice,
-                    'discount'     => $discount,
-                    'discount_type'=> $discType,
-                    'tax_percent'  => $taxPct,
-                    'tax_type'     => $taxType,
-                    'sub_total'    => $subTotal,
+                    'invoice_id'    => $invoice->id,
+                    'emid'          => $emid,
+                    'service_name'  => $serviceName,
+                    'quantity'      => $qty,
+                    'unit_price'    => $unitPrice,
+
+                    // ✅ STORE RAW VALUE (NOT CALCULATED)
+                    'discount'      => $discount,
+                    'discount_type' => $discType,
+
+                    'tax_percent'   => $taxPercent,
+                    'tax_type'      => $taxType,
+                    'sub_total'     => round($lineTotal, 2),
                 ]);
 
                 $totalTax   += $taxAmount;
-                $grandTotal += $subTotal;
+                $grandTotal += $lineTotal;
             }
 
             /* =========================
-               UPDATE TOTALS
+            4. UPDATE TOTALS
             ========================== */
             $invoice->update([
-                'total_tax'   => $totalTax,
-                'grand_total' => $grandTotal,
+                'total_tax'   => round($totalTax, 2),
+                'grand_total' => round($grandTotal, 2),
             ]);
 
             DB::commit();
@@ -370,6 +653,7 @@ class CustomerInvoiceController extends Controller
             );
         }
     }
+
 
     // Delete Invoice
     public function destroy($id)

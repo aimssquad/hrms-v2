@@ -72,6 +72,16 @@
                   <input type="date" name="invoice_send" id="invoice_send" class="form-control"  value="{{ $invoice->invoice_send }}"
                   placeholder="Which date to want send email every day">
                </div>
+
+               <div class="col-md-3">
+                    <label class="col-form-label">Referance No</label>
+                    <input type="text" name="referance_no" id="invoice_send" class="form-control" value="{{ $invoice->referance_no }}" >
+                </div>
+                
+                <div class="col-md-12 pt-3" >
+                    <label class="col-form-label">Remarks</label>
+                    <textarea name="remarks" id="remarks" rows="20"> {{ $invoice->remarks }}</textarea>
+                </div>
             </div>
             <hr>
             {{-- ================= SERVICES ================= --}}
@@ -198,6 +208,17 @@
 @endsection
 {{-- ================= JS ================= --}}
 @section('script')
+
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#remarks'))
+        .catch(error => {
+            //console.error(error);
+        });
+</script>
+
 <script>
    $('#guestSelect').on('change', function () {
        if ($(this).val() === 'add_new') {

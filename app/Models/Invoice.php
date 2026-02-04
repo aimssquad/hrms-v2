@@ -16,6 +16,8 @@ class Invoice extends Model
         'currency',
         'invoice_date',
         'invoice_send',
+        'referance_no',
+        'remarks',
         'total_tax',
         'grand_total',
     ];

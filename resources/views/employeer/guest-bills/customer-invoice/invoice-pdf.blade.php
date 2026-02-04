@@ -103,16 +103,27 @@
                 <strong>Invoice To:</strong><br>
                 {{ $guest->name }}<br>
                 {{ $guest->company_name }}<br>
+                @if(!empty($guest->address))
                 {{ $guest->address }}<br>
-                Phone: {{ $guest->phone }}
-                <br>
-                Email: {{ $guest->email }}
-                <br>
-                {{ $taxLabel }} : {{ $guest->tax_no }}
+                @endif
+                Phone: {{ $guest->phone }}<br>
+                Email: {{ $guest->email }}<br>
+                @if(!empty($guest->tax_no))
+                    @if($invoice->country == "India")
+                        GST NO: {{ $guest->tax_no }}
+                    @elseif($invoice->country == "England")
+                            VAT NO: {{ $guest->tax_no }}
+                    @else
+                            SALE-TAX: {{ $guest->tax_no }}
+                    @endif
+                @endif
             </td>
             <td style="border:none; text-align:right; font-size:14px;">
                 <strong>Date:</strong> {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d F Y') }}<br>
                 <strong>Invoice No:</strong> {{ $invoice->invoice_no }}<br>
+                @if(!empty($invoice->referance_no))
+                    <strong>Reference No:</strong> {{ $invoice->referance_no }}<br>
+                @endif
                 <strong>Currency:</strong> {{ $invoice->currency }}
             </td>
         </tr>
@@ -213,6 +224,13 @@
             <td class="text-right"><strong>{{ $currencySymbol }} {{ number_format($invoice->grand_total,2) }}</strong></td>
         </tr>
     </table>
+
+    @if(!empty($invoice->remarks))
+        <div class="text-left mt-4" style="font-size:11px; margin-top:75px;">
+            <strong>Remarks:</strong>
+            {!! $invoice->remarks !!}
+        </div>
+    @endif
 
     <!-- DISCLAIMER -->
     <div style="margin-top:75px; font-style:italic; font-size:12px;">

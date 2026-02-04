@@ -122,18 +122,20 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                             <strong>Invoice To:</strong><br>
                             {{ $guest->name }}<br>
                             {{ $guest->company_name }}<br>
+                            @if(!empty($guest->address))
                             {{ $guest->address }}<br>
-                            Phone: {{ $guest->phone }}
-                            <br>
-                            Email: {{ $guest->email }}
-                            <br>
-                            @if($invoice->country == "India")
-                                 GST NO: {{ $guest->tax_no }}
+                            @endif
+                            Phone: {{ $guest->phone }}<br>
+                            Email: {{ $guest->email }}<br>
+                            @if(!empty($guest->tax_no))
+                                @if($invoice->country == "India")
+                                    GST NO: {{ $guest->tax_no }}
                                 @elseif($invoice->country == "England")
-                                     VAT NO: {{ $guest->tax_no }}
+                                        VAT NO: {{ $guest->tax_no }}
                                 @else
-                                     SALE-TAX: {{ $guest->tax_no }}
+                                        SALE-TAX: {{ $guest->tax_no }}
                                 @endif
+                            @endif
                            
                         </div>
 
@@ -141,6 +143,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                             <strong>Invoice Date:</strong>
                             {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M Y') }}<br>
                             <strong>Invoice No:</strong> {{ $invoice->invoice_no }}<br>
+                            @if(!empty($invoice->referance_no))
+                                <strong>Reference No:</strong> {{ $invoice->referance_no }}<br>
+                            @endif
                             <strong>Currency:</strong> {{ $invoice->currency }}
                         </div>
                     </div>
@@ -214,7 +219,16 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 
                                     <!-- SHOW STORED DISCOUNT -->
                                     <td class="text-end">
-                                       {{$currencySymbol}} {{ number_format($item->discount, 2) }}<br>
+                                       
+                                       @if($item->discount_type == 'flat_discount')
+                                            {{$currencySymbol}}
+                                        @endif 
+                                       {{ number_format($item->discount, 2) }}
+                                        @if($item->discount_type == 'percentage_discount')
+                                            %  
+                                            <br> {{$currencySymbol}} {{ number_format($discountAmount,2) }}
+                                        @endif
+                                       <br>
                                         <small>({{ str_replace('_',' ', $item->discount_type) }})</small>
                                     </td>
 
@@ -253,6 +267,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                             <td class="text-end">{{$currencySymbol}} {{ number_format($invoice->grand_total,2) }}</td>
                         </tr>
                     </table>
+
+                    @if(!empty($invoice->remarks))
+                        <div class="text-left mt-4" style="font-size:11px; margin-top:75px;">
+                            <strong>Remarks:</strong>
+                            {!! $invoice->remarks !!}
+                        </div>
+                    @endif
+
 
                     <div class="text-center mt-4" style="font-size:11px; margin-top:75px;">
                         <strong>Disclaimer:</strong> This is a system generated invoice and does not require signature.
