@@ -1,5 +1,5 @@
 
-@extends('employeer.include.app')
+@extends('sub-admin.include.app')
 
 @section('title', \App\Helpers\Helper::cachedTrans('Technical Support'))
 @php 
@@ -44,21 +44,9 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 				</ul>
 			</div>
 			<div class="col-auto float-end ms-auto">
-				@if($user_type == 'employee')
-				@foreach($sidebarItems['Rota'] as $rotaItem)
-                    @if($rotaItem['submenu_name'] == 'Notice' && $rotaItem['can_add'] == 1)
-				<a href="{{ url('add-helpdesk') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Technical Support')}}</a>
-				    @endif
-				@endforeach
-				@elseif($user_type == 'employer')
-				<a href="{{ url('add-helpdesk') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Technical Support')}}</a>
-				@endif
-				{{-- <div class="view-icons">
-					<a href="{{url('organization/employeeee')}}" class="grid-view btn btn-link "><i class="fa fa-th"></i></a>
-					<a href="{{url('organization/emplist')}}" class="list-view btn btn-link active"><i class="fa-solid fa-bars"></i></a>
-				</div> --}}
+				<a href="{{ url('subadmin-add-helpdesk') }}" class="btn add-btn"><i class="fa-solid fa-plus"></i> {{\App\Helpers\Helper::cachedTrans('Technical Support')}}</a>
 			</div>
-            @include('employeer.layout.message')
+            @include('sub-admin.layout.message')
 		</div>
 	</div>
 	<!-- /Page Header -->
@@ -129,7 +117,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                     {{-- Image --}}
                                     <td>
                                         @if(!empty($datas->image))
-                                            <a href="{{ asset('storage/app/public/'.$datas->image) }}" target="_blank">
+                                            <a href="{{ asset('storage/'.$datas->image) }}" target="_blank">
                                                 <img src="{{ asset('storage/'.$datas->image) }}"
                                                     style="max-width:80px; cursor:pointer;">
                                             </a>

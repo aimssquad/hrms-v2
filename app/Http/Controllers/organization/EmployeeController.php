@@ -2129,4 +2129,26 @@ class EmployeeController extends Controller
     }
 
 
+    public function checkEmail(Request $request)
+    {
+        //dd('ok');
+        $email = $request->email;
+        $user_id = $request->user_id;
+
+        $query = DB::table("users")
+                    ->where("email", $email);
+
+        if(!empty($user_id)){
+            $query->where('id', '!=', $user_id);
+        }
+
+        $exists = $query->exists();
+
+        return response()->json([
+            'exists' => $exists
+        ]);
+    }
+
+
+
 }

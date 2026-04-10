@@ -104,57 +104,171 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
+    // public function create(Request $request)
+    // {
+    //     if (!empty(Session::get('user_type'))) {
+    //         $currentUser = Session::get('users_id');
+    //         $validatedData = $request->validate([
+    //             'project_id' => 'required',
+    //             'task_name' => 'required',
+    //             'task_desc' => 'required',
+    //             // 'tags' => 'required',
+    //             // 'assignedTo' => 'required',
+    //             // 'start_date' => 'required',
+    //             // 'expected_end_date' => 'required',
+    //             // 'createdBy' => 'required',
+    //              'priority' => 'nullable',
+    //             // 'status' => 'required'
+    //         ]);
+    //         $data = $request->all();
+    //         $data['createdBy'] = $currentUser;
+    //         // print_r($data);
+    //         // die;
+    //         $task = Task::create($data);
+    //         return response()->json($task, 201);
+    //     } else {
+    //         return response()->json(['status' => false, 'message' => 'Unauthorized access']);
+    //     }
+    // }
+
     public function create(Request $request)
     {
         if (!empty(Session::get('user_type'))) {
+
             $currentUser = Session::get('users_id');
+
+            // ✅ Validation
             $validatedData = $request->validate([
                 'project_id' => 'required',
-                'task_name' => 'required',
-                'task_desc' => 'required',
-                // 'tags' => 'required',
-                // 'assignedTo' => 'required',
-                // 'start_date' => 'required',
-                // 'expected_end_date' => 'required',
-                // 'createdBy' => 'required',
-                 'priority' => 'nullable',
-                // 'status' => 'required'
+                'task_name'  => 'required',
+                'task_desc'  => 'required',
+                'priority'   => 'nullable',
+                'task_file'  => 'nullable|file|max:2048', // 2MB max
             ]);
+
             $data = $request->all();
             $data['createdBy'] = $currentUser;
-            // print_r($data);
-            // die;
+
+            // ✅ File Upload Logic
+            if ($request->hasFile('task_file')) {
+
+                $file = $request->file('task_file');
+
+                // Generate unique name
+                $filename = time() . '_' . $file->getClientOriginalName();
+
+                // Store file (inside storage/app/public/tasks)
+                $path = $file->storeAs('tasks', $filename, 'public');
+
+                // Save path in DB
+                $data['task_file'] = $path;
+            }
+            $data['task_file'] = $path;
+            // ✅ Save Task
             $task = Task::create($data);
-            return response()->json($task, 201);
-        } else {
-            return response()->json(['status' => false, 'message' => 'Unauthorized access']);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Task created successfully',
+                'data' => $task
+            ], 201);
         }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access'
+        ]);
     }
+
+    // public function update(Request $request)
+    // {
+    //     //dd($request->all());
+    //     dd('okk');
+    //     $validatedData = $request->validate([
+    //         'project_id' => 'required',
+    //         'task_name' => 'required',
+    //         'task_desc' => 'required',
+    //         // 'tags' => 'required',
+    //         'assignedTo' => 'required',
+    //         'start_date' => 'nullable',
+    //         'expected_end_date' => 'nullable',
+    //         // 'createdBy' => 'required',
+    //          'priority' => 'nullable',
+    //     ]);
+
+
+    //     $task = Task::find($request->get('task_id'));
+    //     if (!$task) {
+    //         return response()->json(['message' => 'Task not found'], 404);
+    //     }
+    //     $task->update($validatedData);
+    //     return response()->json($task);
+    // }
 
     public function update(Request $request)
     {
-        //dd($request->all());
-        //dd('okk');
-        $validatedData = $request->validate([
-            'project_id' => 'required',
-            'task_name' => 'required',
-            'task_desc' => 'required',
-            // 'tags' => 'required',
-            'assignedTo' => 'required',
-            'start_date' => 'nullable',
-            'expected_end_date' => 'nullable',
-            // 'createdBy' => 'required',
-             'priority' => 'nullable',
-        ]);
+        if (!empty(Session::get('user_type'))) {
 
+            $currentUser = Session::get('users_id');
 
-        $task = Task::find($request->get('task_id'));
-        if (!$task) {
-            return response()->json(['message' => 'Task not found'], 404);
+            // ✅ Validation
+            $validatedData = $request->validate([
+                'project_id' => 'required',
+                'task_name'  => 'required',
+                'task_desc'  => 'required',
+                'assignedTo' => 'required',
+                'start_date' => 'nullable',
+                'expected_end_date' => 'nullable',
+                'priority'   => 'nullable',
+                'task_file'  => 'nullable|file|max:2048', // same as create
+            ]);
+
+            // ✅ Find task
+            $task = Task::find($request->task_id);
+
+            if (!$task) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Task not found'
+                ], 404);
+            }
+
+            // ✅ File Upload Logic (IMPORTANT)
+            if ($request->hasFile('task_file')) {
+
+                // delete old file
+                if ($task->task_file && \Storage::disk('public')->exists($task->task_file)) {
+                    \Storage::disk('public')->delete($task->task_file);
+                }
+
+                $file = $request->file('task_file');
+
+                $filename = time() . '_' . $file->getClientOriginalName();
+
+                $path = $file->storeAs('tasks', $filename, 'public');
+
+                $validatedData['task_file'] = $path;
+            }
+
+            // ✅ Update user
+            $validatedData['updatedBy'] = $currentUser;
+
+            // ✅ Update task
+            $task->update($validatedData);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Task updated successfully',
+                'data' => $task
+            ]);
         }
-        $task->update($validatedData);
-        return response()->json($task);
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access'
+        ]);
     }
+
     public function updateStatus(Request $request)
     {
 
@@ -172,11 +286,14 @@ class TaskController extends Controller
     }
     public function getTaskById($id)
     {
+        $emid = Session::get('emid');
         $task = Task::where('tasks.id', $id)
             ->leftJoin('employee as e', 'e.id', '=', 'tasks.assignedTo')
             ->leftJoin('users as u', 'u.employee_id', '=', 'e.emp_code')
             ->leftJoin('projects as p', 'p.id', '=', 'tasks.project_id')
             ->select('tasks.*', 'u.name as assignedUsername', 'p.title as project_name')
+            ->where('e.emid', $emid)
+            ->where('u.emid', $emid)
             ->first();
         return response()->json($task);
     }

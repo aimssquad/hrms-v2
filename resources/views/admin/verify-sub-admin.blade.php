@@ -163,6 +163,13 @@
                                                   <a class="dropdown-item" href="{{url('subadmin/partner/modulepermission/'.$company->reg)}}"><i class="fas fa-key"></i>&nbsp; Module Permission</a>
                                                   <a class="dropdown-item" href="{{url('sadmin/view-sub-org-attendance-permission-list/'.$company->org_code)}}" target="_blank"><i class="fas fa-list"></i>&nbsp; View Org Attendence permission list</a>
                                                   <a class="dropdown-item" href="{{url('subadmin/view-sub-organization/'.$company->org_code)}}" target="_blank"><i class="fas fa-sticky-note"></i>&nbsp; View Organization</a>
+                                                  <a class="dropdown-item openLimitModal"
+                                                      href="javascript:void(0)"
+                                                      data-emid="{{ $company->reg }}"
+                                                      data-org="{{ $company->org_code }}"
+                                                      data-name="{{ $company->com_name }}">
+                                                      <i class="fas fa-lock"></i>&nbsp; Organization Limit
+                                                   </a>
                                                   <a download class="dropdown-item" href="{{url('superadmin/company-report/'.base64_encode($company->reg))}}"><i class="fas fa-download"></i>&nbsp; Download</a>
                                                </div>
                                             </div>
@@ -174,6 +181,53 @@
                               </div>
                            </div>
                         </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="modal fade" id="orgLimitModal" tabindex="-1">
+                  <div class="modal-dialog">
+                     <div class="modal-content">
+                        
+                        <form method="POST" action="{{ url('subadmin/save-organization-limit') }}">
+                           @csrf
+
+                           <div class="modal-header">
+                              <h4 class="modal-title">Subadmin Child Organization Limit</h4>
+                              
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                           </div>
+
+                           <div class="modal-body">
+
+                              <div class="form-group">
+                                 {{-- <h3><b id="org_name"></b></h3> --}}
+                                 <label>Subadmin Name</label>
+                                 <input type="text"  id="org_name" class="form-control" readonly>
+                              </div>
+
+                              <div class="form-group">
+                                 {{-- <label>Employee ID</label> --}}
+                                 <input type="text" name="emid" id="emid" class="form-control" hidden>
+                              </div>
+
+                              <div class="form-group">
+                                 {{-- <label>Org Code</label> --}}
+                                 <input type="text" name="org_code" id="org_code" class="form-control" hidden>
+                              </div>
+
+                              <div class="form-group">
+                                 <label>Organization Limit</label>
+                                 <input type="number" name="organization_limit" id="organization_limit" class="form-control">
+                              </div>
+
+                           </div>
+
+                           <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary text-center">Save</button>
+                           </div>
+
+                        </form>
+
                      </div>
                   </div>
                </div>
@@ -244,5 +298,42 @@
          	});
          });
       </script>
+
+     
+      <script>
+         $(document).on('click','.openLimitModal',function(){
+
+            var emid = $(this).data('emid');
+            var org  = $(this).data('org');
+            var name = $(this).data('name');
+
+            $('#emid').val(emid);
+            $('#org_code').val(org);
+            $('#org_name').val(name);
+
+            // Open modal first
+            $('#orgLimitModal').modal('show');
+
+            // Load existing limit
+            $.ajax({
+               url: "{{ url('subadmin/get-organization-limit') }}",
+               type: "GET",
+               data: {emid:emid, org_code:org},
+               success:function(response){
+                     console.log(response); 
+                     if(response && response.organization_limit){
+                        $('#organization_limit').val(response.organization_limit);
+                     }else{
+                        $('#organization_limit').val('');
+                     }
+
+               },
+               error:function(){
+                     console.log("Error loading organization limit");
+               }
+            });
+
+         });
+         </script>
    </body>
 </html>

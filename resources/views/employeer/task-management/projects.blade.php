@@ -32,7 +32,7 @@ return $output;
             <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Project Directory')}} </h3>
             <ul class="breadcrumb">
                <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
-               <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Task Control Dashboard')}}</a></li>
+               <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Project Control Dashboard')}}</a></li>
                <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Project Directory')}}</li>
             </ul>
          </div>
@@ -110,7 +110,7 @@ return $output;
                       @foreach($projects as $key=>$p)
                       <tr>
                           <td>{{$key+1}}</td>
-                          <td><a class="atag_titel_main" href={{url('/org-task-management/'.encrypt($p->id).'/tasks')}}>{{$p->title}}</a></td>
+                          <td><a class="atag_titel_main" href={{url('org-task-management/project-analitic-dashboard/'.encrypt($p->id))}}>{{$p->title}}</a></td>
                           <td>{{count($p->members)}}</td>
                           <td>{{$p->owner}}</td>
                           <td>{{ $p->project_start_date ? \Carbon\Carbon::parse($p->project_start_date)->format('d-m-Y') : 'N/A' }}</td>

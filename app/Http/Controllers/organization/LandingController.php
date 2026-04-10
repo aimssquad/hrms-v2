@@ -809,8 +809,8 @@ class LandingController extends Controller
                 });
                 Session::flash("message", "Mail sent successfully.");
                 return redirect("forgot-password");
-            } else {
-                $checkuser = DB::table('registration')->where('email',$Employee->email)->first();
+            } else { 
+                $checkuser = DB::table('registration')->where('email',$Employee->email)->first(); 
                 if($checkuser->org_code != null){
                     $base_url = env('BASE_URL');
                     $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land, "f_name"=>$checkuser->f_name, "l_name"=>$checkuser->l_name];
@@ -832,6 +832,7 @@ class LandingController extends Controller
                     //$data = ["pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url ];
                     $data = ["email" => $Employee->email, "pass" => $Employee->password, "name" => $Employee->name,"web"=>$base_url, "logo" => $checkuser->logo, "phone" => $checkuser->p_no, "land_line" => $checkuser->land, "f_name"=>$checkuser->f_name, "l_name"=>$checkuser->l_name];
                     $toemail = $request->email;
+                    //dd($toemail); 
                     Mail::send("forgot-mail", $data, function ($message) use ($toemail) {
                         $message->to($toemail)->subject("Forgot  Password ");
                         $message->from(env('MAIL_USERNAME'));

@@ -33,153 +33,132 @@ use App\Models\User; ?>
                     </button>
         
                     <section>
-                        <form method="POST" id="frm_task_create">
-                            <div class="container position-relative">
-                                <div id="message"></div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h4 id="frm_title">{{\App\Helpers\Helper::cachedTrans('Create issue')}}</h4>
-                                        <div class="d-flex flex-row-reverse position-absolute create_task_new">
-                                            <div class="p-2"></div>
-                                            <!-- <div class="p-2"><span class="badge rounded-pill text-bg-light p-2 ps-3 pe-3">Import
-                                                Issues</span> </div>
-                                        <div class="p-2"><span class="material-symbols-outlined float-start">
-                                                visibility
-                                            </span> 1</div> -->
-                                        </div>
-                                        <div class="col-sm-12 mt-3">
-                                            <div>
-                                                <label>{{\App\Helpers\Helper::cachedTrans('Task')}} <span class="text-danger">*</span></label>
-                                                <!-- <select class="form-select  mt-2 mb-4" aria-label="Default select example">
-                                                <option selected>Project Name 1</option>
-                                                <option value="1">Project Name 2</option>
-                                                <option value="2">Project Name 3</option>
-                                                <option value="3">Project Name 4</option>
-                                            </select> -->
-                                                <input type="text" class="form-control" name="task_name" id="task_name" />
-                                            </div>
-                                            <!-- <div>
-                                            <label>Issue Type <span class="text-danger">*</span></label>
-                                            <select class="form-select  mt-2" aria-label="Default select example">
-                                                <option selected>Issue Type 1</option>
-                                                <option value="1">Issue Type 2</option>
-                                                <option value="2">Issue Type 3</option>
-                                                <option value="3">Issue Type 4</option>
-                                            </select>
-                                            <small class="d-block"><a href="#" class="text-primary text-decoration-none"> Learn More
-                                                </a></small>
-                                        </div> -->
-        
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="row mt-3">
-                                                <div class="col-sm-2">
-                                                    {{\App\Helpers\Helper::cachedTrans('Start Date')}} 
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 id="frm_title">{{\App\Helpers\Helper::cachedTrans('Create Task')}}</h4>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" id="frm_task_create" enctype="multipart/form-data">
+                                    <div class="container position-relative">
+                                        <div id="message"></div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="d-flex flex-row-reverse position-absolute create_task_new">
+                                                    <div class="p-2"></div>
+                                                    <!-- <div class="p-2"><span class="badge rounded-pill text-bg-light p-2 ps-3 pe-3">Import
+                                                        Issues</span> </div>
+                                                <div class="p-2"><span class="material-symbols-outlined float-start">
+                                                        visibility
+                                                    </span> 1</div> -->
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <input type="date" class="form-control form-control-sm" name="start_date" id="start_date" min={{date('Y-m-d',strtotime("+1 day"))}} />
+                                                <div class="col-sm-12 mt-3">
+                                                    <div>
+                                                        <label>{{\App\Helpers\Helper::cachedTrans('Task')}} <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" name="task_name" id="task_name" />
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-2">
-                                                   {{\App\Helpers\Helper::cachedTrans('End Date')}} 
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <input type="date" class="form-control form-control-sm" name="expected_end_date" id="expected_end_date" min={{date('Y-m-d',strtotime("+1 day"))}} />
-                                                </div>
-        
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-sm-6">
-                                                    <label>{{\App\Helpers\Helper::cachedTrans('Assign to')}} </label>
-                                                    <select class="form-select  mt-2" aria-label="Default select example" name="assignedTo" id="assignedTo">
-                                                        <option selected disabled>{{\App\Helpers\Helper::cachedTrans('Unassigned')}}</option>
-                                                        @foreach($members as $m)
-                                                        <option value="{{$m->user_id}}">{{$m->fname}} {{$m->mname}} {{$m->lname}}</option>
-                                                        @endforeach
-            
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label style="padding-bottom:8px;">{{\App\Helpers\Helper::cachedTrans('Prioroty')}} </label>
-                                                    <input type="text" class="form-control form-control-sm" name="priority" id="priority"  />
-
-                                                </div>
-                                                <!-- <small class="d-block"><a href="#" class="text-primary text-decoration-none"> Learn More
-                                                </a></small> -->
-                                            </div>
-                                            <hr class="mt-4 mb-4">
-        
-                                            <div class="row">
-                                            <div class="col-md-6">
-                                                <label>{{\App\Helpers\Helper::cachedTrans('Status')}}  <span class="material-symbols-outlined float-start me-1">
-                                                        {{\App\Helpers\Helper::cachedTrans('schedule')}} 
-                                                    </span></label>
-                                                <div id="demo2" class="mt-1">
-                                                    <div class="wrapper2">
-                                                        <div class="content2">
-                                                            <ul>
-                                                                @foreach($labels as $l)
-                                                                <a href="javascript:void(0);" onclick="setLebels('{{$l->title}}','create')">
-                                                                    <li><span class="bg-secondary text-white p-1 ps-2 pe-2"><?php
-            
-            
-            
-                                                                                                                            echo $l->title; ?></span></li>
-                                                                </a>
+                                                <div class="col-sm-12">
+                                                    <div class="row mt-3">
+                                                        <div class="col-sm-2">
+                                                            {{\App\Helpers\Helper::cachedTrans('Start Date')}} 
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <input type="date" class="form-control form-control-sm" name="start_date" id="start_date" min={{date('Y-m-d',strtotime("+1 day"))}} />
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                        {{\App\Helpers\Helper::cachedTrans('End Date')}} 
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <input type="date" class="form-control form-control-sm" name="expected_end_date" id="expected_end_date" min={{date('Y-m-d',strtotime("+1 day"))}} />
+                                                        </div>
+                
+                                                    </div>
+                                                    <div class="row mt-3">
+                                                        <div class="col-sm-6">
+                                                            <label>{{\App\Helpers\Helper::cachedTrans('Assign to')}} </label>
+                                                            <select class="form-select  mt-2" aria-label="Default select example" name="assignedTo" id="assignedTo">
+                                                                <option selected disabled>{{\App\Helpers\Helper::cachedTrans('Unassigned')}}</option>
+                                                                @foreach($members as $m)
+                                                                <option value="{{$m->user_id}}">{{$m->fname}} {{$m->mname}} {{$m->lname}}</option>
                                                                 @endforeach
-                                                                <!-- <a href="#">
-                                                                    <li><span class="bg-secondary text-white p-1 ps-2 pe-2">To Do</span>
-                                                                    </li>
-                                                                </a>
-                                                                <a href="#">
-                                                                    <li><span class="bg-info text-white p-1 ps-2 pe-2">Ready to test</span>
-                                                                    </li>
-                                                                </a>
-                                                                <a href="#">
-                                                                    <li><span class="bg-info text-white p-1 ps-2 pe-2">In Progress</span>
-                                                                    </li>
-                                                                </a>
-                                                                <a href="#">
-                                                                    <li>Resolved</li>
-                                                                </a> -->
-                                                            </ul>
+                    
+                                                            </select>
                                                         </div>
-                                                        <div class="parent bg-success text-white" id="task_create_status_display"><?php echo count($labels) > 0 ? $labels[0]->title : ''; ?></div>
-                                                        <input type="hidden" id="task_create_status" name="status" value="{{count($labels)>0? $labels[0]->title:''}}" />
-                                                        <input type="hidden" id="task_id" name="task_id" />
+                                                        <div class="col-sm-6">
+                                                            <label style="padding-bottom:8px;">{{\App\Helpers\Helper::cachedTrans('Prioroty')}} </label>
+                                                            <input type="text" class="form-control form-control-sm" name="priority" id="priority"  />
+
+                                                        </div>
                                                     </div>
-            
+                                                    <hr class="mt-4 mb-4">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label>{{\App\Helpers\Helper::cachedTrans('Summary')}}  <span class="text-danger">*</span></label>
+                                                            <textarea type="text" placeholder="" class="form-control form-control-sm mt-1" name="task_desc" id="task_desc"></textarea>
+                                                            <input type="hidden" name="project_id" value="{{decrypt(request()->route('id'))}}" />
+                                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                        </div> 
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label>{{\App\Helpers\Helper::cachedTrans('Status')}}  <span class="material-symbols-outlined float-start me-1">
+                                                                {{\App\Helpers\Helper::cachedTrans('schedule')}} 
+                                                            </span></label>
+                                                        <div id="demo2" class="mt-1">
+                                                            <div class="wrapper2">
+                                                                <div class="content2">
+                                                                    <ul>
+                                                                        @foreach($labels as $l)
+                                                                        <a href="javascript:void(0);" onclick="setLebels('{{$l->title}}','create')">
+                                                                            <li><span class="bg-secondary text-white p-1 ps-2 pe-2"><?php echo $l->title; ?></span></li>
+                                                                        </a>
+                                                                        @endforeach
+                                                                    
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="parent bg-success text-white" id="task_create_status_display"><?php echo count($labels) > 0 ? $labels[0]->title : ''; ?></div>
+                                                                <input type="hidden" id="task_create_status" name="status" value="{{count($labels)>0? $labels[0]->title:''}}" />
+                                                                <input type="hidden" id="task_id" name="task_id" />
+                                                            </div>
+                    
+                                                        </div>
+                                                        <p class="mt-1 mb-3">{{\App\Helpers\Helper::cachedTrans("This is the task initial status upon creation")}} </p>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label>{{\App\Helpers\Helper::cachedTrans('File')}}  
+                                                            <span class="material-symbols-outlined float-start me-1">{{\App\Helpers\Helper::cachedTrans('File')}} </span>
+                                                        </label>
+                                                        <input type="file" class="form-control form-control-sm mt-1" name="task_file" id="task_file" />
+                                                        <div id="task_file_preview" class="mt-2"></div>
+                                                    </div>
+                
+                                                    {{-- <div class="col-md-6"> --}}
+                                                        {{-- <label>{{\App\Helpers\Helper::cachedTrans('Summary')}}  <span class="text-danger">*</span></label>
+                                                        <textarea type="text" placeholder="" class="form-control form-control-sm mt-1" name="task_desc" id="task_desc"></textarea>
+                                                        <input type="hidden" name="project_id" value="{{decrypt(request()->route('id'))}}" />
+                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
+                                                        <div class="d-flex">
+                                                            <div class="p-2 flex-grow-1">
+                                                            </div>
+                                                            <div class="mt-4 d-flex">
+                                                                <div class="p-2">
+                                                                    <button type="button" class="btn btn-info danger" data-dismiss="modal">{{\App\Helpers\Helper::cachedTrans('Cancel')}} </button>
+                                                                </div>
+                                                                <div class="p-2"> <button type="submit" id ="btm" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Create')}} </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {{-- </div> --}}
+                                                    </div>
                                                 </div>
-                                                <p class="mt-1 mb-3">{{\App\Helpers\Helper::cachedTrans("This is the issue's initial status upon creation")}} </p>
-                                            </div>
-        
-                                            <div class="col-md-6">
-                                                <label>{{\App\Helpers\Helper::cachedTrans('Summary')}}  <span class="text-danger">*</span></label>
-                                                <textarea type="text" placeholder="" class="form-control form-control-sm mt-1" name="task_desc" id="task_desc"></textarea>
-                                                <input type="hidden" name="project_id" value="{{decrypt(request()->route('id'))}}" />
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <div class="d-flex">
-                                                    <div class="p-2 flex-grow-1">
-                                                        {{-- <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label" for="flexCheckDefault">
-                                                                Create another issue
-                                                            </label>
-                                                        </div>  --}}
-                                                    </div>
-                                                    <div class="mt-4 d-flex">
-                                                        <div class="p-2">
-                                                            <button type="button" class="btn btn-info danger" data-dismiss="modal">{{\App\Helpers\Helper::cachedTrans('Cancel')}} </button>
-                                                        </div>
-                                                        <div class="p-2"> <button type="submit" id ="btm" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Create')}} </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                        </form>
+                                </form>
+                            </div>
+                        </div>
+                        
                     </section>
                 </div>
             </div>
@@ -187,7 +166,7 @@ use App\Models\User; ?>
         <div class="modal fade details_task_modal" id="details_task_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content p-4">
-                    <button type="button" class="close close_popup" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close close_popup" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <section>
@@ -209,6 +188,10 @@ use App\Models\User; ?>
                                             <h6>{{\App\Helpers\Helper::cachedTrans('Description')}}</h6>
                                             <div class="bg-light d-block p-2" id="edit_task_desc">{{\App\Helpers\Helper::cachedTrans('Implementation Home page')}}</div>
                                         </div>
+                                        <div class="mt-2">
+                                            <label><strong>Attachment</strong></label>
+                                            <div id="edit_task_file"></div>
+                                        </div>
                                         <div class="mt-4">
                                             <h6>{{\App\Helpers\Helper::cachedTrans('Activity')}}</h6>
                                             <div>
@@ -216,23 +199,8 @@ use App\Models\User; ?>
                                                     <li class="nav-item" role="presentation">
                                                         <button class="nav-link active bg-secondary" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{\App\Helpers\Helper::cachedTrans('Comments')}}</button>
                                                     </li>
-                                                    <!-- <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-profile" type="button" role="tab"
-                                                    aria-controls="pills-profile" aria-selected="false">Profile</button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-contact" type="button" role="tab"
-                                                    aria-controls="pills-contact" aria-selected="false">Contact</button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#pills-disabled" type="button" role="tab"
-                                                    aria-controls="pills-disabled" aria-selected="false"
-                                                    disabled>Disabled</button>
-                                            </li> -->
                                                 </ul>
+                                              
                                                 <div class="tab-content" id="pills-tabContent">
                                                     <div class="tab-pane fade show active bg-transparent" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                                                         <div class="bg-light p-3 mb-4">
@@ -366,11 +334,25 @@ use App\Models\User; ?>
                                         <table class="table table-borderless m-0">
                                             <tr>
                                                 <td width="50%">{{\App\Helpers\Helper::cachedTrans('Assignee')}}</td>
-                                                <td>
-                                                    <div class="pro_img me-1 float-start">
-                                                        <img style="width: 30px!important; height: 30px;" src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png" alt="Kabbir">
+                                                <td style="max-width: 200px; overflow: hidden;">
+                                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                                        
+                                                        <img 
+                                                            src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
+                                                            style="width: 30px; height: 30px; flex-shrink: 0;"
+                                                        >
+                                            
+                                                        <span 
+                                                            id="edit_task_assignedTo"
+                                                            style="
+                                                                display: inline-block;
+                                                                max-width: 150px;
+                                                                word-break: break-all;
+                                                                white-space: normal;
+                                                            ">
+                                                        </span>
+                                            
                                                     </div>
-                                                    <span class="mt-1" id="edit_task_assignedTo"></span>
                                                 </td>
                                             </tr>
                                             <!-- <tr>
@@ -424,8 +406,9 @@ use App\Models\User; ?>
                 <h1 class="page-title"> {{$project->title}}</h1>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">{{\App\Helpers\Helper::cachedTrans('Task List')}}</a></li>  
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('All project List')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/org-task-management/project-analitic-dashboard/'.encrypt($project_id))}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item"><a href="#">{{\App\Helpers\Helper::cachedTrans('Task List')}}</a></li>   
                 </ul>
             </div>
             <div class="content">
@@ -488,7 +471,12 @@ use App\Models\User; ?>
                                                     <td>{{$k+1}}</td>
                                                     <td><a style="color:#ffa318;" href="javascript:void(0);" onclick="taskDetailsModalOpen('{{$t->id}}')">{{$t->task_name}}</a></td>
                                                     <td>{{$t->fname}} {{$t->mname}} {{$t->lname}}</td>
-                                                    <td>{{$t->task_desc}}</td>
+                                                    <td 
+                                                        style="cursor:pointer; color:#0d6efd;"
+                                                        onclick="showDescription(`{{ htmlspecialchars($t->task_desc, ENT_QUOTES) }}`)"
+                                                    >
+                                                        {{ \Illuminate\Support\Str::limit(strip_tags($t->task_desc), 100) }}
+                                                    </td>
                                                     <td>{{$t->priority}}</td>
                                                     <td>{{ $t->start_date ? \Carbon\Carbon::parse($t->start_date)->format('d-m-Y') : 'N/A' }}</td>
                                                     <td>{{ $t->expected_end_date ? \Carbon\Carbon::parse($t->expected_end_date)->format('d-m-Y') : 'N/A' }}</td>
@@ -504,6 +492,25 @@ use App\Models\User; ?>
                                                 @endforeach
                                             </tbody>
                                         </table>
+
+                                        {{-- show Description model start --}}
+                                        <div class="modal fade" id="descModal" tabindex="-1">
+                                            <div class="modal-dialog modal-md">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Task Description</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <div id="full_desc_text"></div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- End description model  --}}
                                     </div>
         
                                 </div>
@@ -689,6 +696,15 @@ use App\Models\User; ?>
 
 @include('taskmanagement.partials.scripts')
 <script src="{{asset('assets/taskmanagement/taskmanagement.js')}}"></script>
+<script src="https://cdn.ckeditor.com/4.25.1-lts/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('task_desc', {
+        height: 180,
+        removePlugins: 'elementspath',
+        resize_enabled: false
+    });
+</script>
+
 <script>
     $(document).ready(function() {
         $('#frm_task_comment #comment_details').val("")
@@ -709,66 +725,104 @@ use App\Models\User; ?>
                     required: "Task description is required",
                 },
             },
+            // submitHandler: function(form) {
+            //     const task_id = $('#task_id').val();
+            //     if (task_id && task_id !== '') {
+            //         $.ajax({
+            //             url: base_url + "/tasks/update",
+            //             method: "POST",
+            //             // headers: {
+            //             //     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            //             // },
+            //             data: $(form).serialize(),
+            //             success: (data) => {
+            //                 console.log("success", data);
+            //                 $("#frm_task_create #message").html(
+            //                     '<div class="alert alert-success">Task has been updated successfully</div>'
+            //                 );
+            //                 $(form)[0].reset();
+            //                 $('#create_task_modal').modal('hide');
+            //                 // alert("Project has been created successfully");
+            //             },
+            //             error: (error) => {
+            //                 console.log(error);
+            //                 $("#frm_task_create #message").html(
+            //                     '<div class="alert alert-danger">' +
+            //                     JSON.stringify(error) +
+            //                     "</div>"
+            //                 );
+            //                 $(form).reset();
+            //                 alert(JSON.stringify(error));
+            //             },
+            //         });
+            //     } else {
+            //         $.ajax({
+            //             url: base_url + "/tasks/add",
+            //             method: "POST",
+            //             // headers: {
+            //             //     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            //             // },
+            //             data: $(form).serialize(),
+            //             success: (data) => {
+            //                 console.log("success", data);
+            //                 $("#frm_task_create #message").html(
+            //                     '<div class="alert alert-success">Task has been created successfully</div>'
+            //                 );
+            //                 $(form)[0].reset();
+            //                 // alert("Project has been created successfully");
+            //             },
+            //             error: (error) => {
+            //                 console.log(error);
+            //                 $("#frm_task_create #message").html(
+            //                     '<div class="alert alert-danger">' +
+            //                     JSON.stringify(error) +
+            //                     "</div>"
+            //                 );
+            //                 $(form).reset();
+            //                 alert(JSON.stringify(error));
+            //             },
+            //         });
+            //     }
+            // },
+            //-----------------------------
             submitHandler: function(form) {
-                const task_id = $('#task_id').val();
-                if (task_id && task_id !== '') {
-                    $.ajax({
-                        url: base_url + "/tasks/update",
-                        method: "POST",
-                        // headers: {
-                        //     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                        // },
-                        data: $(form).serialize(),
-                        success: (data) => {
-                            console.log("success", data);
-                            $("#frm_task_create #message").html(
-                                '<div class="alert alert-success">Task has been updated successfully</div>'
-                            );
-                            $(form)[0].reset();
-                            $('#create_task_modal').modal('hide');
-                            // alert("Project has been created successfully");
-                        },
-                        error: (error) => {
-                            console.log(error);
-                            $("#frm_task_create #message").html(
-                                '<div class="alert alert-danger">' +
-                                JSON.stringify(error) +
-                                "</div>"
-                            );
-                            $(form).reset();
-                            alert(JSON.stringify(error));
-                        },
-                    });
-                } else {
-                    $.ajax({
-                        url: base_url + "/tasks/add",
-                        method: "POST",
-                        // headers: {
-                        //     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                        // },
-                        data: $(form).serialize(),
-                        success: (data) => {
-                            console.log("success", data);
-                            $("#frm_task_create #message").html(
-                                '<div class="alert alert-success">Task has been created successfully</div>'
-                            );
-                            $(form)[0].reset();
-                            // alert("Project has been created successfully");
-                        },
-                        error: (error) => {
-                            console.log(error);
-                            $("#frm_task_create #message").html(
-                                '<div class="alert alert-danger">' +
-                                JSON.stringify(error) +
-                                "</div>"
-                            );
-                            $(form).reset();
-                            alert(JSON.stringify(error));
-                        },
-                    });
+
+                // ✅ CKEditor sync (important)
+                if (typeof CKEDITOR !== 'undefined') {
+                    for (instance in CKEDITOR.instances) {
+                        CKEDITOR.instances[instance].updateElement();
+                    }
                 }
-            },
+
+                let formData = new FormData(form);
+
+                const task_id = $('#task_id').val();
+                let url = task_id ? base_url + "/tasks/update" : base_url + "/tasks/add";
+
+                $.ajax({
+                    url: url,
+                    method: "POST",
+                    data: formData,
+                    processData: false,   
+                    contentType: false,   
+                    success: (data) => {
+                        $("#frm_task_create #message").html(
+                            '<div class="alert alert-success">Task saved successfully</div>'
+                        );
+                        form.reset();
+                        $('#create_task_modal').modal('hide'); 
+                    },
+                    error: (error) => {
+                        $("#frm_task_create #message").html(
+                            '<div class="alert alert-danger">Something went wrong</div>'
+                        );
+                        console.log(error);
+                    }
+                });
+            }
+            //----------------------------------------
         });
+
         $('#frm_task_comment').validate({
             rules: {
                 comment_details: {
@@ -849,16 +903,85 @@ use App\Models\User; ?>
             })
         }
     }
-    const setTaskDetails = (data) => {
-        console.log(data?.task_name)
-        $('#edit_task_title').html(data?.task_name);
-        $('#edit_task_due_date').html(data?.expected_end_date);
-        $('#edit_task_desc').html(data?.task_desc);
-        $('#edit_task_assignedTo').html(data?.assignedUsername);
-        $('#edit_task_title').html(data?.task_name);
+    // const setTaskDetails = (data) => {
+    //     console.log(data?.task_name)
+    //     $('#edit_task_title').html(data?.task_name);
+    //     $('#edit_task_due_date').html(data?.expected_end_date);
+    //     $('#edit_task_desc').html(data?.task_desc);
+    //     $('#edit_task_assignedTo').html(data?.assignedUsername);
+    //     $('#edit_task_title').html(data?.task_name);
         
-        $('#details_page_status_display').html(data?.status);
+    //     $('#details_page_status_display').html(data?.status);
+    // }
+    const setTaskDetails = (data) => {
+
+    $('#edit_task_title').html(data?.task_name);
+    $('#edit_task_due_date').html(data?.expected_end_date);
+    $('#edit_task_desc').html(data?.task_desc || '<i>No description</i>');
+    $('#edit_task_assignedTo').html(data?.assignedUsername);
+    $('#details_page_status_display').html(data?.status);
+
+    // ✅ File handling
+    if (data?.task_file) {
+
+        let fileUrl = base_url + '/storage/' + data.task_file;
+        let ext = data.task_file.split('.').pop().toLowerCase();
+
+        let html = '';
+
+        // 🖼 Image preview
+        if (['jpg','jpeg','png','gif','webp'].includes(ext)) {
+            html = `
+                <a href="${fileUrl}" target="_blank">
+                    <img src="${fileUrl}" style="max-width:120px; border-radius:6px;">
+                </a>
+            `;
+        }
+
+        // 📄 PDF
+        else if (ext === 'pdf') {
+            html = `
+                <a href="${fileUrl}" target="_blank" class="btn btn-sm btn-danger">
+                    <i class="fa fa-file-pdf"></i> View PDF
+                </a>
+            `;
+        }
+
+        // 📊 Excel
+        else if (['xls','xlsx'].includes(ext)) {
+            html = `
+                <a href="${fileUrl}" target="_blank" class="btn btn-sm btn-success">
+                    <i class="fa fa-file-excel"></i> View Excel
+                </a>
+            `;
+        }
+
+        // 📄 Word
+        else if (['doc','docx'].includes(ext)) {
+            html = `
+                <a href="${fileUrl}" target="_blank" class="btn btn-sm btn-primary">
+                    <i class="fa fa-file-word"></i> View Document
+                </a>
+            `;
+        }
+
+        // 📁 Other file
+        else {
+            html = `
+                <a href="${fileUrl}" target="_blank" class="btn btn-sm btn-secondary">
+                    <i class="fa fa-file"></i> Download File
+                </a>
+            `;
+        }
+
+        $('#edit_task_file').html(html);
+
+    } else {
+        $('#edit_task_file').html('<span class="text-muted">No file attached</span>');
     }
+}
+
+    //------------------------------------------------
     const setCommentList = (data, id) => {
         let str = '';
         data.forEach(d => {
@@ -915,22 +1038,9 @@ use App\Models\User; ?>
         })
         $('#create_task_modal').modal('show');
     }
-    // const setTaskCreateForm = (data, mode = null) => {
-    //     if (mode) {
-    //         $('#task_name').val(data?.task_name);
-    //         $('#start_date').val(data?.start_date);
-    //         $('#expected_end_date').val(data?.expected_end_date);
-    //         $('#task_create_status_display').text(data?.status);
-    //         $('#task_create_status').val(data?.task_name);
-    //         $('#task_desc').val(data?.task_desc);
-    //         $('#frm_title').html("Update issue");
-    //         $('#btm').html("Update");
-    //         $('select#assignedTo option[value="' + data.assignedTo + '"]').attr("selected", true);
-    //     } else {
-
-    //     }
-    // }
+   
     const setTaskCreateForm = (data, mode = null) => {
+        //console.log(data);
         if (mode) {
             // Fill data for edit mode
             $('#task_name').val(data?.task_name);
@@ -938,9 +1048,39 @@ use App\Models\User; ?>
             $('#expected_end_date').val(data?.expected_end_date);
             $('#task_create_status_display').text(data?.status);
             $('#task_create_status').val(data?.status);
-            $('#task_desc').val(data?.task_desc);
+            if (CKEDITOR.instances['task_desc']) {
+                CKEDITOR.instances['task_desc'].setData(data?.task_desc);
+            }
+            if (data?.task_file) {
+            let fileUrl = base_url + '/storage/' + data.task_file;
+            let ext = data.task_file.split('.').pop().toLowerCase();
+
+            let html = '';
+
+            // IMAGE
+            if (['jpg','jpeg','png','webp'].includes(ext)) {
+                html = `<img src="${fileUrl}" style="max-width:100px;">`;
+            }
+
+            // PDF
+            else if (ext === 'pdf') {
+                html = `<a href="${fileUrl}" target="_blank" class="btn btn-sm btn-danger">View PDF</a>`;
+            }
+
+            // OTHER
+            else {
+                html = `<a href="${fileUrl}" target="_blank" class="btn btn-sm btn-secondary">Download</a>`;
+            }
+
+            $('#task_file_preview').html(html);
+
+            } else {
+                $('#task_file_preview').html('<span class="text-muted">No file</span>');
+            }
+
+            //$('#task_desc').val(data?.task_desc);
             $('#priority').val(data?.priority);
-            $('#frm_title').html("Update issue");
+            $('#frm_title').html("Update Task");
             $('#btm').html("Update");
             $('select#assignedTo option[value="' + data.assignedTo + '"]').attr("selected", true);
 
@@ -1000,6 +1140,19 @@ use App\Models\User; ?>
                 console.log(err)
             }
         })
+    }
+
+
+    // show task description in modal
+    function showDescription(desc) {
+
+        // ✅ decode HTML entities
+        let decoded = $('<textarea/>').html(desc).text();
+
+        $('#full_desc_text').html(decoded);
+
+        let modal = new bootstrap.Modal(document.getElementById('descModal'));
+        modal.show();
     }
 </script>
 @endsection

@@ -469,7 +469,7 @@ $user_type = Session::get("user_type");
                <div class="card-body">
                   <div class="dash-widget-info">
                      <span>{{\App\Helpers\Helper::cachedTrans('Billing')}}</span>
-                     <h3>{{\App\Helpers\Helper::cachedTrans('750')}}</h3>
+                     <h3>{{\App\Helpers\Helper::cachedTrans($paid_amount ?? 0)}}</h3>
                   </div>
                   <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
                   <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
@@ -879,7 +879,61 @@ $user_type = Session::get("user_type");
                      </div>
                   </div>
                </div> --}}
+               {{-- task summery Start --}}
+               <div class="col-xl-12 col-md-12 d-flex">
+                  <div class="card flex-fill" style="background-color: #f7ede0" >
+                     <div class="card-header">
+                        <h4 class="text-left">Task Summary</h4>
+                     </div>
+                     <div class="card-body">
+                        <div class="table-responsive">
+                           <table class="table table-striped custom-table" >
+                              <thead>
+                                 <tr>
+                                    <th> {{\App\Helpers\Helper::cachedTrans('Sl No.')}} </th>
+                                    <th style="color: blue;"> {{\App\Helpers\Helper::cachedTrans('Project Name')}} </th>
+                                    <th style="color: red;"> {{\App\Helpers\Helper::cachedTrans('In-completed Tasks')}} </th>
+                                    <th style="color: green;"> {{\App\Helpers\Helper::cachedTrans('Completed Tasks')}} </th>
+                                    <th style="color: blue;">{{\App\Helpers\Helper::cachedTrans('Total Task')}}</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 @forelse($p_summary as $key => $group)
+                                 <tr>
+                                    <td>{{ $key + 1 }}</td>
 
+                                    <td style="color: blue;">
+                                       {{ $group->title ?? 'N/A' }}
+                                    </td>
+
+                                    <td>
+                                       <a style="color: red;" href="{{ url('/org-task-management/'.encrypt($group->project_id).'/task-summary') }}">
+                                             {{ $group->incomplete_tasks }}
+                                       </a>
+                                    </td>
+
+                                    <td>
+                                       <a style="color: green;" href="{{ url('/org-task-management/'.encrypt($group->project_id).'/task-summary') }}">
+                                             {{ $group->completed_tasks }}
+                                       </a>
+                                    </td>
+
+                                    <td style="color: blue;">
+                                       {{ $group->total_tasks }}
+                                    </td>
+                                 </tr>
+                                 @empty
+                                 <tr>
+                                    <td colspan="5">No project messages yet</td>
+                                 </tr>
+                                 @endforelse
+                                 </tbody>
+                           </table>
+                        </div>  
+                     </div>
+                  </div>      
+               </div>   
+               {{-- task summery end --}}
                <div class="col-xl-12 col-md-12 d-flex">
                   <div class="card employee-month-card flex-fill">
                      <div class="card-body">
@@ -891,6 +945,7 @@ $user_type = Session::get("user_type");
                            <div class="list-group">
 
                               @forelse($projectData as $group)
+                              {{-- <h1>{{$group['project_id']}}</h1> --}}
                               <a href="{{url('/org-task-management/'.encrypt($group['project_id']).'/chat')}}"
                                  class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
 

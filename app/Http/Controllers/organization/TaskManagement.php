@@ -110,7 +110,7 @@ class TaskManagement extends Controller
                 }
                 $data['projects'] =  $projects;
             }
-            //dd($data);
+            //dd($projects);
             return view($this->_routePrefix . '.dashboard',$data);
             //return View('taskmanagement/dashboard', $data);
         } else {
@@ -216,6 +216,12 @@ class TaskManagement extends Controller
                 ]);
                 $labels1 = MasterLabels::create([
                     'title' => 'Resolved',
+                    'project_id' => $project->id,
+                    'created_at' => date('Y-m-d h:i:s'),
+                    'createdBy' => $currentUser
+                ]);
+                $labels3 = MasterLabels::create([
+                    'title' => 'Complete',
                     'project_id' => $project->id,
                     'created_at' => date('Y-m-d h:i:s'),
                     'createdBy' => $currentUser

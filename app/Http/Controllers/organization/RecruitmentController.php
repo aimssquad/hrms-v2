@@ -2136,7 +2136,7 @@ class RecruitmentController extends Controller
             //  dd($dataup);
             if (!empty($job->email)) {
                 $toemail = $job->email;
-                $toemail = 'sharmaranjanetc@gmail.com';
+                //$toemail = 'sharmaranjanetc@gmail.com';
                 Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
                     $message->to($toemail)->subject('Interview Confirmation');
                     $message->from('noreply@skilledworkerscloud.co.uk');
@@ -2145,7 +2145,7 @@ class RecruitmentController extends Controller
 
             if (!empty($Roledata->authemail)) {
                 $toemail = $Roledata->authemail;
-                $toemail = 'sharmaranjanetc@gmail.com';
+                //$toemail = 'sharmaranjanetc@gmail.com';
                 Mail::send('interview-email', $dataup, function ($message) use ($toemail) {
                     $message->to($toemail)->subject('Interview Confirmation');
                     $message->from('noreply@skilledworkerscloud.co.uk');

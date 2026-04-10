@@ -64,6 +64,7 @@ class TaskController extends Controller
                     'p.status as project_status',
                     'p.emid as project_code',
                     'pm.role as project_role',
+                    'pm.permission as permission',
                     't.id as task_id',
                     't.task_name',
                     't.task_desc',
@@ -88,6 +89,7 @@ class TaskController extends Controller
                         'project_status' => $project->project_status,
                         'project_code' => $project->project_code,
                         'project_role' => $project->project_role,
+                        'permission' => $project->permission,
                         'tasks' => []
                     ];
                 }
@@ -1881,6 +1883,160 @@ class TaskController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+
+    public function createProjectTask(Request $request)
+    {
+        try {
+
+            // ✅ Auth user (API)
+            $user = auth()->user();
+
+            if (!$user) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+
+            // ✅ Validation
+            $validatedData = $request->validate([
+                'project_id' => 'required|integer',
+                'assignedTo' => 'nullable',
+                'task_name'  => 'required|string|max:255',
+                'task_desc'  => 'required',
+                'priority'   => 'nullable|string',
+                'task_file'  => 'nullable|file|max:2048',
+                'status' => 'nullable|in:Todo,Pending,Resolved,Complete'
+            ]);
+
+            $data = $validatedData;
+            $data['createdBy'] = $user->id;
+
+            // ✅ File Upload
+            if ($request->hasFile('task_file')) {
+
+                $file = $request->file('task_file');
+
+                $filename = time() . '_' . $file->getClientOriginalName();
+
+                $path = $file->storeAs('tasks', $filename, 'public');
+
+                $data['task_file'] = $path;
+            }
+
+            // ✅ Create Task
+            $task = Task::create($data);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Task created successfully',
+                'data' => $task
+            ], 201);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation error',
+                'errors' => $e->errors()
+            ], 422);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function projectWiseMember($projectId)
+    {
+        $user = auth('api')->user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $members = DB::table('project_members as pm')
+            ->join('employee as e', 'e.id', '=', 'pm.user_id')
+            ->where('pm.project_id', $projectId)
+            ->select(
+                'pm.id',
+                'pm.project_id',
+                'pm.user_id',
+                'pm.role',
+                'pm.permission',
+
+                // 👇 Employee fields
+                'e.emp_fname',
+                'e.emp_mname',
+                'e.emp_lname',
+
+                // 👇 Full name (important 🔥)
+                DB::raw("CONCAT(e.emp_fname, ' ', e.emp_mname, ' ', e.emp_lname) as full_name")
+            )
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $members
+        ], 200);
+    }
+
+    public function projectWiseTaskSummary()
+    {
+        $user = auth('api')->user();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+        
+        $employee = DB::table('employee')
+            ->where('emid', $user->emid)
+            ->where('employee_id', $user->employee_id)
+            ->select('id')
+            ->first();
+        
+        $data = DB::table('tasks as t')
+            ->join('projects as p', 'p.id', '=', 't.project_id')
+            ->join('employee as e', 'e.id', '=', 't.assignedTo')
+            ->where(e.employee_id, $employee->id)
+            ->select(
+                'p.id as project_id',
+                'p.title as project_name',
+
+                // 👇 employee name
+                DB::raw("CONCAT(e.emp_fname,' ',e.emp_mname,' ',e.emp_lname) as employee_name"),
+
+                // 👇 counts
+                DB::raw("COUNT(t.id) as total_tasks"),
+                DB::raw("SUM(CASE WHEN t.status = 'Todo' THEN 1 ELSE 0 END) as todo_tasks"),
+                DB::raw("SUM(CASE WHEN t.status = 'Pending' THEN 1 ELSE 0 END) as pending_tasks"),
+                DB::raw("SUM(CASE WHEN t.status = 'Resolved' THEN 1 ELSE 0 END) as resolved_tasks"),
+                DB::raw("SUM(CASE WHEN t.status = 'Complete' THEN 1 ELSE 0 END) as complete_tasks")
+            )
+            ->groupBy(
+                'p.id',
+                'p.title',
+                'e.emp_fname',
+                'e.emp_mname',
+                'e.emp_lname'
+            )
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ], 200);    
     }
 
 

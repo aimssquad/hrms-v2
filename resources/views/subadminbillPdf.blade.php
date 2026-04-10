@@ -41,8 +41,8 @@
         </div>
         <div style="float: right; width: 60%; text-align: right; line-height: 1.3; font-size: 16px;">
             <strong style="font-size: 18px;">SKILLED WORKERS CLOUD LTD.</strong><br>
-            G21, Unit 3, Triangle Centre,<br>
-            399 Uxbridge Road, UB1 3EJ<br>
+            Suite 602, 6th Floor, 252-262 Romford Road, <br>
+            London, E7 9HZ United Kingdom<br>
             Landline: +44 0208 129 1655<br>
             Mobile/WhatsApp: +44 (0)7467284718<br>
             Email: <a href="mailto:info@skilledworkerscloud.co.uk">info@skilledworkerscloud.co.uk</a>
@@ -57,7 +57,7 @@
     <div style="margin-bottom: 15px;">
         <div style="float: left; width: 60%; font-size: 16px;">
             <strong>Invoice To:</strong><br>
-            {{ strtoupper("$f_name $l_name") }}<br>
+            {{ strtoupper("$com_name") }}<br>
             {{ucfirst($address)}}<br>
             {{ ucfirst("$city $road $zip") }}<br>
             United Kingdom<br>
@@ -170,7 +170,7 @@
 </div>
 <!-- Fixed Footer -->
 <div class="footer" style="position: absolute; bottom: 0; width: 100%; max-width: 700px; left: 50%; transform: translateX(-50%); text-align: center; font-size: 16px; padding: 5px 0;">
-   <b>Registered Office: G21, Unit 3, Triangle Centre, 399 Uxbridge Road UB1 3EJ</b><br>
+   <b style="font-size: 14px;">Registered Office: Suite 602, 6th Floor, 252-262 Romford Road, London, E7 9HZ United Kingdom</b><br>
     Landline: +44 0208 129 1655 Mobile: +44 (0)7467284718<br>
     Email: <a href="mailto:info@skilledworkerscloud.co.uk" style="color: #000080; text-decoration: none;">info@skilledworkerscloud.co.uk</a> 
     Web: <a href="https://www.skilledworkerscloud.co.uk" style="color: #000080; text-decoration: none;">www.skilledworkerscloud.co.uk</a>

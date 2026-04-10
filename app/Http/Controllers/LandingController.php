@@ -507,7 +507,7 @@ class LandingController extends Controller
   
     
     public function register($org_code = null)
-    {
+    {   
         $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST'];
         // Extract only the domain name and store it in a variable
         $domainName = preg_replace('/^www\./', '', parse_url($baseUrl, PHP_URL_HOST));
@@ -1566,5 +1566,18 @@ class LandingController extends Controller
             Session::flash("message", "Your email id was wrong!!");
             return redirect("login-pay-forgot-password");
         }
+    }
+
+
+    public function checkEmail(Request $request)
+    {
+        $email = $request->email;
+        $user = DB::table("users")
+            ->where("email", "=", $email)
+            ->first();
+        //dd('okk');
+        return response()->json([
+            'exists' => $user
+        ]);
     }
 }

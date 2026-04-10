@@ -807,7 +807,7 @@ class CustomerInvoiceController extends Controller
             $organization
         ) {
             $message->to($toEmail)
-                ->subject('Invoice ' . 'INV-' . str_pad($invoice->id, 5, '0', STR_PAD_LEFT))
+                ->subject('Invoice ' . $invoice->invoice_no)
                 ->from('infoswc@skilledworkerscloud.co.uk', $organization->com_name ?? 'Billing Invoice');
 
             if (!empty($ccEmails)) {
@@ -816,7 +816,7 @@ class CustomerInvoiceController extends Controller
 
             $message->attachData(
                 $pdf->output(),
-                'Invoice_INV-' . str_pad($invoice->id, 5, '0', STR_PAD_LEFT) . '.pdf',
+                'Invoice-' . $invoice->invoice_no . '.pdf',
                 ['mime' => 'application/pdf']
             );
         });

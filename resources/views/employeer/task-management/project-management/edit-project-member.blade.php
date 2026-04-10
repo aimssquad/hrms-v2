@@ -233,114 +233,97 @@
                         <div class="card-header">
                             {{-- @include('taskmanagement.include.messages') --}}
                             <form method="POST">
-                                <!-- <div id="message"></div> -->
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                @csrf
+
+                                {{-- Hidden for update --}}
                                 <input type="hidden" name="member_id" value="{{ $member->id ?? '' }}">
-                                <div class="clearfix"></div>
+
                                 <div class="lv-due" style="border:none;">
                                     <div class="row form-group lv-due-body">
+
+                                        {{-- Department --}}
                                         <div class="col-md-3">
-                                            <label>{{\App\Helpers\Helper::cachedTrans('Department')}} <span>(*)</span></label>
+                                            <label>{{\App\Helpers\Helper::cachedTrans('Department')}}</label>
                                             <select class="form-control" id="department">
                                                 <option>Select Department</option>
                                                 @foreach($departments as $d)
-                                                <option value="{{$d->department_name}}">{{$d->department_name}}</option>
+                                                    <option value="{{$d->department_name}}">
+                                                        {{$d->department_name}}
+                                                    </option>
                                                 @endforeach
                                             </select>
-
                                         </div>
+
+                                        {{-- Employee --}}
                                         <div class="col-md-3">
                                             <label>{{\App\Helpers\Helper::cachedTrans('Employee')}} <span>(*)</span></label>
-                                            <select class="form-control" name="user_id" id="employee">
-                                                <option>Select Employee</option>
-                                                @foreach($emplyees as $e)
-                                                <option value="{{$e->id}}">{{$e->emp_fname.' '.$e->emp_mname.' '.$e->emp_lname}}</option>
-                                                @endforeach
-                                            </select>
+                                            <select class="form-control" name="user_id" id="employee" required>
 
+                                                <option value="">Select Employee</option>
+
+                                                @foreach($emplyees as $e)
+                                                    <option value="{{$e->id}}"
+                                                        {{ isset($member) && $member->user_id == $e->id ? 'selected' : '' }}>
+                                                        {{$e->emp_fname.' '.$e->emp_mname.' '.$e->emp_lname}}
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
                                         </div>
+
+                                        {{-- Role --}}
                                         <div class="col-md-3">
                                             <label>{{\App\Helpers\Helper::cachedTrans('Roles')}} <span>(*)</span></label>
-                                            <select class="form-control" name="role">
-                                                <option>Select Role</option>
-                                                @foreach($roles as $k=>$r)
-                                                <option value="{{$r->title}}">{{$r->title}}</option>
+                                            <select class="form-control" name="role" required>
+
+                                                <option value="">Select Role</option>
+
+                                                @foreach($roles as $r)
+                                                    <option value="{{$r->title}}"
+                                                        {{ isset($member) && $member->role == $r->title ? 'selected' : '' }}>
+                                                        {{$r->title}}
+                                                    </option>
                                                 @endforeach
-                                            </select>
-                                            <!-- <input class="form-control" name="role" id="project_roles" /> -->
 
+                                            </select>
                                         </div>
 
-                                         <div class="col-md-3">
-                                            <label>{{\App\Helpers\Helper::cachedTrans('Task Asigne Permission')}}</label>
-                                            <select class="form-control" name="permission" >
+                                        {{-- Permission --}}
+                                        <div class="col-md-3">
+                                            <label>{{\App\Helpers\Helper::cachedTrans('Task Assign Permission')}}</label>
+                                            <select class="form-control" name="permission" required>
+
                                                 <option value="">Select Permission</option>
-                                                <option value="view">View Permission</option>
-                                                <option value="both">All Permission</option>
-                                                <option value="">No Permission</option>
+
+                                                <option value="view"
+                                                    {{ isset($member) && $member->permission == 'view' ? 'selected' : '' }}>
+                                                    View Only
+                                                </option>
+
+                                                <option value="assign"
+                                                    {{ isset($member) && $member->permission == 'assign' ? 'selected' : '' }}>
+                                                    Assign Only
+                                                </option>
+
+                                                <option value="both"
+                                                    {{ isset($member) && $member->permission == 'both' ? 'selected' : '' }}>
+                                                    Full Access
+                                                </option>
+
                                             </select>
                                         </div>
-                                        <div class="col-md-3 ">
-                                            <label></label>
-                                            <button type="submit" class="btn btn-primary btn-sm mt-4">{{\App\Helpers\Helper::cachedTrans('Submit')}}</button>
-                                            <!-- <button type="reset" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Reset</button> -->
-                                        </div>
 
+                                        {{-- Submit Button --}}
+                                        <div class="col-md-3">
+                                            <label></label>
+                                            <button type="submit" class="btn btn-primary btn-sm mt-4">
+                                                {{ isset($member) ? 'Update Member' : 'Add Member' }}
+                                            </button>
+                                        </div>
 
                                     </div>
-
-
                                 </div>
                             </form>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="basic-datatables" class="display table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Project Name')}}</th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Members')}}</th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Role')}}</th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Task Assign Permission')}}</th>
-                                            <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                        @foreach($members as $key=>$p)
-                                        <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td>{{$project->title}}</td>
-                                            <td>{{$p->fname }} {{$p->mname}} {{$p->lname}}</td>
-                                            <td>{{ucwords($p->role)}}</td>
-                                            <td>{{ucwords($p->permission)}}</td>
-                                            <!-- <td>{{$p->created_at}}</td> -->
-                                            <td>
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="material-icons">more_vert</i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        {{-- <a class="dropdown-item" href="{{ url('org-task-management/'.request()->route('id').'/project-members/edit/'.encrypt($p->id)) }}">
-                                                            <i class="fa-solid fas fa-pencil m-r-5"></i> Edit
-                                                        </a> --}}
-                                                        <a class="dropdown-item" onclick="return confirm('Are you sure?')" href="{{url('org-task-management/'.request()->route('id').'/project-members/'.encrypt($p->id))}}">
-                                                            <i class="fa-solid fas fa-trash m-r-5"></i> delete
-                                                        </a>
-                                                    </div>
-                                                </div>    
-                                                {{-- <a href="#" class="btn btn-info"><i class="fa fa-pencil"></i></a>
-                                                <a href="{{url('org-task-management/'.request()->route('id').'/project-members/'.encrypt($p->id))}}" class="btn btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a> --}}
-                                            </td>
-                                        </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -351,7 +334,7 @@
             </div>
         </div>
     </div>
-    @include('taskmanagement.partials.footer')
+   
 </div>
 <!-- /.content -->
 <div class="clearfix"></div>

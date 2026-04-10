@@ -27,7 +27,6 @@ class ChatController extends Controller
         }
 
         $id = decrypt($request->id);
-
         $empData = User::where('email', $email)->first();
         $emid = $empData->emid;
         $employee_code = $empData->employee_id;
@@ -201,313 +200,15 @@ class ChatController extends Controller
                 ];
             }
             $projectData = $data['projectData'];
+            // dd($project);
         return view(
             'employeer/task-management/project-management/project-chat',
             compact('data','projectData', 'employee_code', 'groupedData', 'projects')
         );
     }
 
-    
-// public function downloadChat(Request $request)
-// {
-//     $request->validate([
-//         'project_id' => 'required',
-//         'from_date' => 'required|date',
-//         'to_date' => 'required|date|after_or_equal:from_date',
-//     ]);
-
-//     try {
-//         $projectId = decrypt($request->project_id);
-//         $fromDate = $request->from_date . ' 00:00:00';
-//         $toDate = $request->to_date . ' 23:59:59';
-
-//         // Fetch project info
-//         $project = DB::table('projects')
-//             ->where('id', $projectId)
-//             ->first();
-
-//         if (!$project) {
-//             return back()->with('error', 'Project not found');
-//         }
-
-//         // Fetch chat messages within date range
-//         $messages = DB::table('project_post as p')
-//             ->leftJoin('users as u', 'u.employee_id', '=', 'p.employee_code')
-//             ->leftJoin('employee as e', 'e.emp_code', '=', 'p.employee_code')
-//             ->where('p.project_id', $projectId)
-//             ->whereBetween('p.created_at', [$fromDate, $toDate])
-//             ->orderBy('p.created_at', 'asc')
-//             ->select([
-//                 'p.id',
-//                 'p.title as message',
-//                 'p.file',
-//                 'p.created_at',
-//                 'u.name as user_name',
-//                 DB::raw("COALESCE(u.name, CONCAT(e.emp_fname, ' ', e.emp_lname)) as sender_name"),
-//                 DB::raw("CASE 
-//                     WHEN p.parent_id IS NULL THEN 'Post' 
-//                     WHEN p.parent_id = '' THEN 'Post'
-//                     ELSE 'Reply' 
-//                 END as type"),
-//                 DB::raw("DATE(p.created_at) as message_date"),
-//                 DB::raw("TIME(p.created_at) as message_time")
-//             ])
-//             ->get();
-
-//         // Generate CSV
-//         $fileName = 'chat-export-' . str_replace(' ', '-', $project->title) . '-' . $fromDate . '-to-' . $toDate . '.csv';
-        
-//         $headers = [
-//             'Content-Type' => 'text/csv; charset=utf-8',
-//             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-//         ];
-
-//         $callback = function () use ($messages, $project, $fromDate, $toDate) {
-//             // Add UTF-8 BOM for Excel compatibility
-//             echo "\xEF\xBB\xBF";
-            
-//             $file = fopen('php://output', 'w');
-            
-//             // Metadata section
-//             fputcsv($file, ['PROJECT CHAT EXPORT REPORT']);
-//             fputcsv($file, ['']);
-//             fputcsv($file, ['Project Name:', $project->title]);
-//             fputcsv($file, ['Project Description:', $project->description ?? 'N/A']);
-//             fputcsv($file, ['Export Period:', date('F j, Y', strtotime($fromDate)) . ' to ' . date('F j, Y', strtotime($toDate))]);
-//             fputcsv($file, ['Export Generated:', now()->format('F j, Y \a\t h:i A')]);
-//             fputcsv($file, ['Total Messages:', $messages->count()]);
-//             fputcsv($file, ['']);
-//             fputcsv($file, ['']); // Empty rows for spacing
-            
-//             // Column headers
-//             fputcsv($file, [
-//                 'S.No',
-//                 //'Message ID',
-//                 'Type',
-//                 'Sender',
-//                 'Message Content',
-//                 'Has Attachment',
-//                 'Attachment File',
-//                 //'Date',
-//                 //'Time',
-//                 'Date & Time'
-//             ]);
-            
-//             // Data rows
-//             $counter = 1;
-//             foreach ($messages as $message) {
-//                 $dateTime = \Carbon\Carbon::parse($message->created_at);
-                
-//                 fputcsv($file, [
-//                     $counter++, // Serial number
-//                     //$message->id,
-//                     $message->type,
-//                     $message->sender_name ?? 'Unknown',
-//                     $message->message,
-//                     $message->file ? 'Yes' : 'No',
-//                     $message->file ?? 'N/A',
-//                     // $dateTime->format('m/d/Y'), // Excel friendly date (MM/DD/YYYY)
-//                     // $dateTime->format('h:i:s A'), // Excel friendly time (12-hour format)
-//                     $dateTime->format('m/d/Y h:i:s A') // Full datetime
-//                 ]);
-//             }
-            
-//             // Add summary section
-//             fputcsv($file, ['']);
-//             fputcsv($file, ['']);
-//             fputcsv($file, ['SUMMARY']);
-//             fputcsv($file, ['Total Posts:', $messages->where('type', 'Post')->count()]);
-//             fputcsv($file, ['Total Replies:', $messages->where('type', 'Reply')->count()]);
-//             fputcsv($file, ['Messages with Files:', $messages->where('file', '!=', null)->count()]);
-            
-//             fclose($file);
-//         };
-
-//         return response()->stream($callback, 200, $headers);
-
-//     } catch (\Exception $e) {
-//         return back()->with('error', 'Failed to download: ' . $e->getMessage());
-//     }
-// }
-
-    // public function downloadChat(Request $request)
-    // {
-    //     $request->validate([
-    //         'project_id' => 'required',
-    //         'from_date' => 'required|date',
-    //         'to_date' => 'required|date|after_or_equal:from_date',
-    //     ]);
-
-    //     try {
-    //         $projectId = decrypt($request->project_id);
-    //         $fromDate = $request->from_date . ' 00:00:00';
-    //         $toDate = $request->to_date . ' 23:59:59';
-
-    //         // Fetch project info
-    //         $project = DB::table('projects')
-    //             ->where('id', $projectId)
-    //             ->first();
-
-    //         if (!$project) {
-    //             return back()->with('error', 'Project not found');
-    //         }
-
-    //         // Fetch parent posts with their replies
-    //         $parentPosts = DB::table('project_post as p')
-    //             ->leftJoin('users as u', function($join) {
-    //                 $join->on('u.employee_id', '=', 'p.employee_code')
-    //                     ->where(function($q) {
-    //                         $q->on('u.emid', '=', 'p.emid')
-    //                         ->orWhereNull('p.emid');
-    //                     });
-    //             })
-    //             ->leftJoin('employee as e', 'e.emp_code', '=', 'p.employee_code')
-    //             ->where('p.project_id', $projectId)
-    //             ->whereNull('p.parent_id')
-    //             ->whereBetween('p.created_at', [$fromDate, $toDate])
-    //             ->orderBy('p.created_at', 'asc')
-    //             ->select([
-    //                 'p.id',
-    //                 'p.title',
-    //                 'p.file',
-    //                 'p.created_at',
-    //                 'p.employee_code',
-    //                 DB::raw("COALESCE(u.name, CONCAT(e.emp_fname, ' ', e.emp_lname)) as sender_name")
-    //             ])
-    //             ->get();
-
-    //         // Generate CSV
-    //         $fileName = 'chat-side-by-side-' . str_replace(' ', '-', $project->title) . '-' . $fromDate . '-to-' . $toDate . '.csv';
-            
-    //         $headers = [
-    //             'Content-Type' => 'text/csv; charset=utf-8',
-    //             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-    //         ];
-
-    //         $callback = function () use ($parentPosts, $project, $fromDate, $toDate, $projectId) {
-    //             echo "\xEF\xBB\xBF";
-                
-    //             $file = fopen('php://output', 'w');
-                
-    //             // Metadata
-    //             fputcsv($file, ['PROJECT CHAT EXPORT - POSTS & REPLIES']);
-    //             fputcsv($file, ['Project:', $project->title]);
-    //             fputcsv($file, ['Period:', date('F j, Y', strtotime($fromDate)) . ' to ' . date('F j, Y', strtotime($toDate))]);
-    //             fputcsv($file, ['Exported:', now()->format('F j, Y \a\t h:i A')]);
-    //             fputcsv($file, ['']);
-                
-    //             // Column headers for side-by-side view
-    //             fputcsv($file, [
-    //                 'POSTS (Left Side)',
-    //                 '',
-    //                 '',
-    //                 '',
-    //                 'REPLIES (Right Side)',
-    //                 '',
-    //                 '',
-    //                 ''
-    //             ]);
-                
-    //             fputcsv($file, [
-    //                 'Post ID',
-    //                 'Posted By',
-    //                 'Message',
-    //                 'Post Time',
-    //                 'Reply ID',
-    //                 'Replied By',
-    //                 'Reply Message',
-    //                 'Reply Time'
-    //             ]);
-                
-    //             foreach ($parentPosts as $parent) {
-    //                 $parentTime = \Carbon\Carbon::parse($parent->created_at);
-                    
-    //                 // Get replies for this parent
-    //                 $replies = DB::table('project_post as p')
-    //                     ->leftJoin('users as u', function($join) {
-    //                         $join->on('u.employee_id', '=', 'p.employee_code')
-    //                             ->where(function($q) {
-    //                                 $q->on('u.emid', '=', 'p.emid')
-    //                                 ->orWhereNull('p.emid');
-    //                             });
-    //                     })
-    //                     ->leftJoin('employee as e', 'e.emp_code', '=', 'p.employee_code')
-    //                     ->where('p.parent_id', $parent->id)
-    //                     ->whereBetween('p.created_at', [$fromDate, $toDate])
-    //                     ->orderBy('p.created_at', 'asc')
-    //                     ->select([
-    //                         'p.id',
-    //                         'p.title',
-    //                         'p.file',
-    //                         'p.created_at',
-    //                         DB::raw("COALESCE(u.name, CONCAT(e.emp_fname, ' ', e.emp_lname)) as sender_name")
-    //                     ])
-    //                     ->get();
-                    
-    //                 if ($replies->isEmpty()) {
-    //                     // No replies - just show the post
-    //                     fputcsv($file, [
-    //                         $parent->id,
-    //                         $parent->sender_name,
-    //                         $parent->title,
-    //                         $parentTime->format('m/d/Y h:i A'),
-    //                         'No replies',
-    //                         '',
-    //                         '',
-    //                         ''
-    //                     ]);
-    //                 } else {
-    //                     // Show post and its replies
-    //                     $firstReply = true;
-    //                     foreach ($replies as $reply) {
-    //                         $replyTime = \Carbon\Carbon::parse($reply->created_at);
-                            
-    //                         if ($firstReply) {
-    //                             // Show post with first reply
-    //                             fputcsv($file, [
-    //                                 $parent->id,
-    //                                 $parent->sender_name,
-    //                                 $parent->title,
-    //                                 $parentTime->format('m/d/Y h:i A'),
-    //                                 $reply->id,
-    //                                 $reply->sender_name,
-    //                                 $reply->title,
-    //                                 $replyTime->format('m/d/Y h:i A')
-    //                             ]);
-    //                             $firstReply = false;
-    //                         } else {
-    //                             // Show only reply for subsequent rows
-    //                             fputcsv($file, [
-    //                                 '',
-    //                                 '',
-    //                                 '',
-    //                                 '',
-    //                                 $reply->id,
-    //                                 $reply->sender_name,
-    //                                 $reply->title,
-    //                                 $replyTime->format('m/d/Y h:i A')
-    //                             ]);
-    //                         }
-    //                     }
-    //                 }
-                    
-    //                 // Add empty row between different posts
-    //                 fputcsv($file, ['', '', '', '', '', '', '', '']);
-    //             }
-                
-    //             fclose($file);
-    //         };
-
-    //         return response()->stream($callback, 200, $headers);
-
-    //     } catch (\Exception $e) {
-    //         return back()->with('error', 'Failed to download: ' . $e->getMessage());
-    //     }
-    // }
-
-
     public function downloadChatZip(Request $request)
-    {
+    {   //dd('okk');
         $request->validate([
             'project_id' => 'required',
             'from_date' => 'required|date',
@@ -1053,6 +754,180 @@ class ChatController extends Controller
         }
         
         return rmdir($dir);
+    }
+
+
+    public function projectAnalitics($id)
+    {
+        $id = decrypt($id);
+        //dd(encrypt($id));
+        $emid = Session::get("emid");
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+
+        // ✅ Total Members
+        $totalMembers = DB::table('project_members')
+            ->where('project_id', $id)
+            ->distinct('user_id')
+            ->count('user_id');
+
+        $projects = DB::table('projects')
+            ->where('id', $id)
+            ->where('emid', $emid)
+            ->first();    
+
+        $activeProject = DB::table('projects')
+            ->where('id', $id)
+            ->where('emid', $emid)
+            ->where('status', 'open')
+            ->count('id');
+            
+        $closedProject = DB::table('projects')
+            ->where('id', $id)
+            ->where('emid', $emid)
+            ->where('status', 'closed')
+            ->count('id');
+
+        //dd($activeProject, $closedProject);
+        //  Total Tasks
+        $totalTasks = DB::table('tasks')
+            ->where('project_id', $id)
+            ->count();
+        //dd('total Tasks ='.$totalTasks);
+        //  Member Roles Count
+        $memberRoles = DB::table('project_members')
+            ->where('project_id', $id)
+            ->select('role', DB::raw('COUNT(*) as total'))
+            ->groupBy('role')
+            ->get();
+        //dd('total Role ='.$memberRoles);
+        //  Member Labels Count (assuming column = label)
+        $memberLabels = DB::table('tm_master_labels')
+            ->where('project_id', $id)
+            ->select('title', DB::raw('COUNT(*) as total'))
+            ->groupBy('title')
+            ->get();
+        
+        // ✅ Project Status Chart
+        $projectStatus = [
+            'completed' => $closedProject,
+            'running' => $activeProject,
+            'pending' => 0 // if you have pending status, update here
+        ];
+
+        // ✅ Task Analytics
+        $completedTasks = DB::table('tasks')
+            ->where('project_id', $id)
+            ->where('status', 'completed')
+            ->count();
+
+        $pendingTasks = DB::table('tasks')
+            ->where('project_id', $id)
+            ->where('status', 'pending')
+            ->count();
+
+        // ✅ Member Growth (Monthly)
+        $memberGrowth = DB::table('project_members')
+            ->select(
+                DB::raw("MONTH(created_at) as month"),
+                DB::raw("COUNT(*) as total")
+            )
+            ->where('project_id', $id)
+            ->groupBy(DB::raw("MONTH(created_at)"))
+            ->orderBy('month')
+            ->get();
+         //dd('total Label ='.$memberGrowth);
+
+         $employeeTasks = DB::table('tasks as t')
+            ->join('employee as e', 'e.id', '=', 't.assignedTo')
+            ->select(
+                DB::raw("CONCAT(e.emp_fname, ' ', e.emp_lname) as name"),
+                't.status',
+                DB::raw("COUNT(*) as total")
+            )
+            ->where('t.project_id', $id)
+            ->groupBy('t.assignedTo', 't.status', 'e.emp_fname', 'e.emp_lname')
+            ->get();
+
+        $labels = DB::table('tm_master_labels')
+            ->where('project_id', $id)
+            ->pluck('title')
+            ->unique()
+            ->values();    
+        //dd($employeeTasks);
+        return view('employeer/task-management/project-controll/project-analitics-dashboard', compact(
+        //return view('employeer/task-management/project-management/project-analitics-dashboard', compact(
+            'totalMembers',
+            'totalTasks',
+            'memberRoles',
+            'memberLabels',
+            'activeProject',
+            'closedProject',
+            'id',
+            'projectStatus',
+            'completedTasks',
+            'pendingTasks',
+            'memberGrowth',
+            'projects',
+            'employeeTasks',
+            'labels'
+        ));
+    }
+
+    public function taskSummary($id)
+    {
+        $id = decrypt($id);
+        $emid = Session::get("emid");
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        $project_name = DB::table('projects')
+            ->where('id', $id)
+            ->where('emid', $emid)
+            ->first()
+            ->title;
+        $tasks = DB::table('tasks')
+            ->where('project_id', $id)
+            ->orderByRaw("
+                CASE 
+                    WHEN status = 'Todo' THEN 1
+                    WHEN status = 'Pending' THEN 2
+                    WHEN status = 'Resolved' THEN 3
+                    ELSE 4
+                END
+            ")
+            ->orderBy('created_at', 'desc')
+            ->get();
+        //dd($tasks);
+        return view('employeer/task-management/project-management/task-summary', compact('tasks', 'id', 'project_name'));
+    }
+
+    public function chnageTaskStatus($id)
+    {
+        $email = Session::get("emp_email");
+
+        if (empty($email)) {
+            return redirect("/");
+        }
+
+        $task = DB::table('tasks')->where('id', $id)->first();
+
+        if (!$task) {
+            return back()->with('error', 'Task not found');
+        }
+
+        // ✅ Update status
+        DB::table('tasks')
+            ->where('id', $id)
+            ->update([
+                'status' => 'Complete',
+                'updated_at' => now()
+            ]);
+
+        return back()->with('message', 'Task status updated successfully');
     }
 
     

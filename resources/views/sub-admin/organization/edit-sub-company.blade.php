@@ -642,16 +642,54 @@
                                      </select>
                                   </div>
                                </div>
+                               
                                <div class="col-md-3">
                                   <div class="form-group">
-                                     <label for="verify" class="col-form-label">Verification</label>
-                                     <select id="verify"  class="select"   name="verify" <?php if (!empty($Roledata->status)) {if ($Roledata->status == "inactive") {?> readonly <?php }}?>
-                                        >
-                                        <option value="approved" <?php if (!empty($Roledata->verify)) {if ($Roledata->verify == "approved") {?> selected="selected" <?php }}?>  >VERIFIED</option>
-                                        <option value="not approved" <?php if (!empty($Roledata->verify)) {if ($Roledata->verify == "not approved") {?> selected="selected" <?php }}?>>NOT VERIFIED</option>
-                                     </select>
+                                     {{-- <label for="verify" class="col-form-label">Verification</label>
+                                     
+                                       <select id="verify"  class="select"   name="verify" <?php if (!empty($Roledata->status)) {if ($Roledata->status == "inactive") {?> readonly <?php }}?>
+                                          >
+                                          <option value="approved" <?php if (!empty($Roledata->verify)) {if ($Roledata->verify == "approved") {?> selected="selected" <?php }}?>  >VERIFIED</option>
+                                          <option value="not approved" <?php if (!empty($Roledata->verify)) {if ($Roledata->verify == "not approved") {?> selected="selected" <?php }}?>>NOT VERIFIED</option>
+                                       </select> --}}
+                                  
+
+                                       <?php 
+                                          if(!empty($Roledata->verify) && $Roledata->verify == "approved") { 
+                                          ?>
+                                          <label for="verify" class="col-form-label">Verification</label>
+                                             <select id="verify" class="select" name="verify">
+                                                <option value="approved" selected>VERIFIED</option>
+                                                <option value="not approved">NOT VERIFIED</option>
+                                             </select>
+
+                                          <?php 
+                                          } elseif($verified_org_count < $organization_limit->organization_limit) { 
+                                          ?>
+                                             <label for="verify" class="col-form-label">Verification</label>
+                                             <select id="verify" class="select" name="verify">
+                                                <option value="approved" <?php if (!empty($Roledata->verify) && $Roledata->verify == "approved") { ?> selected <?php } ?>>VERIFIED</option>
+                                                <option value="not approved" <?php if (!empty($Roledata->verify) && $Roledata->verify == "not approved") { ?> selected <?php } ?>>NOT VERIFIED</option>
+                                             </select>
+
+                                          <?php 
+                                          } else { 
+                                          ?>
+                                             <label for="verify" class="col-form-label">Verification</label>
+                                             <input type="text" class="form-control " readonly value="NOT VERIFIED" >
+
+                                              <script>
+                                                document.addEventListener("DOMContentLoaded", function(){
+                                                      document.getElementById("inactive_verify_error").style.display = "block";
+                                                });
+                                             </script>
+                                            
+                                          <?php 
+                                          }
+                                          ?>
                                   </div>
                                </div>
+                               
                                <div class="col-md-3">
                                   <div class="form-group ">
                                      <label for="licence" class="col-form-label">License Applied</label>
@@ -696,6 +734,10 @@
                                </div>
                             </div>
                             <br>
+                             <p class="text-danger" id="inactive_verify_error" style="display:none;">
+                                 ** Your organization limit has been reached. Please upgrade your subscription to create more organizations. please contact support team for more details.
+                              </p>
+                            
                             <div class="row form-group">
                                <div class="col-md-12">
                                   <button type="submit" class="btn btn-primary">Submit</button>
@@ -1316,4 +1358,7 @@
    
    
 </script>
+
+
+
 @endsection

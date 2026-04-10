@@ -116,10 +116,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 											<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 											<div class="dropdown-menu dropdown-menu-right">
 												@if($user_type == 'employee')
-													@foreach($sidebarItems['Employee Administration'] as $rotaItem)
-														@if($rotaItem['submenu_name'] == 'Inactive Employees' && $rotaItem['can_edit'] == 1)
-														<a class="dropdown-item" href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
-														@endif
+													@foreach($sidebarItems as $module => $submenus)
+														@foreach($submenus as $rotaItem)
+															@if($rotaItem['submenu_name'] == 'Inactive Employees' && $rotaItem['can_edit'] == 1)
+																<a class="dropdown-item" href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt($employee->emp_code, 'encrypt') }}">
+																	<i class="fa-solid fa-pencil m-r-5"></i> Edit
+																</a>
+															@endif
+														@endforeach
 													@endforeach
 												@elseif($user_type == 'employer')
 												<a class="dropdown-item" href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
@@ -134,21 +138,21 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 											
 												
 												@if($user_type == 'employee')
-													@foreach($sidebarItems['Employee Administration'] as $rotaItem)
+													{{-- @foreach($sidebarItems['Employee Administration'] as $rotaItem)
 														@if($rotaItem['submenu_name'] == 'Inactive Employees' && $rotaItem['can_edit'] == 1)
 														<a class="dropdown-item" href="{{ url('employee-add/employee-report-excel/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}" ><i class="fas fa-file-excel m-r-5"></i> Downlode Excel</a>
 														@endif
-													@endforeach
+													@endforeach --}}
 												@elseif($user_type == 'employer')
 												<a class="dropdown-item" href="{{ url('employee-add/employee-report-excel/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}" ><i class="fas fa-file-excel m-r-5"></i> Downlode Excel</a>
 												@endif
 
 												@if($user_type == 'employee')
-													@foreach($sidebarItems['Employee Administration'] as $rotaItem)
+													{{-- @foreach($sidebarItems['Employee Administration'] as $rotaItem)
 														@if($rotaItem['submenu_name'] == 'Inactive Employees' && $rotaItem['can_edit'] == 1)
 														<a class="dropdown-item" href="{{ url('employee-add/employee-report/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}" ><i class="fas fa-file-pdf m-r-5"></i> Downlode PDF</a>
 														@endif
-													@endforeach
+													@endforeach --}}
 												@elseif($user_type == 'employer')
 												<a class="dropdown-item" href="{{ url('employee-add/employee-report/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code)) }}" ><i class="fas fa-file-pdf m-r-5"></i> Downlode PDF</a>
 												@endif

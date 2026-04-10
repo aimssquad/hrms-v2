@@ -1,6 +1,6 @@
 @extends('employeer.include.app')
 
-@section('title', \App\Helpers\Helper::cachedTrans('Task Control Dashboard'))
+@section('title', \App\Helpers\Helper::cachedTrans('Project Control Dashboard'))
 
 @section('content')
 
@@ -12,7 +12,7 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Welcome Task Control Dashboard')}}</h3>
+                    <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Project Control Dashboard')}}</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
                         <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</li>
@@ -72,15 +72,24 @@
                         ?> -->
                 <div class="col-sm-4">
                     <div class="mt-2">
-                        <h6 class="bg-primary m-0 p-2 text-white"><a class="for_hover_white" href={{url('/org-task-management/'.encrypt($p->id).'/tasks')}}>{{ucfirst($p->title)}} <i class="fa-solid fa-arrow-right"></i></a></h6>
+                        <h6 class="bg-primary m-0 p-2 text-white"><a class="for_hover_white" href={{url('/org-task-management/project-analitic-dashboard/'.encrypt($p->id))}}>{{ucfirst($p->title)}} <i class="fa-solid fa-arrow-right"></i></a></h6>
+                        {{-- <h6 class="bg-primary m-0 p-2 text-white"><a class="for_hover_white" href={{url('/org-task-management/'.encrypt($p->id).'/tasks')}}>{{ucfirst($p->title)}} <i class="fa-solid fa-arrow-right"></i></a></h6> --}}
                         <table class="table table-hover border m-0 p-0">
                             <tr>
                                 <th>{{\App\Helpers\Helper::cachedTrans('Owner:')}}</th>
                                 <td>{{ucfirst($p->owner)}}</td>
                             </tr>
                             <tr>
-                                <th>{{\App\Helpers\Helper::cachedTrans('Satrt Date:')}}</th>
-                                <td><span class="badge text-bg-primary">{{date("d-m-Y",strtotime($p->created_at))}}</span></td>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Start Date:')}}</th>
+                                <td><span class="badge text-bg-primary">{{date("d-m-Y",strtotime($p->project_start_date))}}</span></td>
+                            </tr>
+                             <tr>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Anticipated End Date:')}}</th>
+                                <td><span class="badge text-bg-primary">{{date("d-m-Y",strtotime($p->project_end_date))}}</span></td>
+                            </tr>
+                             <tr>
+                                <th>{{\App\Helpers\Helper::cachedTrans('Message Center:')}}</th>
+                                <td><a href="{{url('/org-task-management/'.encrypt($p->id).'/chat')}}" type="button" class="btn btn-primary"><i class="fa fa-arrow-circle-right"></i></a></td>
                             </tr>
                         </table>
     

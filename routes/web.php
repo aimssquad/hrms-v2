@@ -190,6 +190,7 @@ Route::get('organization/emplist', 'App\Http\Controllers\organization\LandingCon
 Route::get('organization/inactiveEmployee','App\Http\Controllers\organization\LandingController@inactiveEmployee')->name('organization.inactive-employee');
 Route::get('organization/view-add-employee', 'App\Http\Controllers\organization\EmployeeController@viewAddEmployee')->name('organization/view-add-employee');
 Route::post('organization/view-add-employee', 'App\Http\Controllers\organization\EmployeeController@saveEmployee');
+Route::post('organization/check-emp-email', 'App\Http\Controllers\organization\EmployeeController@checkEmail')->name('check-emp.email');
 
 Route::get('organization/employee_active', 'App\Http\Controllers\organization\LandingController@employeeActive')->name('organization/employee_active');
 Route::get('organization/employeeInactive', 'App\Http\Controllers\organization\LandingController@employeeInactive')->name('organization/employee_inactive');
@@ -587,6 +588,7 @@ Route::get('org-task-management/{id}/project-members', 'App\Http\Controllers\org
 Route::post('org-task-management/{id}/project-members', 'App\Http\Controllers\organization\MembersController@submitMember');
 Route::get('org-task-management/{id}/project-members/{member_id}', 'App\Http\Controllers\organization\MembersController@removeMember');
 Route::get('org-task-management/{id}/project-members-add', 'App\Http\Controllers\organization\MembersController@addMember');
+Route::get('/org-task-management/{project_id}/project-members/edit/{id}', 'App\Http\Controllers\organization\MembersController@editMember');
 
 Route::get('org-task-management/{id}/labels', 'App\Http\Controllers\organization\LabelController@index');
 Route::post('org-task-management/{id}/labels', 'App\Http\Controllers\organization\LabelController@submit');
@@ -597,7 +599,9 @@ Route::post('org-task-management/{id}/roles', 'App\Http\Controllers\organization
 Route::get('org-task-management/{id}/role-del/{role_id}', 'App\Http\Controllers\organization\RolesController@delete');
 // chat route for organization
 Route::get('org-task-management/{id}/chat', 'App\Http\Controllers\organization\ChatController@chat');
-
+Route::get('org-task-management/project-analitic-dashboard/{id}', 'App\Http\Controllers\organization\ChatController@projectAnalitics');
+Route::get('org-task-management/{id}/task-summary', 'App\Http\Controllers\organization\ChatController@taskSummary');
+Route::get('org-task-management/{id}/task-status', 'App\Http\Controllers\organization\ChatController@chnageTaskStatus');
 // Route::get('/project-chat/{project_id}/export/pdf', [ChatController::class, 'exportPDF'])
 //     ->name('chat.export.pdf');
     
@@ -733,6 +737,7 @@ Route::get('login-pay-forgot-password', 'App\Http\Controllers\LandingController@
 Route::post('login-pay-forgot-password', 'App\Http\Controllers\LandingController@Dopayforgot');
 
 Route::get('register/{org_code?}', 'App\Http\Controllers\LandingController@register');
+Route::post('/check-email', 'App\Http\Controllers\LandingController@checkEmail')->name('check.email');
 Route::get('/get-country-code','App\Http\Controllers\LandingController@getCountryCode')->name('get-country-code');
 
 
@@ -5537,7 +5542,7 @@ Route::get('recruitment/interview-forms', 'App\Http\Controllers\RecruitmentContr
 Route::get('recruitment/add-interview-form', 'App\Http\Controllers\RecruitmentController@addInterviewForm');
 Route::post('recruitment/add-interview-form', 'App\Http\Controllers\RecruitmentController@saveInterviewForm');
 
-Route::get('recruitment/copy-interview-form/{form_id}', 'App\Http\Controllers\App\Http\Controllers\RecruitmentController@copyInterviewForm');
+Route::get('recruitment/copy-interview-form/{form_id}', 'App\Http\Controllers\RecruitmentController@copyInterviewForm');
 
 Route::get('recruitment/add-form-question/{form_id}', 'App\Http\Controllers\RecruitmentController@addFormQuestion');
 Route::post('recruitment/add-form-question/{form_id}', 'App\Http\Controllers\RecruitmentController@saveFormQuestion');
@@ -5975,6 +5980,8 @@ route::post('sm-get-payment', 'App\Http\Controllers\TestController@getPaymentInf
 Route::get('subadmin/active', 'App\Http\Controllers\AdminController@activeSubadmin');
 Route::get('subadmin/notverify', 'App\Http\Controllers\AdminController@nonVerfySubadmin');
 Route::get('subadmin/verify', 'App\Http\Controllers\AdminController@VerfySubadmin');
+Route::post('subadmin/save-organization-limit', 'App\Http\Controllers\AdminController@saveOrgLimit');
+Route::get('subadmin/get-organization-limit','App\Http\Controllers\AdminController@getOrgLimit');
 Route::get('subadmin/edit-subchild-company/{comp_id}', 'App\Http\Controllers\AdminController@viewSubChildCompany');
 Route::post('subadmin/editsub-child-company', 'App\Http\Controllers\AdminController@saveSubChildCompany');
 Route::get('subadmin/view-sub-organization/{comp_id}', 'App\Http\Controllers\AdminController@viewSubOrganization');
@@ -6087,7 +6094,6 @@ Route::post('/superadmin/save-atten-permission', [OrgAttenPermissionController::
 
 // language change route for Organization
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
-
 Route::get('language_change', [LangController::class, 'language_change'])->name('language_change');
 
 // post, comment,like route
@@ -6122,6 +6128,10 @@ Route::get('helpdesk', [HelpdeskController::class, 'index']);
 Route::get('add-helpdesk', [HelpdeskController::class, 'addHelpdesk']);
 Route::post('store-helpdesk', [HelpdeskController::class, 'storeHelpdesk']);
 
+Route::get('subadmin-helpdesk', [HelpdeskController::class, 'subadminIndex']);
+Route::get('subadmin-add-helpdesk', [HelpdeskController::class, 'subadminAddHelpdesk']);
+Route::post('subadmin-store-helpdesk', [HelpdeskController::class, 'subadminStoreHelpdesk']);
+
 
 // organization billing route for there client or gest route 
 Route::get('organization/currency', [CurrencyController::class, 'index'])->name('org.currency.list');
@@ -6152,3 +6162,11 @@ Route::get('organization/customer/show-invoice/{id}', [CustomerInvoiceController
 Route::get('organization/invoice/pdf/{id}',[CustomerInvoiceController::class, 'downloadInvoicePdf'])->name('org.invoice.pdf');
 
 Route::post('organization/customer/send-email/{id}', [CustomerInvoiceController::class, 'sendInvoieToMail'])->name('org.customer.invoice.send.email');
+
+
+// Task controll code here 
+//Route::get('org-task-management/{id}/chat', 'App\Http\Controllers\organization\ChatController@chat');
+//Route::get('org-task-management/project-analitic-dashboard/{id}', 'App\Http\Controllers\organization\ChatController@projectAnalitics');
+Route::get('org-project-control/{id}/project-members','App\Http\Controllers\organization\MembersController@getProjectMembers');
+Route::post('get-members-by-type', 'App\Http\Controllers\organization\MembersController@getMembers')->name('get.members.by.type');
+Route::post('org-project-control/{id}/project-members/store', 'App\Http\Controllers\organization\MembersController@saveMember');

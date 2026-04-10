@@ -15,12 +15,19 @@
                 {{-- <li class="menu-title"> 
                     <span>Main</span>
                 </li> --}}
-                <li class="submenu">
-                    <a href="#"><i class="la la-home"></i> <span> Partner Details</span> <span class="menu-arrow"></span></a>
-                    <ul>
+                <li class="menu">
+                    <a href="{{url('subadmin/profile')}}"><i class="la la-user"></i> <span> Partner Profile</span></a>
+                    {{-- <ul>
                         <li><a href="{{url('superadmindasboard')}}">Dashboard</a></li>
                         <li><a href="{{url('subadmin/profile')}}">Profile</a></li>
-                    </ul>
+                    </ul> --}}
+                </li>
+                <li class="menu">
+                    <a href="{{url('superadmindasboard')}}"><i class="la la-home"></i> <span> Dashboard</span></a>
+                    {{-- <ul>
+                        <li><a href="{{url('superadmindasboard')}}">Dashboard</a></li>
+                        <li><a href="{{url('subadmin/profile')}}">Profile</a></li>
+                    </ul> --}}
                 </li>
                 <li class="submenu">
                     <a href="#"><i class="la la-building"></i> <span> Organisation</span> <span class="menu-arrow"></span></a>
@@ -46,7 +53,7 @@
                         <!--<li><a href="{{url('superadmin/payment-search')}}">Payment Received Search</a></li>-->
                         <li><a href="{{url('sub-admin/billing-rule-list')}}">Billing Rule</a></li>
                         <li><a href="{{url('sub-admin/billing-list')}}">Invoice List</a></li>
-                        <li><a href="{{url('/sub-admin/all-bills')}}">Show Own Invoice</a></li>
+                        <li><a href="{{url('/sub-admin/all-bills')}}">Subscription Invoice</a></li>
                     </ul>
                 </li>
             </ul>

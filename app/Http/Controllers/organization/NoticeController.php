@@ -29,7 +29,7 @@ class NoticeController extends Controller
     }
 
     public function index()
-    {
+    {   //dd('hit');
         try {
             $email = Session::get('emp_email');
             $user_id = Session::get('users_id');

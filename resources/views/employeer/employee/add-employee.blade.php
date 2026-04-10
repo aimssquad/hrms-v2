@@ -163,6 +163,7 @@
                                        <div class="form-group">
                                           <label for="inputFloatingLabelfon" class="col-form-label">Email <span style="color:red;">*</span></label>
                                           <input id="inputFloatingLabelfon" type="email" class="form-control input-border-bottom" required="" name="emp_ps_email">
+                                          <small id="email-message"></small>
                                        </div>
                                     </div>
                                     <div class="col-md-4">
@@ -579,13 +580,13 @@
                                     --}}
                                     <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="parmenent_street_name" class="col-form-label">Address Line 1</label>
+                                          <label for="parmenent_street_name" class="col-form-label">House No</label>
                                           <input id="parmenent_street_name" type="text" class="form-control input-border-bottom"  name="emp_pr_street_no" >
                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                        <div class="form-group">
-                                          <label for="parmenent_village" class="col-form-label">Address Line 2</label>
+                                          <label for="parmenent_village" class="col-form-label">Street No</label>
                                           <input id="parmenent_village" type="text" class="form-control input-border-bottom"  name="emp_per_village">
                                        </div>
                                     </div>
@@ -2610,5 +2611,42 @@
   </script>
 <script type="text/javascript" src="{{ asset('employeeassets/js/datepicker.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('employeeassets/js/datepicker.en.js')}}"></script>
+
+
+<script>
+    $('#inputFloatingLabelfon').on('blur', function(){
+
+    let email = $(this).val();
+    let user_id = $('#user_id').val();
+
+        if(email != ''){
+
+            $.ajax({
+                url: "{{ route('check-emp.email') }}",
+                type: "POST",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    email: email,
+                    user_id: user_id
+                },
+                success: function(response){
+
+                    if(response.exists){
+                        $('#email-message')
+                            .text('This email already exists!')
+                            .css('color','red');
+
+                        alert('This email already exists!');
+                    } else {
+                        $('#email-message')
+                            .text('Email is available')
+                            .css('color','green');
+                    }
+                }
+            });
+
+        }
+    });
+</script>
 
 @endsection

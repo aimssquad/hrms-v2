@@ -69,6 +69,7 @@ class TaskController extends Controller
                 }
             }
             $data['project_id'] = $project_id;
+            //dd($data);
             //return View('taskmanagement/tasks/tasks', $data);
             return view('employeer/task-management/project-management/dashboard', $data);
         } else {
@@ -523,7 +524,7 @@ class TaskController extends Controller
 
 
             
-        dd($data['post_data']);
+        //dd($data['post_data']);
         return view('employeer/employee-corner/task/tt', compact('data', 'employee_code', 'groupedData'));
     }
 

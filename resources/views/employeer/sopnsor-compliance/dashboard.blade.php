@@ -124,7 +124,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Incomplete")}} </h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("RTW Checks & Share  Code")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>

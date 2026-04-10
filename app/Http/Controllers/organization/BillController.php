@@ -154,7 +154,7 @@ class BillController extends Controller
         // Email details
         $toEmail = $com_dtl->email;
         $subject = 'Payment Reminder: Invoice # '. $invoice .' – Due Soon! ' . $com_dtl->com_name;
-        
+        //dd($toEmail);
         // Send email with PDF attachment
         Mail::send('subadmin_mail', $data, function ($message) use ($toEmail, $subject, $pdf, $invoice) {
             $message->to($toEmail)

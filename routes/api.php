@@ -92,6 +92,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
     Route::get('project-list',[TaskController::class, 'employeeTask']);
+    Route::post('project-task-add',[TaskController::class, 'createProjectTask']);
+    Route::get('project-wise-member/{projectId}',[TaskController::class, 'projectWiseMember']);
+    Route::get('project-wise-task-summary',[TaskController::class, 'projectWiseTaskSummary']);
     Route::get('/projects/members/{project}', [TaskController::class, 'members']);
 
     Route::post('project/post',[TaskController::class, 'empProjectPost']);    

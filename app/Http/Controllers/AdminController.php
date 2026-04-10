@@ -1360,11 +1360,20 @@ class AdminController extends Controller
                 if($usersu_type == 'sub-admin'){
                     //dd($data);
                     $data['org_code'] = DB::table('sub_admin_registrations')->where('email',$email)->first();
+                    //dd($data['org_code']->reg);
                     $data['total_amount'] = DB::table('subadmin_bills')->where('org_code',$data['org_code']->org_code)->sum('total_amount');
                     $data['pending_amount'] = DB::table('subadmin_bills')->where('org_code',$data['org_code']->org_code)->where('payment_status',0)->sum('total_amount'); 
                     $data['receving_amount'] = DB::table('subadmin_bills')->where('org_code',$data['org_code']->org_code)->where('payment_status',1)->sum('total_amount');
                     $data['total_active_organization'] = DB::table('registration')->where('org_code',$data['org_code']->org_code)->where('status','active')->where('verify','approved')->get();
                     $data['total_inactive_organization'] = DB::table('registration')->where('org_code',$data['org_code']->org_code)->where('status','active')->where('verify','not approved')->get();
+
+                    $data['subscription_pending'] = DB::table('subadmin_bills')->where('entity_id',$data['org_code']->reg)->where('payment_status',0)->where('billing_type','sub-admin')->sum('total_amount');
+                    $data['subscription_bills'] = DB::table('subadmin_bills')
+                        ->where('entity_id', $data['org_code']->reg)
+                        ->where('billing_type', 'sub-admin')
+                        ->select('id','invoice_no','total_amount','payment_status','date')
+                        ->orderBy('date','desc')
+                        ->get();
                     // Extract all 'reg' values
                     $regValues = $data['total_active_organization']->pluck('reg')->toArray();
                     $data['total_employee_count'] = DB::table('employee')
@@ -3324,7 +3333,9 @@ class AdminController extends Controller
                         ->where('status', '=', 'active')
                         ->whereIn('user_type', ['admin', 'sub-admin'])
                         ->first();
-
+                if($Employee->user_type == 'sub-admin'){
+                    return redirect('subadmin');
+                }
                 //dd($Employee);
                 if (!empty($Employee)) {
                     if ($Employee->user_type == 'admin') {
@@ -3450,7 +3461,7 @@ class AdminController extends Controller
                         $message
                             ->to($toemail, "SWCH")
                             ->subject("OTP Validation");
-                        $message->from("noreply@eitclimbr.in", "Swch");
+                        $message->from("info@skilledworkerscloud.co.uk", "Swch");
                     });
                 }
 
@@ -3754,7 +3765,7 @@ class AdminController extends Controller
                 if($userType=='admin'){
                    return view('admin/verifycompany', $data); 
                 }
-        //dd($data);
+        
                 
                 return view('sub-admin/organization/verifycompany',$data);
             } else {
@@ -19673,6 +19684,49 @@ class AdminController extends Controller
         }
     }
 
+    public function saveOrgLimit(Request $request)
+    {
+        $email = Session::get('empsu_email');
+        $userType = Session::get('usersu_type');
+
+        if (!empty($email)) {
+
+            if ($userType == 'user') {
+                $arrrole = Session::get('empsu_role');
+                if (!in_array('3', $arrrole)) {
+                    throw new \App\Exceptions\AdminException('You are not authorized to access this section.');
+                }
+            }
+
+            DB::table('sub_admin_organization_limits')->updateOrInsert(
+                [
+                    'emid' => $request->emid,
+                    'org_code' => $request->org_code
+                ],
+                [
+                    'organization_limit' => $request->organization_limit,
+                    'updated_at' => now(),
+                    'created_at' => now()
+                ]
+            );
+
+            return back()->with('message','Organization limit saved successfully');
+
+        } else {
+            return redirect('superadmin');
+        }
+    }
+
+    public function getOrgLimit(Request $request)
+    {
+        $data = DB::table('sub_admin_organization_limits')
+            ->where('emid',$request->emid)
+            ->where('org_code',$request->org_code)
+            ->first();
+
+        return response()->json($data);
+    }
+
     // public function link($id){
     //     $data = DB::table('sub_admin_registrations')->where('email','=',$id)->where('status','=','active')->get();
     //     $email =  $data[0]->org_code;
@@ -19731,7 +19785,8 @@ class AdminController extends Controller
            try {
             $email = Session::get('empsu_email');
             $userType = Session::get('usersu_type');
-            //dd($userType);
+            $org_code = Session::get('org_code');
+            //dd($org_code);
             if (!empty($email)) {
 
                 if ($userType == 'user') {
@@ -19741,9 +19796,11 @@ class AdminController extends Controller
                     }
                 }
 
+                    
                 $data['Roledata'] = DB::table('registration')
                     ->where('reg', '=', $comp_id)
                     ->first();
+                //dd($data['Roledata']);
                 $data['cuurenci_master'] = DB::table('currencies')->get();
                 $data['nat_or_master'] = DB::table('nat_or')->get();
                 $data['type_or_master'] = DB::table('type_or')->get();
@@ -19754,6 +19811,15 @@ class AdminController extends Controller
                     ->where('emid', '=', $data['Roledata']->reg)
                     ->get();
 
+                $data['verified_org_count'] = DB::table('registration')
+                    ->where('org_code', '=', $org_code)
+                    ->where('verify', '=', 'approved')
+                    ->count();
+                $data['organization_limit'] = DB::table('sub_admin_organization_limits')
+                    ->where('org_code', '=', $org_code)
+                    ->select('organization_limit')
+                    ->first();
+                //dd($data['verified_org_count'], $data['organization_limit']->organization_limit);
                 $this->addAdminLog(3, 'Organisation - Edit form opened for company code: ' . $data['Roledata']->reg);
                 //dd($data);
                     return View('sub-admin/organization/edit-sub-company', $data);  

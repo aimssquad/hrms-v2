@@ -123,7 +123,7 @@
             ]
         ],
         9 => [
-            'title' => \App\Helpers\Helper::cachedTrans('Task Control'),
+            'title' => \App\Helpers\Helper::cachedTrans('Project Control'),
             'icon' => 'las la-tasks',
             'items' => [
                 ['url' => 'org-task-management/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
@@ -438,7 +438,7 @@ function isActiveModule($moduleItems) {
                 <!-- Right Side: Powered By -->
                 <div class="d-flex align-items-center">
                     <div class="">
-                        @if($company_details->org_code == '')
+                        {{-- @if($company_details->org_code == '')
                             <a href="https://skilledworkerscloud.co.uk/"><img width="73px" src="{{ asset('assets/img/swch_logo.png') }}" style="height:35px; object-fit:fill; display:inline-block;" /></a>
                         @else
                             @if($company_details->org_code != '')
@@ -452,7 +452,7 @@ function isActiveModule($moduleItems) {
                                     <img src="{{ asset('storage/app/public/' . $sub_details->logo) }}" style="width:60px; height:30px; object-fit:fill; display:inline-block;" />
                                 @endif      
                             @endif
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
             </div>

@@ -183,7 +183,7 @@
                               <!-- Download Options Dropdown -->
                               <div class="btn-group">
                                  <button type="button" class="btn btn-sm btn-primary" onclick="downloadChatZip()">
-                                       <i class="fab fa-whatsapp"></i> Download as WhatsApp ZIP
+                                       <i class="fab fa-whatsapp"></i> Download ZIP
                                  </button>
                                  <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" 
                                           data-bs-toggle="dropdown">
@@ -883,14 +883,14 @@ function downloadChatZip() {
             <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <h5 class="mb-2">Preparing WhatsApp-style Chat Export</h5>
+            <h5 class="mb-2">Preparing Chat Export</h5>
             <p class="text-muted mb-3">This may take a moment...</p>
             <div class="progress" style="height: 8px;">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" 
                      role="progressbar" 
                      style="width: 100%"></div>
             </div>
-            <small class="text-muted mt-2 d-block">Creating ZIP file with HTML, JSON, and media files</small>
+            <small class="text-muted mt-2 d-block">Creating ZIP file with HTML, JSON, Text, Image and media files</small>
         </div>
     `;
     

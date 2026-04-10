@@ -141,6 +141,28 @@ class OrganizationController extends Controller
                             : ''
                     ];
                 }
+
+                $data['paid_amount'] = DB::table('subadmin_bills')
+                    ->where('entity_id', $data["Roledata"]->reg)
+                    ->where('status', 3)
+                    ->sum('total_amount'); 
+                //dd($data["Roledata"]->reg);
+                $org_projects = DB::table('projects')
+                    ->where('emid', $data["Roledata"]->reg)
+                    ->pluck('id');  
+                $data['p_summary'] = DB::table('tasks as t')
+                    ->join('projects as p', 'p.id', '=', 't.project_id')
+                    ->whereIn('t.project_id', $org_projects)
+                    ->select(
+                        't.project_id',
+                        'p.title', // 👈 add this
+                        DB::raw("SUM(CASE WHEN t.status IN ('Todo','Pending') THEN 1 ELSE 0 END) as incomplete_tasks"),
+                        DB::raw("SUM(CASE WHEN t.status = 'Resolved' THEN 1 ELSE 0 END) as completed_tasks"),
+                        DB::raw("COUNT(*) as total_tasks")
+                    )
+                    ->groupBy('t.project_id', 'p.title') // 👈 important
+                    ->get();
+                //dd($data['p_summary']);      
                 // $data['notices'] = DB::table('notices')->where('created_by_type','admin')->where('notice_for','organization')->get();
             } else {
                 
@@ -255,6 +277,8 @@ class OrganizationController extends Controller
                 return view('employeer.employee-corner.dashboard', $data);
                     
             }
+
+          
 
             $user = User::where('email', $email)
             ->where('status', 'active')

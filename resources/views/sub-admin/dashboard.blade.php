@@ -2,6 +2,17 @@
 
 @section('title', 'Sub Admin Dashboard')
 
+@section('css')
+    <script>
+        .subscription-card{
+            background:#f5f7fb;
+            border-radius:10px;
+            border:none;
+            box-shadow:0 6px 15px rgba(0,0,0,0.08);
+        }
+    </script>
+@endsection
+
 @section('content')
 @php
     $arrrole = Session::get('empsu_role');
@@ -68,7 +79,6 @@
                         </div>
                     </a>
                 </div>
-
             </div>
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="card dash-widget overflow-visible">
@@ -186,13 +196,33 @@
                     </a>
                 </div>
             </div>
+
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card dash-widget overflow-visible">
+                    <a href="{{url('sub-admin/all-bills')}}">
+                        <div class="card-body modern-card">
+                            <div class="dash-widget-info">
+                                <span>Subscription Unpaid Invoice Amount</span>
+                                <h3><i class="fa fa-pound-sign"></i> {{$subscription_pending ?? 0}}</h3>
+                            </div>
+                            <div class="modern_icon_wrapper">
+                                <i class="fa-solid fa-dollar-sign modern-icon"></i>
+                            </div>
+                            <div class="modern-arrow pt-2" style="text-align: center; margin-top: -10px;">
+                                <span style="font-size: 13px;">View</span>
+                                <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
 
 
         <div class="row">
             <div class="col-xl-12">
                 <div class="bg-white p-4 rounded-3">
-                    <h3 class="fs-6">Copy URL </h3>
+                    <h3 class="fs-6">Organization Register URL Link</h3>
                     <div class="row">
                         @if($userType == 'sub-admin')
                             <div class="col-12">
@@ -217,6 +247,70 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-xl-8">
+                <div class="card employee-month-card flex-fill">
+                    <div class="card-header">
+                        <h4 class="card-title">Subscription Invoice</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="basic-datatables" class="display table table-striped table-hover" >
+                                <thead >
+                                    <tr>
+                                    <th>Sl No</th>
+                                    <th>Invoice ID</th>
+                                    <th>Billing Month</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($subscription_bills as $key => $bill)
+
+                                    <tr>
+
+                                    <td>{{ $loop->iteration }}</td>
+
+                                    <td>{{ $bill->invoice_no }}</td>
+
+                                    <td>
+                                    {{ \Carbon\Carbon::parse($bill->date)->format('F Y') }}
+                                    </td>
+
+                                    <td>£{{ number_format($bill->total_amount,2) }}</td>
+
+                                    <td>
+
+                                    @if($bill->payment_status == 0)
+
+                                    <span class="badge bg-danger">Not Paid</span>
+
+                                    @else
+
+                                    <span class="badge bg-success">Paid</span>
+
+                                    @endif
+
+                                    </td>
+
+                                    </tr>
+
+                                    @empty
+
+                                    <tr>
+                                    <td colspan="5" class="text-center">No Subscription Bills Found</td>
+                                    </tr>
+
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>    
+                </div>
+            </div>
         </div>
 
     </div>

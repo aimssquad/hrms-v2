@@ -16,10 +16,10 @@ class LabelController extends Controller
             $currentUser = Session::get('users_id');
             $data = [];
             $project_id = decrypt($request->id);
+            
             $data['labels'] = MasterLabels::select("*")
                 ->where('project_id', $project_id)
                 ->get();
-
             $data['project_id'] = $project_id;
                 return View('employeer/task-management/project-management/project-labels', $data);
         } else {

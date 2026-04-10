@@ -107,7 +107,10 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3 employee-card" data-emp-name="{{ $employee->emp_fname.' '.$employee->emp_mname.' '.$employee->emp_lname }}" data-emp-code="{{ $employee->emp_code }}">
             <div class="profile-widget">
                 <div class="profile-img">
-                    <a href="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" class="avatar">
+                    {{-- <a href="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" class="avatar">
+                        <img src="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" alt="User Image">
+                    </a> --}}
+                    <a href="{{ url('organization/view-add-employee') }}?q={{ my_simple_crypt( $employee->emp_code, 'encrypt' )}}" class="avatar">
                         <img src="{{ asset(\App\Helpers\Helper::getImageUrl($employee->emp_image)) }}" alt="User Image">
                     </a>
                 </div>
