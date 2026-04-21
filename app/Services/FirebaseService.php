@@ -1,33 +1,58 @@
 <?php
 
 namespace App\Services;
-
+use Google\Client;
 use Illuminate\Support\Facades\Http;
 
 class FirebaseService
 {
-    public static function send($tokens, $title, $body, $data = [])
+    protected $projectId = 'sponic-hr';
+
+    public function send($token, $title, $body)
     {
-        if (empty($tokens)) {
-            return;
-        }
+        $client = new Client();
+        $client->setAuthConfig(storage_path('app/firebase/firebase.json'));
+        $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
 
-        $response = Http::withHeaders([
-            'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
-            'Content-Type'  => 'application/json',
-        ])->post('https://fcm.googleapis.com/fcm/send', [
-            'registration_ids' => is_array($tokens) ? $tokens : [$tokens],
+        $accessToken = $client->fetchAccessTokenWithAssertion()['access_token'];
 
-            'notification' => [
-                'title' => $title,
-                'body'  => $body,
-                'sound' => 'custom_sound', // 🔔 ringtone name
-            ],
+        $url = "https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send";
 
-            'data' => $data,
-            'priority' => 'high',
+        $response = Http::withToken($accessToken)->post($url, [
+            "message" => [
+                "token" => $token,
+                "notification" => [
+                    "title" => $title,
+                    "body" => $body
+                ]
+            ]
         ]);
 
         return $response->json();
     }
+
+    // public static function send($tokens, $title, $body, $data = [])
+    // {
+    //     if (empty($tokens)) {
+    //         return;
+    //     }
+
+    //     $response = Http::withHeaders([
+    //         'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
+    //         'Content-Type'  => 'application/json',
+    //     ])->post('https://fcm.googleapis.com/fcm/send', [
+    //         'registration_ids' => is_array($tokens) ? $tokens : [$tokens],
+
+    //         'notification' => [
+    //             'title' => $title,
+    //             'body'  => $body,
+    //             'sound' => 'custom_sound', // ringtone name
+    //         ],
+
+    //         'data' => $data,
+    //         'priority' => 'high',
+    //     ]);
+
+    //     return $response->json();
+    // }
 }

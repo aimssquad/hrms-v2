@@ -229,9 +229,11 @@ class MembersController extends Controller
             ->join('users', 'users.employee_id', '=', 'project_members.user_id')
             ->select('project_members.*', 'users.name as name')
             ->get();
+
         //$users = UserModel::where('emid',$emid)->where('user_type','employee')->where('status', 'active')->get();    
-        //dd($members);    
-        return view('employeer.task-management.project-controll.project-member-list', compact('members','project_id'));    
+        //dd($members); 
+        $roles = DB::table('project_roles')->get();   
+        return view('employeer.task-management.project-controll.project-member-list', compact('members','project_id', 'roles'));    
         
     }    
 
@@ -249,43 +251,88 @@ class MembersController extends Controller
         if($users->isEmpty()) {
             return response()->json(['status' => false, 'message' => 'No members found']);
         }  
-        //dd($users); 
         return response()->json([
             'status' => true,
             'type' => $type, // 👈 important
-            'data' => $users
+            'data' => $users,
         ]);
     }
 
+    // public function saveMember(Request $request)
+    // {   
+    //     //dd($request->all());
+    //     $email = Session::get("emp_email");
+    //     dd($email);
+    //     $project_id = decrypt($request->id);
+    //     $user_id = $request->user_id;
+    //     $role = $request->role;
+    //     $permission = $request->member_type;
+
+    //     $isExist = ProjectMembers::where('project_id', $project_id)->where('user_id', $user_id)->first();
+    //     if($isExist){
+    //         return response()->json(['status' => false, 'message' => 'Member already exists in this project']);
+    //     }
+
+    //     $data = [
+    //         'project_id' => $project_id,
+    //         'user_id' => $user_id,
+    //         'role' => $role,
+    //         'member_type' => $permission
+    //     ];
+    //     dd($data);
+    //     ProjectMembers::create([
+    //         'project_id' => $project_id,
+    //         'user_id' => $user_id,
+    //         'role' => $role,
+    //         'permission' => $permission
+    //     ]);
+    //     return response()->json(['status' => true, 'message' => 'Member added to project successfully']);
+    // }
+
     public function saveMember(Request $request)
-    {   
-        //dd($request->all());
+    {
         $email = Session::get("emp_email");
-        dd($email);
+        $assignedBy = DB::table('users')->where('email', $email)->where('status', 'active')->select('employee_id')->first();
+        $assignedById = $assignedBy ? $assignedBy->employee_id : null;
+
+        // dd($assignedById);
+         //dd($request->all());
         $project_id = decrypt($request->id);
         $user_id = $request->user_id;
-        $role = $request->role;
-        $permission = $request->member_type;
+        $role_id = $request->role;
+        $user_type = $request->member_type; 
 
-        $isExist = ProjectMembers::where('project_id', $project_id)->where('user_id', $user_id)->first();
-        if($isExist){
-            return response()->json(['status' => false, 'message' => 'Member already exists in this project']);
+        // Check already exists
+        $isExist = ProjectMembers::where('project_id', $project_id)
+            ->where('user_id', $user_id)
+            ->first();
+
+        if ($isExist) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Member already exists in this project'
+            ]);
         }
 
         $data = [
             'project_id' => $project_id,
             'user_id' => $user_id,
-            'role' => $role,
-            'member_type' => $permission
+            'role' => $role_id, // Save role_id instead of role name
+            'user_type' => $user_type,
+            'createdBy' => $assignedById,
+            'created_at' => date('Y-m-d H:i:s')
         ];
-        dd($data);
+        //dd($data);
+        // Save only role_id (NOT permission)
         ProjectMembers::create([
             'project_id' => $project_id,
             'user_id' => $user_id,
-            'role' => $role,
-            'permission' => $permission
+            'role' => $role_id, 
+            'user_type' => $user_type, 
+            'createdBy' => $assignedById
         ]);
-        return response()->json(['status' => true, 'message' => 'Member added to project successfully']);
+
+        return redirect('/org-task-management/' . encrypt($project_id) . '/project-members');
     }
 
 

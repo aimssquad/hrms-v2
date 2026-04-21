@@ -129,7 +129,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Member Type</label>
-                            <select name="member_type" id="member_type" class="form-control" required>
+                            <select name="member_type" id="user_type" class="form-control" required>
                                 <option value="">-- Select Member --</option>
                                 <option value="employee">Employee</option>
                                 <option value="guest">Guest</option>
@@ -148,13 +148,12 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Member Role in Project</label>
                             <select name="role" class="form-control" required>
+
                                 <option value="">-- Select Role --</option>
-                                <option value="admin">Admin</option>
-                                <option value="manager">Manager</option>
-                                <option value="member">Member</option>
-                                <option value="team_lead">Team Lead</option>
-                                <option value="sales_head">Sales Head</option>
-                                <option value="guest">Guest</option>
+                                @foreach($roles as $r)
+                                    <option value='{{ $r->id }}''>{{ ucwords(str_replace('_', ' ', $r->name)) }}</option>
+                                @endforeach
+                               
                             </select>
                         </div>
                     </div>
@@ -177,7 +176,7 @@
     <script src="{{asset('assets/taskmanagement/taskmanagement.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        $('#member_type').on('change', function () {
+        $('#user_type').on('change', function () {
 
             let type = $(this).val();
 
@@ -217,6 +216,8 @@
                                             ${row.name} (${row.company_name})
                                         </option>`;
                             }
+
+
 
                         });
 

@@ -84,6 +84,18 @@ class LoginController extends Controller
             $userPrimaryId = $user->id;
             $emid = $user->emid;
 
+            if (!empty($request->fcm_token)) {
+                DB::table('user_devices')->updateOrInsert(
+                    ['fcm_token' => $request->fcm_token],
+                    [
+                        'user_id'     => $userPrimaryId,
+                        'device_type' => $request->device_type ?? 'web',
+                        'updated_at'  => now(),
+                        'created_at'  => now(),
+                    ]
+                );
+            }
+
             // Employee image
             $userImage = DB::table('employee')
                 ->where('emp_code', $user_id)
@@ -92,7 +104,7 @@ class LoginController extends Controller
             $imagePath = $userImage->profileimage ?? '';
 
             // Update device token
-            $user->update(['device_token' => $request->device_token]);
+            //$user->update(['device_token' => $request->device_token]);
 
             // Fetch full employee + user details
             $checkuser = UserModel::join('employee', function($join) {

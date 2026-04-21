@@ -250,7 +250,9 @@
             'title' => \App\Helpers\Helper::cachedTrans('Notice'),
             'icon' => 'las la-bullhorn',
             'items' => [
+                ['url' => 'notification-dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
                 ['url' => 'notice/org-notice', 'label' => \App\Helpers\Helper::cachedTrans('Notice'),],
+                ['url' => 'all-notification', 'label' => \App\Helpers\Helper::cachedTrans('All Notification'),],
                 
             ]
         ],

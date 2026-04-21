@@ -714,6 +714,10 @@ Route::post('notice/add-notice', 'App\Http\Controllers\organization\NoticeContro
 Route::get('notice/edit-notice/{id}', 'App\Http\Controllers\organization\NoticeController@edit')->name('edit.notice');
 Route::post('/notice/update/{id}', 'App\Http\Controllers\organization\NoticeController@update')->name('update.notice');
 Route::get('notice/delete-notice/{id}', 'App\Http\Controllers\organization\NoticeController@destroy')->name('delete.notice');
+Route::get('notification-dashboard', 'App\Http\Controllers\organization\NoticeController@dashbaord')->name('notification.dashboard');
+Route::get('all-notification','App\Http\Controllers\organization\NoticeController@allNotification')->name('all.notification');
+// Route::post('/mark-notification-read', [NoticeController::class, 'markAsRead'])->name('mark.notification.read');
+// Route::post('/mark-all-notifications-read', [NoticeController::class, 'markAllAsRead'])->name('mark.all.notifications.read');
 
 Route::get('helpdesk', 'App\Http\Controllers\organization\NoticeController@helpdesk');
 #####################################################Sub-admin###############################################
@@ -6170,3 +6174,11 @@ Route::post('organization/customer/send-email/{id}', [CustomerInvoiceController:
 Route::get('org-project-control/{id}/project-members','App\Http\Controllers\organization\MembersController@getProjectMembers');
 Route::post('get-members-by-type', 'App\Http\Controllers\organization\MembersController@getMembers')->name('get.members.by.type');
 Route::post('org-project-control/{id}/project-members/store', 'App\Http\Controllers\organization\MembersController@saveMember');
+
+Route::get('org-project-control/{id}/project-roles','App\Http\Controllers\organization\ProjectControl\RolesController@index');
+Route::post('org-project-control/{id}/project-role/store','App\Http\Controllers\organization\ProjectControl\RolesController@store');
+Route::get('org-project-control/{id}/project-role-edit/{role_id}','App\Http\Controllers\organization\ProjectControl\RolesController@edit');
+
+
+Route::get('org-project-control/{id}/permission-master','App\Http\Controllers\organization\ProjectControl\RolesController@permissionMaster');
+Route::get('org-project-control/{id}/project-permission','App\Http\Controllers\organization\ProjectControl\RolesController@userProjectPermission');

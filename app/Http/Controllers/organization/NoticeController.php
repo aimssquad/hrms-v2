@@ -14,6 +14,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Services\FirebaseService;
 use Validator;
+use App\Models\EmpNotification;
+use App\Models\EmpNotificationSetting;
+use App\Models\EmpNotificationModule;
+use DB;
 
 class NoticeController extends Controller
 {
@@ -28,14 +32,107 @@ class NoticeController extends Controller
         $this->_model       = new Notice();
     }
 
+    public function dashbaord()
+    {
+        $email = Session::get('emp_email');
+        $user_id = Session::get('users_id');
+        $emid = Session::get('emid');
+        
+        if (!empty($email)) {
+            // Get all notifications with employee details
+            $notices = DB::table('emp_notifications')
+                ->leftJoin('employee', 'emp_notifications.employee_id', '=', 'employee.emp_code')
+                // ->where('emp_notifications.type', 'NOTICE')
+                ->where('emp_notifications.emid', $emid)
+                ->select(
+                    'emp_notifications.*',
+                    'employee.emp_fname',
+                    'employee.emp_mname',
+                    'employee.emp_lname',
+                    DB::raw("CONCAT(COALESCE(employee.emp_fname, ''), ' ', COALESCE(employee.emp_mname, ''), ' ', COALESCE(employee.emp_lname, '')) as employee_full_name")
+                )
+                ->orderBy('emp_notifications.id', 'desc')
+                ->get();
+            
+            // Statistics calculations
+            $totalNotifications = $notices->count();
+            $unreadNotifications = $notices->where('is_read', 0)->count();
+            $readNotifications = $notices->where('is_read', 1)->count();
+            $readPercentage = $totalNotifications > 0 ? round(($readNotifications / $totalNotifications) * 100) : 0;
+            
+            // Get notifications grouped by employee with both total and unread counts
+            $unreadByEmployee = $notices->groupBy('employee_id')
+                ->map(function ($items, $employeeId) {
+                    $firstItem = $items->first();
+                    $totalCount = $items->count();
+                    $unreadCount = $items->where('is_read', 0)->count();
+                    $readCount = $items->where('is_read', 1)->count();
+                    
+                    return [
+                        'employee_name' => $firstItem->employee_full_name ?: 'All Employees',
+                        'employee_id' => $employeeId,
+                        'total_count' => $totalCount,
+                        'unread_count' => $unreadCount,
+                        'read_count' => $readCount,
+                        'read_percentage' => $totalCount > 0 ? round(($readCount / $totalCount) * 100) : 0,
+                        'notifications' => $items->where('is_read', 0) // Only unread for details
+                    ];
+                })
+                ->sortByDesc('unread_count')
+                ->values();
+
+            $noticeCount = DB::table('notices')
+                ->where('organization_id', $emid)
+                ->where('created_by_type', 'organization')
+                ->where('created_by_id', $user_id)
+                ->count();
+            
+            return view($this->_routePrefix . '.notification-dashboard', compact('notices', 'totalNotifications', 'unreadNotifications', 'readNotifications', 'readPercentage', 'unreadByEmployee','noticeCount'));
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function allNotification()
+    {
+        $email = Session::get('emp_email');
+        $user_id = Session::get('users_id');
+        $emid = Session::get('emid');
+        
+        if (!empty($email)) {
+            // Get all notifications with employee details
+            $notices = DB::table('emp_notifications')
+                ->leftJoin('employee', 'emp_notifications.employee_id', '=', 'employee.emp_code')
+                ->where('emp_notifications.emid', $emid)
+                ->select(
+                    'emp_notifications.*',
+                    'employee.emp_fname',
+                    'employee.emp_mname',
+                    'employee.emp_lname',
+                    DB::raw("CONCAT(COALESCE(employee.emp_fname, ''), ' ', COALESCE(employee.emp_mname, ''), ' ', COALESCE(employee.emp_lname, '')) as employee_full_name")
+                )
+                ->orderBy('emp_notifications.id', 'desc')
+                ->get();
+            //dd($notices);
+            return view($this->_routePrefix . '.notification-list', compact('notices'));
+        } else {
+            return redirect('/');
+        }
+    }
+
     public function index()
-    {   //dd('hit');
+    {   
         try {
             $email = Session::get('emp_email');
             $user_id = Session::get('users_id');
-            //dd($user_id);
+            
             if (!empty($email)) {
-                $notices = Notice::where('created_by_type', 'organization')->where('created_by_id',$user_id)->get();
+                $notices = Notice::where('created_by_type', 'organization')
+                    ->where('created_by_id', $user_id)
+                    ->orderBy('id', 'desc')
+                    ->get();
+
+                //dd($notices);    
                 return view($this->_routePrefix . '.notices-list', compact('notices'));
             } else {
                 return redirect('/');
@@ -48,9 +145,12 @@ class NoticeController extends Controller
     public function create(Request $request){
         try {
             $email = Session::get('emp_email');
+            $emid = Session::get('emid');
+            //dd($emid);
             //dd($email);
             if (!empty($email)) {
-                return view($this->_routePrefix . '.notice-add');
+                $employees = DB::table('employee')->where('emid',$emid)->select('emp_code','emp_fname','emp_mname','emp_lname')->get();
+                return view($this->_routePrefix . '.notice-add', compact('employees'));
             } else {
                 return redirect('/');
             }
@@ -59,82 +159,132 @@ class NoticeController extends Controller
         }
     }
 
-    public function store(Request $request, FirebaseService $firebase)
+
+    public function store(Request $request)
     {
-        $data = Session::get('users_id');
+        $userId = Session::get('users_id');
         $emid = Session::get('emid');
-        
+        //dd($request->all());
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'notice_for' => 'required|string',
+            'notice_for' => 'required|string', // ALL / SINGLE
             'created_by_type' => 'required|string',
+            'employee_id' => 'nullable' // for single user
         ]);
-        //dd($validated);
+        
         try {
-            // Handle file upload if present
-            $imagePath = $request->file('image') ? $request->file('image')->store('notices', 'public') : null;
 
-            // Save notice in the database
-            Notice::create([
+            // Upload image
+            $imagePath = $request->file('image')
+                ? $request->file('image')->store('notices', 'public')
+                : null;
+
+            // Save notice
+            $notice = Notice::create([
                 'title' => $validated['title'],
                 'description' => $validated['description'],
                 'start_date' => $validated['start_date'],
                 'end_date' => $validated['end_date'],
                 'image' => $imagePath,
-                //'organization_id' => Session::get('users_id'), // Replace this with the actual organization ID logic
                 'notice_for' => $validated['notice_for'],
                 'created_by_type' => $validated['created_by_type'],
-                'created_by_id' => Session::get('users_id'), // Replace this with the actual creator's ID logic
+                'created_by_id' => $userId,
+                'organization_id' => $emid
             ]);
 
-            $notification = Notification::create([
-                'emid' => $emid,
-                'employee_id' => 'all',
-                'title'=> $validated['title'],
-                'description' => $validated['description'],
-                'start_date' => $validated['start_date'],
-                'end_date' => $validated['end_date'],
-                'status' => 0,
-            ]);
+            $title = $validated['title'];
+            $message = $validated['description'];
 
-            event(new NoticeCreated($notification));
+            //  SEND TO ALL EMPLOYEES
+            if ($validated['notice_for'] == 'all') {
 
-            //  Send FCM push notification
-           if ($notification->employee_id === 'all') {
-                $tokens = UserModel::where('emid', $emid)
-                    ->whereNotNull('device_token')
-                    ->pluck('device_token');
-            } else {
-                $tokens = UserModel::where('emid', $emid)
-                    ->where('employee_id', $notification->employee_id)
-                    ->whereNotNull('device_token')
-                    ->pluck('device_token');
+                $users = DB::table('users')
+                    ->join('user_devices', 'user_devices.user_id', '=', 'users.id')
+                    ->where('users.emid', $emid)
+                    ->select('users.employee_id', 'users.id', 'user_devices.fcm_token')
+                    ->get();
+                //dd($users);
+                foreach ($users as $user) {
+
+                    // MUTE CHECK
+                    if (EmpNotificationSetting::isMuted(
+                        $user->employee_id,
+                        EmpNotificationModule::NOTICE ?? 7 
+                    )) {
+                        continue;
+                    }
+
+                    // STORE NOTIFICATION
+                    EmpNotification::create([
+                        'emid' => $emid,
+                        'employee_id' => $user->employee_id,
+                        'user_id' => $user->id,
+                        'type' => 'NOTICE',
+                        'title' => $title,
+                        'description' => $message,
+                        'reference_id' => $notice->id,
+                        'reference_type' => 'notice',
+                        'start_date' => $validated['start_date'],
+                        'end_date' => $validated['end_date'],
+                        'status' => 1,
+                    ]);
+
+                    //FIREBASE SEND
+                    app(\App\Services\FirebaseService::class)
+                        ->send($user->fcm_token, $title, $message);
+                }
             }
 
+            // SEND TO SINGLE EMPLOYEE
+            if ($validated['notice_for'] != 'all') {
 
-            foreach ($tokens as $token) {
-                $firebase->sendNotification(
-                    $token,
-                    $notification->title,
-                    $notification->description,
-                    [
-                        'type' => 'notice',
-                        'employee_id' => (string) $notification->employee_id,
-                        'notice_id' => (string) $notification->id,
-                    ]
-                );
+                $employeeId = $validated['notice_for'];
+
+                $users = DB::table('user_devices')
+                    ->join('users', 'users.id', '=', 'user_devices.user_id')
+                    ->where('users.employee_id', $employeeId)
+                    ->select('users.id as user_id', 'user_devices.fcm_token')
+                    ->get();
+
+                // MUTE CHECK
+                if (!EmpNotificationSetting::isMuted(
+                    $employeeId,
+                    EmpNotificationModule::NOTICE ?? 7
+                )) {
+                    foreach ($users as $user) {
+                        EmpNotification::create([
+                            'emid' => $emid,
+                            'employee_id' => $employeeId,
+                            'user_id' => $user->user_id, 
+                            'type' => 'NOTICE',
+                            'title' => $title,
+                            'description' => $message,
+                            'reference_id' => $notice->id,
+                            'reference_type' => 'notice',
+                            'start_date' => $validated['start_date'],
+                            'end_date' => $validated['end_date'],
+                            'status' => 1,
+                        ]);
+
+                        // FIREBASE SEND
+                        app(\App\Services\FirebaseService::class)
+                            ->send($user->fcm_token, $title, $message);
+                    }
+                }
             }
-
-
 
             Session::flash('message', 'Notice added successfully.');
             return redirect('notice/org-notice');
+
         } catch (\Exception $e) {
-            Session::flash('error', 'Somthings went wrong.');
+
+            \Log::error($e->getMessage());
+
+            Session::flash('error', 'Something went wrong.');
             return redirect('notice/add-notice');
         }
     }

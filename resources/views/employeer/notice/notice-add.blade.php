@@ -8,6 +8,7 @@
             <h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Add Notice')}}</h3>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+                <li class="breadcrumb-item"><a href="{{url('notification-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Notice')}} </li>
             </ul>
         </div>
@@ -63,11 +64,25 @@
                                             <input type="file" class="form-control" name="image">
                                         </div>
                                     </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Notice Send To')}}</label>
+                                            {{-- <input type="text" class="form-control" name="notice_for"> --}}
+                                            <select name="notice_for" id="" class="select">
+                                                <option value="all">All</option>
+                                                @foreach($employees as $employee)
+                                                <option value="{{$employee->emp_code}}">{{$employee->emp_fname}} {{$employee->emp_mname}} {{$employee->emp_lname}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                                 <br>   
                                     <div class="row form-group">
                                         <div class="col-md-12">
-                                            <input type="hidden" name="notice_for" value="employees"> 
+                                            {{-- <input type="hidden" name="notice_for" value="employees">  --}}
                                             <input type="hidden" name="created_by_type" value="Organization"> 
                                             <button type="submit" class="btn btn-primary">{{\App\Helpers\Helper::cachedTrans('Create Notice')}}</button>
                                         </div>

@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\NoticeController;
 use App\Http\Controllers\Api\HelpdeskController;
+use App\Http\Controllers\Api\EmpNotificationSettingController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -117,6 +118,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
     Route::get('emp-notice',[NoticeController::class, 'empNotice']);
     Route::get('/notification/status/{id}',[NoticeController::class, 'status']);
+
+    Route::get('/emp-notification/modules',[EmpNotificationSettingController::class, 'index']);
+    Route::put('/emp-notification/is-muted',[EmpNotificationSettingController::class, 'isMuted']);
+    Route::get('/emp-notification/all',[EmpNotificationSettingController::class, 'allNotifications']);
+    Route::put('/emp-notification/read/{id}',[EmpNotificationSettingController::class, 'markAsRead']);
   
 });
 

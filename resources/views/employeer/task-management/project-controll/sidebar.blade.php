@@ -131,6 +131,21 @@ $user_type = Session::get("user_type");
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{ url('org-project-control/'.request()->route('id').'/project-roles')}}">
+                                        <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Roles')}}</span>
+                                    </a>
+                                </li>
+                                 <li>
+                                    <a href="{{ url('org-project-control/'.request()->route('id').'/permission-master')}}">
+                                        <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Master Permission')}}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('org-project-control/'.request()->route('id').'/project-permission')}}">
+                                        <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Permission')}}</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ url('org-project-control/'.request()->route('id').'/project-members') }}">
                                         <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Members')}}</span>
                                     </a>
@@ -140,16 +155,18 @@ $user_type = Session::get("user_type");
                                         <span class="sub-item ">{{\App\Helpers\Helper::cachedTrans('Tasks')}}</span>
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ url('org-task-management/'.request()->route('id').'/labels')}}">
                                         <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Master Labels')}}</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('org-task-management/'.request()->route('id').'/roles')}}">
+                                    <a href="{{ url('org-project-control/'.request()->route('id').'/project-roles')}}">
                                         <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Master Roles')}}</span>
                                     </a>
-                                </li>
+                                </li> --}}
+
+                                
 
                                  <li>
                                     <a href="{{ url('org-task-management/'.request()->route('id').'/chat')}}">
