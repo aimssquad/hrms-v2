@@ -113,105 +113,106 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                          
                                        ?>
                                     <label>Evidence presented</label><br>
-                                    <select class="form-control" placeholder="" id="evidence" name="evidence">
-                                       <option value="">Select</option>
+                                    <input type="text" class="form-control" placeholder="" id="evidence"  name="evidence" value="{{$work_rs->evidence}}">
+                                    {{-- <select class="form-control" placeholder="" id="evidence" name="evidence">
+                                       <option value="">Select</option> --}}
                                        <?php
-                                          foreach($employee_rs as $bank)
-                                          {
-                                           if($work_rs->evidence==$bank->quli.' Transcript Document'){
-                                               $se= 'selected';
-                                               }else{
-                                                   $se='';
-                                               }
-                                           if($bank->doc!=''){
-                                           echo '<option value="'.$bank->quli.' Transcript Document" '.$se.'>'.$bank->quli.' Transcript Document</option>';
+                                          // foreach($employee_rs as $bank)
+                                          // {
+                                          //  if($work_rs->evidence==$bank->quli.' Transcript Document'){
+                                          //      $se= 'selected';
+                                          //      }else{
+                                          //          $se='';
+                                          //      }
+                                          //  if($bank->doc!=''){
+                                          //  echo '<option value="'.$bank->quli.' Transcript Document" '.$se.'>'.$bank->quli.' Transcript Document</option>';
                                            
-                                           }
-                                           if($work_rs->evidence==$bank->quli.' Certificate Document'){
-                                               $se= 'selected';
-                                               }else{
-                                                   $se='';
-                                               }
-                                            if($bank->doc2!=''){
-                                           echo '<option value="'.$bank->quli.' Certificate Document"  '.$se.'>'.$bank->quli.' Certificate Document</option>';
+                                          //  }
+                                          //  if($work_rs->evidence==$bank->quli.' Certificate Document'){
+                                          //      $se= 'selected';
+                                          //      }else{
+                                          //          $se='';
+                                          //      }
+                                          //   if($bank->doc2!=''){
+                                          //  echo '<option value="'.$bank->quli.' Certificate Document"  '.$se.'>'.$bank->quli.' Certificate Document</option>';
                                            
-                                           }
-                                          }
+                                          //  }
+                                          // }
                                           
-                                          foreach($employee_otherd_doc_rs as $banknew)
-                                          {
-                                           if($work_rs->evidence==$banknew->doc_name){
-                                               $se= 'selected';
-                                               }else{
-                                                   $se='';
-                                               }
-                                          if($banknew->doc_name!=''){
-                                          echo '<option value="'.$banknew->doc_name.'"  '.$se.'>'.$banknew->doc_name.'</option>';
+                                          // foreach($employee_otherd_doc_rs as $banknew)
+                                          // {
+                                          //  if($work_rs->evidence==$banknew->doc_name){
+                                          //      $se= 'selected';
+                                          //      }else{
+                                          //          $se='';
+                                          //      }
+                                          // if($banknew->doc_name!=''){
+                                          // echo '<option value="'.$banknew->doc_name.'"  '.$se.'>'.$banknew->doc_name.'</option>';
                                            
-                                          }
+                                          // }
                                           
-                                          }
-                                          if($work_rs->evidence=='pr_add_proof'){
-                                               $se= 'selected';
-                                               }else{
-                                                   $se='';
-                                               }
-                                          if($desig_rs->pr_add_proof!=''){
-                                             echo '<option value="pr_add_proof" '.$se.'>Proof Of Correspondence   Address </option>'; 
+                                          // }
+                                          // if($work_rs->evidence=='pr_add_proof'){
+                                          //      $se= 'selected';
+                                          //      }else{
+                                          //          $se='';
+                                          //      }
+                                          // if($desig_rs->pr_add_proof!=''){
+                                          //    echo '<option value="pr_add_proof" '.$se.'>Proof Of Correspondence   Address </option>'; 
                                              
-                                          }
-                                          if($work_rs->evidence=='pass_docu'){
-                                               $se= 'selected';
-                                               }else{
-                                                   $se='';
-                                               }
-                                          if($desig_rs->pass_docu!=''){
-                                           echo '<option value="pass_docu" '.$se.'>Passport    Document </option>'; 
+                                          // }
+                                          // if($work_rs->evidence=='pass_docu'){
+                                          //      $se= 'selected';
+                                          //      }else{
+                                          //          $se='';
+                                          //      }
+                                          // if($desig_rs->pass_docu!=''){
+                                          //  echo '<option value="pass_docu" '.$se.'>Passport    Document </option>'; 
                                              
-                                          }
-                                          if($work_rs->evidence=='Share Code'){
-                                               $se= 'selected';
-                                               }else{
-                                                   $se='';
-                                               }
-                                          if (!empty($work_rs->share_doc)){
-                                                echo  '<option value="Share Code" '.$se.'>Share Code</option>';
-                                               }
-                                           if($work_rs->evidence=='visa_upload_doc'){
-                                               $se= 'selected';
-                                               }else{
-                                                   $se='';
-                                               }
-                                          if($desig_rs->visa_upload_doc!=''){
-                                             echo '<option value="visa_upload_doc" '.$se.'>Visa    Document </option>'; 
+                                          // }
+                                          // if($work_rs->evidence=='Share Code'){
+                                          //      $se= 'selected';
+                                          //      }else{
+                                          //          $se='';
+                                          //      }
+                                          // if (!empty($work_rs->share_doc)){
+                                          //       echo  '<option value="Share Code" '.$se.'>Share Code</option>';
+                                          //      }
+                                          //  if($work_rs->evidence=='visa_upload_doc'){
+                                          //      $se= 'selected';
+                                          //      }else{
+                                          //          $se='';
+                                          //      }
+                                          // if($desig_rs->visa_upload_doc!=''){
+                                          //    echo '<option value="visa_upload_doc" '.$se.'>Visa    Document </option>'; 
                                              
-                                          }
-                                          if($work_rs->evidence=='euss_upload_doc'){
-                                               $se= 'selected';
-                                               }else{
-                                                   $se='';
-                                               }
+                                          // }
+                                          // if($work_rs->evidence=='euss_upload_doc'){
+                                          //      $se= 'selected';
+                                          //      }else{
+                                          //          $se='';
+                                          //      }
                                           
-                                          if($desig_rs->euss_upload_doc!=''){
-                                             echo '<option value="euss_upload_doc" '.$se.'>EUSS    Document </option>'; 
+                                          // if($desig_rs->euss_upload_doc!=''){
+                                          //    echo '<option value="euss_upload_doc" '.$se.'>EUSS    Document </option>'; 
                                              
-                                          }
-                                          if($work_rs->evidence=='nat_upload_doc'){
-                                               $se= 'selected';
-                                               }else{
-                                                   $se='';
-                                               }
+                                          // }
+                                          // if($work_rs->evidence=='nat_upload_doc'){
+                                          //      $se= 'selected';
+                                          //      }else{
+                                          //          $se='';
+                                          //      }
                                           
-                                          if($desig_rs->nat_upload_doc!=''){
-                                             echo '<option value="nat_upload_doc" '.$se.'>National Id     Document </option>'; 
+                                          // if($desig_rs->nat_upload_doc!=''){
+                                          //    echo '<option value="nat_upload_doc" '.$se.'>National Id     Document </option>'; 
                                              
-                                          }
+                                          // }
                                           ?>
-                                    </select>
+                                    {{-- </select> --}}
                                  </div>
                                  <div class="col-md-4">
                                     <label>Work start time</label><br>
-                                    <input type="date" class="form-control" placeholder="" name="start_date" id="start_date" value="{{$work_rs->start_date}}" readonly>
+                                    <input type="date" class="form-control" placeholder="" name="start_date" id="start_date" value="{{$work_rs->start_date}}" >
                                  </div>
                                  <div class="col-md-4">
                                     <label>Time of check</label><br>

@@ -86,9 +86,10 @@
                               <div class="row form-group">
                                  <div class="col-md-4">
                                     <label>Evidence presented</label><br>
-                                    <select class="form-control" placeholder="" id="evidence" name="evidence">
+                                    {{-- <select class="form-control" placeholder="" id="evidence" name="evidence">
                                        <option value="">Select</option>
-                                    </select>
+                                    </select> --}}
+                                    <input type="text" class="form-control" placeholder="" id="evidence"  name="evidence">
                                  </div>
                                  <div class="col-md-4">
                                     <label>Work start time</label><br>

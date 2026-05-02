@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\NoticeController;
 use App\Http\Controllers\Api\HelpdeskController;
 use App\Http\Controllers\Api\EmpNotificationSettingController;
+use App\Http\Controllers\Api\ProjectController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -128,6 +129,29 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
     Route::post('raise-ticket', [HelpdeskController::class, 'helpdeskStore']);
+  
+});
+
+// Project controll all routes
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () { 
+    Route::get('project-permission/{projectId}', [ProjectController::class, 'getEmployeePermissions']);
+    Route::get('project-emp-permission', [ProjectController::class, 'allPermissions']);
+    Route::get('project-emp-module/{projectId}', [ProjectController::class, 'allModules']);
+
+    Route::post('project-module-create', [ProjectController::class, 'createModule']);
+    Route::get('project-module-edit/{id}', [ProjectController::class, 'editModule']);
+    Route::post('project-module-update/{id}', [ProjectController::class, 'updateModule']);
+    Route::delete('project-module-delete/{id}/{projectId}', [ProjectController::class, 'deleteModule']);
+
+    Route::get('project-role', [ProjectController::class, 'roleList']);
+    Route::post('project-role-create', [ProjectController::class, 'createRole']);
+    Route::get('project-role-edit/{id}', [ProjectController::class, 'editRole']);
+    Route::post('project-role-update/{id}', [ProjectController::class, 'updateRole']);
+    Route::delete('project-role-delete/{id}', [ProjectController::class, 'deleteRole']);
+
+    Route::post('project-member-store', [ProjectController::class, 'storeProjectMember']);
+    Route::get('all-members-for-project/{userType}', [ProjectController::class, 'allMembersForProject']);
+
   
 });
 

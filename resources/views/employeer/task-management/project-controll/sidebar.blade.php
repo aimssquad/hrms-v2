@@ -141,13 +141,18 @@ $user_type = Session::get("user_type");
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('org-project-control/'.request()->route('id').'/project-permission')}}">
+                                    <a href="{{ url('org-project-control/'.request()->route('id').'/role-permission-list')}}">
                                         <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Permission')}}</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ url('org-project-control/'.request()->route('id').'/project-members') }}">
                                         <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Members')}}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('org-project-control/'.request()->route('id').'/project-modules') }}">
+                                        <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Module')}}</span>
                                     </a>
                                 </li>
                                 <li >

@@ -5,15 +5,16 @@ namespace App\Models\TaskManagement;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectRolePermission extends Model
+class ProjectModule extends Model
 {
     use HasFactory;
-    protected $table = "project_role_permissions";
+    protected $table = "project_module";
     protected $fillable = [
         'id',
         'project_id',
-        'project_role_id',
-        'project_permission_id',
+        'module_name',
+        'description',
+        'order_by',
         'emid',
         'created_by'
     ];

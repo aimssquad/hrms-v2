@@ -160,22 +160,150 @@ class NoticeController extends Controller
     }
 
 
+    // public function store(Request $request)
+    // {
+    //     $userId = Session::get('users_id');
+    //     $emid = Session::get('emid');
+    //     //dd($request->all());
+    //     $validated = $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'description' => 'required|string',
+    //         'start_date' => 'required|date',
+    //         'end_date' => 'required|date|after_or_equal:start_date',
+    //         'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    //         'notice_for' => 'required|string', // ALL / SINGLE
+    //         'created_by_type' => 'required|string',
+    //         'employee_id' => 'nullable' // for single user
+    //     ]);
+        
+    //     try {
+
+    //         // Upload image
+    //         $imagePath = $request->file('image')
+    //             ? $request->file('image')->store('notices', 'public')
+    //             : null;
+
+    //         // Save notice
+    //         $notice = Notice::create([
+    //             'title' => $validated['title'],
+    //             'description' => $validated['description'],
+    //             'start_date' => $validated['start_date'],
+    //             'end_date' => $validated['end_date'],
+    //             'image' => $imagePath,
+    //             'notice_for' => $validated['notice_for'],
+    //             'created_by_type' => $validated['created_by_type'],
+    //             'created_by_id' => $userId,
+    //             'organization_id' => $emid
+    //         ]);
+
+    //         $title = $validated['title'];
+    //         $message = $validated['description'];
+
+    //         //  SEND TO ALL EMPLOYEES
+    //         if ($validated['notice_for'] == 'all') {
+
+    //             $users = DB::table('users')
+    //                 ->join('user_devices', 'user_devices.user_id', '=', 'users.id')
+    //                 ->where('users.emid', $emid)
+    //                 ->select('users.employee_id', 'users.id', 'user_devices.fcm_token')
+    //                 ->get();
+              
+    //             foreach ($users as $user) {
+
+    //                 // MUTE CHECK
+    //                 if (EmpNotificationSetting::isMuted(
+    //                     $user->employee_id,
+    //                     EmpNotificationModule::NOTICE ?? 7 
+    //                 )) {
+    //                     continue;
+    //                 }
+
+    //                 // STORE NOTIFICATION
+    //                 EmpNotification::create([
+    //                     'emid' => $emid,
+    //                     'employee_id' => $user->employee_id,
+    //                     'user_id' => $user->id,
+    //                     'type' => 'NOTICE',
+    //                     'title' => $title,
+    //                     'description' => $message,
+    //                     'reference_id' => $notice->id,
+    //                     'reference_type' => 'notice',
+    //                     'start_date' => $validated['start_date'],
+    //                     'end_date' => $validated['end_date'],
+    //                     'status' => 1,
+    //                 ]);
+
+    //                 //FIREBASE SEND
+    //                 app(\App\Services\FirebaseService::class)
+    //                     ->send($user->fcm_token, $title, $message);
+    //             }
+    //         }
+
+    //         // SEND TO SINGLE EMPLOYEE
+    //         if ($validated['notice_for'] != 'all') {
+
+    //             $employeeId = $validated['notice_for'];
+
+    //             $users = DB::table('user_devices')
+    //                 ->join('users', 'users.id', '=', 'user_devices.user_id')
+    //                 ->where('users.employee_id', $employeeId)
+    //                 ->select('users.id as user_id', 'user_devices.fcm_token')
+    //                 ->get();
+
+    //             // MUTE CHECK
+    //             if (!EmpNotificationSetting::isMuted(
+    //                 $employeeId,
+    //                 EmpNotificationModule::NOTICE ?? 7
+    //             )) {
+    //                 foreach ($users as $user) {
+    //                     EmpNotification::create([
+    //                         'emid' => $emid,
+    //                         'employee_id' => $employeeId,
+    //                         'user_id' => $user->user_id, 
+    //                         'type' => 'NOTICE',
+    //                         'title' => $title,
+    //                         'description' => $message,
+    //                         'reference_id' => $notice->id,
+    //                         'reference_type' => 'notice',
+    //                         'start_date' => $validated['start_date'],
+    //                         'end_date' => $validated['end_date'],
+    //                         'status' => 1,
+    //                     ]);
+
+    //                     // FIREBASE SEND
+    //                     app(\App\Services\FirebaseService::class)
+    //                         ->send($user->fcm_token, $title, $message);
+    //                 }
+    //             }
+    //         }
+
+    //         Session::flash('message', 'Notice added successfully.');
+    //         return redirect('notice/org-notice');
+
+    //     } catch (\Exception $e) {
+
+    //         \Log::error($e->getMessage());
+
+    //         Session::flash('error', 'Something went wrong.');
+    //         return redirect('notice/add-notice');
+    //     }
+    // }
+
     public function store(Request $request)
     {
         $userId = Session::get('users_id');
         $emid = Session::get('emid');
-        //dd($request->all());
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'notice_for' => 'required|string', // ALL / SINGLE
+            'notice_for' => 'required|string', // ALL / employee_id
             'created_by_type' => 'required|string',
-            'employee_id' => 'nullable' // for single user
         ]);
-        
+
         try {
 
             // Upload image
@@ -199,26 +327,28 @@ class NoticeController extends Controller
             $title = $validated['title'];
             $message = $validated['description'];
 
-            //  SEND TO ALL EMPLOYEES
+           
+            // CASE 1: SEND TO ALL
+           
             if ($validated['notice_for'] == 'all') {
 
                 $users = DB::table('users')
-                    ->join('user_devices', 'user_devices.user_id', '=', 'users.id')
-                    ->where('users.emid', $emid)
-                    ->select('users.employee_id', 'users.id', 'user_devices.fcm_token')
+                    ->where('emid', $emid)
+                    ->where('user_type', 'employee')
+                    ->select('id', 'employee_id')
                     ->get();
-                //dd($users);
+
                 foreach ($users as $user) {
 
-                    // MUTE CHECK
+                    //CHECK MUTE
                     if (EmpNotificationSetting::isMuted(
                         $user->employee_id,
-                        EmpNotificationModule::NOTICE ?? 7 
+                        EmpNotificationModule::NOTICE ?? 7
                     )) {
                         continue;
                     }
 
-                    // STORE NOTIFICATION
+                    //STORE ONLY ONE RECORD
                     EmpNotification::create([
                         'emid' => $emid,
                         'employee_id' => $user->employee_id,
@@ -233,33 +363,38 @@ class NoticeController extends Controller
                         'status' => 1,
                     ]);
 
-                    //FIREBASE SEND
-                    app(\App\Services\FirebaseService::class)
-                        ->send($user->fcm_token, $title, $message);
+                    //GET ALL DEVICE TOKENS
+                    $tokens = DB::table('user_devices')
+                        ->where('user_id', $user->id)
+                        ->pluck('fcm_token');
+
+                    // SEND TO ALL DEVICES
+                    foreach ($tokens as $token) {
+                        app(\App\Services\FirebaseService::class)
+                            ->send($token, $title, $message);
+                    }
                 }
-            }
-
-            // SEND TO SINGLE EMPLOYEE
-            if ($validated['notice_for'] != 'all') {
-
+            }else {
                 $employeeId = $validated['notice_for'];
 
-                $users = DB::table('user_devices')
-                    ->join('users', 'users.id', '=', 'user_devices.user_id')
-                    ->where('users.employee_id', $employeeId)
-                    ->select('users.id as user_id', 'user_devices.fcm_token')
-                    ->get();
+                $user = DB::table('users')
+                    ->where('employee_id', $employeeId)
+                    ->where('user_type', 'employee')
+                    ->where('emid', $emid)
+                    ->first();
 
-                // MUTE CHECK
-                if (!EmpNotificationSetting::isMuted(
-                    $employeeId,
-                    EmpNotificationModule::NOTICE ?? 7
-                )) {
-                    foreach ($users as $user) {
+                if ($user) {
+
+                    //CHECK MUTE
+                    if (!EmpNotificationSetting::isMuted(
+                        $employeeId,
+                        EmpNotificationModule::NOTICE ?? 7
+                    )) {
+
                         EmpNotification::create([
                             'emid' => $emid,
                             'employee_id' => $employeeId,
-                            'user_id' => $user->user_id, 
+                            'user_id' => $user->id,
                             'type' => 'NOTICE',
                             'title' => $title,
                             'description' => $message,
@@ -270,9 +405,16 @@ class NoticeController extends Controller
                             'status' => 1,
                         ]);
 
-                        // FIREBASE SEND
-                        app(\App\Services\FirebaseService::class)
-                            ->send($user->fcm_token, $title, $message);
+                        // GET ALL DEVICE TOKENS
+                        $tokens = DB::table('user_devices')
+                            ->where('user_id', $user->id)
+                            ->pluck('fcm_token');
+
+                        //SEND TO ALL DEVICES
+                        foreach ($tokens as $token) {
+                            app(\App\Services\FirebaseService::class)
+                                ->send($token, $title, $message);
+                        }
                     }
                 }
             }

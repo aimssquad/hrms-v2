@@ -4075,6 +4075,7 @@ class DashboardController extends Controller
 
     public function saveEmployeesrightByDate(Request $request)
     {
+        //dd($request->all());
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
@@ -4088,7 +4089,7 @@ class DashboardController extends Controller
                 ->where('email', '=', $email)
                 ->first();
 
-            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->where('emp_code',$request->employee_id)->get();
             if ($request->date != '') {
                 $data['vis_due'] = date('Y-m-d', strtotime($request->date));
             } else {
@@ -4106,11 +4107,11 @@ class DashboardController extends Controller
                     ->where('emp_code', '=', $request->employee_id)
                     ->where('emid', '=', $Roledata->reg)
                     ->first();
-                $data['employee_rs'] = DB::table('employee_qualification')
+                // $data['employee_rs'] = DB::table('employee_qualification')
 
-                    ->where('emp_id', '=', $request->employee_id)
-                    ->where('emid', '=', $Roledata->reg)
-                    ->get();
+                //     ->where('emp_id', '=', $request->employee_id)
+                //     ->where('emid', '=', $Roledata->reg)
+                //     ->get();
 
                 $data['employee_upload_rs'] = DB::table('employee_upload')
 
@@ -4123,10 +4124,12 @@ class DashboardController extends Controller
                     ->get();
             //---------------------------------------------------hfhfgfhhfhgfhgfh
             if ($data['vis_due'] >= '2021-07-01') {
+                //dd($data);
                 return view('employeer/sopnsor-compliance/add-right-works', $data);
                 //return view('dashboard/add-right-works', $data);
 
             } else {
+                dd(okk);
                 return view('employeer/sopnsor-compliance/add-right-works-new', $data);
                 //return view('dashboard/add-right-works-new', $data);
             }
@@ -4645,6 +4648,21 @@ class DashboardController extends Controller
             return redirect('/');
         }
 
+    }
+
+
+    public function deleteEmployeeRTW($send_id)
+    {
+        //dd(base64_decode($send_id));
+        if (!empty(Session::get('emp_email'))) {
+            DB::table('right_works')->where('id', base64_decode($send_id))->delete();
+            Session::flash('message', 'Right to Work checks Deleted Successfully');
+            return redirect('org-dashboard-right-works');
+            //return redirect('dashboard-right-works');
+
+        } else {
+            return redirect('/');
+        }
     }
 
 

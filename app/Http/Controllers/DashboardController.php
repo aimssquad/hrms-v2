@@ -4742,7 +4742,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
 
     public function downloadsendcandidatedetailswork($send_id)
     {
-
+        dd('okk');
         if (!empty(Session::get('emp_email'))) {
 
             $email = Session::get('emp_email');
@@ -4780,7 +4780,6 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $datapdf = [
                 'html_content' => $html90,
             ];
-
             $pdf = PDF::loadView('mypdfRTW',$datapdf);
             $file='RTW_'.$data['work_rs']->employee_id.'.pdf';
             return $pdf->download($file);

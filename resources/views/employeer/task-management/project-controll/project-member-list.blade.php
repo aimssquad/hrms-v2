@@ -1,4 +1,4 @@
-@extends('employeer.task-management.project-management.app')
+@extends('employeer.task-management.project-controll.app')
 
 @section('title', \App\Helpers\Helper::cachedTrans('Project Member List'))
 
@@ -77,10 +77,10 @@
                                 <tbody>
                                     @foreach($members as $key=>$p)
                                         <tr>
-                                            <td>{{$key+1}}</td>
-                                            {{-- <td>{{$project->title}}</td> --}}
-                                            <td>{{$p->fname }} {{$p->mname}} {{$p->lname}}</td>
-                                            <td>{{ucwords($p->role)}}</td>
+                                            <td>{{$loop->iteration}}</td>
+                                            {{-- <td>{{ucwords($p->user_type)}}</td> --}}
+                                            <td>{{$p->name }}</td>
+                                            <td>{{ucwords($p->role_name)}}</td>
                                             <td>{{ucwords($p->permission)}}</td>
                                             <!-- <td>{{$p->created_at}}</td> -->
                                             <td>

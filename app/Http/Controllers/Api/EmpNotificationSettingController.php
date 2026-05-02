@@ -148,8 +148,10 @@ class EmpNotificationSettingController extends Controller
 
         $settings = EmpNotification::where('employee_id', $employeeId)
             ->where('emid', $emid)
+            ->orderBy('is_read', 'asc')   // 🔥 unread (0) first
+            ->orderBy('created_at', 'desc') // latest on top
             ->get();
-        //dd($settings);
+        
         return response()->json($settings);
     }
 

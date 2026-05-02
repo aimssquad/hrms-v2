@@ -637,7 +637,7 @@ Route::get('org-dashboard/org-contract-word/{agreement_id}', 'App\Http\Controlle
 Route::post('org-add-right-works', 'App\Http\Controllers\organization\DashboardController@saveEmployeesright');
 Route::get('org-dashboard/edit-work-view/{send_id}', 'App\Http\Controllers\organization\DashboardController@viewsendcandidatedetailsworkedit');
 Route::post('org-edit-right-works', 'App\Http\Controllers\organization\DashboardController@saveEmployeesrightedit');
-
+Route::get('org-dashboard/delete-work-view/{send_id}', 'App\Http\Controllers\organization\DashboardController@deleteEmployeeRTW');
 //-----------------------------------------End Sponsor Compliance --------------------------------------------------------
 
 // --------------------------------Start Recruitment Section ---------------------------------------------------------------
@@ -6180,5 +6180,41 @@ Route::post('org-project-control/{id}/project-role/store','App\Http\Controllers\
 Route::get('org-project-control/{id}/project-role-edit/{role_id}','App\Http\Controllers\organization\ProjectControl\RolesController@edit');
 
 
-Route::get('org-project-control/{id}/permission-master','App\Http\Controllers\organization\ProjectControl\RolesController@permissionMaster');
-Route::get('org-project-control/{id}/project-permission','App\Http\Controllers\organization\ProjectControl\RolesController@userProjectPermission');
+Route::get('org-project-control/{id}/permission-master','App\Http\Controllers\organization\ProjectControl\ProjectPermissionController@index');
+Route::post('org-project-control/{id}/permission-master','App\Http\Controllers\organization\ProjectControl\ProjectPermissionController@save');
+Route::post('org-project-control/{id}/project-role-update/{role_id}', 'App\Http\Controllers\organization\ProjectControl\ProjectPermissionController@update');
+Route::get('org-project-control/{id}/project-permission','App\Http\Controllers\organization\ProjectControl\ProjectPermissionController@rolePermissionView');
+Route::get('org-project-control/{id}/role-permission-list','App\Http\Controllers\organization\ProjectControl\ProjectPermissionController@rolePermissionList');
+
+Route::post('org-project-control/{id}/assign-permission-to-role','App\Http\Controllers\organization\ProjectControl\ProjectPermissionController@assignPermissionToRole');
+
+Route::get('org-project-control/{id}/project-permission-edit/{roleId}', 'App\Http\Controllers\organization\ProjectControl\ProjectPermissionController@editPermissions');
+Route::post('org-project-control/{id}/update-permissions/{roleId}', 'App\Http\Controllers\organization\ProjectControl\ProjectPermissionController@updatePermissions');
+Route::get('org-project-control/{id}/project-permission-delete/{roleId}', 'App\Http\Controllers\organization\ProjectControl\ProjectPermissionController@deletePermissions');
+
+// project Modules
+Route::get('org-project-control/{id}/project-modules','App\Http\Controllers\organization\MembersController@getProjectModules');
+//Route::get('org-project-control/{id}/project-module-edit/{module_id}','App\Http\Controllers\organization\MembersController@editProjectModule');
+Route::post('org-project-control/{id}/project-module-update/{module_id}','App\Http\Controllers\organization\MembersController@updateProjectModule');
+Route::post('org-project-control/{id}/project-module/store','App\Http\Controllers\organization\MembersController@storeProjectModule');
+Route::get('org-project-control/{id}/project-module-delete/{module_id}','App\Http\Controllers\organization\MembersController@deleteProjectModule');
+
+Route::get(
+'module-comments/{module}',
+'App\Http\Controllers\organization\MembersController@getModuleComments'
+);
+
+Route::post(
+'module-comments/store',
+'App\Http\Controllers\organization\MembersController@storeCommentAjax'
+);
+
+Route::post(
+'module-comments/update/{id}',
+'App\Http\Controllers\organization\MembersController@updateCommentAjax'
+);
+
+Route::post(
+'module-comments/delete/{id}',
+'App\Http\Controllers\organization\MembersController@deleteCommentAjax'
+);

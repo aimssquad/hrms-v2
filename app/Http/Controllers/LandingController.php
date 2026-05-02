@@ -485,6 +485,7 @@ class LandingController extends Controller
         }
 
         $data['videos'] = DB::table('login_page_image')
+        ->where('status', 1)
         ->orderBy('slide_order', 'asc') // Order by slide_order in descending order
         ->get();
         //dd($data);

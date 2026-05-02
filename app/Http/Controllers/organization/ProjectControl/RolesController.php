@@ -61,7 +61,7 @@ class RolesController extends Controller
 
     public function edit(Request $request, $role_id)
     {
-        dd('okk');
+        //dd('okk');
         $project_id = decrypt($request->id);
         $email = Session::get("emp_email");
 

@@ -37,7 +37,8 @@
                                        </div>
                                        <div class="col-md-4">
                                           <label class="col-form-label">Work start time</label><br>
-                                          <input type="date" class="form-control" placeholder="" name="start_date" id="start_date" required>
+                                          {{-- <input type="date" class="form-control" placeholder="" name="start_date" id="start_date" required> --}}
+                                          <input type="date" class="form-control" placeholder="" name="start_date" required>
                                        </div>
                                     </div>
                                     <div class="clearfix" style="height: 10px;clear: both;"></div>
@@ -61,191 +62,177 @@
 @endsection
 @section('script')
 <script type="text/javascript">
-    jQuery().ready(function() {
+   jQuery().ready(function() {
       // validate form on keyup and submit
-        var v = jQuery("#basicform").validate({
-          rules: {
-            
-            email: {
-              required: true,
-              
-              email: true,
-              
-            },
-            phone: {
-              required: true,
-              
-            },
-            method: {
-              required: true,
-              
-            },
-     city: {
-              required: true,
-              
-            },
-             country: {
-              required: true,
-              
-            },
-             postcode: {
-              required: true,
-              
-            },
-    ca1: {
-              required: true,
-              
-            }
-          },
+      var v = jQuery("#basicform").validate({
+         rules: {
+               
+                  email: {
+                     required: true,
+                     email: true,
+                  },
+                  phone: {
+                     required: true,
+                  },
+                  method: {
+                     required: true,
+                  },
+                  city: {
+                        required: true, 
+                  },
+                  country: {
+                     required: true, 
+                  },
+                  postcode: {
+                     required: true,
+                     
+                  },
+                  ca1: {
+                     required: true,
+                        
+                  }
+         },
           errorElement: "span",
           errorClass: "help-inline-error",
-        });
+      });
     
       // Binding next button on first step
       $(".open1").click(function() {
-          if (v.form()) {
+         if (v.form()) {
             $(".frm").hide("fast");
             $("#sf2").show("slow");
-          }
-        });
-    
-         $(".open2").click(function() {
-         if (v.form()) {
-         $(".frm").hide("fast");
-        $("#sf3").show("slow");
          }
-        });
-          $(".open3").click(function() {
-         if (v.form()) {
-         $(".frm").hide("fast");
-        $("#sf4").show("slow");
-         }
-        });
-        
-        $(".open4").click(function() {
-        
-        });
-        
-        $(".back2").click(function() {
-          $(".frm").hide("fast");
-          $("#sf1").show("slow");
-        });
-    
-        $(".back3").click(function() {
-          $(".frm").hide("fast");
-          $("#sf2").show("slow");
-        });
-    
-        $(".back4").click(function() {
-          $(".frm").hide("fast");
-          $("#sf3").show("slow");
-        });
-    
       });
-          function checkemp(val){
-            var empid=val;
-            
-                       $.ajax({
-            type:'GET',
-            url:'{{url('pis/getEmployeetaxempByIdnewemployee')}}/'+empid,
-            cache: false,
-            success: function(response){
-            
-                 var obj = jQuery.parseJSON(response);
-                    console.log(obj[0]);
-                  var emp_code=obj[0].emp_code;
-             
-                      $("#emp_id").val(emp_code);
-                    
-                        $("#emp_id").attr("readonly", true);
-                
-                         
-                         if(obj[0].emp_doj!='1970-01-01'){
-                         $("#start_date").val(obj[0].emp_doj);
-                          var input = document.getElementById("date");
-                            //input.setAttribute("max", obj[0].emp_doj);
-                         }
-                         $("#start_date").attr("readonly", true);
-                            if(obj[0].emp_doj!='1970-01-01'){
-                         $("#start_date").val(obj[0].emp_doj);
-                         } 
-                    
-                            if(obj[0].visa_review_date!='1970-01-01'){
-                         $("#list_rightb_date").val(obj[0].visa_review_date);
-                         } 
-                             
-                          
-                 
-            }
-            });
-                 $.ajax({
-            type:'GET',
-            url:'<?=env("BASE_URL");?>pis/getEmployeedreportfileById/'+empid,
-            cache: false,
-            success: function(response){
-                
-            
-                document.getElementById("scan_f").innerHTML = response;
-                    document.getElementById("scan_s").innerHTML = response;
-                        document.getElementById("scan_r").innerHTML = response;
-                            document.getElementById("evidence").innerHTML = response;
-            }
-            });
-        }
+    
+      $(".open2").click(function() {
+         if (v.form()) {
+            $(".frm").hide("fast");
+            $("#sf3").show("slow");
+         }
+      });
+
+      $(".open3").click(function() {
+         if (v.form()) {
+            $(".frm").hide("fast");
+            $("#sf4").show("slow");
+         }
+      });
+        
+      $(".open4").click(function() {
+        
+      });
+        
+      $(".back2").click(function() {
+         $(".frm").hide("fast");
+         $("#sf1").show("slow");
+      });
+    
+      $(".back3").click(function() {
+         $(".frm").hide("fast");
+         $("#sf2").show("slow");
+      });
+    
+      $(".back4").click(function() {
+         $(".frm").hide("fast");
+         $("#sf3").show("slow");
+      });
+    
+   });
+
+   function checkemp(val){
+      var empid=val;
+      $.ajax({
+         type:'GET',
+         url:'{{url('pis/getEmployeetaxempByIdnewemployee')}}/'+empid,
+         cache: false,
+         success: function(response){
+         
+            var obj = jQuery.parseJSON(response);
+               console.log(obj[0]);
+            var emp_code=obj[0].emp_code;
+   
+            $("#emp_id").val(emp_code);
+         
+            $("#emp_id").attr("readonly", true);
+      
+               
+               if(obj[0].emp_doj!='1970-01-01'){
+               $("#start_date").val(obj[0].emp_doj);
+               var input = document.getElementById("date");
+                  //input.setAttribute("max", obj[0].emp_doj);
+               }
+               $("#start_date").attr("readonly", true);
+                  if(obj[0].emp_doj!='1970-01-01'){
+               $("#start_date").val(obj[0].emp_doj);
+               } 
+         
+                  if(obj[0].visa_review_date!='1970-01-01'){
+               $("#list_rightb_date").val(obj[0].visa_review_date);
+               }   
+         }
+      });
+
+      $.ajax({
+         type:'GET',
+         url:'<?=env("BASE_URL");?>pis/getEmployeedreportfileById/'+empid,
+         cache: false,
+         success: function(response){
+            document.getElementById("scan_f").innerHTML = response;
+            document.getElementById("scan_s").innerHTML = response;
+            document.getElementById("scan_r").innerHTML = response;
+            document.getElementById("evidence").innerHTML = response;
+         }
+      });
+   }
         
         
-        function checkscsnf(val){
-        
-        var emp_id=$("#emp_id").val();
-            $.ajax({
-            type:'GET',
-            url:'{{url('pis/getEmployeedreportfileByInewscand')}}/'+emp_id+'/'+val,
-            cache: false,
-            success: function(response){
-                var gg="<?=env("BASE_URL");?>public/"+response;
-        
-          
-            $("#imgeid").attr("src",gg);
-            $("#scan_f_img").val(response);  	   
-            }
-            });
-        
-    }
-    function checkscsns(val){
-        
-        var emp_id=$("#emp_id").val();
-            $.ajax({
-            type:'GET',
-            url:'{{url('pis/getEmployeedreportfileByInewscand')}}/'+emp_id+'/'+val,
-            cache: false,
-            success: function(response){
-                var gg="<?=env("BASE_URL");?>public/"+response;
-        
-          
+   function checkscsnf(val){ 
+      var emp_id=$("#emp_id").val();
+      $.ajax({
+         type:'GET',
+         url:'{{url('pis/getEmployeedreportfileByInewscand')}}/'+emp_id+'/'+val,
+         cache: false,
+         success: function(response){
+            var gg="<?=env("BASE_URL");?>public/"+response;
+   
+      
+         $("#imgeid").attr("src",gg);
+         $("#scan_f_img").val(response);  	   
+         }
+      });
+      
+   }
+
+
+   function checkscsns(val){
+      var emp_id=$("#emp_id").val();
+      $.ajax({
+         type:'GET',
+         url:'{{url('pis/getEmployeedreportfileByInewscand')}}/'+emp_id+'/'+val,
+         cache: false,
+         success: function(response){
+            var gg="<?=env("BASE_URL");?>public/"+response;
             $("#imgeids").attr("src",gg);
-                    $("#scan_s_img").val(response);  
-            }
-            });
-        
-    }
-    function checkscsnr(val){
-        
-        var emp_id=$("#emp_id").val();
-            $.ajax({
-            type:'GET',
-            url:'{{url('pis/getEmployeedreportfileByInewscand')}}/'+emp_id+'/'+val,
-            cache: false,
-            success: function(response){
-                var gg="<?=env("BASE_URL");?>public/"+response;
-        
-          
+            $("#scan_s_img").val(response);  
+         }
+      });
+      
+   }
+
+
+   function checkscsnr(val){
+      var emp_id=$("#emp_id").val();
+      $.ajax({
+         type:'GET',
+         url:'{{url('pis/getEmployeedreportfileByInewscand')}}/'+emp_id+'/'+val,
+         cache: false,
+         success: function(response){
+            var gg="<?=env("BASE_URL");?>public/"+response;
             $("#imgeidsj").attr("src",gg);
-              $("#scan_r_img").val(response);
-            
-                   
-            }
-            });
-        
-    }
+            $("#scan_r_img").val(response);   
+         }
+      });
+      
+   }
     </script>
 @endsection

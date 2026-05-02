@@ -225,9 +225,12 @@ class MembersController extends Controller
     public function getProjectMembers(Request $request)
     {   
         $project_id = decrypt($request->id);
+        $emid = Session::get("emid");
+     
         $members = ProjectMembers::where('project_id', $project_id)
             ->join('users', 'users.employee_id', '=', 'project_members.user_id')
-            ->select('project_members.*', 'users.name as name')
+            ->join('project_roles', 'project_roles.id', '=', 'project_members.role')
+            ->select('project_members.*', 'users.name as name','users.user_type as user_type', 'project_roles.name as role_name')
             ->get();
 
         //$users = UserModel::where('emid',$emid)->where('user_type','employee')->where('status', 'active')->get();    
@@ -258,37 +261,6 @@ class MembersController extends Controller
         ]);
     }
 
-    // public function saveMember(Request $request)
-    // {   
-    //     //dd($request->all());
-    //     $email = Session::get("emp_email");
-    //     dd($email);
-    //     $project_id = decrypt($request->id);
-    //     $user_id = $request->user_id;
-    //     $role = $request->role;
-    //     $permission = $request->member_type;
-
-    //     $isExist = ProjectMembers::where('project_id', $project_id)->where('user_id', $user_id)->first();
-    //     if($isExist){
-    //         return response()->json(['status' => false, 'message' => 'Member already exists in this project']);
-    //     }
-
-    //     $data = [
-    //         'project_id' => $project_id,
-    //         'user_id' => $user_id,
-    //         'role' => $role,
-    //         'member_type' => $permission
-    //     ];
-    //     dd($data);
-    //     ProjectMembers::create([
-    //         'project_id' => $project_id,
-    //         'user_id' => $user_id,
-    //         'role' => $role,
-    //         'permission' => $permission
-    //     ]);
-    //     return response()->json(['status' => true, 'message' => 'Member added to project successfully']);
-    // }
-
     public function saveMember(Request $request)
     {
         $email = Session::get("emp_email");
@@ -314,15 +286,6 @@ class MembersController extends Controller
             ]);
         }
 
-        $data = [
-            'project_id' => $project_id,
-            'user_id' => $user_id,
-            'role' => $role_id, // Save role_id instead of role name
-            'user_type' => $user_type,
-            'createdBy' => $assignedById,
-            'created_at' => date('Y-m-d H:i:s')
-        ];
-        //dd($data);
         // Save only role_id (NOT permission)
         ProjectMembers::create([
             'project_id' => $project_id,
@@ -331,12 +294,221 @@ class MembersController extends Controller
             'user_type' => $user_type, 
             'createdBy' => $assignedById
         ]);
-
-        return redirect('/org-task-management/' . encrypt($project_id) . '/project-members');
+        return redirect('/org-project-control/' . encrypt($project_id) . '/project-members'); // new route 
+        // return redirect('/org-task-management/' . encrypt($project_id) . '/project-members');//old route
     }
 
 
-    //--------------------------Task control code end -------------------------
+
+    public function getProjectModules(Request $request)
+    {
+        //dd('okk');
+        $email = Session::get('emp_email');
+        $emid = Session::get("emid");
+        //dd($email, $emid);
+        $project_id = decrypt($request->id);
+        // Fetch modules related to the project
+        $modules = DB::table('project_module')
+            ->where('project_id', $project_id)
+            ->get();
+
+
+        return view('employeer.task-management.project-controll.project-module-list', compact('modules', 'project_id'));
+    }
+
+    public function storeProjectModule(Request $request)
+    {
+        $email = Session::get('emp_email');
+
+        if(empty($email)){
+            Session::flash('error','Unauthorized access');
+            return redirect('/');
+        }
+
+        $request->validate([
+            'module_name' => 'required|string|max:255',
+            'description' => 'required|string|min:10|max:5000',
+            'order_by' => 'required|integer|min:1'
+        ],[
+            'module_name.required' => 'Module name is required.',
+            'module_name.max' => 'Module name cannot exceed 255 characters.',
+
+            'description.required' => 'Module description is required.',
+            'description.min' => 'Description must be at least 10 characters.',
+            
+            'order_by.required' => 'Module order is required.',
+            'order_by.integer' => 'Module order must be a number.',
+            'order_by.min' => 'Order must start from 1.'
+        ]);
+
+        $project_id = decrypt($request->id);
+        $emid = Session::get("emid");
+       // dd($emid);
+        DB::table('project_module')->insert([
+            'project_id'   => $project_id,
+            'module_name'  => $request->module_name,
+            'description'  => $request->description,
+            'order_by'     => $request->order_by,
+            'created_by'   => $emid,
+            'emid'         => $emid,
+            'created_at'   => now()
+        ]);
+
+        Session::flash('message','Project module has been added successfully');
+
+        return redirect('/org-project-control/' . encrypt($project_id) . '/project-modules');
+    }
+
+
+    // public function editProjectModule($id, $module_id)
+    // {
+    //     $email = Session::get('emp_email');
+
+    //     if(empty($email)){
+    //         Session::flash('error','Unauthorized access');
+    //         return redirect('/');
+    //     }
+
+    //     $project_id = decrypt($id);
+    //     $module_id  = decrypt($module_id);
+    //     dd($project_id, $module_id);
+    //     $module = DB::table('project_module')
+    //                 ->where('project_id',$project_id)
+    //                 ->where('id',$module_id)
+    //                 ->first();
+
+    //     if(!$module){
+    //         Session::flash('error','Module not found');
+    //         return redirect('/org-project-control/'.$id.'/project-modules');
+    //     }
+
+    //     return view(
+    //         'employeer.task-management.project-controll.edit-project-module',
+    //         compact('module','project_id')
+    //     );
+    // }
+
+    public function updateProjectModule(Request $request,$id,$module_id)
+    {
+        $email = Session::get('emp_email');
+
+        if(empty($email)){
+            Session::flash('error','Unauthorized access');
+            return redirect('/');
+        }
+        //dd($request->all(), $id, $module_id);
+        $request->validate([
+            'module_name'=>'required|max:255',
+            'description'=>'required',
+            'order_by'=>'required|integer|min:1'
+        ]);
+
+        DB::table('project_module')
+        ->where('id',decrypt($module_id))
+        ->update([
+            'module_name'=>$request->module_name,
+            'description'=>$request->description,
+            'order_by'=>$request->order_by,
+            'updated_at'=>now()
+        ]);
+
+        Session::flash('message','Module updated successfully');
+
+        return back();
+    }
+
+    public function deleteProjectModule($id, $module_id)
+    {
+        $email = Session::get('emp_email');
+       
+        if(empty($email)){
+            Session::flash('error','Unauthorized access');
+            return redirect('/');
+        }
+
+        DB::table('project_module')
+        ->where('id',decrypt($module_id))
+        ->delete();
+
+        Session::flash('message','Project module deleted successfully');
+
+        return back();
+    }
+
+    //comment 
+    public function getModuleComments($module_id)
+    {
+        $comments=DB::table('comments')
+        ->leftJoin(
+        'users',
+        'users.employee_id',
+        '=',
+        'comments.user_id'
+        )
+        ->where('commentable_type','module')
+        ->where('commentable_id',$module_id)
+        ->where('is_deleted',0)
+        ->select(
+        'comments.*',
+        'users.name'
+        )
+        ->orderBy('comments.id')
+        ->get();
+
+        return response()->json($comments);
+    }
+
+    public function storeCommentAjax(Request $request)
+    {
+        $request->validate([
+        'project_id'=>'required',
+        'commentable_id'=>'required',
+        'message'=>'required'
+        ]);
+
+        DB::table('comments')->insert([
+        'project_id'=>$request->project_id,
+        'user_id'=>Session::get('emid'),
+        'commentable_type'=>'module',
+        'commentable_id'=>$request->commentable_id,
+        'message'=>$request->message,
+        'created_at'=>now()
+        ]);
+
+        return response()->json([
+        'success'=>true
+        ]);
+    }
+
+    public function updateCommentAjax(
+        Request $request,
+        $id
+        ){
+
+        DB::table('comments')
+        ->where('id',$id)
+        ->update([
+        'message'=>$request->message,
+        'edited_at'=>now()
+        ]);
+
+        return response()->json([
+        'success'=>true
+        ]);
+    }
+
+    public function deleteCommentAjax($id)
+        {
+        DB::table('comments')
+        ->where('id',$id)
+        ->update([
+        'is_deleted'=>1
+        ]);
+
+        return response()->json([
+        'success'=>true
+        ]);
+    }
 
 
 
