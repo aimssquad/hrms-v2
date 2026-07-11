@@ -1097,15 +1097,15 @@ class SettingController extends Controller
     }
 
     public function viewAddNewDepartment(Request $request)
-    {
+    {   
         try{
             if (!empty(Session::get('emp_email'))) {
                 $email = Session::get('emp_email');
-
+                
                 $data['Roledata'] = DB::table('registration')->where('status', '=', 'active')
 
                     ->where('email', '=', $email)
-                    ->first();
+                    ->first(); 
                 if ($request->id) {
                     $dt = DB::table('department')->where('id', '=', $request->id)->where('department_status', '=', 'active')->get();
                     if (count($dt) > 0) {
@@ -1129,14 +1129,14 @@ class SettingController extends Controller
     }
 
     public function saveDepartmentData(Request $request)
-    {
+    { 
         try {
             if (!empty(Session::get('emp_email'))) {
 
                 $department_name = strtoupper(trim($request->department_name));
                 $email = Session::get('emp_email');
                 $reg = Session::get('emid');
-                
+
                 if (is_numeric($department_name) == 1) {
                     Session::flash('message', 'Department Should not be numeric.');
                     return redirect('org-settings/vw-department');
@@ -1174,14 +1174,14 @@ class SettingController extends Controller
                     Session::flash('message', 'Department Information Successfully Updated.');
                     return redirect('org-settings/vw-department');
 
-                } else {
-                    $ckeck_dept = DB::table('department')->where('department_name', $department_name)->where('emid', $reg)->first();
+                } else { 
+                    $ckeck_dept = DB::table('department')->where('department_name', $department_name)->where('emid', $reg)->first(); 
                     if (!empty($ckeck_dept)) {
 
                         Session::flash('message', 'Department Already Exists.');
                         return redirect('org-settings/vw-department');
                     }
-
+                    
                     $validator = Validator::make($request->all(), [
                         'department_name' => 'required',
 

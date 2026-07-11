@@ -215,8 +215,9 @@
                 <h1 class="page-title"> {{$project->title}}</h1>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">{{\App\Helpers\Helper::cachedTrans('Project List')}}</a></li>  
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('All project List')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/org-task-management/project-analitic-dashboard/'.encrypt($project->id))}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item"><a href="#">{{\App\Helpers\Helper::cachedTrans('Members')}}</a></li>  
                 </ul>
             </div>
             <div class="row">

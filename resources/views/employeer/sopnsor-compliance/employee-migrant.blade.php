@@ -46,7 +46,7 @@ return $output;
          <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                <h4 class="card-title" style="color:rgb(250, 149, 33)">
-                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans("Visa Notification")}}
+                   <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp; {{\App\Helpers\Helper::cachedTrans("Visa/RTW Notification")}}
                </h4>
                <div class="row">
                   <div class="col-auto">
@@ -80,17 +80,19 @@ return $output;
                   <table class="table table-striped custom-table" id="basic-datatables">
                      <thead>
                         <tr>
-                           <th>{{\App\Helpers\Helper::cachedTrans("Employee ID")}} </th>
-                           <th>{{\App\Helpers\Helper::cachedTrans("Employee Name")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("EE ID")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Name")}} </th>
                            <th>{{\App\Helpers\Helper::cachedTrans("DOB")}} </th>
-                           <th>{{\App\Helpers\Helper::cachedTrans("Mobile")}} </th>
+                           {{-- <th>{{\App\Helpers\Helper::cachedTrans("Mobile")}} </th> --}}
                            <th>{{\App\Helpers\Helper::cachedTrans("Nationality")}} </th>
-                           <th>{{\App\Helpers\Helper::cachedTrans("Share Code")}} </th>
-                           <th>{{\App\Helpers\Helper::cachedTrans("Share Date Check")}} </th>
-                           <th>{{\App\Helpers\Helper::cachedTrans("Share Issue Date")}} </th>
-                           <th>{{\App\Helpers\Helper::cachedTrans("Share Expiry Date")}} </th>
                            <th>{{\App\Helpers\Helper::cachedTrans("NI Number")}} </th>
-                           <th>{{\App\Helpers\Helper::cachedTrans("Visa Expired")}} </th>
+                           <th style="color:red;">{{\App\Helpers\Helper::cachedTrans("Visa Expired")}} </th>
+                           <th style="color:blue;">{{\App\Helpers\Helper::cachedTrans("ER Share Code Ref.")}} </th>
+                           {{-- <th>{{\App\Helpers\Helper::cachedTrans("Share Date Check")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Share Issue Date")}} </th>
+                           <th>{{\App\Helpers\Helper::cachedTrans("Share Expiry Date")}} </th> --}}
+                           {{-- <th>{{\App\Helpers\Helper::cachedTrans("NI Number")}} </th> --}}
+                           {{-- <th>{{\App\Helpers\Helper::cachedTrans("Visa Expired")}} </th> --}}
                            <th>{{\App\Helpers\Helper::cachedTrans("Visa Reminder - 90 days")}}  </th>
                            <th>{{\App\Helpers\Helper::cachedTrans("View")}}  </th>
                            <th>{{\App\Helpers\Helper::cachedTrans("Send")}}  </th>
@@ -101,7 +103,7 @@ return $output;
                            <th>{{\App\Helpers\Helper::cachedTrans("View")}} </th>
                            <th>{{\App\Helpers\Helper::cachedTrans("Send")}}  </th>
                            <th>{{\App\Helpers\Helper::cachedTrans("Passport No.")}} </th>
-                           <th>{{\App\Helpers\Helper::cachedTrans("Address.")}} </th>
+                           {{-- <th>{{\App\Helpers\Helper::cachedTrans("Address.")}} </th> --}}
                            <th>{{\App\Helpers\Helper::cachedTrans("Email Send")}} </th>
                            <th>{{\App\Helpers\Helper::cachedTrans("Action")}} </th>
                         </tr>
@@ -109,19 +111,20 @@ return $output;
                      <tbody>
                         @foreach($employee_rs as $employee)
 
-                              <tr>
-
+                           <tr>
                               <td>{{ $employee->emp_code}}</td>
                               <td>{{ $employee->emp_fname." ".$employee->emp_mname." ".$employee->emp_lname }}</td>
-                   <td>    @if( $employee->emp_dob!='1970-01-01') @if( $employee->emp_dob!='') {{ date('d/m/Y',strtotime($employee->emp_dob)) }} @endif  @endif</td>
-                   <td>{{ $employee->emp_ps_phone }}</td>
-                   <td>{{ $employee->nationality }}</td>
-                   <td>{{ $employee->share_code}}</td>
-                  <td>{{ $employee->share_date_check}}</td>
+                              <td>    @if( $employee->emp_dob!='1970-01-01') @if( $employee->emp_dob!='') {{ date('d/m/Y',strtotime($employee->emp_dob)) }} @endif  @endif</td>
+                              {{-- <td>{{ $employee->emp_ps_phone }}</td> --}}
+                              <td>{{ $employee->nationality }}</td>
+                              <td>{{ $employee->ni_no }}</td>
+                              <td style="color:red;">    @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='') {{ date('d/m/Y',strtotime($employee->visa_exp_date)) }} @endif  @endif</td>
+                              <td style="color:blue;">{{ $employee->share_code}}</td>
+                  {{-- <td>{{ $employee->share_date_check}}</td>
                   <td>{{ $employee->share_issue_date}}</td>
-                  <td>{{ $employee->share_expiry_date}}</td>
-                   <td>{{ $employee->ni_no }}</td>
-                   <td>    @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='') {{ date('d/m/Y',strtotime($employee->visa_exp_date)) }} @endif  @endif</td>
+                  <td>{{ $employee->share_expiry_date}}</td> --}}
+                   {{-- <td>{{ $employee->ni_no }}</td> --}}
+                   {{-- <td>    @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='') {{ date('d/m/Y',strtotime($employee->visa_exp_date)) }} @endif  @endif</td> --}}
                    <td  style="color:red;">    @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='') {{   date('d/m/Y',strtotime($employee->visa_exp_date.'  - 90  days'))}} @endif  @endif</td>
                    <td class="icon"> @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='')<a href="{{url('dashboard/migrant-dash-firstletter/'.base64_encode($employee->emp_code))}}" data-toggle="tooltip" data-placement="bottom" title="view" target="_blank"><img  style="width: 18px;" src="{{ asset('assets/img/view.png')}}"></a>@endif  @endif</td>
                    <td class="icon"> @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='')<a href="{{url('dashboard/migrant-firstletter-sendnew/'.base64_encode($employee->emp_code))}}" data-toggle="tooltip" data-placement="bottom" title="Send" ><img  style="width: 14px;" src="{{ asset('assets/img/send.png')}}"></a> @endif  @endif</td>
@@ -141,8 +144,8 @@ return $output;
                    <!-- sss -->
 
                     <td>{{ $employee->pass_doc_no }}</td>
-                     <td>{{ $employee->emp_pr_street_no}} @if( $employee->emp_per_village) ,{{ $employee->emp_per_village}} @endif @if( $employee->emp_pr_state) ,{{ $employee->emp_pr_state}} @endif @if( $employee->emp_pr_city) ,{{ $employee->emp_pr_city}} @endif
-                     @if( $employee->emp_pr_pincode) ,{{ $employee->emp_pr_pincode}} @endif  @if( $employee->emp_pr_country) ,{{ $employee->emp_pr_country}} @endif</td>
+                     {{-- <td>{{ $employee->emp_pr_street_no}} @if( $employee->emp_per_village) ,{{ $employee->emp_per_village}} @endif @if( $employee->emp_pr_state) ,{{ $employee->emp_pr_state}} @endif @if( $employee->emp_pr_city) ,{{ $employee->emp_pr_city}} @endif
+                     @if( $employee->emp_pr_pincode) ,{{ $employee->emp_pr_pincode}} @endif  @if( $employee->emp_pr_country) ,{{ $employee->emp_pr_country}} @endif</td> --}}
                              <td class="icon">
 
                               <a href="{{url('dashboard/send-mail/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code))}}" data-toggle="tooltip" data-placement="bottom" title="Send" ><img  style="width: 14px;" src="{{ asset('assets/img/send.png')}}"></a>
@@ -174,14 +177,14 @@ return $output;
             <h4 class="card-title" style="color:rgb(250, 149, 33)">
                 <i class="far fa-file" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;EUSS Notification
             </h4>
-            <div class="row">
+            {{-- <div class="row">
                <div class="col-auto">
                    <form action="{{ route('exportTableData') }}" method="POST" id="exportForm" class="d-inline">
                        @csrf
                        <input type="hidden" name="data" id="data">
                        <input type="hidden" name="headings" id="headings">
                        <input type="hidden" name="filename" id="filename">
-                       {{-- put the value - that is your file name --}}
+                      
                        <input type="hidden" id="filenameInput" value="EUSS-Notification">
                        <button type="submit" class="btn btn-success btn-sm">
                            <i class="fas fa-file-excel"></i> Export to Excel
@@ -199,19 +202,19 @@ return $output;
                      </button>
                  </form>
                </div>
-           </div>
+           </div> --}}
         </div>
          <div class="card-body">
             <div class="table-responsive">
-               <table class="table table-striped custom-table" id="basic-datatables">
+               <table class="table table-striped custom-table" id="basic-datatables2">
                   <thead>
                      <tr>
-                         <th>Employee Code</th>
-                         <th>Employee Name</th>
-                         <th>Address</th>
-                         <th>Reference Number No.</th>
+                         <th>EE ID</th>
+                         <th>Name</th>
+                         {{-- <th>Address</th> --}}
+                         <th>Reference No</th>
                          <th>Issue Date</th>
-                         <th>Expiry Date</th>
+                         <th style="color:red;">Expiry Date</th>
                          <th>Reminder - 90 days </th>
                          <th>View </th>
                          <th>Send </th>
@@ -222,7 +225,7 @@ return $output;
                          <th>View</th>
                          <th>Send </th>
                          <th>Passport No.</th>
-                         <th>Address.</th>
+                         {{-- <th>Address.</th> --}}
                          <th>Email Send</th>
                          <th>Action</th>
                      </tr>
@@ -233,12 +236,12 @@ return $output;
                      <tr>
                         <td>{{ $employee->emp_code}}</td>
                         <td>{{ $employee->emp_fname." ".$employee->emp_mname." ".$employee->emp_lname }}</td>
-                        <td>{{ $employee->emp_pr_street_no}} @if( $employee->emp_per_village) ,{{ $employee->emp_per_village}} @endif @if( $employee->emp_pr_state) ,{{ $employee->emp_pr_state}} @endif @if( $employee->emp_pr_city) ,{{ $employee->emp_pr_city}} @endif
+                        {{-- <td>{{ $employee->emp_pr_street_no}} @if( $employee->emp_per_village) ,{{ $employee->emp_per_village}} @endif @if( $employee->emp_pr_state) ,{{ $employee->emp_pr_state}} @endif @if( $employee->emp_pr_city) ,{{ $employee->emp_pr_city}} @endif
                            @if( $employee->emp_pr_pincode) ,{{ $employee->emp_pr_pincode}} @endif  @if( $employee->emp_pr_country) ,{{ $employee->emp_pr_country}} @endif
-                        </td>
+                        </td> --}}
                         <td>{{ $employee->euss_ref_no }}</td>
                         <td>    @if( $employee->euss_issue_date!='1970-01-01') @if( $employee->euss_issue_date!='') {{ date('d/m/Y',strtotime($employee->euss_issue_date)) }} @endif  @endif</td>
-                        <td>    @if( $employee->euss_exp_date!='1970-01-01') @if( $employee->euss_exp_date!='') {{ date('d/m/Y',strtotime($employee->euss_exp_date)) }} @endif  @endif</td>
+                        <td style="color:red;">    @if( $employee->euss_exp_date!='1970-01-01') @if( $employee->euss_exp_date!='') {{ date('d/m/Y',strtotime($employee->euss_exp_date)) }} @endif  @endif</td>
                         <td  style="color:red;">    @if( $employee->euss_exp_date!='1970-01-01') @if( $employee->euss_exp_date!='') {{   date('d/m/Y',strtotime($employee->euss_exp_date.'  - 90  days'))}}
                            &nbsp &nbsp
                         <td><a href="{{url('dashboard/eussmigrant-dash-firstletter/'.base64_encode($employee->emp_code))}}" target="_blank"><i class="fas fa-eye" ></i></a></td>
@@ -257,8 +260,8 @@ return $output;
                         &nbsp
                         <td><a href="{{url('dashboard/eussmigrant-thirdletter-send/'.base64_encode($employee->emp_code))}}" ><i class="fas fa-paper-plane"></i></a> @endif  @endif</td>
                         <td>{{ $employee->pass_doc_no }}</td>
-          <td>{{ $employee->emp_pr_street_no}} @if( $employee->emp_per_village) ,{{ $employee->emp_per_village}} @endif @if( $employee->emp_pr_state) ,{{ $employee->emp_pr_state}} @endif @if( $employee->emp_pr_city) ,{{ $employee->emp_pr_city}} @endif
-          @if( $employee->emp_pr_pincode) ,{{ $employee->emp_pr_pincode}} @endif  @if( $employee->emp_pr_country) ,{{ $employee->emp_pr_country}} @endif</td>
+          {{-- <td>{{ $employee->emp_pr_street_no}} @if( $employee->emp_per_village) ,{{ $employee->emp_per_village}} @endif @if( $employee->emp_pr_state) ,{{ $employee->emp_pr_state}} @endif @if( $employee->emp_pr_city) ,{{ $employee->emp_pr_city}} @endif
+          @if( $employee->emp_pr_pincode) ,{{ $employee->emp_pr_pincode}} @endif  @if( $employee->emp_pr_country) ,{{ $employee->emp_pr_country}} @endif</td> --}}
                         <td>
                            <a href="{{url('dashboard-details/send-mail/'.base64_encode($employee->emid).'/'.base64_encode($employee->emp_code))}}" ><i class="fas fa-paper-plane"></i></a>
                         </td>

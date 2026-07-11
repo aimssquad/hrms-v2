@@ -46,6 +46,12 @@
 
     <!-- Header Menu -->
     <ul class="nav user-menu">
+        <li class="nav-item">
+            <a href="{{ url('subadmin-helpdesk') }}" class="nav-link support-link">
+                <i class="fa fa-wrench"></i>
+                <span>Support</span>
+            </a>
+        </li>
 
         <!-- Search -->
         {{-- <li class="nav-item">

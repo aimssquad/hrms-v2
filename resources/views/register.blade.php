@@ -6,6 +6,7 @@
       <meta name="description" content="Sponic Hr">
       <meta name="keywords" content="Sponic Hr">
       <meta name="author" content="Sponic Hr">
+      <meta name="csrf-token" content="{{ csrf_token() }}">
 
       @if($dName ==='swcworlds.com' || $dName === 'skilledworkerscloud.co.uk' || $dName === 'sponichr.skilledworkerscloud.co.uk') 
         <meta property="og:image" content="https://skilledworkerscloud.co.uk/hrms-v2/public/sponicHr-logo.png">
@@ -229,7 +230,8 @@
                            </div>
                            <div class="input-block mb-2">
                               <label class="col-form-label">Email<span class="mandatory">*</span></label>
-                              <input class="form-control" type="email" name="email" required="" value="{{old('email')}}">
+                              <input class="form-control" type="email" name="email" required="" id="email" value="{{old('email')}}">
+                              <small id="email-message"></small>
                               @if ($errors->has('email'))
                               <div class="error" style="color:red;">{{ $errors->first('email') }}</div>
                               @endif
@@ -502,7 +504,45 @@
                     this.classList.remove("is-invalid");
                 }
             });
-         </script>
+        </script>
+         
+        <script>
+            $(document).ready(function(){
+
+                $('#email').on('blur', function(){
+
+                    let email = $(this).val();
+
+                    if(email != ''){
+
+                        $.ajax({
+                            url: "{{ route('check.email') }}",
+                            type: "POST",
+                            data: {
+                                _token: $('meta[name="csrf-token"]').attr('content'),
+                                email: email
+                            },
+                            success: function(response){
+
+                                if(response.exists){
+                                    $('#email-message')
+                                        .text('This email already exists!')
+                                        .css('color','red');
+                                    alert('This email already exists!');    
+                                } else {
+                                    $('#email-message')
+                                        .text('Email is available')
+                                        .css('color','green');
+                                    //alert('This email is available!');    
+                                }
+                            }
+                        });
+
+                    }
+                });
+
+            });
+        </script>
         
    </body>
 </html>

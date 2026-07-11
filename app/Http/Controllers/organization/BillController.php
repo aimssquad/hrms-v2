@@ -154,7 +154,7 @@ class BillController extends Controller
         // Email details
         $toEmail = $com_dtl->email;
         $subject = 'Payment Reminder: Invoice # '. $invoice .' – Due Soon! ' . $com_dtl->com_name;
-        
+        //dd($toEmail);
         // Send email with PDF attachment
         Mail::send('subadmin_mail', $data, function ($message) use ($toEmail, $subject, $pdf, $invoice) {
             $message->to($toEmail)
@@ -191,7 +191,7 @@ class BillController extends Controller
     
     public function downloadPdf($id){
         //$decodedId = base64_decode($id);
-        //dd($id);
+        
         $invoiceData = Subadmin_bill::where('id', $id)->first();
         if (!$invoiceData) {
             return back()->with('error', 'Invoice not found');
@@ -229,6 +229,7 @@ class BillController extends Controller
             'description' => $invoiceData->description,
             'remarks' => $invoiceData->remarks,
         ];
+        
         $pdf = Pdf::loadView('subadminbillPdf', $data);
         return $pdf->download('invoice_'.$invoiceData->invoice_no.'.pdf');
         //return view('subadminbillPdf', $data);

@@ -89,9 +89,9 @@ return $output;
                            <th>{{\App\Helpers\Helper::cachedTrans('No. Of Leave')}} </th>
                            <th>{{\App\Helpers\Helper::cachedTrans('Status')}} </th>
                            <th>{{\App\Helpers\Helper::cachedTrans('Remarks(If any)')}} </th>
-                           @if(Session::get('user_type')=='employee')
+                         
                            <th>{{\App\Helpers\Helper::cachedTrans('Action')}} </th>
-                           @endif   
+                          
                         </tr>
                      </thead>
                      <tbody>
@@ -137,13 +137,13 @@ return $output;
                               @endif
                            </td>
                            <td>{{ $lvapply->status_remarks }}</td>
-                           @if(Session::get('user_type')=='employee')
+                           
                            <td>
-                              @if($lvapply->status=='RECOMMENDED' || $lvapply->status=='NOT APPROVED')
+                             
                               <a href="{{url('leave-approver/leave-approved-right/'.$lvapply->id)}}"><i class="fa-solid fa-pencil m-r-5"></i></a>
-                              @endif
+                             
                            </td>
-                           @endif
+                           
                         </tr>
                         @endforeach
                         @endif

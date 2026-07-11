@@ -15,18 +15,15 @@ class LanguageManager
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle($request, Closure $next)
-
     {
-
         if (session()->has('locale')) {
-
             App::setLocale(session()->get('locale'));
-
         }
-
-          
-
         return $next($request);
-
     }
+    
+    // public function handle($request, Closure $next)
+    // {
+    //     dd(session()->get('locale'));
+    // }
 }

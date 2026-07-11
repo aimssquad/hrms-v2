@@ -2127,6 +2127,17 @@ class EmployeeController extends Controller
             return redirect("/"); 
         } 
     }
+    
+    public function checkEmail(Request $request)
+    {
+        $email = $request->email;
+        $user = DB::table("users")
+            ->where("email", "=", $email)
+            ->first();
+        return response()->json([
+            'exists' => $user
+        ]);
+    }
 
 
 }

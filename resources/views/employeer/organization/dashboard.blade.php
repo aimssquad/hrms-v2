@@ -469,7 +469,7 @@ $user_type = Session::get("user_type");
                <div class="card-body">
                   <div class="dash-widget-info">
                      <span>{{\App\Helpers\Helper::cachedTrans('Billing')}}</span>
-                     <h3>{{\App\Helpers\Helper::cachedTrans('750')}}</h3>
+                     <h3>{{\App\Helpers\Helper::cachedTrans($paid_amount ?? 0)}}</h3>
                   </div>
                   <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
                   <div class="arrow-icon pt-2" style="text-align: center; margin-top: -10px;">
@@ -786,6 +786,59 @@ $user_type = Session::get("user_type");
                               </div>
                            </div>
                         </div>
+                     </div>
+                  </div>
+               </div>
+               {{---Project wise chat ---}}
+                 <div class="col-xl-12 col-md-12 d-flex">
+                  <div class="card employee-month-card flex-fill">
+                     <div class="card-body">
+
+                           <h4 class="mb-3">
+                              {{ \App\Helpers\Helper::cachedTrans('Message Center') }}
+                           </h4>
+
+                           <div class="list-group">
+
+                              @forelse($projectData as $group)
+                              <a href="{{url('/org-task-management/'.encrypt($group['project_id']).'/chat')}}"
+                                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+
+                                 <div class="d-flex align-items-center">
+                                       <!-- Avatar -->
+                                       <div class="avatar bg-primary text-white rounded-circle me-3"
+                                          style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;">
+                                          {{ strtoupper(substr($group['project_name'], 0, 1)) }}
+                                       </div>
+
+                                       <!-- Project Info -->
+                                       <div>
+                                          <h6 class="mb-0">{{ $group['project_name'] }}</h6>
+                                          <small class="text-muted">
+                                             {{ $group['employee'] }}
+                                             @if($group['employee']) :
+                                             @endif
+                                             {{ $group['last_message'] }}
+                                          </small>
+                                       </div>
+                                 </div>
+
+                                 <!-- Time -->
+                                 <div class="text-end">
+                                       <small class="text-muted d-block">
+                                          {{ $group['time'] }}
+                                       </small>
+                                 </div>
+
+                              </a>
+                              @empty
+                              <div class="text-center text-muted p-3">
+                                 No project messages yet
+                              </div>
+                              @endforelse
+
+                           </div>
+
                      </div>
                   </div>
                </div>

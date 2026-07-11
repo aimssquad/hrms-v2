@@ -1,6 +1,15 @@
 RewriteEngine On
 #RewriteCond %{SERVER_PORT} 80
 #RewriteRule ^(.*)$ https://workpermitcloud.co.uk/hrms/$1 [R,L]
+<IfModule mod_headers.c>
+    # Disable caching for dynamic pages (PHP, HTML)
+    <FilesMatch "\.(php|html)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -49,3 +58,10 @@ RewriteCond %{REQUEST_URI} !^/public/
 RewriteRule ^(css|js|img|assets|empassets|employee|fonts|frontend|employee_doc|employee_logo|employee_quli_doc|employee_upload_doc|employee_vis_doc|employeeassets|company_upload_doc|candidate_resume|carrassests|employee_quli_doc2|candidate_cover_letter|employee_ps_add|emp_pic|employee_per_add|assetsemcor|candidate_up_doc|employee_pap_up|employee_ps_stat|pdf|addtohomescreen|upcsv|proof|billpdf|msg_file|msg_file_user|job_post|level_proof|key_proof|can_file_user|rcrop|demos|dist|libs|src|tasks)/(.*)$ public/$1/$2 [L,NC]
     
 </IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php84” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php84 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

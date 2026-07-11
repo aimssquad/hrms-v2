@@ -3324,6 +3324,10 @@ class AdminController extends Controller
                         ->where('status', '=', 'active')
                         ->whereIn('user_type', ['admin', 'sub-admin'])
                         ->first();
+                        
+                if($Employee->user_type == 'sub-admin'){
+                    return redirect('subadmin');
+                }        
 
                 //dd($Employee);
                 if (!empty($Employee)) {
@@ -21273,6 +21277,7 @@ class AdminController extends Controller
     }
 
     public function subadminLogin (Request $request){
+        //dd($request->all());
         // Validate the request
         $request->validate([
             'email' => 'required|email',
@@ -21444,7 +21449,9 @@ class AdminController extends Controller
                                     ->where('partner_id', $id)
                                     ->pluck('module_name')
                                     ->toArray();
+            
                 $data['org_id'] = $id;
+                //dd($data);
                 return view('admin/permission/partner-permission', $data);
             } else {
                 return redirect('/');  

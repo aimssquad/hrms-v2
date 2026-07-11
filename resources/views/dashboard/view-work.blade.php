@@ -205,10 +205,10 @@
                   
                   
                   }
-                  
-                  if($kl==0){
+                 
+                //   if($kl==0){
                   echo $work_rs->evidence;
-                  }
+                //   }
                   ?></td>
             </tr>
             <!-- <tr>

@@ -292,7 +292,7 @@ class LeaveManagementController extends Controller
             if (!empty(Session::get("emp_email"))) {
                 $reg = Session::get("emid");
                 $data["leave_type_rs"] = LeaveType::where("leave_type_status", "=", "active")
-                    //->where("emid","=",$reg)
+                    ->where("emid","=",$reg)
                     ->select("id", "leave_type_name")
                     ->get();
                 $data["employee_type_rs"] = EmployeeType::where('emid',$reg)->get();
@@ -469,7 +469,7 @@ class LeaveManagementController extends Controller
                     ->where("leave_type.emid", "=", $reg)
                     ->orderBy("leave_allocation.id", "desc")
                     ->get();
-                    // dd($data["leave_allocation"]);
+                     //dd($data["leave_allocation"]);
                 return view($this->_routePrefix . '.leave-allocation',$data);
                 //return view("leave/leave-allocation", $data);
             } else {

@@ -21,6 +21,140 @@ use DB;
 
 class LeaveController extends Controller
 {
+    public function dashboard(Request $request)
+    {
+        try {
+    
+            if (!auth()->check()) {
+                return Helper::rjd("Authentication required", 0, []);
+            }
+    
+            $employeeId = auth()->user()->employee_id;
+            $emid       = auth()->user()->emid;
+            //dd($emid);
+            
+            $leaveTypes = LeaveType::leftJoin('leave_allocation', function ($join) use ($employeeId, $emid) {
+                    $join->on('leave_type.id', '=', 'leave_allocation.leave_type_id')
+                         ->where('leave_allocation.employee_code', '=', $employeeId)
+                         ->where('leave_allocation.emid', '=', $emid);
+                })
+                ->where('leave_type.emid', $emid)
+                ->whereYear("leave_allocation.created_at", "=", date("Y"))
+                ->where('leave_type.leave_type_status', 'active')
+                ->select(
+                    'leave_type.id',
+                    'leave_type.leave_type_name',
+                    'leave_type.alies',
+                    DB::raw('COALESCE(leave_allocation.max_no, 0) as max_no'),
+                    DB::raw('COALESCE(leave_allocation.leave_in_hand, 0) as leave_in_hand'),
+                    'leave_allocation.month_yr'
+                )
+                ->get();
+    
+            // Total Leave Applied
+            $totalLeave = LeaveApply::where('employee_id', $employeeId)
+                ->where('emid', $emid)
+                ->count();
+    
+            // Pending
+            $pendingLeave = LeaveApply::where('employee_id', $employeeId)
+                ->where('emid', $emid)
+                ->where('status', 'NOT APPROVED')
+                ->count();
+    
+            // Approved
+            $approvedLeave = LeaveApply::where('employee_id', $employeeId)
+                ->where('emid', $emid)
+                ->where('status', 'APPROVED')
+                ->count();
+    
+            // Rejected
+            $rejectedLeave = LeaveApply::where('employee_id', $employeeId)
+                ->where('emid', $emid)
+                ->where('status', 'REJECTED')
+                ->count();
+    
+            // Remaining Balance
+            $remainingBalance = leaveAllocation::where('employee_code', $employeeId)
+                ->where('emid', $emid)
+                ->sum('leave_in_hand');
+    
+            // Leave Balance Summary
+            $leaveBalance = leaveAllocation::with('leaveType')
+                ->where('employee_code', $employeeId)
+                ->where('emid', $emid)
+                ->get()
+                ->map(function ($item) {
+    
+                    return [
+                        'leave_type_id'   => $item->leave_type_id,
+                        'leave_type_name' => optional($item->leaveType)->leave_type_name,
+                        'leave_in_hand'   => $item->leave_in_hand,
+                    ];
+                });
+    
+            $totalAvailable = $leaveBalance->sum('leave_in_hand');
+    
+            // Recent Leave List
+            $recentLeaves = LeaveApply::with('leaveType')
+                ->where('employee_id', $employeeId)
+                ->where('emid', $emid)
+                ->latest()
+                ->take(10)
+                ->get()
+                ->map(function ($item) {
+    
+                    return [
+    
+                        'id'             => $item->id,
+                        'leave_type'     => optional($item->leaveType)->leave_type_name,
+                        'from_date'      => $item->from_date,
+                        'to_date'        => $item->to_date,
+                        'no_of_leave'    => $item->no_of_leave,
+                        'date_of_apply'  => $item->date_of_apply,
+                        'status'         => $item->status,
+                        'document'       => $item->doc_image
+                            ? asset('storage/'.$item->doc_image)
+                            : "",
+                    ];
+    
+                });
+    
+            $data = [
+    
+                'summary' => [
+    
+                    'total_leave'       => $totalLeave,
+                    'pending_leave'     => $pendingLeave,
+                    'approved_leave'    => $approvedLeave,
+                    'rejected_leave'    => $rejectedLeave,
+                    'remaining_balance' => $remainingBalance,
+                    'leave_type'        => $leaveTypes,
+    
+                ],
+    
+                'leave_balance' => $leaveBalance,
+    
+                'total_available' => $totalAvailable,
+    
+                'recent_leave_list' => $recentLeaves,
+    
+            ];
+    
+            return Helper::rjd(
+                "Leave Dashboard",
+                1,
+                $data
+            );
+    
+        } catch (Exception $e) {
+    
+            return Helper::rj("Server Error.",500);
+    
+        }
+    }
+    
+    
     public function leave(Request $request){
         try {
             if (auth()->check()) {
@@ -84,7 +218,7 @@ class LeaveController extends Controller
         try{
             if (auth()->check()) {
                 $employeeId = auth()->user()->employee_id;
-                //dd($employeeId);
+               
                 $data = leaveAllocation::with(['leaveType' => function ($query) {
                     $query->where('leave_type_status', 'active'); // Only active leave types
                 }])
@@ -102,7 +236,7 @@ class LeaveController extends Controller
                         return $value === null ? "" : $value;
                     });
                 });
-               //dd($data);
+               
                 $dynamicFlag = 1;
                 $totalLeave=0;
                 $message = "Data get successfully";
@@ -528,82 +662,6 @@ class LeaveController extends Controller
         }
     }
 
-    // public function getAllLeaveBalance(Request $request)
-    // {
-    //     try {
-    //         if (auth()->check()) {
-    //             $empDtl = auth()->user();
-    //             $emplayeeId = $empDtl->employee_id;
-    //             $emid = $empDtl->emid;
-    //             $leaveTypes = LeaveType::join(
-    //                 "leave_allocation",
-    //                 "leave_type.id",
-    //                 "=",
-    //                 "leave_allocation.leave_type_id"
-    //             )
-    //             ->select(
-    //                 "leave_type.id",
-    //                 "leave_type.leave_type_name" 
-    //                 // "leave_allocation.id as lv_alloc_id",
-    //                 // "leave_allocation.month_yr"
-    //             )
-    //             ->where("leave_type.emid", "=", $emid)
-    //             ->where("leave_allocation.emid", "=", $emid)
-    //             ->where("leave_allocation.leave_in_hand", "!=", 0)
-    //             ->groupBy('leave_type.id')
-    //             ->get();
-            
-    //             $leaveBalances = [];
-                
-    //             foreach ($leaveTypes as $leaveType) {
-    //                 $leaveBalance = DB::table('leave_allocation')
-    //                     ->where('leave_type_id', '=', $leaveType->id)
-    //                     ->where('employee_code', '=', $emplayeeId)
-    //                     ->where('emid', '=', $emid)
-    //                     ->orderBy('id', 'DESC')
-    //                     ->select('id','leave_in_hand')
-    //                     ->first();
-    //                 if ($leaveBalance) {
-    //                     $leaveBalance->leave_type_name = $leaveType->leave_type_name;
-    //                     $leaveBalances[] = $leaveBalance;
-    //                 }
-    //             }
-    //             if($leaveBalances){
-    //                 //dd($leaveBalances);
-    //                 $dynamicFlag = 1;
-    //                 $data = $leaveBalances;
-    //                 $message = "Your all leave balance";
-    //                 return Helper::rjd(
-    //                     $message,
-    //                     $dynamicFlag,
-    //                     $data
-    //                 );  
-    //             } else {
-    //                 $dynamicFlag = 1;
-    //                 $data = [];
-    //                 $message = "You have no leave balance";
-    //                 return Helper::rjd(
-    //                     $message,
-    //                     $dynamicFlag,
-    //                     $data
-    //                 );
-    //             }
-    //         } else {
-    //             $dynamicFlag = 1;
-    //             $data=[];
-    //             $message = "Somthing Went Wrong";
-    //             return Helper::rjd(
-    //                 $message,
-    //                 $dynamicFlag,
-    //                 $data
-    //             );
-    //         }
-
-    //     } catch (Exception $e) {
-    //         return Helper::rj("Server Error.", 500);
-    //     }
-
-    // }
 
     public function getAllLeaveBalance(Request $request)
     {
@@ -723,8 +781,9 @@ class LeaveController extends Controller
                     
                     if ($leaveType) {
                         // Get the matching leave_type2 record
-                        $leaveType2 = DB::table('leave_type2')
+                        $leaveType2 = DB::table('leave_type')
                                     ->where('leave_type_name', $leaveType->leave_type_name)
+                                    ->where('emid', $emid)
                                     ->first();
                         
                         // Use the color from leave_type2 or fall back to default

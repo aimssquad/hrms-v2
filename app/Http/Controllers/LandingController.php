@@ -255,13 +255,14 @@ class LandingController extends Controller
                             "pass" => $registrationData['pass'],
                             "web"  => $baseUrl,
                         ];
-                       
+                        // partner email
                         // return view('mail-partner-organization-registration',$data);
                         // $toemail = $registrationData['email'];
                         // Mail::send("mail-new-partner-registration", $data, function ($message) use ($toemail, $sub_comname) {
                         //     $message->to($toemail, env('MAIL_FROM_NAME'))->subject("Welcome to $sub_comname");
                         //     $message->from(env('MAIL_USERNAME'),  env('MAIL_FROM_NAME'));
                         // });
+                        // admin Email
                         $admin = 'info@skilledworkerscloud.co.uk';
                         Mail::send("mailre", $data, function ($message) use ($admin) {
                             $message->to($admin, env('MAIL_FROM_NAME'))
@@ -484,6 +485,7 @@ class LandingController extends Controller
         }
 
         $data['videos'] = DB::table('login_page_image')
+        ->where('status', 1)
         ->orderBy('slide_order', 'asc') // Order by slide_order in descending order
         ->get();
         //dd($data);
@@ -1565,5 +1567,18 @@ class LandingController extends Controller
             Session::flash("message", "Your email id was wrong!!");
             return redirect("login-pay-forgot-password");
         }
+    }
+    
+    
+    public function checkEmail(Request $request)
+    {
+        $email = $request->email;
+        $user = DB::table("users")
+            ->where("email", "=", $email)
+            ->first();
+        //dd('okk');
+        return response()->json([
+            'exists' => $user
+        ]);
     }
 }

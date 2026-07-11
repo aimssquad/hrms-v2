@@ -57,6 +57,7 @@
                 ['url' => 'org-settings/vw-designation', 'label' =>  \App\Helpers\Helper::cachedTrans('Designation'),],
                 ['url' => 'org-settings/vw-employee-type', 'label' =>  \App\Helpers\Helper::cachedTrans('Type of Employment'),],
                 ['url' => 'organization/allShifts', 'label' =>  \App\Helpers\Helper::cachedTrans('All Shifts'),],
+                ['url' => 'organization/allGuest', 'label' =>  \App\Helpers\Helper::cachedTrans('All Clients'),],
 
             ]
         ],
@@ -122,12 +123,15 @@
             ]
         ],
         9 => [
-            'title' => \App\Helpers\Helper::cachedTrans('Task Control'),
+            'title' => \App\Helpers\Helper::cachedTrans('Project Control'),
             'icon' => 'las la-tasks',
             'items' => [
-                ['url' => 'org-task-management/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
+            //    ['url' => 'org-task-management/dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
                 ['url' => 'org-task-management/projects', 'label' =>   \App\Helpers\Helper::cachedTrans('Project Directory'),],
                 ['url' => 'org-task-management/create-project', 'label' =>   \App\Helpers\Helper::cachedTrans('New Project'),],
+                
+                ['url' => 'project-controll/rolles', 'label' =>   \App\Helpers\Helper::cachedTrans('Project Roles'),],
+                
             ]
         ],
         10 => [
@@ -247,7 +251,9 @@
             'title' => \App\Helpers\Helper::cachedTrans('Notice'),
             'icon' => 'las la-bullhorn',
             'items' => [
+                ['url' => 'notification-dashboard', 'label' => \App\Helpers\Helper::cachedTrans('Dashboard'),],
                 ['url' => 'notice/org-notice', 'label' => \App\Helpers\Helper::cachedTrans('Notice'),],
+                ['url' => 'all-notification', 'label' => \App\Helpers\Helper::cachedTrans('All Notification'),],
                 
             ]
         ],

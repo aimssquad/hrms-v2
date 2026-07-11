@@ -48,6 +48,9 @@ $user_type = Session::get("user_type");
                                     @endif
                                 </li>
                                 <li class="submenu">
+                                    <span><a href="{{url('org-task-management/dashboard')}}"> <i class="fa-solid fa-gauge me-2"></i>&nbsp;&nbsp; {{\App\Helpers\Helper::cachedTrans("All Project Dashboard")}}</a></span>
+                                </li>
+                                <li class="submenu">
                                     <a href="#"><i class="la la-cube {{Request::is('org-employeecornerorganisationdashboard')?'noti-dot':'';}}"></i> <span> {{\App\Helpers\Helper::cachedTrans('Project Management')}}</span> <span class="menu-arrow"></span></a>
                                     <ul>
                                         <?php
@@ -104,6 +107,11 @@ $user_type = Session::get("user_type");
                             <?php
                             } else {
                             ?>
+                                <li>
+                                    <a href="{{ url('org-task-management/project-analitic-dashboard/'.request()->route('id')) }}">
+                                        <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</span>
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="{{ url('org-task-management/'.request()->route('id').'/project-members') }}">
                                         <span class="sub-item">{{\App\Helpers\Helper::cachedTrans('Members')}}</span>

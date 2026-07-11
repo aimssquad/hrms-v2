@@ -172,11 +172,14 @@ class TaskController extends Controller
     }
     public function getTaskById($id)
     {
+        $emid = Session::get('emid');
         $task = Task::where('tasks.id', $id)
             ->leftJoin('employee as e', 'e.id', '=', 'tasks.assignedTo')
             ->leftJoin('users as u', 'u.employee_id', '=', 'e.emp_code')
             ->leftJoin('projects as p', 'p.id', '=', 'tasks.project_id')
             ->select('tasks.*', 'u.name as assignedUsername', 'p.title as project_name')
+            ->where('e.emid', $emid)
+            ->where('u.emid', $emid)
             ->first();
         return response()->json($task);
     }

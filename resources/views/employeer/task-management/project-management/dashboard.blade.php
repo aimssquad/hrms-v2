@@ -366,11 +366,25 @@ use App\Models\User; ?>
                                         <table class="table table-borderless m-0">
                                             <tr>
                                                 <td width="50%">{{\App\Helpers\Helper::cachedTrans('Assignee')}}</td>
-                                                <td>
-                                                    <div class="pro_img me-1 float-start">
-                                                        <img style="width: 30px!important; height: 30px;" src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png" alt="Kabbir">
+                                                <td style="max-width: 200px; overflow: hidden;">
+                                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                                        
+                                                        <img 
+                                                            src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
+                                                            style="width: 30px; height: 30px; flex-shrink: 0;"
+                                                        >
+                                            
+                                                        <span 
+                                                            id="edit_task_assignedTo"
+                                                            style="
+                                                                display: inline-block;
+                                                                max-width: 150px;
+                                                                word-break: break-all;
+                                                                white-space: normal;
+                                                            ">
+                                                        </span>
+                                            
                                                     </div>
-                                                    <span class="mt-1" id="edit_task_assignedTo"></span>
                                                 </td>
                                             </tr>
                                             <!-- <tr>
@@ -424,8 +438,9 @@ use App\Models\User; ?>
                 <h1 class="page-title"> {{$project->title}}</h1>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">{{\App\Helpers\Helper::cachedTrans('Task List')}}</a></li>  
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('All project List')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/org-task-management/project-analitic-dashboard/'.encrypt($project_id))}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                    <li class="breadcrumb-item"><a href="#">{{\App\Helpers\Helper::cachedTrans('Task List')}}</a></li>
                 </ul>
             </div>
             <div class="content">

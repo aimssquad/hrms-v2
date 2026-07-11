@@ -93,7 +93,7 @@ class LeaveApproverController extends Controller
                         ->where("leave_apply.emid", "=", $Roledata->reg)
                         ->get();
                 }
-                //dd(Session::get('user_type'));
+                //dd($data);
                 return view($this->_routePrefix . '.leave-approver',$data);
             } else {
                 return redirect("/");
@@ -166,7 +166,7 @@ class LeaveApproverController extends Controller
                 ->orderBy("date_of_apply", "desc")
                 ->first();
              //dd($data["LeaveApply"]);
-            return view($this->_routePrefix . '.leave-approved-right',$data);        
+            return view($this->_routePrefix . '.leave-approved-right-new',$data);        
             //return view("leave-approver/leave-approved-right", $data);
         } else {
             return redirect("/");

@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use App\Models\UserModel;
+use App\Models\Guest;
 use App\Models\ShiftManagment;
 use App\Models\Registration;
+use App\Models\TaskManagement\ProjectMembers;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Validation\Rule;
 
 class LandingController extends Controller
 {
@@ -905,6 +909,452 @@ class LandingController extends Controller
         //     throw new \App\Exceptions\FrontException($e->getMessage());
         // }
     }
+    
+    public function guestList(Request $request)
+    {
+        if (!Session::get("emp_email")) {
+            return redirect("/");
+        }
+
+        $reg = Session::get("emid");
+
+        $data['guests'] = Guest::leftJoin('project_members', function ($join) {
+                $join->on('guests.id', '=', 'project_members.user_id')
+                    ->where('project_members.user_type', 'guest');
+            })
+            ->leftJoin('projects', 'projects.id', '=', 'project_members.project_id')
+            ->where('guests.emid', $reg)
+            ->select(
+                'guests.id',
+                'guests.company_name',
+                'guests.name',
+                'guests.guest_id',
+                'guests.designation',
+                'guests.email',
+                'guests.phone',
+                'guests.status',
+
+                // project id + title together
+                DB::raw("
+                    GROUP_CONCAT(
+                        CONCAT(projects.id, '::', projects.title)
+                        SEPARATOR '||'
+                    ) as projects_data
+                ")
+            )
+            ->groupBy(
+                'guests.id',
+                'guests.company_name',
+                'guests.name',
+                'guests.guest_id',
+                'guests.designation',
+                'guests.email',
+                'guests.phone',
+                'guests.status'
+            )
+            ->get();
+        //dd($data);
+        return view($this->_routePrefix . '.all-guest', $data);
+    }
+
+    public function addEditGeust(Request $request)
+    {
+        if (!Session::get('emp_email')) {
+            return redirect('/');
+        }
+
+        $reg = Session::get('emid');
+        $data = [];
+        $id = $request->get('id');
+        $decrypted_id = $this->my_simple_crypt($id, 'decrypt');
+        //dd($decrypted_id);
+        if ($decrypted_id) {
+            // EDIT MODE → keep existing guest_id
+            $data['guest'] = Guest::where('emid', $reg)
+                ->where('id', $decrypted_id)
+                ->firstOrFail();
+        } else {
+            // ADD MODE → generate unique guest_id
+            $year = Carbon::now()->format('y'); // last 2 digits of year (26)
+
+            do {
+                $random = rand(1000, 9999); // 4 digits
+                $guestId = 'SWC' . $year . $random;
+            } while (Guest::where('guest_id', $guestId)->exists());
+
+            $data['guest_id'] = $guestId;
+        }
+
+        return view($this->_routePrefix . '.add-new-guest', $data);
+    }
+
+    // public function saveGuest(Request $request)
+    // {
+    //     if (!Session::get('emp_email')) {
+    //         return redirect('/');
+    //     }
+
+    //     $reg = Session::get('emid');
+
+    //     $request->validate([
+    //         'guest_id' => [
+    //             'required',
+    //             'string',
+    //             'max:255',
+    //             Rule::unique('guests', 'guest_id')
+    //                 ->where(function ($q) use ($reg) {
+    //                     $q->where('emid', $reg);
+    //                 })
+    //                 ->ignore($request->id), // ignore current guest on update
+    //         ],
+    //         'company_name' => 'required|string|max:255',
+    //         'designation'  => 'nullable|string|max:255',
+    //         'name'         => 'required|string|max:255',
+
+    //         // MAIL UNIQUE CHECK
+    //         'email' => [
+    //             'required',
+    //             'email',
+    //             'max:255',
+    //             Rule::unique('users', 'email')
+    //                 ->where(function ($q) use ($reg) {
+    //                     $q->where('emid', $reg);
+    //                 })
+    //                 ->ignore($request->id ? UserModel::where('employee_id', $request->guest_id)->value('id') : null),
+    //         ],
+
+    //         'phone'  => 'required|string|max:20',
+    //         'status' => 'required|in:0,1',
+    //     ]);
+    //     dd('okk');
+    //     DB::transaction(function () use ($request, $reg) {
+
+    //         if ($request->id) {
+    //             // ================= UPDATE =================
+    //             $guest = Guest::where('emid', $reg)
+    //                 ->where('id', $request->id)
+    //                 ->firstOrFail();
+
+    //             $guest->update([
+    //                 'guest_id'     => $request->guest_id,
+    //                 'company_name' => $request->company_name,
+    //                 'designation'  => $request->designation,
+    //                 'name'         => $request->name,
+    //                 'email'        => $request->email,
+    //                 'phone'        => $request->phone,
+    //                 'status'       => $request->status,
+    //             ]);
+
+    //             // Update User
+    //             UserModel::where('employee_id', $guest->guest_id)
+    //                 ->where('emid', $reg)
+    //                 ->update([
+    //                     'name'   => $request->name,
+    //                     'email'  => $request->email,
+    //                     'status' => $request->status ? 'active' : 'inactive',
+    //                 ]);
+
+    //         } else {
+    //             // ================= INSERT =================
+    //             $plainPassword = rand(100000, 999999);
+
+    //             $guest = Guest::create([
+    //                 'emid'         => $reg,
+    //                 'guest_id'     => $request->guest_id,
+    //                 'company_name' => $request->company_name,
+    //                 'designation'  => $request->designation,
+    //                 'name'         => $request->name,
+    //                 'email'        => $request->email,
+    //                 'phone'        => $request->phone,
+    //                 'status'       => $request->status,
+    //             ]);
+
+    //             // Create User for Guest Login
+    //             UserModel::create([
+    //                 'employee_id' => $request->guest_id,
+    //                 'name'        => $request->name,
+    //                 'email'       => $request->email,
+    //                 'user_type'   => 'guest',
+    //                 'password'    => $plainPassword,
+    //                 'status'      => $request->status ? 'active' : 'inactive',
+    //                 'emid'        => $reg,
+    //             ]);
+    //         }
+    //     });
+
+    //     return redirect('organization/allGuest')->with(
+    //         'message',
+    //         $request->id ? 'Guest updated successfully' : 'Guest added successfully'
+    //     );
+    // }
+    
+
+    public function saveGuest(Request $request)
+    {
+        if (!Session::get('emp_email')) {
+            return redirect('/');
+        }
+    
+        $reg = Session::get('emid');
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Resolve related USER ID (for UPDATE case only)
+        |--------------------------------------------------------------------------
+        | We must ignore the correct users.id while validating email & employee_id
+        */
+        $userPrimaryId = null;
+    
+        if ($request->id) {
+            $existingGuest = Guest::where('id', $request->id)
+                ->where('emid', $reg)
+                ->first();
+    
+            if ($existingGuest) {
+                $userPrimaryId = UserModel::where('employee_id', $existingGuest->guest_id)
+                    ->where('emid', $reg)
+                    ->value('id'); // users.id (CORRECT)
+            }
+        }
+    
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDATION
+        |--------------------------------------------------------------------------
+        */
+        $request->validate([
+            // ✅ guest_id unique in guests (per organization)
+            'guest_id' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('guests', 'guest_id')
+                    ->where(fn ($q) => $q->where('emid', $reg))
+                    ->ignore($request->id),
+            ],
+    
+            // ✅ guest_id (employee_id) unique in users (per organization)
+            'guest_id' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('users', 'employee_id')
+                    ->where(fn ($q) => $q->where('emid', $reg))
+                    ->ignore($userPrimaryId),
+            ],
+    
+            'company_name' => 'required|string|max:255',
+            'designation'  => 'nullable|string|max:255',
+            'name'         => 'required|string|max:255',
+    
+            // ✅ email unique in users (per organization)
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')
+                    // ->where(fn ($q) => $q->where('emid', $reg))
+                    ->ignore($userPrimaryId),
+            ],
+    
+            'phone'  => 'required|string|max:20',
+            'status' => 'required|in:0,1',
+        ]);
+        
+        //dd('okk');
+    
+        /*
+        |--------------------------------------------------------------------------
+        | SAVE DATA (TRANSACTION SAFE)
+        |--------------------------------------------------------------------------
+        */
+        DB::transaction(function () use ($request, $reg, $userPrimaryId) {
+    
+            if ($request->id) {
+                /* ================= UPDATE ================= */
+                $guest = Guest::where('emid', $reg)
+                    ->where('id', $request->id)
+                    ->firstOrFail();
+    
+                $guest->update([
+                    'guest_id'     => $request->guest_id,
+                    'company_name' => $request->company_name,
+                    'designation'  => $request->designation,
+                    'name'         => $request->name,
+                    'email'        => $request->email,
+                    'phone'        => $request->phone,
+                    'status'       => $request->status,
+                ]);
+    
+                // Update related user (guest login)
+                UserModel::where('id', $userPrimaryId)->update([
+                    'employee_id' => $request->guest_id,
+                    'name'        => $request->name,
+                    'email'       => $request->email,
+                    'status'      => $request->status ? 'active' : 'inactive',
+                ]);
+    
+            } else {
+                /* ================= INSERT ================= */
+                $plainPassword = rand(100000, 999999);
+                
+                  // Create user for guest login
+                UserModel::create([
+                    'employee_id' => $request->guest_id,
+                    'name'        => $request->name,
+                    'email'       => $request->email,
+                    'user_type'   => 'guest',
+                    'password'    => $plainPassword,
+                    'status'      => $request->status ? 'active' : 'inactive',
+                    'emid'        => $reg,
+                ]);
+    
+                $guest = Guest::create([
+                    'emid'         => $reg,
+                    'guest_id'     => $request->guest_id,
+                    'company_name' => $request->company_name,
+                    'designation'  => $request->designation,
+                    'name'         => $request->name,
+                    'email'        => $request->email,
+                    'phone'        => $request->phone,
+                    'status'       => $request->status,
+                ]);
+    
+              
+            }
+        });
+    
+        return redirect('organization/allGuest')->with(
+            'message',
+            $request->id ? 'Guest updated successfully' : 'Guest added successfully'
+        );
+    }
+
+
+    public function deleteGuest(Request $request)
+    {
+        if (!Session::get('emp_email')) {
+            return redirect('/');
+        }
+
+        $reg = Session::get('emid');
+
+        $id = $this->my_simple_crypt($request->id, 'decrypt');
+
+        DB::transaction(function () use ($id, $reg) {
+
+            $guest = Guest::where('emid', $reg)
+                ->where('id', $id)
+                ->firstOrFail();
+
+            UserModel::where('employee_id', $guest->guest_id)->delete();
+
+            // Delete guest
+            $guest->delete();
+        });
+
+        return redirect('organization/allGuest')->with('message', 'Guest deleted successfully');
+    }
+
+    public function addGuestToProject(Request $request)
+    {
+        if (!Session::get('emp_email')) {
+            return redirect('/');
+        }
+
+        $reg = Session::get('emid');
+        $data = [];
+        $id = $request->get('id');
+        $decrypted_id = $this->my_simple_crypt($id, 'decrypt');
+        
+        $data['guest'] = Guest::where('emid', $reg)
+            ->where('id', $decrypted_id)
+            ->firstOrFail();
+
+        $data['projects'] = DB::table('projects')->where('emid',$reg)->where('status', 'open')->select('id','title','description','identifier')->get();   
+
+        //dd($data['project']);
+
+        return view($this->_routePrefix . '.add-guest-to-project-chat', $data);
+    }
+
+    public function saveGuestToProjectMember(Request $request)
+    {
+        if (!Session::get('emp_email')) {
+            return redirect('/');
+        }
+
+        $request->validate([
+            'id'         => 'required|integer',
+            'project_id' => 'required|integer',
+            'company_name' => 'required|string|max:255',
+            'designation'  => 'required|string|max:255',
+            'name'         => 'required|string|max:255',
+        ]);
+
+        $creator = DB::table('users')
+            ->where('employee_id', Session::get('emid'))
+            ->where('status', 'active')
+            ->first();
+
+        if (!$creator) {
+            return redirect('/');
+        }
+
+       
+        $exists = ProjectMembers::where('project_id', $request->project_id)
+            ->where('user_id', $request->id)
+            ->where('user_type', 'guest')
+            ->exists();
+
+        if ($exists) {
+            return redirect()->back()
+                ->with('error', 'This client is already added to this project');
+        }
+
+        ProjectMembers::create([
+            'user_id'    => $request->id,
+            'project_id' => $request->project_id,
+            'user_type'  => 'guest',
+            'role'       => $request->designation,
+            'createdBy'  => $creator->id,
+        ]);
+
+        return redirect('organization/allGuest')
+            ->with('message', 'Client added to project member successfully');
+    }
+
+    public function removeGuestFromProject(Request $request)
+    {
+        // Session check
+        if (!Session::get('emp_email')) {
+            return redirect('/');
+        }
+
+        // Validation
+        $request->validate([
+            'guest_id'   => 'required|integer|exists:guests,id',
+            'project_id' => 'required|integer|exists:projects,id',
+        ]);
+
+        // Check assignment exists
+        $member = ProjectMembers::where('user_id', $request->guest_id)
+            ->where('project_id', $request->project_id)
+            ->where('user_type', 'guest')
+            ->first();
+
+        if (!$member) {
+            return redirect()->back()
+                ->with('error', 'This guest is not assigned to this project');
+        }
+
+        // Delete only the relation
+        $member->delete();
+
+        return redirect()->back()
+            ->with('message', 'Guest removed from project successfully');
+    }
+
 
 
 }

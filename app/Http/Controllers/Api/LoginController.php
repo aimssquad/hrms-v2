@@ -35,121 +35,7 @@ class LoginController extends Controller
 
         return response()->json($response, $code);
     }
-    // public function doLogin(Request $request)
-    // {
-    //     $dynamicFlag = 1;
-
-    //     try {
-    //         // Validate input
-    //         $validator = Validator::make($request->all(), [
-    //             "email" => "required|email",
-    //             "password" => "required",
-    //         ]);
-
-    //         if ($validator->fails()) {
-    //             return $this->sendError("Validation Error.", $validator->errors());
-    //         }
-
-    //         // Find user with email and password
-    //         $checkuser = $this->_model->userfind($request->email, $request->password);
-    //         //dd($checkuser);
-    //         if ($checkuser == null) {
-    //             $dynamicFlag = 0;
-    //             return Helper::rj("Not a valid credential", $dynamicFlag);
-    //         }
-    //         if ($checkuser->user_type !== "employee") {
-    //             return Helper::rj("Only employees can log in.", 0);
-    //         }
-    //         $user = UserModel::where("email", $request->email)->first();
-    //         $token = $user->createToken("token")->accessToken;
-
-    //         // Get user details
-    //         $user_id = $checkuser->employee_id;
-    //         $userPrimaryId = $user->id;
-    //         $deviceToken = $request->device_token;
-    //         $emid = $user->emid;
-    //         //dd($user_id);
-    //         // Get employee profile image
-    //         $userImage = DB::table('employee')->where('emp_code', $user_id)->where('emid', $emid)->first();
-    //         $imagePath = $userImage->profileimage ?? ''; // Handle null case
-    //         //dd($user_id, $emid);
-    //         // Update device token
-    //         $user->update(['device_token' => $deviceToken]);
-
-    //         // Get complete user details
-    //         // $checkuser = UserModel::join('employee', 'employee.emp_code', '=', 'users.employee_id')
-    //         //     ->where("employee_id", $user_id)
-    //         //     ->where('emid', $emid)
-    //         //     ->first();
-
-    //         // $org_dtl = Registration::where('reg', $emid)->select('logo','com_name')->first();
-    //         // $checkuser['org_logo'] = $org_dtl->logo ?? '';
-    //         // $checkuser['org_name'] = $org_dtl->com_name ?? '';
-
-    //         $checkuser = UserModel::join('employee', function($join) {
-    //                 $join->on('employee.emp_code', '=', 'users.employee_id')
-    //                     ->on('employee.emid', '=', 'users.emid'); // add extra join condition
-    //             })
-    //             ->where('users.employee_id', $user_id)
-    //             ->where('users.emid', $emid)
-    //             ->first();
-
-    //         //dd($checkuser);    
-            
-    //         $org_cordinate = Branch_location::where('emid',$checkuser->emid)->select('latitude','longitude','radius')->first();
-    //         if($org_cordinate != null){
-    //             //return Helper::rj("organization not found.", 0);
-    //             $checkuser['latitude']  = $org_cordinate->latitude;
-    //             $checkuser['longitude'] = $org_cordinate->longitude;
-    //             $checkuser['radius']    = $org_cordinate->radius;  
-    //         } else {
-    //             $checkuser['latitude']  = '';
-    //             $checkuser['longitude'] = '';
-    //             $checkuser['radius']    = ''; 
-    //         }
-            
-    //         $attendance_type = AttendancePermission::where('emp_code', $user_id)->first();
-    //         if($attendance_type != null){
-    //             $employee['attendance_type'] = $attendance_type->punch_type;
-    //             if($employee['attendance_type'] !=""){
-    //                 $checkuser['punch_type'] = $attendance_type->punch_type;
-    //             } else {
-    //                 $checkuser['punch_type'] = $attendance_type->default_punch_type;
-    //             }
-    //         } else {
-    //             $punch_type = DB::table('org_attendance_permissions AS oap')
-    //             ->join('emp_punch_type_masters AS ptm', 'ptm.id', '=', 'oap.default_punch_type_id')
-    //             ->where('oap.emid', $user->emid)
-    //             ->select('ptm.id', 'ptm.punch_type_name')
-    //             ->first();
-    //             if($punch_type !=null){
-    //                 $checkuser['punch_type'] = $punch_type->punch_type_name;
-    //             }  
-    //         }
-          
-
-    //         //dd($punch_type->punch_type_name);
-    //         $checkuser = json_decode(json_encode($checkuser), true);
-    //         foreach ($checkuser as $key => $value) {
-    //                 if ($value === null) {
-    //                     $checkuser[$key] = "";
-    //                 }
-    //             }
-           
-    //         $dynamicFlag = 1;
-    //         return Helper::rj(
-    //             "Employee login success",
-    //             $dynamicFlag,
-    //             $checkuser,
-    //             $imagePath,
-    //             $userPrimaryId,
-    //             $token
-    //         );
-
-    //     } catch (Exception $e) {
-    //         return Helper::rj("Server Error.", 500);
-    //     }
-    // }
+   
 
     public function logout(Request $request)
     {
@@ -158,8 +44,8 @@ class LoginController extends Controller
         try {
             if (auth()->user()) {
                 $user = auth()->user();
-                $user->tokens()->delete(); 
-
+                //$user->tokens()->delete(); 
+                auth()->user()->token()->revoke();
                 return Helper::rj("Logout successful", $dynamicFlag);
             } else {
                 $dynamicFlag = 0;
@@ -197,6 +83,18 @@ class LoginController extends Controller
             $user_id = $checkuser->employee_id;
             $userPrimaryId = $user->id;
             $emid = $user->emid;
+            
+            if (!empty($request->fcm_token)) {
+                DB::table('user_devices')->updateOrInsert(
+                    ['fcm_token' => $request->fcm_token],
+                    [
+                        'user_id'     => $userPrimaryId,
+                        'device_type' => $request->device_type ?? 'web',
+                        'updated_at'  => now(),
+                        'created_at'  => now(),
+                    ]
+                );
+            }
 
             // Employee image
             $userImage = DB::table('employee')
@@ -206,7 +104,7 @@ class LoginController extends Controller
             $imagePath = $userImage->profileimage ?? '';
 
             // Update device token
-            $user->update(['device_token' => $request->device_token]);
+            //$user->update(['device_token' => $request->device_token]);
 
             // Fetch full employee + user details
             $checkuser = UserModel::join('employee', function($join) {
@@ -262,6 +160,102 @@ class LoginController extends Controller
 
         } catch (\Exception $e) {
             return Helper::rj("Server Error.", 500);
+        }
+    }
+    
+    // Guest Login
+    public function login(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                "email"    => "required|email",
+                "password" => "required",
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    "flag" => 0,
+                    "message" => "Validation Error",
+                    "errors" => $validator->errors()
+                ], 422);
+            }
+
+            // Validate user credentials
+            $checkuser = $this->_model->userfind($request->email, $request->password);
+            if (!$checkuser) {
+                return response()->json([
+                    "flag" => 0,
+                    "message" => "Not a valid credential"
+                ], 401);
+            }
+
+            // Only guest can login
+            if ($checkuser->user_type !== "guest") {
+                return response()->json([
+                    "flag" => 0,
+                    "message" => "Only Guest can log in."
+                ], 403);
+            }
+            
+            // User table
+            $user = UserModel::where("email", $request->email)->first();
+            $token = $user->createToken("token")->accessToken;
+            //dd($user);
+            $user_id       = $checkuser->employee_id; // guest_id
+            $userPrimaryId = $user->id;
+            $emid          = $user->emid;
+
+            // Update device token
+            if ($request->filled('device_token')) {
+                $user->update([
+                    'device_token' => $request->device_token
+                ]);
+            }
+            //dd($user_id, $emid);
+            // Fetch guest + user details
+            $userData = UserModel::join('guests', function ($join) {
+                    $join->on('guests.guest_id', '=', 'users.employee_id')
+                        ->on('guests.emid', '=', 'users.emid');
+                })
+                ->where('users.employee_id', $user_id)
+                ->where('users.emid', $emid)
+                ->select(
+                    'users.id',
+                    'users.email',
+                    'users.user_type',
+                    'users.employee_id',
+                    'users.emid',
+                    'guests.name',
+                    'guests.company_name',
+                    'guests.designation',
+                    'guests.phone'
+                )
+                ->first();
+            //dd($userData);
+            // Organization info
+            $org = Registration::where('reg', $emid)
+                ->select('logo', 'com_name')
+                ->first();
+
+            $userData->org_logo = $org->logo ?? '';
+            $userData->org_name = $org->com_name ?? '';
+
+            return response()->json([
+                "flag"    => 1,
+                "message" => "Guest login successfully",
+                "data"    => [
+                    "user"    => $userData,
+                    "user_id" => $userPrimaryId,
+                    "token"   => $token
+                ]
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                "flag" => 0,
+                "message" => "Server Error",
+                "error" => $e->getMessage() // remove in production
+            ], 500);
         }
     }
 

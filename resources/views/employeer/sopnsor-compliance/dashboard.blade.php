@@ -124,7 +124,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                      <div class="modern_icon_wrapper">
                               <i class="fa fa-building modern-icon"></i>
                            </div>
-                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("Incomplete")}} </h4>
+                           <h4 class="modern-card-title">{{\App\Helpers\Helper::cachedTrans("RTW Checks & Share  Code")}} </h4>
                      </div>
                      <div class="modern-card-body">
                         <div class="modern-status"></div>
@@ -485,14 +485,14 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                <div class="card" style="margin-bottom:30px;">
                   <div class="card-body">
                      <div class="card-header">
-                        <h3 style="color:#FF902F;">{{\App\Helpers\Helper::cachedTrans("E-VISA / VISA  NOTIFICATION")}} </h3>
+                        <h3 style="color:#FF902F;">{{\App\Helpers\Helper::cachedTrans("Visa/RTW Notification")}} </h3>
                      </div>
                      <div class="table-responsive">
                         <table id="basic-datatables" class="table table-striped custom-table" >
                            <thead>
                               <tr>
-                                 <th>Employee Code </th>
-                                 <th>Employee Name </th>
+                                 <th>Employee Code</th>
+                                 <th>Employee Name</th>
                                  <th>Address </th>
                                  <th>Share Code </th>
                                  <th>Share Date Check </th>
@@ -530,7 +530,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                  <td>{{ $employee->pass_doc_no }}</td>
                                  <td>{{ $employee->visa_doc_no }}</td>
                                  <td>    @if( $employee->visa_issue_date!='1970-01-01') @if( $employee->visa_issue_date!='') {{ date('d/m/Y',strtotime($employee->visa_issue_date)) }} @endif  @endif</td>
-                                 <td>    @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='') {{ date('d/m/Y',strtotime($employee->visa_exp_date)) }} @endif  @endif</td>
+                                 <td style="color:red;">    @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='') {{ date('d/m/Y',strtotime($employee->visa_exp_date)) }} @endif  @endif</td>
                                  <td  style="color:red;">    @if( $employee->visa_exp_date!='1970-01-01') @if( $employee->visa_exp_date!='') {{   date('d/m/Y',strtotime($employee->visa_exp_date.'  - 90  days'))}} 
                                     &nbsp &nbsp  
                                  <td><a href="{{url('dashboard/migrant-dash-firstletter/'.base64_encode($employee->emp_code))}}" target="_blank"><i class="fas fa-eye" ></i></a></td>

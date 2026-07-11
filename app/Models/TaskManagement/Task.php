@@ -20,6 +20,8 @@ class Task extends Model
         'createdBy',
         'priority',
         'status',
+        'task_file',
+        'task_doc',
         'created_at',
         'updated_at'
     ];

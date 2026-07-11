@@ -14,6 +14,13 @@ class UserModel extends Model
     protected $table="users";
     protected $fillable = [
         'device_token',
+        'name',
+        'email',
+        'password',
+        'employee_id',
+        'emid',
+        'user_type',
+        'status'
     ];
 
     public function userfind($email,$password){

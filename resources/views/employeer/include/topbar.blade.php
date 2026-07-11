@@ -57,14 +57,25 @@
 
     <!-- Header Menu -->
     <ul class="nav user-menu">
+        <!--Customer Support-->
+        {{-- <li class="nav-item">
+            <a href="{{url('helpdesk')}}" class="fa fa-wrench">Support</a>
+        </li> --}}
+        <li class="nav-item">
+            <a href="{{ url('helpdesk') }}" class="nav-link support-link">
+                <i class="fa fa-wrench"></i>
+                <span>Support</span>
+            </a>
+        </li>
+        <!--/Customer Support-->
         <!--quick Links-->
         <li class="nav-item">
             <a href="{{url('super-admin/quick-links')}}" class="fa fa-home"></a>
         </li>
         <!--/quick Links-->
-
+      
         <!-- Search -->
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <div class="top-nav-search">
                 <a href="javascript:void(0);" class="responsive-search">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -74,7 +85,7 @@
                     <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
-        </li>
+        </li> --}}
         <!-- /Search -->
 
         <!-- Flag -->
@@ -112,6 +123,30 @@
         <!-- /Flag -->
 
         <!-- Notifications -->
+        <li class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <i class="fa-regular fa-bell"></i>
+                <span class="badge rounded-pill bg-danger" id="notif-badge">0</span>
+            </a>
+
+            <div class="dropdown-menu notifications">
+                <div class="topnav-dropdown-header">
+                    <span class="notification-title">Notifications</span>
+                    <a href="javascript:void(0)" class="clear-noti" id="clear-noti"> Clear All </a>
+                </div>
+
+                <div class="noti-content">
+                    <ul class="notification-list" id="notification-list">
+                        <!-- Live notifications will be injected here -->
+                    </ul>
+                </div>
+
+                <div class="topnav-dropdown-footer">
+                    <a href="#">View all Notifications</a>
+                </div>
+            </div>
+        </li>
+        
         {{-- <li class="nav-item dropdown">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                 <i class="fa-regular fa-bell"></i> <span class="badge rounded-pill">3</span>

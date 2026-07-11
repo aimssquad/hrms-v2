@@ -40,6 +40,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
 				<h3 class="page-title">{{\App\Helpers\Helper::cachedTrans('Notice')}}</h3>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
+					<li class="breadcrumb-item"><a href="{{url('notification-dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
 					<li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Notice')}}</li>
 				</ul>
 			</div>
@@ -98,7 +99,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                  </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped custom-table" id="basic-datatables">
+                         <table class="table table-striped custom-table" id="basic-datatables">
                             <thead>
                                 <tr>
                                     <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
@@ -108,65 +109,84 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                                     <th>{{\App\Helpers\Helper::cachedTrans('Notice For')}}</th>
                                     <th>{{\App\Helpers\Helper::cachedTrans('Status')}}</th>
                                     <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
-                                 </tr>
+                                </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1;?>
                                 @foreach($notices as $datas)
                                 <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $datas->title }}</td>
-                                <td>{{ $datas->start_date }}</td>
-                                <td>{{ $datas->end_date }}</td>
-                                <td>{{ ucwords($datas->notice_for) }}</td>
-                                <td>
-                                  @php
-                                      $currentDate = now();
-                                      $startDate = \Carbon\Carbon::parse($datas->start_date);
-                                      $endDate = \Carbon\Carbon::parse($datas->end_date);
-                                  @endphp
-                              
-                                  @if ($currentDate->between($startDate, $endDate))
-                                      <span class="badge badge-success">Active</span>
-                                  @else
-                                      <span class="badge badge-danger">Expired</span>
-                                  @endif
-                              </td>
-                                <td class="text-end">
-                                    <div class="dropdown dropdown-action">
-                                        <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="material-icons">more_vert</i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            @if($user_type == 'employee')
-                                                @foreach($sidebarItems['Rota'] as $rotaItem)
-                                                    @if($rotaItem['submenu_name'] == 'Notice' && $rotaItem['can_edit'] == 1)
-                                                        <a class="dropdown-item" href="{{ route('edit.notice', $datas->id) }}">
-                                                            <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                                        </a>
-                                                    @endif
-                                                @endforeach
-                                            @elseif($user_type == 'employer')
-                                                <a class="dropdown-item" href="{{ route('edit.notice', $datas->id) }}">
-                                                    <i class="fa-solid fa-pencil m-r-5"></i> Edit
-                                                </a>
-                                            @endif
-                                            @if($user_type == 'employee')
-                                                @foreach($sidebarItems['Rota'] as $rotaItem)
-                                                    @if($rotaItem['submenu_name'] == 'Notice' && $rotaItem['can_delete'] == 1)
-                                                        <a class="dropdown-item" href="{{ route('delete.notice', $datas->id) }}">
-                                                            <i class="fa-solid fa-trash m-r-5"></i> delete
-                                                        </a>
-                                                    @endif
-                                                @endforeach
-                                            @elseif($user_type == 'employer')
-                                                <a class="dropdown-item" href="{{ route('delete.notice', $datas->id) }}">
-                                                    <i class="fa-solid fa-trash m-r-5"></i> delete
-                                                </a>
-                                            @endif
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $datas->title }}</td>
+                                    <td>{{ $datas->start_date }}</td>
+                                    <td>{{ $datas->end_date }}</td>
+                                    <td>
+                                        @if($datas->notice_for == 'all')
+                                            <span class="badge badge-info">All Employees</span>
+                                        @else
+                                            <span class="badge badge-warning">
+                                                @if($datas->notice_for)
+                                                    @php
+                                                        $employeeId = $datas->notice_for;
+                                                        //dd($employeeId);
+                                                        $emid = \App\Models\UserModel::where('id', $datas->created_by_id)->select('employee_id')->first();
+                                                        //dd($emid);
+                                                        $employee = \App\Models\Employee::where('emp_code', $employeeId)->where('emid', $emid->employee_id)->first(); 
+                                                        //dd($employee);
+                                                    @endphp
+                                                    {{ $employee->emp_fname }}  {{ $employee->emp_mname }} {{ $employee->emp_lname }}<!-- Adjust field name as needed -->
+                                                @else
+                                                    Single Employee (ID: {{ $datas->notice_for }})
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @php
+                                            $currentDate = now();
+                                            $startDate = \Carbon\Carbon::parse($datas->start_date);
+                                            $endDate = \Carbon\Carbon::parse($datas->end_date);
+                                        @endphp
+                                    
+                                        @if ($currentDate->between($startDate, $endDate))
+                                            <span class="badge badge-success">Active</span>
+                                        @else
+                                            <span class="badge badge-danger">Expired</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                @if($user_type == 'employee')
+                                                    @foreach($sidebarItems['Rota'] as $rotaItem)
+                                                        @if($rotaItem['submenu_name'] == 'Notice' && $rotaItem['can_edit'] == 1)
+                                                            <a class="dropdown-item" href="{{ route('edit.notice', $datas->id) }}">
+                                                                <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                            </a>
+                                                        @endif
+                                                    @endforeach
+                                                @elseif($user_type == 'employer')
+                                                    <a class="dropdown-item" href="{{ route('edit.notice', $datas->id) }}">
+                                                        <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                    </a>
+                                                @endif
+                                                @if($user_type == 'employee')
+                                                    @foreach($sidebarItems['Rota'] as $rotaItem)
+                                                        @if($rotaItem['submenu_name'] == 'Notice' && $rotaItem['can_delete'] == 1)
+                                                            <a class="dropdown-item" href="{{ route('delete.notice', $datas->id) }}">
+                                                                <i class="fa-solid fa-trash m-r-5"></i> delete
+                                                            </a>
+                                                        @endif
+                                                    @endforeach
+                                                @elseif($user_type == 'employer')
+                                                    <a class="dropdown-item" href="{{ route('delete.notice', $datas->id) }}">
+                                                        <i class="fa-solid fa-trash m-r-5"></i> delete
+                                                    </a>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

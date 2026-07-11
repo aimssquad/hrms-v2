@@ -121,55 +121,151 @@ class TaskManagement extends Controller
     }
 
     // return view($this->_routePrefix . '.contract-list',$data);
+    //old code
+    // public function projects()
+    // {
+    //     if (!empty(Session::get('user_type'))) {
+    //         $currentUserType = Session::get('user_type');
+    //         $currentUser = Session::get('users_id');
+    //         $data = [];
+    //         // dd($currentUser);
+    //         if ($currentUserType === 'employer') {
+    //             $email = Session::get('emp_email');
+    //             $Roledata = DB::table('registration')->where('status', '=', 'active')
+
+    //                 ->where('email', '=', $email)
+    //                 ->first();
+
+    //             $projects = Project::where('projects.emid', $Roledata->reg)
+    //                 ->leftJoin('users as u', 'u.id', '=', 'projects.createdBy')
+    //                 ->select('projects.*', 'u.name as owner')
+    //                 ->get();
+    //             foreach ($projects as $k => $p) {
+    //                 $projects[$k]['members'] = DB::select(DB::raw('select * from project_members where project_id=' . $p->id));
+    //             }
+    //             $data['projects'] = $projects;
+    //         } else {
+    //             $empDetails = User::select("users.*", 'e.id as emp_id')
+    //                 ->leftJoin('employee as e', 'e.emp_code', '=', 'users.employee_id')
+    //                 ->where('users.id', $currentUser)
+    //                 ->first();
+    //             $projects = Project::select('projects.*',  'u.name as owner')
+    //                 ->where('projects.createdBy', $currentUser)
+    //                 ->orWhere('pm.user_id', $empDetails->emp_id)
+    //                 ->leftJoin('project_members as pm', 'pm.project_id', '=', 'projects.id')
+    //                 ->leftJoin('users as u', 'u.id', '=', 'projects.createdBy')
+    //                 ->get();
+    //             foreach ($projects as $k => $p) {
+    //                 $projects[$k]['members'] = DB::select(DB::raw('select * from project_members where project_id=' . $p->id));
+    //             }
+    //             $data['projects'] = $projects;
+    //         }
+    //         return view($this->_routePrefix . '.projects',$data);
+    //     } else {
+    //         return redirect('/');
+    //     }
+    // }
+    
+    //new code 30-06-2026
     public function projects()
     {
-        if (!empty(Session::get('user_type'))) {
-            $currentUserType = Session::get('user_type');
-            $currentUser = Session::get('users_id');
-            $data = [];
-            // dd($currentUser);
-            if ($currentUserType === 'employer') {
-                $email = Session::get('emp_email');
-                $Roledata = DB::table('registration')->where('status', '=', 'active')
-
-                    ->where('email', '=', $email)
-                    ->first();
-
-                $projects = Project::where('projects.emid', $Roledata->reg)
-                    ->leftJoin('users as u', 'u.id', '=', 'projects.createdBy')
-                    ->select('projects.*', 'u.name as owner')
-                    ->get();
-                foreach ($projects as $k => $p) {
-                    $projects[$k]['members'] = DB::select(DB::raw('select * from project_members where project_id=' . $p->id));
-                }
-                $data['projects'] = $projects;
-            } else {
-                $empDetails = User::select("users.*", 'e.id as emp_id')
-                    ->leftJoin('employee as e', 'e.emp_code', '=', 'users.employee_id')
-                    ->where('users.id', $currentUser)
-                    ->first();
-                $projects = Project::select('projects.*',  'u.name as owner')
-                    ->where('projects.createdBy', $currentUser)
-                    ->orWhere('pm.user_id', $empDetails->emp_id)
-                    ->leftJoin('project_members as pm', 'pm.project_id', '=', 'projects.id')
-                    ->leftJoin('users as u', 'u.id', '=', 'projects.createdBy')
-                    ->get();
-                // $projects = $this->projectModel
-                //     // ->leftJoin('project_members as pm', 'pm.project_id', '=', 'projects.id')
-                //     // ->leftJoin('users as pmu', 'pm.user_id', '=', 'pmu.id')
-                //     ->leftJoin('users as u', 'u.id', '=', 'projects.createdBy')
-                //     ->select('projects.*',  'u.name as owner')
-                //     ->get();
-                foreach ($projects as $k => $p) {
-                    $projects[$k]['members'] = DB::select(DB::raw('select * from project_members where project_id=' . $p->id));
-                }
-                $data['projects'] = $projects;
-            }
-            return view($this->_routePrefix . '.projects',$data);
-        } else {
+        if (empty(Session::get('user_type'))) {
             return redirect('/');
         }
+    
+        $currentUserType = Session::get('user_type');
+        $currentUserId   = Session::get('users_id');
+    
+        $data = [];
+    
+        if ($currentUserType === 'employer') {
+    
+            $email = Session::get('emp_email');
+    
+            $roleData = DB::table('registration')
+                ->where('status', 'active')
+                ->where('email', $email)
+                ->first();
+    
+            $projects = Project::where('projects.emid', $roleData->reg)
+                ->leftJoin('users as u', 'u.id', '=', 'projects.createdBy')
+                ->select('projects.*', 'u.name as owner')
+                ->get();
+    
+        } else {
+    
+            $user = User::find($currentUserId);
+    
+            $projects = Project::leftJoin('work_item_user_roles as wur', function ($join) use ($user) {
+            
+                    $join->on('wur.project_id', '=', 'projects.id')
+                         ->where('wur.employee_id', '=', $user->employee_id);
+            
+                })
+            
+                ->leftJoin('users as u', 'u.id', '=', 'projects.createdBy')
+            
+                ->where(function ($query) use ($currentUserId, $user) {
+            
+                    $query->where('projects.createdBy', $currentUserId)
+                          ->orWhere('wur.employee_id', $user->employee_id);
+            
+                })
+            
+                ->select('projects.*', 'u.name as owner')
+            
+                ->distinct()
+            
+                ->get();
+            }
+    
+        /*
+        |--------------------------------------------------------------------------
+        | PROJECT MEMBERS
+        |--------------------------------------------------------------------------
+        */
+    
+        foreach ($projects as $project) {
+    
+            $project->members = DB::table('work_item_user_roles as wur')
+            
+                ->leftJoin('users as u', function ($join) {
+                    $join->on('u.employee_id', '=', 'wur.employee_id')
+                         ->on('u.emid', '=', 'wur.emid');
+                })
+            
+                ->leftJoin(
+                    'project_roles as pr',
+                    'pr.id',
+                    '=',
+                    'wur.project_role_id'
+                )
+            
+                ->where('wur.project_id', $project->id)
+            
+                ->select(
+                    'wur.employee_id',
+                    'u.name',
+                    'pr.name as role_name'
+                )
+            
+                ->groupBy(
+                    'wur.employee_id',
+                    'u.name',
+                    'pr.name'
+                )
+            
+                ->get();
+        }
+    
+        $data['projects'] = $projects;
+    
+        return view(
+            $this->_routePrefix . '.projects',
+            $data
+        );
     }
+    
 
 
     public function createProject()

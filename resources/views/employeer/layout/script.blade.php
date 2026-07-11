@@ -46,13 +46,21 @@
 <script src="{{ asset('frontend/assets/js/app.js') }}"></script>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#basic-datatables').DataTable({
-        "pageLength": 100, 
-        "lengthMenu": [[100, 200, 500, -1], [100, 200, 500, "All"]], 
+    $(document).ready(function() {
+        $('#basic-datatables').DataTable({
+            "pageLength": 100, 
+            "lengthMenu": [[100, 200, 500, -1], [100, 200, 500, "All"]], 
+        });
+    
     });
-
-});
+    
+    $(document).ready(function() {
+        $('#basic-datatables2').DataTable({
+            "pageLength": 100, 
+            "lengthMenu": [[100, 200, 500, -1], [100, 200, 500, "All"]], 
+        });
+    
+    });
 
     $('#exportForm').on('submit', function(e) {
         e.preventDefault();
@@ -155,8 +163,11 @@ $('#exportPDFForm').on('submit', function(e) {
         window.location.href = url + "?lang="+ $(this).val();
 
     });
+    
+ 
 
     
 
 
 </script>
+

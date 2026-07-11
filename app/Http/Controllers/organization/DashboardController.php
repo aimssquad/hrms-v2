@@ -208,7 +208,7 @@ class DashboardController extends Controller
                 ->select('employee.*')
                 ->get();
 
-            // dd($data['employee_rs']);
+             //dd($data);
             return view($this->_routePrefix . '.employee-migrant',$data);
             //return view('dashboard/employee-migrant', $data);
         } else {
@@ -4088,7 +4088,7 @@ class DashboardController extends Controller
                 ->where('email', '=', $email)
                 ->first();
 
-            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->get();
+            $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->where('emp_code',$request->employee_id)->get();
             if ($request->date != '') {
                 $data['vis_due'] = date('Y-m-d', strtotime($request->date));
             } else {
@@ -4106,11 +4106,11 @@ class DashboardController extends Controller
                     ->where('emp_code', '=', $request->employee_id)
                     ->where('emid', '=', $Roledata->reg)
                     ->first();
-                $data['employee_rs'] = DB::table('employee_qualification')
+                // $data['employee_rs'] = DB::table('employee_qualification')
 
-                    ->where('emp_id', '=', $request->employee_id)
-                    ->where('emid', '=', $Roledata->reg)
-                    ->get();
+                //     ->where('emp_id', '=', $request->employee_id)
+                //     ->where('emid', '=', $Roledata->reg)
+                //     ->get();
 
                 $data['employee_upload_rs'] = DB::table('employee_upload')
 
@@ -4138,6 +4138,7 @@ class DashboardController extends Controller
 
     public function saveEmployeesright(Request $request)
     {
+        //dd($request->all());
         // dd($request->mediumgg[0]);
          
         if (!empty(Session::get('emp_email'))) {
@@ -4360,7 +4361,8 @@ class DashboardController extends Controller
                 'remarks'  =>  $request->share_remarks,
                 'evidence'  => $request->evidence
             ];
-            //dd($change_history);
+            //dd($change_history, $pay);
+            //dd($pay);
             DB::table('change_circumstances_history')->insert($change_history);
            
 
@@ -4645,6 +4647,22 @@ class DashboardController extends Controller
             return redirect('/');
         }
 
+    }
+    
+    
+    
+    public function deleteEmployeeRTW($send_id)
+    {
+        //dd(base64_decode($send_id));
+        if (!empty(Session::get('emp_email'))) {
+            DB::table('right_works')->where('id', base64_decode($send_id))->delete();
+            Session::flash('message', 'Right to Work checks Deleted Successfully');
+            return redirect('org-dashboard-right-works');
+            //return redirect('dashboard-right-works');
+
+        } else {
+            return redirect('/');
+        }
     }
 
 

@@ -37,7 +37,8 @@
                                        </div>
                                        <div class="col-md-4">
                                           <label class="col-form-label">Work start time</label><br>
-                                          <input type="date" class="form-control" placeholder="" name="start_date" id="start_date" required>
+                                          <!--<input type="date" class="form-control" placeholder="" name="start_date" id="start_date" required>-->
+                                          <input type="date" class="form-control" placeholder="" name="start_date" required>
                                        </div>
                                     </div>
                                     <div class="clearfix" style="height: 10px;clear: both;"></div>

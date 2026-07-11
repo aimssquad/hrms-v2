@@ -338,10 +338,15 @@ class SubadminController extends Controller
                     ->select('module.*') // Select the module name and all partner module fields
                     ->get();
                 //dd($data['module']);    
+                // $data['org_module'] = DB::table('othorized_organization_module')
+                //                     ->where('employee_id', $id)
+                //                     ->pluck('module_name')
+                //                     ->toArray();
                 $data['org_module'] = DB::table('othorized_organization_module')
-                                    ->where('employee_id', $id)
-                                    ->pluck('module_name')
-                                    ->toArray();
+                    ->where('employee_id', $id)
+                    ->pluck('module_name')
+                    ->map(fn ($v) => (int) $v)
+                    ->toArray();
                 $data['org_id'] = $id;
                 //dd($data);
                 return view('sub-admin/permission/module-permission', $data);

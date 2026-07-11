@@ -725,13 +725,14 @@ class SubadminBillController extends Controller
     }
 
     public function viewOwnInvoice(Request $request,$id){
+        
         $email = Session::get('empsu_email');
         if(!empty($email)){
             $data['bill'] = DB::table('subadmin_bills')->where('id',$id)->first();
             //$data['org_dtl'] = DB::table('registration')->where('reg',$data['bill']->entity_id)->first();
             //dd($data['bill']->sub_code);
             $data['com_dtl'] = DB::table('sub_admin_registrations')->where('reg',$data['bill']->entity_id)->first();
-            //dd('subadmin bills');
+            //dd($data);
             return view('sub-admin.billing.own_invoice',$data);
         } else {
             redirect('superadmin');

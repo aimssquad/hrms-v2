@@ -106,7 +106,7 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                             <th>{{\App\Helpers\Helper::cachedTrans("Type of check")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("View")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Download")}}</th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Edit")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Action")}}</th>
                           </tr>
                        </thead>
                        <tbody>
@@ -123,9 +123,27 @@ $sidebarItems = \App\Helpers\Helper::getSidebarItems();
                            <!-- <td> -->
                            <td class="icon"> <a data-toggle="tooltip" data-placement="bottom" title="View" href="{{ url('dashboard/work-view/'.base64_encode($employee->id)) }}" target="_blank" ><img  style="width: 14px;" src="{{ asset('assets/img/view.png')}}"></a></td>
                            <td class="icon"> <a data-toggle="tooltip" data-placement="bottom" title="Download" href="{{ url('dashboard/work-view-download/'.base64_encode($employee->id)) }}" target="_blank" ><img  style="width: 14px;" src="{{ asset('assets/img/download.png')}}"></a></td>
-                           <td class="icon"> <a data-toggle="tooltip" data-placement="bottom" title="Edit" href="{{ url('org-dashboard/edit-work-view/'.base64_encode($employee->id)) }}" ><img  style="width: 15px;" src="{{ asset('assets/img/edit.png')}}"></a>
-                           </td>
-                           <!-- </td> -->
+                           <!--<td class="icon"> <a data-toggle="tooltip" data-placement="bottom" title="Edit" href="{{ url('org-dashboard/edit-work-view/'.base64_encode($employee->id)) }}" ><img  style="width: 15px;" src="{{ asset('assets/img/edit.png')}}"></a>-->
+                           <!--</td>-->
+                           <td class="text-end">
+                                <div class="dropdown dropdown-action">
+                                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="{{ url('org-dashboard/edit-work-view/'.base64_encode($employee->id)) }}">
+                                            <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                        </a>
+
+                                        <a class="dropdown-item" href="{{ url('org-dashboard/delete-work-view/'.base64_encode($employee->id)) }}"
+                                             onclick="return confirm('Are you sure you want to delete this record?')">
+                                            <i class="fa-solid fa-trash m-r-5"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            
+                            </td>
+                           
                         </tr>
                         @endforeach  
                        </tbody>

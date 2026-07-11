@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Task Management Dashboard')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('Project Control Dashboard')}}</a></li>
                     <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Project')}}</li>
                  </ul>
                <div class="card custom-card">
