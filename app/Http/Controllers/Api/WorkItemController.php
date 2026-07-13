@@ -13,6 +13,7 @@ class WorkItemController extends Controller
     public function projectDashboard()
     {
         try {
+
             $currentUser = auth()->user();
 
             if (!$currentUser) {
@@ -25,15 +26,124 @@ class WorkItemController extends Controller
             $employeeId = $currentUser->employee_id;
             $emid = $currentUser->emid;
 
-            
+            $data = $this->projectSummaryData(
+                $employeeId,
+                $emid
+            );
+
+            return response()->json([
+
+                'status' => 1,
+
+                'message' => 'Dashboard Data',
+
+                'data' => $data
+
+            ]);
 
         } catch (\Exception $e) {
+
             return response()->json([
                 'status' => 0,
                 'message'=> $e->getMessage()
             ], 500);
         }
     }
+
+    private function projectSummaryData($employeeId, $emid)
+    {
+        $projects = DB::table('work_item_assignments as wa')
+
+            ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
+
+            ->join('projects as p', 'p.id', '=', 'wi.project_id')
+
+            ->where('wa.employee_id', $employeeId)
+
+            ->where('wa.emid', $emid)
+
+            ->select(
+                'p.id',
+                'p.status',
+                'p.project_end_date'
+            )
+
+            ->distinct()
+
+            ->get();
+
+        $today = now()->toDateString();
+
+        $totalProjects = $projects->count();
+
+        $activeProjects = $projects
+            ->where('status', 'open')
+            ->count();
+
+        $completedProjects = $projects
+            ->where('status', 'close')
+            ->count();
+
+        $overdueProjects = $projects
+            ->filter(function ($project) use ($today) {
+
+                return $project->status == 'open'
+                    && !empty($project->project_end_date)
+                    && $project->project_end_date < $today;
+
+            })
+            ->count();
+
+        $projectIds = $projects->pluck('id');
+
+        $teamMembers = DB::table('work_item_assignments as wa')
+
+            ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
+
+            ->whereIn('wi.project_id', $projectIds)
+
+            ->where('wa.emid', $emid)
+
+            ->distinct('wa.employee_id')
+
+            ->count('wa.employee_id');    
+
+        return [
+
+            'total_projects'      => $totalProjects,
+
+            'active_projects'     => $activeProjects,
+
+            'completed_projects'  => $completedProjects,
+
+            'overdue_projects'    => $overdueProjects,
+            
+            'team_members'       => $teamMembers,
+
+        ];
+    }
+
+    private function getDashboardData()
+    {
+        $employeeId = auth()->user()->employee_id;
+        $emid = auth()->user()->emid;
+
+        return [
+
+            'attendance'      => $this->attendanceData($employeeId, $emid),
+
+            'leave_balance'   => $this->leaveBalanceData($employeeId, $emid),
+
+            'project_summary' => $this->projectSummaryData($employeeId, $emid),
+
+            'project_details' => $this->projectDetailsData($employeeId, $emid),
+
+            'calendar'        => $this->getHolidayCalendarData(),
+        ];
+    }
+
+
+    //------------------------------------
 
     public function store(Request $request)
     {
@@ -639,7 +749,7 @@ class WorkItemController extends Controller
     
     
     
-     public function getWorkItemDetails($id, $projectId)
+    public function getWorkItemDetails($id, $projectId)
     {
         try {
     

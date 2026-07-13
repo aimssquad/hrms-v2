@@ -215,6 +215,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     
     Route::post('project/chat/read',[WorkItemCommentController::class, 'markProjectMessagesAsRead']);
 
-    Route::post('/emp-project-dashboard', [WorkItemController::class, 'projectDashboard']);
+    Route::get('/emp-project-dashboard', [WorkItemController::class, 'projectDashboard']);
   
 });
