@@ -34,7 +34,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Identifier')}} <span>(*)</span></label>
-                                            <input type="text" class="form-control" name="identifier" value="{{$project->identifier}}" />
+                                            <input type="text" class="form-control" name="identifier" value="{{$project->identifier}}" readonly/>
 
                                         </div>
 

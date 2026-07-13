@@ -1032,7 +1032,7 @@ class ProjectController extends Controller
 
     // employee project role 
     public function projectStore(Request $request)
-    {
+    {   
         $currentUser = auth()->user();
 
         if (!$currentUser) {
@@ -1044,16 +1044,23 @@ class ProjectController extends Controller
         }
 
         $emid = $currentUser->emid;
-
         $employeeId = $currentUser->employee_id;
-        
+        $Roledata = DB::table('registration')->where('status', '=', 'active')
+                ->where('reg', '=', $emid)
+                ->first();
+
         $request->validate([
             'title' => 'required',
             'description' => 'nullable',
-            'identifier' => 'nullable',
             'project_start_date' => 'nullable|date',
             'project_end_date' => 'nullable|date',
         ]);
+        
+        //identifire
+        $comName = $Roledata->com_name??'';
+        $currentMonth = Carbon::now()->format('m');
+        $currentYear = Carbon::now()->format('y');
+        $identifier = strtoupper(substr($comName, 0, 3)) . $currentMonth . $currentYear.rand(100, 999).' '.$request->title;
         
         $projectRoles = DB::table('project_role_permissions')
             ->select('project_role_id')
@@ -1078,7 +1085,7 @@ class ProjectController extends Controller
             'title' => $request->title,
             'emid' => $emid,
             'description' => $request->description,
-            'identifier' => $request->identifier,
+            'identifier' => $identifier,
             'createdBy' => $employeeId,
             'status' => 'open',
             'project_start_date' => $request->project_start_date,

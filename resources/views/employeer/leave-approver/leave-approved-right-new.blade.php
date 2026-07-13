@@ -26,16 +26,7 @@ function my_simple_crypt( $string, $action = 'encrypt' ) {
 
 @section('css')
 <style>
-    /* ============================================
-       COLOR PALETTE:
-       #FF902F - Orange (Primary Navbar, Accents)
-       #d63384 - Pink/Magenta (Secondary Accents)
-       #fd7e14 - Orange (Hover States, Highlights)
-       #dc3545 - Red (Danger/Rejected Status)
-       #1A2940 - Dark Navy (Sidebar, Text)
-       #F5F8FC - Light Background
-       #FFFFFF - White
-       ============================================ */
+   
 
     /* --- Navbar (Orange) --- */
     .navbar-custom {

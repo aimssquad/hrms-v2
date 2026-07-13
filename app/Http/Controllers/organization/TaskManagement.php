@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\TaskManagement\MasterRoles;
 use Illuminate\Support\Facades\Auth;
+use carbon\Carbon;
 
 class TaskManagement extends Controller
 {
@@ -287,10 +288,17 @@ class TaskManagement extends Controller
             $validatedData = $request->validate([
                 'title' => 'required',
                 'description' => 'required',
-                'identifier' => 'nullable',
+                //'identifier' => 'nullable',
                 'project_start_date' => 'nullable',
                 'project_end_date' => 'nullable'
             ]);
+            $comName = $Roledata->com_name??'';
+            $currentMonth = Carbon::now()->format('m');
+            $currentYear = Carbon::now()->format('y');
+            $identifier = strtoupper(substr($comName, 0, 3)) . $currentMonth . $currentYear.rand(100, 999).' '.$request->title;
+            $validatedData['identifier'] = $identifier;
+           
+
             $isExist = Project::where(['title' => $validatedData['title'], 'emid' => $Roledata->reg])->first();
             if ($isExist) {
                 session()->flash('error', 'Project already exist in the system');
@@ -305,30 +313,30 @@ class TaskManagement extends Controller
                 $validatedData['emid'] = $Roledata->reg;
                 //dd($validatedData);
                 $project = Project::create($validatedData);
-                $labels = MasterLabels::create([
-                    'title' => 'Todo',
-                    'project_id' => $project->id,
-                    'created_at' => date('Y-m-d h:i:s'),
-                    'createdBy' => $currentUser
-                ]);
-                $labels1 = MasterLabels::create([
-                    'title' => 'Resolved',
-                    'project_id' => $project->id,
-                    'created_at' => date('Y-m-d h:i:s'),
-                    'createdBy' => $currentUser
-                ]);
-                $roles = MasterRoles::create([
-                    'title' => 'Owner',
-                    'project_id' => $project->id,
-                    'created_at' => date('Y-m-d h:i:s'),
-                    'createdBy' => $currentUser
-                ]);
-                $roles2 = MasterRoles::create([
-                    'title' => 'Manager',
-                    'project_id' => $project->id,
-                    'created_at' => date('Y-m-d h:i:s'),
-                    'createdBy' => $currentUser
-                ]);
+                // $labels = MasterLabels::create([
+                //     'title' => 'Todo',
+                //     'project_id' => $project->id,
+                //     'created_at' => date('Y-m-d h:i:s'),
+                //     'createdBy' => $currentUser
+                // ]);
+                // $labels1 = MasterLabels::create([
+                //     'title' => 'Resolved',
+                //     'project_id' => $project->id,
+                //     'created_at' => date('Y-m-d h:i:s'),
+                //     'createdBy' => $currentUser
+                // ]);
+                // $roles = MasterRoles::create([
+                //     'title' => 'Owner',
+                //     'project_id' => $project->id,
+                //     'created_at' => date('Y-m-d h:i:s'),
+                //     'createdBy' => $currentUser
+                // ]);
+                // $roles2 = MasterRoles::create([
+                //     'title' => 'Manager',
+                //     'project_id' => $project->id,
+                //     'created_at' => date('Y-m-d h:i:s'),
+                //     'createdBy' => $currentUser
+                // ]);
                 session()->flash('message', 'Project has been created successfully');
                 return redirect('org-task-management/projects');
             }
