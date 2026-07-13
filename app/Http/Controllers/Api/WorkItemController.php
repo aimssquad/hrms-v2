@@ -1509,195 +1509,458 @@ class WorkItemController extends Controller
     
 
     
+    // public function projectList()
+    // {
+    //     try {
+    
+    //         $currentUser = auth()->user();
+    
+    //         /*
+    //         |--------------------------------------------------------------------------
+    //         | AUTH CHECK
+    //         |--------------------------------------------------------------------------
+    //         */
+    
+    //         if (!$currentUser) {
+    
+    //             return response()->json([
+    //                 'status' => 0,
+    //                 'message' => 'Authentication required'
+    //             ], 401);
+    //         }
+    
+    //         $emid = $currentUser->emid;
+    
+    //         $employeeId = $currentUser->employee_id;
+    
+    //         /*
+    //         |--------------------------------------------------------------------------
+    //         | GET USER PROJECT ROLES
+    //         |--------------------------------------------------------------------------
+    //         */
+    
+    //         $projectRoles = DB::table('work_item_user_roles as wur')
+    
+    //             ->leftJoin(
+    //                 'project_roles as pr',
+    //                 'pr.id',
+    //                 '=',
+    //                 'wur.project_role_id'
+    //             )
+    
+    //             ->where('wur.employee_id', $employeeId)
+    
+    //             ->where('wur.emid', $emid)
+    
+    //             ->select(
+    
+    //                 'wur.project_id',
+    
+    //                 'wur.project_role_id',
+    
+    //                 'pr.name as role_name'
+    //             )
+    
+    //             ->groupBy(
+    
+    //                 'wur.project_id',
+    
+    //                 'wur.project_role_id',
+    
+    //                 'pr.name'
+    //             )
+    
+    //             ->get();
+    
+    //         /*
+    //         |--------------------------------------------------------------------------
+    //         | PROJECT IDS
+    //         |--------------------------------------------------------------------------
+    //         */
+    
+    //         $projectIds = $projectRoles
+    
+    //             ->pluck('project_id')
+    
+    //             ->unique()
+    
+    //             ->toArray();
+    
+    //         /*
+    //         |--------------------------------------------------------------------------
+    //         | GET PROJECTS
+    //         |--------------------------------------------------------------------------
+    //         */
+
+            
+    
+    //         $projects = DB::table('projects')
+    
+    //             ->whereIn('id', $projectIds)
+    
+    //             ->where('emid', $emid)
+    
+    //             ->orderBy('id', 'desc')
+    
+    //             ->get();
+
+                
+    
+    //         /*
+    //         |--------------------------------------------------------------------------
+    //         | ATTACH ROLE + PERMISSION
+    //         |--------------------------------------------------------------------------
+    //         */
+
+    
+    //         $projects = $projects->map(function ($project) use ($projectRoles, $emid) {
+    
+    //             /*
+    //             |--------------------------------------------------------------------------
+    //             | ROLES OF THIS PROJECT
+    //             |--------------------------------------------------------------------------
+    //             */
+    
+    //             $roles = $projectRoles
+    
+    //                 ->where('project_id', $project->id)
+    
+    //                 ->values();
+    
+    //             /*
+    //             |--------------------------------------------------------------------------
+    //             | ATTACH PERMISSIONS
+    //             |--------------------------------------------------------------------------
+    //             */
+    
+    //             $roles = $roles->map(function ($role) use ($emid) {
+    
+    //             $permissions = DB::table('project_role_permissions as prp')
+
+    //                 ->leftJoin(
+    //                     'project_permissions as pp',
+    //                     'pp.id',
+    //                     '=',
+    //                     'prp.project_permission_id'
+    //                 )
+                
+    //                 ->where('prp.project_role_id', $role->project_role_id)
+                
+    //                 //->where('pp.group_name', 'project')
+                
+    //                 ->select(
+                
+    //                     'pp.id',
+                
+    //                     'pp.name',
+                
+    //                     'pp.group_name'
+    //                 )
+                
+    //                 ->get();
+    
+    //                 return [
+    
+    //                     'project_role_id' => $role->project_role_id,
+    
+    //                     'role_name' => $role->role_name,
+    
+    //                     'permissions' => $permissions
+    //                 ];
+    //             });
+    
+    //             /*
+    //             |--------------------------------------------------------------------------
+    //             | FINAL PROJECT RESPONSE
+    //             |--------------------------------------------------------------------------
+    //             */
+    
+    //             return [
+    
+    //                 'project' => $project,
+    //                 'roles' => $roles
+    //             ];
+    //         });
+    
+    //         /*
+    //         |--------------------------------------------------------------------------
+    //         | RESPONSE
+    //         |--------------------------------------------------------------------------
+    //         */
+    
+    //         return response()->json([
+    
+    //             'status' => 1,
+    
+    //             'data' => $projects
+    //         ]);
+    
+    //     } catch (\Exception $e) {
+    
+    //         return response()->json([
+    
+    //             'status' => 0,
+    
+    //             'message' => $e->getMessage()
+    
+    //         ], 500);
+    //     }
+    // }
+
     public function projectList()
     {
         try {
-    
+
             $currentUser = auth()->user();
-    
-            /*
-            |--------------------------------------------------------------------------
-            | AUTH CHECK
-            |--------------------------------------------------------------------------
-            */
-    
+
             if (!$currentUser) {
-    
+
                 return response()->json([
                     'status' => 0,
                     'message' => 'Authentication required'
                 ], 401);
             }
-    
+
             $emid = $currentUser->emid;
-    
+
             $employeeId = $currentUser->employee_id;
-    
+
             /*
             |--------------------------------------------------------------------------
-            | GET USER PROJECT ROLES
+            | USER PROJECT ROLES
             |--------------------------------------------------------------------------
             */
-    
+
             $projectRoles = DB::table('work_item_user_roles as wur')
-    
+
                 ->leftJoin(
                     'project_roles as pr',
                     'pr.id',
                     '=',
                     'wur.project_role_id'
                 )
-    
+
                 ->where('wur.employee_id', $employeeId)
-    
+
                 ->where('wur.emid', $emid)
-    
+
                 ->select(
-    
                     'wur.project_id',
-    
                     'wur.project_role_id',
-    
                     'pr.name as role_name'
                 )
-    
+
                 ->groupBy(
-    
                     'wur.project_id',
-    
                     'wur.project_role_id',
-    
                     'pr.name'
                 )
-    
+
                 ->get();
-    
+
             /*
             |--------------------------------------------------------------------------
             | PROJECT IDS
             |--------------------------------------------------------------------------
             */
-    
-            $projectIds = $projectRoles
-    
-                ->pluck('project_id')
-    
-                ->unique()
-    
-                ->toArray();
-    
-            /*
-            |--------------------------------------------------------------------------
-            | GET PROJECTS
-            |--------------------------------------------------------------------------
-            */
-    
-            $projects = DB::table('projects')
-    
-                ->whereIn('id', $projectIds)
-    
-                ->where('emid', $emid)
-    
-                ->orderBy('id', 'desc')
-    
-                ->get();
-    
-            /*
-            |--------------------------------------------------------------------------
-            | ATTACH ROLE + PERMISSION
-            |--------------------------------------------------------------------------
-            */
-    
-            $projects = $projects->map(function ($project) use ($projectRoles, $emid) {
-    
-                /*
-                |--------------------------------------------------------------------------
-                | ROLES OF THIS PROJECT
-                |--------------------------------------------------------------------------
-                */
-    
-                $roles = $projectRoles
-    
-                    ->where('project_id', $project->id)
-    
-                    ->values();
-    
-                /*
-                |--------------------------------------------------------------------------
-                | ATTACH PERMISSIONS
-                |--------------------------------------------------------------------------
-                */
-    
-                $roles = $roles->map(function ($role) use ($emid) {
-    
-                $permissions = DB::table('project_role_permissions as prp')
 
-                    ->leftJoin(
-                        'project_permissions as pp',
-                        'pp.id',
-                        '=',
-                        'prp.project_permission_id'
-                    )
-                
-                    ->where('prp.project_role_id', $role->project_role_id)
-                
-                    //->where('pp.group_name', 'project')
-                
-                    ->select(
-                
-                        'pp.id',
-                
-                        'pp.name',
-                
-                        'pp.group_name'
-                    )
-                
-                    ->get();
-    
-                    return [
-    
-                        'project_role_id' => $role->project_role_id,
-    
-                        'role_name' => $role->role_name,
-    
-                        'permissions' => $permissions
-                    ];
-                });
-    
+            $projectIds = $projectRoles
+
+                ->pluck('project_id')
+
+                ->unique()
+
+                ->values()
+
+                ->toArray();
+
+            /*
+            |--------------------------------------------------------------------------
+            | PROJECTS
+            |--------------------------------------------------------------------------
+            */
+
+            $projects = DB::table('projects')
+
+                ->whereIn('id', $projectIds)
+
+                ->where('emid', $emid)
+
+                ->orderByDesc('id')
+
+                ->get();
+
+            /*
+            |--------------------------------------------------------------------------
+            | PROJECT PROGRESS (ONE QUERY)
+            |--------------------------------------------------------------------------
+            */
+
+            $projectProgress = DB::table('work_item_assignments as wa')
+
+                ->join(
+                    'work_items as wi',
+                    'wi.id',
+                    '=',
+                    'wa.work_item_id'
+                )
+
+                ->where('wa.employee_id', $employeeId)
+
+                ->where('wa.emid', $emid)
+
+                ->whereIn('wi.project_id', $projectIds)
+
+                ->whereIn('wi.type', ['task', 'subtask'])
+
+                ->select(
+
+                    'wi.project_id',
+
+                    DB::raw('COUNT(*) as total_tasks'),
+
+                    DB::raw("
+                        SUM(
+                            CASE
+                                WHEN wa.status='completed'
+                                THEN 1
+                                ELSE 0
+                            END
+                        ) as completed_tasks
+                    ")
+
+                )
+
+                ->groupBy('wi.project_id')
+
+                ->get()
+
+                ->keyBy('project_id');
+
+            /*
+            |--------------------------------------------------------------------------
+            | ATTACH ROLES + PERMISSIONS + PROGRESS
+            |--------------------------------------------------------------------------
+            */
+
+            $projects = $projects->map(function ($project) use (
+
+                $projectRoles,
+
+                $projectProgress
+
+            ) {
+
+                $roles = $projectRoles
+
+                    ->where('project_id', $project->id)
+
+                    ->values()
+
+                    ->map(function ($role) {
+
+                        $permissions = DB::table('project_role_permissions as prp')
+
+                            ->leftJoin(
+                                'project_permissions as pp',
+                                'pp.id',
+                                '=',
+                                'prp.project_permission_id'
+                            )
+
+                            ->where(
+                                'prp.project_role_id',
+                                $role->project_role_id
+                            )
+
+                            ->select(
+                                'pp.id',
+                                'pp.name',
+                                'pp.group_name'
+                            )
+
+                            ->get();
+
+                        return [
+
+                            'project_role_id' => $role->project_role_id,
+
+                            'role_name' => $role->role_name,
+
+                            'permissions' => $permissions
+
+                        ];
+                    });
+
                 /*
                 |--------------------------------------------------------------------------
-                | FINAL PROJECT RESPONSE
+                | PROGRESS
                 |--------------------------------------------------------------------------
                 */
-    
+
+                $progressData = $projectProgress->get($project->id);
+
+                $totalTasks = $progressData->total_tasks ?? 0;
+
+                $completedTasks = $progressData->completed_tasks ?? 0;
+
+                $pendingTasks = $totalTasks - $completedTasks;
+
+                $progress = $totalTasks > 0
+
+                    ? round(($completedTasks / $totalTasks) * 100)
+
+                    : 0;
+
                 return [
-    
-                    'project' => $project,
+
+                    'project' => [
+
+                        'id' => $project->id,
+
+                        'title' => $project->title,
+
+                        'description' => $project->description,
+
+                        'status' => $project->status,
+
+                        'priority' => $project->priority ?? null,
+
+                        'project_start_date' => $project->project_start_date,
+
+                        'project_end_date' => $project->project_end_date,
+
+                        'progress' => $progress,
+
+                        'completed_tasks' => $completedTasks,
+
+                        'pending_tasks' => $pendingTasks,
+
+                        'total_tasks' => $totalTasks,
+
+                    ],
+
                     'roles' => $roles
+
                 ];
             });
-    
-            /*
-            |--------------------------------------------------------------------------
-            | RESPONSE
-            |--------------------------------------------------------------------------
-            */
-    
+
             return response()->json([
-    
+
                 'status' => 1,
-    
+
                 'data' => $projects
+
             ]);
-    
+
         } catch (\Exception $e) {
-    
+
             return response()->json([
-    
+
                 'status' => 0,
-    
+
                 'message' => $e->getMessage()
-    
+
             ], 500);
         }
     }
