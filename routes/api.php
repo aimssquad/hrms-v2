@@ -218,5 +218,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('/emp-project-dashboard', [WorkItemController::class, 'projectDashboard']);
     //employee particular project dashboard
     Route::get('/emp-project-summary/{projectId}', [WorkItemController::class, 'getProjectModuleSummary']);
+    Route::get('emp-project-overview/{projectId}', [WorkItemController::class, 'getProjectOverview']);
   
 });

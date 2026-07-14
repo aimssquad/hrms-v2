@@ -1889,7 +1889,7 @@ class WorkItemController extends Controller
         }
     }
 
-    public function getProjectModuleSummary(Request $request, $projectId)
+    public function getProjectOverview(Request $request, $projectId)
     {
         $currentUser = auth()->user();
 
@@ -1902,25 +1902,32 @@ class WorkItemController extends Controller
         }
 
         $emid = $currentUser->emid;
-
         $employeeId = $currentUser->employee_id;
 
-        $work_items = DB::table('work_item_assignments as wa')
-            ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
-            ->where('wi.project_id', $projectId)
-            ->where('wi.emid', $emid)
-            ->where('wa.employee_id', $employeeId)
-            ->where('wa.emid', $emid)
-            ->select(
-                'wi.*',
-                'wa.employee_id',
-                'wa.status as assignment_status',
-                'wa.assigned_by',
-                'wa.assigned_at'
-            )
-            ->get();
+        $project = DB::table('projects')
+            ->where('id', $projectId)
+            ->where('emid', $emid)
+            ->first();
+        //$recentActivitis = DB::table    
 
-        dd($work_items);    
+        dd($project);        
+        // $work_items = DB::table('work_item_assignments as wa')
+        //     ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
+        //     ->where('wi.project_id', $projectId)
+        //     ->where('wi.emid', $emid)
+        //     ->where('wa.employee_id', $employeeId)
+        //     ->where('wa.emid', $emid)
+        //     ->select(
+        //         'wi.*',
+        //         'wa.employee_id',
+        //         'wa.status as assignment_status',
+        //         'wa.assigned_by',
+        //         'wa.assigned_at'
+        //     )
+        //     ->get();
+
+        
+        //dd($work_items);    
         
     }
 
