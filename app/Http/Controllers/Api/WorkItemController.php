@@ -314,31 +314,6 @@ class WorkItemController extends Controller
     
     // project tree code start
     
-
-    
-    private function buildTree($items, $parentId = null)
-    {
-        //dd($items);
-        $branch = [];
-    
-        foreach ($items as $item) {
-    
-            if ($item->parent_id == $parentId) {
-    
-                // recursive children
-                $children = $this->buildTree($items, $item->id);
-    
-                // attach children
-                $item->children = $children;
-    
-                $branch[] = $item;
-            }
-        }
-    
-        return $branch;
-    }
-    
- 
     
     private function findItemInTree($items, $id)
     {
@@ -373,6 +348,8 @@ class WorkItemController extends Controller
             ->get();
 
         foreach ($children as $child) {
+            $child = $this->addAssignmentDetails($child);
+
             $child->children = $this->getChildren(
                 $child->id,
                 $projectId,
@@ -381,6 +358,80 @@ class WorkItemController extends Controller
         }
 
         return $children;
+    }
+
+    private function addAssignmentDetails($workItem)
+    {
+        $assignments = DB::table('work_item_assignments')
+            ->where('work_item_id', $workItem->id)
+            ->where('emid', $workItem->emid)
+            ->get();
+
+        $total = $assignments->count();
+
+        $completed = $assignments->where('status', 'completed')->count();
+
+        $inProgress = $assignments->where('status', 'in_progress')->count();
+
+        $assigned = $assignments->where('status', 'assigned')->count();
+
+        $percentage = 0;
+
+        if ($total > 0) {
+            $percentage = round(($completed / $total) * 100, 2);
+        }
+
+        $workItem->assignment_summary = [
+            'total_employee' => $total,
+            'completed'      => $completed,
+            'in_progress'    => $inProgress,
+            'assigned'       => $assigned,
+           // 'closed'         => $closed,
+            'percentage'     => $percentage
+        ];
+
+        //$workItem->employees = $assignments;
+
+        return $workItem;
+    }
+
+    private function addCounts(&$item)
+    {
+        $taskCount = 0;
+        $submoduleCount = 0;
+        $subtaskCount = 0;
+
+        if (!empty($item->children)) {
+
+            foreach ($item->children as &$child) {
+
+                $this->addCounts($child);
+
+                switch ($child->type) {
+
+                    case 'task':
+                        $taskCount++;
+                        break;
+
+                    case 'submodule':
+                        $submoduleCount++;
+                        break;
+
+                    case 'subtask':
+                        $subtaskCount++;
+                        break;
+                }
+
+                // Include descendant counts
+                $taskCount += $child->total_tasks;
+                $submoduleCount += $child->total_submodules;
+                $subtaskCount += $child->total_subtasks;
+            }
+        }
+
+        $item->total_tasks = $taskCount;
+        $item->total_submodules = $submoduleCount;
+        $item->total_subtasks = $subtaskCount;
     }
     
    
@@ -391,13 +442,6 @@ class WorkItemController extends Controller
         try {
     
             $currentUser = auth()->user();
-    
-            /*
-            |--------------------------------------------------------------------------
-            | AUTH CHECK
-            |--------------------------------------------------------------------------
-            */
-    
             if (!$currentUser) {
     
                 return response()->json([
@@ -409,13 +453,7 @@ class WorkItemController extends Controller
             $employeeId = $currentUser->employee_id;
     
             $emid = $currentUser->emid;
-    
-            /*
-            |--------------------------------------------------------------------------
-            | GET PROJECT
-            |--------------------------------------------------------------------------
-            */
-    
+
             $project = DB::table('projects')
     
                 ->where('id', $projectId)
@@ -434,11 +472,6 @@ class WorkItemController extends Controller
                 ]);
             }
     
-            /*
-            |--------------------------------------------------------------------------
-            | GET USER ROLES
-            |--------------------------------------------------------------------------
-            */
     
             $userRoles = DB::table('work_item_user_roles as wur')
     
@@ -464,12 +497,6 @@ class WorkItemController extends Controller
     
                 ->get();
     
-            /*
-            |--------------------------------------------------------------------------
-            | NO ACCESS
-            |--------------------------------------------------------------------------
-            */
-    
             if ($userRoles->isEmpty()) {
     
                 return response()->json([
@@ -479,39 +506,6 @@ class WorkItemController extends Controller
                     'message' => 'Permission denied'
                 ]);
             }
-    
-            /*
-            |--------------------------------------------------------------------------
-            | CURRENT USER ROLES
-            |--------------------------------------------------------------------------
-            */
-    
-            // $currentRoles = $userRoles->map(function ($role) {
-    
-            //     return [
-    
-            //         'role_id' => $role->project_role_id,
-    
-            //         'role_name' => $role->role_name,
-    
-            //         'work_item_id' => $role->work_item_id
-            //     ];
-            // });
-    
-            //dd($currentRoles);
-            /*
-            |--------------------------------------------------------------------------
-            | GET ALL PROJECT ITEMS
-            |--------------------------------------------------------------------------
-            */
-    
-            $items = WorkItem::where('project_id', $projectId)
-    
-                ->where('emid', $emid)
-    
-                ->orderBy('id', 'ASC')
-    
-                ->get();
 
             $assignedItems = DB::table('work_item_assignments as wa')
                 ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
@@ -520,17 +514,10 @@ class WorkItemController extends Controller
                 ->where('wi.project_id', $projectId)
                 ->select('wi.*')
                 ->get();
-    
-            //dd($items);
-            /*
-            |--------------------------------------------------------------------------
-            | BUILD TREE
-            |--------------------------------------------------------------------------
-            */
-
             $response = [];
 
             foreach ($assignedItems as $item) {
+                $item = $this->addAssignmentDetails($item);
 
                 $item->children = $this->getChildren(
                     $item->id,
@@ -540,9 +527,6 @@ class WorkItemController extends Controller
 
                 $response[] = $item;
             }
-    
-            //$tree = $this->buildTree($items);
-            //dd($response);
             /*
             |--------------------------------------------------------------------------
             | PROJECT LEVEL ACCESS
@@ -566,8 +550,6 @@ class WorkItemController extends Controller
                 return response()->json([
     
                     'status' => 1,
-    
-                    //'current_user_roles' => $currentRoles,
     
                     'data' => [
     
@@ -604,87 +586,51 @@ class WorkItemController extends Controller
             
             
             $topIds = [];
-            
-            
             /*
             |--------------------------------------------------------------------------
             | FIND TOP LEVEL ASSIGNED ITEMS
             |--------------------------------------------------------------------------
             */
-            
             foreach ($assignedIds as $id) {
             
                 $item = WorkItem::find($id);
-            
                 $hasParent = false;
             
                 while ($item && $item->parent_id) {
             
-                    if (
-            
-                        in_array(
-            
-                            $item->parent_id,
-            
-                            $assignedIds
-            
-                        )
-            
-                    ) {
-            
+                    if (in_array($item->parent_id, $assignedIds))
+                    {            
                         $hasParent = true;
-            
                         break;
                     }
-            
                     $item = WorkItem::find(
-            
                         $item->parent_id
-            
                     );
                 }
-            
                 if (!$hasParent) {
             
                     $topIds[] = $id;
                 }
             }
-            
-            
-            /*
-            |--------------------------------------------------------------------------
-            | ADD ONLY TOP LEVEL ITEMS
-            |--------------------------------------------------------------------------
-            */
-            
+
+            // First calculate counts
+            foreach ($response as &$item) {
+                $this->addCounts($item);
+            }
+
             foreach ($topIds as $id) {
             
-                $item = $this->findItemInTree(
-            
-                    $response,
-            
-                    $id
-            
-                );
-            
+                $item = $this->findItemInTree($response, $id);
                 if ($item) {
-            
                     $responseData[] = $item;
                 }
             }
-    
-            /*
-            |--------------------------------------------------------------------------
-            | RESPONSE
-            |--------------------------------------------------------------------------
-            */
-    
+
+          
+
             return response()->json([
     
                 'status' => 1,
-    
-                //'current_user_roles' => $currentRoles,
-    
                 'data' => $responseData
             ]);
     
