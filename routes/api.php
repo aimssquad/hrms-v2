@@ -214,7 +214,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::delete('work-item-comment/delete/{id}',[WorkItemCommentController::class, 'delete']);
     
     Route::post('project/chat/read',[WorkItemCommentController::class, 'markProjectMessagesAsRead']);
-
+    //Employee project dashboard
     Route::get('/emp-project-dashboard', [WorkItemController::class, 'projectDashboard']);
+    //employee particular project dashboard
+    Route::get('/emp-project-summary/{projectId}', [WorkItemController::class, 'getProjectModuleSummary']);
   
 });

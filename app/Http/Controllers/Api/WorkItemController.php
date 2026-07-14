@@ -123,24 +123,24 @@ class WorkItemController extends Controller
         ];
     }
 
-    private function getDashboardData()
-    {
-        $employeeId = auth()->user()->employee_id;
-        $emid = auth()->user()->emid;
+    // private function getDashboardData()
+    // {
+    //     $employeeId = auth()->user()->employee_id;
+    //     $emid = auth()->user()->emid;
 
-        return [
+    //     return [
 
-            'attendance'      => $this->attendanceData($employeeId, $emid),
+    //         'attendance'      => $this->attendanceData($employeeId, $emid),
 
-            'leave_balance'   => $this->leaveBalanceData($employeeId, $emid),
+    //         'leave_balance'   => $this->leaveBalanceData($employeeId, $emid),
 
-            'project_summary' => $this->projectSummaryData($employeeId, $emid),
+    //         'project_summary' => $this->projectSummaryData($employeeId, $emid),
 
-            'project_details' => $this->projectDetailsData($employeeId, $emid),
+    //         'project_details' => $this->projectDetailsData($employeeId, $emid),
 
-            'calendar'        => $this->getHolidayCalendarData(),
-        ];
-    }
+    //         'calendar'        => $this->getHolidayCalendarData(),
+    //     ];
+    // }
 
 
     //------------------------------------
@@ -318,6 +318,7 @@ class WorkItemController extends Controller
     
     private function buildTree($items, $parentId = null)
     {
+        //dd($items);
         $branch = [];
     
         foreach ($items as $item) {
@@ -361,6 +362,25 @@ class WorkItemController extends Controller
         }
     
         return null;
+    }
+
+    private function getChildren($parentId, $projectId, $emid)
+    {
+        $children = WorkItem::where('project_id', $projectId)
+            ->where('emid', $emid)
+            ->where('parent_id', $parentId)
+            ->orderBy('id')
+            ->get();
+
+        foreach ($children as $child) {
+            $child->children = $this->getChildren(
+                $child->id,
+                $projectId,
+                $emid
+            );
+        }
+
+        return $children;
     }
     
    
@@ -492,6 +512,14 @@ class WorkItemController extends Controller
                 ->orderBy('id', 'ASC')
     
                 ->get();
+
+            $assignedItems = DB::table('work_item_assignments as wa')
+                ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
+                ->where('wa.employee_id', $employeeId)
+                ->where('wa.emid', $emid)
+                ->where('wi.project_id', $projectId)
+                ->select('wi.*')
+                ->get();
     
             //dd($items);
             /*
@@ -499,9 +527,22 @@ class WorkItemController extends Controller
             | BUILD TREE
             |--------------------------------------------------------------------------
             */
+
+            $response = [];
+
+            foreach ($assignedItems as $item) {
+
+                $item->children = $this->getChildren(
+                    $item->id,
+                    $projectId,
+                    $emid
+                );
+
+                $response[] = $item;
+            }
     
-            $tree = $this->buildTree($items);
-            //dd($tree);
+            //$tree = $this->buildTree($items);
+            //dd($response);
             /*
             |--------------------------------------------------------------------------
             | PROJECT LEVEL ACCESS
@@ -536,75 +577,12 @@ class WorkItemController extends Controller
     
                             'name' => $project->title,
     
-                            'modules' => $tree
+                            'modules' => $response
                         ]
                     ]
                 ]);
             }
     
-            /*
-            |--------------------------------------------------------------------------
-            | LIMITED ACCESS
-            |--------------------------------------------------------------------------
-            */
-    
-            // $responseData = [];
-    
-            // $addedIds = [];
-    
-            // foreach ($userRoles as $role) {
-    
-            //     /*
-            //     |--------------------------------------------------------------------------
-            //     | SKIP EMPTY
-            //     |--------------------------------------------------------------------------
-            //     */
-    
-            //     if (!$role->work_item_id) {
-            //         continue;
-            //     }
-    
-            //     /*
-            //     |--------------------------------------------------------------------------
-            //     | FIND TREE ITEM
-            //     |--------------------------------------------------------------------------
-            //     */
-    
-            //     $item = $this->findItemInTree(
-    
-            //         $tree,
-    
-            //         $role->work_item_id
-            //     );
-                
-               
-    
-            //     /*
-            //     |--------------------------------------------------------------------------
-            //     | PREVENT DUPLICATE
-            //     |--------------------------------------------------------------------------
-            //     */
-    
-            //     if (
-    
-            //         $item
-    
-            //         &&
-    
-            //         !in_array($item->id, $addedIds)
-            //     ) {
-    
-            //         $responseData[] = $item;
-    
-            //         $addedIds[] = $item->id;
-            //     }
-            // }
-            
-            /*
-            |--------------------------------------------------------------------------
-            | LIMITED ACCESS
-            |--------------------------------------------------------------------------
-            */
             
             $responseData = [];
             
@@ -683,7 +661,7 @@ class WorkItemController extends Controller
             
                 $item = $this->findItemInTree(
             
-                    $tree,
+                    $response,
             
                     $id
             
@@ -725,15 +703,15 @@ class WorkItemController extends Controller
     // project tree code end
    
     
-    public function getChildren($parentId)
-    {
-        $items = WorkItem::where('parent_id', $parentId)->get();
+    // public function getChildren($parentId)
+    // {
+    //     $items = WorkItem::where('parent_id', $parentId)->get();
     
-        return response()->json([
-            'status' => 1,
-            'data'   => $items
-        ]);
-    }
+    //     return response()->json([
+    //         'status' => 1,
+    //         'data'   => $items
+    //     ]);
+    // }
     
     public function getEmployeeTasks($employeeId)
     {
@@ -1964,6 +1942,43 @@ class WorkItemController extends Controller
             ], 500);
         }
     }
+
+    public function getProjectModuleSummary(Request $request, $projectId)
+    {
+        $currentUser = auth()->user();
+
+        if (!$currentUser) {
+
+            return response()->json([
+                'status' => 0,
+                'message' => 'Authentication required'
+            ], 401);
+        }
+
+        $emid = $currentUser->emid;
+
+        $employeeId = $currentUser->employee_id;
+
+        $work_items = DB::table('work_item_assignments as wa')
+            ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
+            ->where('wi.project_id', $projectId)
+            ->where('wi.emid', $emid)
+            ->where('wa.employee_id', $employeeId)
+            ->where('wa.emid', $emid)
+            ->select(
+                'wi.*',
+                'wa.employee_id',
+                'wa.status as assignment_status',
+                'wa.assigned_by',
+                'wa.assigned_at'
+            )
+            ->get();
+
+        dd($work_items);    
+        
+    }
+
+  
     
     
 }
