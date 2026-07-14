@@ -486,17 +486,17 @@ class WorkItemController extends Controller
             |--------------------------------------------------------------------------
             */
     
-            $currentRoles = $userRoles->map(function ($role) {
+            // $currentRoles = $userRoles->map(function ($role) {
     
-                return [
+            //     return [
     
-                    'role_id' => $role->project_role_id,
+            //         'role_id' => $role->project_role_id,
     
-                    'role_name' => $role->role_name,
+            //         'role_name' => $role->role_name,
     
-                    'work_item_id' => $role->work_item_id
-                ];
-            });
+            //         'work_item_id' => $role->work_item_id
+            //     ];
+            // });
     
             //dd($currentRoles);
             /*
@@ -567,7 +567,7 @@ class WorkItemController extends Controller
     
                     'status' => 1,
     
-                    'current_user_roles' => $currentRoles,
+                    //'current_user_roles' => $currentRoles,
     
                     'data' => [
     
@@ -683,7 +683,7 @@ class WorkItemController extends Controller
     
                 'status' => 1,
     
-                'current_user_roles' => $currentRoles,
+                //'current_user_roles' => $currentRoles,
     
                 'data' => $responseData
             ]);
