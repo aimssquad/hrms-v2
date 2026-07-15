@@ -711,7 +711,7 @@ class WorkItemController extends Controller
     
     
     public function getWorkItemDetails($id, $projectId)
-    {
+    {   //dd('okk');
         try {
     
             $currentUser = auth()->user();
@@ -1141,99 +1141,7 @@ class WorkItemController extends Controller
                 ->distinct()
                 ->get();
             
-            // $employees = DB::table('work_item_assignments as wa')
-            
-            //     ->leftJoin('users as u', function($join){
-            
-            //         $join->on(
-            //             'u.employee_id',
-            //             '=',
-            //             'wa.employee_id'
-            //         );
-            
-            //         $join->on(
-            //             'u.emid',
-            //             '=',
-            //             'wa.emid'
-            //         );
-            
-            //     })
-            
-            //     ->leftJoin('users as assigner',function($join){
-            
-            //         $join->on(
-            //             'assigner.employee_id',
-            //             '=',
-            //             'wa.assigned_by'
-            //         );
-            
-            //         $join->on(
-            //             'assigner.emid',
-            //             '=',
-            //             'wa.emid'
-            //         );
-            
-            //     })
-            
-            //     ->leftJoin('work_item_user_roles as wur',function($join){
-            
-            //         $join->on(
-            //             'wur.work_item_id',
-            //             '=',
-            //             'wa.work_item_id'
-            //         );
-            
-            //         $join->on(
-            //             'wur.employee_id',
-            //             '=',
-            //             'wa.employee_id'
-            //         );
-            
-            //         $join->on(
-            //             'wur.emid',
-            //             '=',
-            //             'wa.emid'
-            //         );
-            
-            //     })
-            
-            //     ->leftJoin(
-            //         'project_roles as pr',
-            //         'pr.id',
-            //         '=',
-            //         'wur.project_role_id'
-            //     )
-            
-            //     ->where(
-            //         'wa.work_item_id',
-            //         $id
-            //     )
-            
-            //     ->where(
-            //         'wa.emid',
-            //         $emid
-            //     )
-            
-            //     ->select(
-            
-            //         'u.employee_id',
-            
-            //         'u.name as employee_name',
-            
-            //         'pr.name as role_name',
-            
-            //         'wa.status',
-            
-            //         'wa.assigned_at',
-            
-            //         'wa.assigned_by',
-            
-            //         'assigner.name as assigned_by_name'
-            
-            //     )
-            
-            //     ->get();
-    
+      
             /*
             |--------------------------------------------------------------------------
             | SUBMISSION QUERY
@@ -1380,7 +1288,9 @@ class WorkItemController extends Controller
                     'work_item_id' => $role->work_item_id
                 ];
             });
-    
+
+            $project = DB::table('projects')->where('emid', $emid)->where('id', $projectId)->first();
+            //dd($project);
             /*
             |--------------------------------------------------------------------------
             | RESPONSE
@@ -1403,7 +1313,8 @@ class WorkItemController extends Controller
     
                     'current_user_roles' => $currentRoles,
     
-                    'current_user_permissions' => $currentPermissions
+                    'current_user_permissions' => $currentPermissions,
+                    'project' => $project,
                 ]
             ]);
     
