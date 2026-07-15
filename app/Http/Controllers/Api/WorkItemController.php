@@ -315,27 +315,55 @@ class WorkItemController extends Controller
     // project tree code start
     
     
+    // private function findItemInTree($items, $id)
+    // {
+    //     foreach ($items as $item) {
+    
+    //         if ($item->id == $id) {
+    //             return $item;
+    //         }
+    
+    //         if (!empty($item->children)) {
+    
+    //             $found = $this->findItemInTree(
+    //                 $item->children,
+    //                 $id
+    //             );
+    
+    //             if ($found) {
+    //                 return $found;
+    //             }
+    //         }
+    //     }
+    
+    //     return null;
+    // }
+
     private function findItemInTree($items, $id)
     {
         foreach ($items as $item) {
-    
+
+            if (!$item) {
+                continue;
+            }
+
             if ($item->id == $id) {
                 return $item;
             }
-    
+
             if (!empty($item->children)) {
-    
+
                 $found = $this->findItemInTree(
                     $item->children,
                     $id
                 );
-    
+
                 if ($found) {
                     return $found;
                 }
             }
         }
-    
+
         return null;
     }
 
@@ -395,16 +423,16 @@ class WorkItemController extends Controller
         return $workItem;
     }
 
-    private function addCounts(&$item)
+    private function addCounts($item)
     {
         $taskCount = 0;
         $submoduleCount = 0;
         $subtaskCount = 0;
 
         if (!empty($item->children)) {
-
-            foreach ($item->children as &$child) {
-
+            //dd($item->children);
+            foreach ($item->children as $child) {
+                
                 $this->addCounts($child);
 
                 switch ($child->type) {
@@ -433,7 +461,8 @@ class WorkItemController extends Controller
         $item->total_submodules = $submoduleCount;
         $item->total_subtasks = $subtaskCount;
     }
-    
+
+
    
     
     
@@ -527,6 +556,8 @@ class WorkItemController extends Controller
 
                 $response[] = $item;
             }
+
+    
             /*
             |--------------------------------------------------------------------------
             | PROJECT LEVEL ACCESS
@@ -614,9 +645,11 @@ class WorkItemController extends Controller
             }
 
             // First calculate counts
-            foreach ($response as &$item) {
+            foreach ($response as $item) {
                 $this->addCounts($item);
             }
+
+    
 
             foreach ($topIds as $id) {
             
@@ -640,7 +673,11 @@ class WorkItemController extends Controller
     
                 'status' => 0,
     
-                'message' => $e->getMessage()
+               // 'message' => $e->getMessage()
+                 'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'trace'   => collect($e->getTrace())->take(5),
     
             ], 500);
         }
