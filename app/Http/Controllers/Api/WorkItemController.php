@@ -1858,25 +1858,178 @@ class WorkItemController extends Controller
             ->first();
         //$recentActivitis = DB::table    
 
-        dd($project);        
-        // $work_items = DB::table('work_item_assignments as wa')
-        //     ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
-        //     ->where('wi.project_id', $projectId)
-        //     ->where('wi.emid', $emid)
-        //     ->where('wa.employee_id', $employeeId)
-        //     ->where('wa.emid', $emid)
-        //     ->select(
-        //         'wi.*',
-        //         'wa.employee_id',
-        //         'wa.status as assignment_status',
-        //         'wa.assigned_by',
-        //         'wa.assigned_at'
-        //     )
-        //     ->get();
+               
+        $work_items = DB::table('work_item_assignments as wa')
+            ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
+            ->where('wi.project_id', $projectId)
+            ->where('wi.emid', $emid)
+            ->where('wa.employee_id', $employeeId)
+            ->where('wa.emid', $emid)
+            ->select(
+                'wi.*',
+                'wa.employee_id',
+                'wa.status as assignment_status',
+                'wa.assigned_by',
+                'wa.assigned_at'
+            )
+            ->get();
+
+        $taskList = [];
+
+        foreach ($work_items as $workItem) {
+
+            switch ($workItem->type) {
+
+                case 'module':
+
+                    $this->getTaskAndSubtask(
+                        $workItem->id,
+                        $taskList,
+                        $projectId,
+                        $emid
+                    );
+
+                    break;
+
+                case 'submodule':
+
+                    $this->getTaskAndSubtask(
+                        $workItem->id,
+                        $taskList,
+                        $projectId,
+                        $emid
+                    );
+
+                    break;
+
+                case 'task':
+
+                    // Include assigned task itself
+                    $taskList[] = WorkItem::find($workItem->id);
+
+                    // Include its subtasks
+                    $this->getTaskAndSubtask(
+                        $workItem->id,
+                        $taskList,
+                        $projectId,
+                        $emid
+                    );
+
+                    break;
+
+                case 'subtask':
+
+                    // Include only assigned subtask
+                    $taskList[] = WorkItem::find($workItem->id);
+
+                    break;
+            }
+        }
+
+        $taskList = collect($taskList)
+            ->unique('id')
+            ->values();
+
+        $projectProgress = $this->getProjectProgress(
+            $taskList,
+            $employeeId,
+            $emid
+        );    
+
+        return response()->json([
+            'status' => 1,
+            'data' => [
+                'project' => $project,
+                'tasks' => $taskList,
+                'project_progress' => $projectProgress
+
+            ]
+        ]);    
 
         
-        //dd($work_items);    
+      
         
+    }
+
+    private function getTaskAndSubtask($parentId, &$items, $projectId, $emid)
+    {
+        $children = WorkItem::where('project_id', $projectId)
+            ->where('emid', $emid)
+            ->where('parent_id', $parentId)
+            ->orderBy('id')
+            ->get();
+
+        foreach ($children as $child) {
+
+            // Add only Task & Subtask
+            if (in_array($child->type, ['task', 'subtask'])) {
+                $items[] = $child;
+            }
+
+            // Continue searching children
+            $this->getTaskAndSubtask(
+                $child->id,
+                $items,
+                $projectId,
+                $emid
+            );
+        }
+    }
+
+    private function getProjectProgress($taskList, $employeeId, $emid)
+    {
+        $completed = 0;
+        $inProgress = 0;
+        $assigned = 0;
+
+        foreach ($taskList as $task) {
+
+            $assignment = DB::table('work_item_assignments')
+                ->where('work_item_id', $task->id)
+                ->where('employee_id', $employeeId)
+                ->where('emid', $emid)
+                ->first();
+
+            if (!$assignment) {
+                continue;
+            }
+
+            switch ($assignment->status) {
+
+                case 'completed':
+                    $completed++;
+                    break;
+
+                case 'in_progress':
+                    $inProgress++;
+                    break;
+
+                default:
+                    $assigned++;
+                    break;
+            }
+        }
+
+        $total = $completed + $inProgress + $assigned;
+
+        return [
+            'completed' => [
+                'count' => $completed,
+                'percentage' => $total ? round(($completed/$total)*100) : 0
+            ],
+
+            'in_progress' => [
+                'count' => $inProgress,
+                'percentage' => $total ? round(($inProgress/$total)*100) : 0
+            ],
+
+            'assigned' => [
+                'count' => $assigned,
+                'percentage' => $total ? round(($assigned/$total)*100) : 0
+            ],
+
+            'overall_progress' => $total ? round(($completed/$total)*100) : 0
+        ];
     }
 
   
