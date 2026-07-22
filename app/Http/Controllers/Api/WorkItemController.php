@@ -1874,6 +1874,8 @@ class WorkItemController extends Controller
             )
             ->get();
 
+        //dd($work_items);    
+
         $taskList = [];
 
         foreach ($work_items as $workItem) {
@@ -1929,6 +1931,72 @@ class WorkItemController extends Controller
         $taskList = collect($taskList)
             ->unique('id')
             ->values();
+
+        foreach ($taskList as $task) {
+
+            $permissions = DB::table('work_item_user_roles as wur')
+
+                ->join('users as u', function ($join) {
+                    $join->on('u.employee_id', '=', 'wur.employee_id')
+                        ->on('u.emid', '=', 'wur.emid');
+                })
+
+                ->join('project_roles as pr', 'pr.id', '=', 'wur.project_role_id')
+
+                ->leftJoin('project_role_permissions as prp', 'prp.project_role_id', '=', 'pr.id')
+
+                ->leftJoin('project_permissions as pp', 'pp.id', '=', 'prp.project_permission_id')
+
+                ->where('wur.project_id', $projectId)
+
+                ->where('wur.work_item_id', $task->id)
+
+                ->where('wur.emid', $emid)
+                ->where('wur.employee_id', $employeeId)
+
+                ->select(
+                    'u.employee_id',
+                    'u.name',
+                    'pr.id as role_id',
+                    'pr.name as role_name',
+                    'pp.id as permission_id',
+                    'pp.name as permission_name',
+                    'pp.group_name'
+                )
+
+                ->get()
+
+                ->groupBy('employee_id')
+
+                ->map(function ($rows) {
+
+                    return [
+
+                        'employee_id' => $rows->first()->employee_id,
+
+                        'employee_name' => $rows->first()->name,
+
+                        'role' => [
+                            'id' => $rows->first()->role_id,
+                            'name' => $rows->first()->role_name,
+                        ],
+
+                        'permissions' => $rows->map(function ($row) {
+
+                            return [
+                                'id' => $row->permission_id,
+                                'name' => $row->permission_name,
+                                'group' => $row->group_name,
+                            ];
+
+                        })->unique('id')->values()
+
+                    ];
+
+                })->values();
+
+            $task->members = $permissions;
+        }  
 
         $projectProgress = $this->getProjectProgress(
             $taskList,

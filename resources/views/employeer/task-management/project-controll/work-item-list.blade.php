@@ -205,6 +205,10 @@
                                                         <a class="dropdown-item" href="{{ url('org-project-control/'.request()->route('id').'/project-module-comment/'.encrypt($item->id)) }}">
                                                             <i class="fa-solid fa-comment m-r-5"></i> Comment
                                                         </a>
+
+                                                        <a class="dropdown-item" href="{{ url('org-project-control/'.request()->route('id').'/remainder-mail/'.encrypt($item->id)) }}">
+                                                            <i class="fa-solid fa-cog m-r-5"></i> Remainder Mail Setting
+                                                        </a>
                                                         
                                                         <a class="dropdown-item" href="{{ url('org-project-control/'.request()->route('id').'/project-module-assign/'.encrypt($item->id)) }}">
                                                             <i class="fa fa-lock m-r-5"></i> Assign{{ ucfirst($workItem) }}

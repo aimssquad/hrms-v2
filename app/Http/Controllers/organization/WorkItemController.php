@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TaskManagement\WorkItem;
 use App\Models\TaskManagement\WorkItemComment;
+use App\Models\TaskManagement\WorkItemReminder;
 use DB;
 use Session;
 use Storage;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WorkItemReminderMail;
 
 class WorkItemController extends Controller
 {
@@ -478,6 +482,280 @@ class WorkItemController extends Controller
             'success',
             'Comment added successfully'
         );
+    }
+
+    //workItem Remaindermail set up
+    public function workItemremainderMail(Request $request, $id, $workItem)
+    {
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+
+        $organization = DB::table('users')->where('email', $email)->select('employee_id')->first();
+
+        if(empty($organization)){
+            return redirect()->back()->with('error', 'Organization not found');
+        }
+
+        $emid = $organization->employee_id;
+
+        $projectId = decrypt($id);
+        $workItemId = decrypt($workItem);
+
+        $project = DB::table('projects')->where('id', $projectId)->where('emid', $emid)->select('title')->first();
+        if(empty($project)){
+            return redirect()->back()->with('error', 'Project not found');
+        }
+        //dd($project->title);
+
+        // Current Work Item
+        $workItemData = WorkItem::where('id', $workItemId)
+            ->where('project_id', $projectId)
+            ->where('emid', $emid)
+            ->firstOrFail();
+        //dd($workItemData);
+        /*
+        |--------------------------------------------------------------------------
+        | Get Parent Hierarchy
+        |--------------------------------------------------------------------------
+        */
+
+        $parentIds = [];
+
+        $item = $workItemData;
+
+        while ($item) {
+
+            $parentIds[] = $item->id;
+
+            if (!$item->parent_id) {
+                break;
+            }
+
+            $item = WorkItem::find($item->parent_id);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get All Assigned Employees
+        |--------------------------------------------------------------------------
+        */
+        //dd($parentIds);
+        $employees = DB::table('work_item_assignments as wa')
+
+            ->join('users as u', function ($join) {
+
+                $join->on('u.employee_id', '=', 'wa.employee_id');
+            })
+
+            ->join('work_items as wi', 'wi.id', '=', 'wa.work_item_id')
+
+            ->whereIn('wa.work_item_id', $parentIds)
+
+            ->where('wa.emid', $emid)
+            ->where('u.emid', $emid)
+
+            ->select(
+                'u.employee_id',
+                'u.name',
+                'u.email',
+                'wi.title as work_item_name',
+                'wi.type as work_item_type',
+                'wa.work_item_id'
+            )
+
+            ->distinct()
+
+            ->orderBy('wi.id')
+
+            ->get();
+        //dd($employees, $workItemData);
+        return view(
+            'employeer.task-management.project-controll.task-reminder-mail',
+            compact(
+                'employees',
+                'workItemData','project'
+            )
+        );
+    }
+
+    public function remainderMailSettings(Request $request)
+    {
+        try {
+
+            $email = Session::get("emp_email");
+            if (empty($email)) {
+                return redirect("/");
+            }
+
+            $organization = DB::table('users')->where('email', $email)->select('employee_id')->first();
+
+            if(empty($organization)){
+                return redirect()->back()->with('error', 'Organization not found');
+            }
+
+            $emid = $organization->employee_id;
+            
+            $request->validate([
+
+                'work_item_id' => 'required|exists:work_items,id',
+
+                'employee_ids' => 'required|array',
+
+                'employee_ids.*' => 'required',
+
+                'reminder_type' => 'required|in:before_due,due_today,overdue',
+
+                'days_before' => 'required|integer|min:1|max:30',
+
+                //'status' => 'required|in:0,1',
+
+                'sent_at' => 'nullable|date',
+
+            ]);
+
+            foreach ($request->employee_ids as $employeeId) {
+
+                WorkItemReminder::updateOrCreate(
+
+                    [
+                        'work_item_id' => $request->work_item_id,
+                        'employee_id'  => $employeeId,
+                    ],
+
+                    [
+                        'reminder_type' => $request->reminder_type,
+                        'days_before'   => $request->days_before,
+                        'sent_at'       => $request->sent_at
+                                                ? Carbon::parse($request->sent_at)
+                                                : null,
+                        'emid'        => $emid,
+                    ]
+
+                );
+            }
+
+            return redirect()->back()->with(
+                'success',
+                'Reminder settings saved successfully.'
+            );
+
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with(
+                'error',
+                $e->getMessage()
+            );
+        }
+    }
+
+
+    public function testReminderMail()
+    {   
+        $today = Carbon::today();
+
+        $reminders = DB::table('work_item_reminders as wr')
+
+            ->join('work_items as wi', 'wi.id', '=', 'wr.work_item_id')
+
+            ->join('projects as p', 'p.id', '=', 'wi.project_id')
+
+            ->join('users as u', function ($join) {
+
+                $join->on('u.employee_id', '=', 'wr.employee_id')
+                    ->on('u.emid', '=', 'wi.emid');
+
+            })
+
+            ->where('wr.status', 0)
+
+            ->select(
+                'wr.id as reminder_id',
+                'wr.days_before',
+                'wr.reminder_type',
+
+                'u.name',
+                'u.email',
+
+                'p.title as project_title',
+
+                'wi.title',
+                'wi.description',
+                'wi.end_date',
+                'wi.id as work_item_id'
+            )
+
+            ->get();
+
+        if ($reminders->isEmpty()) {
+
+            return response()->json([
+                'status' => 0,
+                'message' => 'No reminder records found.'
+            ]);
+        }
+        dd($reminders);
+        foreach ($reminders as $reminder) {
+            //dd($reminder);
+            $send = false;
+
+            switch ($reminder->reminder_type) {
+
+                case 'before_due':
+
+                    if (
+                        Carbon::parse($reminder->end_date)
+                            ->subDays($reminder->days_before)
+                            ->isSameDay($today)
+                    ) {
+                        $send = true;
+                    }
+                    //dd($send, $reminder->end_date, $reminder->days_before, $today);
+                break;
+
+                case 'due_today':
+
+                    if (
+                        Carbon::parse($reminder->end_date)
+                            ->isSameDay($today)
+                    ) {
+                        $send = true;
+                    }
+
+                break;
+
+                case 'overdue':
+
+                    if (
+                        Carbon::parse($reminder->end_date)
+                            ->lt($today)
+                    ) {
+                        $send = true;
+                    }
+
+                break;
+            }
+
+            if (!$send) {
+                continue;
+            }
+            
+            Mail::to($reminder->email)
+                ->send(new WorkItemReminderMail($reminder));
+
+            DB::table('work_item_reminders')
+                ->where('id', $reminder->reminder_id)
+                ->update([
+                    'status' => 1,
+                    'sent_at' => now()
+                ]);
+        }
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Reminder mail process completed.'
+        ]);
     }
         
     

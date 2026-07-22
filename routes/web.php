@@ -6226,6 +6226,9 @@ Route::post('/project-role-permissions','App\Http\Controllers\organization\Proje
 
 // work item related route here
 Route::get('org-project-control/{id}/work-items/{workItem}','App\Http\Controllers\organization\WorkItemController@workItemList')->name('work-item.list');
+Route::get('org-project-control/{id}/remainder-mail/{workItem}','App\Http\Controllers\organization\WorkItemController@workItemremainderMail')->name('work-item.remainder-mail');
+Route::post('org-project-control/{id}/remainder-mail-settings','App\Http\Controllers\organization\WorkItemController@remainderMailSettings')->name('work-item.remainder-mail-settings');
+Route::get('test-reminder-mail', 'App\Http\Controllers\organization\WorkItemController@testReminderMail')->name('work-item.test-reminder-mail');
 
 Route::get('org-project-control/{id}/work-item/create/{workItem}', 'App\Http\Controllers\organization\WorkItemController@createWorkItem')->name('work-item.create');
 Route::post('org-project-control/work-item/store', 'App\Http\Controllers\organization\WorkItemController@storeWorkItem')->name('work-item.store');
