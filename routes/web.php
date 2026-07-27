@@ -6217,8 +6217,11 @@ Route::post(
 
 //project controll realted route here
 route::get('project-controll/rolles', 'App\Http\Controllers\organization\ProjectControl\RolesController@roleList')->name('project-control.roles');
+route::get('project-controll/add-rolle', 'App\Http\Controllers\organization\ProjectControl\RolesController@addRole')->name('project-control.roles.add');
 route::post('project-controll/rolles', 'App\Http\Controllers\organization\ProjectControl\RolesController@roleStore')->name('roles.store');
-route::put('project-controll//roles/update/{id}', 'App\Http\Controllers\organization\ProjectControl\RolesController@roleUpdate')->name('roles.update');
+route::get('project-controll/rolles-edit/{id}', 'App\Http\Controllers\organization\ProjectControl\RolesController@roleEdit')->name('roles.edit');
+route::put('project-controll/rolles/{id}', 'App\Http\Controllers\organization\ProjectControl\RolesController@roleUpdate')->name('roles.update');
+Route::get('project-controll/rolles/delete/{id}','App\Http\Controllers\organization\ProjectControl\RolesController@roleDelete') ->name('roles.delete');
 
 // role Permission
 Route::get('/project-role-permissions/{role_id}','App\Http\Controllers\organization\ProjectControl\RolesController@rolePermissions')->name('project.role.permissions');

@@ -37,7 +37,7 @@ return $output;
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
-            <a href="{{url('org-task-management/create-project')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans('Add Role')}} </a>
+            <a href="{{url('project-controll/add-rolle')}}" class="btn add-btn"><i class="fa-solid fa-plus"></i>{{\App\Helpers\Helper::cachedTrans('Add Role')}} </a>
          </div>
       </div>
    </div>
@@ -98,10 +98,10 @@ return $output;
                                         <i class="material-icons">more_vert</i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="">
+                                        <a class="dropdown-item" href="{{url('/project-controll/rolles-edit/'.encrypt($role->id))}}">
                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                         </a>
-                                        <a class="dropdown-item" href='' onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a> 
+                                        <a class="dropdown-item" href="{{url('/project-controll/rolles/delete/'.encrypt($role->id))}}" onclick="return confirm('Are you sure you want to delete this Access?');"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a> 
                                         </div>
                                     </div>
                                 </td>
