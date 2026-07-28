@@ -6240,7 +6240,7 @@ Route::get('org-project-control/{id}/project-module-role-assign/{workItem}','App
 
 Route::get('org-project-control/{id}/project-module-assign-role-create/{workItem}','App\Http\Controllers\organization\WorkItemController@assignWorkItemRoleCreate')->name('work-item.assign.role-create');
 
-Route::post('org-project-control/project-module-assign-stor','App\Http\Controllers\organization\WorkItemController@storeAssignment')->name('work-item.assign.store');
+Route::post('org-project-control/project-module-role-assign-stor','App\Http\Controllers\organization\WorkItemController@storeAssignment')->name('work-item.assign.save');
 
 //project WorkItem assign
 Route::get('org-project-control/{id}/project-module-assign/{workItem}','App\Http\Controllers\organization\WorkItemController@assignWorkItem')->name('work-item.assign');

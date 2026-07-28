@@ -26,7 +26,7 @@
         <!-- /Page Header -->
         @include('employeer.layout.message')
         <div class="row">
-            <form action="{{ route('work-item.assign.store') }}"
+            <form action="{{ route('work-item.assign.save') }}"
                   method="POST">
             
                 @csrf
