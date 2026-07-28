@@ -31,11 +31,11 @@
             
                 @csrf
             
-                <input type="text"
+                <input type="hidden"
                        name="project_id"
                        value="{{ $project_id }}">
             
-                <input type="text"
+                <input type="hidden"
                        name="work_item_id"
                        value="{{ $workItem->id }}">
             
