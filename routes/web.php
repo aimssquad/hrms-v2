@@ -6236,12 +6236,16 @@ Route::get('test-reminder-mail', 'App\Http\Controllers\organization\WorkItemCont
 Route::get('org-project-control/{id}/work-item/create/{workItem}', 'App\Http\Controllers\organization\WorkItemController@createWorkItem')->name('work-item.create');
 Route::post('org-project-control/work-item/store', 'App\Http\Controllers\organization\WorkItemController@storeWorkItem')->name('work-item.store');
 
-Route::get('org-project-control/{id}/project-module-assign/{workItem}','App\Http\Controllers\organization\WorkItemController@assignWorkItem')->name('work-item.assign');
+Route::get('org-project-control/{id}/project-module-role-assign/{workItem}','App\Http\Controllers\organization\WorkItemController@assignWorkItemRole')->name('work-item.assign.role');
 
-Route::get('org-project-control/{id}/project-module-assign-create/{workItem}','App\Http\Controllers\organization\WorkItemController@assignWorkItemCreate')->name('work-item.assign-create');
+Route::get('org-project-control/{id}/project-module-assign-role-create/{workItem}','App\Http\Controllers\organization\WorkItemController@assignWorkItemRoleCreate')->name('work-item.assign.role-create');
 
 Route::post('org-project-control/project-module-assign-stor','App\Http\Controllers\organization\WorkItemController@storeAssignment')->name('work-item.assign.store');
 
+//project WorkItem assign
+Route::get('org-project-control/{id}/project-module-assign/{workItem}','App\Http\Controllers\organization\WorkItemController@assignWorkItem')->name('work-item.assign');
+Route::get('org-project-control/{id}/project-module-assign-create/{workItem}','App\Http\Controllers\organization\WorkItemController@assignWorkItemCreate')->name('work-item.assign-create');
+Route::post('org-project-control/project-module-assign-stor','App\Http\Controllers\organization\WorkItemController@employeeAssignWorkItem')->name('employee.work-item.assign.store');
 
 Route::get('org-project-control/{id}/project-module-comment/{workItem}','App\Http\Controllers\organization\WorkItemController@index')->name('work-item.comment');
 Route::post('work-item-comment/store', 'App\Http\Controllers\organization\WorkItemController@store')->name('work-item.comment.store');

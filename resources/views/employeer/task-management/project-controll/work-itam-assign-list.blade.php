@@ -1,6 +1,6 @@
 @extends('employeer.task-management.project-controll.app')
 
-@section('title', \App\Helpers\Helper::cachedTrans('Assign Role List'))
+@section('title', \App\Helpers\Helper::cachedTrans('Assignment List'))
 
 @section('content')
 <!-- Page Content -->
@@ -10,22 +10,22 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Assign Role List</h3>
+                    <h3 class="page-title">Assignment List</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
                         <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('All project List')}}</a></li>
-                        <li class="breadcrumb-item active"><a href="#">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
-                        <li class="breadcrumb-item active"><a href="#">Assign Role List</a></li>
+                        {{-- <li class="breadcrumb-item active"><a href="#">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li> --}}
+                        <li class="breadcrumb-item active"><a href="#">Assignment List</a></li>
                     </ul>
                 </div>
                 <div class="col-auto float-end ms-auto">
-                        <a href="{{ route('work-item.assign.role-create', [
+                        <a href="{{ route('work-item.assign-create', [
                                 'id' => request()->route('id'),
                                 'workItem' => $workItem
                             ]) }}"
                            class="btn add-btn">
                             <i class="fa-solid fa-plus"></i>
-                            Add 
+                            Assigne 
                         </a>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 <div class="card custom-card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="card-title">
-                            <i class="far fa-user" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Assign Role List
+                            <i class="far fa-user" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;Assignment List
                         </h4>
                         <div class="row">
                             <div class="col-auto">
@@ -72,7 +72,8 @@
                                 <thead>
                                     <tr>
                                         <th>Employee</th>
-                                        <th>Role</th>
+                                        <th>Assigned</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -85,7 +86,9 @@
                             
                                         <td>{{ $assignment->employee_name }}</td>
                             
-                                        <td>{{ $assignment->role_name }}</td>
+                                        <td><span><button class="btn btn-success"><i class="fa fa-check"></i></button></span></td>
+                                        
+                                        <td>{{strtoUpper($assignment->status)}}</td>
                             
                                         <td>
                             

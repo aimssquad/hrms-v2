@@ -234,7 +234,7 @@ class WorkItemController extends Controller
    
    
    
-    public function assignWorkItem($projectId, $workItemId)
+    public function assignWorkItemRole($projectId, $workItemId)
     {
         
         $email = Session::get("emp_email");
@@ -293,7 +293,7 @@ class WorkItemController extends Controller
         );
     }
    
-    public function assignWorkItemCreate($projectId, $workItemId)
+    public function assignWorkItemRoleCreate($projectId, $workItemId)
     {
         //dd($projectId, $workItemId);
         $email = Session::get("emp_email");
@@ -756,6 +756,154 @@ class WorkItemController extends Controller
             'status' => 1,
             'message' => 'Reminder mail process completed.'
         ]);
+    }
+
+
+    public function assignWorkItem($projectId, $workItemId)
+    {
+        
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        
+        $currentuser = DB::table('users')->where('email', $email)->first();
+    
+        $project_id = decrypt($projectId);
+    
+        $work_item_id = decrypt($workItemId);
+        //dd($project_id, $work_item_id);
+        $workItem = WorkItem::findOrFail($work_item_id);
+    
+        $roles = DB::table('project_roles')
+            ->where('emid', $currentuser->employee_id)
+            ->get();
+    
+        $employees = DB::table('users')
+            ->whereNotNull('employee_id')
+            ->select('employee_id', 'name')
+            ->get();
+    
+        $assignments = DB::table('work_item_assignments as wia')
+            ->leftJoin(
+                'users as u',
+                'u.employee_id',
+                '=',
+                'wia.employee_id'
+            )
+            ->where('wia.work_item_id', $work_item_id)
+            ->where('u.emid', $currentuser->employee_id)
+            ->select(
+                'wia.*',
+                'u.name as employee_name'
+            )
+            ->get();
+        //dd($assignments, $employees, $roles);    
+    
+        return view(
+            'employeer.task-management.project-controll.work-itam-assign-list',
+            compact(
+                'workItem',
+                'roles',
+                'employees',
+                'assignments',
+                'project_id'
+            )
+        );
+    }
+
+    public function assignWorkItemCreate($projectId, $workItemId)
+    {
+        //dd($projectId, $workItemId);
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        
+        $currentuser = DB::table('users')->where('email', $email)->first();
+        
+        
+        $project_id = decrypt($projectId);
+    
+        $work_item_id = $workItemId;
+        //dd($project_id, $work_item_id);
+        $workItem = WorkItem::findOrFail($work_item_id);
+    
+        $roles = DB::table('project_roles')
+            ->where('emid', $currentuser->employee_id)
+            ->get();
+    
+        $employees = DB::table('users')
+            ->where('emid', $currentuser->employee_id)
+            ->select(
+                'employee_id',
+                'name'
+            )
+            ->orderBy('name')
+            ->get();
+    
+        return view(
+            'employeer.task-management.project-controll.employee-assign-workitem',
+            compact(
+                'project_id',
+                'workItem',
+                'roles',
+                'employees'
+            )
+        );
+    }
+
+
+    public function employeeAssignWorkItem(Request $request)
+    {
+        //dd($request->all());
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+        
+        $currentuser = DB::table('users')->where('email', $email)->first();
+        
+        $request->validate([
+            'work_item_id'    => 'required',
+            'employee_id'     => 'required',
+        ]);
+        
+        $exists = DB::table('work_item_assignments')
+            //->where('project_id', $request->project_id)
+            ->where('work_item_id', $request->work_item_id)
+            ->where('employee_id', $request->employee_id)
+            ->where('emid', $currentuser->employee_id)
+            ->exists();
+        
+        if ($exists) {
+            return back()->with(
+                'error',
+                'This employee is already assigned this project label.'
+            );
+        }
+        
+        //dd('okk');
+        DB::table('work_item_assignments')->insert([
+           // 'project_id'      => $request->project_id,
+            'work_item_id'    => $request->work_item_id,
+            'employee_id'     => $request->employee_id,
+            //'project_role_id' => $request->project_role_id,
+            'emid'            => $currentuser->employee_id,    
+            'assigned_by'      => $currentuser->employee_id,
+            'status'          => "assigned",
+            'assigned_at'      => now(),
+        ]);
+    
+        return redirect()
+            ->route('work-item.assign', [
+                'id' => encrypt($request->project_id),
+                'workItem' => encrypt($request->work_item_id)
+            ])
+            ->with(
+                'success',
+                ucfirst($request->type) . ' created successfully.'
+            );
     }
         
     

@@ -1,6 +1,6 @@
 @extends('employeer.task-management.project-controll.app')
 
-@section('title', \App\Helpers\Helper::cachedTrans('Role Assigned'))
+@section('title', \App\Helpers\Helper::cachedTrans('Employee Addigned'))
 
 @section('content')
 <!-- Page Content -->
@@ -10,7 +10,7 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Role Assigned</h3>
+                    <h3 class="page-title">Assigned</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
                         <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('All project List')}}</a></li>
@@ -26,22 +26,22 @@
         <!-- /Page Header -->
         @include('employeer.layout.message')
         <div class="row">
-            <form action="{{ route('work-item.assign.store') }}"
+            <form action="{{ route('employee.work-item.assign.store') }}"
                   method="POST">
             
                 @csrf
             
-                <input type="hidden"
+                <input type="text"
                        name="project_id"
                        value="{{ $project_id }}">
             
-                <input type="hidden"
+                <input type="text"
                        name="work_item_id"
                        value="{{ $workItem->id }}">
             
                 <div class="row">
                     
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <label>Role</label>
             
                         <select name="project_role_id"
@@ -61,7 +61,7 @@
                             @endforeach
             
                         </select>
-                    </div>
+                    </div> --}}
                     
             
                     <div class="col-md-4">
