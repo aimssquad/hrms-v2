@@ -211,12 +211,12 @@
                                                         </a>
                                                         
                                                         <a class="dropdown-item" href="{{ url('org-project-control/'.request()->route('id').'/project-module-role-assign/'.encrypt($item->id)) }}">
-                                                            <i class="fas fa-user-check m-r-5"></i> Assign {{ ucfirst($workItem) }} Role
+                                                            <i class="fas fa-user-check m-r-5"></i> Assign {{ ucfirst($workItem) }}
                                                         </a>
 
-                                                        <a class="dropdown-item" href="{{ url('org-project-control/'.request()->route('id').'/project-module-assign/'.encrypt($item->id)) }}">
+                                                        {{-- <a class="dropdown-item" href="{{ url('org-project-control/'.request()->route('id').'/project-module-assign/'.encrypt($item->id)) }}">
                                                             <i class="fas fa-layer-group m-r-5"></i> Assign {{ ucfirst($workItem) }}
-                                                        </a>
+                                                        </a> --}}
 
                                                         <a class="dropdown-item" href="{{ url('org-project-control/'.request()->route('id').'/project-module-edit/'.encrypt($item->id)) }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit

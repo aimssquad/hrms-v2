@@ -377,6 +377,33 @@ class WorkItemController extends Controller
             'created_at'      => now(),
             'updated_at'      => now(),
         ]);
+
+        // work item also assigned
+         $module = DB::table('work_item_assignments')
+            //->where('project_id', $request->project_id)
+            ->where('work_item_id', $request->work_item_id)
+            ->where('employee_id', $request->employee_id)
+            ->where('emid', $currentuser->employee_id)
+            ->exists();
+        
+        if ($module) {
+            return back()->with(
+                'error',
+                'This employee is already assigned this project label.'
+            );
+        }
+        
+        //dd('okk');
+        DB::table('work_item_assignments')->insert([
+           // 'project_id'      => $request->project_id,
+            'work_item_id'    => $request->work_item_id,
+            'employee_id'     => $request->employee_id,
+            //'project_role_id' => $request->project_role_id,
+            'emid'            => $currentuser->employee_id,    
+            'assigned_by'      => $currentuser->employee_id,
+            'status'          => "assigned",
+            'assigned_at'      => now(),
+        ]);
     
         return redirect()
             ->route('work-item.assign', [
@@ -427,9 +454,9 @@ class WorkItemController extends Controller
         ->where('is_deleted', 0)
         ->orderBy('id', 'ASC')
         ->get();
-//         dd(
-//     WorkItemComment::whereNotNull('parent_comment_id')->get()
-// );
+        //         dd(
+        //     WorkItemComment::whereNotNull('parent_comment_id')->get()
+        // );
         //dd($comments);
         return view(
             'employeer.task-management.project-controll.comment',

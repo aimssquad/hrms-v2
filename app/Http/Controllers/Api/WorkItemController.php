@@ -342,7 +342,7 @@ class WorkItemController extends Controller
     private function findItemInTree($items, $id)
     {
         foreach ($items as $item) {
-
+            //dd($item);
             if (!$item) {
                 continue;
             }
@@ -525,7 +525,7 @@ class WorkItemController extends Controller
                 )
     
                 ->get();
-    
+            //dd($userRoles);
             if ($userRoles->isEmpty()) {
     
                 return response()->json([
@@ -543,6 +543,7 @@ class WorkItemController extends Controller
                 ->where('wi.project_id', $projectId)
                 ->select('wi.*')
                 ->get();
+                
             $response = [];
 
             foreach ($assignedItems as $item) {
@@ -614,7 +615,7 @@ class WorkItemController extends Controller
                 ->unique()
             
                 ->toArray();
-            
+            //dd($assignedIds);
             
             $topIds = [];
             /*
@@ -644,27 +645,30 @@ class WorkItemController extends Controller
                 }
             }
 
+            //dd($response);
+
             // First calculate counts
             foreach ($response as $item) {
                 $this->addCounts($item);
             }
 
-    
-
-            foreach ($topIds as $id) {
             
-                $item = $this->findItemInTree($response, $id);
-                if ($item) {
-                    $responseData[] = $item;
-                }
-            }
+            // foreach ($topIds as $id) {
+            
+            //     $item = $this->findItemInTree($response, $id);
+            //     //dd($item);
+            //     if ($item) {
+            //         $responseData[] = $item;
+            //     }
+            // }
 
           
 
             return response()->json([
     
                 'status' => 1,
-                'data' => $responseData
+                'data' =>$response
+                //'data' => $responseData
             ]);
     
         } catch (\Exception $e) {
