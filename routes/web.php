@@ -6191,11 +6191,13 @@ Route::get('org-project-control/{id}/project-permission-delete/{roleId}', 'App\H
 // project Modules
 Route::get('org-project-control/{id}/project-modules','App\Http\Controllers\organization\MembersController@getProjectModules');
 Route::get('org-project-control/{id}/project-module-edit/{module_id}','App\Http\Controllers\organization\WorkItemController@editProjectModule');
-Route::get('work-item/edit/{id}', 'App\Http\Controllers\organization\WorkItemController@editProjectModule')->name('work-item.edit');
+
 Route::post('work-item/update/{id}', 'App\Http\Controllers\organization\WorkItemController@updateProjectModule')->name('work-item.update');
-Route::post('org-project-control/{id}/project-module-update/{module_id}','App\Http\Controllers\organization\MembersController@updateProjectModule');
+Route::get('org-project-control/{id}/project-module-delete/{module_id}','App\Http\Controllers\organization\WorkItemController@deleteProjectModule');
+
+//Route::post('org-project-control/{id}/project-module-update/{module_id}','App\Http\Controllers\organization\MembersController@updateProjectModule');
 Route::post('org-project-control/{id}/project-module/store','App\Http\Controllers\organization\MembersController@storeProjectModule');
-Route::get('org-project-control/{id}/project-module-delete/{module_id}','App\Http\Controllers\organization\MembersController@deleteProjectModule');
+//Route::get('org-project-control/{id}/project-module-delete/{module_id}','App\Http\Controllers\organization\MembersController@deleteProjectModule');
 
 Route::get(
 'module-comments/{module}',

@@ -270,6 +270,30 @@ class WorkItemController extends Controller
                 ->with('error', $e->getMessage());
         }
     }
+
+    public function deleteProjectModule($projectId, $moduleId)
+    {
+        try {
+            $project_id = decrypt($projectId);
+            $module_id = decrypt($moduleId);
+
+            $workItem = WorkItem::where('id', $module_id)
+                ->where('project_id', $project_id)
+                ->firstOrFail();
+
+            $workItem->delete();
+
+            return redirect()
+                ->route('work-item.list', [
+                    'id' => encrypt($project_id),
+                    'workItem' => $workItem->type
+                ])
+                ->with('success', ucfirst($workItem->type) . ' deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
+    }
     
     
     
