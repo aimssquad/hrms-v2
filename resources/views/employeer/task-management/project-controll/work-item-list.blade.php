@@ -73,13 +73,15 @@
                                     <tr>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Sl No.')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Unique Id.')}}</th>
-                                        <th>{{\App\Helpers\Helper::cachedTrans(ucfirst($workItem). 'Name')}}</th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans(ucfirst($workItem). ' Name')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans(ucfirst($workItem). ' Description')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('File')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Start Date')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('End Date')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Created By')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Priority')}}</th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans('Status')}}</th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans('Chat')}} <i class="fa-solid fa-chat m-r-5"></i></th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Action')}}</th>
                                     </tr>
                                 </thead>
@@ -196,6 +198,22 @@
                                                     <span class="badge bg-success">Low</span>
                                                 @endif
                                             </td>
+
+                                            <td>
+                                                @if($item->status == 'open')
+                                                    <span class="badge bg-success">Open</span>
+                                                @elseif($item->status == 'close')
+                                                    <span class="badge bg-warning">Closed</span>
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                <a href="{{ url('org-project-control/'.request()->route('id').'/project-module-comment/'.encrypt($item->id)) }}"
+                                                   class="btn btn-primary btn-sm">
+                                                    <i class="fa-solid fa-comment m-r-5"></i> Comment
+                                                </a>
+                                            </td>    
+
                                             <td>
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
