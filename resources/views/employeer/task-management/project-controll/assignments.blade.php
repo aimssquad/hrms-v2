@@ -14,8 +14,12 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
                         <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('All project List')}}</a></li>
-                        <li class="breadcrumb-item active"><a href="#">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
-                        <li class="breadcrumb-item active"><a href="#">Assign Role List</a></li>
+                        <li class="breadcrumb-item active">
+                            <a href="{{ url('org-project-control/'.$projectId.'/work-items/'.$workItem->type) }}">
+                                 {{ ucFirst($workItem->type) }} List
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active"><a href="#">{{ucFirst($workItem->type)}} Role Permission List</a></li>
                     </ul>
                 </div>
                 <div class="col-auto float-end ms-auto">

@@ -1000,10 +1000,18 @@ class ChatController extends Controller
         }
 
         // ✅ Total Members
-        $totalMembers = DB::table('project_members')
-            ->where('project_id', $id)
-            ->distinct('user_id')
-            ->count('user_id');
+        // $totalMembers = DB::table('project_members')
+        //     ->where('project_id', $id)
+        //     ->distinct('user_id')
+        //     ->count('user_id');
+
+        $totalMembers = DB::table('work_items as w')
+            ->join('work_item_assignments as wia', 'w.id', '=', 'wia.work_item_id')
+            ->where('w.project_id', $id)
+            ->where('w.emid', $emid)
+            ->count(DB::raw('DISTINCT wia.employee_id'));
+
+        //$totalMembers = 10;
 
         $projects = DB::table('projects')
             ->where('id', $id)
@@ -1024,16 +1032,33 @@ class ChatController extends Controller
 
         //dd($activeProject, $closedProject);
         //  Total Tasks
-        $totalTasks = DB::table('tasks')
+        $totalTasks = DB::table('work_items')
+            ->where('type', 'task')
             ->where('project_id', $id)
             ->count();
-        //dd('total Tasks ='.$totalTasks);
-        //  Member Roles Count
-        $memberRoles = DB::table('project_members')
+
+        $totalModule = DB::table('work_items')
+            ->where('type', 'module')
             ->where('project_id', $id)
-            ->select('role', DB::raw('COUNT(*) as total'))
-            ->groupBy('role')
-            ->get();
+            ->count();  
+            
+        $totalSubmodule = DB::table('work_items')
+            ->where('type', 'submodule')
+            ->where('project_id', $id)
+            ->count();
+            
+        $totalSubtask = DB::table('work_items')
+            ->where('type', 'subtask')
+            ->where('project_id', $id)
+            ->count();    
+        //dd($totalTasks);
+        //  Member Roles Count
+
+
+        $memberRoles = DB::table('work_item_user_roles')
+            ->where('project_id', $id)
+            ->where('emid', $emid)
+            ->count(DB::raw('DISTINCT employee_id'));
         //dd('total Role ='.$memberRoles);
         //  Member Labels Count (assuming column = label)
         $memberLabels = DB::table('tm_master_labels')
@@ -1092,7 +1117,10 @@ class ChatController extends Controller
         return view('employeer/task-management/project-controll/project-analitics-dashboard', compact(
         // return view('employeer/task-management/project-management/project-analitics-dashboard', compact(
             'totalMembers',
+            'totalModule',
+            'totalSubmodule',
             'totalTasks',
+            'totalSubtask',
             'memberRoles',
             'memberLabels',
             'activeProject',

@@ -27,12 +27,7 @@ class WorkItemController extends Controller
             ->latest()
             ->get();
         
-        // if ($workItems->isEmpty()) {
-        //     return redirect()->back()->with(
-        //         'error',
-        //         ucfirst($workItem).' not found'
-        //     );
-        // }
+      
         if ($workItems->isEmpty()) {
             return view(
                 'employeer.task-management.project-controll.work-item-list',
@@ -223,6 +218,58 @@ class WorkItemController extends Controller
                 ->with('error', $e->getMessage());
         }
     }
+
+
+    public function editProjectModule($projectId, $moduleId)
+    {
+        
+        $project_id = decrypt($projectId);
+        $module_id = decrypt($moduleId);
+
+        $workItem = WorkItem::where('id', $module_id)
+            ->where('project_id', $project_id)
+            ->firstOrFail();
+        //dd($project_id, $module_id, $module);
+        return view(
+            'employeer.task-management.project-controll.edit-work-item',
+            compact('workItem', 'project_id')
+        );
+    }
+
+    public function updateProjectModule(Request $request, $moduleId)
+    {
+        try {
+            $module_id = decrypt($moduleId);
+            $workItem = WorkItem::findOrFail($module_id);
+
+            $request->validate([
+                'title' => 'required|max:255',
+                'description' => 'nullable|string',
+                'priority' => 'required|in:low,medium,high',
+                'start_date' => 'nullable|date',
+                'end_date' => 'nullable|date|after_or_equal:start_date',
+            ]);
+
+            $workItem->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'priority' => $request->priority,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+            ]);
+
+            return redirect()
+                ->route('work-item.list', [
+                    'id' => encrypt($workItem->project_id),
+                    'workItem' => $workItem->type
+                ])
+                ->with('success', ucfirst($workItem->type) . ' updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', $e->getMessage());
+        }
+    }
     
     
     
@@ -280,7 +327,7 @@ class WorkItemController extends Controller
                 'pr.name as role_name'
             )
             ->get();
-    
+        //dd($workItem, $project_id);
         return view(
             'employeer.task-management.project-controll.assignments',
             compact(
@@ -288,7 +335,8 @@ class WorkItemController extends Controller
                 'roles',
                 'employees',
                 'assignments',
-                'project_id'
+                'project_id',
+                'projectId'
             )
         );
     }
