@@ -248,14 +248,16 @@ class WorkItemController extends Controller
                 'priority' => 'required|in:low,medium,high',
                 'start_date' => 'nullable|date',
                 'end_date' => 'nullable|date|after_or_equal:start_date',
+                'status' => 'required|in:open,close',
             ]);
-
+            //dd($request->all());
             $workItem->update([
                 'title' => $request->title,
                 'description' => $request->description,
                 'priority' => $request->priority,
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
+                'status' => $request->status,
             ]);
 
             return redirect()

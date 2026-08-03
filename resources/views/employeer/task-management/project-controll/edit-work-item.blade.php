@@ -27,6 +27,10 @@
                     </li>
 
                     <li class="breadcrumb-item active">
+                        <a href="{{url('org-task-management/project-analitic-dashboard/'.request()->route('id'))}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a>
+                    </li>
+
+                    <li class="breadcrumb-item active">
                         Edit {{ ucfirst($workItem->type) }}
                     </li>
                 </ul>
@@ -157,6 +161,22 @@
                                 <textarea name="description"
                                           rows="4"
                                           class="form-control">{{ old('description', $workItem->description) }}</textarea>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status</label>
+
+                                <select name="status" class="form-control">
+                                    <option value="open"
+                                        {{ $workItem->status=='open' ? 'selected' : '' }}>
+                                        Open
+                                    </option>
+
+                                    <option value="close"
+                                        {{ $workItem->status=='close' ? 'selected' : '' }}>            
+                                        Closed
+                                    </option>
+                                </select>
                             </div>
 
                             <div class="col-md-12">

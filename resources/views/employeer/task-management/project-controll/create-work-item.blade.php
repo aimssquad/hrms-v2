@@ -14,11 +14,11 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
                         <li class="breadcrumb-item"><a href="{{url('org-task-management/dashboard')}}">{{\App\Helpers\Helper::cachedTrans('All project List')}}</a></li>
-                        <li class="breadcrumb-item active"><a href="#">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
+                        <li class="breadcrumb-item active"><a href="{{url('org-task-management/project-analitic-dashboard/'.request()->route('id'))}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                         <li class="breadcrumb-item active"><a href="#">Project {{ ucfirst($workItem) }} List</a></li>
                     </ul>
                 </div>
-                <div class="col-auto float-end ms-auto">
+                {{-- <div class="col-auto float-end ms-auto">
                         <a href="{{ route('work-item.create', [
                                 'id' => request()->route('id'),
                                 'workItem' => $workItem
@@ -27,7 +27,7 @@
                             <i class="fa-solid fa-plus"></i>
                             Add {{ ucfirst($workItem) }}
                         </a>
-                </div>
+                </div> --}}
             </div>
         </div>
         <!-- /Page Header -->

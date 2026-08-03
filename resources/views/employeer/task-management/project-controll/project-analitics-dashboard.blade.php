@@ -60,7 +60,7 @@
 
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="card dash-widget overflow-visible">
-                                <a href="#">
+                                <a href="{{url('org-project-control/'.request()->route('id').'/work-items/module')}}">
                                     <div class="card-body modern-card">
                                         <div class="dash-widget-info">
                                             <span>{{\App\Helpers\Helper::cachedTrans('Module')}}</span>
@@ -80,7 +80,7 @@
 
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="card dash-widget overflow-visible">
-                                <a href="#">
+                                <a href="{{url('org-project-control/'.request()->route('id').'/work-items/submodule')}}">
                                     <div class="card-body modern-card">
                                         <div class="dash-widget-info">
                                             <span>{{\App\Helpers\Helper::cachedTrans('Sub Module')}}</span>
@@ -100,7 +100,7 @@
 
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="card dash-widget overflow-visible">
-                                <a href="#">
+                                <a href="{{url('org-project-control/'.request()->route('id').'/work-items/task')}}">
                                     <div class="card-body modern-card">
                                         <div class="dash-widget-info">
                                             <span>{{\App\Helpers\Helper::cachedTrans('Task')}}</span>
@@ -120,7 +120,7 @@
 
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="card dash-widget overflow-visible">
-                                <a href="#">
+                                <a href="{{url('org-project-control/'.request()->route('id').'/work-items/subtask')}}">
                                     <div class="card-body modern-card">
                                         <div class="dash-widget-info">
                                             <span>{{\App\Helpers\Helper::cachedTrans('Sub Task')}}</span>

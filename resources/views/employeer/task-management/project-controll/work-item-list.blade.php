@@ -14,7 +14,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{url('organization/employerdashboard')}}">{{\App\Helpers\Helper::cachedTrans('Home')}}</a></li>
                         <li class="breadcrumb-item"><a href="{{url('org-task-management/projects')}}">{{\App\Helpers\Helper::cachedTrans('All Project List')}}</a></li>
-                        <!--<li class="breadcrumb-item active"><a href="#">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>-->
+                        <li class="breadcrumb-item active"><a href="{{url('org-task-management/project-analitic-dashboard/'.request()->route('id'))}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
                         <li class="breadcrumb-item active"><a href="#">Project {{ ucfirst($workItem) }} List</a></li>
                     </ul>
                 </div>
@@ -78,6 +78,7 @@
                                         <th>{{\App\Helpers\Helper::cachedTrans('File')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Start Date')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('End Date')}}</th>
+                                        <th>{{\App\Helpers\Helper::cachedTrans('Remainder Email')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Created By')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Priority')}}</th>
                                         <th>{{\App\Helpers\Helper::cachedTrans('Status')}}</th>
@@ -175,6 +176,15 @@
                                             <td>
                                                 {{ $item->end_date ? date('d M Y', strtotime($item->end_date)) : '-' }}
                                             </td>
+
+                                            <td>
+                                                {{-- <a href="{{ url('org-project-control/'.request()->route('id').'/project-module-comment/'.encrypt($item->id)) }}"
+                                                   class="btn btn-info btn-sm"> --}}
+                                                <a href="#"
+                                                   class="btn btn-info btn-sm">   
+                                                    <i class="fa-solid fa-paper-plane m-r-5"></i> Send Mail
+                                                </a>
+                                            </td>    
                                             
                                             <td>
                                                 @php
