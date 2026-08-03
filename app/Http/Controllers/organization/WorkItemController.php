@@ -1006,6 +1006,150 @@ class WorkItemController extends Controller
                 ucfirst($request->type) . ' created successfully.'
             );
     }
+
+    // public function remainderEmailSend($projectId, $workItemId)
+    // {
+    //     $email = Session::get("emp_email");
+    //     if (empty($email)) {
+    //         return redirect("/");
+    //     }
+        
+    //     $organization = DB::table('users')->where('email', $email)->select('employee_id')->first();
+    //     //dd($projectId, $workItemId, $organization);
+    //     if(empty($organization)){
+    //         return redirect()->back()->with('error', 'Organization not found');
+    //     }
+
+    //     $emid = $organization->employee_id;
+
+    //     $projectId = decrypt($projectId);
+    //     $workItemId = decrypt($workItemId);
+    //     //dd($projectId, $workItemId, $emid);
+    //     $workItemData = WorkItem::where('id', $workItemId)
+    //         ->where('project_id', $projectId)
+    //         ->where('emid', $emid)
+    //         ->where('status', 'open')
+    //         ->first();
+    //     if(empty($workItemData)){
+    //         return redirect()->back()->with('error', 'This label not found or closed');
+    //     }
+    //     //dd($workItemData);
+    //     // Get all assigned employees for the work item
+    //     $employees = DB::table('work_item_assignments as wa')
+    //         ->join('users as u', 'u.employee_id', '=', 'wa.employee_id')
+    //         ->where('wa.work_item_id', $workItemId)
+    //         ->where('wa.emid', $emid)
+    //         ->where('u.emid', $emid)
+    //         ->select(
+    //             'u.employee_id',
+    //             'u.name',
+    //             'u.email'
+    //         )
+    //         ->distinct()
+    //         ->get();
+    //     //dd($employees);
+    //     foreach ($employees as $employee) {
+    //         // Send reminder email to each assigned employee
+    //         Mail::to($employee->email)->send(new WorkItemReminderMail([
+    //             'employee_name' => $employee->name,
+    //             'work_item_title' => $workItemData->title,
+    //             'work_item_description' => $workItemData->description,
+    //             'end_date' => $workItemData->end_date,
+    //             'project_title' => DB::table('projects')->where('id', $projectId)->value('title'),
+    //         ]));
+    //     }
+
+    //     return redirect()->back()->with(
+    //         'success',
+    //         'Reminder emails sent successfully.'
+    //     );
+    // }
+
+    public function remainderEmailSend(Request $request, $projectId, $workItemId)
+    {
+        $request->validate([
+            'message' => 'required|string|max:2000',
+        ]);
+        //dd($request->all(), $projectId, $workItemId);
+        $email = Session::get("emp_email");
+        if (empty($email)) {
+            return redirect("/");
+        }
+
+        $organization = DB::table('users')
+            ->where('email', $email)
+            ->select('employee_id')
+            ->first();
+
+            
+
+        if (empty($organization)) {
+            return redirect()->back()->with('error', 'Organization not found');
+        }
+
+        $emid = $organization->employee_id;
+
+        $organizationImage = DB::table('registration')
+            ->where('reg', $emid)
+            ->select('com_name', 'logo')
+            ->first();
+
+        $logo = !empty($organizationImage->logo)
+            ? asset('storage/'.$organizationImage->logo)
+            : asset('images/default-logo.png');
+        //dd($organizationImage, $logo);    
+        $projectId = decrypt($projectId);
+        $workItemId = decrypt($workItemId);
+
+        $workItemData = WorkItem::where('id', $workItemId)
+            ->where('project_id', $projectId)
+            ->where('emid', $emid)
+            ->where('status', 'open')
+            ->first();
+
+        if (empty($workItemData)) {
+            return redirect()->back()->with('error', 'This work item not found or already closed.');
+        }
+
+        $projectTitle = DB::table('projects')
+            ->where('id', $projectId)
+            ->value('title');
+
+        $employees = DB::table('work_item_assignments as wa')
+            ->join('users as u', 'u.employee_id', '=', 'wa.employee_id')
+            ->where('wa.work_item_id', $workItemId)
+            ->where('wa.emid', $emid)
+            ->where('u.emid', $emid)
+            ->select(
+                'u.employee_id',
+                'u.name',
+                'u.email'
+            )
+            ->distinct()
+            ->get();
+
+        foreach ($employees as $employee) {
+
+            Mail::to($employee->email)->send(
+                new WorkItemReminderMail([
+                    'employee_name'          => $employee->name,
+                    'project_title'          => $projectTitle,
+                    'work_item_title'        => $workItemData->title,
+                    'work_item_description'  => $workItemData->description,
+                    'end_date'               => $workItemData->end_date,
+                    'work_item_type'         => $workItemData->type,
+                    'custom_message'         => $request->message, // User input
+                    'company_name'           => $organizationImage->com_name,
+                    'company_logo'           => $logo,
+                ])
+            );
+        }
+
+        return redirect()->back()->with(
+            'success',
+            'Reminder emails sent successfully.'
+        );
+    }
         
     
     

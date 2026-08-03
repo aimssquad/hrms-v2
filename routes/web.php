@@ -6253,5 +6253,5 @@ Route::post('org-project-control/project-module-assign-stor','App\Http\Controlle
 
 Route::get('org-project-control/{id}/project-module-comment/{workItem}','App\Http\Controllers\organization\WorkItemController@index')->name('work-item.comment');
 Route::post('work-item-comment/store', 'App\Http\Controllers\organization\WorkItemController@store')->name('work-item.comment.store');
-
+Route::post('org-project-control/{id}/project-module-email-send/{moduleId}', 'App\Http\Controllers\organization\WorkItemController@remainderEmailSend')->name('project.module.email.send');
 

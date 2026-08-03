@@ -177,14 +177,23 @@
                                                 {{ $item->end_date ? date('d M Y', strtotime($item->end_date)) : '-' }}
                                             </td>
 
-                                            <td>
-                                                {{-- <a href="{{ url('org-project-control/'.request()->route('id').'/project-module-comment/'.encrypt($item->id)) }}"
-                                                   class="btn btn-info btn-sm"> --}}
-                                                <a href="#"
-                                                   class="btn btn-info btn-sm">   
+                                            {{-- <td>
+                                                <a href="{{ url('org-project-control/'.request()->route('id').'/project-module-email-send/'.encrypt($item->id)) }}"
+                                                   class="btn btn-info btn-sm">
+                                               
                                                     <i class="fa-solid fa-paper-plane m-r-5"></i> Send Mail
                                                 </a>
-                                            </td>    
+                                            </td>     --}}
+
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-info btn-sm sendMailBtn"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#sendMailModal"
+                                                        data-module-id="{{ encrypt($item->id) }}">
+                                                    <i class="fa-solid fa-paper-plane m-r-5"></i> Send Mail
+                                                </button>
+                                            </td>
                                             
                                             <td>
                                                 @php
@@ -258,9 +267,59 @@
         
                                             </td>
                                         </tr>
+
+                                        
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="modal fade" id="sendMailModal" tabindex="-1" aria-labelledby="sendMailModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form method="POST" id="sendMailForm">
+                                        @csrf
+
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="sendMailModalLabel">
+                                                    Send Reminder Email
+                                                </h5>
+
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+
+                                                <input type="hidden" name="module_id" id="module_id">
+
+                                                <div class="form-group">
+                                                    <label>Email Message <span class="text-danger">*</span></label>
+
+                                                    <textarea
+                                                        class="form-control"
+                                                        name="message"
+                                                        rows="6"
+                                                        placeholder="Example: Please complete this module or submodule before the deadline. Let me know if you need any assistance."
+                                                        required></textarea>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Cancel
+                                                </button>
+
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fa fa-paper-plane"></i> Send Email
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -273,4 +332,23 @@
 @section('script')
     @include('taskmanagement.partials.scripts')
     <script src="{{asset('assets/taskmanagement/taskmanagement.js')}}"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.sendMailBtn').click(function () {
+
+                let moduleId = $(this).data('module-id');
+
+                $('#module_id').val(moduleId);
+
+                $('#sendMailForm').attr(
+                    'action',
+                    "{{ url('org-project-control/'.request()->route('id').'/project-module-email-send') }}/" + moduleId
+                );
+
+            });
+
+        });
+    </script>
 @endsection
