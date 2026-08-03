@@ -1127,7 +1127,7 @@ class WorkItemController extends Controller
             )
             ->distinct()
             ->get();
-
+        dd($employees, $workItemData, $projectTitle, $request->message);
         foreach ($employees as $employee) {
 
             Mail::to($employee->email)->send(
