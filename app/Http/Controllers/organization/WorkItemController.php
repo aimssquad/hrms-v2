@@ -1095,7 +1095,7 @@ class WorkItemController extends Controller
             ->first();
 
         $logo = !empty($organizationImage->logo)
-            ? asset('storage/'.$organizationImage->logo)
+            ? asset('storage/app/public/'.$organizationImage->logo)
             : asset('images/default-logo.png');
         //dd($organizationImage, $logo);    
         $projectId = decrypt($projectId);
