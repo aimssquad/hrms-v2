@@ -52,13 +52,7 @@ class Helper
                     ->orderBy('employee_permissions.submenu_id', 'asc')
                     ->get();
                 // echo $Roles_auth;
-                dd([
-                    'user_type' => $user_type,
-                    'users_id' => $users_id,
-                    'user' => $dtaem,
-                    'employee_id' => $dtaem?->employee_id,
-                    'roles' => $Roles_auth,
-                ]);
+               
                 // Group submenus by module name
                 $sidebarItems = [];
                 foreach ($Roles_auth as $role) {
@@ -102,44 +96,44 @@ class Helper
         return !empty($imagePath) ? asset("storage/app/public/{$imagePath}") : asset($defaultImage);
     }
 
-    // public static function cachedTrans($text, $locale = null)
-    // {
-    //     $locale = $locale ?? app()->getLocale();
-    //     $cacheKey = "trans_{$locale}_" . md5($text);
-
-    //     return Cache::rememberForever($cacheKey, function () use ($text, $locale) {
-    //         return GoogleTranslate::trans($text, $locale);
-    //     });
-    // }
-
-    //google translation error thats why i commented it out the above function and added below function
     public static function cachedTrans($text, $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
-
-        // No need to translate if source and target language are the same
-        if ($locale === 'en') {
-            return $text;
-        }
-
-        $cacheKey = 'trans_' . $locale . '_' . md5($text);
+        $cacheKey = "trans_{$locale}_" . md5($text);
 
         return Cache::rememberForever($cacheKey, function () use ($text, $locale) {
-            try {
-                return GoogleTranslate::trans($text, $locale);
-            } catch (\Throwable $e) {
-
-                \Log::warning('Google Translate failed', [
-                    'text' => $text,
-                    'locale' => $locale,
-                    'error' => $e->getMessage(),
-                ]);
-
-                // If Google Translate fails, show original text
-                return $text;
-            }
+            return GoogleTranslate::trans($text, $locale);
         });
     }
+
+    //google translation error thats why i commented it out the above function and added below function
+    // public static function cachedTrans($text, $locale = null)
+    // {
+    //     $locale = $locale ?? app()->getLocale();
+
+    //     // No need to translate if source and target language are the same
+    //     if ($locale === 'en') {
+    //         return $text;
+    //     }
+
+    //     $cacheKey = 'trans_' . $locale . '_' . md5($text);
+
+    //     return Cache::rememberForever($cacheKey, function () use ($text, $locale) {
+    //         try {
+    //             return GoogleTranslate::trans($text, $locale);
+    //         } catch (\Throwable $e) {
+
+    //             \Log::warning('Google Translate failed', [
+    //                 'text' => $text,
+    //                 'locale' => $locale,
+    //                 'error' => $e->getMessage(),
+    //             ]);
+
+    //             // If Google Translate fails, show original text
+    //             return $text;
+    //         }
+    //     });
+    //}
     
 
 
