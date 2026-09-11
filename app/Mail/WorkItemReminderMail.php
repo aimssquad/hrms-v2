@@ -20,9 +20,7 @@ class WorkItemReminderMail extends Mailable
     public function build()
     {
         return $this
-
-            ->subject('Work Item Reminder')
-
+            ->subject('Reminder Mail')
             ->view('email-template.work-item-reminder');
     }
 }
