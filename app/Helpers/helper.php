@@ -4,8 +4,6 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Stichoza\GoogleTranslate\GoogleTranslate;
-use Illuminate\Support\Facades\Cache;
 
 class Helper
 {
@@ -98,12 +96,7 @@ class Helper
 
     public static function cachedTrans($text, $locale = null)
     {
-        $locale = $locale ?? app()->getLocale();
-        $cacheKey = "trans_{$locale}_" . md5($text);
-
-        return Cache::rememberForever($cacheKey, function () use ($text, $locale) {
-            return GoogleTranslate::trans($text, $locale);
-        });
+        return is_scalar($text) ? (string) $text : '';
     }
 
    
