@@ -52,7 +52,13 @@ class Helper
                     ->orderBy('employee_permissions.submenu_id', 'asc')
                     ->get();
                 // echo $Roles_auth;
-                // dd();
+                dd([
+                    'user_type' => $user_type,
+                    'users_id' => $users_id,
+                    'user' => $dtaem,
+                    'employee_id' => $dtaem?->employee_id,
+                    'roles' => $Roles_auth,
+                ]);
                 // Group submenus by module name
                 $sidebarItems = [];
                 foreach ($Roles_auth as $role) {
