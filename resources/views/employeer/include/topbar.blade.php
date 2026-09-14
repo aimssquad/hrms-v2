@@ -68,6 +68,11 @@
             </a>
         </li>
         <!--/Customer Support-->
+        <li class="nav-item">
+            <div class="d-inline-flex align-items-center mr-3 mt-2">
+                <div class="gtranslate_wrapper"></div>
+            </div>
+        </li>
         <!--quick Links-->
         <li class="nav-item">
             <a href="{{url('super-admin/quick-links')}}" class="fa fa-home"></a>
