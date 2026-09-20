@@ -153,9 +153,9 @@ return $output;
                             <th>{{\App\Helpers\Helper::cachedTrans("Candidate")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Email")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Contact Number")}}</th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Job Apply Date")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Application Date")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Status")}}</th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Date")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Status Date")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Action")}}</th>
                         </tr>
                      </thead>
