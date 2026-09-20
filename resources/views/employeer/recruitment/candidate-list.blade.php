@@ -153,6 +153,7 @@ return $output;
                             <th>{{\App\Helpers\Helper::cachedTrans("Candidate")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Email")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Contact Number")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Job Apply Date")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Status")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Date")}}</th>
                             <th>{{\App\Helpers\Helper::cachedTrans("Action")}}</th>
@@ -169,6 +170,7 @@ return $output;
                             <td>{{ $candidate->name }}</td>
                             <td>{{ $candidate->email }}</td>
                             <td>{{ $candidate->phone }}</td>
+                            <td>{{ date('d/m/Y ',strtotime($candidate->date)) }}</td>
                             <td>{{ $candidate->status }}</td>
                             <td>
                                     <?php

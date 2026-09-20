@@ -9,9 +9,19 @@
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans("Key Contect")}}</h3>
+                <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans("Key Contect")}}
+                    <span class="dual-lang-sub notranslate">
+                        Key Contect
+                    </span>
+                </h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans("Key Contect")}}Dashboard</a></li>
+                    <li class="breadcrumb-item">
+                        <a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans("Key Contect")}}Dashboard 
+                            <span class="dual-lang-sub notranslate">
+                                Dashboard
+                            </span>
+                        </a>
+                    </li>
                     <li class="breadcrumb-item active"> {{\App\Helpers\Helper::cachedTrans("Key Contect")}} </li>
                 </ul>
             </div>
@@ -36,6 +46,9 @@
                             <input type="hidden" id="filenameInput" value="Key-contact">
                             <button type="submit" class="btn-download btn-download-excel me-0">
                                  {{\App\Helpers\Helper::cachedTrans("Export to Excel")}} 
+                                 <span class="dual-lang-sub notranslate">
+                                    Export to Excel
+                                </span>
                             </button>
                         </form>
                     </div>
@@ -46,7 +59,10 @@
                           <input type="hidden" name="headings" id="pdfHeadings">
                           <input type="hidden" name="filename" id="pdfFilename">
                           <button type="submit" class="btn-download btn-download-pdf">
-                              <i class="fas fa-file-pdf"></i> {{\App\Helpers\Helper::cachedTrans("Export to PDF")}} 
+                               {{\App\Helpers\Helper::cachedTrans("Export to PDF")}} 
+                               <span class="dual-lang-sub notranslate">
+                                    Export to PDF
+                                </span>
                           </button>
                       </form>
                     </div>
@@ -57,29 +73,70 @@
                     <table id="basic-datatables" class="display table table-striped table-hover">
                        <thead>
                           <tr>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Sl No.")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Name")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Designation")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Phone No")}}</th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Email Id")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Do you have a history of Criminal conviction/Bankruptcy?")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Proof Of Id")}}</th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Sl No.")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Sl No.
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Name")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Name
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Designation")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Designation
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Phone No")}}
+                                <span class="dual-lang-sub notranslate">
+                                    Phone No
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Email Id")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Email Id
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Do you have a history of Criminal conviction/Bankruptcy?")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Do you have a history of Criminal conviction/Bankruptcy?
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Proof Of Id")}}
+                                <span class="dual-lang-sub notranslate">
+                                    Proof Of Id
+                                </span>
+                            </th>
                           </tr>
                        </thead>
                        <tbody> 
                             @if ($Roledata->key_f_name!='')								
                                 <tr>
                                     <td>1</td>
-                                    <td>{{ \App\Helpers\Helper::cachedTrans($Roledata->key_f_name) }} {{ \App\Helpers\Helper::cachedTrans($Roledata->key_f_lname) }}</td>
-                                    <td>{{ \App\Helpers\Helper::cachedTrans($Roledata->key_designation) }}</td>
-                                    <td>{{ $Roledata->key_phone }}</td>
+                                    <td>{{ \App\Helpers\Helper::cachedTrans($Roledata->key_f_name) }} {{ \App\Helpers\Helper::cachedTrans($Roledata->key_f_lname) }}
+                                        <span class="dual-lang-sub notranslate">
+                                            {{$Roledata->key_f_name}} {{$Roledata->key_f_lname}}
+                                        </span>
+                                    </td>
+                                    <td>{{ \App\Helpers\Helper::cachedTrans($Roledata->key_designation) }}
+                                        <span class="dual-lang-sub notranslate">
+                                            {{$Roledata->key_designation}}
+                                        </span>
+                                    </td>
+                                    <td>{{ $Roledata->key_phone }}
+                                    </td>
                                     <td>{{ $Roledata->key_email }}</td>
                                     <td>{{ \App\Helpers\Helper::cachedTrans($Roledata->key_bank_status) }} @if ($Roledata->key_bank_status=='Yes')( {{ $Roledata->key_bank_other }} ) @endif</td>
                                     <td>
                                         @if ($Roledata->key_proof!='')
                                             <a href="{{ asset('storage/app/public/' . $Roledata->key_proof) }}" target="_blank"><img src="{{ asset('storage/app/public/' . $Roledata->key_proof) }}" height="50px" width="50px"/></a>
                                         @else
-                                        <p>{{\App\Helpers\Helper::cachedTrans("No Proof Of Id")}}</p>
+                                        <p>{{\App\Helpers\Helper::cachedTrans("No Proof Of Id")}}
+                                            <span class="dual-lang-sub notranslate">
+                                                No Proof Of Id
+                                            </span>
+                                        </p>
                                         @endif	
                                     </td>
                                 </tr>

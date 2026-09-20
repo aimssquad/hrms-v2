@@ -7,8 +7,8 @@
         <div class="col-sm-12">
             {{-- <h3 class="page-title">Add Branch Location</h3> --}}
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}}</a></li>
-                <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Branch Location')}} </li>
+                <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans('Dashboard')}} <span class="dual-lang-sub notranslate">Dashboard</span></a></li>
+                <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans('Add Branch Location')}} <span class="dual-lang-sub notranslate">Add Branch Location</span></li>
             </ul>
         </div>
     </div>
@@ -21,7 +21,7 @@
          <div class="col-md-12">
             <div class="card custom-card">
                <div class="card-header">
-                  <h4 class="card-title"><i class="fa fa-map-marker" style="color:rgb(253, 124, 3)"></i> {{\App\Helpers\Helper::cachedTrans('Add New Branch Location')}} </h4>
+                  <h4 class="card-title"><i class="fa fa-map-marker" style="color:rgb(253, 124, 3)"></i> {{\App\Helpers\Helper::cachedTrans('Add New Branch Location')}}  <span class="dual-lang-sub notranslate">Add New Branch Location</span></li></h4>
                </div>
                <div class="card-body">
                   <div class="multisteps-form">
@@ -37,7 +37,7 @@
                                 <div class="row form-group">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Branch Name')}} </label>
+                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Branch Name')}} <span class="dual-lang-sub notranslate">Branch Name</span></li></label>
                                             <input type="text" class="form-control" name="branch_name" 
                                                 value="{{ old('branch_name', isset($location) ? $location->branch_name : '') }}" required>
                                         </div>
@@ -56,7 +56,7 @@
                                     </div> --}}
                                     <div class="col-md-3 mb-2">
                                         <div class="form-group">
-                                            <label class="col-form-label"> {{\App\Helpers\Helper::cachedTrans('Branch Attendance Process')}} </label>
+                                            <label class="col-form-label"> {{\App\Helpers\Helper::cachedTrans('Branch Attendance Process')}} <span class="dual-lang-sub notranslate">Branch Attendance Process</span></li></label>
                                             <select name="attendance_process" class="select @error('attendance_process') is-invalid @enderror" required>
                                                 <option value="">{{\App\Helpers\Helper::cachedTrans('Select')}} </option>
                                                 <option value="Location Attendance" 
@@ -65,11 +65,11 @@
                                                 </option>
                                                 <option value="Biometric Attendance"
                                                     @if(old('attendance_process', isset($location->attendance_process) ? $location->attendance_process : '') == 'Biometric Attendance') selected @endif>
-                                                    {{\App\Helpers\Helper::cachedTrans('Biometric Attendance')}} 
+                                                    {{\App\Helpers\Helper::cachedTrans('Biometric Attendance')}}  
                                                 </option>
                                                 <option value="Others Attendance"
                                                     @if(old('attendance_process', isset($location->attendance_process) ? $location->attendance_process : '') == 'Others Attendance') selected @endif>
-                                                    {{\App\Helpers\Helper::cachedTrans('Others Attendance')}} 
+                                                    {{\App\Helpers\Helper::cachedTrans('Others Attendance')}} <span class="dual-lang-sub notranslate">Others Attendance</span></li>
                                                 </option>
                                             </select>
                                             @error('attendance_process')
@@ -80,7 +80,7 @@
                                     
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Branch Address')}} </label>
+                                            <label class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Branch Address')}} <span class="dual-lang-sub notranslate">Branch Address</span></li></label>
                                             <input type="text" name="branch_location" class="form-control" 
                                                 value="{{ old('branch_location', isset($location) ? $location->branch_location : '') }}" required>
                                         </div>
@@ -98,7 +98,7 @@
                                     
                                     <div class="col-md-3 mb-2">
                                         <div class="form-group">
-                                            <label for="latitude" style="width:100%" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Latitude')}} </label>
+                                            <label for="latitude" style="width:100%" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Latitude')}} <span class="dual-lang-sub notranslate">Latitude</span></li></label>
                                             <input id="latitude" type="text" class="form-control input-border-bottom" name="latitude" 
                                                 value="{{ old('latitude', isset($location) ? $location->latitude : ($Roledata->latitude ?? '0.00')) }}" >
                                         </div>
@@ -106,7 +106,7 @@
                                     
                                     <div class="col-md-3 mb-2">
                                         <div class="form-group">
-                                            <label for="longitude" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Longitude')}} </label>
+                                            <label for="longitude" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Longitude')}} <span class="dual-lang-sub notranslate">Longitude</span></li></label>
                                             <input id="longitude" type="text" class="form-control input-border-bottom" name="longitude" 
                                                 value="{{ old('longitude', isset($location) ? $location->longitude : ($Roledata->longitude ?? '0.00')) }}" >
                                         </div>
@@ -114,7 +114,7 @@
                                     
                                     <div class="col-md-3 mb-2">
                                         <div class="form-group">
-                                            <label for="radius" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Organization Radius (Meter)')}} </label>
+                                            <label for="radius" class="col-form-label">{{\App\Helpers\Helper::cachedTrans('Organization Radius (Meter)')}} <span class="dual-lang-sub notranslate">Organization Radius (Meter)</span></li></label>
                                             <input id="radius" type="text" class="form-control input-border-bottom" name="radius" 
                                                 value="{{ old('radius', isset($location) ? $location->radius : ($Roledata->org_radious ?? '')) }}" >
                                         </div>
@@ -125,7 +125,7 @@
                                 <div class="row form-group">
                                     <div class="col-md-12">
                                         <button type="submit" class="btn btn-primary">
-                                            {{ isset($location) ? \App\Helpers\Helper::cachedTrans('Update') : \App\Helpers\Helper::cachedTrans('Save') }}
+                                            {{ isset($location) ? \App\Helpers\Helper::cachedTrans('Update') : \App\Helpers\Helper::cachedTrans('Save') }} 
                                         </button>
                                     </div>
                                 </div> 

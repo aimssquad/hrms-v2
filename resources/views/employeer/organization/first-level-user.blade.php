@@ -9,10 +9,24 @@
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans("Level 1 User")}}</h3>
+                <h3 class="page-title"> {{\App\Helpers\Helper::cachedTrans("Level 1 User")}}
+                    <span class="dual-lang-sub notranslate">
+                        Level 1 User
+                    </span>
+                </h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans("Dashboard")}}</a></li>
-                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans("Level 1 User")}}</li>
+                    <li class="breadcrumb-item">
+                        <a href="{{route('organization.home')}}">{{\App\Helpers\Helper::cachedTrans("Dashboard")}}
+                            <span class="dual-lang-sub notranslate">
+                                Dashboard
+                            </span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">{{\App\Helpers\Helper::cachedTrans("Level 1 User")}}
+                        <span class="dual-lang-sub notranslate">
+                            Level 1 User
+                        </span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -24,6 +38,9 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">
                     <i class="far fa-user" aria-hidden="true" style="color:#ffa318;"></i>&nbsp;{{\App\Helpers\Helper::cachedTrans("Level 1 User")}}
+                    <span class="dual-lang-sub notranslate">
+                        Level 1 User
+                    </span>
                 </h4>
                  <div class="row">
                     <div class="col-auto">
@@ -36,6 +53,9 @@
                             <input type="hidden" id="filenameInput" value="Level-1user">
                             <button type="submit" class="btn-download btn-download-excel me-0">
                                 {{\App\Helpers\Helper::cachedTrans("Export to Excel")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Export to Excel
+                                </span>
                             </button>
                         </form>
                     </div>
@@ -47,6 +67,9 @@
                           <input type="hidden" name="filename" id="pdfFilename">
                           <button type="submit" class="btn-download btn-download-pdf">
                                {{\App\Helpers\Helper::cachedTrans("Export to PDF")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Export to PDF
+                                </span>
                           </button>
                       </form>
                     </div>
@@ -57,13 +80,41 @@
                     <table id="basic-datatables" class="display table table-striped table-hover">
                        <thead>
                           <tr>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Sl No.")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Name")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Designation")}}  </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Phone No")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Email Id")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Do you have a history of Criminal conviction/Bankruptcy?")}} </th>
-                            <th>{{\App\Helpers\Helper::cachedTrans("Proof Of Id")}} </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Sl No.")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Sl No.
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Name")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Name
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Designation")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Designation
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Phone No")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Phone No.
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Email Id")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Email Id
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Do you have a history of Criminal conviction/Bankruptcy?")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Do you have a history of Criminal conviction/Bankruptcy?
+                                </span>
+                            </th>
+                            <th>{{\App\Helpers\Helper::cachedTrans("Proof Of Id")}} 
+                                <span class="dual-lang-sub notranslate">
+                                    Proof Of Id
+                                </span>
+                            </th>
                           </tr>
                        </thead>
                        <tbody> 
