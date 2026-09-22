@@ -351,7 +351,7 @@ class EmployeeController extends Controller
                 }
 
                 $ckeck_right = DB::table('right_works')->where('employee_id', '=', $decrypted_id)->where('emid', $Roledata->reg)->first();
-
+                dd($ckeck_right);
                 if (!empty($ckeck_right)) {
                     $datarigh_edit = array(
                         'start_date' => date('Y-m-d', strtotime($request->emp_doj)),
