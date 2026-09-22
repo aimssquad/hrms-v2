@@ -4731,7 +4731,7 @@ Furthermore, disciplinary action may be taken against you. You must inform the m
             $data['employee_rs'] = DB::table('employee')->where('emid', '=', $Roledata->reg)->where('emp_code', '=', $data['work_rs']->employee_id)->first();
 
             if ($data['work_rs']->date >= '2021-07-01') {
-                dd('not', $data);
+                //dd('not', $data);
                 return view('dashboard/pdf-work', $data);
 
             } else {
